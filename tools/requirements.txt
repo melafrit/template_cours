@@ -1,0 +1,5 @@
+# Générateurs de documents imprimables (polycopiés, QCM papier)
+# Dependencies for the printable-document generators
+python-docx>=1.1.0
+fpdf2>=2.8.0
+pypdfium2>=4.0.0   # optionnel / optional — aperçu & rasterisation PDF

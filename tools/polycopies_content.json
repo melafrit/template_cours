@@ -1,0 +1,267 @@
+{
+  "1": {
+    "title": {
+      "fr": "Cadrer son cours",
+      "en": "Scoping your course"
+    },
+    "subtitle": {
+      "fr": "Polycopié de synthèse — Cours-démo « Concevoir un cours en ligne »",
+      "en": "Summary handout — Demo course “Designing an online course”"
+    },
+    "blocks": [
+      ["p", {
+        "fr": "Ce polycopié synthétise le chapitre 1 : avant d'écrire la moindre ligne, on **cadre** le cours. À qui s'adresse-t-il, que doivent savoir faire les apprenants à la fin, et quel fil conducteur reliera les séances ?",
+        "en": "This handout sums up Chapter 1: before writing a single line, you **scope** the course. Who is it for, what should learners be able to do by the end, and what storyline will tie the sessions together?"
+      }],
+      ["h2", {
+        "fr": "1. Identifier le public et le besoin",
+        "en": "1. Identify the audience and the need"
+      }],
+      ["p", {
+        "fr": "Un cours efficace part du **public réel** : niveau de départ, contraintes de temps, motivation. On formule le besoin en une phrase pour éviter le piège du cours « encyclopédique » qui couvre tout et n'enseigne rien.",
+        "en": "An effective course starts from the **real audience**: prior level, time constraints, motivation. State the need in one sentence to avoid the “encyclopedic” trap of covering everything and teaching nothing."
+      }],
+      ["callout", "tip", {
+        "fr": "Le test de la phrase unique",
+        "en": "The one-sentence test"
+      }, {
+        "fr": "« À la fin, l'apprenant sera capable de **…** ». Si vous ne pouvez pas compléter cette phrase, le cadrage n'est pas terminé.",
+        "en": "“By the end, the learner will be able to **…**”. If you cannot complete this sentence, the scoping is not finished."
+      }],
+      ["h2", {
+        "fr": "2. Formuler des objectifs pédagogiques",
+        "en": "2. Write learning objectives"
+      }],
+      ["p", {
+        "fr": "Un bon objectif est **observable et mesurable** : on utilise des verbes d'action (rédiger, comparer, concevoir) plutôt que « comprendre » ou « connaître ». Chaque objectif devient plus tard un point d'évaluation.",
+        "en": "A good objective is **observable and measurable**: use action verbs (write, compare, design) rather than “understand” or “know”. Each objective later becomes an assessment point."
+      }],
+      ["takeaways", [
+        {
+          "fr": "Le cadrage précède l'écriture : public, besoin, objectifs.",
+          "en": "Scoping comes before writing: audience, need, objectives."
+        },
+        {
+          "fr": "Un objectif pédagogique s'exprime par un verbe d'action observable.",
+          "en": "A learning objective is expressed with an observable action verb."
+        },
+        {
+          "fr": "Un fil rouge concret donne de la cohérence à l'ensemble du cours.",
+          "en": "A concrete storyline gives coherence to the whole course."
+        }
+      ]]
+    ]
+  },
+  "2": {
+    "title": {
+      "fr": "Structurer le contenu",
+      "en": "Structuring the content"
+    },
+    "subtitle": {
+      "fr": "Polycopié de synthèse — Cours-démo « Concevoir un cours en ligne »",
+      "en": "Summary handout — Demo course “Designing an online course”"
+    },
+    "blocks": [
+      ["p", {
+        "fr": "Le chapitre 2 transforme les objectifs en une **architecture** : modules, chapitres, séances. Une bonne structure se parcourt comme un escalier, une marche après l'autre.",
+        "en": "Chapter 2 turns objectives into an **architecture**: modules, chapters, sessions. A good structure is climbed like a staircase, one step at a time."
+      }],
+      ["h2", {
+        "fr": "1. Du plan au découpage",
+        "en": "1. From outline to chunking"
+      }],
+      ["p", {
+        "fr": "On regroupe les objectifs proches en **modules**, puis on découpe chaque module en séances de durée raisonnable. La charge cognitive baisse quand l'information arrive en petites unités cohérentes.",
+        "en": "Group related objectives into **modules**, then split each module into reasonably sized sessions. Cognitive load drops when information arrives in small, coherent units."
+      }],
+      ["h2", {
+        "fr": "2. Progression et prérequis",
+        "en": "2. Progression and prerequisites"
+      }],
+      ["p", {
+        "fr": "Chaque séance s'appuie sur la précédente : on ordonne les notions du **simple au complexe** et on signale les prérequis. Une carte des dépendances évite les renvois circulaires.",
+        "en": "Each session builds on the previous one: order notions from **simple to complex** and flag prerequisites. A dependency map prevents circular references."
+      }],
+      ["callout", "info", {
+        "fr": "Règle du « un objectif, une séance »",
+        "en": "The “one objective, one session” rule"
+      }, {
+        "fr": "Quand une séance porte plus de deux ou trois objectifs, elle gagne presque toujours à être scindée.",
+        "en": "When a session carries more than two or three objectives, splitting it almost always helps."
+      }],
+      ["takeaways", [
+        {
+          "fr": "Les objectifs se regroupent en modules, puis en séances courtes.",
+          "en": "Objectives group into modules, then into short sessions."
+        },
+        {
+          "fr": "On ordonne les notions du simple au complexe en explicitant les prérequis.",
+          "en": "Order notions from simple to complex and make prerequisites explicit."
+        },
+        {
+          "fr": "Une séance trop chargée se scinde pour alléger la charge cognitive.",
+          "en": "An overloaded session should be split to ease cognitive load."
+        }
+      ]]
+    ]
+  },
+  "3": {
+    "title": {
+      "fr": "Créer des ressources multimédias",
+      "en": "Creating multimedia resources"
+    },
+    "subtitle": {
+      "fr": "Polycopié de synthèse — Cours-démo « Concevoir un cours en ligne »",
+      "en": "Summary handout — Demo course “Designing an online course”"
+    },
+    "blocks": [
+      ["p", {
+        "fr": "Le chapitre 3 aborde les **médias** : texte, image, audio, vidéo. Chaque média sert un objectif précis ; il n'est jamais décoratif.",
+        "en": "Chapter 3 covers **media**: text, image, audio, video. Each medium serves a precise objective; it is never decorative."
+      }],
+      ["h2", {
+        "fr": "1. Choisir le bon média",
+        "en": "1. Choosing the right medium"
+      }],
+      ["p", {
+        "fr": "On choisit le média selon la nature du savoir : un **schéma** pour une structure, une **vidéo courte** pour un geste, un **texte** pour une définition. Combiner deux canaux complémentaires renforce la mémorisation.",
+        "en": "Pick the medium by the nature of the knowledge: a **diagram** for a structure, a **short video** for a gesture, **text** for a definition. Combining two complementary channels strengthens recall."
+      }],
+      ["h2", {
+        "fr": "2. Soigner la production",
+        "en": "2. Polishing the production"
+      }],
+      ["p", {
+        "fr": "Un média lisible vaut mieux qu'un média spectaculaire : son clair, contraste suffisant, durée maîtrisée. On prévoit dès le départ une **transcription** ou une légende, utile à tous.",
+        "en": "A legible medium beats a spectacular one: clear audio, sufficient contrast, controlled length. Plan a **transcript** or caption from the start — it helps everyone."
+      }],
+      ["callout", "warning", {
+        "fr": "Le piège de la surcharge",
+        "en": "The overload trap"
+      }, {
+        "fr": "Animations, musiques et effets qui ne servent pas l'objectif **distraient** l'attention au lieu de la guider.",
+        "en": "Animations, music and effects that do not serve the objective **distract** attention instead of guiding it."
+      }],
+      ["takeaways", [
+        {
+          "fr": "Chaque média répond à un objectif ; rien n'est purement décoratif.",
+          "en": "Each medium answers an objective; nothing is purely decorative."
+        },
+        {
+          "fr": "Combiner deux canaux complémentaires améliore la mémorisation.",
+          "en": "Combining two complementary channels improves recall."
+        },
+        {
+          "fr": "Lisibilité et transcription priment sur le spectaculaire.",
+          "en": "Legibility and transcripts matter more than spectacle."
+        }
+      ]]
+    ]
+  },
+  "4": {
+    "title": {
+      "fr": "Évaluer les apprenants",
+      "en": "Assessing learners"
+    },
+    "subtitle": {
+      "fr": "Polycopié de synthèse — Cours-démo « Concevoir un cours en ligne »",
+      "en": "Summary handout — Demo course “Designing an online course”"
+    },
+    "blocks": [
+      ["p", {
+        "fr": "Le chapitre 4 traite de l'**évaluation** : vérifier que les objectifs sont atteints et donner à l'apprenant un retour utile pour progresser.",
+        "en": "Chapter 4 deals with **assessment**: checking that objectives are met and giving the learner useful feedback to progress."
+      }],
+      ["h2", {
+        "fr": "1. Formative ou sommative",
+        "en": "1. Formative or summative"
+      }],
+      ["p", {
+        "fr": "L'évaluation **formative** accompagne l'apprentissage (quiz, autocorrection) ; l'évaluation **sommative** le valide (note finale, certification). Les deux se complètent et ne poursuivent pas le même but.",
+        "en": "**Formative** assessment supports learning (quizzes, self-checks); **summative** assessment validates it (final grade, certification). The two complement each other and serve different goals."
+      }],
+      ["h2", {
+        "fr": "2. Aligner l'évaluation sur les objectifs",
+        "en": "2. Aligning assessment with objectives"
+      }],
+      ["p", {
+        "fr": "On n'évalue que ce qui a été **enseigné** et **annoncé**. Chaque question se rattache à un objectif ; un barème transparent rend la note compréhensible et juste.",
+        "en": "Assess only what was **taught** and **announced**. Each question maps to an objective; a transparent scale makes the grade understandable and fair."
+      }],
+      ["callout", "info", {
+        "fr": "Le retour vaut la note",
+        "en": "Feedback is worth the grade"
+      }, {
+        "fr": "Un commentaire qui explique l'erreur fait souvent plus progresser qu'un simple chiffre.",
+        "en": "A comment that explains the mistake often drives more progress than a bare number."
+      }],
+      ["takeaways", [
+        {
+          "fr": "L'évaluation formative accompagne, la sommative valide.",
+          "en": "Formative assessment supports; summative assessment validates."
+        },
+        {
+          "fr": "Chaque question se rattache à un objectif annoncé.",
+          "en": "Each question maps to an announced objective."
+        },
+        {
+          "fr": "Un retour explicatif fait progresser plus qu'une note seule.",
+          "en": "Explanatory feedback drives more progress than a grade alone."
+        }
+      ]]
+    ]
+  },
+  "5": {
+    "title": {
+      "fr": "Accessibilité et diffusion",
+      "en": "Accessibility and delivery"
+    },
+    "subtitle": {
+      "fr": "Polycopié de synthèse — Cours-démo « Concevoir un cours en ligne »",
+      "en": "Summary handout — Demo course “Designing an online course”"
+    },
+    "blocks": [
+      ["p", {
+        "fr": "Le chapitre 5 clôt le parcours : rendre le cours **accessible à toutes et tous**, puis le **diffuser** sur le bon support, sous une licence claire.",
+        "en": "Chapter 5 closes the journey: making the course **accessible to everyone**, then **delivering** it on the right medium under a clear licence."
+      }],
+      ["h2", {
+        "fr": "1. Concevoir pour tous",
+        "en": "1. Designing for everyone"
+      }],
+      ["p", {
+        "fr": "L'accessibilité n'est pas une option : **contraste** suffisant, **alternatives textuelles** aux images, navigation au clavier, sous-titres. Conçue dès le départ, elle bénéficie à l'ensemble des apprenants.",
+        "en": "Accessibility is not an option: sufficient **contrast**, **text alternatives** for images, keyboard navigation, captions. Designed from the start, it benefits all learners."
+      }],
+      ["h2", {
+        "fr": "2. Choisir support et licence",
+        "en": "2. Choosing medium and licence"
+      }],
+      ["p", {
+        "fr": "Le support dépend de l'usage : page web pour la consultation, **PDF** pour l'impression, paquet exportable pour une plateforme. Une **licence explicite** (par exemple CC BY) indique ce que chacun peut réutiliser.",
+        "en": "The medium depends on the use: a web page for browsing, **PDF** for printing, an exportable package for a platform. An **explicit licence** (for example CC BY) states what each person may reuse."
+      }],
+      ["callout", "tip", {
+        "fr": "Tester avant de publier",
+        "en": "Test before publishing"
+      }, {
+        "fr": "Un dernier passage au clavier seul et au lecteur d'écran révèle la plupart des obstacles d'accessibilité.",
+        "en": "One final pass with keyboard only and a screen reader reveals most accessibility barriers."
+      }],
+      ["takeaways", [
+        {
+          "fr": "L'accessibilité se conçoit dès le départ et profite à tous.",
+          "en": "Accessibility is designed from the start and benefits everyone."
+        },
+        {
+          "fr": "Le support se choisit selon l'usage : web, PDF, paquet exportable.",
+          "en": "The medium is chosen by use: web, PDF, exportable package."
+        },
+        {
+          "fr": "Une licence explicite (ex. CC BY) clarifie les droits de réutilisation.",
+          "en": "An explicit licence (e.g. CC BY) clarifies reuse rights."
+        }
+      ]]
+    ]
+  }
+}
