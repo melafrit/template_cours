@@ -1,12 +1,43 @@
 /* =================================================================
    flashcards.js — Cartes de révision active (mémorisation)
-   Cours "Réglementation des données et conformité" — M. EL AFRIT (CC BY-NC-SA 4.0)
+   Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
    Usage :
      new FlashcardDeck('id-conteneur', [
-       { front:'Question / notion', back:'Définition **avec gras**', ref:'art. 5' }, …
+       { front:{ fr:'Question / notion', en:'Question / notion' },
+         back:{ fr:'Définition **avec gras**', en:'Definition **with bold**' },
+         ref:'art. 5' }, …
      ], 'cle-deck');   // cle-deck : pour mémoriser "su / à revoir" (localStorage)
+
+   Bilingue : front et back sont des objets { fr, en } ; ref reste une chaîne.
+   Les libellés UI et la carte courante se ré-affichent sur « tpl:langchange ».
    ================================================================= */
 (function () {
+  function lng() { return window.TPLI18N ? TPLI18N.lang() : 'fr'; }
+  // L(x) : x peut être une chaîne ou un objet { fr, en }
+  function L(x) { return (x && typeof x === 'object') ? (x[lng()] || x.fr || x.en || '') : (x || ''); }
+
+  var S = {
+    fr: {
+      cardAria: 'Carte de révision : cliquer pour retourner',
+      tagFront: 'Question', tagBack: 'Réponse',
+      hint: '↺ Cliquer pour retourner',
+      revoir: 'À revoir ↻', su: '✓ Je savais',
+      prev: 'Carte précédente', next: 'Carte suivante',
+      shuffle: '🔀 Mélanger', reset: '↺ Réinitialiser mes réponses',
+      cardN: 'Carte', stKnown: ' · ✓ su', stReview: ' · ↻ à revoir'
+    },
+    en: {
+      cardAria: 'Review card: click to flip',
+      tagFront: 'Question', tagBack: 'Answer',
+      hint: '↺ Click to flip',
+      revoir: 'Review again ↻', su: '✓ I knew it',
+      prev: 'Previous card', next: 'Next card',
+      shuffle: '🔀 Shuffle', reset: '↺ Reset my answers',
+      cardN: 'Card', stKnown: ' · ✓ known', stReview: ' · ↻ to review'
+    }
+  };
+  function t(k) { return (S[lng()] || S.fr)[k] || S.fr[k]; }
+
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
   function rich(s) { // **gras** -> <strong>, le reste échappé
     return esc(s).split('**').map(function (seg, i) { return i % 2 ? '<strong>' + seg + '</strong>' : seg; }).join('');
@@ -20,7 +51,11 @@
     this.pos = 0;
     this.flipped = false;
     this.known = this.load();
-    if (this.el && this.cards.length) this.build();
+    if (this.el && this.cards.length) {
+      this.build();
+      var self = this;
+      document.addEventListener('tpl:langchange', function () { self.relabel(); self.render(); });
+    }
   }
 
   FlashcardDeck.prototype.load = function () { try { return JSON.parse(localStorage.getItem(this.key)) || {}; } catch (e) { return {}; } };
@@ -31,42 +66,66 @@
     var self = this;
     this.el.classList.add('flashcards');
     this.el.innerHTML =
-        '<div class="flashcard" tabindex="0" role="button" aria-label="Carte de révision : cliquer pour retourner">'
-      + '  <div class="flashcard-face flashcard-front"><span class="flashcard-tag">Question</span><div class="flashcard-text"></div><span class="flashcard-hint">↺ Cliquer pour retourner</span></div>'
-      + '  <div class="flashcard-face flashcard-back"><span class="flashcard-tag">Réponse</span><div class="flashcard-text"></div><span class="flashcard-ref"></span></div>'
+        '<div class="flashcard" tabindex="0" role="button" aria-label="' + esc(t('cardAria')) + '">'
+      + '  <div class="flashcard-face flashcard-front"><span class="flashcard-tag">' + esc(t('tagFront')) + '</span><div class="flashcard-text"></div><span class="flashcard-hint">' + esc(t('hint')) + '</span></div>'
+      + '  <div class="flashcard-face flashcard-back"><span class="flashcard-tag">' + esc(t('tagBack')) + '</span><div class="flashcard-text"></div><span class="flashcard-ref"></span></div>'
       + '</div>'
       + '<div class="flashcard-bar">'
       + '  <div class="flashcard-known-bar"><span></span></div>'
       + '  <div class="flashcard-status"></div>'
       + '</div>'
       + '<div class="flashcard-controls">'
-      + '  <button type="button" class="fc-btn fc-prev" aria-label="Carte précédente">‹</button>'
-      + '  <button type="button" class="fc-btn fc-revoir">À revoir ↻</button>'
-      + '  <button type="button" class="fc-btn fc-su">✓ Je savais</button>'
-      + '  <button type="button" class="fc-btn fc-next" aria-label="Carte suivante">›</button>'
+      + '  <button type="button" class="fc-btn fc-prev" aria-label="' + esc(t('prev')) + '">‹</button>'
+      + '  <button type="button" class="fc-btn fc-revoir">' + esc(t('revoir')) + '</button>'
+      + '  <button type="button" class="fc-btn fc-su">' + esc(t('su')) + '</button>'
+      + '  <button type="button" class="fc-btn fc-next" aria-label="' + esc(t('next')) + '">›</button>'
       + '</div>'
       + '<div class="flashcard-tools">'
-      + '  <button type="button" class="fc-link fc-shuffle">🔀 Mélanger</button>'
-      + '  <button type="button" class="fc-link fc-reset">↺ Réinitialiser mes réponses</button>'
+      + '  <button type="button" class="fc-link fc-shuffle">' + esc(t('shuffle')) + '</button>'
+      + '  <button type="button" class="fc-link fc-reset">' + esc(t('reset')) + '</button>'
       + '</div>';
 
     this.card = this.el.querySelector('.flashcard');
+    this.frontTag = this.el.querySelector('.flashcard-front .flashcard-tag');
+    this.backTag = this.el.querySelector('.flashcard-back .flashcard-tag');
+    this.hintEl = this.el.querySelector('.flashcard-hint');
     this.frontText = this.el.querySelector('.flashcard-front .flashcard-text');
     this.backText = this.el.querySelector('.flashcard-back .flashcard-text');
     this.refEl = this.el.querySelector('.flashcard-ref');
     this.statusEl = this.el.querySelector('.flashcard-status');
     this.knownBar = this.el.querySelector('.flashcard-known-bar span');
+    this.prevBtn = this.el.querySelector('.fc-prev');
+    this.nextBtn = this.el.querySelector('.fc-next');
+    this.revoirBtn = this.el.querySelector('.fc-revoir');
+    this.suBtn = this.el.querySelector('.fc-su');
+    this.shuffleBtn = this.el.querySelector('.fc-shuffle');
+    this.resetBtn = this.el.querySelector('.fc-reset');
 
     this.card.addEventListener('click', function () { self.flip(); });
     this.card.addEventListener('keydown', function (e) { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); self.flip(); } });
-    this.el.querySelector('.fc-prev').addEventListener('click', function () { self.go(-1); });
-    this.el.querySelector('.fc-next').addEventListener('click', function () { self.go(1); });
-    this.el.querySelector('.fc-su').addEventListener('click', function () { self.mark(true); });
-    this.el.querySelector('.fc-revoir').addEventListener('click', function () { self.mark(false); });
-    this.el.querySelector('.fc-shuffle').addEventListener('click', function () { self.shuffle(); });
-    this.el.querySelector('.fc-reset').addEventListener('click', function () { self.reset(); });
+    this.prevBtn.addEventListener('click', function () { self.go(-1); });
+    this.nextBtn.addEventListener('click', function () { self.go(1); });
+    this.suBtn.addEventListener('click', function () { self.mark(true); });
+    this.revoirBtn.addEventListener('click', function () { self.mark(false); });
+    this.shuffleBtn.addEventListener('click', function () { self.shuffle(); });
+    this.resetBtn.addEventListener('click', function () { self.reset(); });
 
     this.render();
+  };
+
+  // Ré-applique les libellés UI (statiques) à la langue courante
+  FlashcardDeck.prototype.relabel = function () {
+    if (!this.card) return;
+    this.card.setAttribute('aria-label', t('cardAria'));
+    this.frontTag.textContent = t('tagFront');
+    this.backTag.textContent = t('tagBack');
+    this.hintEl.textContent = t('hint');
+    this.prevBtn.setAttribute('aria-label', t('prev'));
+    this.nextBtn.setAttribute('aria-label', t('next'));
+    this.revoirBtn.textContent = t('revoir');
+    this.suBtn.textContent = t('su');
+    this.shuffleBtn.textContent = t('shuffle');
+    this.resetBtn.textContent = t('reset');
   };
 
   FlashcardDeck.prototype.current = function () { return this.cards[this.order[this.pos]]; };
@@ -75,14 +134,14 @@
     var c = this.current(); if (!c) return;
     this.flipped = false;
     this.card.classList.remove('is-flipped');
-    this.frontText.innerHTML = rich(c.front);
-    this.backText.innerHTML = rich(c.back);
+    this.frontText.innerHTML = rich(L(c.front));
+    this.backText.innerHTML = rich(L(c.back));
     this.refEl.innerHTML = c.ref ? rich(c.ref) : '';
     this.refEl.style.display = c.ref ? '' : 'none';
     var idx = this.order[this.pos];
     var state = this.known[idx] === true ? 'su' : (this.known[idx] === false ? 'revoir' : '');
-    this.statusEl.textContent = 'Carte ' + (this.pos + 1) + ' / ' + this.cards.length
-      + (state === 'su' ? ' · ✓ su' : state === 'revoir' ? ' · ↻ à revoir' : '');
+    this.statusEl.textContent = t('cardN') + ' ' + (this.pos + 1) + ' / ' + this.cards.length
+      + (state === 'su' ? t('stKnown') : state === 'revoir' ? t('stReview') : '');
     this.statusEl.className = 'flashcard-status' + (state ? ' is-' + state : '');
     var pct = Math.round(this.countKnown() / this.cards.length * 100);
     this.knownBar.style.width = pct + '%';
