@@ -1,0 +1,26 @@
+# Config locale (éditeur / IDE / Claude Code)
+.claude/
+.vscode/
+.idea/
+
+# Fichiers temporaires
+_tmp*
+*.tmp
+~$*
+.DS_Store
+Thumbs.db
+
+# Python (générateurs de documents)
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Médias lourds DÉPOSÉS LOCALEMENT (podcasts, slides, infographies réels)
+# — décommentez si vous ne souhaitez pas versionner vos médias volumineux :
+# site/assets/media/podcasts/*.mp3
+# site/assets/media/slides/*.pdf
+# site/assets/media/infographies/*.png
+
+# Sorties générées par les scripts Python (décommentez au besoin)
+# tools/out/
