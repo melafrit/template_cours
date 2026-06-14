@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="fr" data-lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atelier fil rouge — Capstone workshop</title>
+<meta name="description" content="Atelier fil rouge du cours-démo : concevez votre propre cours en ligne. Mission, livrables, critères de réussite et conseils. Bilingue FR/EN — Mohamed EL AFRIT.">
+<meta name="author" content="Mohamed EL AFRIT">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<link rel="stylesheet" href="assets/css/components.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-left">
+    <button class="sidebar-toggle" aria-label="Menu">☰</button>
+    <a href="index.html" class="site-logo"><span class="logo-icon">C<span class="acc">e</span></span>
+      <span data-tr="fr">Concevoir un cours</span><span data-tr="en">Design a course</span></a>
+  </div>
+  <div class="header-right">
+    <a href="cours.html" class="chapter-nav-btn"><span data-tr="fr">← Sommaire</span><span data-tr="en">← Contents</span></a>
+    <button class="theme-toggle" aria-label="Thème">🌙</button>
+  </div>
+</header>
+
+<aside class="sidebar">
+  <div class="sidebar-progress"><div class="sidebar-progress-bar"></div></div>
+  <div class="sidebar-content"><ul class="nav-tree" id="nav-tree"></ul></div>
+</aside>
+
+<div class="main-wrapper full-width">
+  <main class="main-content">
+
+    <div class="chapter-header">
+      <div class="chapter-meta">
+        <span class="chapter-badge">🧭 <span data-tr="fr">Atelier fil rouge</span><span data-tr="en">Capstone workshop</span></span>
+        <span class="chapter-duration">⏱ <span data-tr="fr">Projet continu · sur tout le cours</span><span data-tr="en">Ongoing project · across the whole course</span></span>
+      </div>
+      <h1 class="chapter-title">
+        <span data-tr="fr">Concevez votre propre cours en ligne</span>
+        <span data-tr="en">Design your own online course</span>
+      </h1>
+      <p class="chapter-subtitle">
+        <span data-tr="fr">Cet atelier est le <strong>fil rouge</strong> du cours : à chaque chapitre, vous appliquez ce que vous apprenez à <strong>votre</strong> projet. À la fin, vous n'aurez pas seulement révisé des notions — vous aurez fabriqué un vrai cours, prêt à être diffusé.</span>
+        <span data-tr="en">This workshop is the course <strong>through-line</strong>: at every chapter, you apply what you learn to <strong>your own</strong> project. By the end, you won't just have reviewed concepts — you'll have built a real course, ready to publish.</span>
+      </p>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">🚀</div>
+      <div class="callout-content">
+        <h4><span data-tr="fr">L'idée en une phrase</span><span data-tr="en">The idea in one sentence</span></h4>
+        <p>
+          <span data-tr="fr">Choisissez <strong>un sujet que vous maîtrisez</strong> et transformez-le, pas à pas, en un mini-cours en ligne cohérent. Avancez en parallèle des chapitres : chaque chapitre du cours-démo nourrit directement un livrable de votre projet.</span>
+          <span data-tr="en">Pick <strong>a topic you know well</strong> and turn it, step by step, into a coherent mini online course. Work in parallel with the chapters: each chapter of the demo course directly feeds a deliverable of your project.</span>
+        </p>
+      </div>
+    </div>
+
+    <section class="content-section">
+      <h2><span data-tr="fr">1. Contexte &amp; objectif</span><span data-tr="en">1. Context &amp; goal</span></h2>
+      <p>
+        <span data-tr="fr">Un cours ne se retient pas en lisant : il se retient en <strong>fabriquant</strong>. L'objectif de cet atelier est donc simple — appliquer les quatre étapes du cours (cadrer, structurer, produire des ressources, évaluer) à un sujet bien à vous, puis le rendre accessible et diffusable.</span>
+        <span data-tr="en">A course isn't learned by reading: it's learned by <strong>making</strong>. The goal of this workshop is simple — apply the four stages of the course (scope, structure, produce resources, assess) to a topic of your own, then make it accessible and ready to deliver.</span>
+      </p>
+      <p>
+        <span data-tr="fr">Inutile de voir grand : un sujet <strong>étroit et concret</strong> vaut mieux qu'un programme ambitieux jamais terminé. « Réussir une vinaigrette », « Lire un graphique boursier », « Configurer un VPN » : un objectif net, atteignable en une poignée de séquences.</span>
+        <span data-tr="en">No need to aim big: a <strong>narrow, concrete</strong> topic beats an ambitious program that never ships. "Make a great vinaigrette", "Read a stock chart", "Set up a VPN": a clear objective, reachable in a handful of sequences.</span>
+      </p>
+    </section>
+
+    <section class="content-section">
+      <h2><span data-tr="fr">2. La mission</span><span data-tr="en">2. The mission</span></h2>
+      <p>
+        <span data-tr="fr">Votre mission, du début à la fin du cours : <strong>concevoir, rédiger et préparer la diffusion d'un mini-cours en ligne</strong> sur le sujet de votre choix. Vous tenez le rôle de l'ingénieur pédagogique : vous décidez du périmètre, écrivez le contenu et fabriquez de quoi évaluer et accompagner vos apprenants.</span>
+        <span data-tr="en">Your mission, from the start of the course to the end: <strong>design, write and prepare the delivery of a mini online course</strong> on the topic of your choice. You play the instructional designer: you decide the scope, write the content, and build what's needed to assess and support your learners.</span>
+      </p>
+      <p>
+        <span data-tr="fr">Travaillez par <strong>itérations</strong>, chapitre après chapitre, plutôt que tout d'un coup. Voici le rythme conseillé :</span>
+        <span data-tr="en">Work in <strong>iterations</strong>, chapter by chapter, rather than all at once. Here is the suggested rhythm:</span>
+      </p>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-card-emoji">🎯</span><span class="concept-card-title"><span data-tr="fr">Après le chapitre 1</span><span data-tr="en">After chapter 1</span></span></div>
+          <p><span data-tr="fr">Cadrez : public, prérequis, objectifs mesurables, fil rouge. → <strong>Fiche de cadrage</strong>.</span><span data-tr="en">Scope it: audience, prerequisites, measurable objectives, through-line. → <strong>Scoping sheet</strong>.</span></p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-card-emoji">🗂️</span><span class="concept-card-title"><span data-tr="fr">Après le chapitre 2</span><span data-tr="en">After chapter 2</span></span></div>
+          <p><span data-tr="fr">Découpez le sujet en modules et séquences. → <strong>Plan / syllabus</strong>.</span><span data-tr="en">Break the topic into modules and sequences. → <strong>Plan / syllabus</strong>.</span></p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-card-emoji">✍️</span><span class="concept-card-title"><span data-tr="fr">Après le chapitre 3</span><span data-tr="en">After chapter 3</span></span></div>
+          <p><span data-tr="fr">Rédigez et illustrez une séquence complète. → <strong>1 chapitre rédigé</strong>.</span><span data-tr="en">Write and illustrate one full sequence. → <strong>1 written chapter</strong>.</span></p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-card-emoji">📝</span><span class="concept-card-title"><span data-tr="fr">Après le chapitre 4</span><span data-tr="en">After chapter 4</span></span></div>
+          <p><span data-tr="fr">Fabriquez de quoi vérifier les acquis. → <strong>QCM</strong> + <strong>glossaire</strong>.</span><span data-tr="en">Build a way to check learning. → <strong>Quiz</strong> + <strong>glossary</strong>.</span></p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-card-emoji">♿</span><span class="concept-card-title"><span data-tr="fr">Après le chapitre 5</span><span data-tr="en">After chapter 5</span></span></div>
+          <p><span data-tr="fr">Relisez sous l'angle accessibilité et préparez la diffusion. → <strong>Relecture finale</strong>.</span><span data-tr="en">Re-read for accessibility and prepare delivery. → <strong>Final review</strong>.</span></p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-card-emoji">🎁</span><span class="concept-card-title"><span data-tr="fr">À la fin</span><span data-tr="en">At the end</span></span></div>
+          <p><span data-tr="fr">Rassemblez tout en un dossier cohérent : votre cours-démo à vous.</span><span data-tr="en">Gather everything into one coherent folder: your very own demo course.</span></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2><span data-tr="fr">3. Les livrables attendus</span><span data-tr="en">3. Expected deliverables</span></h2>
+      <p>
+        <span data-tr="fr">À la fin de l'atelier, vous remettez <strong>cinq livrables</strong>. Pris ensemble, ils forment le squelette complet d'un cours prêt à diffuser :</span>
+        <span data-tr="en">By the end of the workshop, you submit <strong>five deliverables</strong>. Together, they form the complete skeleton of a course ready to deliver:</span>
+      </p>
+      <div class="takeaways">
+        <div class="takeaways-head"><span class="ico">📦</span><h3><span data-tr="fr">Votre dossier final</span><span data-tr="en">Your final folder</span></h3></div>
+        <div class="takeaways-body">
+          <ul>
+            <li><span data-tr="fr"><strong>Une fiche de cadrage</strong> — public cible, prérequis, 3 à 5 objectifs pédagogiques mesurables, fil rouge.</span><span data-tr="en"><strong>A scoping sheet</strong> — target audience, prerequisites, 3 to 5 measurable learning objectives, through-line.</span></li>
+            <li><span data-tr="fr"><strong>Un plan / syllabus</strong> — l'arborescence du cours en modules et séquences, avec la durée estimée de chacune.</span><span data-tr="en"><strong>A plan / syllabus</strong> — the course tree in modules and sequences, with an estimated duration for each.</span></li>
+            <li><span data-tr="fr"><strong>Un chapitre entièrement rédigé</strong> — une séquence complète, illustrée, avec une accroche et un « à retenir ».</span><span data-tr="en"><strong>One fully written chapter</strong> — a complete sequence, illustrated, with a hook and a "key takeaways" box.</span></li>
+            <li><span data-tr="fr"><strong>Un QCM de 5 questions</strong> — avec la bonne réponse indiquée et une justification courte par question.</span><span data-tr="en"><strong>A 5-question quiz</strong> — with the correct answer marked and a short justification per question.</span></li>
+            <li><span data-tr="fr"><strong>Un glossaire de 10 termes</strong> — définition claire et, si possible, un exemple pour chaque terme-clé du sujet.</span><span data-tr="en"><strong>A 10-term glossary</strong> — a clear definition and, where possible, an example for each key term of the topic.</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout info">
+        <div class="callout-icon">📌</div>
+        <div class="callout-content">
+          <p><span data-tr="fr">Format libre : un document texte, un PDF ou même quelques pages HTML sur le modèle de ce site. C'est la <strong>cohérence</strong> entre les cinq livrables qui compte, pas l'outil.</span><span data-tr="en">Any format: a text document, a PDF, or even a few HTML pages modelled on this site. What matters is the <strong>consistency</strong> across the five deliverables, not the tool.</span></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2><span data-tr="fr">4. Modèles téléchargeables</span><span data-tr="en">4. Downloadable templates</span></h2>
+      <p>
+        <span data-tr="fr">Pour démarrer plus vite, partez de ces modèles vierges et remplissez-les avec votre sujet. <em>(Liens d'exemple — fichiers à fournir.)</em></span>
+        <span data-tr="en">To get going faster, start from these blank templates and fill them in with your topic. <em>(Example links — files to be provided.)</em></span>
+      </p>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-card-emoji">📄</span><span class="concept-card-title"><span data-tr="fr">Fiche de cadrage</span><span data-tr="en">Scoping sheet</span></span></div>
+          <p><a href="#"><span data-tr="fr">Télécharger le modèle</span><span data-tr="en">Download the template</span></a> <span data-tr="fr">— <em>à fournir</em></span><span data-tr="en">— <em>to be provided</em></span></p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-card-emoji">🗂️</span><span class="concept-card-title"><span data-tr="fr">Plan / syllabus</span><span data-tr="en">Plan / syllabus</span></span></div>
+          <p><a href="#"><span data-tr="fr">Télécharger le modèle</span><span data-tr="en">Download the template</span></a> <span data-tr="fr">— <em>à fournir</em></span><span data-tr="en">— <em>to be provided</em></span></p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-card-emoji">📝</span><span class="concept-card-title"><span data-tr="fr">Trame de QCM</span><span data-tr="en">Quiz template</span></span></div>
+          <p><a href="#"><span data-tr="fr">Télécharger le modèle</span><span data-tr="en">Download the template</span></a> <span data-tr="fr">— <em>à fournir</em></span><span data-tr="en">— <em>to be provided</em></span></p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-card-emoji">📖</span><span class="concept-card-title"><span data-tr="fr">Tableau de glossaire</span><span data-tr="en">Glossary table</span></span></div>
+          <p><a href="#"><span data-tr="fr">Télécharger le modèle</span><span data-tr="en">Download the template</span></a> <span data-tr="fr">— <em>à fournir</em></span><span data-tr="en">— <em>to be provided</em></span></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2><span data-tr="fr">5. Critères de réussite</span><span data-tr="en">5. Success criteria</span></h2>
+      <p>
+        <span data-tr="fr">Votre projet est réussi si un collègue, en parcourant votre dossier, peut comprendre le cours <strong>sans vos explications</strong>. Vérifiez chaque point :</span>
+        <span data-tr="en">Your project succeeds if a colleague, browsing your folder, can understand the course <strong>without your explanations</strong>. Check every point:</span>
+      </p>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-card-emoji">🧭</span><span class="concept-card-title"><span data-tr="fr">Cohérence</span><span data-tr="en">Coherence</span></span></div>
+          <p><span data-tr="fr">Le QCM et le chapitre rédigé portent bien sur les objectifs de la fiche de cadrage.</span><span data-tr="en">The quiz and the written chapter actually cover the objectives in the scoping sheet.</span></p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-card-emoji">📏</span><span class="concept-card-title"><span data-tr="fr">Objectifs mesurables</span><span data-tr="en">Measurable objectives</span></span></div>
+          <p><span data-tr="fr">Chaque objectif emploie un verbe d'action observable, pas un « comprendre » flou.</span><span data-tr="en">Each objective uses an observable action verb, not a vague "understand".</span></p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-card-emoji">✅</span><span class="concept-card-title"><span data-tr="fr">Complétude</span><span data-tr="en">Completeness</span></span></div>
+          <p><span data-tr="fr">Les 5 livrables sont présents : 5 questions de QCM, 10 termes de glossaire.</span><span data-tr="en">All 5 deliverables are present: 5 quiz questions, 10 glossary terms.</span></p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-card-emoji">🔍</span><span class="concept-card-title"><span data-tr="fr">Justesse</span><span data-tr="en">Accuracy</span></span></div>
+          <p><span data-tr="fr">Chaque bonne réponse du QCM est exacte et accompagnée d'une justification.</span><span data-tr="en">Every correct quiz answer is accurate and comes with a justification.</span></p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-card-emoji">♿</span><span class="concept-card-title"><span data-tr="fr">Accessibilité</span><span data-tr="en">Accessibility</span></span></div>
+          <p><span data-tr="fr">Titres hiérarchisés, textes alternatifs prévus, langage clair et lisible.</span><span data-tr="en">Hierarchical headings, alt text planned, clear and readable language.</span></p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-card-header"><span class="concept-card-emoji">💡</span><span class="concept-card-title"><span data-tr="fr">Motivation</span><span data-tr="en">Motivation</span></span></div>
+          <p><span data-tr="fr">Une accroche ouvre le chapitre et le fil rouge donne du sens à l'ensemble.</span><span data-tr="en">A hook opens the chapter and the through-line gives meaning to the whole.</span></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2><span data-tr="fr">6. Conseils pour réussir</span><span data-tr="en">6. Tips to succeed</span></h2>
+      <div class="callout tip">
+        <div class="callout-icon">💪</div>
+        <div class="callout-content">
+          <h4><span data-tr="fr">Commencez petit, finissez le projet</span><span data-tr="en">Start small, finish the project</span></h4>
+          <p><span data-tr="fr">Un cours <strong>fini</strong> et modeste vaut mille fois mieux qu'un cours ambitieux abandonné. Réduisez le périmètre jusqu'à être certain d'aller au bout — vous pourrez toujours l'enrichir ensuite.</span><span data-tr="en">A <strong>finished</strong>, modest course is worth a thousand ambitious abandoned ones. Shrink the scope until you're sure you can finish — you can always enrich it later.</span></p>
+        </div>
+      </div>
+      <div class="callout info">
+        <div class="callout-icon">🔁</div>
+        <div class="callout-content">
+          <h4><span data-tr="fr">Avancez en parallèle des chapitres</span><span data-tr="en">Move in step with the chapters</span></h4>
+          <p><span data-tr="fr">Ne gardez pas l'atelier pour la fin. Dès qu'un chapitre est lu, produisez son livrable « à chaud » : l'effort total devient indolore et chaque notion s'ancre immédiatement.</span><span data-tr="en">Don't save the workshop for the end. As soon as a chapter is read, produce its deliverable right away: the total effort becomes painless and every concept sticks immediately.</span></p>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">👥</div>
+        <div class="callout-content">
+          <h4><span data-tr="fr">Faites tester par une vraie personne</span><span data-tr="en">Get a real person to test it</span></h4>
+          <p><span data-tr="fr">Faites lire votre chapitre et passer votre QCM par quelqu'un qui ne connaît pas le sujet. Ses hésitations vous montrent exactement quoi clarifier — c'est l'évaluation formative appliquée à vous-même.</span><span data-tr="en">Have someone unfamiliar with the topic read your chapter and take your quiz. Their hesitations show you exactly what to clarify — it's formative assessment applied to yourself.</span></p>
+        </div>
+      </div>
+      <div class="callout warning">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-content">
+          <h4><span data-tr="fr">Le piège à éviter</span><span data-tr="en">The trap to avoid</span></h4>
+          <p><span data-tr="fr">Ne rédigez pas le contenu avant d'avoir validé le cadrage et le plan. Écrire trop tôt, c'est presque toujours devoir tout refaire — exactement ce que le chapitre 1 vous met en garde de faire.</span><span data-tr="en">Don't write the content before validating the scope and plan. Writing too early almost always means redoing everything — exactly what chapter 1 warns you against.</span></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2><span data-tr="fr">Prêt·e à commencer ?</span><span data-tr="en">Ready to start?</span></h2>
+      <p>
+        <span data-tr="fr">Tout part du cadrage. Ouvrez le chapitre 1 et remplissez votre fiche de cadrage en parallèle — votre cours commence maintenant.</span>
+        <span data-tr="en">It all starts with scoping. Open chapter 1 and fill in your scoping sheet alongside it — your course starts now.</span>
+      </p>
+      <p style="margin-top:.75rem">
+        <a class="btn btn-primary" href="chapitres/01-cadrage.html"><span data-tr="fr">Commencer par le chapitre 1 →</span><span data-tr="en">Start with chapter 1 →</span></a>
+      </p>
+    </section>
+
+  </main>
+</div>
+
+<footer class="site-footer">
+  <p><span data-tr="fr">Cours-démo « Concevoir un cours en ligne » — </span><span data-tr="en">Demo course "Designing an online course" — </span><a href="#">Mohamed EL AFRIT</a></p>
+  <p class="license"><span class="cc-badges">MIT · CC BY 4.0</span></p>
+</footer>
+
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/course-data.js"></script>
+<script src="assets/js/nav-sections.js"></script>
+<script src="assets/js/navigation.js"></script>
+<script src="assets/js/accessibility.js"></script>
+<script src="assets/js/animations.js"></script>
+</body>
+</html>

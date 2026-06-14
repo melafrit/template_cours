@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="fr" data-lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>À propos — About · Concevoir un cours en ligne</title>
+<meta name="description" content="À propos du template de site de cours bilingue créé par Mohamed EL AFRIT : fonctionnalités et licences (code MIT, contenu CC BY 4.0).">
+<meta name="author" content="Mohamed EL AFRIT">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<link rel="stylesheet" href="assets/css/components.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-left">
+    <button class="sidebar-toggle" aria-label="Menu">☰</button>
+    <a href="index.html" class="site-logo"><span class="logo-icon">C<span class="acc">e</span></span>
+      <span data-tr="fr">Concevoir un cours</span><span data-tr="en">Design a course</span></a>
+  </div>
+  <div class="header-right">
+    <a href="cours.html" class="chapter-nav-btn"><span data-tr="fr">← Sommaire</span><span data-tr="en">← Contents</span></a>
+    <button class="theme-toggle" aria-label="Thème">🌙</button>
+  </div>
+</header>
+
+<aside class="sidebar">
+  <div class="sidebar-progress"><div class="sidebar-progress-bar"></div></div>
+  <div class="sidebar-content"><ul class="nav-tree" id="nav-tree"></ul></div>
+</aside>
+
+<div class="main-wrapper full-width">
+  <main class="main-content">
+
+    <div class="chapter-header">
+      <div class="chapter-meta">
+        <span class="chapter-badge">ℹ️ <span data-tr="fr">À propos</span><span data-tr="en">About</span></span>
+      </div>
+      <h1 class="chapter-title"><span data-tr="fr">À propos</span><span data-tr="en">About</span></h1>
+      <p class="chapter-subtitle">
+        <span data-tr="fr">Ce site n'est pas seulement un cours : c'est la <strong>démo d'un template réutilisable</strong> de site de cours en ligne, conçu pour être repris, traduit et adapté à n'importe quel sujet.</span>
+        <span data-tr="en">This site isn't just a course: it's the <strong>demo of a reusable template</strong> for online course sites, designed to be reused, translated and adapted to any topic.</span>
+      </p>
+    </div>
+
+    <section class="content-section">
+      <h2><span data-tr="fr">Un template, pas seulement un cours</span><span data-tr="en">A template, not just a course</span></h2>
+      <p>
+        <span data-tr="fr">Le contenu visible (« Concevoir un cours en ligne ») sert de <strong>fil rouge</strong> : il enseigne la conception pédagogique tout en montrant, page après page, ce que le template sait faire. Vous pouvez vider ce contenu et le remplacer par le vôtre — la structure, la navigation et les composants restent en place. C'est un site <strong>statique</strong> (HTML, CSS et JavaScript « vanilla », sans dépendance ni build), facile à héberger n'importe où.</span>
+        <span data-tr="en">The visible content ("Designing an online course") acts as a <strong>through-line</strong>: it teaches instructional design while demonstrating, page after page, what the template can do. You can empty this content and replace it with your own — the structure, navigation and components stay in place. It is a <strong>static</strong> site (vanilla HTML, CSS and JavaScript, no dependency or build step), easy to host anywhere.</span>
+      </p>
+    </section>
+
+    <section class="content-section">
+      <h2><span data-tr="fr">Ce que propose le template</span><span data-tr="en">What the template offers</span></h2>
+      <div class="concept-grid">
+        <div class="concept-card"><div class="concept-card-header"><span class="concept-card-emoji">🌍</span><span class="concept-card-title"><span data-tr="fr">Bilingue FR/EN</span><span data-tr="en">Bilingual FR/EN</span></span></div>
+          <p><span data-tr="fr">Contenu jumelé via <code>data-tr</code> et bascule de langue 🌐 active sur tout le site.</span><span data-tr="en">Twin content via <code>data-tr</code> and a 🌐 language switch active across the whole site.</span></p></div>
+        <div class="concept-card"><div class="concept-card-header"><span class="concept-card-emoji">🧭</span><span class="concept-card-title"><span data-tr="fr">Navigation auto</span><span data-tr="en">Auto navigation</span></span></div>
+          <p><span data-tr="fr">Sommaire, menu latéral et fil des sections générés depuis une source unique.</span><span data-tr="en">Contents, side menu and section tree generated from a single source.</span></p></div>
+        <div class="concept-card"><div class="concept-card-header"><span class="concept-card-emoji">🎨</span><span class="concept-card-title"><span data-tr="fr">Thème clair / sombre</span><span data-tr="en">Light / dark theme</span></span></div>
+          <p><span data-tr="fr">Bascule 🌙 et design « sobre institutionnel » à base de variables CSS.</span><span data-tr="en">A 🌙 toggle and a restrained institutional design built on CSS variables.</span></p></div>
+        <div class="concept-card"><div class="concept-card-header"><span class="concept-card-emoji">♿</span><span class="concept-card-title"><span data-tr="fr">Accessibilité</span><span data-tr="en">Accessibility</span></span></div>
+          <p><span data-tr="fr">Panneau dédié : taille du texte, police de lecture adaptée, mouvement réduit.</span><span data-tr="en">Dedicated panel: text size, reading-friendly font, reduced motion.</span></p></div>
+        <div class="concept-card"><div class="concept-card-header"><span class="concept-card-emoji">📝</span><span class="concept-card-title"><span data-tr="fr">QCM noté</span><span data-tr="en">Graded quiz</span></span></div>
+          <p><span data-tr="fr">Notation par degré de certitude (CBM), correction et tableau de bord.</span><span data-tr="en">Certainty-based marking (CBM), correction and dashboard.</span></p></div>
+        <div class="concept-card"><div class="concept-card-header"><span class="concept-card-emoji">🧩</span><span class="concept-card-title"><span data-tr="fr">Composants pédagogiques</span><span data-tr="en">Learning components</span></span></div>
+          <p><span data-tr="fr">Callouts, grilles de concepts, encadrés « à retenir », flashcards, glossaire interactif.</span><span data-tr="en">Callouts, concept grids, "key takeaways" boxes, flashcards, interactive glossary.</span></p></div>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2><span data-tr="fr">Auteur</span><span data-tr="en">Author</span></h2>
+      <p>
+        <span data-tr="fr">Ce template et son contenu de démonstration ont été créés par <strong>Mohamed EL AFRIT</strong>, ingénieur pédagogique et juriste en droit du numérique. L'objectif : offrir une base claire, accessible et bilingue, que d'autres formateurs puissent réutiliser pour publier leurs propres cours.</span>
+        <span data-tr="en">This template and its demonstration content were created by <strong>Mohamed EL AFRIT</strong>, instructional designer and digital-law specialist. The goal: to provide a clear, accessible and bilingual foundation that other trainers can reuse to publish their own courses.</span>
+      </p>
+    </section>
+
+    <section class="content-section">
+      <h2><span data-tr="fr">Licences</span><span data-tr="en">Licensing</span></h2>
+      <p>
+        <span data-tr="fr">Ce projet est ouvert et réutilisable. Deux licences distinctes s'appliquent selon la nature des éléments :</span>
+        <span data-tr="en">This project is open and reusable. Two distinct licenses apply depending on the type of material:</span>
+      </p>
+      <div class="concept-grid">
+        <div class="concept-card"><div class="concept-card-header"><span class="concept-card-emoji">⚙️</span><span class="concept-card-title"><span data-tr="fr">Le code — MIT</span><span data-tr="en">The code — MIT</span></span></div>
+          <p><span data-tr="fr">Le code source (HTML, CSS, JavaScript) est sous licence <strong>MIT</strong> : libre de réutilisation, de modification et de redistribution, y compris à des fins commerciales.</span><span data-tr="en">The source code (HTML, CSS, JavaScript) is under the <strong>MIT</strong> license: free to reuse, modify and redistribute, including for commercial purposes.</span></p></div>
+        <div class="concept-card"><div class="concept-card-header"><span class="concept-card-emoji">📚</span><span class="concept-card-title"><span data-tr="fr">Contenu & prompts — CC BY 4.0</span><span data-tr="en">Content &amp; prompts — CC BY 4.0</span></span></div>
+          <p><span data-tr="fr">Les contenus pédagogiques et les prompts sont sous <strong>Creative Commons BY 4.0</strong> : réutilisables et adaptables, à condition de citer l'auteur.</span><span data-tr="en">The learning content and prompts are under <strong>Creative Commons BY 4.0</strong>: reusable and adaptable, provided the author is credited.</span></p></div>
+      </div>
+
+      <div class="callout info">
+        <div class="callout-icon">✍️</div>
+        <div class="callout-content">
+          <h4><span data-tr="fr">Attribution requise</span><span data-tr="en">Attribution required</span></h4>
+          <p>
+            <span data-tr="fr">Si vous réutilisez ce template ou ses contenus, créditez <strong>Mohamed EL AFRIT</strong>. Une mention simple suffit, par exemple : « D'après le template de cours de Mohamed EL AFRIT (code MIT, contenu CC BY 4.0) », avec un lien vers le dépôt.</span>
+            <span data-tr="en">If you reuse this template or its content, credit <strong>Mohamed EL AFRIT</strong>. A simple line is enough, e.g.: "Based on the course template by Mohamed EL AFRIT (code MIT, content CC BY 4.0)", with a link back to the repository.</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">📦</div>
+        <div class="callout-content">
+          <h4><span data-tr="fr">Code source du template</span><span data-tr="en">Template source code</span></h4>
+          <p>
+            <span data-tr="fr">Le dépôt complet, avec la documentation et les exemples, est disponible sur GitHub.</span>
+            <span data-tr="en">The full repository, with documentation and examples, is available on GitHub.</span>
+          </p>
+          <p style="margin-top:.75rem">
+            <a class="btn btn-primary" href="https://github.com/melafrit/template_cours" target="_blank" rel="noopener">
+              <span data-tr="fr">Voir le dépôt sur GitHub →</span><span data-tr="en">View the repository on GitHub →</span></a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <div class="takeaways">
+        <div class="takeaways-head"><span class="ico">🙏</span><h3><span data-tr="fr">Merci</span><span data-tr="en">Thank you</span></h3></div>
+        <div class="takeaways-body">
+          <p>
+            <span data-tr="fr">Merci d'utiliser ce template. S'il vous fait gagner du temps pour publier un cours clair et accessible, il a rempli son rôle. Bonne conception, et n'hésitez pas à partager vos améliorations en retour.</span>
+            <span data-tr="en">Thank you for using this template. If it saves you time in publishing a clear, accessible course, it has done its job. Happy designing — and feel free to share your improvements in return.</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer class="site-footer">
+  <p><span data-tr="fr">Cours-démo « Concevoir un cours en ligne » — </span><span data-tr="en">Demo course "Designing an online course" — </span><a href="#">Mohamed EL AFRIT</a></p>
+  <p class="license"><span class="cc-badges">MIT · CC BY 4.0</span></p>
+</footer>
+
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/course-data.js"></script>
+<script src="assets/js/nav-sections.js"></script>
+<script src="assets/js/navigation.js"></script>
+<script src="assets/js/accessibility.js"></script>
+<script src="assets/js/animations.js"></script>
+</body>
+</html>

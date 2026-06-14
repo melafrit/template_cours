@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr" data-lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Activités interactives — Interactive activities</title>
+<meta name="description" content="Patrons d'activités interactives réutilisables : assistant de décision, checklist à score, quiz de classification. Bilingue.">
+<meta name="author" content="Mohamed EL AFRIT">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<link rel="stylesheet" href="assets/css/components.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-left">
+    <button class="sidebar-toggle" aria-label="Menu">☰</button>
+    <a href="index.html" class="site-logo"><span class="logo-icon">C<span class="acc">e</span></span><span data-tr="fr">Concevoir un cours</span><span data-tr="en">Design a course</span></a>
+  </div>
+  <div class="header-right">
+    <a href="cours.html" class="chapter-nav-btn"><span data-tr="fr">← Sommaire</span><span data-tr="en">← Contents</span></a>
+    <button class="theme-toggle" aria-label="Thème">🌙</button>
+  </div>
+</header>
+
+<aside class="sidebar"><div class="sidebar-progress"><div class="sidebar-progress-bar"></div></div><div class="sidebar-content"><ul class="nav-tree" id="nav-tree"></ul></div></aside>
+
+<div class="main-wrapper full-width">
+  <main class="main-content">
+
+    <div class="chapter-header">
+      <div class="chapter-meta"><span class="chapter-badge">🧩 <span data-tr="fr">Ressource</span><span data-tr="en">Resource</span></span></div>
+      <h1 class="chapter-title"><span data-tr="fr">Activités interactives</span><span data-tr="en">Interactive activities</span></h1>
+      <p class="chapter-subtitle">
+        <span data-tr="fr">Trois <strong>patrons réutilisables</strong> à adapter à n'importe quel sujet : un assistant de décision, une checklist à score et un quiz de classification. Tout se pilote par des données <code>{ fr, en }</code> — voir <code>assets/js/tools.js</code>.</span>
+        <span data-tr="en">Three <strong>reusable patterns</strong> to adapt to any topic: a decision wizard, a scored checklist and a classification quiz. Everything is driven by <code>{ fr, en }</code> data — see <code>assets/js/tools.js</code>.</span>
+      </p>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">📌</div>
+      <div class="callout-content"><p><span data-tr="fr">Ces activités sont des <strong>exemples</strong> sur le thème du cours. Remplacez simplement les données de configuration pour créer les vôtres.</span><span data-tr="en">These activities are <strong>examples</strong> on the course topic. Just replace the configuration data to build your own.</span></p></div>
+    </div>
+
+    <section class="content-section">
+      <h2>🧭 <span data-tr="fr">Assistant de décision — quel format d'évaluation ?</span><span data-tr="en">Decision wizard — which assessment format?</span></h2>
+      <div id="act-wizard"></div>
+    </section>
+
+    <section class="content-section">
+      <h2>☑️ <span data-tr="fr">Checklist — mon chapitre est-il prêt à publier ?</span><span data-tr="en">Checklist — is my chapter ready to publish?</span></h2>
+      <div id="act-checklist"></div>
+    </section>
+
+    <section class="content-section">
+      <h2>🗂️ <span data-tr="fr">Quiz — cet objectif est-il bien formulé ?</span><span data-tr="en">Quiz — is this objective well written?</span></h2>
+      <div id="act-classifier"></div>
+    </section>
+
+  </main>
+</div>
+
+<footer class="site-footer">
+  <p><span data-tr="fr">Cours-démo « Concevoir un cours en ligne » — </span><span data-tr="en">Demo course "Designing an online course" — </span><a href="#">Mohamed EL AFRIT</a></p>
+  <p class="license"><span class="cc-badges">MIT · CC BY 4.0</span></p>
+</footer>
+
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/course-data.js"></script>
+<script src="assets/js/nav-sections.js"></script>
+<script src="assets/js/navigation.js"></script>
+<script src="assets/js/accessibility.js"></script>
+<script src="assets/js/animations.js"></script>
+<script src="assets/js/tools.js"></script>
+<script>
+TPLActivities.decisionWizard('act-wizard', {
+  icon: '🧭',
+  title: { fr: "Quel format d'évaluation ?", en: "Which assessment format?" },
+  steps: [
+    { q: { fr: "Veux-tu surtout donner du **feedback pendant** l'apprentissage ?", en: "Do you mainly want to give **feedback during** learning?" },
+      result: { name: { fr: "Évaluation formative", en: "Formative assessment" }, detail: { fr: "Un quiz d'entraînement avec correction immédiate.", en: "A practice quiz with immediate feedback." } } },
+    { q: { fr: "Faut-il **certifier / noter** officiellement à la fin ?", en: "Do you need to **certify / grade** officially at the end?" },
+      result: { name: { fr: "Évaluation sommative", en: "Summative assessment" }, detail: { fr: "Le QCM noté de fin de cours (CBM).", en: "The graded end-of-course quiz (CBM)." } } },
+    { q: { fr: "Veux-tu surtout faire **mémoriser** des notions clés ?", en: "Do you mainly want to **drill** key notions?" },
+      result: { name: { fr: "Flashcards", en: "Flashcards" }, detail: { fr: "Des cartes de révision active, par chapitre.", en: "Active-recall cards, per chapter." } } }
+  ],
+  fallback: { name: { fr: "Combinez plusieurs formats", en: "Combine several formats" }, detail: { fr: "Formative + flashcards en cours de route, sommative à la fin.", en: "Formative + flashcards along the way, summative at the end." } }
+});
+
+TPLActivities.checklist('act-checklist', {
+  icon: '☑️',
+  title: { fr: "Mon chapitre est-il prêt ?", en: "Is my chapter ready?" },
+  intro: { fr: "Cochez ce qui est déjà fait :", en: "Tick what is already done:" },
+  items: [
+    { fr: "Objectifs pédagogiques définis", en: "Learning objectives defined" },
+    { fr: "Accroche motivante en ouverture", en: "Motivating hook at the start" },
+    { fr: "Sections structurées et progressives", en: "Structured, progressive sections" },
+    { fr: "Termes de glossaire reliés", en: "Glossary terms linked" },
+    { fr: "Une activité interactive", en: "One interactive activity" },
+    { fr: "Encadré « à retenir »", en: "A 'key takeaways' box" },
+    { fr: "Relu (orthographe + exactitude)", en: "Proofread (spelling + accuracy)" }
+  ],
+  verdicts: [
+    { min: 6, cls: 'rdc-tier-1', msg: { fr: "🟢 Prêt à publier — {n}/7.", en: "🟢 Ready to publish — {n}/7." } },
+    { min: 3, cls: '', msg: { fr: "🟠 Presque — complétez le reste ({n}/7).", en: "🟠 Almost — finish the rest ({n}/7)." } },
+    { min: 0, cls: '', msg: { fr: "⚪ Encore du travail ({n}/7).", en: "⚪ Still some work ({n}/7)." } }
+  ]
+});
+
+TPLActivities.classifier('act-classifier', {
+  icon: '🗂️',
+  title: { fr: "Objectif bien formulé ?", en: "Well-written objective?" },
+  categories: [
+    { key: 'good', label: { fr: "Bon objectif", en: "Good objective" } },
+    { key: 'bad', label: { fr: "À reformuler", en: "Needs rewriting" } }
+  ],
+  items: [
+    { ex: { fr: "Rédiger un objectif pédagogique mesurable", en: "Write a measurable learning objective" }, cat: 'good', why: { fr: "Verbe d'action observable (« rédiger »).", en: "Observable action verb (\"write\")." } },
+    { ex: { fr: "Comprendre les bases de la pédagogie", en: "Understand the basics of pedagogy" }, cat: 'bad', why: { fr: "« Comprendre » n'est pas observable ni mesurable.", en: "\"Understand\" is neither observable nor measurable." } },
+    { ex: { fr: "Classer trois types d'évaluation", en: "Classify three assessment types" }, cat: 'good', why: { fr: "« Classer » décrit une action vérifiable.", en: "\"Classify\" describes a verifiable action." } },
+    { ex: { fr: "Connaître le vocabulaire du domaine", en: "Know the field's vocabulary" }, cat: 'bad', why: { fr: "« Connaître » est un état mental vague.", en: "\"Know\" is a vague mental state." } },
+    { ex: { fr: "Concevoir un QCM équilibré", en: "Design a balanced quiz" }, cat: 'good', why: { fr: "« Concevoir » produit un livrable observable.", en: "\"Design\" produces an observable deliverable." } }
+  ]
+});
+</script>
+</body>
+</html>

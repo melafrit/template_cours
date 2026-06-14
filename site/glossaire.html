@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="fr" data-lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glossaire — Glossary</title>
+<meta name="description" content="Glossaire bilingue FR/EN du cours-démo : termes clés de la conception de cours en ligne, avec définition et exemple. Template de site de cours — Mohamed EL AFRIT.">
+<meta name="author" content="Mohamed EL AFRIT">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<link rel="stylesheet" href="assets/css/components.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-left">
+    <button class="sidebar-toggle" aria-label="Menu">☰</button>
+    <a href="index.html" class="site-logo"><span class="logo-icon">C<span class="acc">e</span></span>
+      <span data-tr="fr">Concevoir un cours</span><span data-tr="en">Design a course</span></a>
+  </div>
+  <div class="header-right">
+    <a href="cours.html" class="chapter-nav-btn"><span data-tr="fr">← Sommaire</span><span data-tr="en">← Contents</span></a>
+    <button class="theme-toggle" aria-label="Thème">🌙</button>
+  </div>
+</header>
+
+<aside class="sidebar">
+  <div class="sidebar-progress"><div class="sidebar-progress-bar"></div></div>
+  <div class="sidebar-content"><ul class="nav-tree" id="nav-tree"></ul></div>
+</aside>
+
+<div class="main-wrapper full-width">
+  <main class="main-content">
+
+    <div class="chapter-header">
+      <div class="chapter-meta">
+        <span class="chapter-badge">📖 <span data-tr="fr">Ressource</span><span data-tr="en">Resource</span></span>
+      </div>
+      <h1 class="chapter-title">
+        <span data-tr="fr">Glossaire</span>
+        <span data-tr="en">Glossary</span>
+      </h1>
+      <p class="chapter-subtitle">
+        <span data-tr="fr">Les termes clés de la conception de cours en ligne, avec leur équivalent dans l'autre langue, une définition et un exemple. Tapez un mot pour filtrer la liste ; tout suit la <strong>bascule de langue</strong> 🌐.</span>
+        <span data-tr="en">The key terms of online course design, with their equivalent in the other language, a definition and an example. Type a word to filter the list; everything follows the <strong>language switch</strong> 🌐.</span>
+      </p>
+    </div>
+
+    <section class="content-section">
+      <div class="glossary-search">
+        <label for="glossary-search-input" class="visually-hidden">
+          <span data-tr="fr">Rechercher un terme</span><span data-tr="en">Search a term</span>
+        </label>
+        <input
+          type="search"
+          id="glossary-search-input"
+          class="glossary-search-input"
+          autocomplete="off"
+          data-i18n-ph-fr="Rechercher un terme…"
+          data-i18n-ph-en="Search a term…"
+          placeholder="Rechercher un terme…"
+          data-i18n-aria-fr="Rechercher un terme dans le glossaire"
+          data-i18n-aria-en="Search a term in the glossary"
+          aria-label="Rechercher un terme dans le glossaire">
+        <p class="glossary-count" id="glossary-count" aria-live="polite"></p>
+      </div>
+
+      <div id="glossary-list" class="concept-grid"></div>
+
+      <p id="glossary-empty" class="glossary-empty" hidden>
+        <span data-tr="fr">Aucun terme ne correspond à votre recherche.</span>
+        <span data-tr="en">No term matches your search.</span>
+      </p>
+    </section>
+
+  </main>
+</div>
+
+<footer class="site-footer">
+  <p><span data-tr="fr">Cours-démo « Concevoir un cours en ligne » — </span><span data-tr="en">Demo course "Designing an online course" — </span><a href="#">Mohamed EL AFRIT</a></p>
+  <p class="license"><span class="cc-badges">MIT · CC BY 4.0</span></p>
+</footer>
+
+<style>
+  /* Mise en forme locale du glossaire (sobre, aligné sur le design system) */
+  .glossary-search { margin-bottom: 1.75rem; }
+  .glossary-search-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: .8rem 1rem;
+    font-family: inherit;
+    font-size: 1rem;
+    color: var(--text, inherit);
+    background: var(--surface, #fff);
+    border: 1px solid var(--border, #d9dce3);
+    border-radius: 10px;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  .glossary-search-input:focus {
+    outline: none;
+    border-color: var(--accent, #2f6fed);
+    box-shadow: 0 0 0 3px rgba(47, 111, 237, .18);
+  }
+  .glossary-count {
+    margin: .6rem 0 0;
+    font-size: .85rem;
+    color: var(--text-muted, #6b7280);
+  }
+  .glossary-card { display: flex; flex-direction: column; }
+  .glossary-term {
+    font-family: 'Sora', system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    line-height: 1.25;
+    color: var(--text, inherit);
+  }
+  .glossary-term-alt {
+    display: block;
+    margin-top: .15rem;
+    font-size: .85rem;
+    font-style: italic;
+    color: var(--text-muted, #6b7280);
+  }
+  .glossary-def { margin: .7rem 0 0; }
+  .glossary-ex {
+    margin: .7rem 0 0;
+    padding: .55rem .75rem;
+    font-size: .9rem;
+    border-left: 3px solid var(--accent, #2f6fed);
+    background: var(--surface-alt, rgba(47, 111, 237, .06));
+    border-radius: 0 6px 6px 0;
+  }
+  .glossary-ex-label {
+    display: block;
+    font-size: .72rem;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    font-weight: 600;
+    color: var(--text-muted, #6b7280);
+    margin-bottom: .2rem;
+  }
+  .glossary-empty {
+    margin-top: 1rem;
+    padding: 1.25rem;
+    text-align: center;
+    color: var(--text-muted, #6b7280);
+    border: 1px dashed var(--border, #d9dce3);
+    border-radius: 10px;
+  }
+  .visually-hidden {
+    position: absolute !important;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0);
+    white-space: nowrap; border: 0;
+  }
+</style>
+
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/course-data.js"></script>
+<script src="assets/js/nav-sections.js"></script>
+<script src="assets/js/navigation.js"></script>
+<script src="assets/js/accessibility.js"></script>
+<script src="assets/js/animations.js"></script>
+<script src="assets/js/glossaire-data.js"></script>
+<script>
+/* Rendu du glossaire piloté par les données (window.GLOSSARY) */
+(function () {
+  var DATA = (window.GLOSSARY || []).slice();
+  var listEl  = document.getElementById('glossary-list');
+  var emptyEl = document.getElementById('glossary-empty');
+  var countEl = document.getElementById('glossary-count');
+  var inputEl = document.getElementById('glossary-search-input');
+  if (!listEl) return;
+
+  // Libellés bilingues de l'UI générée
+  var UI = {
+    fr: { example: 'Exemple', count: function (n, t) { return n + ' / ' + t + ' termes'; } },
+    en: { example: 'Example', count: function (n, t) { return n + ' / ' + t + ' terms'; } }
+  };
+  function L() { return (window.TPLI18N && TPLI18N.lang && TPLI18N.lang()) || 'fr'; }
+  function ui() { return UI[L()] || UI.fr; }
+  function other(l) { return l === 'fr' ? 'en' : 'fr'; }
+
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+  function norm(s) {
+    s = String(s == null ? '' : s).toLowerCase();
+    try { s = s.normalize('NFD').replace(/[̀-ͯ]/g, ''); } catch (e) {}
+    return s.trim();
+  }
+
+  function cardHTML(entry, l) {
+    var o = other(l);
+    var term    = entry[l] || entry[o] || '';
+    var termAlt = entry[o] || '';
+    var def = (entry.def && (entry.def[l] || entry.def[o])) || '';
+    var ex  = (entry.ex  && (entry.ex[l]  || entry.ex[o]))  || '';
+    var html =
+      '<article class="concept-card glossary-card">' +
+        '<div class="concept-card-header">' +
+          '<span class="concept-card-emoji">📌</span>' +
+          '<span class="concept-card-title">' +
+            '<span class="glossary-term">' + esc(term) + '</span>' +
+            (termAlt ? '<span class="glossary-term-alt">' + esc(termAlt) + '</span>' : '') +
+          '</span>' +
+        '</div>' +
+        (def ? '<p class="glossary-def">' + esc(def) + '</p>' : '');
+    if (ex) {
+      html += '<p class="glossary-ex">' +
+                '<span class="glossary-ex-label">' + esc(ui().example) + '</span>' +
+                esc(ex) +
+              '</p>';
+    }
+    html += '</article>';
+    return html;
+  }
+
+  function render() {
+    var l = L();
+    var q = norm(inputEl ? inputEl.value : '');
+    var rows = DATA.filter(function (entry) {
+      if (!q) return true;
+      // recherche insensible à la casse/accents, sur le terme (les deux langues)
+      return norm(entry.fr).indexOf(q) >= 0 || norm(entry.en).indexOf(q) >= 0;
+    });
+
+    listEl.innerHTML = rows.map(function (e) { return cardHTML(e, l); }).join('');
+    if (emptyEl) emptyEl.hidden = rows.length !== 0;
+    if (countEl) countEl.textContent = ui().count(rows.length, DATA.length);
+
+    // ré-applique les attributs i18n (placeholder/aria) sur le contenu existant
+    if (window.TPLI18N && TPLI18N.refresh) TPLI18N.refresh(document);
+  }
+
+  if (inputEl) inputEl.addEventListener('input', render);
+  document.addEventListener('tpl:langchange', render);
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', render);
+  } else {
+    render();
+  }
+})();
+</script>
+</body>
+</html>
