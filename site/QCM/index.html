@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="fr" data-lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Template de site de cours — Mohamed EL AFRIT (CC BY-NC-SA 4.0) -->
+<title>QCM d'évaluation — Concevoir un cours en ligne</title>
+<meta name="description" content="QCM à degré de certitude (CBM) — Concevoir un cours en ligne. Auteur Mohamed EL AFRIT, licence Creative Commons.">
+<meta name="author" content="Mohamed EL AFRIT">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/components.css">
+<style>
+  .qcm-wrap { max-width: 920px; margin: 0 auto; padding: calc(var(--header-height) + var(--space-8)) var(--space-5) var(--space-16); }
+  .qcm-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-8); box-shadow: var(--shadow-md); }
+  .qcm-hero { text-align: center; margin-bottom: var(--space-6); }
+  .qcm-hero h1 { font-size: var(--fs-4xl); }
+  .qcm-hero p { color: var(--text-secondary); font-size: var(--fs-lg); margin-top: var(--space-3); }
+  .field { margin-bottom: var(--space-4); }
+  .field label { display:block; font-family:var(--font-display); font-weight:600; margin-bottom:var(--space-2); font-size:var(--fs-sm); }
+  .field input { width:100%; padding:var(--space-3) var(--space-4); border:2px solid var(--border); border-radius:var(--radius-md); background:var(--bg-page); color:var(--text-primary); font-family:var(--font-body); font-size:var(--fs-base); }
+  .field input:focus { outline:none; border-color:var(--primary); }
+  .qcm-topbar { display:flex; align-items:center; justify-content:space-between; gap:var(--space-4); flex-wrap:wrap; margin-bottom:var(--space-5); padding:var(--space-4); background:var(--bg-card-alt); border-radius:var(--radius-md); position:sticky; top:var(--header-height); z-index:40; }
+  .qcm-stat { font-family:var(--font-display); font-size:var(--fs-sm); } .qcm-stat b { color:var(--primary); }
+  .qcm-progress-track { height:6px; background:var(--border-light); border-radius:var(--radius-full); overflow:hidden; flex:1; min-width:120px; }
+  .qcm-progress-fill { height:100%; background:linear-gradient(90deg,var(--primary),var(--accent)); width:0; transition:width .3s; }
+  .q-diff { display:inline-block; padding:2px 10px; border-radius:var(--radius-full); color:#fff; font-family:var(--font-display); font-size:var(--fs-xs); font-weight:700; text-transform:uppercase; }
+  .q-enonce { font-family:var(--font-display); font-weight:600; font-size:var(--fs-xl); margin:var(--space-4) 0 var(--space-6); line-height:1.4; }
+  .q-options { display:grid; gap:var(--space-3); margin-bottom:var(--space-6); }
+  .q-opt { display:flex; align-items:flex-start; gap:var(--space-3); padding:var(--space-4); border:2px solid var(--border); border-radius:var(--radius-md); background:var(--bg-page); cursor:pointer; text-align:left; font-family:var(--font-body); font-size:var(--fs-base); color:var(--text-primary); transition:all var(--duration-fast); }
+  .q-opt:hover { border-color:var(--primary-light); background:var(--primary-glow); }
+  .q-opt.selected { border-color:var(--primary); background:var(--primary-glow); }
+  .q-opt .lt { display:grid; place-items:center; min-width:28px; height:28px; border-radius:var(--radius-sm); background:var(--bg-card-alt); font-family:var(--font-display); font-weight:700; flex-shrink:0; }
+  .q-opt.selected .lt { background:var(--primary); color:#fff; }
+  .certainty { margin-bottom:var(--space-6); padding:var(--space-4); background:var(--accent-glow); border-radius:var(--radius-md); }
+  .certainty-label { font-family:var(--font-display); font-weight:600; font-size:var(--fs-sm); margin-bottom:var(--space-3); display:flex; align-items:center; gap:var(--space-2); }
+  .certainty-btns { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--space-3); }
+  .cert-btn { padding:var(--space-3); border:2px solid var(--border); border-radius:var(--radius-md); background:var(--bg-page); cursor:pointer; font-family:var(--font-display); font-weight:600; font-size:var(--fs-sm); color:var(--text-secondary); transition:all var(--duration-fast); }
+  .cert-btn small { display:block; font-weight:400; font-size:var(--fs-xs); color:var(--text-muted); margin-top:2px; }
+  .cert-btn:hover { border-color:var(--accent); }
+  .cert-btn.active { border-color:var(--accent-dark); background:var(--accent); color:var(--primary-dark); }
+  .cert-btn.active small { color:var(--primary-dark); }
+  .qcm-actions { display:flex; gap:var(--space-3); flex-wrap:wrap; justify-content:space-between; }
+  .nav-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(38px,1fr)); gap:var(--space-2); margin-top:var(--space-6); padding-top:var(--space-5); border-top:1px solid var(--border); }
+  .nav-cell { aspect-ratio:1; border:1px solid var(--border); border-radius:var(--radius-sm); background:var(--bg-page); font-family:var(--font-mono); font-size:var(--fs-xs); cursor:pointer; color:var(--text-muted); transition:all var(--duration-fast); }
+  .nav-cell.answered { background:var(--success); color:#fff; border-color:var(--success); }
+  .nav-cell.current { outline:2px solid var(--primary); outline-offset:1px; color:var(--primary); font-weight:700; }
+  .action-cards { display:grid; gap:var(--space-4); margin:var(--space-6) 0; }
+  .action-card { display:flex; align-items:flex-start; gap:var(--space-4); padding:var(--space-5); border:1px solid var(--border); border-radius:var(--radius-lg); background:var(--bg-card-alt); }
+  .action-card .ac-ico { font-size:var(--fs-3xl); flex-shrink:0; }
+  .action-card h3 { font-size:var(--fs-lg); margin-bottom:var(--space-2); }
+  .action-card p { color:var(--text-secondary); font-size:var(--fs-sm); margin-bottom:var(--space-3); }
+  .action-card.primary { border-color:var(--primary); border-width:2px; background:var(--primary-glow); }
+  .hidden { display:none !important; }
+  @media (max-width:600px){ .qcm-card{padding:var(--space-5);} .q-enonce{font-size:var(--fs-lg);} }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-left">
+    <a href="../index.html" class="site-logo"><span class="logo-icon">C<span class="acc">e</span></span><span data-tr="fr">Concevoir un cours</span><span data-tr="en">Design a course</span></a>
+  </div>
+  <div class="header-right">
+    <a href="../cours.html" class="chapter-nav-btn"><span data-tr="fr">← Cours</span><span data-tr="en">← Course</span></a>
+    <button class="theme-toggle" data-i18n-aria-fr="Basculer le thème" data-i18n-aria-en="Toggle theme" aria-label="Basculer le thème">🌙</button>
+  </div>
+</header>
+
+<div class="qcm-wrap">
+  <div id="app"></div>
+  <footer class="site-footer" style="margin-top:var(--space-12);border-radius:var(--radius-lg)">
+    <p><span data-tr="fr">QCM — « Concevoir un cours en ligne » — Auteur :</span><span data-tr="en">MCQ — "Designing an online course" — Author:</span> <a href="#">Mohamed EL AFRIT</a></p>
+    <p class="license"><span class="cc-badges">CC BY-NC-SA 4.0</span> <span data-tr="fr">Diffusé sous licence Creative Commons.</span><span data-tr="en">Released under a Creative Commons licence.</span></p>
+  </footer>
+</div>
+
+<script src="../assets/js/i18n.js"></script>
+<script src="../assets/js/nav-sections.js"></script>
+<script src="../assets/js/navigation.js"></script>
+<script src="../assets/js/accessibility.js"></script>
+<script src="qcm-core.js"></script>
+<script src="questions.js"></script>
+<script>
+(function(){
+  var Core = window.QCMCore;
+  var DATA = window.QCM_QUESTIONS || { meta:{}, questions:[] };
+  var QS = DATA.questions || [];
+  var N = QS.length;
+  var KEY = 'rdc-qcm-cbm-v1';
+  var byId = {}; QS.forEach(function(q){ byId[q.id] = q; });
+
+  /* ---------- i18n : libellés générés en JS ---------- */
+  function L(){ return window.TPLI18N ? TPLI18N.lang() : 'fr'; }
+  var S = {
+    fr: {
+      closedTitle: '🔒 QCM bientôt disponible',
+      closedLead: 'Ce questionnaire n\'est pas encore ouvert.',
+      closedH: 'Accès ouvert par votre formateur',
+      closedP: 'Le QCM d\'évaluation deviendra accessible ici <strong>lorsque votre formateur en ouvrira l\'accès</strong>. Merci de revenir sur cette page le moment venu.',
+      homeTitle: '📝 QCM d\'évaluation',
+      homeLead1: 'Concevoir un cours en ligne — ',
+      homeLead2: ' questions à degré de certitude',
+      trainH: 'Première fois ? Entraînez-vous d\'abord',
+      trainP: 'Cette page est le QCM <strong>en conditions d\'examen</strong> (pas de correction immédiate). Pour réviser avec une <strong>correction immédiate</strong> après chaque question, passez par le <a href="entrainement.html">mode entraînement</a>.',
+      noCorrH: 'Vous ne verrez pas votre correction à la fin',
+      noCorrP: 'À la fin, vous téléchargez un fichier (CSV) à envoyer à votre formateur. Vous pourrez ensuite voir votre correction sur la <strong>page Correction</strong> en y déposant ce fichier.',
+      baremeTitle: 'Barème — degré de certitude',
+      instrH: 'Consignes',
+      instrP: 'Pour chaque question : choisissez une réponse <strong>et</strong> votre degré de certitude. Les questions et les propositions sont mélangées. Navigation libre, retour arrière possible. Vos réponses sont sauvegardées dans ce navigateur.',
+      yourInfo: 'Vos informations',
+      lblNom: 'Nom', phNom: 'NOM',
+      lblPrenom: 'Prénom', phPrenom: 'Prénom',
+      lblEmail: 'E-mail', phEmail: 'vous@exemple.fr',
+      errId: 'Merci de renseigner nom, prénom et e-mail.',
+      resume: 'Reprendre', start: 'Démarrer l\'évaluation',
+      qLabel: 'Question', qOf: ' / ',
+      answered: ' répondues',
+      chapter: 'Chapitre ',
+      certLabelHead: '🎚️ Votre degré de certitude ',
+      certRequired: '(obligatoire)',
+      prev: '← Précédent', next: 'Suivant →', finish: 'Terminer →',
+      jump: '1re sans réponse',
+      allAnswered: 'Toutes les questions ont une réponse et une certitude.',
+      toFin: 'Terminer l\'évaluation',
+      confirmMiss1: 'Il reste ', confirmMiss2: ' question(s) sans réponse ou sans certitude. Terminer quand même ?',
+      confirmFin: 'Terminer l\'évaluation ?',
+      finTitle: '✅ QCM terminé',
+      finAnswered: ' répondues · ', finMin: ' min',
+      finNoCorrH: 'Pas de correction ici',
+      finNoCorrP: 'Votre correction n\'est pas affichée sur cette page. Téléchargez votre fichier, envoyez-le à votre formateur, puis utilisez la page <strong>Correction</strong> pour voir le détail.',
+      card1H: '1. Terminer — télécharger mon fichier',
+      card1P: 'Téléchargez votre fichier CSV (signé) et <strong>envoyez-le à votre formateur par e-mail, en pièce jointe</strong>. Vérifiez la bonne réception avant la fin de l\'épreuve.',
+      dlBtn: '⬇️ Télécharger mon CSV',
+      card2H: '2. Corriger — voir ma correction',
+      card2P: 'Ouvrez la page Correction et <strong>déposez-y votre fichier CSV</strong> pour voir votre note et la correction détaillée (avec vérification d\'intégrité).',
+      card2Btn: '🔎 Aller à la page Correction →',
+      card3H: '3. Consolider — espace formateur',
+      card3P: 'Réservé au formateur : déposer plusieurs fichiers d\'étudiants pour consolider et visualiser les résultats de la classe.',
+      card3Btn: '📊 Ouvrir le dashboard formateur →',
+      backQcm: '← Revenir au QCM',
+      restart: '↺ Recommencer (efface tout)',
+      confirmRestart: 'Effacer toutes vos réponses et recommencer ?',
+      dlOk: '✔ '
+    },
+    en: {
+      closedTitle: '🔒 MCQ coming soon',
+      closedLead: 'This questionnaire is not open yet.',
+      closedH: 'Access opened by your instructor',
+      closedP: 'The graded MCQ will become available here <strong>when your instructor opens access</strong>. Please come back to this page when the time comes.',
+      homeTitle: '📝 Graded MCQ',
+      homeLead1: 'Designing an online course — ',
+      homeLead2: ' certainty-based questions',
+      trainH: 'First time? Practise first',
+      trainP: 'This page is the MCQ <strong>under exam conditions</strong> (no immediate feedback). To revise with <strong>immediate feedback</strong> after each question, use the <a href="entrainement.html">practice mode</a>.',
+      noCorrH: 'You will not see your correction at the end',
+      noCorrP: 'At the end, you download a file (CSV) to send to your instructor. You can then view your correction on the <strong>Correction page</strong> by uploading that file there.',
+      baremeTitle: 'Marking scheme — certainty level',
+      instrH: 'Instructions',
+      instrP: 'For each question: choose one answer <strong>and</strong> your certainty level. Questions and options are shuffled. Free navigation, going back is allowed. Your answers are saved in this browser.',
+      yourInfo: 'Your details',
+      lblNom: 'Last name', phNom: 'LAST NAME',
+      lblPrenom: 'First name', phPrenom: 'First name',
+      lblEmail: 'E-mail', phEmail: 'you@example.com',
+      errId: 'Please fill in last name, first name and e-mail.',
+      resume: 'Resume', start: 'Start the assessment',
+      qLabel: 'Question', qOf: ' / ',
+      answered: ' answered',
+      chapter: 'Chapter ',
+      certLabelHead: '🎚️ Your certainty level ',
+      certRequired: '(required)',
+      prev: '← Previous', next: 'Next →', finish: 'Finish →',
+      jump: '1st unanswered',
+      allAnswered: 'Every question has an answer and a certainty level.',
+      toFin: 'Finish the assessment',
+      confirmMiss1: 'There are still ', confirmMiss2: ' question(s) with no answer or no certainty. Finish anyway?',
+      confirmFin: 'Finish the assessment?',
+      finTitle: '✅ MCQ completed',
+      finAnswered: ' answered · ', finMin: ' min',
+      finNoCorrH: 'No correction here',
+      finNoCorrP: 'Your correction is not shown on this page. Download your file, send it to your instructor, then use the <strong>Correction page</strong> to see the details.',
+      card1H: '1. Finish — download my file',
+      card1P: 'Download your (signed) CSV file and <strong>send it to your instructor by e-mail, as an attachment</strong>. Check it was received before the end of the test.',
+      dlBtn: '⬇️ Download my CSV',
+      card2H: '2. Correct — view my correction',
+      card2P: 'Open the Correction page and <strong>upload your CSV file</strong> there to see your grade and the detailed correction (with integrity check).',
+      card2Btn: '🔎 Go to the Correction page →',
+      card3H: '3. Consolidate — instructor area',
+      card3P: 'Instructor only: upload several student files to consolidate and visualise the class results.',
+      card3Btn: '📊 Open the instructor dashboard →',
+      backQcm: '← Back to the MCQ',
+      restart: '↺ Restart (clears everything)',
+      confirmRestart: 'Clear all your answers and start over?',
+      dlOk: '✔ '
+    }
+  };
+  function t(k){ return (S[L()] || S.fr)[k] != null ? (S[L()] || S.fr)[k] : S.fr[k]; }
+  // Texte bilingue d'une question / proposition (repli sur .fr)
+  function tr(o){ if(o==null) return ''; if(typeof o==='string') return o; return o[L()] != null ? o[L()] : (o.fr != null ? o.fr : ''); }
+
+  var state = load() || newState();
+  function newState(){
+    var order = Core.shuffledIndices(N);
+    var perms = {};
+    QS.forEach(function(q){ perms[q.id] = Core.shuffledIndices(q.propositions.length); });
+    return { stage:'home', id:{nom:'',prenom:'',email:''}, order:order, perms:perms, ans:{}, idx:0, start:null, end:null };
+  }
+  function load(){ try{ var s=JSON.parse(localStorage.getItem(KEY)); return (s&&s.order&&s.order.length===N)?s:null; }catch(e){ return null; } }
+  function save(){ localStorage.setItem(KEY, JSON.stringify(state)); }
+  function val(id){ return (document.getElementById(id).value||'').trim(); }
+  function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  var app = document.getElementById('app');
+  function render(){
+    if(!N){ app.innerHTML='<div class="qcm-card"><div class="qcm-hero"><h1>'+t('closedTitle')+'</h1><p>'+t('closedLead')+'</p></div><div class="callout info"><div class="callout-icon">🗓️</div><div class="callout-content"><h4>'+t('closedH')+'</h4><p>'+t('closedP')+'</p></div></div></div>'; return; }
+    if(state.stage==='home') return home();
+    if(state.stage==='quiz') return quiz();
+    if(state.stage==='fin') return fin();
+  }
+
+  function home(){
+    app.innerHTML='<div class="qcm-card">'
+      +'<div class="qcm-hero"><h1>'+t('homeTitle')+'</h1><p>'+t('homeLead1')+N+t('homeLead2')+'</p></div>'
+      +'<div class="callout tip"><div class="callout-icon">🎓</div><div class="callout-content"><h4>'+t('trainH')+'</h4><p>'+t('trainP')+'</p></div></div>'
+      +'<div class="callout warning"><div class="callout-icon">⏳</div><div class="callout-content"><h4>'+t('noCorrH')+'</h4><p>'+t('noCorrP')+'</p></div></div>'
+      +'<h3 style="font-family:var(--font-display);margin:var(--space-6) 0 var(--space-3)">'+t('baremeTitle')+'</h3>'
+      + Core.baremeHtml()
+      +'<div class="callout info" style="margin-top:var(--space-5)"><div class="callout-icon">ℹ️</div><div class="callout-content"><h4>'+t('instrH')+'</h4><p>'+t('instrP')+'</p></div></div>'
+      +'<h3 style="font-family:var(--font-display);margin:var(--space-6) 0 var(--space-3)">'+t('yourInfo')+'</h3>'
+      +'<div class="field"><label>'+t('lblNom')+'</label><input id="f-nom" value="'+esc(state.id.nom)+'" placeholder="'+esc(t('phNom'))+'"></div>'
+      +'<div class="field"><label>'+t('lblPrenom')+'</label><input id="f-prenom" value="'+esc(state.id.prenom)+'" placeholder="'+esc(t('phPrenom'))+'"></div>'
+      +'<div class="field"><label>'+t('lblEmail')+'</label><input id="f-email" type="email" value="'+esc(state.id.email)+'" placeholder="'+esc(t('phEmail'))+'"></div>'
+      +'<div id="home-err" style="color:var(--error);font-size:var(--fs-sm);margin-bottom:var(--space-3)"></div>'
+      +'<div class="qcm-actions"><span></span><button class="btn btn-primary" id="start">'+(Object.keys(state.ans).length?t('resume'):t('start'))+' →</button></div>'
+      +'</div>';
+    document.getElementById('start').onclick=function(){
+      state.id.nom=val('f-nom'); state.id.prenom=val('f-prenom'); state.id.email=val('f-email');
+      if(!state.id.nom||!state.id.prenom||!state.id.email){ document.getElementById('home-err').textContent=t('errId'); return; }
+      if(!state.start) state.start=new Date().toISOString();
+      state.stage='quiz'; save(); render(); window.scrollTo(0,0);
+    };
+  }
+
+  function quiz(){
+    var qid = QS[state.order[state.idx]].id;
+    var q = byId[qid];
+    var perm = state.perms[qid];
+    var a = state.ans[qid] || {};
+    var answered = countAnswered();
+    var pct = Math.round(answered/N*100);
+    var opts='';
+    perm.forEach(function(origIdx, dispPos){
+      var sel = a.disp===dispPos ? ' selected' : '';
+      opts+='<button class="q-opt'+sel+'" data-disp="'+dispPos+'" data-orig="'+origIdx+'"><span class="lt">'+Core.LETTERS[dispPos]+'</span><span>'+esc(tr(q.propositions[origIdx]))+'</span></button>';
+    });
+    var certBtns=Core.CERT_ORDER.map(function(c){
+      return '<button class="cert-btn'+(a.certitude===c?' active':'')+'" data-c="'+c+'">'+esc(Core.certLabel(c))+'<small>'+esc(Core.certHint(c))+'</small></button>';
+    }).join('');
+    var grid='';
+    state.order.forEach(function(oi,i){ var id=QS[oi].id; var on=state.ans[id]&&state.ans[id].disp!=null&&state.ans[id].certitude; grid+='<button class="nav-cell'+(on?' answered':'')+(i===state.idx?' current':'')+'" data-g="'+i+'">'+(i+1)+'</button>'; });
+    app.innerHTML='<div class="qcm-topbar">'
+      +'<span class="qcm-stat">'+t('qLabel')+' <b>'+(state.idx+1)+'</b>'+t('qOf')+N+'</span>'
+      +'<div class="qcm-progress-track"><div class="qcm-progress-fill" style="width:'+pct+'%"></div></div>'
+      +'<span class="qcm-stat"><b>'+answered+'</b>'+t('answered')+'</span><span class="qcm-stat" id="timer">⏱ 00:00</span></div>'
+      +'<div class="qcm-card">'
+      +'<div style="display:flex;gap:.5rem;align-items:center"><span class="q-diff" style="background:'+Core.DIFF_COLOR[q.difficulte]+'">'+esc(Core.diffLabel(q.difficulte))+'</span><span style="font-size:var(--fs-xs);color:var(--text-muted)">'+t('chapter')+q.chapitre+'</span></div>'
+      +'<div class="q-enonce">'+esc(tr(q.enonce))+'</div>'
+      +'<div class="q-options">'+opts+'</div>'
+      +'<div class="certainty"><div class="certainty-label">'+t('certLabelHead')+'<span style="font-weight:400;color:var(--text-muted)">'+t('certRequired')+'</span></div><div class="certainty-btns">'+certBtns+'</div></div>'
+      +'<div class="qcm-actions">'
+      +'<button class="btn btn-ghost" id="prev"'+(state.idx===0?' disabled':'')+'>'+t('prev')+'</button>'
+      +'<div style="display:flex;gap:.5rem;flex-wrap:wrap"><button class="btn btn-ghost" id="jump">'+t('jump')+'</button>'
+      +(state.idx===N-1?'<button class="btn btn-primary" id="finish">'+t('finish')+'</button>':'<button class="btn btn-primary" id="next">'+t('next')+'</button>')+'</div></div>'
+      +'<div class="nav-grid">'+grid+'</div>'
+      +'<div class="qcm-actions" style="margin-top:1.5rem"><button class="btn btn-ghost" id="tofin">'+t('toFin')+'</button><span></span></div>'
+      +'</div>';
+    app.querySelectorAll('.q-opt').forEach(function(b){ b.onclick=function(){ if(!state.ans[qid])state.ans[qid]={}; state.ans[qid].disp=+b.dataset.disp; state.ans[qid].orig=+b.dataset.orig; state.ans[qid].lettre=Core.LETTERS[+b.dataset.disp]; if(!state.ans[qid].certitude)state.ans[qid].certitude='moyenne'; save(); quiz(); }; });
+    app.querySelectorAll('.cert-btn').forEach(function(b){ b.onclick=function(){ if(!state.ans[qid])state.ans[qid]={}; state.ans[qid].certitude=b.dataset.c; save(); quiz(); }; });
+    app.querySelectorAll('.nav-cell').forEach(function(b){ b.onclick=function(){ state.idx=+b.dataset.g; save(); quiz(); window.scrollTo(0,0); }; });
+    var pv=document.getElementById('prev'); if(pv)pv.onclick=function(){ if(state.idx>0){state.idx--;save();quiz();window.scrollTo(0,0);} };
+    var nx=document.getElementById('next'); if(nx)nx.onclick=function(){ if(state.idx<N-1){state.idx++;save();quiz();window.scrollTo(0,0);} };
+    document.getElementById('jump').onclick=function(){ for(var i=0;i<N;i++){ var id=QS[state.order[i]].id; if(!state.ans[id]||state.ans[id].disp==null||!state.ans[id].certitude){ state.idx=i; save(); quiz(); window.scrollTo(0,0); return; } } alert(t('allAnswered')); };
+    var fn=document.getElementById('finish'); if(fn)fn.onclick=goFin;
+    document.getElementById('tofin').onclick=goFin;
+    startTimer();
+  }
+  function countAnswered(){ var c=0; QS.forEach(function(q){ var a=state.ans[q.id]; if(a&&a.disp!=null&&a.certitude)c++; }); return c; }
+  function goFin(){
+    var miss=N-countAnswered();
+    var msg=miss?(t('confirmMiss1')+miss+t('confirmMiss2')):t('confirmFin');
+    if(confirm(msg)){ if(!state.end)state.end=new Date().toISOString(); state.stage='fin'; save(); render(); window.scrollTo(0,0); }
+  }
+
+  var timerInt=null;
+  function startTimer(){ if(timerInt)clearInterval(timerInt); var t=document.getElementById('timer'); if(!t||!state.start)return; var st=new Date(state.start).getTime(); function tick(){ var s=Math.floor((Date.now()-st)/1000); var m=Math.floor(s/60); t.textContent='⏱ '+String(m).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); } tick(); timerInt=setInterval(tick,1000); }
+
+  function buildAnswers(){
+    return state.order.map(function(oi, pos){
+      var q=QS[oi]; var a=state.ans[q.id]||{};
+      var answered = a.disp!=null && a.certitude;
+      return { ordre:pos+1, id:q.id, difficulte:q.difficulte, chapitre:q.chapitre, permutation:state.perms[q.id],
+               lettre:answered?a.lettre:'', indexOriginal:answered?a.orig:'', certitude:answered?a.certitude:'' };
+    });
+  }
+  function meta(){
+    var dur = (state.start&&state.end)? Math.round((new Date(state.end)-new Date(state.start))/1000):0;
+    return { Nom:state.id.nom, Prenom:state.id.prenom, Email:state.id.email, DateDebut:state.start, DateFin:state.end, DureeSec:dur, NbQuestions:N };
+  }
+  function downloadCsv(){
+    if(timerInt)clearInterval(timerInt);
+    var built = Core.buildCsv(meta(), buildAnswers());
+    var blob=new Blob([built.csv],{type:'text/csv;charset=utf-8'});
+    var fn=Core.normalizeForFilename(state.id.nom).toUpperCase()+'_'+Core.normalizeForFilename(state.id.prenom)+'_QCM_reglementation.csv';
+    var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=fn; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    return fn;
+  }
+
+  function fin(){
+    if(timerInt)clearInterval(timerInt);
+    var dur=(state.start&&state.end)? Math.round((new Date(state.end)-new Date(state.start))/60000):0;
+    app.innerHTML='<div class="qcm-card">'
+      +'<div class="qcm-hero"><h1>'+t('finTitle')+'</h1><p>'+esc(state.id.prenom)+' '+esc(state.id.nom)+' — '+countAnswered()+'/'+N+t('finAnswered')+dur+t('finMin')+'</p></div>'
+      +'<div class="callout warning"><div class="callout-icon">🔒</div><div class="callout-content"><h4>'+t('finNoCorrH')+'</h4><p>'+t('finNoCorrP')+'</p></div></div>'
+      +'<div class="action-cards">'
+      +'<div class="action-card primary"><div class="ac-ico">⬇️</div><div style="flex:1"><h3>'+t('card1H')+'</h3><p>'+t('card1P')+'</p><button class="btn btn-primary" id="dl">'+t('dlBtn')+'</button> <span id="dl-ok" style="color:var(--success);font-weight:600;margin-left:.5rem"></span></div></div>'
+      +'<div class="action-card"><div class="ac-ico">🔎</div><div style="flex:1"><h3>'+t('card2H')+'</h3><p>'+t('card2P')+'</p><a class="btn btn-ghost" href="correction/index.html">'+t('card2Btn')+'</a></div></div>'
+      +'<div class="action-card"><div class="ac-ico">📊</div><div style="flex:1"><h3>'+t('card3H')+'</h3><p>'+t('card3P')+'</p><a class="btn btn-ghost" href="dashboard/index.html">'+t('card3Btn')+'</a></div></div>'
+      +'</div>'
+      +'<div class="qcm-actions"><button class="btn btn-ghost" id="back">'+t('backQcm')+'</button><button class="btn btn-ghost" id="restart">'+t('restart')+'</button></div>'
+      +'</div>';
+    document.getElementById('dl').onclick=function(){ var fn=downloadCsv(); document.getElementById('dl-ok').textContent=t('dlOk')+fn; };
+    document.getElementById('back').onclick=function(){ state.stage='quiz'; state.end=null; save(); render(); window.scrollTo(0,0); };
+    document.getElementById('restart').onclick=function(){ if(confirm(t('confirmRestart'))){ localStorage.removeItem(KEY); state=newState(); render(); window.scrollTo(0,0); } };
+  }
+
+  // Ré-affichage de la vue courante au changement de langue (libellés + question courante)
+  document.addEventListener('tpl:langchange', function(){ render(); });
+
+  render();
+})();
+</script>
+</body>
+</html>

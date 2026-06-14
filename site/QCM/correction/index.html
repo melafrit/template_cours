@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<!-- =================================================================
+     Template de site de cours — Mohamed EL AFRIT (CC BY-NC-SA 4.0)
+     Page CORRECTION du QCM : dépôt d'un CSV de copie, vérification de la
+     signature SHA-256, calcul du score CBM et correction détaillée.
+     Bilingue FR/EN (voir assets/js/i18n.js et QCM/qcm-core.js).
+     ================================================================= -->
+<html lang="fr" data-lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Correction — QCM Concevoir un cours en ligne</title>
+<meta name="description" content="Page de correction du QCM (degré de certitude). Déposez votre CSV pour voir votre correction. Auteur Mohamed EL AFRIT, licence Creative Commons.">
+<meta name="author" content="Mohamed EL AFRIT">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/main.css">
+<link rel="stylesheet" href="../../assets/css/components.css">
+<style>
+  .qcm-wrap { max-width: 920px; margin: 0 auto; padding: calc(var(--header-height) + var(--space-8)) var(--space-5) var(--space-16); }
+  .qcm-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-8); box-shadow: var(--shadow-md); }
+  .qcm-hero { text-align:center; margin-bottom:var(--space-6); } .qcm-hero h1 { font-size:var(--fs-4xl); } .qcm-hero p { color:var(--text-secondary); font-size:var(--fs-lg); margin-top:var(--space-3); }
+  .dropzone { border:2px dashed var(--border-focus); border-radius:var(--radius-lg); padding:var(--space-12) var(--space-6); text-align:center; background:var(--bg-card-alt); cursor:pointer; transition:all var(--duration-fast); }
+  .dropzone:hover, .dropzone.over { background:var(--primary-glow); border-color:var(--primary); }
+  .dropzone .big { font-size:var(--fs-4xl); } .dropzone p { color:var(--text-secondary); margin-top:var(--space-3); }
+  .res-score { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:var(--space-4); margin:var(--space-6) 0; }
+  .res-box { text-align:center; padding:var(--space-6); border-radius:var(--radius-lg); border:1px solid var(--border); background:var(--bg-card-alt); }
+  .res-box .big { font-family:var(--font-display); font-size:var(--fs-5xl); font-weight:800; color:var(--primary); }
+  .res-box .lbl { color:var(--text-muted); font-size:var(--fs-sm); }
+  .sig-badge { display:inline-flex; align-items:center; gap:8px; padding:8px 16px; border-radius:var(--radius-full); font-family:var(--font-display); font-weight:600; font-size:var(--fs-sm); }
+  .sig-ok { background:var(--success-bg); color:var(--success); border:1px solid var(--success); }
+  .sig-ko { background:var(--error-bg); color:var(--error); border:1px solid var(--error); }
+  .res-q { padding:var(--space-4); border-radius:var(--radius-md); border-left:4px solid var(--border); background:var(--bg-card-alt); margin-bottom:var(--space-3); }
+  .res-q.ok { border-left-color:var(--success); } .res-q.ko { border-left-color:var(--error); } .res-q.na { border-left-color:var(--text-muted); }
+  .res-q .meta { display:flex; gap:var(--space-2); align-items:center; flex-wrap:wrap; font-size:var(--fs-xs); color:var(--text-muted); margin-bottom:var(--space-2); }
+  .res-q .qn { font-family:var(--font-display); font-weight:600; margin-bottom:var(--space-2); }
+  .res-q .opt { display:flex; align-items:flex-start; gap:var(--space-3); padding:var(--space-2) var(--space-3); border:1px solid var(--border); border-radius:var(--radius-sm); margin-bottom:.4rem; font-size:var(--fs-sm); }
+  .res-q .opt.correct { border-color:var(--success); background:var(--success-bg); }
+  .res-q .opt.wrong { border-color:var(--error); background:var(--error-bg); }
+  .res-q .opt .lt { font-family:var(--font-display); font-weight:700; min-width:20px; }
+  .res-q .expl { font-size:var(--fs-sm); color:var(--text-secondary); margin-top:var(--space-2); padding-top:var(--space-2); border-top:1px dashed var(--border); }
+  .pts-badge { font-family:var(--font-mono); font-weight:700; padding:2px 8px; border-radius:var(--radius-sm); }
+  .pts-pos { background:var(--success-bg); color:var(--success); } .pts-neg { background:var(--error-bg); color:var(--error); } .pts-zero { background:var(--bg-card-alt); color:var(--text-muted); }
+  .q-diff { display:inline-block; padding:1px 8px; border-radius:var(--radius-full); color:#fff; font-size:var(--fs-xs); font-weight:700; }
+  .hidden { display:none !important; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-left">
+    <a href="../../index.html" class="site-logo"><span class="logo-icon">C<span class="acc">e</span></span><span><span data-tr="fr">Concevoir un cours</span><span data-tr="en">Design a course</span></span></a>
+  </div>
+  <div class="header-right">
+    <a href="../index.html" class="chapter-nav-btn"><span data-tr="fr">← QCM</span><span data-tr="en">← Quiz</span></a>
+    <button class="theme-toggle" data-i18n-aria-fr="Basculer le thème" data-i18n-aria-en="Toggle theme" aria-label="Basculer le thème">🌙</button>
+  </div>
+</header>
+
+<div class="qcm-wrap">
+  <div class="qcm-card">
+    <div class="qcm-hero">
+      <h1><span data-tr="fr">🔎 Ma correction</span><span data-tr="en">🔎 My results</span></h1>
+      <p>
+        <span data-tr="fr">Déposez votre fichier CSV (celui téléchargé à la fin du QCM) pour voir votre note et la correction détaillée.</span>
+        <span data-tr="en">Drop your CSV file (the one downloaded at the end of the quiz) to see your mark and the detailed correction.</span>
+      </p>
+    </div>
+
+    <div class="callout info"><div class="callout-icon">🔐</div><div class="callout-content">
+      <h4><span data-tr="fr">Intégrité</span><span data-tr="en">Integrity</span></h4>
+      <p>
+        <span data-tr="fr">Le fichier est signé : la page vérifie qu'il n'a pas été modifié. Toute altération est détectée.</span>
+        <span data-tr="en">The file is signed: the page checks that it has not been modified. Any tampering is detected.</span>
+      </p>
+    </div></div>
+
+    <details style="margin:var(--space-4) 0">
+      <summary style="cursor:pointer;font-family:var(--font-display);font-weight:600"><span data-tr="fr">📊 Rappel du barème</span><span data-tr="en">📊 Marking scheme</span></summary>
+      <div id="bareme"></div>
+    </details>
+
+    <div class="dropzone" id="drop">
+      <div class="big">📂</div>
+      <p>
+        <span data-tr="fr"><strong>Glissez-déposez votre fichier CSV ici</strong><br>ou cliquez pour le sélectionner</span>
+        <span data-tr="en"><strong>Drag and drop your CSV file here</strong><br>or click to select it</span>
+      </p>
+      <input type="file" id="file" accept=".csv" class="hidden">
+    </div>
+    <div id="err" style="color:var(--error);font-weight:600;margin-top:var(--space-3)"></div>
+  </div>
+
+  <div id="result"></div>
+
+  <footer class="site-footer" style="margin-top:var(--space-12);border-radius:var(--radius-lg)">
+    <p>
+      <span data-tr="fr">Correction — « Concevoir un cours en ligne » — Auteur : <a href="#">Mohamed EL AFRIT</a></span>
+      <span data-tr="en">Correction — "Designing an online course" — Author: <a href="#">Mohamed EL AFRIT</a></span>
+    </p>
+    <p class="license"><span class="cc-badges">CC BY-NC-SA 4.0</span>
+      <span data-tr="fr">Diffusé sous licence Creative Commons.</span>
+      <span data-tr="en">Distributed under a Creative Commons licence.</span>
+    </p>
+  </footer>
+</div>
+
+<script src="../../assets/js/i18n.js"></script>
+<script src="../../assets/js/course-data.js"></script>
+<script src="../../assets/js/nav-sections.js"></script>
+<script src="../../assets/js/navigation.js"></script>
+<script src="../../assets/js/accessibility.js"></script>
+<script src="../qcm-core.js"></script>
+<script src="../questions.js"></script>
+<script src="../corrections.js"></script>
+<script>
+(function(){
+  var Core = window.QCMCore;
+  function lng(){ return window.TPLI18N ? TPLI18N.lang() : 'fr'; }
+  // L(x) : x peut être une chaîne ou un objet bilingue { fr, en }
+  function L(x){ return (x && typeof x === 'object') ? (x[lng()] || x.fr || x.en || '') : (x == null ? '' : x); }
+
+  // Libellés de l'UI générée en JS (motif S + t).
+  var S = {
+    fr: {
+      sigOk: '🔐 Signature valide — fichier authentique',
+      sigKo: '⚠️ Signature INVALIDE — fichier modifié ou corrompu',
+      noteSur: 'Note / 20',
+      bonnes: 'Bonnes réponses / ',
+      scoreBrut: 'Score brut (max ',
+      mention: 'Mention',
+      calibTitle: 'Calibration de votre confiance',
+      calibBody: function(c){ return 'Certitude « Élevée » justifiée (juste) : <strong>'+c.good+'</strong> · Sur-confiance (Élevée mais faux, −3 chacune) : <strong>'+c.over+'</strong> · Excès de prudence (Faible mais juste) : <strong>'+c.under+'</strong>.'; },
+      baremeSummary: '📊 Rappel du barème',
+      detailTitle: 'Correction détaillée',
+      chap: 'Ch.',
+      certitude: 'Certitude : ',
+      noCert: '—',
+      sansReponse: '⚪ Sans réponse',
+      correct: '✅ Correct',
+      incorrect: '❌ Incorrect',
+      pt: ' pt',
+      explLabel: 'Explication.',
+      unknownQ: '(question inconnue)',
+      errCsv: 'Merci de déposer un fichier .csv',
+      errRead: 'Fichier illisible : '
+    },
+    en: {
+      sigOk: '🔐 Valid signature — authentic file',
+      sigKo: '⚠️ INVALID signature — file modified or corrupted',
+      noteSur: 'Mark / 20',
+      bonnes: 'Correct answers / ',
+      scoreBrut: 'Raw score (max ',
+      mention: 'Grade',
+      calibTitle: 'Calibration of your confidence',
+      calibBody: function(c){ return 'Justified "High" certainty (correct): <strong>'+c.good+'</strong> · Over-confidence (High but wrong, −3 each): <strong>'+c.over+'</strong> · Excess caution (Low but correct): <strong>'+c.under+'</strong>.'; },
+      baremeSummary: '📊 Marking scheme',
+      detailTitle: 'Detailed correction',
+      chap: 'Ch.',
+      certitude: 'Certainty: ',
+      noCert: '—',
+      sansReponse: '⚪ No answer',
+      correct: '✅ Correct',
+      incorrect: '❌ Incorrect',
+      pt: ' pt',
+      explLabel: 'Explanation.',
+      unknownQ: '(unknown question)',
+      errCsv: 'Please drop a .csv file',
+      errRead: 'Unreadable file: '
+    }
+  };
+  function t(k){ return (S[lng()] || S.fr)[k] || S.fr[k]; }
+
+  var QById = {}; (window.QCM_QUESTIONS.questions||[]).forEach(function(q){ QById[q.id]=q; });
+  var CList = (window.QCM_CORRECTIONS.corrections||[]);
+  var CById = {}; CList.forEach(function(c){ CById[c.id]=c; });
+
+  var drop=document.getElementById('drop'), file=document.getElementById('file'), err=document.getElementById('err');
+  var baremeBox=document.getElementById('bareme'), resultBox=document.getElementById('result');
+  var lastParsed=null; // mémorise la dernière copie déposée pour ré-affichage au changement de langue
+
+  baremeBox.innerHTML = Core.baremeHtml();
+
+  drop.onclick=function(){ file.click(); };
+  file.onchange=function(){ if(file.files[0]) read(file.files[0]); };
+  drop.addEventListener('dragover',function(e){ e.preventDefault(); drop.classList.add('over'); });
+  drop.addEventListener('dragleave',function(){ drop.classList.remove('over'); });
+  drop.addEventListener('drop',function(e){ e.preventDefault(); drop.classList.remove('over'); if(e.dataTransfer.files[0]) read(e.dataTransfer.files[0]); });
+
+  function read(f){
+    err.textContent='';
+    if(!/\.csv$/i.test(f.name)){ err.textContent=t('errCsv'); return; }
+    var fr=new FileReader();
+    fr.onload=function(){ try{ lastParsed=Core.parseCsv(fr.result); show(lastParsed); }catch(e){ err.textContent=t('errRead')+e.message; } };
+    fr.readAsText(f,'UTF-8');
+  }
+
+  function show(parsed){
+    var sigOk = Core.verify(parsed);
+    var sc = Core.scoreSubmission(parsed, CList);
+    var m = parsed.metadata||{};
+    var rows='';
+    sc.per.forEach(function(it,n){
+      var q=QById[it.id]||{propositions:[],enonce:t('unknownQ')};
+      var corr=CById[it.id]||{};
+      var cls = !it.answered?'na':(it.ok?'ok':'ko');
+      var opts='';
+      (q.propositions||[]).forEach(function(p,i){
+        var oc=''; if(i===corr.bonne_reponse_index)oc=' correct'; else if(it.answered && i===it.indexOriginal)oc=' wrong';
+        opts+='<div class="opt'+oc+'"><span class="lt">'+Core.LETTERS[i]+'</span><span>'+esc(L(p))+'</span></div>';
+      });
+      var pc = it.points>0?'pts-pos':(it.points<0?'pts-neg':'pts-zero');
+      var certLabel = it.certitude ? Core.certLabel(it.certitude) : t('noCert');
+      rows+='<div class="res-q '+cls+'"><div class="meta">'
+        +'<span class="q-diff" style="background:'+(Core.DIFF_COLOR[it.difficulte]||'#999')+'">'+esc(it.difficulte?Core.diffLabel(it.difficulte):'')+'</span>'
+        +'<span>'+t('chap')+(it.chapitre||'')+'</span><span>'+t('certitude')+esc(certLabel)+'</span>'
+        +'<span class="pts-badge '+pc+'">'+(it.points>0?'+':'')+it.points+t('pt')+'</span>'
+        +'<span>'+(!it.answered?t('sansReponse'):(it.ok?t('correct'):t('incorrect')))+'</span></div>'
+        +'<div class="qn">'+(n+1)+'. '+esc(L(q.enonce))+'</div>'+opts
+        +'<div class="expl"><strong>'+t('explLabel')+'</strong> '+esc(L(corr.explication))+'</div></div>';
+    });
+    resultBox.innerHTML='<div class="qcm-card" style="margin-top:var(--space-6)">'
+      +'<div style="text-align:center;margin-bottom:var(--space-4)"><span class="sig-badge '+(sigOk?'sig-ok':'sig-ko')+'">'+(sigOk?t('sigOk'):t('sigKo'))+'</span></div>'
+      +'<div class="qcm-hero"><h1>'+esc(m.Prenom||'')+' '+esc(m.Nom||'')+'</h1></div>'
+      +'<div class="res-score">'
+      +'<div class="res-box"><div class="big">'+sc.note.toFixed(1)+'</div><div class="lbl">'+t('noteSur')+'</div></div>'
+      +'<div class="res-box"><div class="big">'+sc.nbCorrect+'</div><div class="lbl">'+t('bonnes')+sc.n+'</div></div>'
+      +'<div class="res-box"><div class="big">'+sc.raw+'</div><div class="lbl">'+t('scoreBrut')+sc.maxRaw+')</div></div>'
+      +'<div class="res-box"><div class="big" style="font-size:var(--fs-2xl)">'+Core.mention(sc.note)+'</div><div class="lbl">'+t('mention')+'</div></div></div>'
+      +'<div class="callout '+(sc.calib.over>sc.calib.good?'warning':'tip')+'"><div class="callout-icon">🎚️</div><div class="callout-content"><h4>'+t('calibTitle')+'</h4><p>'+t('calibBody')(sc.calib)+'</p></div></div>'
+      +'<details style="margin:var(--space-4) 0"><summary style="cursor:pointer;font-family:var(--font-display);font-weight:600">'+t('baremeSummary')+'</summary>'+Core.baremeHtml()+'</details>'
+      +'<h3 style="font-family:var(--font-display);margin:var(--space-6) 0 var(--space-4)">'+t('detailTitle')+'</h3>'+rows+'</div>';
+    resultBox.scrollIntoView({behavior:'smooth'});
+  }
+
+  // Ré-affichage au changement de langue : barème + dernière copie déposée
+  // (sans re-scroller brutalement vers le résultat).
+  document.addEventListener('tpl:langchange', function(){
+    baremeBox.innerHTML = Core.baremeHtml();
+    if(lastParsed){
+      var prev = resultBox.scrollIntoView;
+      resultBox.scrollIntoView = function(){};
+      try{ show(lastParsed); } finally { resultBox.scrollIntoView = prev; }
+    }
+  });
+
+  function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+})();
+</script>
+</body>
+</html>

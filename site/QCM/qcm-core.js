@@ -9,19 +9,23 @@
    Note /20 = score brut ÷ (3 × nombre de questions) × 20, bornée à [0 ; 20].
    ================================================================= */
 window.QCMCore = (function () {
-  var SALT = 'RDC_SALT_2026';
-  var CSV_VERSION = 'RDC-QCM v1';
+  function lng() { return window.TPLI18N ? TPLI18N.lang() : 'fr'; }
+  var SALT = 'TPL_QCM_SALT';
+  var CSV_VERSION = 'TPL-QCM v1';
   var LETTERS = ['A', 'B', 'C', 'D', 'E', 'F'];
 
-  // Barème CBM (points par certitude)
+  // Barème CBM (points par certitude). Libellés/indices bilingues { fr, en }.
   var CBM = {
-    elevee:  { ok: 3, no: -3, label: 'Élevée',  hint: 'certain' },
-    moyenne: { ok: 2, no: -2, label: 'Moyenne', hint: 'assez sûr' },
-    faible:  { ok: 1, no: 0,  label: 'Faible',  hint: 'je devine' }
+    elevee:  { ok: 3, no: -3, label: { fr: 'Élevée',  en: 'High' },   hint: { fr: 'certain',    en: 'certain' } },
+    moyenne: { ok: 2, no: -2, label: { fr: 'Moyenne', en: 'Medium' }, hint: { fr: 'assez sûr',  en: 'fairly sure' } },
+    faible:  { ok: 1, no: 0,  label: { fr: 'Faible',  en: 'Low' },    hint: { fr: 'je devine',  en: 'guessing' } }
   };
   var CERT_ORDER = ['faible', 'moyenne', 'elevee'];
   var DIFF_COLOR = { vert: '#2f8f5b', jaune: '#c9a227', orange: '#d2762a', rouge: '#c0392b' };
-  var DIFF_LABEL = { vert: 'Facile', jaune: 'Moyen', orange: 'Difficile', rouge: 'Expert' };
+  var DIFF_LABEL = { vert: { fr: 'Facile', en: 'Easy' }, jaune: { fr: 'Moyen', en: 'Medium' }, orange: { fr: 'Difficile', en: 'Hard' }, rouge: { fr: 'Expert', en: 'Expert' } };
+  function certLabel(cert) { var c = CBM[cert]; return c ? (c.label[lng()] || c.label.fr) : cert; }
+  function certHint(cert) { var c = CBM[cert]; return c ? (c.hint[lng()] || c.hint.fr) : ''; }
+  function diffLabel(d) { var x = DIFF_LABEL[d]; return x ? (x[lng()] || x.fr) : d; }
 
   /* ---------- SHA-256 autonome (compatible file://) ---------- */
   function sha256(ascii) {
@@ -184,13 +188,26 @@ window.QCMCore = (function () {
     return (s || '').normalize ? (s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^A-Za-z0-9]/g, '') : (s || '').replace(/[^A-Za-z0-9]/g, '');
   }
   function mention(note) {
+    if (lng() === 'en') {
+      if (note >= 16) return 'Excellent'; if (note >= 14) return 'Very good';
+      if (note >= 12) return 'Good'; if (note >= 10) return 'Pass'; return 'Insufficient';
+    }
     if (note >= 16) return 'Très bien'; if (note >= 14) return 'Bien';
     if (note >= 12) return 'Assez bien'; if (note >= 10) return 'Passable'; return 'Insuffisant';
   }
-  function fmt(n) { return (Math.round(n * 100) / 100).toString().replace('.', ','); }
+  function fmt(n) { return (Math.round(n * 100) / 100).toString().replace('.', lng() === 'en' ? '.' : ','); }
 
-  /* ---------- Rappel du barème (HTML, réutilisé par les 3 pages) ---------- */
+  /* ---------- Rappel du barème (HTML, réutilisé par les pages) — bilingue ---------- */
   function baremeHtml() {
+    if (lng() === 'en') {
+      return '<table class="bareme-table"><thead><tr><th>Your certainty</th><th>✅ Correct</th><th>❌ Wrong</th></tr></thead><tbody>'
+        + '<tr><td><strong>High</strong> <span class="bareme-muted">(certain)</span></td><td class="bareme-pos">+3</td><td class="bareme-neg">−3</td></tr>'
+        + '<tr><td><strong>Medium</strong> <span class="bareme-muted">(fairly sure)</span></td><td class="bareme-pos">+2</td><td class="bareme-neg">−2</td></tr>'
+        + '<tr><td><strong>Low</strong> <span class="bareme-muted">(guessing)</span></td><td class="bareme-pos">+1</td><td>0</td></tr>'
+        + '</tbody></table>'
+        + '<p class="bareme-note"><strong>Certainty-based marking (strict CBM).</strong> Score /20 = raw score ÷ (3 × number of questions) × 20. Difficulty (question colour) is <em>indicative</em> and does not change the score. '
+        + '<strong>Honest strategy:</strong> "Low" if you guess, "Medium" if fairly sure, "High" only if you are truly certain — a wrong high-certainty answer costs −3.</p>';
+    }
     return '<table class="bareme-table"><thead><tr><th>Votre certitude</th><th>✅ Bonne réponse</th><th>❌ Mauvaise réponse</th></tr></thead><tbody>'
       + '<tr><td><strong>Élevée</strong> <span class="bareme-muted">(certain)</span></td><td class="bareme-pos">+3</td><td class="bareme-neg">−3</td></tr>'
       + '<tr><td><strong>Moyenne</strong> <span class="bareme-muted">(assez sûr)</span></td><td class="bareme-pos">+2</td><td class="bareme-neg">−2</td></tr>'
@@ -201,7 +218,8 @@ window.QCMCore = (function () {
   }
 
   return {
-    baremeHtml: baremeHtml,
+    baremeHtml: baremeHtml, lng: lng,
+    certLabel: certLabel, certHint: certHint, diffLabel: diffLabel,
     SALT: SALT, CSV_VERSION: CSV_VERSION, LETTERS: LETTERS, CBM: CBM, CERT_ORDER: CERT_ORDER,
     DIFF_COLOR: DIFF_COLOR, DIFF_LABEL: DIFF_LABEL,
     sha256: sha256, maxRaw: maxRaw, note20: note20, shuffledIndices: shuffledIndices,

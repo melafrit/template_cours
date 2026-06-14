@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="fr" data-lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard formateur — QCM</title>
+<meta name="description" content="Dashboard formateur du QCM. Analysez les résultats de classe, consultez les statistiques par question et exportez les données. Template de site de cours — Mohamed EL AFRIT.">
+<meta name="author" content="Mohamed EL AFRIT">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/main.css">
+<link rel="stylesheet" href="../../assets/css/components.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+/* ===================== LAYOUT ===================== */
+.dash-wrap { max-width: 1200px; margin: 0 auto; padding: calc(var(--header-height) + var(--space-8)) var(--space-5) var(--space-16); }
+.qcm-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-8); box-shadow: var(--shadow-md); }
+.dash-hero { text-align: center; margin-bottom: var(--space-6); }
+.dash-hero h1 { font-size: var(--fs-4xl); }
+.dash-hero p  { color: var(--text-secondary); font-size: var(--fs-lg); margin-top: var(--space-3); }
+.section-title { font-family: var(--font-display); font-size: var(--fs-2xl); font-weight: 700; margin: var(--space-10) 0 var(--space-4); padding-bottom: var(--space-2); border-bottom: 2px solid var(--border); }
+
+/* ===================== DROPZONE ===================== */
+.dropzone { border: 2px dashed var(--border-focus); border-radius: var(--radius-lg); padding: var(--space-12) var(--space-6); text-align: center; background: var(--bg-card-alt); cursor: pointer; transition: all var(--duration-fast); }
+.dropzone:hover, .dropzone.over { background: var(--primary-glow); border-color: var(--primary); }
+.dropzone .big { font-size: var(--fs-4xl); }
+.dropzone p { color: var(--text-secondary); margin-top: var(--space-3); }
+.drop-sub { font-size: var(--fs-sm); color: var(--text-muted); margin-top: var(--space-2) !important; }
+.hidden { display: none !important; }
+
+/* ===================== WARNINGS ===================== */
+.warn-list { margin: var(--space-4) 0; padding: 0; list-style: none; }
+.warn-list li { display: flex; align-items: flex-start; gap: var(--space-2); padding: var(--space-2) var(--space-3); background: var(--error-bg); color: var(--error); border: 1px solid var(--error); border-radius: var(--radius-sm); margin-bottom: var(--space-2); font-size: var(--fs-sm); }
+
+/* ===================== RÉSUMÉ (CARTES) ===================== */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--space-4); margin: var(--space-6) 0; }
+.stat-box { text-align: center; padding: var(--space-6) var(--space-4); border-radius: var(--radius-lg); border: 1px solid var(--border); background: var(--bg-card-alt); }
+.stat-box .big { font-family: var(--font-display); font-size: var(--fs-4xl); font-weight: 800; color: var(--primary); line-height: 1.1; }
+.stat-box .lbl { color: var(--text-muted); font-size: var(--fs-sm); margin-top: var(--space-2); }
+
+/* ===================== TOOLBAR TABLEAU ===================== */
+.table-toolbar { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; margin-bottom: var(--space-4); }
+.table-toolbar input { flex: 1; min-width: 200px; padding: var(--space-2) var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg-card-alt); color: var(--text-primary); font-family: var(--font-body); font-size: var(--fs-sm); }
+.table-toolbar input:focus { outline: none; border-color: var(--border-focus); box-shadow: 0 0 0 3px var(--primary-glow); }
+.export-btns { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+
+/* ===================== TABLEAU ÉTUDIANTS ===================== */
+.student-table-wrap { overflow-x: auto; }
+.student-table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); }
+.student-table th { text-align: left; padding: var(--space-2) var(--space-3); background: var(--bg-card-alt); border-bottom: 2px solid var(--border); font-family: var(--font-display); font-weight: 600; white-space: nowrap; cursor: pointer; user-select: none; }
+.student-table th:hover { color: var(--primary); }
+.student-table th .sort-icon { display: inline-block; margin-left: 4px; opacity: 0.4; }
+.student-table th.sorted .sort-icon { opacity: 1; color: var(--primary); }
+.student-table td { padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--border); vertical-align: middle; }
+.student-table tr:last-child td { border-bottom: none; }
+.student-table tr:hover td { background: var(--bg-card-alt); }
+.student-table tr.sig-invalid td { background: color-mix(in srgb, var(--error) 6%, transparent); }
+.student-table tr.sig-invalid:hover td { background: color-mix(in srgb, var(--error) 10%, transparent); }
+.note-cell { font-family: var(--font-display); font-weight: 700; color: var(--primary); }
+.sig-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: var(--radius-full); font-size: var(--fs-xs); font-weight: 600; }
+.sig-ok  { background: var(--success-bg); color: var(--success); border: 1px solid var(--success); }
+.sig-ko  { background: var(--error-bg);   color: var(--error);   border: 1px solid var(--error); }
+.rang-cell { font-family: var(--font-mono); font-weight: 600; color: var(--text-muted); }
+.empty-msg { text-align: center; padding: var(--space-8); color: var(--text-muted); }
+
+/* ===================== GRAPHIQUES SVG ===================== */
+.charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); margin-top: var(--space-4); }
+@media (max-width: 800px) { .charts-grid { grid-template-columns: 1fr; } }
+.chart-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-6); box-shadow: var(--shadow-sm); }
+.chart-card h3 { font-family: var(--font-display); font-size: var(--fs-lg); font-weight: 600; margin-bottom: var(--space-4); }
+.chart-card-full { grid-column: 1 / -1; }
+svg.chart { display: block; width: 100%; overflow: visible; }
+
+/* grille réussite par question */
+.q-grid { display: flex; flex-wrap: wrap; gap: 4px; }
+.q-cell { width: 32px; height: 32px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-family: var(--font-mono); font-weight: 700; color: #fff; cursor: default; text-shadow: 0 1px 2px rgba(0,0,0,.4); transition: transform .15s; }
+.q-cell:hover { transform: scale(1.25); z-index: 1; position: relative; }
+
+/* top questions ratées */
+.top-ratees { list-style: none; padding: 0; margin: 0; }
+.top-ratees li { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-2) var(--space-3); border-radius: var(--radius-md); margin-bottom: var(--space-2); background: var(--bg-card-alt); font-size: var(--fs-sm); }
+.top-ratees .q-id { font-family: var(--font-mono); font-weight: 700; min-width: 36px; }
+.top-ratees .q-enonce { flex: 1; color: var(--text-secondary); }
+.top-ratees .q-taux { font-family: var(--font-display); font-weight: 700; color: var(--error); min-width: 50px; text-align: right; }
+
+/* ===================== CALIBRATION ===================== */
+.calib-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: var(--space-4); margin: var(--space-4) 0; }
+.calib-box { text-align: center; padding: var(--space-5); border-radius: var(--radius-lg); border: 1px solid var(--border); }
+.calib-box .val { font-family: var(--font-display); font-size: var(--fs-3xl); font-weight: 800; }
+.calib-box .lbl { font-size: var(--fs-xs); color: var(--text-muted); margin-top: var(--space-1); }
+.calib-good  { background: var(--success-bg); border-color: var(--success); }
+.calib-good .val  { color: var(--success); }
+.calib-over  { background: var(--error-bg);   border-color: var(--error);   }
+.calib-over .val  { color: var(--error); }
+.calib-under { background: color-mix(in srgb, var(--primary) 10%, transparent); border-color: var(--primary); }
+.calib-under .val { color: var(--primary); }
+
+/* ===================== MODAL DÉTAIL ===================== */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.55); z-index: 9000; display: flex; align-items: flex-start; justify-content: center; padding: var(--space-4); overflow-y: auto; }
+.modal-overlay.hidden { display: none !important; }
+.modal-box { position: relative; background: var(--bg-card); border-radius: var(--radius-lg); box-shadow: var(--shadow-xl, 0 25px 60px rgba(0,0,0,.35)); width: 100%; max-width: 900px; margin: auto; padding: var(--space-8); }
+.modal-close { position: absolute; top: var(--space-4); right: var(--space-4); background: none; border: none; font-size: var(--fs-2xl); cursor: pointer; color: var(--text-secondary); line-height: 1; }
+.modal-close:hover { color: var(--text-primary); }
+
+/* Correction détaillée (réutilisée du style correction/index.html) */
+.res-score { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: var(--space-4); margin: var(--space-5) 0; }
+.res-box { text-align: center; padding: var(--space-5); border-radius: var(--radius-lg); border: 1px solid var(--border); background: var(--bg-card-alt); }
+.res-box .big { font-family: var(--font-display); font-size: var(--fs-4xl); font-weight: 800; color: var(--primary); }
+.res-box .lbl { color: var(--text-muted); font-size: var(--fs-sm); }
+.res-q { padding: var(--space-4); border-radius: var(--radius-md); border-left: 4px solid var(--border); background: var(--bg-card-alt); margin-bottom: var(--space-3); }
+.res-q.ok  { border-left-color: var(--success); }
+.res-q.ko  { border-left-color: var(--error);   }
+.res-q.na  { border-left-color: var(--text-muted); }
+.res-q .meta { display: flex; gap: var(--space-2); align-items: center; flex-wrap: wrap; font-size: var(--fs-xs); color: var(--text-muted); margin-bottom: var(--space-2); }
+.res-q .qn   { font-family: var(--font-display); font-weight: 600; margin-bottom: var(--space-2); }
+.res-q .opt  { display: flex; align-items: flex-start; gap: var(--space-3); padding: var(--space-2) var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: .4rem; font-size: var(--fs-sm); }
+.res-q .opt.correct { border-color: var(--success); background: var(--success-bg); }
+.res-q .opt.wrong   { border-color: var(--error);   background: var(--error-bg);   }
+.res-q .opt .lt { font-family: var(--font-display); font-weight: 700; min-width: 20px; }
+.res-q .expl { font-size: var(--fs-sm); color: var(--text-secondary); margin-top: var(--space-2); padding-top: var(--space-2); border-top: 1px dashed var(--border); }
+.pts-badge { font-family: var(--font-mono); font-weight: 700; padding: 2px 8px; border-radius: var(--radius-sm); }
+.pts-pos  { background: var(--success-bg); color: var(--success); }
+.pts-neg  { background: var(--error-bg);   color: var(--error);   }
+.pts-zero { background: var(--bg-card-alt); color: var(--text-muted); }
+.q-diff { display: inline-block; padding: 1px 8px; border-radius: var(--radius-full); color: #fff; font-size: var(--fs-xs); font-weight: 700; }
+
+/* Barème */
+.bareme-table { width: 100%; border-collapse: collapse; margin: var(--space-4) 0; font-size: var(--fs-sm); }
+.bareme-table th, .bareme-table td { padding: var(--space-2) var(--space-3); border: 1px solid var(--border); text-align: center; }
+.bareme-table thead th { background: var(--bg-card-alt); font-family: var(--font-display); font-weight: 600; }
+.bareme-pos { color: var(--success); font-weight: 700; }
+.bareme-neg { color: var(--error);   font-weight: 700; }
+.bareme-muted { color: var(--text-muted); font-size: var(--fs-xs); }
+.bareme-note  { font-size: var(--fs-sm); color: var(--text-secondary); margin-top: var(--space-2); }
+</style>
+</head>
+<body>
+
+<!-- ===== EN-TÊTE ===== -->
+<header class="site-header">
+  <div class="header-left">
+    <a href="../../index.html" class="site-logo">
+      <span class="logo-icon">C<span class="acc">e</span></span>
+      <span data-tr="fr">Concevoir un cours</span><span data-tr="en">Design a course</span>
+    </a>
+  </div>
+  <div class="header-right">
+    <a href="../index.html" class="chapter-nav-btn"><span data-tr="fr">← QCM</span><span data-tr="en">← Quiz</span></a>
+    <button class="theme-toggle" aria-label="Basculer le thème" data-i18n-aria-fr="Basculer le thème" data-i18n-aria-en="Toggle theme">🌙</button>
+  </div>
+</header>
+
+<!-- ===== CORPS ===== -->
+<div class="dash-wrap">
+
+  <!-- Hero -->
+  <div class="qcm-card">
+    <div class="dash-hero">
+      <h1><span data-tr="fr">📊 Dashboard formateur</span><span data-tr="en">📊 Instructor dashboard</span></h1>
+      <p>
+        <span data-tr="fr">Déposez plusieurs fichiers CSV d'étudiants pour analyser les résultats de classe.</span>
+        <span data-tr="en">Drop several student CSV files to analyse the class results.</span>
+      </p>
+    </div>
+
+    <!-- Rappel barème -->
+    <details style="margin: var(--space-4) 0">
+      <summary style="cursor:pointer;font-family:var(--font-display);font-weight:600">
+        <span data-tr="fr">📐 Rappel du barème</span><span data-tr="en">📐 Marking scheme reminder</span>
+      </summary>
+      <div id="bareme-wrap"></div>
+    </details>
+
+    <!-- Dropzone multi-fichiers -->
+    <div class="dropzone" id="drop" role="button" tabindex="0"
+         aria-label="Zone de dépôt des fichiers CSV"
+         data-i18n-aria-fr="Zone de dépôt des fichiers CSV"
+         data-i18n-aria-en="CSV files drop zone">
+      <div class="big">📂</div>
+      <p>
+        <span data-tr="fr"><strong>Glissez-déposez vos fichiers CSV ici</strong><br>ou cliquez pour les sélectionner</span>
+        <span data-tr="en"><strong>Drag and drop your CSV files here</strong><br>or click to select them</span>
+      </p>
+      <p class="drop-sub">
+        <span data-tr="fr">Plusieurs fichiers acceptés simultanément (.csv)</span>
+        <span data-tr="en">Several files accepted at once (.csv)</span>
+      </p>
+      <input type="file" id="file-input" accept=".csv" multiple class="hidden">
+    </div>
+
+    <!-- Warnings -->
+    <ul class="warn-list hidden" id="warn-list"></ul>
+  </div>
+
+  <!-- ===== DASHBOARD (caché par défaut) ===== -->
+  <div id="dashboard" class="hidden">
+
+    <!-- Résumé de classe -->
+    <div class="section-title"><span data-tr="fr">Résumé de classe</span><span data-tr="en">Class summary</span></div>
+    <div class="qcm-card">
+      <div class="stats-grid" id="stats-grid"></div>
+    </div>
+
+    <!-- Tableau + exports -->
+    <div class="section-title"><span data-tr="fr">Résultats des étudiants</span><span data-tr="en">Student results</span></div>
+    <div class="qcm-card">
+      <div class="table-toolbar">
+        <input type="search" id="search-input"
+               placeholder="Rechercher par nom ou prénom…"
+               aria-label="Rechercher un étudiant"
+               data-i18n-ph-fr="Rechercher par nom ou prénom…"
+               data-i18n-ph-en="Search by last or first name…"
+               data-i18n-aria-fr="Rechercher un étudiant"
+               data-i18n-aria-en="Search for a student">
+        <div class="export-btns">
+          <button class="btn btn-primary" id="btn-xlsx"><span data-tr="fr">⬇ Export Excel (.xlsx)</span><span data-tr="en">⬇ Export Excel (.xlsx)</span></button>
+          <button class="btn btn-ghost"   id="btn-csv"><span data-tr="fr">⬇ Export CSV</span><span data-tr="en">⬇ Export CSV</span></button>
+        </div>
+      </div>
+      <div class="student-table-wrap">
+        <table class="student-table" id="student-table">
+          <thead>
+            <tr id="student-thead-row"></tr>
+          </thead>
+          <tbody id="student-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Graphiques -->
+    <div class="section-title"><span data-tr="fr">Graphiques</span><span data-tr="en">Charts</span></div>
+    <div class="charts-grid">
+
+      <!-- Histogramme notes -->
+      <div class="chart-card">
+        <h3><span data-tr="fr">Distribution des notes</span><span data-tr="en">Grade distribution</span></h3>
+        <svg id="svg-histo" class="chart" height="220"
+             aria-label="Histogramme de distribution des notes"
+             data-i18n-aria-fr="Histogramme de distribution des notes"
+             data-i18n-aria-en="Grade distribution histogram"></svg>
+      </div>
+
+      <!-- Top 5 questions ratées -->
+      <div class="chart-card">
+        <h3><span data-tr="fr">Top 5 questions les plus ratées</span><span data-tr="en">Top 5 most missed questions</span></h3>
+        <ul class="top-ratees" id="top-ratees"></ul>
+      </div>
+
+      <!-- Grille réussite par question -->
+      <div class="chart-card chart-card-full">
+        <h3><span data-tr="fr">Taux de réussite par question</span><span data-tr="en">Success rate per question</span></h3>
+        <div class="q-grid" id="q-grid"></div>
+        <p style="font-size:var(--fs-xs);color:var(--text-muted);margin-top:var(--space-3)">
+          <span data-tr="fr">Vert = forte réussite · Rouge = faible réussite. Survolez une cellule pour voir le % exact.</span>
+          <span data-tr="en">Green = high success · Red = low success. Hover a cell to see the exact %.</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Calibration -->
+    <div class="section-title"><span data-tr="fr">Calibration de la classe</span><span data-tr="en">Class calibration</span></div>
+    <div class="qcm-card">
+      <div class="calib-grid" id="calib-grid"></div>
+      <div id="calib-interp" class="callout" style="margin-top:var(--space-4)"></div>
+    </div>
+
+  </div><!-- /#dashboard -->
+
+  <!-- Footer -->
+  <footer class="site-footer" style="margin-top:var(--space-12);border-radius:var(--radius-lg)">
+    <p>
+      <span data-tr="fr">Dashboard formateur — Template de site de cours — Auteur : Mohamed EL AFRIT</span>
+      <span data-tr="en">Instructor dashboard — Course site template — Author: Mohamed EL AFRIT</span>
+    </p>
+    <p class="license"><span class="cc-badges">CC BY-NC-SA 4.0</span>
+      <span data-tr="fr">Diffusé sous licence Creative Commons.</span>
+      <span data-tr="en">Released under a Creative Commons licence.</span>
+    </p>
+  </footer>
+</div>
+
+<!-- ===== MODAL DÉTAIL ÉTUDIANT ===== -->
+<div class="modal-overlay hidden" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal-box">
+    <button class="modal-close" id="modal-close" aria-label="Fermer"
+            data-i18n-aria-fr="Fermer" data-i18n-aria-en="Close">✕</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<!-- ===== SCRIPTS ===== -->
+<script src="../../assets/js/i18n.js"></script>
+<script src="../../assets/js/nav-sections.js"></script>
+<script src="../../assets/js/navigation.js"></script>
+<script src="../../assets/js/accessibility.js"></script>
+<script src="../qcm-core.js"></script>
+<script src="../questions.js"></script>
+<script src="../corrections.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  /* =========================================================
+     i18n — libellés générés en JS (motif S={fr,en} + t())
+     ========================================================= */
+  function lang() { return window.TPLI18N ? TPLI18N.lang() : 'fr'; }
+  // L(x) : x est un objet bilingue {fr,en} (repli sur .fr), ou une chaîne
+  function L(x) {
+    if (x && typeof x === 'object') return x[lang()] || x.fr || x.en || '';
+    return x == null ? '' : x;
+  }
+
+  var S = {
+    fr: {
+      colRang: 'Rang', colNom: 'Nom', colPrenom: 'Prénom', colEmail: 'Email',
+      colNote: 'Note /20', colRaw: 'Score brut', colNbCorrect: 'Bonnes/n',
+      colDuree: 'Durée (min)', colSignature: 'Signature', colDetail: 'Détail',
+      btnDetail: 'Détail',
+      sigValide: '✅ Valide', sigInvalide: '⚠️ Invalide',
+      noStudent: 'Aucun étudiant trouvé.',
+      stEtudiants: 'Étudiants', stMoyenne: 'Moyenne /20', stMediane: 'Médiane /20',
+      stMin: 'Min /20', stMax: 'Max /20', stSignatures: 'Signatures valides',
+      histoTitle: 'étudiant(s)',
+      noData: 'Aucune donnée disponible.',
+      qNoAnswer: 'aucune réponse', qSuccess: 'de réussite',
+      calibGood: 'Certitude Élevée justifiée (bonne)',
+      calibOver: 'Sur-confiance (Élevée mais fausse −3)',
+      calibUnder: 'Excès de prudence (Faible mais juste)',
+      calibElevee: 'Total réponses « Élevée »',
+      calibMoyenne: 'Total réponses « Moyenne »',
+      calibFaible: 'Total réponses « Faible »',
+      interpTitle: 'Interprétation',
+      interpInsuff: 'Données de calibration insuffisantes (aucune certitude Élevée ni Faible enregistrée).',
+      interpOver: 'La classe est globalement <strong>sur-confiante</strong> : plus de la moitié des certitudes « Élevée » étaient erronées ($PCT$ %). Insistez sur le risque de pénalisation −3.',
+      interpUnder: 'La classe est globalement <strong>trop prudente</strong> : $PCT$ % des réponses « Faible » étaient correctes. Les étudiants sous-estiment leurs connaissances — encouragez à assumer une certitude « Moyenne ».',
+      interpBalanced: 'La calibration de la classe est <strong>globalement équilibrée</strong> : taux de sur-confiance $OVER$ %, taux d\'excès de prudence $UNDER$ %.',
+      modalSigOk: '🔐 Signature valide', modalSigKo: '⚠️ Signature INVALIDE',
+      modalNote: 'Note / 20', modalBonnes: 'Bonnes / ', modalScoreBrut: 'Score brut (max ',
+      modalMention: 'Mention', modalCorrection: 'Correction détaillée',
+      qChap: 'Ch.', qCertitude: 'Certitude : ', qPt: ' pt',
+      qSansReponse: '⚪ Sans réponse', qCorrect: '✅ Correct', qIncorrect: '❌ Incorrect',
+      qExplication: 'Explication.',
+      qUnknown: '(question inconnue)',
+      warnNotCsv: '« $NAME$ » ignoré : ce n\'est pas un fichier CSV.',
+      warnUnreadable: '« $NAME$ » illisible : $ERR$',
+      warnReadError: '« $NAME$ » : erreur de lecture.',
+      /* exports */
+      xlSheetStudents: 'Étudiants', xlSheetQuestions: 'Questions',
+      xlRang: 'Rang', xlNom: 'Nom', xlPrenom: 'Prénom', xlEmail: 'Email',
+      xlNote: 'Note /20', xlScoreBrut: 'Score brut', xlBonnes: 'Bonnes réponses',
+      xlNbQ: 'Nb questions', xlDuree: 'Durée (min)', xlSigOk: 'Signature OK', xlMention: 'Mention',
+      xlYes: 'Oui', xlNo: 'Non',
+      xlId: 'ID', xlChapitre: 'Chapitre', xlDifficulte: 'Difficulté',
+      xlTaux: 'Taux de réussite (%)', xlReponsesRecues: 'Réponses reçues',
+      csvHeader: 'rang;nom;prenom;email;note_sur_20;mention'
+    },
+    en: {
+      colRang: 'Rank', colNom: 'Last name', colPrenom: 'First name', colEmail: 'Email',
+      colNote: 'Grade /20', colRaw: 'Raw score', colNbCorrect: 'Correct/n',
+      colDuree: 'Time (min)', colSignature: 'Signature', colDetail: 'Detail',
+      btnDetail: 'Detail',
+      sigValide: '✅ Valid', sigInvalide: '⚠️ Invalid',
+      noStudent: 'No student found.',
+      stEtudiants: 'Students', stMoyenne: 'Mean /20', stMediane: 'Median /20',
+      stMin: 'Min /20', stMax: 'Max /20', stSignatures: 'Valid signatures',
+      histoTitle: 'student(s)',
+      noData: 'No data available.',
+      qNoAnswer: 'no answer', qSuccess: 'success',
+      calibGood: 'High certainty justified (correct)',
+      calibOver: 'Over-confidence (High but wrong −3)',
+      calibUnder: 'Excess caution (Low but correct)',
+      calibElevee: 'Total "High" answers',
+      calibMoyenne: 'Total "Medium" answers',
+      calibFaible: 'Total "Low" answers',
+      interpTitle: 'Interpretation',
+      interpInsuff: 'Insufficient calibration data (no High or Low certainty recorded).',
+      interpOver: 'The class is overall <strong>over-confident</strong>: more than half of the "High" certainties were wrong ($PCT$ %). Stress the −3 penalty risk.',
+      interpUnder: 'The class is overall <strong>too cautious</strong>: $PCT$ % of "Low" answers were correct. Students underestimate their knowledge — encourage them to claim a "Medium" certainty.',
+      interpBalanced: 'The class calibration is <strong>overall balanced</strong>: over-confidence rate $OVER$ %, excess-caution rate $UNDER$ %.',
+      modalSigOk: '🔐 Valid signature', modalSigKo: '⚠️ INVALID signature',
+      modalNote: 'Grade / 20', modalBonnes: 'Correct / ', modalScoreBrut: 'Raw score (max ',
+      modalMention: 'Grade', modalCorrection: 'Detailed correction',
+      qChap: 'Ch.', qCertitude: 'Certainty: ', qPt: ' pt',
+      qSansReponse: '⚪ No answer', qCorrect: '✅ Correct', qIncorrect: '❌ Incorrect',
+      qExplication: 'Explanation.',
+      qUnknown: '(unknown question)',
+      warnNotCsv: '"$NAME$" ignored: it is not a CSV file.',
+      warnUnreadable: '"$NAME$" unreadable: $ERR$',
+      warnReadError: '"$NAME$": read error.',
+      /* exports */
+      xlSheetStudents: 'Students', xlSheetQuestions: 'Questions',
+      xlRang: 'Rank', xlNom: 'Last name', xlPrenom: 'First name', xlEmail: 'Email',
+      xlNote: 'Grade /20', xlScoreBrut: 'Raw score', xlBonnes: 'Correct answers',
+      xlNbQ: 'Nb questions', xlDuree: 'Time (min)', xlSigOk: 'Signature OK', xlMention: 'Grade',
+      xlYes: 'Yes', xlNo: 'No',
+      xlId: 'ID', xlChapitre: 'Chapter', xlDifficulte: 'Difficulty',
+      xlTaux: 'Success rate (%)', xlReponsesRecues: 'Answers received',
+      csvHeader: 'rank;last_name;first_name;email;grade_out_of_20;grade_label'
+    }
+  };
+  function t(k) { return (S[lang()] || S.fr)[k] || S.fr[k]; }
+
+  /* =========================================================
+     RÉFÉRENCES GLOBALES
+     ========================================================= */
+  var Core      = window.QCMCore;
+  var CList     = window.QCM_CORRECTIONS.corrections || [];
+  var Questions = window.QCM_QUESTIONS.questions     || [];
+
+  var QById = {};
+  Questions.forEach(function (q) { QById[q.id] = q; });
+
+  /* Initialise le barème (bilingue via QCMCore) */
+  function renderBareme() {
+    document.getElementById('bareme-wrap').innerHTML = Core.baremeHtml();
+  }
+  renderBareme();
+
+  /* =========================================================
+     ÉTAT GLOBAL
+     ========================================================= */
+  var students     = [];   // tableau des objets étudiants chargés
+  var sortCol      = 'rang';
+  var sortAsc      = true;
+  var searchQuery  = '';
+  var currentDetailKey = null;  // clé de l'étudiant ouvert dans la modal (pour ré-affichage)
+
+  /* En-tête du tableau (libellés bilingues, re-render au changement de langue) */
+  var COLS = [
+    { col: 'rang',      key: 'colRang',      icon: '▲', sorted: true },
+    { col: 'nom',       key: 'colNom',       icon: '⇅' },
+    { col: 'prenom',    key: 'colPrenom',    icon: '⇅' },
+    { col: 'email',     key: 'colEmail',     icon: '⇅' },
+    { col: 'note',      key: 'colNote',      icon: '⇅' },
+    { col: 'raw',       key: 'colRaw',       icon: '⇅' },
+    { col: 'nbCorrect', key: 'colNbCorrect', icon: '⇅' },
+    { col: 'dureeSec',  key: 'colDuree',     icon: '⇅' },
+    { col: 'sigOk',     key: 'colSignature', icon: '⇅' },
+    { col: null,        key: 'colDetail',    icon: '' }
+  ];
+  function renderThead() {
+    var row = document.getElementById('student-thead-row');
+    row.innerHTML = COLS.map(function (c) {
+      if (c.col === null) {
+        return '<th>' + esc(t(c.key)) + '</th>';
+      }
+      var isSorted = (sortCol === c.col);
+      var ic = isSorted ? (sortAsc ? '▲' : '▼') : '⇅';
+      return '<th data-col="' + c.col + '"' + (isSorted ? ' class="sorted"' : '') + '>'
+        + esc(t(c.key)) + ' <span class="sort-icon">' + ic + '</span></th>';
+    }).join('');
+    bindTheadSort();
+  }
+
+  /* =========================================================
+     DROPZONE
+     ========================================================= */
+  var drop      = document.getElementById('drop');
+  var fileInput = document.getElementById('file-input');
+  var warnList  = document.getElementById('warn-list');
+
+  drop.addEventListener('click', function () { fileInput.click(); });
+  drop.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') fileInput.click(); });
+
+  drop.addEventListener('dragover', function (e) { e.preventDefault(); drop.classList.add('over'); });
+  drop.addEventListener('dragleave', function ()  { drop.classList.remove('over'); });
+  drop.addEventListener('drop', function (e) {
+    e.preventDefault();
+    drop.classList.remove('over');
+    if (e.dataTransfer.files.length) handleFiles(e.dataTransfer.files);
+  });
+
+  fileInput.addEventListener('change', function () {
+    if (fileInput.files.length) handleFiles(fileInput.files);
+    fileInput.value = '';
+  });
+
+  /* =========================================================
+     CHARGEMENT DES FICHIERS
+     ========================================================= */
+  function handleFiles(files) {
+    var arr = Array.prototype.slice.call(files);
+    var pending = arr.length;
+    var newStudents = [];
+    var warnings = [];
+
+    arr.forEach(function (file) {
+      if (!/\.csv$/i.test(file.name)) {
+        warnings.push(t('warnNotCsv').replace('$NAME$', esc(file.name)));
+        pending--;
+        if (pending === 0) merge(newStudents, warnings);
+        return;
+      }
+      var fr = new FileReader();
+      fr.onload = function () {
+        try {
+          var parsed = Core.parseCsv(fr.result);
+          var sigOk  = Core.verify(parsed);
+          var sc     = Core.scoreSubmission(parsed, CList);
+          var m      = parsed.metadata || {};
+          newStudents.push({
+            nom:       m.Nom      || '',
+            prenom:    m.Prenom   || '',
+            email:     m.Email    || '',
+            note:      sc.note,
+            raw:       sc.raw,
+            maxRaw:    sc.maxRaw,
+            nbCorrect: sc.nbCorrect,
+            n:         sc.n,
+            dureeSec:  parseInt(m.DureeSec, 10) || 0,
+            dateFin:   m.DateFin  || '',
+            sigOk:     sigOk,
+            calib:     sc.calib,
+            per:       sc.per,
+            metadata:  m
+          });
+        } catch (err) {
+          warnings.push(t('warnUnreadable').replace('$NAME$', esc(file.name)).replace('$ERR$', esc(err.message)));
+        }
+        pending--;
+        if (pending === 0) merge(newStudents, warnings);
+      };
+      fr.onerror = function () {
+        warnings.push(t('warnReadError').replace('$NAME$', esc(file.name)));
+        pending--;
+        if (pending === 0) merge(newStudents, warnings);
+      };
+      fr.readAsText(file, 'UTF-8');
+    });
+  }
+
+  function merge(newStudents, warnings) {
+    /* Fusion + déduplication : même Nom+Prénom → on garde le plus récent par DateFin */
+    newStudents.forEach(function (s) {
+      var key = (s.nom + '|' + s.prenom).toLowerCase();
+      var existing = null;
+      for (var i = 0; i < students.length; i++) {
+        if ((students[i].nom + '|' + students[i].prenom).toLowerCase() === key) {
+          existing = i; break;
+        }
+      }
+      if (existing === null) {
+        students.push(s);
+      } else {
+        /* Garde le plus récent */
+        var curDate = students[existing].dateFin || '';
+        var newDate = s.dateFin || '';
+        if (newDate > curDate) students[existing] = s;
+      }
+    });
+
+    /* Affichage des avertissements */
+    warnList.innerHTML = '';
+    warnings.forEach(function (w) {
+      var li = document.createElement('li');
+      li.innerHTML = '⚠️ ' + w;
+      warnList.appendChild(li);
+    });
+    warnList.classList.toggle('hidden', warnings.length === 0);
+
+    if (students.length > 0) renderDashboard();
+  }
+
+  /* =========================================================
+     RENDU PRINCIPAL
+     ========================================================= */
+  function renderDashboard() {
+    document.getElementById('dashboard').classList.remove('hidden');
+    renderStats();
+    renderThead();
+    renderTable();
+    renderHisto();
+    renderQGrid();
+    renderCalib();
+  }
+
+  /* =========================================================
+     RÉSUMÉ DE CLASSE
+     ========================================================= */
+  function renderStats() {
+    if (students.length === 0) return;
+
+    var notes = students.map(function (s) { return s.note; });
+    notes.sort(function (a, b) { return a - b; });
+
+    var sum = notes.reduce(function (a, b) { return a + b; }, 0);
+    var avg = sum / notes.length;
+    var med = notes.length % 2 === 0
+      ? (notes[notes.length / 2 - 1] + notes[notes.length / 2]) / 2
+      : notes[Math.floor(notes.length / 2)];
+    var mn  = notes[0];
+    var mx  = notes[notes.length - 1];
+    var sigOkCount = students.filter(function (s) { return s.sigOk; }).length;
+    var sigRate = Math.round(sigOkCount / students.length * 100);
+
+    var grid = document.getElementById('stats-grid');
+    grid.innerHTML =
+      statBox(students.length, t('stEtudiants')) +
+      statBox(fmt1(avg),       t('stMoyenne')) +
+      statBox(fmt1(med),       t('stMediane')) +
+      statBox(fmt1(mn),        t('stMin')) +
+      statBox(fmt1(mx),        t('stMax')) +
+      statBox(sigRate + ' %',  t('stSignatures'));
+  }
+  function statBox(val, lbl) {
+    return '<div class="stat-box"><div class="big">' + esc(String(val)) + '</div><div class="lbl">' + esc(lbl) + '</div></div>';
+  }
+
+  /* =========================================================
+     TABLEAU DES ÉTUDIANTS
+     ========================================================= */
+  /* Tri par colonne (re-lié après chaque renderThead) */
+  function bindTheadSort() {
+    document.querySelectorAll('#student-table th[data-col]').forEach(function (th) {
+      th.addEventListener('click', function () {
+        var col = th.getAttribute('data-col');
+        if (sortCol === col) {
+          sortAsc = !sortAsc;
+        } else {
+          sortCol = col;
+          sortAsc = (col === 'rang' || col === 'note') ? true : true;
+        }
+        document.querySelectorAll('#student-table th').forEach(function (t2) { t2.classList.remove('sorted'); });
+        th.classList.add('sorted');
+        var ic = th.querySelector('.sort-icon');
+        if (ic) ic.textContent = sortAsc ? '▲' : '▼';
+        renderTable();
+      });
+    });
+  }
+
+  /* Recherche */
+  document.getElementById('search-input').addEventListener('input', function () {
+    searchQuery = this.value.toLowerCase();
+    renderTable();
+  });
+
+  function getSortedStudents() {
+    var sorted = students.slice().sort(function (a, b) { return b.note - a.note; });
+    /* Ajoute le rang */
+    sorted.forEach(function (s, i) { s._rang = i + 1; });
+
+    /* Filtre par recherche */
+    if (searchQuery) {
+      sorted = sorted.filter(function (s) {
+        return (s.nom + ' ' + s.prenom).toLowerCase().indexOf(searchQuery) !== -1;
+      });
+    }
+
+    /* Tri personnalisé */
+    sorted.sort(function (a, b) {
+      var va, vb;
+      switch (sortCol) {
+        case 'rang':      va = a._rang;      vb = b._rang;      break;
+        case 'nom':       va = a.nom;        vb = b.nom;        break;
+        case 'prenom':    va = a.prenom;     vb = b.prenom;     break;
+        case 'email':     va = a.email;      vb = b.email;      break;
+        case 'note':      va = a.note;       vb = b.note;       break;
+        case 'raw':       va = a.raw;        vb = b.raw;        break;
+        case 'nbCorrect': va = a.nbCorrect;  vb = b.nbCorrect;  break;
+        case 'dureeSec':  va = a.dureeSec;   vb = b.dureeSec;   break;
+        case 'sigOk':     va = a.sigOk?1:0;  vb = b.sigOk?1:0;  break;
+        default:          va = a._rang;      vb = b._rang;
+      }
+      if (typeof va === 'string') va = va.toLowerCase();
+      if (typeof vb === 'string') vb = vb.toLowerCase();
+      if (va < vb) return sortAsc ? -1 : 1;
+      if (va > vb) return sortAsc ?  1 : -1;
+      return 0;
+    });
+    return sorted;
+  }
+
+  function renderTable() {
+    var tbody  = document.getElementById('student-tbody');
+    var sorted = getSortedStudents();
+
+    if (sorted.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="10" class="empty-msg">' + esc(t('noStudent')) + '</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = sorted.map(function (s) {
+      var sigHtml = s.sigOk
+        ? '<span class="sig-badge sig-ok">' + esc(t('sigValide')) + '</span>'
+        : '<span class="sig-badge sig-ko">' + esc(t('sigInvalide')) + '</span>';
+      var dur = s.dureeSec > 0 ? fmt1(s.dureeSec / 60) : '—';
+      var trClass = s.sigOk ? '' : ' sig-invalid';
+      return '<tr class="' + trClass + '" data-key="' + esc(s.nom + '|' + s.prenom) + '">'
+        + '<td class="rang-cell">' + s._rang + '</td>'
+        + '<td>' + esc(s.nom) + '</td>'
+        + '<td>' + esc(s.prenom) + '</td>'
+        + '<td style="font-size:var(--fs-xs)">' + esc(s.email) + '</td>'
+        + '<td class="note-cell">' + fmt1(s.note) + '</td>'
+        + '<td><span style="font-family:var(--font-mono)">' + s.raw + ' / ' + s.maxRaw + '</span></td>'
+        + '<td>' + s.nbCorrect + ' / ' + s.n + '</td>'
+        + '<td>' + dur + '</td>'
+        + '<td>' + sigHtml + '</td>'
+        + '<td><button class="btn btn-ghost" style="padding:4px 10px;font-size:var(--fs-xs)" onclick="openDetail(\'' + esc(s.nom + '|' + s.prenom) + '\')">' + esc(t('btnDetail')) + '</button></td>'
+        + '</tr>';
+    }).join('');
+  }
+
+  /* =========================================================
+     HISTOGRAMME SVG (distribution des notes)
+     ========================================================= */
+  function renderHisto() {
+    var svgEl = document.getElementById('svg-histo');
+    var tranches = [];
+    for (var t2 = 0; t2 < 20; t2 += 2) tranches.push({ min: t2, max: t2 + 2, count: 0 });
+
+    students.forEach(function (s) {
+      var idx = Math.min(Math.floor(s.note / 2), 9);
+      tranches[idx].count++;
+    });
+
+    var W = 540, H = 200, padL = 30, padB = 40, padT = 10, padR = 10;
+    var chartW = W - padL - padR;
+    var chartH = H - padB - padT;
+    var maxCount = Math.max.apply(null, tranches.map(function (tr) { return tr.count; })) || 1;
+
+    var barW = Math.floor(chartW / tranches.length) - 4;
+
+    var bars = tranches.map(function (tr, i) {
+      var bh = Math.round(tr.count / maxCount * chartH);
+      var x  = padL + i * (chartW / tranches.length) + 2;
+      var y  = padT + chartH - bh;
+      var fill = noteColor(tr.min + 1);
+      var label = tr.min + '–' + tr.max;
+      return '<rect x="' + x + '" y="' + y + '" width="' + barW + '" height="' + bh + '" fill="' + fill + '" rx="3">'
+        + '<title>' + label + ' : ' + tr.count + ' ' + esc(t('histoTitle')) + '</title></rect>'
+        + (tr.count > 0 ? '<text x="' + (x + barW / 2) + '" y="' + (y - 4) + '" text-anchor="middle" font-size="10" fill="currentColor">' + tr.count + '</text>' : '')
+        + '<text x="' + (x + barW / 2) + '" y="' + (padT + chartH + 16) + '" text-anchor="middle" font-size="9" fill="currentColor">' + label + '</text>';
+    }).join('');
+
+    /* Axe Y */
+    var yAxis = '';
+    for (var yi = 0; yi <= maxCount; yi++) {
+      if (maxCount <= 5 || yi % Math.ceil(maxCount / 5) === 0) {
+        var yy = padT + chartH - Math.round(yi / maxCount * chartH);
+        yAxis += '<line x1="' + padL + '" y1="' + yy + '" x2="' + (W - padR) + '" y2="' + yy + '" stroke="currentColor" stroke-opacity=".1" stroke-width="1"/>';
+        yAxis += '<text x="' + (padL - 4) + '" y="' + (yy + 4) + '" text-anchor="end" font-size="9" fill="currentColor">' + yi + '</text>';
+      }
+    }
+
+    svgEl.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    svgEl.innerHTML = yAxis + bars;
+  }
+
+  function noteColor(note) {
+    if (note >= 16) return '#2f8f5b';
+    if (note >= 12) return '#c9a227';
+    if (note >= 10) return '#d2762a';
+    return '#c0392b';
+  }
+
+  /* =========================================================
+     GRILLE RÉUSSITE PAR QUESTION
+     ========================================================= */
+  function buildQStats() {
+    /* Pour chaque question : {ok, answered} */
+    var stats = {};
+    Questions.forEach(function (q) { stats[q.id] = { ok: 0, answered: 0 }; });
+
+    students.forEach(function (s) {
+      (s.per || []).forEach(function (p) {
+        if (!stats[p.id]) stats[p.id] = { ok: 0, answered: 0 };
+        if (p.answered) {
+          stats[p.id].answered++;
+          if (p.ok) stats[p.id].ok++;
+        }
+      });
+    });
+    return stats;
+  }
+
+  function renderQGrid() {
+    var stats  = buildQStats();
+    var grid   = document.getElementById('q-grid');
+    var top5El = document.getElementById('top-ratees');
+
+    /* Grille */
+    grid.innerHTML = Questions.map(function (q) {
+      var st    = stats[q.id] || { ok: 0, answered: 0 };
+      var rate  = st.answered > 0 ? st.ok / st.answered : null;
+      var pct   = rate !== null ? Math.round(rate * 100) : null;
+      var color = rate !== null ? taux2color(rate) : '#999';
+      var title = q.id + ' — ' + (pct !== null ? pct + '% ' + t('qSuccess') + ' (' + st.ok + '/' + st.answered + ')' : t('qNoAnswer'));
+      return '<div class="q-cell" style="background:' + color + '" title="' + esc(title) + '">' + q.id.replace('Q', '') + '</div>';
+    }).join('');
+
+    /* Top 5 ratées */
+    var sortable = Questions.map(function (q) {
+      var st   = stats[q.id] || { ok: 0, answered: 0 };
+      var rate = st.answered > 0 ? st.ok / st.answered : 1;
+      return { id: q.id, enonce: q.enonce, rate: rate, answered: st.answered };
+    }).filter(function (x) { return x.answered > 0; });
+
+    sortable.sort(function (a, b) { return a.rate - b.rate; });
+    var top5 = sortable.slice(0, 5);
+
+    top5El.innerHTML = top5.length === 0
+      ? '<li style="color:var(--text-muted)">' + esc(t('noData')) + '</li>'
+      : top5.map(function (x, i) {
+          var pct = Math.round(x.rate * 100);
+          var enonceTxt = L(x.enonce);
+          var enonce = enonceTxt.length > 80 ? enonceTxt.substring(0, 80) + '…' : enonceTxt;
+          return '<li>'
+            + '<span style="font-family:var(--font-mono);font-weight:700;min-width:24px;color:var(--text-muted)">' + (i + 1) + '.</span>'
+            + '<span class="q-id">' + esc(x.id) + '</span>'
+            + '<span class="q-enonce">' + esc(enonce) + '</span>'
+            + '<span class="q-taux">' + pct + ' %</span>'
+            + '</li>';
+        }).join('');
+  }
+
+  function taux2color(rate) {
+    /* Vert (100%) → Rouge (0%) via interpolation HSL */
+    var h = Math.round(rate * 120); /* 120 = vert, 0 = rouge */
+    return 'hsl(' + h + ',65%,42%)';
+  }
+
+  /* =========================================================
+     CALIBRATION DE CLASSE
+     ========================================================= */
+  function renderCalib() {
+    var agg = { good: 0, over: 0, under: 0, eleveeTotal: 0, faibleTotal: 0, moyenneTotal: 0 };
+    students.forEach(function (s) {
+      var c = s.calib || {};
+      agg.good         += c.good         || 0;
+      agg.over         += c.over         || 0;
+      agg.under        += c.under        || 0;
+      agg.eleveeTotal  += c.eleveeTotal  || 0;
+      agg.faibleTotal  += c.faibleTotal  || 0;
+      agg.moyenneTotal += c.moyenneTotal || 0;
+    });
+
+    document.getElementById('calib-grid').innerHTML =
+      '<div class="calib-box calib-good"><div class="val">' + agg.good + '</div><div class="lbl">' + esc(t('calibGood')) + '</div></div>' +
+      '<div class="calib-box calib-over"><div class="val">' + agg.over + '</div><div class="lbl">' + esc(t('calibOver')) + '</div></div>' +
+      '<div class="calib-box calib-under"><div class="val">' + agg.under + '</div><div class="lbl">' + esc(t('calibUnder')) + '</div></div>' +
+      '<div class="calib-box"><div class="val">' + agg.eleveeTotal + '</div><div class="lbl">' + esc(t('calibElevee')) + '</div></div>' +
+      '<div class="calib-box"><div class="val">' + agg.moyenneTotal + '</div><div class="lbl">' + esc(t('calibMoyenne')) + '</div></div>' +
+      '<div class="calib-box"><div class="val">' + agg.faibleTotal + '</div><div class="lbl">' + esc(t('calibFaible')) + '</div></div>';
+
+    /* Interprétation */
+    var interp = document.getElementById('calib-interp');
+    var surconf  = agg.eleveeTotal > 0 ? agg.over / agg.eleveeTotal : 0;
+    var prudence = agg.faibleTotal > 0 ? agg.under / agg.faibleTotal : 0;
+    var icon, cls, msg;
+    if (agg.eleveeTotal === 0 && agg.faibleTotal === 0) {
+      icon = '📊'; cls = 'info'; msg = t('interpInsuff');
+    } else if (surconf > 0.55) {
+      icon = '⚠️'; cls = 'warning';
+      msg = t('interpOver').replace('$PCT$', Math.round(surconf * 100));
+    } else if (prudence > 0.65) {
+      icon = '💡'; cls = 'tip';
+      msg = t('interpUnder').replace('$PCT$', Math.round(prudence * 100));
+    } else {
+      icon = '✅'; cls = 'tip';
+      msg = t('interpBalanced').replace('$OVER$', Math.round(surconf * 100)).replace('$UNDER$', Math.round(prudence * 100));
+    }
+    interp.className = 'callout ' + cls;
+    interp.innerHTML = '<div class="callout-icon">' + icon + '</div><div class="callout-content"><h4>' + esc(t('interpTitle')) + '</h4><p>' + msg + '</p></div>';
+  }
+
+  /* =========================================================
+     MODAL DÉTAIL ÉTUDIANT
+     ========================================================= */
+  window.openDetail = function (key) {
+    currentDetailKey = key;
+    var s = null;
+    for (var i = 0; i < students.length; i++) {
+      if ((students[i].nom + '|' + students[i].prenom) === key) { s = students[i]; break; }
+    }
+    if (!s) return;
+
+    var CById = {};
+    CList.forEach(function (c) { CById[c.id] = c; });
+
+    var rows = (s.per || []).map(function (it, n) {
+      var q    = QById[it.id]  || { propositions: [], enonce: { fr: t('qUnknown'), en: t('qUnknown') } };
+      var corr = CById[it.id]  || {};
+      var cls  = !it.answered ? 'na' : (it.ok ? 'ok' : 'ko');
+      var opts = (q.propositions || []).map(function (p, i) {
+        var oc = '';
+        if (i === corr.bonne_reponse_index) oc = ' correct';
+        else if (it.answered && i === it.indexOriginal) oc = ' wrong';
+        return '<div class="opt' + oc + '"><span class="lt">' + Core.LETTERS[i] + '</span><span>' + esc(L(p)) + '</span></div>';
+      }).join('');
+      var pc = it.points > 0 ? 'pts-pos' : (it.points < 0 ? 'pts-neg' : 'pts-zero');
+      var certTxt = it.certitude ? Core.certLabel(it.certitude) : '—';
+      var diffTxt = it.difficulte ? Core.diffLabel(it.difficulte) : '';
+      return '<div class="res-q ' + cls + '">'
+        + '<div class="meta">'
+        + '<span class="q-diff" style="background:' + (Core.DIFF_COLOR[it.difficulte] || '#999') + '">' + esc(diffTxt) + '</span>'
+        + '<span>' + esc(t('qChap')) + esc(String(it.chapitre || '')) + '</span>'
+        + '<span>' + esc(t('qCertitude')) + esc(certTxt) + '</span>'
+        + '<span class="pts-badge ' + pc + '">' + (it.points > 0 ? '+' : '') + it.points + esc(t('qPt')) + '</span>'
+        + '<span>' + (!it.answered ? esc(t('qSansReponse')) : (it.ok ? esc(t('qCorrect')) : esc(t('qIncorrect')))) + '</span>'
+        + '</div>'
+        + '<div class="qn">' + (n + 1) + '. ' + esc(L(q.enonce)) + '</div>'
+        + opts
+        + '<div class="expl"><strong>' + esc(t('qExplication')) + '</strong> ' + esc(L(corr.explication) || '') + '</div>'
+        + '</div>';
+    }).join('');
+
+    var sigHtml = s.sigOk
+      ? '<span class="sig-badge sig-ok">' + esc(t('modalSigOk')) + '</span>'
+      : '<span class="sig-badge sig-ko">' + esc(t('modalSigKo')) + '</span>';
+
+    document.getElementById('modal-content').innerHTML =
+      '<div style="text-align:center;margin-bottom:var(--space-4)">' + sigHtml + '</div>'
+      + '<h2 id="modal-title" style="font-family:var(--font-display);text-align:center;margin-bottom:var(--space-6)">' + esc(s.prenom + ' ' + s.nom) + '</h2>'
+      + '<div class="res-score">'
+      + '<div class="res-box"><div class="big">' + fmt1(s.note) + '</div><div class="lbl">' + esc(t('modalNote')) + '</div></div>'
+      + '<div class="res-box"><div class="big">' + s.nbCorrect + '</div><div class="lbl">' + esc(t('modalBonnes')) + s.n + '</div></div>'
+      + '<div class="res-box"><div class="big">' + s.raw + '</div><div class="lbl">' + esc(t('modalScoreBrut')) + s.maxRaw + ')</div></div>'
+      + '<div class="res-box"><div class="big" style="font-size:var(--fs-2xl)">' + esc(Core.mention(s.note)) + '</div><div class="lbl">' + esc(t('modalMention')) + '</div></div>'
+      + '</div>'
+      + '<h3 style="font-family:var(--font-display);margin:var(--space-6) 0 var(--space-4)">' + esc(t('modalCorrection')) + '</h3>'
+      + rows;
+
+    var overlay = document.getElementById('modal-overlay');
+    overlay.classList.remove('hidden');
+    overlay.scrollTop = 0;
+  };
+
+  /* Fermeture modal */
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+  document.getElementById('modal-overlay').addEventListener('click', function (e) {
+    if (e.target === this) closeModal();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  function closeModal() {
+    currentDetailKey = null;
+    document.getElementById('modal-overlay').classList.add('hidden');
+  }
+
+  /* =========================================================
+     EXPORTS
+     ========================================================= */
+
+  /* --- Export CSV --- */
+  document.getElementById('btn-csv').addEventListener('click', function () {
+    if (students.length === 0) return;
+
+    var sorted = students.slice().sort(function (a, b) { return b.note - a.note; });
+    sorted.forEach(function (s, i) { s._rang = i + 1; });
+
+    var lines = [t('csvHeader')];
+    sorted.forEach(function (s) {
+      lines.push([
+        s._rang,
+        csvQ(s.nom), csvQ(s.prenom), csvQ(s.email),
+        fmt1(s.note).replace(',', '.'),
+        csvQ(Core.mention(s.note))
+      ].join(';'));
+    });
+
+    download('resultats_classe.csv', '﻿' + lines.join('\r\n'), 'text/csv;charset=utf-8');
+  });
+
+  /* --- Export Excel --- */
+  document.getElementById('btn-xlsx').addEventListener('click', function () {
+    if (students.length === 0 || typeof XLSX === 'undefined') return;
+
+    var sorted = students.slice().sort(function (a, b) { return b.note - a.note; });
+    sorted.forEach(function (s, i) { s._rang = i + 1; });
+
+    /* Feuille 1 : étudiants */
+    var sheet1Data = [[t('xlRang'), t('xlNom'), t('xlPrenom'), t('xlEmail'), t('xlNote'), t('xlScoreBrut'), t('xlBonnes'), t('xlNbQ'), t('xlDuree'), t('xlSigOk'), t('xlMention')]];
+    sorted.forEach(function (s) {
+      sheet1Data.push([
+        s._rang, s.nom, s.prenom, s.email,
+        parseFloat(fmt1(s.note).replace(',', '.')),
+        s.raw, s.nbCorrect, s.n,
+        s.dureeSec > 0 ? parseFloat(fmt1(s.dureeSec / 60).replace(',', '.')) : '',
+        s.sigOk ? t('xlYes') : t('xlNo'),
+        Core.mention(s.note)
+      ]);
+    });
+
+    /* Feuille 2 : stats par question */
+    var qStats = buildQStats();
+    var sheet2Data = [[t('xlId'), t('xlChapitre'), t('xlDifficulte'), t('xlTaux'), t('xlBonnes'), t('xlReponsesRecues')]];
+    Questions.forEach(function (q) {
+      var st = qStats[q.id] || { ok: 0, answered: 0 };
+      var rate = st.answered > 0 ? Math.round(st.ok / st.answered * 100) : '';
+      sheet2Data.push([q.id, q.chapitre, Core.diffLabel(q.difficulte), rate, st.ok, st.answered]);
+    });
+
+    var wb   = XLSX.utils.book_new();
+    var ws1  = XLSX.utils.aoa_to_sheet(sheet1Data);
+    var ws2  = XLSX.utils.aoa_to_sheet(sheet2Data);
+    XLSX.utils.book_append_sheet(wb, ws1, t('xlSheetStudents'));
+    XLSX.utils.book_append_sheet(wb, ws2, t('xlSheetQuestions'));
+    XLSX.writeFile(wb, 'resultats_classe.xlsx');
+  });
+
+  /* =========================================================
+     RÉ-AFFICHAGE AU CHANGEMENT DE LANGUE
+     ========================================================= */
+  document.addEventListener('tpl:langchange', function () {
+    renderBareme();
+    if (students.length > 0) {
+      renderStats();
+      renderThead();
+      renderTable();
+      renderHisto();
+      renderQGrid();
+      renderCalib();
+    }
+    /* Ré-affiche la modal détail si elle est ouverte */
+    if (currentDetailKey && !document.getElementById('modal-overlay').classList.contains('hidden')) {
+      window.openDetail(currentDetailKey);
+    }
+  });
+
+  /* =========================================================
+     UTILITAIRES
+     ========================================================= */
+  function fmt1(n) {
+    return (Math.round(n * 10) / 10).toString().replace('.', ',');
+  }
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+  function csvQ(s) {
+    s = String(s == null ? '' : s);
+    return /[;"\r\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+  }
+  function download(filename, content, mime) {
+    var blob = new Blob([content], { type: mime });
+    var url  = URL.createObjectURL(blob);
+    var a    = document.createElement('a');
+    a.href   = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+})();
+</script>
+</body>
+</html>

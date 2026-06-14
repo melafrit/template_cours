@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<!-- Template de site de cours — Mohamed EL AFRIT -->
+<html lang="fr" data-lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entraînement — QCM Concevoir un cours en ligne</title>
+<meta name="description" content="Mode entraînement du QCM (correction immédiate, degré de certitude). Auteur Mohamed EL AFRIT, licence Creative Commons.">
+<meta name="author" content="Mohamed EL AFRIT">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/components.css">
+<style>
+  .qcm-wrap { max-width: 920px; margin: 0 auto; padding: calc(var(--header-height) + var(--space-8)) var(--space-5) var(--space-16); }
+  .qcm-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-8); box-shadow: var(--shadow-md); }
+  .qcm-hero { text-align: center; margin-bottom: var(--space-6); } .qcm-hero h1 { font-size: var(--fs-4xl); } .qcm-hero p { color: var(--text-secondary); font-size: var(--fs-lg); margin-top: var(--space-3); }
+  .qcm-topbar { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap; margin-bottom: var(--space-5); padding: var(--space-4); background: var(--bg-card-alt); border-radius: var(--radius-md); position: sticky; top: var(--header-height); z-index: 40; }
+  .qcm-stat { font-family: var(--font-display); font-size: var(--fs-sm); } .qcm-stat b { color: var(--primary); }
+  .qcm-progress-track { height: 6px; background: var(--border-light); border-radius: var(--radius-full); overflow: hidden; flex: 1; min-width: 120px; }
+  .qcm-progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); width: 0; transition: width .3s; }
+  .q-diff { display: inline-block; padding: 2px 10px; border-radius: var(--radius-full); color: #fff; font-family: var(--font-display); font-size: var(--fs-xs); font-weight: 700; text-transform: uppercase; }
+  .q-enonce { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-xl); margin: var(--space-4) 0 var(--space-6); line-height: 1.4; }
+  .q-options { display: grid; gap: var(--space-3); margin-bottom: var(--space-6); }
+  .q-opt { display: flex; align-items: flex-start; gap: var(--space-3); padding: var(--space-4); border: 2px solid var(--border); border-radius: var(--radius-md); background: var(--bg-page); cursor: pointer; text-align: left; font-family: var(--font-body); font-size: var(--fs-base); color: var(--text-primary); transition: all var(--duration-fast); width: 100%; }
+  .q-opt:hover:not(:disabled) { border-color: var(--primary-light); background: var(--primary-glow); }
+  .q-opt.selected { border-color: var(--primary); background: var(--primary-glow); }
+  .q-opt .lt { display: grid; place-items: center; min-width: 28px; height: 28px; border-radius: var(--radius-sm); background: var(--bg-card-alt); font-family: var(--font-display); font-weight: 700; flex-shrink: 0; }
+  .q-opt.selected .lt { background: var(--primary); color: #fff; }
+  .q-opt.correct { border-color: var(--success); background: var(--success-bg); } .q-opt.correct .lt { background: var(--success); color: #fff; }
+  .q-opt.wrong { border-color: var(--error); background: var(--error-bg); } .q-opt.wrong .lt { background: var(--error); color: #fff; }
+  .q-opt:disabled { cursor: default; }
+  .certainty { margin-bottom: var(--space-6); padding: var(--space-4); background: var(--accent-glow); border-radius: var(--radius-md); }
+  .certainty-label { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-sm); margin-bottom: var(--space-3); }
+  .certainty-btns { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); }
+  .cert-btn { padding: var(--space-3); border: 2px solid var(--border); border-radius: var(--radius-md); background: var(--bg-page); cursor: pointer; font-family: var(--font-display); font-weight: 600; font-size: var(--fs-sm); color: var(--text-secondary); transition: all var(--duration-fast); }
+  .cert-btn small { display: block; font-weight: 400; font-size: var(--fs-xs); color: var(--text-muted); margin-top: 2px; }
+  .cert-btn:hover:not(:disabled) { border-color: var(--accent); }
+  .cert-btn.active { border-color: var(--accent-dark); background: var(--accent); color: var(--primary-dark); }
+  .cert-btn.active small { color: var(--primary-dark); }
+  .cert-btn:disabled { opacity: .6; cursor: default; }
+  .feedback { padding: var(--space-4); border-radius: var(--radius-md); margin-bottom: var(--space-5); border-left: 4px solid var(--info); background: var(--bg-card-alt); }
+  .feedback.ok { border-left-color: var(--success); } .feedback.ko { border-left-color: var(--error); }
+  .feedback .verdict { font-family: var(--font-display); font-weight: 700; margin-bottom: var(--space-2); }
+  .feedback .pts { font-family: var(--font-mono); padding: 1px 8px; border-radius: var(--radius-sm); margin-left: var(--space-2); }
+  .pts.pos { background: var(--success-bg); color: var(--success); } .pts.neg { background: var(--error-bg); color: var(--error); } .pts.zero { background: var(--bg-card-alt); color: var(--text-muted); }
+  .qcm-actions { display: flex; gap: var(--space-3); flex-wrap: wrap; justify-content: space-between; }
+  .res-score { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--space-4); margin: var(--space-6) 0; }
+  .res-box { text-align: center; padding: var(--space-6); border-radius: var(--radius-lg); border: 1px solid var(--border); background: var(--bg-card-alt); }
+  .res-box .big { font-family: var(--font-display); font-size: var(--fs-5xl); font-weight: 800; color: var(--primary); }
+  .res-box .lbl { color: var(--text-muted); font-size: var(--fs-sm); }
+  .hidden { display: none !important; }
+  @media (max-width: 600px) { .qcm-card { padding: var(--space-5); } .q-enonce { font-size: var(--fs-lg); } }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-left">
+    <a href="../index.html" class="site-logo"><span class="logo-icon">C<span class="acc">e</span></span><span><span data-tr="fr">Concevoir un cours</span><span data-tr="en">Design a course</span></span></a>
+  </div>
+  <div class="header-right">
+    <a href="index.html" class="chapter-nav-btn"><span data-tr="fr">📝 Mode examen</span><span data-tr="en">📝 Exam mode</span></a>
+    <button class="theme-toggle" aria-label="Basculer le thème">🌙</button>
+  </div>
+</header>
+
+<div class="qcm-wrap">
+  <div id="app"></div>
+  <footer class="site-footer" style="margin-top:var(--space-12);border-radius:var(--radius-lg)">
+    <p><span data-tr="fr">QCM — Entraînement — « Concevoir un cours en ligne » — Auteur : <a href="#">Mohamed EL AFRIT</a></span><span data-tr="en">MCQ — Practice — “Designing an online course” — Author: <a href="#">Mohamed EL AFRIT</a></span></p>
+    <p class="license"><span class="cc-badges">CC BY-NC-SA 4.0</span> <span data-tr="fr">Diffusé sous licence Creative Commons.</span><span data-tr="en">Released under a Creative Commons licence.</span></p>
+  </footer>
+</div>
+
+<script src="../assets/js/i18n.js"></script>
+<script src="../assets/js/nav-sections.js"></script>
+<script src="../assets/js/navigation.js"></script>
+<script src="../assets/js/accessibility.js"></script>
+<script src="qcm-core.js"></script>
+<script src="questions.js"></script>
+<script src="corrections.js"></script>
+<script>
+(function(){
+  var Core = window.QCMCore;
+  var QS = (window.QCM_QUESTIONS && window.QCM_QUESTIONS.questions) || [];
+  var CORR = (window.QCM_CORRECTIONS && window.QCM_CORRECTIONS.corrections) || [];
+  var N = QS.length;
+  var corrById = {}; CORR.forEach(function(c){ corrById[c.id] = c; });
+  var KEY = 'rdc-entrainement-v1';
+  var app = document.getElementById('app');
+
+  /* ---------- i18n : langue courante + chaînes générées en JS ---------- */
+  function L(){ return (window.TPLI18N ? TPLI18N.lang() : 'fr'); }
+  function tr(o){ if(o==null) return ''; if(typeof o==='string') return o; return (o[L()]!=null?o[L()]:o.fr)||''; }
+  var S = {
+    fr: {
+      home_title:'🎓 Entraînement',
+      home_sub_a:' questions avec ', home_sub_b:'correction immédiate', home_sub_c:' après chaque réponse',
+      how_h:'Comment ça marche',
+      how_p:'Choisissez votre réponse <strong>et</strong> votre degré de certitude, puis validez : vous voyez aussitôt la bonne réponse, l\'explication et les points obtenus. Idéal pour réviser avant le QCM en conditions d\'examen.',
+      bareme_summary:'📊 Rappel du barème',
+      to_exam:'📝 Passer en conditions d\'examen',
+      resume:'Reprendre l\'entraînement',
+      begin:'Commencer l\'entraînement',
+      q_label:'Question',
+      corrected:'corrigées',
+      score_lbl:'score',
+      chapter:'Chapitre',
+      certainty_h:'🎚️ Votre degré de certitude',
+      cert_faible:'Faible', cert_faible_h:'je devine',
+      cert_moyenne:'Moyenne', cert_moyenne_h:'assez sûr',
+      cert_elevee:'Élevée', cert_elevee_h:'certain',
+      verdict_ok:'✅ Bonne réponse', verdict_ko:'❌ Réponse incorrecte',
+      pt:'pt',
+      prev:'← Précédent', next:'Suivant →',
+      see_bilan:'Voir mon bilan →', validate:'Valider ma réponse',
+      finish_see:'Terminer & voir le bilan',
+      need_both:'Choisissez une réponse ET un degré de certitude avant de valider.',
+      bilan_title:'🎓 Bilan d\'entraînement',
+      bilan_sub_a:' / ', bilan_sub_b:' questions traitées',
+      note_lbl:'Note / 20 (sur ', note_lbl_end:')',
+      good_lbl:'Bonnes réponses / ',
+      raw_lbl:'Score brut (max ', raw_lbl_end:')',
+      mention_lbl:'Mention indicative',
+      calib_h:'Calibration de votre confiance',
+      calib_p1:'Certitude « Élevée » justifiée : ', calib_p2:' · Sur-confiance (Élevée mais faux, −3) : ', calib_p3:' · Excès de prudence (Faible mais juste) : ', calib_end:'.',
+      review:'← Revoir les questions', restart:'↺ Recommencer',
+      ready_h:'Prêt pour l\'examen ?',
+      ready_p_a:'Quand vous vous sentez prêt, passez au ', ready_p_link:'QCM en conditions d\'examen', ready_p_b:' (sans correction immédiate, avec export du fichier).',
+      recap:'Récapitulatif',
+      none_validated:'Aucune question validée.',
+      confirm_restart:'Effacer vos réponses d\'entraînement et recommencer ?',
+      data_err:'⚠️ Données non chargées (questions.js / corrections.js).'
+    },
+    en: {
+      home_title:'🎓 Practice',
+      home_sub_a:' questions with ', home_sub_b:'immediate feedback', home_sub_c:' after each answer',
+      how_h:'How it works',
+      how_p:'Pick your answer <strong>and</strong> your certainty level, then submit: you instantly see the correct answer, the explanation and the points earned. Ideal for revising before the exam-condition MCQ.',
+      bareme_summary:'📊 Marking scheme',
+      to_exam:'📝 Switch to exam conditions',
+      resume:'Resume practice',
+      begin:'Start practice',
+      q_label:'Question',
+      corrected:'corrected',
+      score_lbl:'score',
+      chapter:'Chapter',
+      certainty_h:'🎚️ Your certainty level',
+      cert_faible:'Low', cert_faible_h:'guessing',
+      cert_moyenne:'Medium', cert_moyenne_h:'fairly sure',
+      cert_elevee:'High', cert_elevee_h:'certain',
+      verdict_ok:'✅ Correct answer', verdict_ko:'❌ Wrong answer',
+      pt:'pt',
+      prev:'← Previous', next:'Next →',
+      see_bilan:'See my results →', validate:'Submit my answer',
+      finish_see:'Finish & see results',
+      need_both:'Choose an answer AND a certainty level before submitting.',
+      bilan_title:'🎓 Practice results',
+      bilan_sub_a:' / ', bilan_sub_b:' questions attempted',
+      note_lbl:'Score / 20 (out of ', note_lbl_end:')',
+      good_lbl:'Correct answers / ',
+      raw_lbl:'Raw score (max ', raw_lbl_end:')',
+      mention_lbl:'Indicative grade',
+      calib_h:'Your confidence calibration',
+      calib_p1:'Justified "High" certainty: ', calib_p2:' · Over-confidence (High but wrong, −3): ', calib_p3:' · Excess caution (Low but correct): ', calib_end:'.',
+      review:'← Review the questions', restart:'↺ Restart',
+      ready_h:'Ready for the exam?',
+      ready_p_a:'When you feel ready, take the ', ready_p_link:'exam-condition MCQ', ready_p_b:' (no immediate feedback, with file export).',
+      recap:'Summary',
+      none_validated:'No question submitted.',
+      confirm_restart:'Erase your practice answers and start over?',
+      data_err:'⚠️ Data not loaded (questions.js / corrections.js).'
+    }
+  };
+  function t(k){ return S[L()][k]; }
+  function certLbl(cert){ return t('cert_'+cert); }
+  function certHnt(cert){ return t('cert_'+cert+'_h'); }
+
+  var state = load() || { stage:'home', idx:0, ans:{} };
+  function load(){ try{ var s=JSON.parse(localStorage.getItem(KEY)); return (s&&s.ans)?s:null; }catch(e){ return null; } }
+  function save(){ localStorage.setItem(KEY, JSON.stringify(state)); }
+  function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  function render(){
+    if(!N || !CORR.length){ app.innerHTML='<div class="qcm-card"><p>'+t('data_err')+'</p></div>'; return; }
+    if(state.stage==='home') return home();
+    if(state.stage==='quiz') return quiz();
+    if(state.stage==='results') return results();
+  }
+
+  function home(){
+    var answered = Object.keys(state.ans).length;
+    app.innerHTML='<div class="qcm-card">'
+      +'<div class="qcm-hero"><h1>'+t('home_title')+'</h1><p>'+N+t('home_sub_a')+'<strong>'+t('home_sub_b')+'</strong>'+t('home_sub_c')+'</p></div>'
+      +'<div class="callout tip"><div class="callout-icon">💡</div><div class="callout-content"><h4>'+t('how_h')+'</h4><p>'+t('how_p')+'</p></div></div>'
+      +'<details style="margin:var(--space-4) 0"><summary style="cursor:pointer;font-family:var(--font-display);font-weight:600">'+t('bareme_summary')+'</summary>'+Core.baremeHtml()+'</details>'
+      +'<div class="qcm-actions" style="margin-top:var(--space-5)"><a class="btn btn-ghost" href="index.html">'+t('to_exam')+'</a><button class="btn btn-primary" id="start">'+(answered?t('resume'):t('begin'))+' →</button></div>'
+      +'</div>';
+    document.getElementById('start').onclick=function(){ state.stage='quiz'; save(); render(); window.scrollTo(0,0); };
+  }
+
+  function quiz(){
+    var q=QS[state.idx]; var c=corrById[q.id]; var a=state.ans[q.id]||{};
+    var revealed=!!a.revealed;
+    var answered=Object.keys(state.ans).filter(function(k){return state.ans[k].revealed;}).length;
+    var pct=Math.round(answered/N*100);
+    var opts='';
+    q.propositions.forEach(function(p,i){
+      var cls='q-opt';
+      if(revealed){ if(i===c.bonne_reponse_index)cls+=' correct'; else if(a.choice===i)cls+=' wrong'; }
+      else if(a.choice===i)cls+=' selected';
+      opts+='<button type="button" class="'+cls+'" data-i="'+i+'"'+(revealed?' disabled':'')+'><span class="lt">'+Core.LETTERS[i]+'</span><span>'+esc(tr(p))+'</span></button>';
+    });
+    var certData=[['faible',certLbl('faible'),certHnt('faible')],['moyenne',certLbl('moyenne'),certHnt('moyenne')],['elevee',certLbl('elevee'),certHnt('elevee')]];
+    var certBtns=certData.map(function(cc){
+      return '<button type="button" class="cert-btn'+(a.certitude===cc[0]?' active':'')+'" data-c="'+cc[0]+'"'+(revealed?' disabled':'')+'>'+cc[1]+'<small>'+cc[2]+'</small></button>';
+    }).join('');
+    var fb='';
+    if(revealed){
+      var ok=a.choice===c.bonne_reponse_index;
+      var pts=ok?Core.CBM[a.certitude].ok:Core.CBM[a.certitude].no;
+      var pc=pts>0?'pos':(pts<0?'neg':'zero');
+      fb='<div class="feedback '+(ok?'ok':'ko')+'"><div class="verdict">'+(ok?t('verdict_ok'):t('verdict_ko'))+'<span class="pts '+pc+'">'+(pts>0?'+':'')+pts+' '+t('pt')+'</span></div><p>'+esc(tr(c.explication))+'</p></div>';
+    }
+    app.innerHTML='<div class="qcm-topbar">'
+      +'<span class="qcm-stat">'+t('q_label')+' <b>'+(state.idx+1)+'</b> / '+N+'</span>'
+      +'<div class="qcm-progress-track"><div class="qcm-progress-fill" style="width:'+pct+'%"></div></div>'
+      +'<span class="qcm-stat"><b>'+answered+'</b> '+t('corrected')+' · '+t('score_lbl')+' <b>'+runningScore()+'</b></span></div>'
+      +'<div class="qcm-card">'
+      +'<div style="display:flex;gap:.5rem;align-items:center"><span class="q-diff" style="background:'+Core.DIFF_COLOR[q.difficulte]+'">'+Core.diffLabel(q.difficulte)+'</span><span style="font-size:var(--fs-xs);color:var(--text-muted)">'+t('chapter')+' '+q.chapitre+'</span></div>'
+      +'<div class="q-enonce">'+esc(tr(q.enonce))+'</div>'
+      +'<div class="q-options">'+opts+'</div>'
+      +'<div class="certainty"><div class="certainty-label">'+t('certainty_h')+'</div><div class="certainty-btns">'+certBtns+'</div></div>'
+      +fb
+      +'<div class="qcm-actions">'
+      +'<button class="btn btn-ghost" id="prev"'+(state.idx===0?' disabled':'')+'>'+t('prev')+'</button>'
+      +'<div style="display:flex;gap:.5rem">'
+      +(revealed ? (state.idx===N-1?'<button class="btn btn-primary" id="finish">'+t('see_bilan')+'</button>':'<button class="btn btn-primary" id="next">'+t('next')+'</button>')
+                 : '<button class="btn btn-primary" id="validate">'+t('validate')+'</button>')
+      +'</div></div>'
+      +'<div class="qcm-actions" style="margin-top:1.5rem"><button class="btn btn-ghost" id="tofin">'+t('finish_see')+'</button><span></span></div>'
+      +'</div>';
+    if(!revealed){
+      app.querySelectorAll('.q-opt').forEach(function(b){ b.onclick=function(){ if(!state.ans[q.id])state.ans[q.id]={}; state.ans[q.id].choice=+b.dataset.i; save(); quiz(); }; });
+      app.querySelectorAll('.cert-btn').forEach(function(b){ b.onclick=function(){ if(!state.ans[q.id])state.ans[q.id]={}; state.ans[q.id].certitude=b.dataset.c; save(); quiz(); }; });
+      var v=document.getElementById('validate'); if(v)v.onclick=function(){ var x=state.ans[q.id]||{}; if(x.choice==null||!x.certitude){ alert(t('need_both')); return; } state.ans[q.id].revealed=true; save(); quiz(); window.scrollTo({top:0,behavior:'smooth'}); }; }
+    var pv=document.getElementById('prev'); if(pv)pv.onclick=function(){ if(state.idx>0){state.idx--;save();quiz();window.scrollTo(0,0);} };
+    var nx=document.getElementById('next'); if(nx)nx.onclick=function(){ if(state.idx<N-1){state.idx++;save();quiz();window.scrollTo(0,0);} };
+    var fn=document.getElementById('finish'); if(fn)fn.onclick=function(){ state.stage='results'; save(); render(); window.scrollTo(0,0); };
+    document.getElementById('tofin').onclick=function(){ state.stage='results'; save(); render(); window.scrollTo(0,0); };
+  }
+
+  function runningScore(){
+    var raw=0; QS.forEach(function(q){ var a=state.ans[q.id]; if(a&&a.revealed){ var ok=a.choice===corrById[q.id].bonne_reponse_index; raw+=ok?Core.CBM[a.certitude].ok:Core.CBM[a.certitude].no; } }); return raw;
+  }
+
+  function results(){
+    var raw=0, correct=0, answered=0, cal={good:0,over:0,under:0};
+    var rows='';
+    QS.forEach(function(q,n){
+      var a=state.ans[q.id]||{}; var c=corrById[q.id];
+      if(a.revealed){ answered++; var ok=a.choice===c.bonne_reponse_index; var pts=ok?Core.CBM[a.certitude].ok:Core.CBM[a.certitude].no; raw+=pts; if(ok)correct++; if(a.certitude==='elevee')ok?cal.good++:cal.over++; if(a.certitude==='faible'&&ok)cal.under++;
+        rows+='<div class="feedback '+(ok?'ok':'ko')+'" style="margin-bottom:.5rem"><div class="verdict">'+(n+1)+'. '+(ok?'✅':'❌')+' '+esc(tr(q.enonce)).slice(0,90)+'… <span class="pts '+(pts>0?'pos':(pts<0?'neg':'zero'))+'">'+(pts>0?'+':'')+pts+'</span></div></div>';
+      }
+    });
+    var note=Core.note20(raw, N);
+    app.innerHTML='<div class="qcm-card">'
+      +'<div class="qcm-hero"><h1>'+t('bilan_title')+'</h1><p>'+answered+t('bilan_sub_a')+N+t('bilan_sub_b')+'</p></div>'
+      +'<div class="res-score">'
+      +'<div class="res-box"><div class="big">'+note.toFixed(1)+'</div><div class="lbl">'+t('note_lbl')+N+t('note_lbl_end')+'</div></div>'
+      +'<div class="res-box"><div class="big">'+correct+'</div><div class="lbl">'+t('good_lbl')+answered+'</div></div>'
+      +'<div class="res-box"><div class="big">'+raw+'</div><div class="lbl">'+t('raw_lbl')+Core.maxRaw(N)+t('raw_lbl_end')+'</div></div>'
+      +'<div class="res-box"><div class="big" style="font-size:var(--fs-2xl)">'+Core.mention(note)+'</div><div class="lbl">'+t('mention_lbl')+'</div></div></div>'
+      +'<div class="callout '+(cal.over>cal.good?'warning':'tip')+'"><div class="callout-icon">🎚️</div><div class="callout-content"><h4>'+t('calib_h')+'</h4><p>'+t('calib_p1')+'<strong>'+cal.good+'</strong>'+t('calib_p2')+'<strong>'+cal.over+'</strong>'+t('calib_p3')+'<strong>'+cal.under+'</strong>'+t('calib_end')+'</p></div></div>'
+      +'<div class="qcm-actions" style="margin:var(--space-5) 0"><button class="btn btn-ghost" id="back">'+t('review')+'</button><button class="btn btn-primary" id="restart">'+t('restart')+'</button></div>'
+      +'<div class="callout info"><div class="callout-icon">📝</div><div class="callout-content"><h4>'+t('ready_h')+'</h4><p>'+t('ready_p_a')+'<a href="index.html">'+t('ready_p_link')+'</a>'+t('ready_p_b')+'</p></div></div>'
+      +'<h3 style="font-family:var(--font-display);margin:var(--space-6) 0 var(--space-3)">'+t('recap')+'</h3>'+(rows||'<p class="text-muted">'+t('none_validated')+'</p>')+'</div>';
+    document.getElementById('back').onclick=function(){ state.stage='quiz'; save(); render(); window.scrollTo(0,0); };
+    document.getElementById('restart').onclick=function(){ if(confirm(t('confirm_restart'))){ state={stage:'quiz',idx:0,ans:{}}; save(); render(); window.scrollTo(0,0); } };
+  }
+
+  render();
+  // Ré-affichage au changement de langue (consignes, boutons, feedback, barème, contenu)
+  document.addEventListener('tpl:langchange', function(){ render(); });
+})();
+</script>
+</body>
+</html>
