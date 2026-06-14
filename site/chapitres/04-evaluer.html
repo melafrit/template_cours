@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fr" data-lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapitre 4 — Évaluer les apprenants / Assessing learners</title>
+<meta name="description" content="Chapitre 4 du cours-démo : évaluer les apprenants (formatif vs sommatif, QCM et notation par certitude, flashcards, feedback, distracteurs). Bilingue FR/EN.">
+<meta name="author" content="Mohamed EL AFRIT">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/components.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-left">
+    <button class="sidebar-toggle" aria-label="Menu">☰</button>
+    <a href="../index.html" class="site-logo"><span class="logo-icon">C<span class="acc">e</span></span>
+      <span data-tr="fr">Concevoir un cours</span><span data-tr="en">Design a course</span></a>
+  </div>
+  <div class="header-right">
+    <nav class="chapter-nav">
+      <a href="../cours.html" class="chapter-nav-btn"><span data-tr="fr">← Sommaire</span><span data-tr="en">← Contents</span></a>
+      <a href="05-accessibilite-diffusion.html" class="chapter-nav-btn"><span data-tr="fr">Suivant →</span><span data-tr="en">Next →</span></a>
+    </nav>
+    <button class="theme-toggle" aria-label="Thème">🌙</button>
+  </div>
+</header>
+
+<aside class="sidebar">
+  <div class="sidebar-progress"><div class="sidebar-progress-bar"></div></div>
+  <div class="sidebar-content"><ul class="nav-tree" id="nav-tree"></ul></div>
+</aside>
+
+<div class="main-wrapper">
+  <main class="main-content">
+
+    <div class="chapter-header">
+      <div class="chapter-meta">
+        <span class="chapter-badge">🎯 <span data-tr="fr">Chapitre 4</span><span data-tr="en">Chapter 4</span></span>
+        <span class="chapter-duration">⏱ <span data-tr="fr">~30 min · lecture + activités</span><span data-tr="en">~30 min · reading + activities</span></span>
+      </div>
+      <h1 class="chapter-title"><span data-tr="fr">Évaluer les apprenants</span><span data-tr="en">Assessing learners</span></h1>
+      <p class="chapter-subtitle">
+        <span data-tr="fr">Évaluer, ce n'est pas seulement noter : c'est faire apprendre. Ce chapitre montre comment vérifier les acquis, soutenir la mémorisation et donner un feedback qui fait progresser.</span>
+        <span data-tr="en">Assessing is not just grading: it is part of learning. This chapter shows how to check understanding, support memory and give feedback that drives progress.</span>
+      </p>
+      <div class="chapter-objectives">
+        <h3>🎯 <span data-tr="fr">Objectifs du chapitre</span><span data-tr="en">Chapter objectives</span></h3>
+        <ul>
+          <li><span data-tr="fr">Distinguer évaluation formative et sommative.</span><span data-tr="en">Distinguish formative from summative assessment.</span></li>
+          <li><span data-tr="fr">Construire un QCM et le noter par certitude (CBM).</span><span data-tr="en">Build a multiple-choice quiz and grade it by certainty (CBM).</span></li>
+          <li><span data-tr="fr">Utiliser les flashcards pour la mémorisation.</span><span data-tr="en">Use flashcards to support memorization.</span></li>
+          <li><span data-tr="fr">Rédiger un feedback utile et de bons distracteurs.</span><span data-tr="en">Write useful feedback and good distractors.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Podcast (placeholder — déposez un MP3 dans assets/media/podcasts/) -->
+    <section class="podcast-section">
+      <div class="podcast-header">
+        <div class="podcast-icon">🎙️</div>
+        <div>
+          <div class="podcast-title"><span data-tr="fr">Podcast — Évaluer les apprenants</span><span data-tr="en">Podcast — Assessing learners</span></div>
+          <div class="podcast-subtitle"><span data-tr="fr">Dialogue pédagogique · ~10 min</span><span data-tr="en">Teaching dialogue · ~10 min</span></div>
+        </div>
+      </div>
+      <p class="podcast-placeholder-msg"><span data-tr="fr">🎙️ Épisode de démonstration — déposez un fichier audio dans <code>assets/media/podcasts/</code>.</span><span data-tr="en">🎙️ Demo episode — drop an audio file in <code>assets/media/podcasts/</code>.</span></p>
+    </section>
+
+    <!-- Slides (placeholder — déposez un PDF dans assets/media/slides/) -->
+    <section class="slides-section" data-slides="[]">
+      <div class="slides-header">
+        <div class="slides-header-left"><div class="slides-icon">📊</div><span class="slides-label"><span data-tr="fr">Slides — Chapitre 4</span><span data-tr="en">Slides — Chapter 4</span></span></div>
+      </div>
+      <div class="slides-viewport"><div class="slides-placeholder"><span data-tr="fr">📊 Support à déposer en PDF dans <code>assets/media/slides/</code>.</span><span data-tr="en">📊 Slide deck (PDF) to drop in <code>assets/media/slides/</code>.</span></div></div>
+    </section>
+
+    <!-- Infographie (placeholder — déposez un PNG dans assets/media/infographies/) -->
+    <section class="infographie-section">
+      <div class="infographie-header">
+        <div class="infographie-header-left"><div class="infographie-icon">🖼️</div><span class="infographie-label"><span data-tr="fr">Infographie de synthèse</span><span data-tr="en">Summary infographic</span></span></div>
+      </div>
+      <div class="infographie-viewport"><div class="infographie-placeholder"><span data-tr="fr">🖼️ Image à déposer dans <code>assets/media/infographies/</code>.</span><span data-tr="en">🖼️ Image to drop in <code>assets/media/infographies/</code>.</span></div></div>
+    </section>
+
+    <!-- Accroche -->
+    <div class="callout tip">
+      <div class="callout-icon">🚀</div>
+      <div class="callout-content">
+        <h4><span data-tr="fr">Pourquoi ce chapitre compte</span><span data-tr="en">Why this chapter matters</span></h4>
+        <p><span data-tr="fr">Le simple fait de se tester pour se rappeler une notion la grave plus durablement que de la relire. Bien conçue, l'évaluation n'est pas la fin du cours : elle en est l'un des moteurs d'apprentissage les plus puissants.</span>
+          <span data-tr="en">The simple act of testing yourself to recall an idea fixes it more durably than rereading it. Well designed, assessment is not the end of a course: it is one of its most powerful engines for learning.</span></p>
+      </div>
+    </div>
+
+    <section class="content-section">
+      <h2 id="ch4-s1"><span data-tr="fr">1. Formatif ou sommatif ?</span><span data-tr="en">1. Formative or summative?</span></h2>
+      <p><span data-tr="fr">L'<strong>évaluation formative</strong> a lieu <em>pendant</em> l'apprentissage : elle informe l'apprenant de ses lacunes, sans enjeu de note, pour qu'il ajuste son effort. L'<strong>évaluation sommative</strong> arrive <em>à la fin</em> : elle certifie l'atteinte des <strong>objectifs pédagogiques</strong>. La même activité — un <strong>QCM</strong>, par exemple — peut servir aux deux usages, mais l'intention diffère : faire progresser, ou attester.</span>
+        <span data-tr="en">A <strong>formative assessment</strong> happens <em>during</em> learning: it tells learners where their gaps are, with no grade at stake, so they can adjust their effort. A <strong>summative assessment</strong> comes <em>at the end</em>: it certifies that the <strong>learning objectives</strong> have been met. The same activity — a <strong>multiple-choice quiz</strong>, say — can serve both, but the intent differs: to drive progress, or to attest.</span></p>
+      <div class="callout info">
+        <div class="callout-icon">📌</div>
+        <div class="callout-content"><p><span data-tr="fr">Repère simple : le formatif sert l'apprenant pendant le parcours ; le sommatif sert l'institution à la fin.</span><span data-tr="en">Simple rule of thumb: formative serves the learner along the way; summative serves the institution at the end.</span></p></div>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2 id="ch4-s2"><span data-tr="fr">2. QCM et notation par certitude (CBM)</span><span data-tr="en">2. Quizzes and certainty-based marking (CBM)</span></h2>
+      <p><span data-tr="fr">Un bon <strong>QCM</strong> ne mesure pas que la bonne réponse : il peut aussi mesurer la <em>justesse de la confiance</em>. La notation par certitude (CBM, <em>certainty-based marking</em>) demande à l'apprenant d'indiquer son degré de sûreté, puis récompense la lucidité et pénalise l'excès de confiance.</span>
+        <span data-tr="en">A good <strong>multiple-choice quiz</strong> does not only measure the right answer: it can also measure how <em>well-calibrated</em> the confidence is. Certainty-based marking (CBM) asks learners to state how sure they are, then rewards lucidity and penalizes overconfidence.</span></p>
+      <div class="callout tip">
+        <div class="callout-icon">🎚️</div>
+        <div class="callout-content"><p><span data-tr="fr">Barème CBM : certitude <strong>Élevée</strong> → +3 si juste, −3 si faux ; <strong>Moyenne</strong> → +2 / −2 ; <strong>Faible</strong> → +1 / 0. Annoncer une certitude élevée et se tromper coûte cher : le barème pousse à connaître ses limites.</span>
+          <span data-tr="en">CBM scale: <strong>High</strong> certainty → +3 if correct, −3 if wrong; <strong>Medium</strong> → +2 / −2; <strong>Low</strong> → +1 / 0. Claiming high certainty and being wrong is costly: the scale rewards knowing your own limits.</span></p></div>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2 id="ch4-s3"><span data-tr="fr">3. Flashcards et feedback utile</span><span data-tr="en">3. Flashcards and useful feedback</span></h2>
+      <p><span data-tr="fr">La <strong>flashcard</strong> exploite l'effet de test : se forcer à récupérer une réponse de mémoire, en bloc de <strong>micro-apprentissage</strong>, ancre mieux qu'une relecture passive. Côté correction, un <strong>feedback</strong> utile ne dit pas seulement « faux » : il explique <em>pourquoi</em>, pointe l'erreur de raisonnement et indique la voie correcte, immédiatement, tant que la question est encore fraîche.</span>
+        <span data-tr="en">A <strong>flashcard</strong> harnesses the testing effect: forcing yourself to retrieve an answer from memory, in a <strong>microlearning</strong> chunk, anchors it better than passive rereading. On the correction side, useful <strong>feedback</strong> does not just say "wrong": it explains <em>why</em>, names the reasoning error and points to the correct path — immediately, while the question is still fresh.</span></p>
+      <div class="callout info">
+        <div class="callout-icon">💬</div>
+        <div class="callout-content"><p><span data-tr="fr">Un feedback efficace est spécifique, bienveillant et actionnable : il vise l'erreur, pas la personne.</span><span data-tr="en">Effective feedback is specific, kind and actionable: it targets the mistake, not the person.</span></p></div>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2 id="ch4-s4"><span data-tr="fr">4. Rédiger de bons distracteurs</span><span data-tr="en">4. Writing good distractors</span></h2>
+      <p><span data-tr="fr">Dans un <strong>QCM</strong>, les distracteurs sont les mauvaises réponses. Un bon distracteur est plausible : il correspond à une erreur que les apprenants commettent réellement. Évitez les pièges absurdes, les options « toutes les réponses » et les indices grammaticaux qui trahissent la bonne réponse. Bien écrits, les distracteurs transforment chaque question en mini-diagnostic des idées fausses.</span>
+        <span data-tr="en">In a <strong>multiple-choice quiz</strong>, distractors are the wrong answers. A good distractor is plausible: it matches a mistake learners actually make. Avoid absurd traps, "all of the above" options and grammatical clues that give the answer away. Well written, distractors turn each question into a mini-diagnostic of misconceptions.</span></p>
+      <div class="takeaways">
+        <div class="takeaways-head"><span class="ico">🔑</span><h3><span data-tr="fr">À retenir</span><span data-tr="en">Key takeaways</span></h3></div>
+        <div class="takeaways-body">
+          <ul>
+            <li><span data-tr="fr">Le <strong>formatif</strong> fait progresser ; le <strong>sommatif</strong> certifie.</span><span data-tr="en"><strong>Formative</strong> drives progress; <strong>summative</strong> certifies.</span></li>
+            <li><span data-tr="fr">La CBM récompense une confiance <strong>juste</strong>, pas seulement la bonne réponse.</span><span data-tr="en">CBM rewards <strong>well-calibrated</strong> confidence, not just the right answer.</span></li>
+            <li><span data-tr="fr">Un bon <strong>feedback</strong> et de bons <strong>distracteurs</strong> font de l'évaluation un outil d'apprentissage.</span><span data-tr="en">Good <strong>feedback</strong> and good <strong>distractors</strong> turn assessment into a learning tool.</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cartes de révision -->
+    <section class="content-section">
+      <h2 id="ch4-s5"><span data-tr="fr">Cartes de révision</span><span data-tr="en">Flashcards</span></h2>
+      <p><span data-tr="fr">Cliquez une carte pour la retourner, puis « ✓ Je savais » ou « à revoir ». Progression mémorisée sur cet appareil.</span>
+        <span data-tr="en">Click a card to flip it, then "✓ I knew it" or "review again". Progress is saved on this device.</span></p>
+      <div id="flash-ch4"></div>
+    </section>
+
+    <nav class="chapter-pagination">
+      <a href="03-multimedia.html" class="pagination-link prev">
+        <span class="pagination-label"><span data-tr="fr">← Précédent</span><span data-tr="en">← Previous</span></span>
+        <span class="pagination-title"><span data-tr="fr">Créer des ressources multimédias</span><span data-tr="en">Creating multimedia resources</span></span>
+      </a>
+      <a href="05-accessibilite-diffusion.html" class="pagination-link next">
+        <span class="pagination-label"><span data-tr="fr">Suivant →</span><span data-tr="en">Next →</span></span>
+        <span class="pagination-title"><span data-tr="fr">Accessibilité &amp; diffusion</span><span data-tr="en">Accessibility &amp; delivery</span></span>
+      </a>
+    </nav>
+
+  </main>
+</div>
+
+<footer class="site-footer">
+  <p><span data-tr="fr">Cours-démo « Concevoir un cours en ligne » — </span><span data-tr="en">Demo course "Designing an online course" — </span><a href="#">Mohamed EL AFRIT</a></p>
+  <p class="license"><span class="cc-badges">MIT · CC BY 4.0</span></p>
+</footer>
+
+<script src="../assets/js/i18n.js"></script>
+<script src="../assets/js/course-data.js"></script>
+<script src="../assets/js/nav-sections.js"></script>
+<script src="../assets/js/navigation.js"></script>
+<script src="../assets/js/accessibility.js"></script>
+<script src="../assets/js/media.js"></script>
+<script src="../assets/js/glossaire-data.js"></script>
+<script src="../assets/js/glossaire-tooltip.js"></script>
+<script src="../assets/js/flashcards.js"></script>
+<script src="../assets/js/flashcards-data.js"></script>
+<script src="../assets/js/animations.js"></script>
+<script>
+  new FlashcardDeck('flash-ch4', (window.RDC_FLASHCARDS || {})['4'] || [], 'ch4');
+</script>
+</body>
+</html>

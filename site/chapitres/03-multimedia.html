@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fr" data-lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapitre 3 — Créer des ressources multimédias / Creating multimedia resources</title>
+<meta name="description" content="Chapitre 3 du cours-démo : créer des ressources multimédias (podcast, slides, infographie) et garantir leur accessibilité. Bilingue FR/EN.">
+<meta name="author" content="Mohamed EL AFRIT">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/components.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-left">
+    <button class="sidebar-toggle" aria-label="Menu">☰</button>
+    <a href="../index.html" class="site-logo"><span class="logo-icon">C<span class="acc">e</span></span>
+      <span data-tr="fr">Concevoir un cours</span><span data-tr="en">Design a course</span></a>
+  </div>
+  <div class="header-right">
+    <nav class="chapter-nav">
+      <a href="../cours.html" class="chapter-nav-btn"><span data-tr="fr">← Sommaire</span><span data-tr="en">← Contents</span></a>
+      <a href="04-evaluer.html" class="chapter-nav-btn"><span data-tr="fr">Suivant →</span><span data-tr="en">Next →</span></a>
+    </nav>
+    <button class="theme-toggle" aria-label="Thème">🌙</button>
+  </div>
+</header>
+
+<aside class="sidebar">
+  <div class="sidebar-progress"><div class="sidebar-progress-bar"></div></div>
+  <div class="sidebar-content"><ul class="nav-tree" id="nav-tree"></ul></div>
+</aside>
+
+<div class="main-wrapper">
+  <main class="main-content">
+
+    <div class="chapter-header">
+      <div class="chapter-meta">
+        <span class="chapter-badge">🎯 <span data-tr="fr">Chapitre 3</span><span data-tr="en">Chapter 3</span></span>
+        <span class="chapter-duration">⏱ <span data-tr="fr">~30 min · lecture + activités</span><span data-tr="en">~30 min · reading + activities</span></span>
+      </div>
+      <h1 class="chapter-title"><span data-tr="fr">Créer des ressources multimédias</span><span data-tr="en">Creating multimedia resources</span></h1>
+      <p class="chapter-subtitle">
+        <span data-tr="fr">Podcast, slides, infographie : trois formats, trois usages. Ce chapitre montre quand utiliser chacun, comment produire vite et comment rester accessible à tous.</span>
+        <span data-tr="en">Podcast, slides, infographic: three formats, three uses. This chapter shows when to use each, how to produce quickly and how to stay accessible to everyone.</span>
+      </p>
+      <div class="chapter-objectives">
+        <h3>🎯 <span data-tr="fr">Objectifs du chapitre</span><span data-tr="en">Chapter objectives</span></h3>
+        <ul>
+          <li><span data-tr="fr">Choisir le bon format selon l'intention pédagogique.</span><span data-tr="en">Choose the right format for the teaching intent.</span></li>
+          <li><span data-tr="fr">Combiner les formats pour qu'ils se complètent.</span><span data-tr="en">Combine formats so they complement each other.</span></li>
+          <li><span data-tr="fr">Produire rapidement un média avec un outil d'IA.</span><span data-tr="en">Produce a resource quickly with an AI tool.</span></li>
+          <li><span data-tr="fr">Rendre chaque média accessible (transcription, alternative).</span><span data-tr="en">Make each resource accessible (transcript, alternative).</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Podcast (placeholder — déposez un MP3 dans assets/media/podcasts/) -->
+    <section class="podcast-section">
+      <div class="podcast-header">
+        <div class="podcast-icon">🎙️</div>
+        <div>
+          <div class="podcast-title"><span data-tr="fr">Podcast — Créer des ressources multimédias</span><span data-tr="en">Podcast — Creating multimedia resources</span></div>
+          <div class="podcast-subtitle"><span data-tr="fr">Dialogue pédagogique · ~10 min</span><span data-tr="en">Teaching dialogue · ~10 min</span></div>
+        </div>
+      </div>
+      <p class="podcast-placeholder-msg"><span data-tr="fr">🎙️ Épisode de démonstration — déposez un fichier audio dans <code>assets/media/podcasts/</code>.</span><span data-tr="en">🎙️ Demo episode — drop an audio file in <code>assets/media/podcasts/</code>.</span></p>
+    </section>
+
+    <!-- Slides (placeholder — déposez un PDF dans assets/media/slides/) -->
+    <section class="slides-section" data-slides="[]">
+      <div class="slides-header">
+        <div class="slides-header-left"><div class="slides-icon">📊</div><span class="slides-label"><span data-tr="fr">Slides — Chapitre 3</span><span data-tr="en">Slides — Chapter 3</span></span></div>
+      </div>
+      <div class="slides-viewport"><div class="slides-placeholder"><span data-tr="fr">📊 Support à déposer en PDF dans <code>assets/media/slides/</code>.</span><span data-tr="en">📊 Slide deck (PDF) to drop in <code>assets/media/slides/</code>.</span></div></div>
+    </section>
+
+    <!-- Infographie (placeholder — déposez un PNG dans assets/media/infographies/) -->
+    <section class="infographie-section">
+      <div class="infographie-header">
+        <div class="infographie-header-left"><div class="infographie-icon">🖼️</div><span class="infographie-label"><span data-tr="fr">Infographie de synthèse</span><span data-tr="en">Summary infographic</span></span></div>
+      </div>
+      <div class="infographie-viewport"><div class="infographie-placeholder"><span data-tr="fr">🖼️ Image à déposer dans <code>assets/media/infographies/</code>.</span><span data-tr="en">🖼️ Image to drop in <code>assets/media/infographies/</code>.</span></div></div>
+    </section>
+
+    <!-- Accroche -->
+    <div class="callout tip">
+      <div class="callout-icon">🚀</div>
+      <div class="callout-content">
+        <h4><span data-tr="fr">Pourquoi ce chapitre compte</span><span data-tr="en">Why this chapter matters</span></h4>
+        <p><span data-tr="fr">Un bon contenu mal habillé reste peu suivi. Varier les médias n'est pas un effet de mode : c'est ce qui permet à chaque apprenant d'entrer dans le sujet par la porte qui lui convient — l'oreille, l'œil ou le coup d'œil de synthèse.</span>
+          <span data-tr="en">Good content poorly packaged stays unread. Varying media is not a fad: it lets each learner enter the topic through the door that suits them — the ear, the eye, or the synthesizing glance.</span></p>
+      </div>
+    </div>
+
+    <section class="content-section">
+      <h2 id="ch3-s1"><span data-tr="fr">1. Trois formats, trois intentions</span><span data-tr="en">1. Three formats, three intentions</span></h2>
+      <p><span data-tr="fr">Le <strong>podcast</strong> raconte et explique : il est idéal pour les notions, les nuances et l'écoute en mobilité. Les <strong>slides</strong> (au format PDF) structurent et hiérarchisent : elles servent de support de référence, chapitre par chapitre. L'<strong>infographie</strong> synthétise d'un coup d'œil : elle fixe l'essentiel et facilite la révision. On ne choisit pas un format par goût, mais selon l'<strong>objectif pédagogique</strong> visé.</span>
+        <span data-tr="en">The <strong>podcast</strong> narrates and explains: it is ideal for concepts, nuance and listening on the go. <strong>Slides</strong> (in PDF) structure and prioritise: they act as a reference, chapter by chapter. The <strong>infographic</strong> synthesises at a glance: it fixes the essentials and eases revision. You don't pick a format by taste, but by the targeted <strong>learning objective</strong>.</span></p>
+      <div class="callout info">
+        <div class="callout-icon">📌</div>
+        <div class="callout-content"><p><span data-tr="fr">Bonne question de départ : « Quel verbe d'action vise ce média ? » Écouter pour comprendre, lire pour structurer, voir pour mémoriser.</span><span data-tr="en">Good starting question: "Which action verb does this resource serve?" Listen to understand, read to structure, see to remember.</span></p></div>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2 id="ch3-s2"><span data-tr="fr">2. La complémentarité des formats</span><span data-tr="en">2. How formats complement each other</span></h2>
+      <p><span data-tr="fr">Les formats ne se concurrencent pas, ils se relaient. Le podcast donne l'<strong>accroche</strong> et le sens ; les slides déroulent la démonstration ; l'infographie referme le chapitre comme une carte mentale. Présenter la même idée par trois canaux différents renforce la mémorisation et soutient le <strong>micro-apprentissage</strong> : chaque média peut être consulté seul, en quelques minutes.</span>
+        <span data-tr="en">Formats don't compete, they take turns. The podcast provides the <strong>hook</strong> and the meaning; the slides unfold the demonstration; the infographic closes the chapter like a mind map. Presenting the same idea through three channels strengthens memory and supports <strong>microlearning</strong>: each resource can be consulted alone, in a few minutes.</span></p>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-content"><p><span data-tr="fr">Évitez la redondance pure : ne dupliquez pas un texte en image. Chaque format doit apporter quelque chose que les autres ne donnent pas.</span><span data-tr="en">Avoid pure redundancy: don't duplicate text as an image. Each format must add something the others don't.</span></p></div>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2 id="ch3-s3"><span data-tr="fr">3. Produire vite avec NotebookLM</span><span data-tr="en">3. Producing quickly with NotebookLM</span></h2>
+      <p><span data-tr="fr">Produire un média de qualité prenait des heures ; les outils d'IA réduisent ce délai. <strong>NotebookLM</strong> (Google) génère, à partir de vos propres documents source, un podcast à deux voix, une synthèse ou une trame de slides. Le principe : on fournit le contenu de référence (le <strong>syllabus</strong>, les notes du chapitre), l'outil propose un brouillon, puis l'enseignant relit, corrige et valide. L'IA accélère la production ; elle ne remplace pas le regard pédagogique.</span>
+        <span data-tr="en">Producing a quality resource used to take hours; AI tools cut that time. <strong>NotebookLM</strong> (Google) generates, from your own source documents, a two-voice podcast, a summary or a slide outline. The principle: you supply the reference content (the <strong>syllabus</strong>, the chapter notes), the tool drafts it, then the teacher reviews, corrects and validates. AI speeds up production; it does not replace the pedagogical eye.</span></p>
+      <div class="callout info">
+        <div class="callout-icon">📌</div>
+        <div class="callout-content"><p><span data-tr="fr">Règle : l'IA produit le brouillon, l'humain garde la responsabilité. On vérifie toujours les faits, les sources et le ton avant de publier.</span><span data-tr="en">Rule: AI produces the draft, the human keeps responsibility. Always check facts, sources and tone before publishing.</span></p></div>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2 id="ch3-s4"><span data-tr="fr">4. Rendre les médias accessibles</span><span data-tr="en">4. Making media accessible</span></h2>
+      <p><span data-tr="fr">L'<strong>accessibilité</strong> n'est pas une option : chaque média doit avoir une alternative. Un podcast s'accompagne d'une <strong>transcription</strong> écrite ; une infographie d'un texte alternatif (attribut <code>alt</code>) décrivant son contenu ; des slides PDF d'un balisage correct et d'un contraste suffisant. Ces alternatives servent les personnes en situation de handicap, mais aussi celles qui préfèrent lire, qui sont dans un environnement bruyant ou qui ont une faible connexion. Concevoir accessible, c'est concevoir mieux pour tout le monde.</span>
+        <span data-tr="en"><strong>Accessibility</strong> is not optional: every resource must have an alternative. A podcast comes with a written <strong>transcript</strong>; an infographic with alternative text (the <code>alt</code> attribute) describing its content; PDF slides with proper tagging and sufficient contrast. These alternatives serve people with disabilities, but also those who prefer reading, who are in a noisy place, or who have a slow connection. Designing accessibly means designing better for everyone.</span></p>
+      <div class="takeaways">
+        <div class="takeaways-head"><span class="ico">🔑</span><h3><span data-tr="fr">À retenir</span><span data-tr="en">Key takeaways</span></h3></div>
+        <div class="takeaways-body">
+          <ul>
+            <li><span data-tr="fr">Chaque format sert une <strong>intention</strong> : écouter, structurer, synthétiser.</span><span data-tr="en">Each format serves an <strong>intention</strong>: listen, structure, synthesise.</span></li>
+            <li><span data-tr="fr">Les formats se <strong>complètent</strong> ; ils ne se répètent pas.</span><span data-tr="en">Formats <strong>complement</strong> each other; they don't repeat.</span></li>
+            <li><span data-tr="fr">L'IA (NotebookLM) accélère, mais l'humain <strong>valide</strong>.</span><span data-tr="en">AI (NotebookLM) speeds up, but the human <strong>validates</strong>.</span></li>
+            <li><span data-tr="fr">Pas de média sans <strong>alternative</strong> accessible.</span><span data-tr="en">No resource without an accessible <strong>alternative</strong>.</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cartes de révision -->
+    <section class="content-section">
+      <h2 id="ch3-s5"><span data-tr="fr">Cartes de révision</span><span data-tr="en">Flashcards</span></h2>
+      <p><span data-tr="fr">Cliquez une carte pour la retourner, puis « ✓ Je savais » ou « à revoir ». Progression mémorisée sur cet appareil.</span>
+        <span data-tr="en">Click a card to flip it, then "✓ I knew it" or "review again". Progress is saved on this device.</span></p>
+      <div id="flash-ch3"></div>
+    </section>
+
+    <nav class="chapter-pagination">
+      <a href="02-structurer.html" class="pagination-link prev">
+        <span class="pagination-label"><span data-tr="fr">← Précédent</span><span data-tr="en">← Previous</span></span>
+        <span class="pagination-title"><span data-tr="fr">Structurer le contenu</span><span data-tr="en">Structuring the content</span></span>
+      </a>
+      <a href="04-evaluer.html" class="pagination-link next">
+        <span class="pagination-label"><span data-tr="fr">Suivant →</span><span data-tr="en">Next →</span></span>
+        <span class="pagination-title"><span data-tr="fr">Évaluer les apprenants</span><span data-tr="en">Assessing learners</span></span>
+      </a>
+    </nav>
+
+  </main>
+</div>
+
+<footer class="site-footer">
+  <p><span data-tr="fr">Cours-démo « Concevoir un cours en ligne » — </span><span data-tr="en">Demo course "Designing an online course" — </span><a href="#">Mohamed EL AFRIT</a></p>
+  <p class="license"><span class="cc-badges">MIT · CC BY 4.0</span></p>
+</footer>
+
+<script src="../assets/js/i18n.js"></script>
+<script src="../assets/js/course-data.js"></script>
+<script src="../assets/js/nav-sections.js"></script>
+<script src="../assets/js/navigation.js"></script>
+<script src="../assets/js/accessibility.js"></script>
+<script src="../assets/js/media.js"></script>
+<script src="../assets/js/glossaire-data.js"></script>
+<script src="../assets/js/glossaire-tooltip.js"></script>
+<script src="../assets/js/flashcards.js"></script>
+<script src="../assets/js/flashcards-data.js"></script>
+<script src="../assets/js/animations.js"></script>
+<script>
+  new FlashcardDeck('flash-ch3', (window.RDC_FLASHCARDS || {})['3'] || [], 'ch3');
+</script>
+</body>
+</html>

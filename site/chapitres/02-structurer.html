@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fr" data-lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapitre 2 — Structurer le contenu / Structuring the content</title>
+<meta name="description" content="Chapitre 2 du cours-démo : structurer le contenu (du syllabus aux séquences, micro-apprentissage, progression). Bilingue FR/EN.">
+<meta name="author" content="Mohamed EL AFRIT">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/components.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-left">
+    <button class="sidebar-toggle" aria-label="Menu">☰</button>
+    <a href="../index.html" class="site-logo"><span class="logo-icon">C<span class="acc">e</span></span>
+      <span data-tr="fr">Concevoir un cours</span><span data-tr="en">Design a course</span></a>
+  </div>
+  <div class="header-right">
+    <nav class="chapter-nav">
+      <a href="../cours.html" class="chapter-nav-btn"><span data-tr="fr">← Sommaire</span><span data-tr="en">← Contents</span></a>
+      <a href="03-multimedia.html" class="chapter-nav-btn"><span data-tr="fr">Suivant →</span><span data-tr="en">Next →</span></a>
+    </nav>
+    <button class="theme-toggle" aria-label="Thème">🌙</button>
+  </div>
+</header>
+
+<aside class="sidebar">
+  <div class="sidebar-progress"><div class="sidebar-progress-bar"></div></div>
+  <div class="sidebar-content"><ul class="nav-tree" id="nav-tree"></ul></div>
+</aside>
+
+<div class="main-wrapper">
+  <main class="main-content">
+
+    <div class="chapter-header">
+      <div class="chapter-meta">
+        <span class="chapter-badge">🎯 <span data-tr="fr">Chapitre 2</span><span data-tr="en">Chapter 2</span></span>
+        <span class="chapter-duration">⏱ <span data-tr="fr">~30 min · lecture + activités</span><span data-tr="en">~30 min · reading + activities</span></span>
+      </div>
+      <h1 class="chapter-title"><span data-tr="fr">Structurer le contenu</span><span data-tr="en">Structuring the content</span></h1>
+      <p class="chapter-subtitle">
+        <span data-tr="fr">Le cadrage validé, il faut donner une forme au cours : découper, ordonner, doser. Ce chapitre transforme le syllabus en séquences claires que l'apprenant peut suivre sans se perdre.</span>
+        <span data-tr="en">With scoping validated, the course needs a shape: split, order, balance. This chapter turns the syllabus into clear sequences the learner can follow without getting lost.</span>
+      </p>
+      <div class="chapter-objectives">
+        <h3>🎯 <span data-tr="fr">Objectifs du chapitre</span><span data-tr="en">Chapter objectives</span></h3>
+        <ul>
+          <li><span data-tr="fr">Découper un syllabus en séquences cohérentes.</span><span data-tr="en">Break a syllabus into coherent sequences.</span></li>
+          <li><span data-tr="fr">Appliquer le micro-apprentissage à un module.</span><span data-tr="en">Apply microlearning to a module.</span></li>
+          <li><span data-tr="fr">Ordonner les notions selon une progression logique.</span><span data-tr="en">Order concepts along a logical progression.</span></li>
+          <li><span data-tr="fr">Équilibrer théorie et pratique autour du fil rouge.</span><span data-tr="en">Balance theory and practice around the through-line.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Podcast (placeholder — déposez un MP3 dans assets/media/podcasts/) -->
+    <section class="podcast-section">
+      <div class="podcast-header">
+        <div class="podcast-icon">🎙️</div>
+        <div>
+          <div class="podcast-title"><span data-tr="fr">Podcast — Structurer le contenu</span><span data-tr="en">Podcast — Structuring the content</span></div>
+          <div class="podcast-subtitle"><span data-tr="fr">Dialogue pédagogique · ~10 min</span><span data-tr="en">Teaching dialogue · ~10 min</span></div>
+        </div>
+      </div>
+      <p class="podcast-placeholder-msg"><span data-tr="fr">🎙️ Épisode de démonstration — déposez un fichier audio dans <code>assets/media/podcasts/</code>.</span><span data-tr="en">🎙️ Demo episode — drop an audio file in <code>assets/media/podcasts/</code>.</span></p>
+    </section>
+
+    <!-- Slides (placeholder — déposez un PDF dans assets/media/slides/) -->
+    <section class="slides-section" data-slides="[]">
+      <div class="slides-header">
+        <div class="slides-header-left"><div class="slides-icon">📊</div><span class="slides-label"><span data-tr="fr">Slides — Chapitre 2</span><span data-tr="en">Slides — Chapter 2</span></span></div>
+      </div>
+      <div class="slides-viewport"><div class="slides-placeholder"><span data-tr="fr">📊 Support à déposer en PDF dans <code>assets/media/slides/</code>.</span><span data-tr="en">📊 Slide deck (PDF) to drop in <code>assets/media/slides/</code>.</span></div></div>
+    </section>
+
+    <!-- Infographie (placeholder — déposez un PNG dans assets/media/infographies/) -->
+    <section class="infographie-section">
+      <div class="infographie-header">
+        <div class="infographie-header-left"><div class="infographie-icon">🖼️</div><span class="infographie-label"><span data-tr="fr">Infographie de synthèse</span><span data-tr="en">Summary infographic</span></span></div>
+      </div>
+      <div class="infographie-viewport"><div class="infographie-placeholder"><span data-tr="fr">🖼️ Image à déposer dans <code>assets/media/infographies/</code>.</span><span data-tr="en">🖼️ Image to drop in <code>assets/media/infographies/</code>.</span></div></div>
+    </section>
+
+    <!-- Accroche -->
+    <div class="callout tip">
+      <div class="callout-icon">🧩</div>
+      <div class="callout-content">
+        <h4><span data-tr="fr">Pourquoi ce chapitre compte</span><span data-tr="en">Why this chapter matters</span></h4>
+        <p><span data-tr="fr">Un bon contenu mal structuré reste illisible. Découper et ordonner, c'est offrir à l'apprenant un chemin balisé où chaque étape prépare la suivante — et où l'on sait toujours où l'on en est.</span>
+          <span data-tr="en">Good content that is badly structured stays unreadable. Splitting and ordering gives the learner a signposted path where each step prepares the next — and where you always know where you are.</span></p>
+      </div>
+    </div>
+
+    <section class="content-section">
+      <h2 id="ch2-s1"><span data-tr="fr">1. Du syllabus aux séquences</span><span data-tr="en">1. From syllabus to sequences</span></h2>
+      <p><span data-tr="fr">Le <strong>syllabus</strong> fixe les grandes lignes ; il reste à le découper en unités enseignables. On part des <strong>objectifs pédagogiques</strong> : chaque objectif devient une séquence, chaque séquence un ensemble de notions liées. Le bon grain de découpage est celui qui tient dans une session d'apprentissage sans surcharge.</span>
+        <span data-tr="en">The <strong>syllabus</strong> sets the broad outline; it still needs to be split into teachable units. Start from the <strong>learning objectives</strong>: each objective becomes a sequence, each sequence a set of related concepts. The right grain of splitting is the one that fits a learning session without overload.</span></p>
+      <div class="callout info">
+        <div class="callout-icon">📌</div>
+        <div class="callout-content"><p><span data-tr="fr">Une séquence = un objectif pédagogique. Si une séquence vise trois objectifs à la fois, découpez-la.</span><span data-tr="en">One sequence = one learning objective. If a sequence aims at three objectives at once, split it.</span></p></div>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2 id="ch2-s2"><span data-tr="fr">2. Penser en micro-apprentissage</span><span data-tr="en">2. Think in microlearning</span></h2>
+      <p><span data-tr="fr">Le <strong>micro-apprentissage</strong> découpe le contenu en modules courts et autonomes, chacun centré sur une idée et terminé par une vérification rapide. Des unités brèves se mémorisent mieux, se consultent à la demande et respectent le temps réel de l'apprenant. Une <strong>flashcard</strong> ou un mini <strong>QCM</strong> en fin de module ancrent l'essentiel.</span>
+        <span data-tr="en"><strong>Microlearning</strong> breaks content into short, self-contained modules, each focused on one idea and closed by a quick check. Brief units are easier to memorise, can be consulted on demand and respect the learner's real time budget. A <strong>flashcard</strong> or a mini <strong>multiple-choice quiz</strong> at the end of a module anchors the essentials.</span></p>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-content"><p><span data-tr="fr">Repère pratique : un module qui ne tient plus dans 5 à 10 minutes mérite probablement d'être scindé.</span><span data-tr="en">Practical rule of thumb: a module that no longer fits in 5 to 10 minutes probably deserves to be split.</span></p></div>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2 id="ch2-s3"><span data-tr="fr">3. Construire une progression logique</span><span data-tr="en">3. Build a logical progression</span></h2>
+      <p><span data-tr="fr">Les notions s'enchaînent du simple au complexe, du connu vers le nouveau. On respecte les <strong>prérequis</strong> : n'introduisez jamais une idée avant celles dont elle dépend. Une <strong>accroche</strong> en ouverture rappelle l'enjeu et donne envie d'avancer ; une <strong>évaluation formative</strong> en cours de route vérifie que la marche n'est pas trop haute.</span>
+        <span data-tr="en">Concepts follow one another from simple to complex, from the known to the new. Respect the <strong>prerequisites</strong>: never introduce an idea before those it depends on. A <strong>hook</strong> at the opening recalls the stakes and makes learners want to move forward; a <strong>formative assessment</strong> along the way checks that the step is not too high.</span></p>
+      <div class="callout info">
+        <div class="callout-icon">📌</div>
+        <div class="callout-content"><p><span data-tr="fr">Testez votre plan « à l'envers » : pour chaque notion, demandez-vous ce qu'il faut déjà savoir. Si la réponse vient plus loin, l'ordre est faux.</span><span data-tr="en">Test your plan "backwards": for each concept, ask what must already be known. If the answer comes later, the order is wrong.</span></p></div>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2 id="ch2-s4"><span data-tr="fr">4. Équilibrer théorie, pratique et fil rouge</span><span data-tr="en">4. Balance theory, practice and through-line</span></h2>
+      <p><span data-tr="fr">Alterner explication et mise en pratique évite le décrochage : on apprend, puis on applique aussitôt. Le <strong>fil rouge</strong> sert de support naturel à cette pratique — chaque séquence fait avancer le même projet, ce qui donne du sens et relie les modules entre eux. La théorie éclaire, la pratique ancre, le fil rouge donne la direction.</span>
+        <span data-tr="en">Alternating explanation and practice prevents drop-off: you learn, then apply at once. The <strong>through-line</strong> is the natural support for that practice — each sequence advances the same project, which creates meaning and ties the modules together. Theory enlightens, practice anchors, the through-line gives direction.</span></p>
+      <div class="takeaways">
+        <div class="takeaways-head"><span class="ico">🔑</span><h3><span data-tr="fr">À retenir</span><span data-tr="en">Key takeaways</span></h3></div>
+        <div class="takeaways-body">
+          <ul>
+            <li><span data-tr="fr">Une séquence porte <strong>un seul</strong> objectif pédagogique.</span><span data-tr="en">A sequence carries <strong>one single</strong> learning objective.</span></li>
+            <li><span data-tr="fr">Le <strong>micro-apprentissage</strong> privilégie des modules courts et vérifiés.</span><span data-tr="en"><strong>Microlearning</strong> favours short, checked modules.</span></li>
+            <li><span data-tr="fr">La progression respecte les <strong>prérequis</strong> et alterne théorie/pratique.</span><span data-tr="en">Progression respects <strong>prerequisites</strong> and alternates theory/practice.</span></li>
+            <li><span data-tr="fr">Le <strong>fil rouge</strong> sert de support à la pratique et relie les séquences.</span><span data-tr="en">The <strong>through-line</strong> supports practice and links the sequences.</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cartes de révision -->
+    <section class="content-section">
+      <h2 id="ch2-s5"><span data-tr="fr">Cartes de révision</span><span data-tr="en">Flashcards</span></h2>
+      <p><span data-tr="fr">Cliquez une carte pour la retourner, puis « ✓ Je savais » ou « à revoir ». Progression mémorisée sur cet appareil.</span>
+        <span data-tr="en">Click a card to flip it, then "✓ I knew it" or "review again". Progress is saved on this device.</span></p>
+      <div id="flash-ch2"></div>
+    </section>
+
+    <nav class="chapter-pagination">
+      <a href="01-cadrage.html" class="pagination-link prev">
+        <span class="pagination-label"><span data-tr="fr">← Précédent</span><span data-tr="en">← Previous</span></span>
+        <span class="pagination-title"><span data-tr="fr">Cadrer son cours</span><span data-tr="en">Scoping your course</span></span>
+      </a>
+      <a href="03-multimedia.html" class="pagination-link next">
+        <span class="pagination-label"><span data-tr="fr">Suivant →</span><span data-tr="en">Next →</span></span>
+        <span class="pagination-title"><span data-tr="fr">Créer des ressources multimédias</span><span data-tr="en">Creating multimedia resources</span></span>
+      </a>
+    </nav>
+
+  </main>
+</div>
+
+<footer class="site-footer">
+  <p><span data-tr="fr">Cours-démo « Concevoir un cours en ligne » — </span><span data-tr="en">Demo course "Designing an online course" — </span><a href="#">Mohamed EL AFRIT</a></p>
+  <p class="license"><span class="cc-badges">MIT · CC BY 4.0</span></p>
+</footer>
+
+<script src="../assets/js/i18n.js"></script>
+<script src="../assets/js/course-data.js"></script>
+<script src="../assets/js/nav-sections.js"></script>
+<script src="../assets/js/navigation.js"></script>
+<script src="../assets/js/accessibility.js"></script>
+<script src="../assets/js/media.js"></script>
+<script src="../assets/js/glossaire-data.js"></script>
+<script src="../assets/js/glossaire-tooltip.js"></script>
+<script src="../assets/js/flashcards.js"></script>
+<script src="../assets/js/flashcards-data.js"></script>
+<script src="../assets/js/animations.js"></script>
+<script>
+  new FlashcardDeck('flash-ch2', (window.RDC_FLASHCARDS || {})['2'] || [], 'ch2');
+</script>
+</body>
+</html>
