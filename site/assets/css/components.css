@@ -556,3 +556,10 @@ html[data-lang="en"] [data-tr="fr"] { display: none !important; }
   line-height: 1; transition: background var(--duration-fast), border-color var(--duration-fast);
 }
 .lang-toggle:hover { background: var(--bg-card-alt); border-color: var(--accent); }
+
+/* QA mobile : sous 480px, masquer le texte du logo (garder la pastille) pour
+   laisser la place aux boutons langue/accessibilité/thème dans l'en-tête. */
+@media (max-width: 480px) {
+  .site-logo > span:not(.logo-icon) { display: none; }
+  .header-left, .header-right { gap: var(--space-2); }
+}
