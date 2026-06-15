@@ -1,5 +1,8 @@
 # Config locale (éditeur / IDE / Claude Code)
-.claude/
+# On ignore tout .claude/ SAUF les skills, qui sont livrés AVEC le template
+# pour que Claude applique les conventions lors de la génération de cours.
+.claude/*
+!.claude/skills/
 .vscode/
 .idea/
 
