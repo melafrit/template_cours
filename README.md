@@ -28,6 +28,7 @@
 - [Présentation](#présentation)
 - [Fonctionnalités](#-fonctionnalités)
 - [Structure du dépôt](#-structure-du-dépôt)
+- [Skills Claude Code](#-skills-claude-code)
 - [Démarrage rapide](#-démarrage-rapide)
   - [Voie A — Générer un nouveau cours avec Claude](#voie-a--générer-un-nouveau-cours-avec-claude)
   - [Voie B — Lancer le site en local](#voie-b--lancer-le-site-en-local)
@@ -70,12 +71,27 @@ Tout ce que le template (et donc les prompts) sait produire :
 
 ```text
 template_cours/
-├── prompts/   # Bibliothèque de prompts à dérouler avec Claude (commencer par 01)
-├── site/      # Implémentation de référence bilingue — DÉMO (HTML/CSS/JS, hors-ligne)
-├── tools/     # Scripts Python (polycopiés DOCX/PDF, QCM papier, utilitaires)
-├── docs/      # Documentation, guides d'utilisation et conventions
-└── README.md  # Ce fichier
+├── prompts/        # Bibliothèque de prompts à dérouler avec Claude (commencer par 01)
+├── site/           # Implémentation de référence bilingue — DÉMO (HTML/CSS/JS, hors-ligne)
+├── tools/          # Scripts Python (polycopiés DOCX/PDF, QCM papier, utilitaires)
+├── docs/           # Documentation, guides d'utilisation et conventions
+├── .claude/skills/ # Skills Claude Code livrés avec le template (conventions auto)
+└── README.md       # Ce fichier
 ```
+
+## 🤖 Skills Claude Code
+
+Le template embarque des **Skills Claude Code** dans **`.claude/skills/`**. Quand on ouvre ce dépôt dans **Claude Code**, ces skills se chargent automatiquement : Claude applique alors **les conventions du template** (bilinguisme, QCM CBM, glossaire, formes de données…) pendant qu'il génère ou étend un cours — sans qu'on ait à les lui rappeler.
+
+| Skill | Se déclenche quand… |
+|---|---|
+| **`creer-cours-template`** | on veut **créer / générer un nouveau cours** → orchestre le cadrage (questions une à une) et le pipeline en 4 phases. |
+| **`cours-bilingue-i18n`** | on ajoute/traduit du contenu **bilingue FR/EN** (`data-tr`, `TPLI18N`, formes de données). |
+| **`cours-qcm-cbm`** | on crée/édite le **QCM** à notation CBM (`questions.js` + `corrections.js`). |
+| **`cours-glossaire-flashcards-activites`** | on ajoute **glossaire**, **flashcards** ou **activités interactives**. |
+| **`cours-supports-imprimables`** | on génère les **supports imprimables** (polycopiés, QCM papier). |
+
+> Point d'entrée : demandez simplement à Claude de **« créer un cours »**. Les autres skills s'activent au besoin. Détails dans [`.claude/skills/README.md`](.claude/skills/README.md). Ces skills **complètent** la bibliothèque `prompts/` (rédaction au fil de la discussion) et les `docs/` (référence humaine).
 
 ## 🚀 Démarrage rapide
 
@@ -143,6 +159,7 @@ Template conçu pour fabriquer des sites de cours **avec l'aide de Claude**.
 - [Overview](#overview)
 - [Features](#-features)
 - [Repository structure](#-repository-structure)
+- [Claude Code skills](#-claude-code-skills)
 - [Quick start](#-quick-start)
   - [Path A — Generate a new course with Claude](#path-a--generate-a-new-course-with-claude)
   - [Path B — Run the site locally](#path-b--run-the-site-locally)
@@ -185,12 +202,27 @@ Everything the template (and therefore the prompts) can produce:
 
 ```text
 template_cours/
-├── prompts/   # Prompt library to run with Claude (start with 01)
-├── site/      # Bilingual reference implementation — DEMO (HTML/CSS/JS, offline)
-├── tools/     # Python scripts (DOCX/PDF handouts, paper quiz, utilities)
-├── docs/      # Documentation, usage guides and conventions
-└── README.md  # This file
+├── prompts/        # Prompt library to run with Claude (start with 01)
+├── site/           # Bilingual reference implementation — DEMO (HTML/CSS/JS, offline)
+├── tools/          # Python scripts (DOCX/PDF handouts, paper quiz, utilities)
+├── docs/           # Documentation, usage guides and conventions
+├── .claude/skills/ # Claude Code skills shipped with the template (auto conventions)
+└── README.md       # This file
 ```
+
+## 🤖 Claude Code skills
+
+The template ships with **Claude Code Skills** in **`.claude/skills/`**. When you open this repository in **Claude Code**, the skills load automatically: Claude then applies **the template's conventions** (bilingualism, CBM quiz, glossary, data shapes…) while generating or extending a course — without you having to restate them.
+
+| Skill | Triggers when… |
+|---|---|
+| **`creer-cours-template`** | you want to **create / generate a new course** → orchestrates framing (one question at a time) and the 4-phase pipeline. |
+| **`cours-bilingue-i18n`** | you add/translate **bilingual FR/EN** content (`data-tr`, `TPLI18N`, data shapes). |
+| **`cours-qcm-cbm`** | you create/edit the **CBM-scored quiz** (`questions.js` + `corrections.js`). |
+| **`cours-glossaire-flashcards-activites`** | you add a **glossary**, **flashcards** or **interactive activities**. |
+| **`cours-supports-imprimables`** | you generate the **printable supports** (handouts, paper quiz). |
+
+> Entry point: just ask Claude to **"create a course"**. The other skills activate as needed. Details in [`.claude/skills/README.md`](.claude/skills/README.md). These skills **complement** the `prompts/` library (authoring via chat) and the `docs/` (human reference).
 
 ## 🚀 Quick start
 

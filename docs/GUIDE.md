@@ -21,6 +21,8 @@ Double licence du dépôt : **MIT** pour le code, **CC BY 4.0** pour le contenu 
 
 > **Règle d'or :** commencez **TOUJOURS** par `01_cadrage_maitre.md`. Sauter cette étape, c'est s'exposer à des chapitres incohérents, un fil rouge bancal et des QCM hors-sujet.
 
+> **Avec Claude Code :** ce dépôt embarque des *skills* (`.claude/skills/`) qui appliquent **automatiquement** les conventions du template. Ouvrez le dépôt dans Claude Code et demandez simplement « **créer un cours** » : l'orchestrateur `creer-cours-template` prend le relais (cadrage question par question, pipeline en 4 phases), et les skills de domaine (bilinguisme, QCM CBM, glossaire/flashcards/activités, supports imprimables) s'activent au besoin. Voir [`.claude/skills/README.md`](../.claude/skills/README.md).
+
 ### 0.2 Ce qu'il faut réunir une bonne fois
 
 Avant le premier prompt, rassemblez :
