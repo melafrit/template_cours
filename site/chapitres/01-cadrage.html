@@ -258,8 +258,9 @@
 
   var TEXTES = {
     fr: {
+      capsuleSrc: "../assets/media/voix/chapitre-1-capsule-fr.mp3",
       capsuleTitre: "Ce que ce chapitre vous demande de décider",
-      capsuleTrans: "Bienvenue dans le chapitre vitrine. Il exerce tous les composants du moteur, et il enseigne quelque chose de réel : les trois décisions qu'il faut prendre avant d'écrire un cours. Prenez-le comme un modèle à recopier autant que comme un chapitre à lire.",
+      capsuleTrans: "Bienvenue dans le chapitre vitrine. Il fait deux choses à la fois : il enseigne quelque chose de réel — les trois décisions qu'il faut prendre avant d'écrire un cours — et il exerce tous les composants du moteur, pour que vous les voyiez fonctionner. Ces trois décisions sont : pour qui, pour quoi faire, et autour de quoi. Elles se prennent dans cet ordre, parce que chacune restreint le champ de la suivante. Et la tentation est toujours la même : ouvrir un traitement de texte et commencer par le début. On produit alors ce qu'on sait, pas ce dont l'apprenant a besoin. Prenez ce chapitre comme un modèle à recopier, autant que comme un chapitre à lire.",
 
       revealQ: "Avant de lire : selon vous, laquelle de ces trois décisions faut-il prendre en premier ?",
       revealIndice: "Demandez-vous laquelle des trois contraint les deux autres, et non l'inverse.",
@@ -319,8 +320,9 @@
     },
 
     en: {
+      capsuleSrc: "../assets/media/voix/chapitre-1-capsule-en.mp3",
       capsuleTitre: "What this chapter asks you to decide",
-      capsuleTrans: "Welcome to the showcase chapter. It exercises every component of the engine, and it teaches something real: the three decisions to make before writing a course. Treat it as a model to copy as much as a chapter to read.",
+      capsuleTrans: "Welcome to the showcase chapter. It does two things at once: it teaches something real — the three decisions to make before writing a course — and it exercises every component of the engine, so you can see them working. Those three decisions are: for whom, to do what, and around what. They come in that order, because each one narrows the field of the next. And the temptation is always the same: open a document and start at the beginning. You then produce what you know, not what the learner needs. Treat this chapter as a model to copy, as much as a chapter to read.",
 
       revealQ: "Before reading: which of these three decisions do you think comes first?",
       revealIndice: "Ask which of the three constrains the other two, rather than the reverse.",
@@ -396,9 +398,9 @@
     });
 
     RDCX.voice('capsule-1', {
-      src: '../assets/media/voix/chapitre-1-capsule.mp3',
+      src: X.capsuleSrc,
       titre: X.capsuleTitre,
-      duree: '0:45',
+      duree: '0:47',
       transcription: X.capsuleTrans
     });
 

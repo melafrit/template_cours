@@ -59,13 +59,24 @@
   /* ---------------------------------------------------------------
      Construction du panneau
      --------------------------------------------------------------- */
+  /* Une piste marquee d'une langue n'est montree que dans cette langue :
+     afficher les six capsules a un lecteur francophone, dont trois qu'il ne
+     comprend pas, transforme la playlist en bruit. Les pistes sans marque —
+     podcasts, musiques — restent visibles dans les deux langues. */
+  function pistesVisibles(ch) {
+    var l = (window.TPLI18N && TPLI18N.lang()) || 'fr';
+    return (ch.pistes || []).filter(function (p) {
+      return !p.langue || p.langue === l;
+    });
+  }
+
   function construire() {
     var courant = chapitreCourant();
     var numeros = Object.keys(DONNEES).sort(function (a, b) { return rang(a) - rang(b); });
 
     var total = 0, dispo = 0;
     numeros.forEach(function (n) {
-      DONNEES[n].pistes.forEach(function (p) { total++; if (p.present) dispo++; });
+      pistesVisibles(DONNEES[n]).forEach(function (p) { total++; if (p.present) dispo++; });
     });
 
     var html = ''
@@ -79,7 +90,8 @@
     numeros.forEach(function (n) {
       var ch = DONNEES[n];
       var ouvert = (n === courant);
-      var pretes = ch.pistes.filter(function (p) { return p.present; }).length;
+      var visibles = pistesVisibles(ch);
+      var pretes = visibles.filter(function (p) { return p.present; }).length;
       html += ''
         + '<section class="pl-chapitre' + (ouvert ? ' est-ouvert' : '') + '" data-ch="' + n + '">'
         + '  <button type="button" class="pl-ch-tete" aria-expanded="' + (ouvert ? 'true' : 'false') + '">'
@@ -89,7 +101,7 @@
         + '    <span class="pl-ch-compte">' + pretes + '</span>'
         + '  </button>'
         + '  <ul class="pl-pistes"' + (ouvert ? '' : ' hidden') + '>';
-      ch.pistes.forEach(function (p, i) {
+      visibles.forEach(function (p, i) {
         var absente = !p.present;
         html += ''
           + '<li class="pl-piste' + (absente ? ' est-absente' : '') + '"'

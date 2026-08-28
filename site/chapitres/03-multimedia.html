@@ -200,8 +200,9 @@
 
   var TEXTES = {
     fr: {
+      capsuleSrc: "../assets/media/voix/chapitre-3-capsule-fr.mp3",
       capsuleTitre: "Choisir le format, pas l'outil",
-      capsuleTrans: "Trois formats, trois intentions. Le texte pour ce qu'on relit, l'audio pour ce qui se transmet, le schéma pour ce qui ne se dit pas en une phrase. Le piège est de choisir d'après l'outil qu'on a sous la main plutôt que d'après ce qu'on veut obtenir. Et la règle qui évite le plus de travail inutile : deux formats qui se répètent valent moins qu'un seul bien choisi.",
+      capsuleTrans: "Trois formats, trois intentions. Le texte sert à ce qu'on relit : une définition, une procédure, un chiffre exact. L'audio sert à ce qui se transmet par la voix : une intention, une nuance, un encouragement. Le schéma sert à ce qui ne se dit pas en une phrase. Le piège est de choisir d'après l'outil dont on dispose, et non d'après ce qu'on veut obtenir : on a un micro, donc on enregistre. Une définition dite à l'oral se perd — il faudrait la réécouter, et personne ne réécoute. Retenez surtout ceci : deux formats qui se répètent valent moins qu'un seul bien choisi.",
 
       revealQ: "Avant de lire : vous devez transmettre une durée de conservation exacte — quinze minutes. Quel format choisissez-vous ?",
       revealIndice: "Demandez-vous ce que l'apprenant fera de cette information dans trois semaines.",
@@ -229,8 +230,9 @@
     },
 
     en: {
+      capsuleSrc: "../assets/media/voix/chapitre-3-capsule-en.mp3",
       capsuleTitre: "Choose the format, not the tool",
-      capsuleTrans: "Three formats, three intentions. Text for what gets re-read, audio for what carries in a voice, diagrams for what no sentence can hold. The trap is choosing from the tool at hand rather than from what you want to achieve. And the rule that saves the most wasted work: two formats that repeat each other are worth less than one well chosen.",
+      capsuleTrans: "Three formats, three intentions. Text is for what gets re-read: a definition, a procedure, an exact figure. Audio is for what carries in a voice: an intention, a nuance, an encouragement. A diagram is for what no single sentence can hold. The trap is choosing from the tool you happen to own, rather than from what you want to achieve: you have a microphone, so you record. A definition delivered by voice is lost — you would have to listen again, and nobody listens again. Above all, remember this: two formats that repeat each other are worth less than one well chosen.",
 
       revealQ: "Before reading: you must convey an exact retention period — fifteen minutes. Which format do you choose?",
       revealIndice: "Ask yourself what the learner will do with this figure in three weeks.",
@@ -273,7 +275,7 @@
     });
 
     RDCX.voice('capsule-3', {
-      src: '../assets/media/voix/chapitre-3-capsule.mp3',
+      src: X.capsuleSrc,
       titre: X.capsuleTitre,
       duree: '0:50',
       transcription: X.capsuleTrans

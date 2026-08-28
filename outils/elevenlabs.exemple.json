@@ -1,0 +1,29 @@
+{
+  "_lisez_moi": "MODÈLE — ne contient aucun secret, et c'est le seul des deux fichiers qui soit versionné. Copiez-le en outils/elevenlabs.json puis renseignez cle_api et voix_id. outils/elevenlabs.json est ignoré par Git : votre clé ne partira jamais dans le dépôt.",
+
+  "_cle_api": "Clé personnelle ElevenLabs. Commence par sk_. Elle n'est affichée qu'une fois, à sa création — voir la procédure dans le README. Ne la collez jamais dans une conversation, un ticket ou un message : elle donne accès à votre compte et à vos crédits.",
+  "cle_api": "sk_a-remplir",
+
+  "_voix_id": "Identifiant de votre clone vocal professionnel, une suite de 20 caractères. Se copie depuis la page Voices, ou se retrouve avec GET /v1/voices.",
+  "voix_id": "a-remplir",
+
+  "_modele": "eleven_v3 est le SEUL modèle qui interprète les balises entre crochets ([warmly], [pause]…). Sur les autres, elles seraient lues à voix haute ou ignorées, et les prises seraient inutilisables. Le générateur vérifie la disponibilité de ce modèle sur votre compte avant toute dépense, et refuse de continuer s'il est absent.",
+  "modele": "eleven_v3",
+
+  "_format": "44,1 kHz, 128 kb/s, mono — l'encodage des capsules déjà enregistrées. Le conserver garde le cours homogène à l'oreille.",
+  "format_sortie": "mp3_44100_128",
+
+  "_reglages": "Repris des réglages manuels du cours, décrits dans les fiches de production. stabilite 0,5 correspond à « Natural » dans l'interface : « Creative » dérive d'une capsule à l'autre, « Robust » ignore les balises. style bas, parce qu'un clone professionnel porte déjà votre style — le pousser produit une caricature.",
+  "reglages": {
+    "stabilite": 0.5,
+    "similarite": 0.8,
+    "style": 0.1,
+    "renfort_locuteur": true,
+    "vitesse": 1.0
+  },
+
+  "_controles": "OPTIONNEL — laissez ce bloc absent. Les seuils de contrôle vivent désormais dans outils/generer_audio.py, calibrés sur les prises validées du cours : débit de 115 à 175 mots par minute, durée de 55 à 145 secondes, aucun silence au-delà de 3 secondes. Les inscrire ici les figerait : une configuration copiée avant un recalibrage rejetterait de bonnes prises. N'ajoutez un bloc « controles » que pour surcharger sciemment une valeur — le script signalera alors l'écart.",
+
+  "_dossier_sortie": "Où déposer les MP3 validés. Chemin relatif à la racine du dépôt.",
+  "dossier_sortie": "assets/media/voix"
+}

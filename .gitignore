@@ -41,3 +41,16 @@ sources/*
 # choix, pas des secrets, mais elle est propre a CHAQUE cours : c'est le modele
 # commente qui est versionne, pas votre copie.
 cours.json
+
+# Generation audio — CLE API ElevenLabs. Ne jamais versionner : elle engage des
+# depenses, et l'historique Git ne s'efface pas. Seul elevenlabs.exemple.json,
+# sans secret, est suivi.
+outils/elevenlabs.json
+outils/*.config.json
+# Prises rejetees par le controle qualite : on les garde pour ecoute, pas pour
+# publication.
+outils/quarantaine/
+
+# Configuration de deploiement — identifiants d'hebergement, meme regle.
+deploiement/config.json
+deploiement/manifeste.json
