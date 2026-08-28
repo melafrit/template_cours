@@ -225,6 +225,19 @@
       ],
       branchLibelle: "Effet pédagogique",
 
+      schemaSrc: "../assets/media/schemas/chapitre-3-schema-1-chaine-production.fr.webp",
+      schemaPoints: [
+        [16, 37, "Le script écrit",
+         "Avec sa durée visée. C'est lui qu'on relit et qu'on corrige — jamais l'enregistrement. Corriger une prise coûte une nouvelle génération ; corriger un script coûte une phrase."],
+        [45, 37, "La génération",
+         "En série, par l'API. Aucune décision ne se prend à ce stade : tout a été tranché dans le script."],
+        [75, 37, "Le contrôle",
+         "Durée, débit, silences pour l'audio ; contraste et texte alternatif pour les images. Il se place avant la publication, jamais après."],
+        [32, 74, "Publication",
+         "La ressource part en ligne. Elle a passé le contrôle : on sait ce qu'elle vaut avant que quiconque l'entende."],
+        [68, 74, "Quarantaine",
+         "Ce que le contrôle rejette est conservé pour écoute, avec la raison du rejet — mais ne part jamais en ligne. Une prise inaudible publiée n'est corrigée que par un étudiant qui se plaint."]
+      ],
       schemaAlt: "La chaîne de production d'une ressource : script écrit, génération, contrôle automatique, puis publication — ou mise de côté si le contrôle échoue.",
       schemaLegende: "Schéma 1 — La chaîne de production. Le contrôle se place avant la publication, jamais après : une ressource déjà en ligne ne se relit plus."
     },
@@ -255,6 +268,19 @@
       ],
       branchLibelle: "Teaching impact",
 
+      schemaSrc: "../assets/media/schemas/chapitre-3-schema-1-chaine-production.en.webp",
+      schemaPoints: [
+        [16, 37, "The written script",
+         "With its target duration. This is what you re-read and fix — never the recording. Fixing a take costs another generation; fixing a script costs a sentence."],
+        [45, 37, "Generation",
+         "In bulk, through the API. No decision is taken at this stage: everything was settled in the script."],
+        [75, 37, "The check",
+         "Duration, pace and silences for audio; contrast and alt text for images. It sits before publication, never after."],
+        [32, 74, "Publication",
+         "The resource goes online. It passed the check: you know what it is worth before anyone hears it."],
+        [68, 74, "Quarantine",
+         "Whatever the check rejects is kept for listening, with the reason — but never goes online. An inaudible take, once published, is only fixed by a student who complains."]
+      ],
       schemaAlt: "The production chain of a resource: written script, generation, automatic check, then publication — or set aside if the check fails.",
       schemaLegende: "Diagram 1 — The production chain. The check sits before publication, never after: a resource already online is no longer re-read."
     }
@@ -303,10 +329,12 @@
     });
 
     RDCX.hotspots('schema-3-1', {
-      src: '../assets/media/schemas/chapitre-3-schema-1-chaine-production.webp',
+      src: X.schemaSrc,
       alt: X.schemaAlt,
       legende: X.schemaLegende,
-      points: []
+      points: X.schemaPoints.map(function (p) {
+        return { x: p[0], y: p[1], titre: p[2], texte: p[3] };
+      })
     });
   }
 

@@ -315,6 +315,15 @@
       ],
       branchLibelle: "Effet pédagogique",
 
+      schemaSrc: "../assets/media/schemas/chapitre-1-schema-1-trois-decisions.fr.webp",
+      schemaPoints: [
+        [17, 43, "1. Le public",
+         "Prérequis réellement acquis, temps disponible, contraintes matérielles. C'est la troisième qu'on oublie, et souvent la plus déterminante : un apprenant qui suit le cours dans les transports ne regardera pas une vidéo de vingt minutes."],
+        [50, 43, "2. Les objectifs",
+         "Ce que l'apprenant sera capable de FAIRE. Le test : si vous ne pouvez pas décrire l'exercice qui prouverait l'objectif atteint, il est mal écrit — et vous ne pourrez pas évaluer."],
+        [83, 43, "3. Le fil rouge",
+         "Le cas ou le projet qui traverse tout le cours. Il sert aussi d'arbitre le jour où il faut couper : ce qui ne le sert pas est ce dont on peut se passer."]
+      ],
       schemaAlt: "Les trois décisions de cadrage et ce que chacune contraint : le public contraint les objectifs, les objectifs contraignent les activités, le fil rouge contraint l'ordre des chapitres.",
       schemaLegende: "Schéma 1 — Les trois décisions et leur ordre. Chacune restreint le champ de la suivante : c'est ce qui rend le cadrage utile."
     },
@@ -377,6 +386,15 @@
       ],
       branchLibelle: "Teaching impact",
 
+      schemaSrc: "../assets/media/schemas/chapitre-1-schema-1-trois-decisions.en.webp",
+      schemaPoints: [
+        [17, 43, "1. The audience",
+         "Prerequisites actually acquired, time available, practical constraints. The third is the forgotten one, and often the decisive one: a learner on a commute will not watch a twenty-minute video."],
+        [50, 43, "2. The objectives",
+         "What the learner will be able to DO. The test: if you cannot describe the exercise that would prove the objective reached, it is badly written — and you will not be able to assess."],
+        [83, 43, "3. The through-line",
+         "The case or project running across the whole course. It is also the arbiter on the day you must cut: what does not serve it is what you can do without."]
+      ],
       schemaAlt: "The three scoping decisions and what each constrains: the audience constrains the objectives, the objectives constrain the activities, the through-line constrains the order of chapters.",
       schemaLegende: "Diagram 1 — The three decisions and their order. Each narrows the field of the next: that is what makes scoping useful."
     }
@@ -452,10 +470,12 @@
        « image attendue », avec le nom exact du fichier à déposer. C'est
        voulu — on voit ce qu'il reste à produire au lieu d'une page trouée. */
     RDCX.hotspots('schema-1-1', {
-      src: '../assets/media/schemas/chapitre-1-schema-1-trois-decisions.webp',
+      src: X.schemaSrc,
       alt: X.schemaAlt,
       legende: X.schemaLegende,
-      points: []
+      points: X.schemaPoints.map(function (p) {
+        return { x: p[0], y: p[1], titre: p[2], texte: p[3] };
+      })
     });
   }
 
