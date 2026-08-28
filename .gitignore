@@ -27,3 +27,17 @@ venv/
 
 # Sorties générées par les scripts Python (régénérables)
 tools/out/
+
+# Documents de reference — DROIT D'AUTEUR. Un referentiel, un manuel, un article
+# ne vous appartiennent pas, et l'historique Git ne s'efface pas : ce qu'on y met
+# un jour y reste, y compris le jour ou le depot devient public.
+# Seuls le mode d'emploi et la bibliographie sont versionnes : citer une source
+# n'est pas la republier.
+sources/*
+!sources/README.md
+!sources/bibliographie.md
+
+# Configuration du cours en cours de creation — elle porte votre contact et vos
+# choix, pas des secrets, mais elle est propre a CHAQUE cours : c'est le modele
+# commente qui est versionne, pas votre copie.
+cours.json

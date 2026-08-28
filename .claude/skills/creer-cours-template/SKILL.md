@@ -11,6 +11,30 @@ Skill **orchestrateur** : point d'entrée pour fabriquer, avec ce dépôt, un **
 
 Dès que l'utilisateur veut **démarrer un projet de cours** ou **générer un nouveau cours / site de cours** depuis ce template. C'est le premier réflexe : on passe par ce skill avant tout autre.
 
+## Avant tout : l'amorçage mécanique
+
+Le squelette du cours ne s'écrit pas à la main. Il se génère :
+
+```
+cp cours.exemple.json cours.json      # puis on le remplit
+python3 nouveau_cours.py --essai      # ce qu'il ferait, sans rien écrire
+python3 nouveau_cours.py              # crée le cours dans le dossier « sortie »
+```
+
+Le script met en place l'arborescence, la charte, la navigation, les squelettes
+de chapitres et les outils. Il ne rédige **aucun** contenu : c'est le rôle de ce
+skill, ensuite.
+
+Deux choses à savoir avant de rédiger :
+
+- **Les documents de référence vivent dans `sources/`.** C'est là que
+  l'utilisateur dépose référentiel, supports, articles, normes. Le dossier n'est
+  pas versionné — droit d'auteur — mais `sources/bibliographie.md` l'est, et il
+  faut le compléter au fur et à mesure, pas à la fin.
+- **Le chapitre vitrine est conservé** sous `site/chapitres/_modele.html`. C'est
+  le seul endroit où les sept composants sont appelés pour de vrai, avec le
+  motif bilingue à recopier. On copie depuis là plutôt que d'écrire de mémoire.
+
 ## Règle d'or
 
 **TOUJOURS commencer par le cadrage.** On ne génère **aucun** contenu (page, chapitre, QCM, glossaire, activité, support) tant que le périmètre n'est pas fixé et **validé** par l'utilisateur. Le cadrage se fait avec `prompts/01_cadrage_maitre.md`, dont la sortie — la **fiche de cadrage** — alimente tout le reste. Sauter cette étape = chapitres incohérents, fil rouge bancal, QCM hors-sujet.

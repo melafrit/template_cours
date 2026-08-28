@@ -1,0 +1,80 @@
+{
+  "_lisez_moi": "MODÈLE — copiez-le en cours.json, remplissez-le, puis lancez : python3 nouveau_cours.py. Les clés commençant par « _ » sont des commentaires : le script les ignore, vous pouvez les laisser en place. Rien n'est deviné : ce que vous n'écrivez pas ici n'apparaîtra pas dans le cours.",
+
+  "_identite": "Ce qui distingue ce cours de tous les autres. Le slug sert au nom du dossier et aux fichiers ; gardez-le court, sans accent ni espace.",
+  "slug": "mon-cours",
+  "titre": {
+    "fr": "Titre du cours",
+    "en": "Course title"
+  },
+  "sous_titre": {
+    "fr": "Une phrase qui dit à qui s'adresse le cours et ce qu'il permet de faire. Elle s'affiche sous le titre, sur l'accueil.",
+    "en": "One sentence saying who the course is for and what it enables. Shown under the title, on the home page."
+  },
+
+  "_auteur": "Apparaît dans le pied de page, les métadonnées des pages et les documents générés.",
+  "auteur": "Prénom NOM",
+  "contact": "prenom.nom@exemple.fr",
+  "licence": {
+    "fr": "Code MIT · Contenu CC BY-NC-SA 4.0",
+    "en": "Code MIT · Content CC BY-NC-SA 4.0"
+  },
+
+  "_palette": "L'identité visuelle. La charte est commune à tous vos cours ; seule la teinte change, pour que deux cours ouverts côte à côte ne se confondent pas. Valeurs possibles : marine (droit, gestion, conformité) · emeraude (environnement, santé, vivant) · prune (sciences humaines, communication, design) · ardoise (réseaux, infrastructures, sécurité) · bordeaux (droit, histoire, économie). Chaque palette est vérifiée en contraste, en thème clair ET sombre.",
+  "palette": "marine",
+
+  "_langues": "Le premier élément est la langue par défaut. Retirez « en » pour un cours en français seul : le script supprime alors les blocs anglais et le bouton de bascule. ATTENTION — un cours bilingue double la rédaction ET la facture audio.",
+  "langues": ["fr", "en"],
+
+  "_public": "Sert au cadrage et s'affiche sur la page d'accueil. Décrivez le public par ses PRÉREQUIS et ses CONTRAINTES, pas par son intitulé de diplôme : « master 2 » ne permet aucune décision, « sans bagage technique, deux heures par semaine, souvent sur téléphone » en permet beaucoup.",
+  "public": {
+    "parcours": ["Master 1 — parcours à nommer"],
+    "prerequis": {
+      "fr": "Ce que l'apprenant est supposé savoir en arrivant.",
+      "en": "What the learner is assumed to know on arrival."
+    },
+    "contraintes": {
+      "fr": "Temps disponible, matériel, contexte de lecture.",
+      "en": "Available time, equipment, reading context."
+    }
+  },
+
+  "_fil_rouge": "Le cas, projet ou scénario qui traverse tout le cours. C'est lui qui arbitre quand il faut couper. Laissez vide si le cours n'en a pas — mais sachez que c'est ce qui manque le plus souvent aux cours qu'on abandonne en cours de route.",
+  "fil_rouge": {
+    "fr": "Nom et pitch du fil rouge en deux phrases.",
+    "en": "Name and two-sentence pitch of the through-line."
+  },
+
+  "_chapitres": "L'ordre de cette liste est celui du cours. « fichier » est créé dans site/chapitres/. « ico » est un emoji, il apparaît dans le menu. Le script génère un squelette par chapitre : en-tête, sections vides, appels des composants commentés. Le contenu, lui, s'écrit ensuite — avec la skill « creer-cours-template », qui lira vos documents de référence.",
+  "chapitres": [
+    { "num": "1", "ico": "🎯", "fichier": "01-premier-chapitre.html",
+      "titre": { "fr": "Titre du premier chapitre", "en": "First chapter title" } },
+    { "num": "2", "ico": "🧱", "fichier": "02-deuxieme-chapitre.html",
+      "titre": { "fr": "Titre du deuxième chapitre", "en": "Second chapter title" } },
+    { "num": "3", "ico": "🔎", "fichier": "03-troisieme-chapitre.html",
+      "titre": { "fr": "Titre du troisième chapitre", "en": "Third chapter title" } }
+  ],
+
+  "_blocs": "Ce que le cours embarque. Mettez à false ce dont vous n'avez pas besoin : le script retire alors les pages, les entrées de menu et les générateurs correspondants. Vous pouvez toujours les remettre plus tard, mais un bloc jamais rempli qui traîne dans le menu donne un cours inachevé.",
+  "blocs": {
+    "qcm": true,
+    "flashcards": true,
+    "glossaire": true,
+    "polycopies": true,
+    "atelier": true,
+    "documents_formateur": true,
+    "deploiement": true
+  },
+
+  "_audio": "Les capsules audio du cours. « capsule_par_section » en pose une sous chaque titre de section ; « podcast_par_chapitre » réserve un épisode long par chapitre. La génération elle-même passe par outils/generer_audio.py et sa configuration séparée (outils/elevenlabs.json), qui porte votre clé et votre voix — jamais ce fichier-ci.",
+  "audio": {
+    "capsule_ouverture_chapitre": true,
+    "capsule_par_section": true,
+    "podcast_par_chapitre": false,
+    "_duree_capsule": "Fourchette visée, en secondes. Les seuils de contrôle qualité du générateur sont calibrés là-dessus.",
+    "duree_capsule_s": [60, 120]
+  },
+
+  "_sortie": "Où créer le cours. Chemin relatif à ce dépôt, ou absolu. Le script refuse d'écrire dans un dossier non vide, sauf avec --ecraser.",
+  "sortie": "../mon-cours"
+}
