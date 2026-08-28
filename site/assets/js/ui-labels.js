@@ -70,6 +70,13 @@ window.UI_LABELS = {
     'etapes.valideesPartiel': 'étapes validées — les autres restent ouvertes.',
     'etapes.maitrise': '— chapitre maîtrisé.',
     'etapes.relisez': 'Relisez la section',
+    'etapes.tout': 'Tout afficher',
+    'etapes.retour': '↩ Revenir au parcours',
+    'etapes.precedent': '‹ Précédent',
+    'etapes.suivant': 'Suivant ›',
+    'etapes.sur': '/',
+    'etapes.reste': '⏱ reste ≈',
+    'etapes.surN': 'sur',
 
     /* ---- point de contrôle ---- */
     'controle.titre': 'Point de contrôle',
@@ -189,6 +196,13 @@ window.UI_LABELS = {
     'etapes.valideesPartiel': 'steps completed — the others remain open.',
     'etapes.maitrise': '— chapter mastered.',
     'etapes.relisez': 'Re-read section',
+    'etapes.tout': 'Show all',
+    'etapes.retour': '↩ Back to the guided path',
+    'etapes.precedent': '‹ Previous',
+    'etapes.suivant': 'Next ›',
+    'etapes.sur': '/',
+    'etapes.reste': '⏱ approx. left',
+    'etapes.surN': 'of',
 
     /* ---- checkpoint ---- */
     'controle.titre': 'Checkpoint',

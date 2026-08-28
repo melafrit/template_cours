@@ -463,7 +463,7 @@
           + '<span class="rdcx-opt-txt">' + rich(c.t) + '</span></button>';
       }).join('');
 
-      box.innerHTML = head('🧭', titre, 'Étape ' + (i + 1) + ' / ' + E.length)
+      box.innerHTML = head('🧭', titre, T('etapes.etape') + ' ' + (i + 1) + ' ' + T('etapes.sur') + ' ' + E.length)
         + '<div class="rdcx-body">'
         + (i === 0 && cfg.intro ? '  <p class="rdcx-intro">' + rich(cfg.intro) + '</p>' : '')
         + '  <div class="rdcx-situation">' + rich(e.situation) + '</div>'
@@ -485,7 +485,7 @@
           var c = (e.choix || [])[parseInt(b.getAttribute('data-k'), 10)] || {};
           each(opts, function (x) { x.disabled = true; if (x !== b) x.classList.add('is-pale'); });
           b.classList.add(c.bon ? 'is-correct' : 'is-wrong');
-          cq.innerHTML = '<span class="rdcx-conseq-lbl">' + (c.bon ? '✅ Conséquence juridique' : '⚠ Conséquence juridique') + '</span>'
+          cq.innerHTML = '<span class="rdcx-conseq-lbl">' + (c.bon ? '✅ ' : '⚠ ') + (cfg.libelleConsequence || T('scenario.consequence')) + '</span>'
             + '<div class="rdcx-conseq-txt">' + rich(c.consequence || '') + '</div>';
           cq.classList.add('is-shown');
           cq.classList.add(c.bon ? 'is-bon' : 'is-risque');
@@ -503,7 +503,7 @@
       parcours.forEach(function (p) { if (p.bon) bons++; });
       var recap = parcours.map(function (p, k) {
         return '<li class="rdcx-recap-item' + (p.bon ? ' is-bon' : ' is-risque') + '">'
-          + '<span class="rdcx-recap-num">Étape ' + (k + 1) + '</span>'
+          + '<span class="rdcx-recap-num">' + T('etapes.etape') + ' ' + (k + 1) + '</span>'
           + '<span class="rdcx-recap-txt">' + rich(p.t) + '</span></li>';
       }).join('');
 
@@ -952,7 +952,7 @@
     if (t && t.replace(/\s/g, '')) return t;
     var h = sec.querySelector('h2');
     if (h) return String(h.textContent).replace(/^\s*\d+\.\s*/, '').replace(/^\s+|\s+$/g, '');
-    return 'Étape ' + (k + 1);
+    return T('etapes.etape') + ' ' + (k + 1);
   }
 
   function dansUnChamp(el) {
@@ -1011,21 +1011,21 @@
       + '    <span class="rdcx-steps-pos" aria-live="polite"></span>'
       + '    <span class="rdcx-steps-reste"></span>'
       + '  </div>'
-      + '  <button type="button" class="rdcx-steps-mode">Tout afficher</button>'
+      + '  <button type="button" class="rdcx-steps-mode">' + T('etapes.tout') + '</button>'
       + '</div>'
       + '<div class="rdcx-steps-continu" hidden>'
       + '  <span class="rdcx-steps-continu-txt">' + T('etapes.lectureContinue') + '</span>'
-      + '  <button type="button" class="rdcx-steps-retour">↩ Revenir au parcours</button>'
+      + '  <button type="button" class="rdcx-steps-retour">' + T('etapes.retour') + '</button>'
       + '</div>';
     secs[0].parentNode.insertBefore(fil, secs[0]);
 
     var nav = document.createElement('div');
     nav.className = 'rdcx-steps-nav';
     nav.innerHTML =
-        '<button type="button" class="rdcx-btn rdcx-steps-prec">‹ Précédent</button>'
+        '<button type="button" class="rdcx-btn rdcx-steps-prec">' + T('etapes.precedent') + '</button>'
       + '<span class="rdcx-steps-nav-pos"></span>'
       + '<button type="button" class="rdcx-btn rdcx-btn-main rdcx-steps-suiv">'
-      + '<span class="rdcx-steps-suiv-lbl">Suivant ›</span>'
+      + '<span class="rdcx-steps-suiv-lbl">' + T('etapes.suivant') + '</span>'
       + '<span class="rdcx-steps-suiv-titre"></span></button>';
 
     var fin = document.createElement('section');
@@ -1084,15 +1084,22 @@
           + (j === i && !continu ? ' is-current' : '');
         b.querySelector('.rdcx-steps-dot-n').textContent = f ? '✓' : (j + 1);
         b.setAttribute('title', (j + 1) + '. ' + titres[j] + (durees[j] ? ' — ' + dureeTexte(durees[j]) : ''));
-        b.setAttribute('aria-label', 'Étape ' + (j + 1) + ' : ' + titres[j]
-          + (f ? ' — validée' : '') + (r.t ? ' — ' + r.s + ' sur ' + r.t : ''));
+        b.setAttribute('aria-label', T('etapes.etape') + ' ' + (j + 1) + ' : ' + titres[j]
+          + (f ? ' ' + T('controle.valide') : '') + (r.t ? ' — ' + r.s + ' ' + T('etapes.surN') + ' ' + r.t : ''));
         if (j === i && !continu) b.setAttribute('aria-current', 'step');
         else b.removeAttribute('aria-current');
       });
       fil.querySelector('.rdcx-steps-pos').textContent =
-        i >= N ? T('etapes.chapitreTermine') : ('Étape ' + (i + 1) + ' / ' + N);
+        i >= N ? T('etapes.chapitreTermine')
+               : (T('etapes.etape') + ' ' + (i + 1) + ' ' + T('etapes.sur') + ' ' + N);
       var reste = resteMin();
-      fil.querySelector('.rdcx-steps-reste').textContent = reste ? '⏱ reste ≈ ' + dureeTexte(reste) : '';
+      fil.querySelector('.rdcx-steps-reste').textContent = reste ? T('etapes.reste') + ' ' + dureeTexte(reste) : '';
+      /* Ces libelles sont ecrits a la construction de la barre : sans cette
+         reecriture ils resteraient dans la langue du chargement. */
+      var bMode = fil.querySelector('.rdcx-steps-mode');
+      if (bMode) bMode.textContent = continu ? T('etapes.retour') : T('etapes.tout');
+      var bRet = fil.querySelector('.rdcx-steps-retour');
+      if (bRet) bRet.textContent = T('etapes.retour');
     }
 
     function rendNav() {
@@ -1105,10 +1112,13 @@
       var dernier = (i === N - 1);
       var suiv = nav.querySelector('.rdcx-steps-suiv');
       var titreSuiv = suiv.querySelector('.rdcx-steps-suiv-titre');
-      nav.querySelector('.rdcx-steps-prec').disabled = (i === 0);
-      nav.querySelector('.rdcx-steps-nav-pos').textContent = 'Étape ' + (i + 1) + ' / ' + N;
+      var prec = nav.querySelector('.rdcx-steps-prec');
+      prec.disabled = (i === 0);
+      prec.textContent = T('etapes.precedent');
+      nav.querySelector('.rdcx-steps-nav-pos').textContent =
+        T('etapes.etape') + ' ' + (i + 1) + ' ' + T('etapes.sur') + ' ' + N;
       suiv.className = 'rdcx-btn rdcx-btn-main rdcx-steps-suiv' + (dernier ? ' is-fin' : '');
-      suiv.querySelector('.rdcx-steps-suiv-lbl').textContent = dernier ? T('etapes.terminer') : 'Suivant ›';
+      suiv.querySelector('.rdcx-steps-suiv-lbl').textContent = dernier ? T('etapes.terminer') : T('etapes.suivant');
       titreSuiv.textContent = dernier ? '' : ((i + 2) + '. ' + titres[i + 1]);
       titreSuiv.hidden = dernier;
     }
@@ -1127,7 +1137,7 @@
         var x = scoreDe(j);
         return '<li class="rdcx-steps-revoir-li">'
           + '<button type="button" class="rdcx-steps-revoir-lien" data-i="' + j + '">'
-          + '<span class="rdcx-steps-revoir-num">Étape ' + (j + 1) + '</span>'
+          + '<span class="rdcx-steps-revoir-num">' + T('etapes.etape') + ' ' + (j + 1) + '</span>'
           + '<span class="rdcx-steps-revoir-txt">' + esc(titres[j]) + '</span>'
           + '<span class="rdcx-steps-revoir-score">' + x.s + ' / ' + x.t + '</span></button></li>';
       }).join('');
@@ -1159,6 +1169,12 @@
     }
 
     function rend() { rendSections(); rendNav(); rendFin(); rendFil(); }
+
+    /* La barre d'etapes est fabriquee en JavaScript : elle ne peut pas etre
+       jumelee en data-tr comme le contenu redige. Sans ce redessin, elle
+       resterait en francais sur une page passee en anglais — et c'est
+       l'element le plus visible d'une page de chapitre. */
+    document.addEventListener('tpl:langchange', rend);
 
     /* ---------- navigation ---------- */
     function va(n, deplacer) {
@@ -1671,6 +1687,14 @@
     }
     window.addEventListener('hashchange', ouvrirSiCible);
     ouvrirSiCible();
+
+    /* Le titre du bouton est ecrit une fois : sans cet abonnement, il resterait
+       dans la langue du chargement alors que tout le reste de la page a bascule. */
+    document.addEventListener('tpl:langchange', function () {
+      var ti = btn.querySelector('.rdcx-entete-titre');
+      if (ti) ti.textContent = entete.getAttribute('data-repli-titre')
+                            || (window.T ? window.T('entete.replier') : ti.textContent);
+    });
 
     return true;
   }

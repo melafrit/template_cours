@@ -121,7 +121,16 @@ def main():
     # un arrêt (état TIME_WAIT), mais sous Windows cela laisserait deux serveurs
     # se partager le même port sans que rien ne le signale.
     socketserver.TCPServer.allow_reuse_address = (os.name != "nt")
-    with socketserver.TCPServer(("127.0.0.1", port), Handler) as httpd:
+
+    # ThreadingHTTPServer, et non le serveur simple : celui-ci traite UNE
+    # requete a la fois, et un navigateur qui garde sa connexion ouverte
+    # (keep-alive) bloque alors tout autre client — un second onglet, un
+    # curl de verification. Le symptome est un simple gel, difficile a
+    # rattacher a sa cause.
+    class Serveur(socketserver.ThreadingMixIn, http.server.HTTPServer):
+        daemon_threads = True
+
+    with Serveur(("127.0.0.1", port), Handler) as httpd:
         if not args.sans_navigateur:
             threading.Timer(0.6, lambda: webbrowser.open(url)).start()
         try:
