@@ -66,17 +66,28 @@ Tout ce que le template (et donc les prompts) sait produire :
 - **🖨️ QCM papier imprimable (DOCX)** — page de garde + consignes + barème CBM avec exemples + questions en 2 colonnes + grille de réponses + corrigé formateur.
 - **🧵 Atelier « fil rouge »** — un scénario continu qui traverse tout le cours, avec livrables, templates téléchargeables et corrigé.
 - **🔗 Intégration NotebookLM** — une fiche de cours (DOCX) à fournir à NotebookLM, et des prompts pour générer infographie / slides / podcast par chapitre.
+- **🧠 Moteur de composants pédagogiques (`RDCX`)** — point de contrôle, révélation d'une réponse, repérage d'erreurs dans un document, appariement, scénario à embranchements, schéma à points chauds, capsule audio. Tous appelés pour de vrai dans `site/chapitres/_modele.html`, à copier depuis là.
+- **📖 Lecture par étapes** — un chapitre se parcourt section par section, avec une barre de progression, un mode « tout afficher » et une reprise là où l'on s'était arrêté.
+- **🎵 Playlist latérale** — toutes les pistes audio du cours, enchaînement automatique, tiroir sur mobile, et **filtrage par langue** : un lecteur francophone ne voit pas les capsules anglaises.
+- **🗣️ Chaîne audio ElevenLabs** — script écrit dans une fiche de production, génération par l'API, **contrôle qualité avant dépôt** (durée, débit, silences) et mise en quarantaine de ce qui sort des clous. Une capsule par langue.
+- **🎨 Palettes vérifiées** — charte commune à tous vos cours, couleur d'accent choisie dans `cours.json` parmi cinq palettes contrôlées en contraste, en thème clair **et** sombre.
+- **🚀 Amorçage en une commande** — `nouveau_cours.py` fabrique l'arborescence complète d'un nouveau cours à partir d'un fichier de configuration commenté.
 
 ## 🗂️ Structure du dépôt
 
 ```text
 template_cours/
-├── prompts/        # Bibliothèque de prompts à dérouler avec Claude (commencer par 01)
-├── site/           # Implémentation de référence bilingue — DÉMO (HTML/CSS/JS, hors-ligne)
-├── tools/          # Scripts Python (polycopiés DOCX/PDF, QCM papier, utilitaires)
-├── docs/           # Documentation, guides d'utilisation et conventions
-├── .claude/skills/ # Skills Claude Code livrés avec le template (conventions auto)
-└── README.md       # Ce fichier
+├── CLAUDE.md          # Contrat de travail — lu par Claude à chaque ouverture
+├── cours.exemple.json # Modèle de configuration d'un nouveau cours (commenté)
+├── nouveau_cours.py   # Fabrique un cours à partir de cours.json
+├── demarrer.py|bat|command  # Lance le site en local, sans cache
+├── sources/           # VOS documents de référence — hors dépôt (droit d'auteur)
+├── site/              # Le site lui-même : cours de démonstration à 3 chapitres
+├── outils/            # Audio ElevenLabs, playlist, schémas, vérificateurs
+├── tools/             # Polycopiés DOCX/PDF, QCM papier
+├── prompts/           # Bibliothèque de prompts de rédaction
+├── docs/              # Architecture, guide, i18n, bonnes pratiques, checklist
+└── .claude/skills/    # Skills Claude Code livrés avec le template
 ```
 
 ## 🤖 Skills Claude Code
@@ -97,36 +108,57 @@ Le template embarque des **Skills Claude Code** dans **`.claude/skills/`**. Quan
 
 Deux voies, selon ce que vous voulez faire.
 
-### Voie A — Générer un nouveau cours avec Claude
+### Voie A — Créer un nouveau cours
 
-1. Ouvrez le dossier **`prompts/`** et commencez par le prompt **`01`** (cadrage du cours).
-2. Complétez les **placeholders** entre `{{ }}` — par exemple `{{SUJET_DU_COURS}}`, `{{PUBLIC_CIBLE}}`, `{{NIVEAU}}`, `{{DUREE}}`, `{{LANGUES}}`, `{{DOCUMENTS_DE_REFERENCE}}`, `{{FIL_ROUGE}}`, `{{NB_CHAPITRES}}`, `{{AUTEUR}}`, `{{LICENCE}}`, `{{CONTRAINTES}}`.
-3. Collez le prompt dans Claude, **fournissez vos documents de référence**, puis **déroulez les prompts suivants dans l'ordre** (chapitres, QCM, glossaire, ateliers, exports…).
-4. Déposez les fichiers produits dans `site/` et **vérifiez le rendu dans le navigateur** (voir Voie B).
+**1. Amorcer la mécanique.**
 
-> 🎯 Chaque prompt précise *quand l'utiliser*, ses placeholders, le bloc à copier et des conseils. Suivez l'ordre numéroté.
+```bash
+cp cours.exemple.json cours.json     # puis remplissez-le : titre, palette, chapitres…
+python3 nouveau_cours.py --essai     # ce qu'il ferait, sans rien écrire
+python3 nouveau_cours.py             # crée le cours dans le dossier « sortie »
+```
+
+Le script produit l'arborescence, la charte, la navigation et les squelettes de
+chapitres. **Il ne rédige aucun contenu** — c'est voulu : un script qui
+inventerait des chapitres produirait un cours générique.
+
+**2. Déposer vos sources.** Référentiel, supports existants, articles, normes vont
+dans `sources/`. Ce dossier est **exclu du dépôt** — ces documents ne vous
+appartiennent pas et l'historique Git ne s'efface pas. Complétez
+`sources/bibliographie.md` au fur et à mesure.
+
+**3. Cadrer avec Claude.** Ouvrez le dossier du nouveau cours avec Claude Code et
+demandez-lui de **créer le cours**. Il lit vos sources, puis pose ses questions
+**une à une**, et ne rédige rien avant que vous ayez validé le cadrage.
+
+**4. Écrire les chapitres.** Le chapitre vitrine est conservé sous
+`site/chapitres/_modele.html` : c'est le seul endroit où tous les composants sont
+appelés pour de vrai. Copiez depuis là.
 
 ### Voie B — Lancer le site en local
 
-Le site étant **statique**, il suffit d'ouvrir une page — mais un **petit serveur statique** est recommandé (certains chargements, comme les PDF ou le CSV, se comportent mieux via `http://` que via `file://`).
-
-**Option simple** — ouvrez directement le fichier :
-
-```text
-site/index.html   (double-clic, ou « Ouvrir avec » votre navigateur)
-```
-
-**Option recommandée** — un serveur statique local depuis le dossier `site/` :
+Double-cliquez **`demarrer.bat`** (Windows) ou **`demarrer.command`** (macOS), ou
+bien :
 
 ```bash
-# Python 3
-python -m http.server 8000
-
-# ou Node.js
-npx serve .
+python3 demarrer.py
 ```
 
-Puis ouvrez **http://localhost:8000** dans votre navigateur.
+Le navigateur s'ouvre sur la page d'accueil. Si le port est pris, le lanceur
+passe au suivant.
+
+> ⚠️ Le lanceur **désactive le cache**, et c'est sa raison d'être : avec un
+> serveur ordinaire, le navigateur ressert l'ancien JavaScript après une
+> modification, et l'on cherche un défaut qui n'existe pas. Si malgré tout un
+> changement ne semble pas prendre, changez de port — certains navigateurs
+> gardent le script en mémoire.
+
+### Voie C — Vérifier
+
+```bash
+python3 outils/verifier_i18n.py       # clés dépareillées, blocs FR/EN déséquilibrés
+python3 outils/verifier_contraste.py  # palettes lisibles en clair et en sombre
+```
 
 ## 💡 Bonnes pratiques
 
@@ -135,6 +167,9 @@ Puis ouvrez **http://localhost:8000** dans votre navigateur.
 - **Itérez.** Générez un chapitre, relisez, ajustez le prompt, régénérez. Le template est fait pour des passes successives.
 - **Vérifiez au navigateur.** Testez la **bascule FR/EN**, le QCM (export/correction), les info-bulles du glossaire, le panneau d'accessibilité et l'affichage des slides/infographies.
 - **Restez cohérent.** Réutilisez les mêmes placeholders d'un prompt à l'autre pour garder un cours homogène.
+- **Ne modifiez jamais un fichier généré.** L'index de playlist, l'index des sections et les transcriptions de capsules sont produits par des scripts : les corriger à la main donne l'illusion d'avoir résolu le problème jusqu'à la régénération suivante.
+
+> 📘 Le détail — et surtout **les raisons** — dans [`docs/BONNES_PRATIQUES.md`](docs/BONNES_PRATIQUES.md). Chaque point y vient d'un défaut réellement rencontré.
 
 ## 📜 Licences
 
@@ -202,12 +237,17 @@ Everything the template (and therefore the prompts) can produce:
 
 ```text
 template_cours/
-├── prompts/        # Prompt library to run with Claude (start with 01)
-├── site/           # Bilingual reference implementation — DEMO (HTML/CSS/JS, offline)
-├── tools/          # Python scripts (DOCX/PDF handouts, paper quiz, utilities)
-├── docs/           # Documentation, usage guides and conventions
-├── .claude/skills/ # Claude Code skills shipped with the template (auto conventions)
-└── README.md       # This file
+├── CLAUDE.md          # Working contract — read by Claude on every session
+├── cours.exemple.json # Commented configuration model for a new course
+├── nouveau_cours.py   # Builds a course from cours.json
+├── demarrer.py|bat|command  # Runs the site locally, cache disabled
+├── sources/           # YOUR reference documents — outside the repo (copyright)
+├── site/              # The site itself: a 3-chapter demo course
+├── outils/            # ElevenLabs audio, playlist, diagrams, verifiers
+├── tools/             # DOCX/PDF handouts, printable quiz
+├── prompts/           # Writing prompt library
+├── docs/              # Architecture, guide, i18n, best practices, checklist
+└── .claude/skills/    # Claude Code skills shipped with the template
 ```
 
 ## 🤖 Claude Code skills

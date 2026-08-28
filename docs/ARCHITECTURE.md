@@ -116,6 +116,49 @@ Trois mécanismes coexistent ; un développeur qui ajoute du contenu doit choisi
 | **animations.js** | Révélation des sections au défilement (IntersectionObserver → classe `.visible`), waveform podcast décorative, encarts repliables, galerie de slides-images (lit `data-slides`). | `data-slides` | — |
 | **QCM/qcm-core.js** | `window.QCMCore` : barème **CBM**, SHA-256 autonome (compatible `file://`), construction/lecture/**signature** du CSV, **scoring**, calcul de la note /20, rappel de barème HTML bilingue. Partagé par les 4 pages QCM. | — | — |
 
+### 2.2 bis — Le moteur pédagogique et l'audio
+
+Ces moteurs ont été ajoutés après la première version du template. Ils portent
+tout ce qui rend un chapitre interactif.
+
+| Fichier | Rôle | Lit | Persiste (localStorage) |
+|---|---|---|---|
+| **ui-labels.js** | `window.UI_LABELS` + l'accesseur `T('cle')` : **tous** les textes d'interface fabriqués en JavaScript, en FR et EN. Un libellé écrit en dur dans un moteur est un défaut : il ne se traduira pas. | `TPLI18N.lang()` | — |
+| **interactions.js** | `window.RDCX` — le moteur pédagogique. Sept composants : `checkpoint` (point de contrôle), `reveal` (révélation d'une réponse), `spotError` (repérage d'erreurs dans un document), `match` (appariement), `branch` (scénario à embranchements), `hotspots` (schéma à points chauds), `voice` (capsule audio). Plus `steps` (lecture par étapes), `sommaire` (barre de sommaire collante) et le **repli de l'en-tête de chapitre**, montés automatiquement. | attributs `data-step`, `data-sommaire-titre` des sections | `rdc-step-<N>`, `rdc-entete-<page>` |
+| **playlist.js** | Panneau latéral rassemblant les pistes du cours, avec enchaînement automatique et tiroir sur mobile. **Filtre par langue** : une piste marquée `langue` n'apparaît que dans cette langue. | `RDC_PLAYLIST` | `rdc-playlist-ouverte` |
+| **quiz.js** | Quiz simple en cours de chapitre (distinct du QCM noté, qui vit dans `site/QCM/`). | config passée à l'appel | — |
+
+**`palettes.css`** complète `main.css` : il ne redéfinit que les huit variables
+d'identité (`--primary*`, `--accent*`), en thème clair **et** sombre, pour
+chacune des cinq palettes. Il se charge **après** `main.css`, et la palette se
+choisit par `data-accent` sur `<html>`.
+
+#### Le contrat des composants RDCX
+
+Les moteurs reçoivent des **chaînes**, pas des objets `{fr, en}` : ils ignorent
+que le site puisse être bilingue, et c'est ce qui les garde simples. Le bilingue
+se règle dans la page :
+
+1. tout le contenu dans un objet `TEXTES = { fr: {…}, en: {…} }` ;
+2. une fonction `monter()` qui **vide les conteneurs** puis remonte tout avec la
+   langue active — sans le vidage, changer de langue empilerait deux exemplaires
+   du même exercice ;
+3. `monter()` rejoué sur `tpl:langchange`.
+
+Modèle complet et commenté : `site/chapitres/_modele.html`.
+
+#### Audio bilingue
+
+Un seul appel `RDCX.voice` par chapitre, mais **une source par langue**,
+déclarée dans `TEXTES` sous `capsuleSrc`. Convention :
+`chapitre-<N>-capsule-<langue>.mp3`. Sans le suffixe de langue, l'auditeur
+anglophone entend du français.
+
+La transcription affichée est **générée** depuis la fiche de production par
+`outils/synchroniser_capsules.py` : ne pas l'écrire à la main dans la page.
+
+---
+
 ### 2.3 Fichiers de données (à personnaliser)
 
 | Fichier | Variable globale | Forme | Consommé par |
@@ -126,6 +169,12 @@ Trois mécanismes coexistent ; un développeur qui ajoute du contenu doit choisi
 | **flashcards-data.js** | `window.RDC_FLASHCARDS` | `{ "<num>": [{ front:{fr,en}, back:{fr,en}, ref }] }` | pages de chapitre (instanciation `FlashcardDeck`) |
 | **QCM/questions.js** | `window.QCM_QUESTIONS` | `{ meta:{…}, questions:[{ id, chapitre, difficulte, enonce:{fr,en}, propositions:[{fr,en}×4] }] }` | pages QCM |
 | **QCM/corrections.js** | `window.QCM_CORRECTIONS` | `{ corrections:[{ id, chapitre, difficulte, bonne_reponse_index, explication:{fr,en} }] }` | entrainement, correction, dashboard |
+| **playlist-data.js** ⚙️ | `window.RDC_PLAYLIST` | `{ "<num>": { titre, page, pistes:[{ type, titre, src, duree, present, langue }] } }` | playlist.js |
+
+**⚙️ = fichier GÉNÉRÉ.** `playlist-data.js` et `nav-sections.js` sont produits par
+`outils/generer_playlist.py` d'après les pages et les fichiers audio réels. Les
+corriger à la main donne l'illusion d'avoir résolu le problème jusqu'à la
+régénération suivante, qui écrase tout sans prévenir.
 
 **Source unique de vérité.** `course-data.js` pilote l'arbre de navigation *partout*. `nav-sections.js` doit refléter les `<h2 id>` réels de chaque chapitre. Les `id` de questions (`Q01`…) doivent **correspondre** entre `questions.js` et `corrections.js`.
 
