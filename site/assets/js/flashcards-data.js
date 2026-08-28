@@ -45,33 +45,5 @@ window.RDC_FLASHCARDS = {
       back: { fr: "L'**infographie**.", en: "The **infographic**." }, ref: "" },
     { front: { fr: "Slides : quel format dans ce template ?", en: "Slides: which format in this template?" },
       back: { fr: "Un **PDF** affiché en popup plein écran.", en: "A **PDF** shown in a full-screen popup." }, ref: "" }
-  ],
-  "4": [
-    { front: { fr: "Formatif vs sommatif ?", en: "Formative vs summative?" },
-      back: { fr: "**Formatif** = feedback pendant ; **sommatif** = note finale.", en: "**Formative** = feedback during; **summative** = final grade." }, ref: "" },
-    { front: { fr: "Que signifie CBM ?", en: "What does CBM mean?" },
-      back: { fr: "**Certainty-Based Marking** : on note selon le **degré de certitude**.", en: "**Certainty-Based Marking**: graded by **degree of certainty**." }, ref: "" },
-    { front: { fr: "Le barème CBM ?", en: "The CBM scale?" },
-      back: { fr: "Élevée **+3/−3**, Moyenne **+2/−2**, Faible **+1/0**.", en: "High **+3/−3**, Medium **+2/−2**, Low **+1/0**." }, ref: "" },
-    { front: { fr: "Une réponse fausse en certitude élevée coûte…", en: "A wrong high-certainty answer costs…" },
-      back: { fr: "**−3** — la sanction maximale.", en: "**−3** — the maximum penalty." }, ref: "" },
-    { front: { fr: "À quoi servent les flashcards ?", en: "What are flashcards for?" },
-      back: { fr: "La **mémorisation active** (rappel).", en: "**Active recall** (memorization)." }, ref: "" },
-    { front: { fr: "Un bon distracteur est…", en: "A good distractor is…" },
-      back: { fr: "**Plausible** et de longueur comparable à la bonne réponse.", en: "**Plausible** and of comparable length to the correct answer." }, ref: "" }
-  ],
-  "5": [
-    { front: { fr: "Que couvre l'accessibilité ?", en: "What does accessibility cover?" },
-      back: { fr: "**Contraste, navigation clavier, police lisible, mouvement réduit**.", en: "**Contrast, keyboard navigation, readable font, reduced motion**." }, ref: "" },
-    { front: { fr: "Pourquoi un site de cours bilingue ?", en: "Why a bilingual course site?" },
-      back: { fr: "Toucher **plus d'apprenants** ; ici tout bascule FR/EN d'un clic.", en: "Reach **more learners**; here everything switches FR/EN in one click." }, ref: "" },
-    { front: { fr: "Pourquoi le hors-ligne compte ?", en: "Why does offline matter?" },
-      back: { fr: "Le cours reste **utilisable sans connexion** (statique, JS vanilla).", en: "The course stays **usable without a connection** (static, vanilla JS)." }, ref: "" },
-    { front: { fr: "Comment publier un site statique gratuitement ?", en: "How to publish a static site for free?" },
-      back: { fr: "Via **GitHub Pages** (ou tout hébergement statique).", en: "Via **GitHub Pages** (or any static host)." }, ref: "" },
-    { front: { fr: "Pourquoi une licence ouverte ?", en: "Why an open license?" },
-      back: { fr: "Permettre la **réutilisation libre** (ici MIT + CC BY 4.0).", en: "Allow **free reuse** (here MIT + CC BY 4.0)." }, ref: "" },
-    { front: { fr: "La police « lecture adaptée » du template ?", en: "The template's reading-friendly font?" },
-      back: { fr: "**Atkinson Hyperlegible** (dyslexie / fatigue visuelle).", en: "**Atkinson Hyperlegible** (dyslexia / visual fatigue)." }, ref: "" }
   ]
 };

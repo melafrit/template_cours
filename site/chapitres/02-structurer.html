@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chapitre 2 — Structurer le contenu / Structuring the content</title>
-<meta name="description" content="Chapitre 2 du cours-démo : structurer le contenu (du syllabus aux séquences, micro-apprentissage, progression). Bilingue FR/EN.">
+<meta name="description" content="Chapitre 2 du cours-démo : découper un cours en séquences, construire une progression, équilibrer théorie et pratique. Bilingue FR/EN.">
 <meta name="author" content="Mohamed EL AFRIT">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,6 +25,7 @@
   <div class="header-right">
     <nav class="chapter-nav">
       <a href="../cours.html" class="chapter-nav-btn"><span data-tr="fr">← Sommaire</span><span data-tr="en">← Contents</span></a>
+      <a href="01-cadrage.html" class="chapter-nav-btn"><span data-tr="fr">← Précédent</span><span data-tr="en">← Previous</span></a>
       <a href="03-multimedia.html" class="chapter-nav-btn"><span data-tr="fr">Suivant →</span><span data-tr="en">Next →</span></a>
     </nav>
     <button class="theme-toggle" aria-label="Thème">🌙</button>
@@ -41,117 +42,120 @@
 
     <div class="chapter-header">
       <div class="chapter-meta">
-        <span class="chapter-badge">🎯 <span data-tr="fr">Chapitre 2</span><span data-tr="en">Chapter 2</span></span>
-        <span class="chapter-duration">⏱ <span data-tr="fr">~30 min · lecture + activités</span><span data-tr="en">~30 min · reading + activities</span></span>
+        <span class="chapter-badge">🧱 <span data-tr="fr">Chapitre 2</span><span data-tr="en">Chapter 2</span></span>
+        <span class="chapter-duration">⏱ <span data-tr="fr">~25 min · lecture et activités</span><span data-tr="en">~25 min · reading and activities</span></span>
       </div>
       <h1 class="chapter-title"><span data-tr="fr">Structurer le contenu</span><span data-tr="en">Structuring the content</span></h1>
       <p class="chapter-subtitle">
-        <span data-tr="fr">Le cadrage validé, il faut donner une forme au cours : découper, ordonner, doser. Ce chapitre transforme le syllabus en séquences claires que l'apprenant peut suivre sans se perdre.</span>
-        <span data-tr="en">With scoping validated, the course needs a shape: split, order, balance. This chapter turns the syllabus into clear sequences the learner can follow without getting lost.</span>
+        <span data-tr="fr">Le cadrage a dit <em>pour qui</em> et <em>pour quoi faire</em>. Reste à décider dans quel ordre, et par quels morceaux. C'est là que se joue la différence entre un cours qu'on finit et un cours qu'on abandonne au troisième chapitre.</span>
+        <span data-tr="en">Scoping settled <em>for whom</em> and <em>to do what</em>. What remains is deciding in which order, and in what pieces. This is where the difference is made between a course people finish and one they abandon at chapter three.</span>
       </p>
+
       <div class="chapter-objectives">
         <h3>🎯 <span data-tr="fr">Objectifs du chapitre</span><span data-tr="en">Chapter objectives</span></h3>
         <ul>
-          <li><span data-tr="fr">Découper un syllabus en séquences cohérentes.</span><span data-tr="en">Break a syllabus into coherent sequences.</span></li>
-          <li><span data-tr="fr">Appliquer le micro-apprentissage à un module.</span><span data-tr="en">Apply microlearning to a module.</span></li>
-          <li><span data-tr="fr">Ordonner les notions selon une progression logique.</span><span data-tr="en">Order concepts along a logical progression.</span></li>
-          <li><span data-tr="fr">Équilibrer théorie et pratique autour du fil rouge.</span><span data-tr="en">Balance theory and practice around the through-line.</span></li>
+          <li><span data-tr="fr"><strong>Découper</strong> un chapitre en séquences qui tiennent dans le temps réel d'attention.</span><span data-tr="en"><strong>Break</strong> a chapter into sequences that fit real attention spans.</span></li>
+          <li><span data-tr="fr"><strong>Ordonner</strong> les notions selon ce qu'elles supposent acquis, et non selon leur importance.</span><span data-tr="en"><strong>Order</strong> notions by what they assume known, not by their importance.</span></li>
+          <li><span data-tr="fr"><strong>Doser</strong> théorie et pratique sans laisser l'une chasser l'autre.</span><span data-tr="en"><strong>Balance</strong> theory and practice without letting one crowd out the other.</span></li>
         </ul>
       </div>
     </div>
 
-    <!-- Podcast (placeholder — déposez un MP3 dans assets/media/podcasts/) -->
     <section class="podcast-section">
       <div class="podcast-header">
         <div class="podcast-icon">🎙️</div>
         <div>
-          <div class="podcast-title"><span data-tr="fr">Podcast — Structurer le contenu</span><span data-tr="en">Podcast — Structuring the content</span></div>
-          <div class="podcast-subtitle"><span data-tr="fr">Dialogue pédagogique · ~10 min</span><span data-tr="en">Teaching dialogue · ~10 min</span></div>
+          <div class="podcast-title"><span data-tr="fr">Podcast — Découper sans démembrer</span><span data-tr="en">Podcast — Break up without dismembering</span></div>
+          <div class="podcast-subtitle"><span data-tr="fr">Épisode de démonstration · ~2 min</span><span data-tr="en">Demo episode · ~2 min</span></div>
         </div>
       </div>
-      <p class="podcast-placeholder-msg"><span data-tr="fr">🎙️ Épisode de démonstration — déposez un fichier audio dans <code>assets/media/podcasts/</code>.</span><span data-tr="en">🎙️ Demo episode — drop an audio file in <code>assets/media/podcasts/</code>.</span></p>
+      <div class="podcast-player">
+        <button class="podcast-play-btn" aria-label="Lire">▶</button>
+        <div class="podcast-waveform"></div>
+        <span class="podcast-time">00:00 / 02:00</span>
+      </div>
     </section>
 
-    <!-- Slides (placeholder — déposez un PDF dans assets/media/slides/) -->
-    <section class="slides-section" data-slides="[]">
-      <div class="slides-header">
-        <div class="slides-header-left"><div class="slides-icon">📊</div><span class="slides-label"><span data-tr="fr">Slides — Chapitre 2</span><span data-tr="en">Slides — Chapter 2</span></span></div>
-      </div>
-      <div class="slides-viewport"><div class="slides-placeholder"><span data-tr="fr">📊 Support à déposer en PDF dans <code>assets/media/slides/</code>.</span><span data-tr="en">📊 Slide deck (PDF) to drop in <code>assets/media/slides/</code>.</span></div></div>
-    </section>
+    <div id="capsule-2" data-hors-repli></div>
 
-    <!-- Infographie (placeholder — déposez un PNG dans assets/media/infographies/) -->
-    <section class="infographie-section">
-      <div class="infographie-header">
-        <div class="infographie-header-left"><div class="infographie-icon">🖼️</div><span class="infographie-label"><span data-tr="fr">Infographie de synthèse</span><span data-tr="en">Summary infographic</span></span></div>
-      </div>
-      <div class="infographie-viewport"><div class="infographie-placeholder"><span data-tr="fr">🖼️ Image à déposer dans <code>assets/media/infographies/</code>.</span><span data-tr="en">🖼️ Image to drop in <code>assets/media/infographies/</code>.</span></div></div>
-    </section>
-
-    <!-- Accroche -->
-    <div class="callout tip">
-      <div class="callout-icon">🧩</div>
-      <div class="callout-content">
-        <h4><span data-tr="fr">Pourquoi ce chapitre compte</span><span data-tr="en">Why this chapter matters</span></h4>
-        <p><span data-tr="fr">Un bon contenu mal structuré reste illisible. Découper et ordonner, c'est offrir à l'apprenant un chemin balisé où chaque étape prépare la suivante — et où l'on sait toujours où l'on en est.</span>
-          <span data-tr="en">Good content that is badly structured stays unreadable. Splitting and ordering gives the learner a signposted path where each step prepares the next — and where you always know where you are.</span></p>
-      </div>
-    </div>
-
-    <section class="content-section">
+    <section class="content-section" data-step data-step-titre="Du syllabus aux séquences" data-step-duree="6 min" data-sommaire-titre="Du syllabus aux séquences">
       <h2 id="ch2-s1"><span data-tr="fr">1. Du syllabus aux séquences</span><span data-tr="en">1. From syllabus to sequences</span></h2>
-      <p><span data-tr="fr">Le <strong>syllabus</strong> fixe les grandes lignes ; il reste à le découper en unités enseignables. On part des <strong>objectifs pédagogiques</strong> : chaque objectif devient une séquence, chaque séquence un ensemble de notions liées. Le bon grain de découpage est celui qui tient dans une session d'apprentissage sans surcharge.</span>
-        <span data-tr="en">The <strong>syllabus</strong> sets the broad outline; it still needs to be split into teachable units. Start from the <strong>learning objectives</strong>: each objective becomes a sequence, each sequence a set of related concepts. The right grain of splitting is the one that fits a learning session without overload.</span></p>
-      <div class="callout info">
-        <div class="callout-icon">📌</div>
-        <div class="callout-content"><p><span data-tr="fr">Une séquence = un objectif pédagogique. Si une séquence vise trois objectifs à la fois, découpez-la.</span><span data-tr="en">One sequence = one learning objective. If a sequence aims at three objectives at once, split it.</span></p></div>
-      </div>
+
+      <p class="lead">
+        <span data-tr="fr">Un chapitre n'est pas une unité d'apprentissage : c'est une unité de rangement. Ce que l'apprenant traverse réellement, ce sont des <strong>séquences</strong> — des blocs qui commencent, se terminent, et laissent quelque chose derrière eux.</span>
+        <span data-tr="en">A chapter is not a unit of learning: it is a unit of storage. What the learner actually goes through are <strong>sequences</strong> — blocks that start, end, and leave something behind.</span>
+      </p>
+      <p>
+        <span data-tr="fr">Une séquence utile tient en trois éléments : une <strong>question</strong> qui la motive, un <strong>contenu</strong> qui y répond, et une <strong>vérification</strong> qui prouve qu'elle a porté. Retirez la question, l'apprenant ne sait pas pourquoi il lit. Retirez la vérification, personne ne sait si cela a servi — pas même lui.</span>
+        <span data-tr="en">A useful sequence holds three parts: a <strong>question</strong> that motivates it, <strong>content</strong> that answers it, and a <strong>check</strong> that proves it landed. Remove the question and the learner does not know why they are reading. Remove the check and nobody knows whether it worked — not even them.</span>
+      </p>
+
+      <div id="check-2-1"></div>
     </section>
 
-    <section class="content-section">
-      <h2 id="ch2-s2"><span data-tr="fr">2. Penser en micro-apprentissage</span><span data-tr="en">2. Think in microlearning</span></h2>
-      <p><span data-tr="fr">Le <strong>micro-apprentissage</strong> découpe le contenu en modules courts et autonomes, chacun centré sur une idée et terminé par une vérification rapide. Des unités brèves se mémorisent mieux, se consultent à la demande et respectent le temps réel de l'apprenant. Une <strong>flashcard</strong> ou un mini <strong>QCM</strong> en fin de module ancrent l'essentiel.</span>
-        <span data-tr="en"><strong>Microlearning</strong> breaks content into short, self-contained modules, each focused on one idea and closed by a quick check. Brief units are easier to memorise, can be consulted on demand and respect the learner's real time budget. A <strong>flashcard</strong> or a mini <strong>multiple-choice quiz</strong> at the end of a module anchors the essentials.</span></p>
-      <div class="callout tip">
-        <div class="callout-icon">💡</div>
-        <div class="callout-content"><p><span data-tr="fr">Repère pratique : un module qui ne tient plus dans 5 à 10 minutes mérite probablement d'être scindé.</span><span data-tr="en">Practical rule of thumb: a module that no longer fits in 5 to 10 minutes probably deserves to be split.</span></p></div>
-      </div>
+    <section class="content-section" data-step data-step-titre="Micro-apprentissage" data-step-duree="6 min" data-sommaire-titre="Le micro-apprentissage">
+      <h2 id="ch2-s2"><span data-tr="fr">2. Penser en micro-apprentissage</span><span data-tr="en">2. Thinking in micro-learning</span></h2>
+
+      <p>
+        <span data-tr="fr">Découper ne veut pas dire hacher. Une séquence de cinq minutes qui ne se suffit pas à elle-même n'est pas du micro-apprentissage : c'est un chapitre coupé au milieu. Le test est simple — si l'apprenant s'arrête là, en ressort-il avec quelque chose d'utilisable ?</span>
+        <span data-tr="en">Breaking up is not chopping up. A five-minute sequence that does not stand on its own is not micro-learning: it is a chapter cut in half. The test is simple — if the learner stops there, do they leave with something usable?</span>
+      </p>
+      <p>
+        <span data-tr="fr">C'est aussi une décision de format. Une séquence courte se lit dans un transport ; une séquence de quarante minutes suppose un bureau et une porte fermée. Le profil de public rédigé au chapitre 1 tranche ce point à votre place : relisez-le plutôt que d'arbitrer à l'instinct.</span>
+        <span data-tr="en">It is also a format decision. A short sequence can be read on a commute; a forty-minute one assumes a desk and a closed door. The audience profile written in chapter 1 settles this for you: re-read it rather than deciding on instinct.</span>
+      </p>
+
+      <div id="match-2-1"></div>
     </section>
 
-    <section class="content-section">
-      <h2 id="ch2-s3"><span data-tr="fr">3. Construire une progression logique</span><span data-tr="en">3. Build a logical progression</span></h2>
-      <p><span data-tr="fr">Les notions s'enchaînent du simple au complexe, du connu vers le nouveau. On respecte les <strong>prérequis</strong> : n'introduisez jamais une idée avant celles dont elle dépend. Une <strong>accroche</strong> en ouverture rappelle l'enjeu et donne envie d'avancer ; une <strong>évaluation formative</strong> en cours de route vérifie que la marche n'est pas trop haute.</span>
-        <span data-tr="en">Concepts follow one another from simple to complex, from the known to the new. Respect the <strong>prerequisites</strong>: never introduce an idea before those it depends on. A <strong>hook</strong> at the opening recalls the stakes and makes learners want to move forward; a <strong>formative assessment</strong> along the way checks that the step is not too high.</span></p>
-      <div class="callout info">
-        <div class="callout-icon">📌</div>
-        <div class="callout-content"><p><span data-tr="fr">Testez votre plan « à l'envers » : pour chaque notion, demandez-vous ce qu'il faut déjà savoir. Si la réponse vient plus loin, l'ordre est faux.</span><span data-tr="en">Test your plan "backwards": for each concept, ask what must already be known. If the answer comes later, the order is wrong.</span></p></div>
-      </div>
+    <section class="content-section" data-step data-step-titre="La progression" data-step-duree="7 min" data-sommaire-titre="Construire une progression">
+      <h2 id="ch2-s3"><span data-tr="fr">3. Construire une progression</span><span data-tr="en">3. Building a progression</span></h2>
+
+      <p>
+        <span data-tr="fr">L'erreur la plus commune est d'ordonner les notions par importance : on commence par ce qui compte le plus. Mais l'apprenant, lui, ne peut aborder une notion que s'il possède déjà celles qu'elle suppose. L'ordre juste est celui des <strong>prérequis</strong>, pas celui de l'importance.</span>
+        <span data-tr="en">The most common mistake is ordering notions by importance: starting with what matters most. But a learner can only take on a notion if they already hold the ones it assumes. The right order is that of <strong>prerequisites</strong>, not of importance.</span>
+      </p>
+      <p>
+        <span data-tr="fr">Une méthode qui fonctionne : listez vos notions, puis tracez une flèche de chacune vers celles qu'elle suppose acquises. Les notions sans flèche entrante sont vos points de départ. Si vous obtenez un cycle — A suppose B qui suppose A — c'est que l'une des deux est mal découpée.</span>
+        <span data-tr="en">A method that works: list your notions, then draw an arrow from each to those it assumes. Notions with no incoming arrow are your starting points. If you end up with a cycle — A assumes B which assumes A — then one of the two is badly cut.</span>
+      </p>
+
+      <div id="spot-2-1"></div>
     </section>
 
-    <section class="content-section">
-      <h2 id="ch2-s4"><span data-tr="fr">4. Équilibrer théorie, pratique et fil rouge</span><span data-tr="en">4. Balance theory, practice and through-line</span></h2>
-      <p><span data-tr="fr">Alterner explication et mise en pratique évite le décrochage : on apprend, puis on applique aussitôt. Le <strong>fil rouge</strong> sert de support naturel à cette pratique — chaque séquence fait avancer le même projet, ce qui donne du sens et relie les modules entre eux. La théorie éclaire, la pratique ancre, le fil rouge donne la direction.</span>
-        <span data-tr="en">Alternating explanation and practice prevents drop-off: you learn, then apply at once. The <strong>through-line</strong> is the natural support for that practice — each sequence advances the same project, which creates meaning and ties the modules together. Theory enlightens, practice anchors, the through-line gives direction.</span></p>
-      <div class="takeaways">
-        <div class="takeaways-head"><span class="ico">🔑</span><h3><span data-tr="fr">À retenir</span><span data-tr="en">Key takeaways</span></h3></div>
-        <div class="takeaways-body">
-          <ul>
-            <li><span data-tr="fr">Une séquence porte <strong>un seul</strong> objectif pédagogique.</span><span data-tr="en">A sequence carries <strong>one single</strong> learning objective.</span></li>
-            <li><span data-tr="fr">Le <strong>micro-apprentissage</strong> privilégie des modules courts et vérifiés.</span><span data-tr="en"><strong>Microlearning</strong> favours short, checked modules.</span></li>
-            <li><span data-tr="fr">La progression respecte les <strong>prérequis</strong> et alterne théorie/pratique.</span><span data-tr="en">Progression respects <strong>prerequisites</strong> and alternates theory/practice.</span></li>
-            <li><span data-tr="fr">Le <strong>fil rouge</strong> sert de support à la pratique et relie les séquences.</span><span data-tr="en">The <strong>through-line</strong> supports practice and links the sequences.</span></li>
-          </ul>
-        </div>
-      </div>
+    <section class="content-section" data-step data-step-titre="Théorie et pratique" data-step-duree="6 min" data-sommaire-titre="Théorie et pratique">
+      <h2 id="ch2-s4"><span data-tr="fr">4. Doser théorie et pratique</span><span data-tr="en">4. Balancing theory and practice</span></h2>
+
+      <p>
+        <span data-tr="fr">Un cours entièrement théorique produit des apprenants qui savent réciter. Un cours entièrement pratique produit des apprenants qui savent refaire, et rien d'autre : dès que le cas change, ils sont perdus. L'équilibre n'est pas une question de proportions mais d'alternance — une notion, son application, puis la notion suivante.</span>
+        <span data-tr="en">An entirely theoretical course produces learners who can recite. An entirely practical one produces learners who can repeat, and nothing more: as soon as the case changes, they are lost. The balance is not a matter of proportions but of alternation — a notion, its application, then the next notion.</span>
+      </p>
+      <p>
+        <span data-tr="fr">Le fil rouge sert ici de garde-fou. Si une séquence ne fait avancer ni la compréhension ni le livrable, elle ne fait avancer rien du tout — et c'est elle qu'il faudra couper le jour où l'on vous retirera une séance.</span>
+        <span data-tr="en">The through-line acts as a guardrail here. If a sequence advances neither understanding nor the deliverable, it advances nothing at all — and it is the one to cut on the day a session is taken away from you.</span>
+      </p>
     </section>
 
-    <!-- Cartes de révision -->
-    <section class="content-section">
-      <h2 id="ch2-s5"><span data-tr="fr">Cartes de révision</span><span data-tr="en">Flashcards</span></h2>
-      <p><span data-tr="fr">Cliquez une carte pour la retourner, puis « ✓ Je savais » ou « à revoir ». Progression mémorisée sur cet appareil.</span>
-        <span data-tr="en">Click a card to flip it, then "✓ I knew it" or "review again". Progress is saved on this device.</span></p>
+    <section class="content-section" data-sommaire-titre="Réviser">
+      <h2 id="ch2-s5"><span data-tr="fr">5. Réviser</span><span data-tr="en">5. Review</span></h2>
+      <p>
+        <span data-tr="fr">Retournez les cartes, puis répondez sans regarder vos notes.</span>
+        <span data-tr="en">Flip the cards, then answer without looking at your notes.</span>
+      </p>
       <div id="flash-ch2"></div>
     </section>
+
+    <div class="takeaways">
+      <div class="takeaways-head"><span class="ico">🔑</span><h3><span data-tr="fr">À retenir</span><span data-tr="en">Key points</span></h3></div>
+      <div class="takeaways-body">
+        <ul>
+          <li><span data-tr="fr"><strong>Une séquence, trois éléments :</strong> une question, un contenu, une vérification. Il en manque toujours une, et c'est presque toujours la troisième.</span><span data-tr="en"><strong>A sequence has three parts:</strong> a question, content, a check. One is always missing, and it is almost always the third.</span></li>
+          <li><span data-tr="fr"><strong>Découper n'est pas hacher :</strong> une séquence courte doit se suffire à elle-même.</span><span data-tr="en"><strong>Breaking up is not chopping up:</strong> a short sequence must stand on its own.</span></li>
+          <li><span data-tr="fr"><strong>L'ordre juste est celui des prérequis</strong>, pas celui de l'importance.</span><span data-tr="en"><strong>The right order is that of prerequisites</strong>, not of importance.</span></li>
+          <li><span data-tr="fr"><strong>Alterner plutôt que doser :</strong> une notion, son application, la suivante.</span><span data-tr="en"><strong>Alternate rather than apportion:</strong> a notion, its application, the next one.</span></li>
+        </ul>
+      </div>
+    </div>
 
     <nav class="chapter-pagination">
       <a href="01-cadrage.html" class="pagination-link prev">
@@ -160,7 +164,7 @@
       </a>
       <a href="03-multimedia.html" class="pagination-link next">
         <span class="pagination-label"><span data-tr="fr">Suivant →</span><span data-tr="en">Next →</span></span>
-        <span class="pagination-title"><span data-tr="fr">Créer des ressources multimédias</span><span data-tr="en">Creating multimedia resources</span></span>
+        <span class="pagination-title"><span data-tr="fr">Créer les ressources</span><span data-tr="en">Creating the resources</span></span>
       </a>
     </nav>
 
@@ -188,8 +192,142 @@
 <script src="../assets/js/quiz.js"></script>
 <script src="../assets/js/playlist-data.js"></script>
 <script src="../assets/js/playlist.js"></script>
+
 <script>
-  new FlashcardDeck('flash-ch2', (window.RDC_FLASHCARDS || {})['2'] || [], 'ch2');
+/* Motif bilingue : voir le commentaire d'en-tête de _modele.html — tout le
+   contenu des composants dans TEXTES, monter() rejoué sur tpl:langchange. */
+(function () {
+  'use strict';
+
+  var TEXTES = {
+    fr: {
+      capsuleTitre: "Découper, sans démembrer",
+      capsuleTrans: "Structurer, c'est décider dans quel ordre et par quels morceaux. Trois idées suffisent : une séquence porte une question, un contenu et une vérification ; une séquence courte doit se suffire à elle-même ; et l'ordre juste est celui des prérequis, pas celui de l'importance. Le reste en découle.",
+
+      checkTitre: "Point de contrôle — la séquence",
+      checkQ1: "Que manque-t-il le plus souvent à une séquence de cours ?",
+      checkO1: ["La question qui la motive.", "La vérification qui prouve qu'elle a porté.", "Le contenu lui-même."],
+      checkE1: "La vérification. On écrit volontiers la question et le contenu — ce sont les parties qu'on maîtrise. La vérification demande d'imaginer ce qui prouverait l'acquis, ce qui est plus difficile, et c'est donc elle qu'on saute.",
+      checkQ2: "Une séquence de cinq minutes est du micro-apprentissage lorsque…",
+      checkO2: ["elle dure moins de dix minutes.", "elle se suffit à elle-même : l'apprenant qui s'arrête là en ressort avec quelque chose d'utilisable.", "elle se lit sur un téléphone."],
+      checkE2: "La deuxième. La durée et le support ne font pas le micro-apprentissage : c'est l'autonomie de la séquence. Un chapitre coupé en tranches de cinq minutes reste un chapitre coupé.",
+
+      matchConsigne: "Reliez chaque contrainte de public à la décision de format qu'elle impose.",
+      matchG: "Contrainte du public",
+      matchD: "Décision de format",
+      matchPaires: [
+        ["Lit surtout dans les transports.", "Séquences courtes, autonomes, lisibles sur téléphone."],
+        ["Dispose de deux heures d'affilée, une fois par semaine.", "Séquences longues acceptables, avec un atelier en fin de séance."],
+        ["Revient au cours après plusieurs semaines d'interruption.", "Rappel explicite des acquis en ouverture de chapitre."],
+        ["N'a aucun prérequis technique.", "Chaque terme métier défini à sa première apparition."]
+      ],
+
+      spotConsigne: "Voici un plan de cours. Trois décisions d'ordre posent problème : repérez-les.",
+      spotIntro: "Plan — « Initiation à la gestion de projet »",
+      spotFrags: [
+        ["Chapitre 1 : les certifications professionnelles du domaine.", true, "On ouvre par ce qui suppose tout le reste acquis. Les certifications ne se comprennent qu'une fois la matière connue : c'est un chapitre de fin, pas de début."],
+        ["Chapitre 2 : vocabulaire et rôles d'un projet.", false, ""],
+        ["Chapitre 3 : étude de cas complète sur un projet réel.", true, "Une étude de cas complète en troisième position suppose acquis des outils qui ne seront vus qu'ensuite. L'apprenant y échoue, et attribue cet échec à lui-même."],
+        ["Chapitre 4 : planifier, estimer, suivre.", false, ""],
+        ["Chapitre 5 : introduction — pourquoi gérer un projet.", true, "L'introduction en cinquième position. Cela arrive plus souvent qu'on ne croit : elle a été écrite en dernier, et rangée là où elle a été écrite."]
+      ],
+
+      flashHint: "Cliquez une carte pour la retourner."
+    },
+
+    en: {
+      capsuleTitre: "Break up, without dismembering",
+      capsuleTrans: "Structuring means deciding in which order and in what pieces. Three ideas are enough: a sequence carries a question, content and a check; a short sequence must stand on its own; and the right order is that of prerequisites, not of importance. The rest follows.",
+
+      checkTitre: "Checkpoint — the sequence",
+      checkQ1: "What is most often missing from a course sequence?",
+      checkO1: ["The question that motivates it.", "The check that proves it landed.", "The content itself."],
+      checkE1: "The check. We readily write the question and the content — those are the parts we master. The check requires imagining what would prove learning, which is harder, and so it is the one we skip.",
+      checkQ2: "A five-minute sequence counts as micro-learning when…",
+      checkO2: ["it lasts under ten minutes.", "it stands on its own: a learner who stops there leaves with something usable.", "it can be read on a phone."],
+      checkE2: "The second. Neither duration nor device makes micro-learning: it is the autonomy of the sequence. A chapter sliced into five-minute pieces is still a sliced chapter.",
+
+      matchConsigne: "Match each audience constraint with the format decision it imposes.",
+      matchG: "Audience constraint",
+      matchD: "Format decision",
+      matchPaires: [
+        ["Reads mostly while commuting.", "Short, self-contained sequences, readable on a phone."],
+        ["Has two uninterrupted hours, once a week.", "Long sequences acceptable, with a workshop closing the session."],
+        ["Returns to the course after weeks away.", "Explicit recap of what was learnt at the start of each chapter."],
+        ["Has no technical prerequisites.", "Every domain term defined at its first appearance."]
+      ],
+
+      spotConsigne: "Here is a course outline. Three ordering decisions are a problem: spot them.",
+      spotIntro: "Outline — “Introduction to project management”",
+      spotFrags: [
+        ["Chapter 1: the professional certifications in the field.", true, "Opening with what assumes everything else. Certifications only make sense once the subject is known: that is an ending chapter, not an opening one."],
+        ["Chapter 2: vocabulary and roles in a project.", false, ""],
+        ["Chapter 3: a full case study on a real project.", true, "A full case study in third place assumes tools that will only be covered later. The learner fails at it, and blames themselves for the failure."],
+        ["Chapter 4: planning, estimating, tracking.", false, ""],
+        ["Chapter 5: introduction — why manage a project.", true, "The introduction in fifth place. It happens more often than you would think: it was written last, and filed where it was written."]
+      ],
+
+      flashHint: "Click a card to flip it."
+    }
+  };
+
+  function textes() {
+    var l = (window.TPLI18N && TPLI18N.lang()) || 'fr';
+    return TEXTES[l] || TEXTES.fr;
+  }
+
+  var CONTENEURS = ['capsule-2', 'check-2-1', 'match-2-1', 'spot-2-1'];
+
+  function monter() {
+    var X = textes();
+    CONTENEURS.forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.innerHTML = '';
+    });
+
+    RDCX.voice('capsule-2', {
+      src: '../assets/media/voix/chapitre-2-capsule.mp3',
+      titre: X.capsuleTitre,
+      duree: '0:45',
+      transcription: X.capsuleTrans
+    });
+
+    RDCX.checkpoint('check-2-1', {
+      titre: X.checkTitre,
+      questions: [
+        { q: X.checkQ1, options: X.checkO1, correct: 1, explication: X.checkE1 },
+        { q: X.checkQ2, options: X.checkO2, correct: 1, explication: X.checkE2 }
+      ]
+    });
+
+    RDCX.match('match-2-1', {
+      consigne: X.matchConsigne,
+      colonneGauche: X.matchG,
+      colonneDroite: X.matchD,
+      paires: X.matchPaires.map(function (p) { return { g: p[0], d: p[1] }; })
+    });
+
+    RDCX.spotError('spot-2-1', {
+      consigne: X.spotConsigne,
+      intro: X.spotIntro,
+      fragments: X.spotFrags.map(function (f) {
+        return { t: f[0], faux: f[1], pourquoi: f[2] };
+      })
+    });
+  }
+
+  function demarrer() {
+    monter();
+    RDCX.steps({ chapitre: '2' });
+    RDCX.sommaire({ titre: T('sommaire.titre') });
+    new FlashcardDeck('flash-ch2', (window.RDC_FLASHCARDS || {})['2'] || [], 'ch2');
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', demarrer);
+  else demarrer();
+
+  document.addEventListener('tpl:langchange', monter);
+})();
 </script>
 </body>
 </html>
