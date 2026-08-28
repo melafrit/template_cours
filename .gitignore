@@ -54,3 +54,8 @@ outils/quarantaine/
 # Configuration de deploiement — identifiants d'hebergement, meme regle.
 deploiement/config.json
 deploiement/manifeste.json
+
+# Cahier de texte — le fichier d'acces porte les identifiants du site de cours.
+# Le document produit les porte aussi : ni l'un ni l'autre n'entre au depot.
+docs/acces.json
+docs/Cahier_de_texte*.docx

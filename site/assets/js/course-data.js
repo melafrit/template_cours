@@ -20,6 +20,8 @@ window.COURSE = {
       title: { fr: "Créer des ressources multimédias", en: "Creating multimedia resources" } }
   ],
   resources: [
+    { ico: '📄', href: 'polycopies.html',
+      label: { fr: "Polycopiés", en: "Handouts" } },
     { ico: '📚', href: 'glossaire.html',    label: { fr: "Glossaire bilingue", en: "Bilingual glossary" } },
     { ico: '🧩', href: 'activites.html',     label: { fr: "Activités interactives", en: "Interactive activities" } },
     { ico: '📝', href: 'QCM/index.html',     label: { fr: "QCM d'évaluation", en: "Assessment quiz" } },

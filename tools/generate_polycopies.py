@@ -13,7 +13,7 @@ Usage :
     python generate_polycopies.py en         # EN seulement
     python generate_polycopies.py both       # FR + EN
 
-Sorties : tools/out/chapitre-<n>-polycopie.<lang>.docx et .pdf
+Sorties : site/assets/polycopies/chapitre-<n>-polycopie.<lang>.docx et .pdf
 
 Dépendances : python-docx, fpdf2 (+ pypdfium2 facultatif).
 """
@@ -30,7 +30,10 @@ from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-OUT = os.path.join(HERE, 'out')
+# Les polycopies sont servis par le site : media.js les charge automatiquement
+# depuis assets/polycopies/. Les ecrire dans tools/out/ obligeait a les
+# recopier a la main, et donc a oublier de le faire.
+OUT = os.path.join(os.path.dirname(HERE), 'site', 'assets', 'polycopies')
 CONTENT = os.path.join(HERE, 'polycopies_content.json')
 FONTS = r'C:\Windows\Fonts'
 

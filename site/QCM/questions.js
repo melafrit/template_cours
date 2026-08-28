@@ -1,11 +1,23 @@
 /* =================================================================
    questions.js — Banque de questions BILINGUE (FR/EN) du QCM-démo
-   Thème : « Concevoir un cours en ligne » (5 chapitres)
+   Thème : « Concevoir un cours en ligne » (3 chapitres)
    Template de cours — M. EL AFRIT (CC BY-NC-SA 4.0)
 
    Format attendu par les pages (index / entrainement / correction / dashboard) :
      { id, chapitre, difficulte, enonce:{fr,en}, propositions:[{fr,en}×4] }
    Réponse UNIQUE par question. Voir corrections.js pour la clé + explications.
+
+   RÈGLES QUE CE FICHIER RESPECTE, ET QU'IL FAUT TENIR EN L'ÉTENDANT :
+
+   - Chaque question porte sur ce que le chapitre enseigne RÉELLEMENT. Une
+     question dont la réponse n'est pas dans le cours est injuste, et l'on ne
+     s'en aperçoit qu'à la correction, quand toute la promotion se trompe.
+   - Les positions des bonnes réponses sont ÉQUILIBRÉES. Ici : 2×A, 3×B, 2×C,
+     2×D. Sans cela, l'étudiant qui coche toujours la même lettre est avantagé.
+   - Les distracteurs sont plausibles, jamais absurdes. Une proposition
+     manifestement fausse ne teste rien : elle réduit le QCM à trois choix.
+   - Difficulté : vert (tout étudiant ayant lu doit répondre), jaune, orange,
+     rouge (départage le haut du classement).
    ================================================================= */
 window.QCM_QUESTIONS = {
   meta: {
@@ -19,171 +31,131 @@ window.QCM_QUESTIONS = {
     },
     annee_academique: '2025-2026',
     auteur: 'Mohamed EL AFRIT',
-    nombre_questions: 12,
+    nombre_questions: 9,
     note_sur: 20
   },
   questions: [
-    /* ---------- Chapitre 1 — Cadrer ---------- */
+
+    /* ---------- Chapitre 1 — Cadrer son cours ---------- */
     {
       id: 'Q01', chapitre: 1, difficulte: 'vert',
       enonce: {
-        fr: 'Quel est le tout premier élément à définir quand on cadre un cours en ligne ?',
-        en: 'What is the very first element to define when framing an online course?'
+        fr: 'Parmi les trois décisions de cadrage, laquelle se prend en premier ?',
+        en: 'Of the three scoping decisions, which one comes first?'
       },
       propositions: [
-        { fr: 'Les objectifs pédagogiques visés', en: 'The intended learning objectives' },
-        { fr: 'La couleur du thème graphique', en: 'The colour of the visual theme' },
-        { fr: 'Le format des fichiers vidéo', en: 'The video file format' },
-        { fr: 'Le nom de la plateforme d\'hébergement', en: 'The name of the hosting platform' }
+        { fr: 'Choisir le fil rouge, pour donner sa cohérence au cours', en: 'Choosing the through-line, to hold the course together' },
+        { fr: 'Définir le public cible, avec ses prérequis et ses contraintes', en: 'Defining the target audience, with its prerequisites and constraints' },
+        { fr: 'Rédiger les objectifs pédagogiques', en: 'Writing the learning objectives' },
+        { fr: 'Fixer le nombre de chapitres et leur durée', en: 'Setting the number of chapters and their duration' }
       ]
     },
     {
       id: 'Q02', chapitre: 1, difficulte: 'jaune',
       enonce: {
-        fr: 'Un objectif pédagogique « bien formulé » s\'appuie de préférence sur…',
-        en: 'A well-formulated learning objective is preferably based on…'
+        fr: 'Quelle description d\'un public cible permet réellement de prendre des décisions ?',
+        en: 'Which description of a target audience actually supports decisions?'
       },
       propositions: [
-        { fr: 'une intention vague comme « sensibiliser au sujet »', en: 'a vague intention such as "raise awareness of the topic"' },
-        { fr: 'un verbe d\'action observable et mesurable', en: 'an observable, measurable action verb' },
-        { fr: 'le nombre total de diapositives prévues', en: 'the total number of planned slides' },
-        { fr: 'la durée exacte de chaque vidéo en secondes', en: 'the exact length of each video in seconds' }
-      ]
-    },
-    /* ---------- Chapitre 2 — Structurer ---------- */
-    {
-      id: 'Q03', chapitre: 2, difficulte: 'vert',
-      enonce: {
-        fr: 'À quoi sert un découpage en modules et séquences dans un cours en ligne ?',
-        en: 'What is the purpose of splitting an online course into modules and units?'
-      },
-      propositions: [
-        { fr: 'À augmenter mécaniquement le temps total de visionnage', en: 'To mechanically increase total watch time' },
-        { fr: 'À masquer la progression réelle de l\'apprenant', en: 'To hide the learner\'s actual progress' },
-        { fr: 'À rendre la progression claire et gérable par étapes', en: 'To make progression clear and manageable step by step' },
-        { fr: 'À supprimer le besoin de tout objectif pédagogique', en: 'To remove the need for any learning objective' }
+        { fr: 'Des étudiants de deuxième année de master', en: 'Second-year master\'s students' },
+        { fr: 'Un public motivé, curieux et disponible', en: 'A motivated, curious and available audience' },
+        { fr: 'Des professionnels sans bagage technique, deux heures par semaine, souvent sur téléphone', en: 'Professionals with no technical background, two hours a week, often on a phone' },
+        { fr: 'Un public hétérogène, aux profils variés', en: 'A heterogeneous audience, with varied profiles' }
       ]
     },
     {
-      id: 'Q04', chapitre: 2, difficulte: 'orange',
+      id: 'Q03', chapitre: 1, difficulte: 'orange',
       enonce: {
-        fr: 'L\'« alignement pédagogique » (constructive alignment) désigne la cohérence entre…',
-        en: '"Constructive alignment" refers to the consistency between…'
+        fr: 'À quelle condition un objectif pédagogique est-il vérifiable ?',
+        en: 'Under what condition is a learning objective verifiable?'
       },
       propositions: [
-        { fr: 'la longueur des vidéos et la taille des images', en: 'video length and image size' },
-        { fr: 'le budget du projet et le nombre d\'inscrits', en: 'the project budget and the number of enrolments' },
-        { fr: 'la marque de la plateforme et celle du créateur', en: 'the platform brand and the creator\'s brand' },
-        { fr: 'objectifs, activités d\'apprentissage et évaluations', en: 'objectives, learning activities and assessments' }
+        { fr: 'On peut décrire l\'exercice qui prouverait qu\'il est atteint', en: 'You can describe the exercise that would prove it reached' },
+        { fr: 'Il porte sur une notion importante du programme', en: 'It covers an important notion of the syllabus' },
+        { fr: 'Il est formulé en une seule phrase', en: 'It is written in a single sentence' },
+        { fr: 'Il commence par un verbe, quel qu\'il soit', en: 'It starts with a verb, whichever one' }
       ]
     },
-    /* ---------- Chapitre 3 — Multimédia ---------- */
+
+    /* ---------- Chapitre 2 — Structurer le contenu ---------- */
     {
-      id: 'Q05', chapitre: 3, difficulte: 'jaune',
+      id: 'Q04', chapitre: 2, difficulte: 'jaune',
       enonce: {
-        fr: 'D\'après le principe de redondance (Mayer), il vaut généralement mieux éviter de…',
-        en: 'According to the redundancy principle (Mayer), it is generally best to avoid…'
+        fr: 'Une séquence de cours porte trois éléments. Lequel manque le plus souvent ?',
+        en: 'A course sequence carries three parts. Which one is most often missing?'
       },
       propositions: [
-        { fr: 'lire à voix haute un texte déjà affiché mot pour mot à l\'écran', en: 'reading aloud text already shown word-for-word on screen' },
-        { fr: 'illustrer une explication orale par un schéma simple', en: 'illustrating a spoken explanation with a simple diagram' },
-        { fr: 'commenter une animation pendant qu\'elle se déroule', en: 'narrating an animation while it plays' },
-        { fr: 'segmenter une longue vidéo en courtes capsules', en: 'segmenting a long video into short clips' }
-      ]
-    },
-    {
-      id: 'Q06', chapitre: 3, difficulte: 'orange',
-      enonce: {
-        fr: 'Pour un sous-titrage vidéo réutilisable et éditable, quel format privilégier ?',
-        en: 'For reusable, editable video subtitles, which format should you favour?'
-      },
-      propositions: [
-        { fr: 'Du texte « incrusté » (burned-in) directement dans l\'image', en: 'Text "burned-in" directly into the image' },
-        { fr: 'Un fichier de sous-titres séparé (.srt / .vtt)', en: 'A separate subtitle file (.srt / .vtt)' },
-        { fr: 'Une capture d\'écran du texte au format PNG', en: 'A screenshot of the text as a PNG image' },
-        { fr: 'Un enregistrement audio supplémentaire du texte', en: 'An extra audio recording of the text' }
-      ]
-    },
-    /* ---------- Chapitre 4 — Évaluer ---------- */
-    {
-      id: 'Q07', chapitre: 4, difficulte: 'vert',
-      enonce: {
-        fr: 'Quelle est la principale finalité d\'une évaluation « formative » ?',
-        en: 'What is the main purpose of a "formative" assessment?'
-      },
-      propositions: [
-        { fr: 'Classer définitivement les apprenants entre eux', en: 'To rank learners against each other once and for all' },
-        { fr: 'Délivrer la note finale et le certificat', en: 'To deliver the final grade and the certificate' },
-        { fr: 'Donner un retour pour aider l\'apprenant à progresser', en: 'To give feedback that helps the learner improve' },
-        { fr: 'Réduire le nombre de questions à corriger', en: 'To reduce the number of questions to grade' }
+        { fr: 'La question qui la motive', en: 'The question that motivates it' },
+        { fr: 'Le contenu qui y répond', en: 'The content that answers it' },
+        { fr: 'Le titre de la séquence', en: 'The title of the sequence' },
+        { fr: 'La vérification qui prouve qu\'elle a porté', en: 'The check that proves it landed' }
       ]
     },
     {
-      id: 'Q08', chapitre: 4, difficulte: 'rouge',
+      id: 'Q05', chapitre: 2, difficulte: 'vert',
       enonce: {
-        fr: 'Un bon distracteur dans une question à choix multiple devrait surtout être…',
-        en: 'A good distractor in a multiple-choice question should above all be…'
+        fr: 'Qu\'est-ce qui distingue le micro-apprentissage d\'un chapitre simplement découpé ?',
+        en: 'What distinguishes micro-learning from a chapter merely sliced up?'
       },
       propositions: [
-        { fr: 'manifestement absurde pour être vite éliminé', en: 'obviously absurd so it is quickly ruled out' },
-        { fr: 'systématiquement plus court que la bonne réponse', en: 'systematically shorter than the correct answer' },
-        { fr: 'systématiquement plus long que la bonne réponse', en: 'systematically longer than the correct answer' },
-        { fr: 'plausible et fondé sur une erreur fréquente', en: 'plausible and based on a common misconception' }
-      ]
-    },
-    /* ---------- Chapitre 5 — Accessibilité & diffusion ---------- */
-    {
-      id: 'Q09', chapitre: 5, difficulte: 'jaune',
-      enonce: {
-        fr: 'Quel attribut HTML fournit une alternative textuelle à une image pour les lecteurs d\'écran ?',
-        en: 'Which HTML attribute provides a text alternative to an image for screen readers?'
-      },
-      propositions: [
-        { fr: 'L\'attribut alt', en: 'The alt attribute' },
-        { fr: 'L\'attribut title seul', en: 'The title attribute alone' },
-        { fr: 'L\'attribut href', en: 'The href attribute' },
-        { fr: 'L\'attribut style', en: 'The style attribute' }
+        { fr: 'La durée : moins de dix minutes par séquence', en: 'Duration: under ten minutes per sequence' },
+        { fr: 'L\'autonomie : la séquence se suffit à elle-même', en: 'Autonomy: the sequence stands on its own' },
+        { fr: 'Le support : la séquence se lit sur téléphone', en: 'The device: the sequence can be read on a phone' },
+        { fr: 'Le format : la séquence est en vidéo plutôt qu\'en texte', en: 'The format: the sequence is video rather than text' }
       ]
     },
     {
-      id: 'Q10', chapitre: 5, difficulte: 'orange',
+      id: 'Q06', chapitre: 2, difficulte: 'orange',
       enonce: {
-        fr: 'Pour respecter le critère de contraste WCAG AA sur du texte normal, le ratio minimal est…',
-        en: 'To meet the WCAG AA contrast criterion for normal text, the minimum ratio is…'
+        fr: 'Sur quel critère faut-il ordonner les notions d\'un cours ?',
+        en: 'On what criterion should the notions of a course be ordered?'
       },
       propositions: [
-        { fr: '1:1', en: '1:1' },
-        { fr: '4,5:1', en: '4.5:1' },
-        { fr: '1,2:1', en: '1.2:1' },
-        { fr: '2:1', en: '2:1' }
+        { fr: 'Leur importance : on commence par ce qui compte le plus', en: 'Their importance: start with what matters most' },
+        { fr: 'Leur difficulté : de la plus simple à la plus complexe', en: 'Their difficulty: from simplest to most complex' },
+        { fr: 'Leurs prérequis : on commence par ce qui rend le reste possible', en: 'Their prerequisites: start with what makes the rest possible' },
+        { fr: 'Leur ordre chronologique dans la discipline', en: 'Their chronological order within the discipline' }
       ]
     },
-    /* ---------- Chapitre 4 (suite) — Notation CBM ---------- */
+
+    /* ---------- Chapitre 3 — Créer les ressources ---------- */
     {
-      id: 'Q11', chapitre: 4, difficulte: 'rouge',
+      id: 'Q07', chapitre: 3, difficulte: 'vert',
       enonce: {
-        fr: 'Dans la notation CBM de ce QCM, une réponse FAUSSE donnée en certitude « Élevée » rapporte…',
-        en: 'In this quiz\'s CBM scoring, a WRONG answer given with "High" certainty earns…'
+        fr: 'Vous devez transmettre une durée de conservation exacte — quinze minutes. Quel format choisir ?',
+        en: 'You must convey an exact retention period — fifteen minutes. Which format should you choose?'
       },
       propositions: [
-        { fr: '0 point (réponse simplement ignorée)', en: '0 points (the answer is simply ignored)' },
-        { fr: '+3 points car vous aviez osé répondre', en: '+3 points because you dared to answer' },
-        { fr: '−3 points (pénalité maximale du barème)', en: '−3 points (the scale\'s maximum penalty)' },
-        { fr: '−1 point quelle que soit la certitude choisie', en: '−1 point regardless of the certainty chosen' }
+        { fr: 'Le texte : un chiffre exact doit pouvoir être relu', en: 'Text: an exact figure must be re-readable' },
+        { fr: 'Une capsule audio : la voix retient l\'attention', en: 'An audio capsule: a voice holds attention' },
+        { fr: 'Un schéma : la représentation visuelle marque mieux', en: 'A diagram: a visual representation sticks better' },
+        { fr: 'Les trois à la fois, pour maximiser la mémorisation', en: 'All three at once, to maximise retention' }
       ]
     },
-    /* ---------- Chapitre 1 (suite) — Cadrer (public cible) ---------- */
     {
-      id: 'Q12', chapitre: 1, difficulte: 'rouge',
+      id: 'Q08', chapitre: 3, difficulte: 'jaune',
       enonce: {
-        fr: 'Définir le « public cible » d\'un cours en amont sert avant tout à…',
-        en: 'Defining a course\'s "target audience" upfront serves above all to…'
+        fr: 'Qu\'attend-on d\'un schéma placé à côté d\'un paragraphe ?',
+        en: 'What is expected of a diagram placed beside a paragraph?'
       },
       propositions: [
-        { fr: 'gonfler artificiellement le nombre d\'inscrits annoncé', en: 'artificially inflate the announced enrolment figures' },
-        { fr: 'choisir aléatoirement les couleurs de l\'interface', en: 'randomly choose the interface colours' },
-        { fr: 'rallonger systématiquement la durée du cours', en: 'systematically lengthen the course duration' },
-        { fr: 'adapter le niveau, le ton et les exemples aux apprenants', en: 'tailor the level, tone and examples to the learners' }
+        { fr: 'Qu\'il résume le paragraphe, pour qui ne le lira pas', en: 'That it summarises the paragraph, for those who will not read it' },
+        { fr: 'Qu\'il montre ce que le texte ne peut pas dire : un ordre, une proportion, un flux', en: 'That it shows what text cannot say: an order, a proportion, a flow' },
+        { fr: 'Qu\'il illustre le propos par une image agréable', en: 'That it illustrates the point with a pleasant image' },
+        { fr: 'Qu\'il reprenne les mêmes termes que le texte, pour la cohérence', en: 'That it reuses the same terms as the text, for consistency' }
+      ]
+    },
+    {
+      id: 'Q09', chapitre: 3, difficulte: 'rouge',
+      enonce: {
+        fr: 'Quelle affirmation décrit le mieux l\'apport d\'une transcription sous une capsule audio ?',
+        en: 'Which statement best describes what a transcript under an audio capsule brings?'
+      },
+      propositions: [
+        { fr: 'Elle satisfait une obligation réglementaire d\'accessibilité', en: 'It satisfies a regulatory accessibility requirement' },
+        { fr: 'Elle sert aux personnes sourdes, et à elles seules', en: 'It serves deaf people, and only them' },
+        { fr: 'Elle remplace la capsule pour qui préfère lire', en: 'It replaces the capsule for those who prefer reading' },
+        { fr: 'Elle rend la ressource utilisable dans plus de situations, pour tout le monde', en: 'It makes the resource usable in more situations, for everyone' }
       ]
     }
   ]

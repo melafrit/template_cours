@@ -110,21 +110,44 @@
   (function () {
     var nav = document.querySelector('.chapter-nav');
     if (!nav) return;
-    var polyPdf = '../assets/polycopies/chapitre-' + N + '-polycopie.pdf';
-    function enable() {
-      var openModal = buildPolyModal(polyPdf, N);
-      var btn = document.createElement('button');
-      btn.type = 'button'; btn.className = 'chapter-nav-btn poly-btn';
-      btn.innerHTML = '📄 Polycopié';
-      btn.addEventListener('click', openModal);
-      var links = nav.querySelectorAll('a, button');
-      var last = links[links.length - 1]; // le bouton « Suivant »
-      if (last && last.parentNode === nav) nav.insertBefore(btn, last); else nav.appendChild(btn);
-    }
-    if (location.protocol === 'http:' || location.protocol === 'https:') {
-      fetch(polyPdf, { method: 'HEAD' }).then(function (r) { if (r.ok) enable(); }).catch(function () {});
-    } else { enable(); }
-  })();
+      /* Le polycopie existe par langue : « chapitre-2-polycopie.fr.pdf ». Sans
+         le suffixe, le fichier n'etait jamais trouve et le bouton n'apparaissait
+         pas — un defaut silencieux, puisqu'un bouton absent ne se remarque pas. */
+      function langue() {
+        return (window.TPLI18N && TPLI18N.lang && TPLI18N.lang()) || 'fr';
+      }
+      function chemin() {
+        return '../assets/polycopies/chapitre-' + N + '-polycopie.' + langue() + '.pdf';
+      }
+
+      function poser() {
+        var ancien = nav.querySelector('.poly-btn');
+        if (ancien) ancien.parentNode.removeChild(ancien);
+        var openModal = buildPolyModal(chemin(), N);
+        var btn = document.createElement('button');
+        btn.type = 'button'; btn.className = 'chapter-nav-btn poly-btn';
+        btn.innerHTML = window.T ? T('media.polycopie') : '📄 Polycopié';
+        btn.addEventListener('click', openModal);
+        var links = nav.querySelectorAll('a, button');
+        var last = links[links.length - 1];
+        if (last && last.parentNode === nav) nav.insertBefore(btn, last); else nav.appendChild(btn);
+      }
+
+      function tenter() {
+        if (location.protocol === 'http:' || location.protocol === 'https:') {
+          fetch(chemin(), { method: 'HEAD' })
+            .then(function (r) {
+              var b = nav.querySelector('.poly-btn');
+              if (r.ok) poser();
+              else if (b) b.parentNode.removeChild(b);
+            })
+            .catch(function () {});
+        } else { poser(); }
+      }
+
+      tenter();
+      document.addEventListener('tpl:langchange', tenter);
+    })();
 
   // --- Popup plein écran pour les slides (créée une fois, réutilisée) ---
   function buildSlidesModal(pdfUrl, N) {

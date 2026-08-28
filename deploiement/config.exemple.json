@@ -1,0 +1,21 @@
+{
+  "_lisez_moi": "Copiez ce fichier en config.json puis renseignez-le. config.json est ignoré par Git : ces identifiants donnent un accès en écriture à l'hébergement, et l'historique Git ne s'efface pas.",
+  "hote": "ftp.exemple.ovh.net",
+  "identifiant": "votre-identifiant",
+  "motdepasse": "votre-mot-de-passe",
+  "port": 21,
+  "_repertoire_distant": "Chemin du cours SUR le serveur, a partir de la racine FTP. Ne visez pas /www directement : --purge y effacerait tout ce que ce depot ne connait pas.",
+  "repertoire_distant": "/www/reglementation-donnees",
+  "_tls": "true = FTPS explicite, proposé par OVH. À laisser à true : en FTP simple, mot de passe et contenus circulent en clair.",
+  "tls": true,
+  "_passif": "true convient à presque tous les réseaux. Ne passez à false que si le transfert bloque après connexion.",
+  "passif": true,
+  "_delai": "Secondes avant abandon d'une opération réseau.",
+  "delai": 30,
+  "_exclure": "Motifs (style fnmatch) retires de l'envoi, RELATIFS a site/. Ce template ne deploie que site/ : les outils, les fiches, les sources et la documentation restent au depot par construction, il n'y a donc presque rien a exclure ici. Ajoutez 'assets/media/podcasts/*' si vous preferez deposer les fichiers lourds une fois pour toutes par FileZilla.",
+  "exclure": [
+    "*.py",
+    ".DS_Store",
+    "Thumbs.db"
+  ]
+}
