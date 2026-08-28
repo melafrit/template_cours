@@ -38,7 +38,7 @@
   <div class="chapter-header">
     <div class="chapter-meta">
       <span class="chapter-badge">📄 <span data-tr="fr">Ressource</span><span data-tr="en">Resource</span></span>
-      <span class="chapter-duration"><span data-tr="fr">3 polycopiés · PDF · français et anglais</span><span data-tr="en">3 handouts · PDF · French and English</span></span>
+      <span class="chapter-duration"><span data-tr="fr">Un polycopié par chapitre · PDF · français et anglais</span><span data-tr="en">One handout per chapter · PDF · French and English</span></span>
     </div>
     <h1 class="chapter-title"><span data-tr="fr">Polycopiés de synthèse</span><span data-tr="en">Summary handouts</span></h1>
     <p class="chapter-subtitle">
@@ -57,43 +57,12 @@
   </div>
 
   <section class="content-section">
-    <h2><span data-tr="fr">Les trois polycopiés</span><span data-tr="en">The three handouts</span></h2>
+    <h2><span data-tr="fr">Les polycopiés</span><span data-tr="en">The handouts</span></h2>
 
     <div class="template-downloads">
-      <div class="template-grid">
-
-        <div class="template-card">
-          <div class="template-card-icon">🎯</div>
-          <div class="template-card-body">
-            <div class="template-card-title"><span data-tr="fr">Chapitre 1 — Cadrer son cours</span><span data-tr="en">Chapter 1 — Scoping your course</span></div>
-            <div class="template-card-meta"><span data-tr="fr">Les trois décisions de cadrage, dans leur ordre</span><span data-tr="en">The three scoping decisions, in order</span></div>
-          </div>
-          <a href="assets/polycopies/chapitre-1-polycopie.fr.pdf" class="template-card-btn" data-tr="fr" download>PDF</a>
-          <a href="assets/polycopies/chapitre-1-polycopie.en.pdf" class="template-card-btn" data-tr="en" download>PDF</a>
-        </div>
-
-        <div class="template-card">
-          <div class="template-card-icon">🧱</div>
-          <div class="template-card-body">
-            <div class="template-card-title"><span data-tr="fr">Chapitre 2 — Structurer le contenu</span><span data-tr="en">Chapter 2 — Structuring the content</span></div>
-            <div class="template-card-meta"><span data-tr="fr">Séquences, micro-apprentissage, ordre des prérequis</span><span data-tr="en">Sequences, micro-learning, order of prerequisites</span></div>
-          </div>
-          <a href="assets/polycopies/chapitre-2-polycopie.fr.pdf" class="template-card-btn" data-tr="fr" download>PDF</a>
-          <a href="assets/polycopies/chapitre-2-polycopie.en.pdf" class="template-card-btn" data-tr="en" download>PDF</a>
-        </div>
-
-        <div class="template-card">
-          <div class="template-card-icon">🎬</div>
-          <div class="template-card-body">
-            <div class="template-card-title"><span data-tr="fr">Chapitre 3 — Créer les ressources</span><span data-tr="en">Chapter 3 — Creating the resources</span></div>
-            <div class="template-card-meta"><span data-tr="fr">Format et intention, complémentarité, accessibilité</span><span data-tr="en">Format and intention, complementarity, accessibility</span></div>
-          </div>
-          <a href="assets/polycopies/chapitre-3-polycopie.fr.pdf" class="template-card-btn" data-tr="fr" download>PDF</a>
-          <a href="assets/polycopies/chapitre-3-polycopie.en.pdf" class="template-card-btn" data-tr="en" download>PDF</a>
-        </div>
-
-      </div>
+      <div class="template-grid" id="grille-polycopies"></div>
     </div>
+
   </section>
 
   <section class="content-section">
@@ -117,5 +86,81 @@
 <script src="assets/js/navigation.js"></script>
 <script src="assets/js/accessibility.js"></script>
 <script src="assets/js/animations.js"></script>
+
+<script>
+/* =================================================================
+   La grille se construit depuis window.COURSE : une carte par chapitre
+   declare, et rien d'autre. Ecrite en dur, elle proposait des
+   telechargements pour des chapitres qui n'existaient pas.
+
+   Chaque fichier est sonde avant d'etre propose. Un polycopie pas encore
+   genere affiche son etat plutot qu'un lien qui echoue : on voit ce qu'il
+   reste a produire, au lieu de le decouvrir en cliquant.
+   ================================================================= */
+(function () {
+  'use strict';
+  var grille = document.getElementById('grille-polycopies');
+  if (!grille || !window.COURSE) return;
+
+  var LIB = {
+    fr: { manquant: 'À générer', aide: 'python3 tools/generate_polycopies.py' },
+    en: { manquant: 'To generate', aide: 'python3 tools/generate_polycopies.py' }
+  };
+
+  function lang() { return (window.TPLI18N && TPLI18N.lang()) || 'fr'; }
+  function L(x) { return (x && typeof x === 'object') ? (x[lang()] || x.fr) : (x || ''); }
+
+  function chemin(num) {
+    return 'assets/polycopies/chapitre-' + num + '-polycopie.' + lang() + '.pdf';
+  }
+
+  function carte(ch) {
+    var url = chemin(ch.num);
+    var el = document.createElement('div');
+    el.className = 'template-card';
+    el.innerHTML =
+        '<div class="template-card-icon">' + (ch.ico || '📄') + '</div>'
+      + '<div class="template-card-body">'
+      + '  <div class="template-card-title"></div>'
+      + '  <div class="template-card-meta"></div>'
+      + '</div>';
+    el.querySelector('.template-card-title').textContent =
+      (lang() === 'fr' ? 'Chapitre ' : 'Chapter ') + ch.num + ' — ' + L(ch.title);
+    var meta = el.querySelector('.template-card-meta');
+
+    function proposer() {
+      var a = document.createElement('a');
+      a.className = 'template-card-btn';
+      a.href = url; a.setAttribute('download', '');
+      a.textContent = 'PDF';
+      el.appendChild(a);
+      meta.textContent = 'PDF';
+    }
+    function absent() {
+      var s = document.createElement('span');
+      s.className = 'template-card-btn';
+      s.style.opacity = '.55'; s.style.cursor = 'default';
+      s.textContent = LIB[lang()].manquant;
+      el.appendChild(s);
+      meta.textContent = LIB[lang()].aide;
+    }
+
+    if (location.protocol === 'http:' || location.protocol === 'https:') {
+      fetch(url, { method: 'HEAD' })
+        .then(function (r) { r.ok ? proposer() : absent(); })
+        .catch(absent);
+    } else { proposer(); }
+    return el;
+  }
+
+  function construire() {
+    grille.innerHTML = '';
+    (COURSE.chapters || []).forEach(function (ch) { grille.appendChild(carte(ch)); });
+  }
+
+  construire();
+  document.addEventListener('tpl:langchange', construire);
+})();
+</script>
 </body>
 </html>

@@ -4,7 +4,7 @@
 
     python3 outils/verifier_i18n.py
 
-Trois contrôles, dans l'ordre où ils font mal quand on les oublie :
+Quatre contrôles, dans l'ordre où ils font mal quand on les oublie :
 
 1. PARITÉ DES CLÉS d'interface (ui-labels.js) — une clé présente en
    français et absente en anglais donne un bouton en français au milieu
@@ -16,6 +16,11 @@ Trois contrôles, dans l'ordre où ils font mal quand on les oublie :
 3. BLOCS data-tr DÉPAREILLÉS dans les pages — un titre traduit dont le
    paragraphe ne l'est pas laisse un trou en anglais. Le script compte
    les blocs de chaque langue par page et signale les écarts.
+
+4. TITRES DIVERGENTS entre course-data.js et les pages — un chapitre
+   renommé dans sa page mais pas dans les données affiche deux titres
+   différents. On ne regarde pas le menu en lisant un chapitre : cela
+   peut tenir des mois.
 
 Sort en code 1 si un contrôle échoue : utilisable en CI ou en pré-commit.
 """
@@ -60,6 +65,39 @@ def blocs_data_tr():
         en = len(re.findall(r'data-tr="en"', t))
         if fr or en:
             out[os.path.relpath(f, SITE).replace(os.sep, "/")] = (fr, en)
+    return out
+
+
+def titres_divergents():
+    """[(fichier, titre des donnees, titre de la page)] pour chaque ecart.
+
+    Un chapitre renomme dans sa page mais pas dans course-data.js affiche
+    deux titres differents — et cela ne se voit pas, puisqu'on ne regarde
+    pas le menu en lisant un chapitre.
+    """
+    data_js = os.path.join(SITE, "assets", "js", "course-data.js")
+    if not os.path.isfile(data_js):
+        return []
+    data = io.open(data_js, encoding="utf-8").read()
+    motif = (r"file: '(\d\d-[a-z0-9-]+\.html)',\s*\n\s*"
+             r"title: \{ fr: \"([^\"]+)\", en: \"([^\"]+)\" \}")
+    out = []
+    for m in re.finditer(motif, data):
+        fichier, dfr, den = m.groups()
+        page = os.path.join(SITE, "chapitres", fichier)
+        if not os.path.isfile(page):
+            out.append((fichier, "%s / %s" % (dfr, den), "page absente"))
+            continue
+        h = io.open(page, encoding="utf-8").read()
+        t1 = re.search(r'<h1 class="chapter-title">(.*?)</h1>', h, re.S)
+        if not t1:
+            continue
+        pfr = re.search(r'data-tr="fr">(.*?)</span>', t1.group(1), re.S)
+        pen = re.search(r'data-tr="en">(.*?)</span>', t1.group(1), re.S)
+        pfr = pfr.group(1).strip() if pfr else ""
+        pen = pen.group(1).strip() if pen else ""
+        if (dfr, den) != (pfr, pen):
+            out.append((fichier, "%s / %s" % (dfr, den), "%s / %s" % (pfr, pen)))
     return out
 
 
@@ -118,6 +156,21 @@ def main():
             print("      %-44s fr=%d  en=%d" % (page, a, b))
     else:
         print("   Toutes les pages ont autant de blocs français qu'anglais.")
+
+    print("\n4. Titres : donnees du cours et pages")
+    print("   -----------------------------")
+    derives = titres_divergents()
+    if derives:
+        echecs += 1
+        print("   %d titre(s) divergent(s) entre course-data.js et les pages :"
+              % len(derives))
+        for f, a, b in derives:
+            print("      %s" % f)
+            print("         donnees : %s" % a)
+            print("         page    : %s" % b)
+        print("   Le menu et la page afficheraient deux titres differents.")
+    else:
+        print("   Les titres du menu correspondent a ceux des pages.")
 
     print("\nBilan\n-----")
     if echecs:

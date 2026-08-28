@@ -17,7 +17,7 @@ window.COURSE = {
     { num: '2', ico: '🧱', file: '02-structurer.html',
       title: { fr: "Structurer le contenu", en: "Structuring the content" } },
     { num: '3', ico: '🎬', file: '03-multimedia.html',
-      title: { fr: "Créer des ressources multimédias", en: "Creating multimedia resources" } }
+      title: { fr: "Créer les ressources", en: "Creating the resources" } }
   ],
   resources: [
     { ico: '📄', href: 'polycopies.html',

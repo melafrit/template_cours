@@ -60,6 +60,193 @@ BLOCS = {
 }
 
 
+# Contenu de DEMONSTRATION, retire de tout cours cree — sauf --avec-demo.
+# Le squelette de chapitre etait deja vide ; ces fichiers-la ne l'etaient pas.
+DEMO_DOSSIERS = [
+    "site/assets/media/voix",
+    "site/assets/media/schemas",
+    "site/assets/media/podcasts",
+    "site/assets/media/infographies",
+    "site/assets/media/slides",
+    "site/assets/polycopies",
+]
+
+SQUELETTE_QCM_QUESTIONS = """/* =================================================================
+   questions.js — Banque de questions BILINGUE (FR/EN)
+   FICHIER À REMPLIR. Deux exemples montrent la forme attendue.
+
+   Règles à tenir : une question porte sur ce que le chapitre enseigne
+   REELLEMENT ; les positions des bonnes reponses sont equilibrees ; les
+   distracteurs sont plausibles. Voir corrections.js pour la cle.
+   ================================================================= */
+window.QCM_QUESTIONS = {
+  meta: {
+    titre: { fr: 'QCM — %(titre_fr)s', en: 'Quiz — %(titre_en)s' },
+    formation: { fr: '%(titre_fr)s', en: '%(titre_en)s' },
+    annee_academique: '',
+    auteur: '%(auteur)s',
+    nombre_questions: 2,
+    note_sur: 20
+  },
+  questions: [
+    {
+      id: 'Q01', chapitre: 1, difficulte: 'vert',
+      enonce: { fr: 'Premiere question ?', en: 'First question?' },
+      propositions: [
+        { fr: 'Proposition A', en: 'Option A' },
+        { fr: 'Proposition B', en: 'Option B' },
+        { fr: 'Proposition C', en: 'Option C' },
+        { fr: 'Proposition D', en: 'Option D' }
+      ]
+    },
+    {
+      id: 'Q02', chapitre: 1, difficulte: 'jaune',
+      enonce: { fr: 'Deuxieme question ?', en: 'Second question?' },
+      propositions: [
+        { fr: 'Proposition A', en: 'Option A' },
+        { fr: 'Proposition B', en: 'Option B' },
+        { fr: 'Proposition C', en: 'Option C' },
+        { fr: 'Proposition D', en: 'Option D' }
+      ]
+    }
+  ]
+};
+"""
+
+SQUELETTE_QCM_CORRECTIONS = """/* =================================================================
+   corrections.js — Cle de correction BILINGUE (FR/EN)
+   FICHIER À REMPLIR. Les identifiants doivent CORRESPONDRE a questions.js.
+
+   L'explication est la partie utile : dire pourquoi les autres propositions
+   etaient credibles, et ou le raisonnement derape.
+   ================================================================= */
+window.QCM_CORRECTIONS = {
+  corrections: [
+    {
+      id: 'Q01', chapitre: 1, difficulte: 'vert', bonne_reponse_index: 0,
+      explication: {
+        fr: 'Pourquoi A est juste, et pourquoi les autres ne le sont pas.',
+        en: 'Why A is right, and why the others are not.'
+      }
+    },
+    {
+      id: 'Q02', chapitre: 1, difficulte: 'jaune', bonne_reponse_index: 1,
+      explication: {
+        fr: 'L explication de la deuxieme question.',
+        en: 'The explanation for the second question.'
+      }
+    }
+  ]
+};
+"""
+
+SQUELETTE_FLASHCARDS = """/* =================================================================
+   flashcards-data.js — Cartes de revision, par chapitre
+   FICHIER À REMPLIR. Une carte pose une question, pas une definition :
+   « Qu'est-ce qui distingue X de Y ? » se revise ; « X : definition »
+   se relit sans rien apprendre.
+   ================================================================= */
+window.RDC_FLASHCARDS = {
+  "1": [
+    { front: { fr: 'Question de revision ?', en: 'Revision question?' },
+      back:  { fr: 'La reponse, en une phrase.', en: 'The answer, in one sentence.' },
+      ref:   'Chapitre 1' }
+  ]
+};
+"""
+
+SQUELETTE_GLOSSAIRE = """/* =================================================================
+   glossaire-data.js — Glossaire BILINGUE
+   FICHIER À REMPLIR. GLOSSARY_CURATED liste les termes rendus interactifs
+   dans les chapitres : au-dela d'une quinzaine, la page se couvre de
+   pointilles et plus personne ne clique.
+   ================================================================= */
+window.GLOSSARY = [
+  { fr: "terme a definir", en: "term to define",
+    def: { fr: "La definition, en une ou deux phrases.",
+           en: "The definition, in one or two sentences." },
+    ex:  { fr: "Un exemple concret.", en: "A concrete example." } }
+];
+
+window.GLOSSARY_CURATED = ["terme a definir"];
+
+window.GLOSSARY_ALIASES = {};
+"""
+
+SQUELETTE_PLAYLIST = """/* =================================================================
+   playlist-data.js — index des pistes audio
+   FICHIER GENERE — ne pas modifier a la main :
+       python3 outils/generer_playlist.py
+   ================================================================= */
+window.RDC_PLAYLIST = {};
+"""
+
+SQUELETTE_POLYCOPIES = {
+    "1": {
+        "title": {"fr": "Titre du chapitre", "en": "Chapter title"},
+        "subtitle": {"fr": "Polycopie de synthese", "en": "Summary handout"},
+        "blocks": [
+            ["p", {"fr": "Introduction du polycopie, a rediger.",
+                   "en": "Handout introduction, to be written."}],
+            ["h2", {"fr": "1. Premiere partie", "en": "1. First part"}],
+            ["p", {"fr": "Le contenu de la premiere partie. Le gras s ecrit avec "
+                         "des **asterisques**.",
+                   "en": "The content of the first part. Bold uses **asterisks**."}],
+            ["takeaways", [{"fr": "Ce qu il faut retenir.",
+                            "en": "What to remember."}]],
+        ],
+    }
+}
+
+
+def purger_demo(sortie, c):
+    """Retire le contenu de demonstration et remet des squelettes a la place.
+
+    Le squelette de chapitre etait deja vide, mais les medias, le QCM, les
+    flashcards, le glossaire et les polycopies ne l'etaient pas : un cours de
+    cybersecurite serait arrive avec des capsules parlant de pedagogie.
+    """
+    retires = 0
+    for rel in DEMO_DOSSIERS:
+        d = os.path.join(sortie, rel.replace("/", os.sep))
+        if not os.path.isdir(d):
+            continue
+        for f in os.listdir(d):
+            p = os.path.join(d, f)
+            if os.path.isfile(p):
+                os.remove(p)
+                retires += 1
+
+    js = os.path.join(sortie, "site", "assets", "js")
+    qcm = os.path.join(sortie, "site", "QCM")
+    remplaces = 0
+    subs = {"titre_fr": c["titre"]["fr"],
+            "titre_en": c["titre"].get("en", c["titre"]["fr"]),
+            "auteur": c["auteur"]}
+    for chemin, contenu in (
+            (os.path.join(qcm, "questions.js"), SQUELETTE_QCM_QUESTIONS % subs),
+            (os.path.join(qcm, "corrections.js"), SQUELETTE_QCM_CORRECTIONS),
+            (os.path.join(js, "flashcards-data.js"), SQUELETTE_FLASHCARDS),
+            (os.path.join(js, "glossaire-data.js"), SQUELETTE_GLOSSAIRE),
+            (os.path.join(js, "playlist-data.js"), SQUELETTE_PLAYLIST)):
+        if os.path.isfile(chemin):
+            ecrire(chemin, contenu)
+            remplaces += 1
+
+    pc = os.path.join(sortie, "tools", "polycopies_content.json")
+    if os.path.isfile(pc):
+        ecrire(pc, json.dumps(SQUELETTE_POLYCOPIES, ensure_ascii=False, indent=2) + "\n")
+        remplaces += 1
+
+    # la fiche de capsules du cours de demonstration n'a rien a faire ici
+    fiche = os.path.join(sortie, "docs", "prompts", "Capsules_du_cours_demo.md")
+    if os.path.isfile(fiche):
+        os.remove(fiche)
+        retires += 1
+
+    return retires, remplaces
+
+
 # ---------------------------------------------------------------- lecture
 def charger(chemin):
     if not os.path.isfile(chemin):
@@ -392,6 +579,8 @@ def main():
     ap.add_argument("--sortie", help="remplace le champ « sortie » de la configuration")
     ap.add_argument("--essai", action="store_true", help="n'écrit rien, dit ce qu'il ferait")
     ap.add_argument("--ecraser", action="store_true", help="accepte un dossier non vide")
+    ap.add_argument("--avec-demo", action="store_true",
+                    help="conserve les medias et le contenu du cours de demonstration")
     args = ap.parse_args()
 
     c = charger(args.config)
@@ -494,6 +683,14 @@ def main():
     print("  %d page(s) mise(s) à la palette « %s »%s"
           % (n, c["palette"], "" if bi else " et dépouillée(s) de l'anglais"))
 
+    # --- purge du contenu de demonstration
+    if args.avec_demo:
+        print("  contenu de demonstration CONSERVE (--avec-demo)")
+    else:
+        r, s = purger_demo(sortie, c)
+        print("  contenu de demonstration retire : %d media(s), %d fichier(s) "
+              "remis a l'etat de squelette" % (r, s))
+
     # --- sources et bibliographie
     src_dir = os.path.join(sortie, "sources")
     if not os.path.isdir(src_dir):
@@ -540,13 +737,23 @@ Règle qu'elle applique et qu'il faut connaître : les documents sont la source
 de vérité. Ce qui n'y figure pas est signalé comme lacune, jamais comblé
 d'invention.
 
-## 3. Écrivez les chapitres
+## 3. Le contenu de démonstration a été retiré
+
+Les capsules audio, les schémas, les polycopiés, le QCM, les flashcards et le
+glossaire du cours de démonstration **ne sont pas dans ce dossier** : ils
+parlaient d'autre chose que de votre sujet. À leur place, des squelettes qui
+montrent la forme attendue.
+
+Pour les revoir, le cours de démonstration reste intact dans le template. Et si
+vous vouliez les garder, `nouveau_cours.py --avec-demo` les conserve.
+
+## 4. Écrivez les chapitres
 
 Les squelettes sont dans `site/chapitres/`. Le chapitre vitrine du template est
 conservé sous `site/chapitres/_modele.html` : c'est le seul endroit où les sept
 composants sont appelés pour de vrai, avec le motif bilingue. Copiez depuis là.
 
-## 4. Vérifiez souvent
+## 5. Vérifiez souvent
 
 ```
 python3 demarrer.py                  # le site, sans cache
