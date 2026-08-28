@@ -66,3 +66,32 @@ window.GLOSSARY = [
     ex: { fr: "Des sections de 5 minutes plutôt qu'un long bloc.",
           en: "Five-minute sections rather than one long block." } }
 ];
+
+/* -----------------------------------------------------------------
+   Termes rendus interactifs dans les chapitres
+
+   glossaire-tooltip.js survole le texte des sections et pose une
+   info-bulle sur ces termes-là uniquement. On ne met pas tout le
+   glossaire : au-delà d'une quinzaine de termes par chapitre, la page
+   se couvre de pointillés et plus personne ne clique.
+
+   Choisissez les notions distinctives, celles dont la définition change
+   la compréhension du passage. Les mots courants n'ont rien à faire ici.
+   ----------------------------------------------------------------- */
+window.GLOSSARY_CURATED = [
+  "objectif pédagogique", "public cible", "syllabus",
+  "fil rouge", "prérequis", "accroche",
+  "évaluation formative", "évaluation sommative", "flashcard",
+  "accessibilité", "micro-apprentissage"
+];
+
+/* Variantes d'écriture qui doivent pointer vers la même entrée : pluriels,
+   synonymes, formes abrégées. Sans cela, « objectifs pédagogiques » au
+   pluriel ne trouve pas « objectif pédagogique » et l'info-bulle manque. */
+window.GLOSSARY_ALIASES = {
+  "objectifs pédagogiques": "objectif pédagogique",
+  "prérequis": "prérequis",
+  "évaluations formatives": "évaluation formative",
+  "évaluations sommatives": "évaluation sommative",
+  "flashcards": "flashcard"
+};

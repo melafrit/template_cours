@@ -34,7 +34,7 @@ class QuizEngine {
     });
 
     const explain = answered !== null
-      ? `<div class="quiz-explanation show"><strong>${answered === q.correct ? '✅ Bonne réponse.' : '❌ Réponse incorrecte.'}</strong> ${q.explanation || ''}</div>`
+      ? `<div class="quiz-explanation show"><strong>${answered === q.correct ? T('quiz.bonne') : T('quiz.mauvaise')}</strong> ${q.explanation || ''}</div>`
       : '';
 
     const score = this.answers.filter((a, i) => a !== null && a === this.questions[i].correct).length;

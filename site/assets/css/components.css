@@ -175,6 +175,12 @@ audio.podcast-audio { width: 100%; margin-top: var(--space-2); }
 .mini-player-head .pp-btn:hover { background: rgba(255,255,255,0.32); color: #fff; }
 .mini-player .podcast-controls { padding: var(--space-3) var(--space-4); gap: var(--space-2); }
 .mini-player .pp-progress { min-width: 60px; }
+/* Un lecteur n'a rien à faire sur une feuille : il s'imprimerait en pavé
+   par-dessus le texte, et la marge basse qu'il réserve laisserait un blanc. */
+@media print {
+  .mini-player { display: none !important; }
+  body.a-lecteur { padding-bottom: 0 !important; }
+}
 
 /* ----------------------------------------------------------------
    Section Slides
@@ -543,8 +549,334 @@ html.a11y-dys body { letter-spacing: 0.02em; word-spacing: 0.06em; }
   .example-box-content { padding: var(--space-4); }
 }
 
+/* =================================================================
+   Conformité mobile (composants)
+   Encadré par media queries : neutre au-dessus de 768 px.
+   Variables existantes uniquement, tailles en rem — le réglage
+   --fs-scale reste donc opérant.
+   ================================================================= */
+@media (max-width: 768px) {
+
+  /* (d) Zones tactiles portées à 44 px (2.75rem).
+     Les éléments dont l'agrandissement visuel casserait la mise en
+     page reçoivent une zone tactile étendue en ::after, invisible. */
+  .chapter-nav-btn,
+  .btn,
+  .dl-btn,
+  .fc-btn,
+  .rdc-chip,
+  .rdc-btn,
+  .rdc-restart,
+  .rdc-next2,
+  .template-card-btn,
+  .a11y-reset,
+  .quiz-option,
+  .glossary-search,
+  .site-logo,
+  .fc-link,
+  .flashcard,
+  .rdc-select,
+  .rdc-input { min-height: 2.75rem; }
+  /* min-height reste sans effet sur un <a> laissé en display: inline :
+     .chapter-nav-btn et .pagination-link doivent donc être blocifiés. */
+  .chapter-nav-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+
+  /* (d) Les trois boutons de l'en-tête sont regroupés ici : .a11y-toggle
+     est redéclaré dans ce fichier, chargé après main.css, et doit donc
+     recevoir sa taille tactile au même endroit que ses deux voisins
+     pour que la cascade soit sans ambiguïté. */
+  .sidebar-toggle,
+  .theme-toggle,
+  .a11y-toggle { flex: 0 0 auto; width: 2.75rem; height: 2.75rem; }
+
+  .pp-btn { min-width: 2.75rem; height: 2.75rem; }
+  .pp-play { min-width: 3rem; }
+  .podcast-play-btn { width: 3.25rem; height: 3.25rem; }
+  .glossary-alpha button { width: 2.75rem; height: 2.75rem; }
+  .a11y-btn { min-width: 2.75rem; height: 2.75rem; }
+  .fc-prev, .fc-next { flex: 0 0 2.75rem; }
+  .example-box-toggle { width: 2.75rem; height: 2.75rem; }
+  .slides-modal-close, .img-modal-close { width: 2.75rem; height: 2.75rem; }
+  .rdc-check { min-height: 2.75rem; align-items: center; }
+  .rdc-check input { width: 1.375rem; height: 1.375rem; margin-top: 0; }
+
+  /* L'interrupteur du panneau d'accessibilité garde sa taille visuelle
+     (le curseur interne est positionné au pixel) mais gagne une zone
+     tactile de 44 px. */
+  .a11y-switch::after {
+    content: ''; position: absolute; left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    width: 2.75rem; height: 2.75rem;
+  }
+
+  /* (a) Champs et sélecteurs — .rdc-input hérite d'un min-width
+     intrinsèque (taille par défaut d'un <input>) qui faisait déborder
+     la ligne .rdc-ca de quelques pixels. */
+  .rdc-select, .rdc-input { max-width: 100%; }
+  .rdc-ca { max-width: 100%; }
+  .rdc-ca .rdc-input { min-width: 0; }
+
+  /* (f) Tableaux — le défilement horizontal reste confiné au
+     conteneur, jamais reporté sur la page.
+     Tous les tableaux ne sont pas enveloppés dans un .table-scroll :
+     .bareme-table du QCM ne l'est pas et sa largeur minimale (292 px)
+     débordait la page à 320 px. display: block + overflow: auto rend
+     le tableau lui-même défilant, sans wrapper HTML : les lignes
+     gardent leur rendu tabulaire dans une boîte anonyme interne. */
+  .content-table,
+  .bareme-table { display: block; overflow: auto; max-width: 100%; }
+  /* Ceux qui ont déjà leur conteneur défilant reprennent le rendu
+     tabulaire normal, pour ne pas empiler deux zones de défilement. */
+  .table-scroll > .content-table,
+  .table-scroll > .bareme-table { display: table; overflow: hidden; }
+  .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; max-width: 100%; }
+  .diagram-container, .schedule-wrap { max-width: 100%; }
+
+  /* (h) Les boutons sans font-size déclaré retombent sur la valeur du
+     navigateur (13,33 px) : sous le plancher de lisibilité. */
+  .glossary-alpha button { font-size: var(--fs-sm); }
+
+  /* (a) Longues URL, références et définitions : coupure autorisée. */
+  .content-section a,
+  .entry-def,
+  .glossary-entry,
+  .law-ref-body,
+  .flashcard-ref { overflow-wrap: break-word; }
+
+  /* (a) L'en-tête d'encart passe à la ligne au lieu d'écraser le titre. */
+  .exercise-header,
+  .slides-header,
+  .infographie-header,
+  .example-box-header { flex-wrap: wrap; row-gap: var(--space-2); }
+
+  /* (a) (h) Rangées de boutons sans flex-wrap : leurs éléments gardent
+     une largeur min-content et débordent dès que le texte grandit.
+     Vérifié avec le réglage d'accessibilité --fs-scale à 1.3 (racine à
+     20,8 px) : .flashcard-controls et .quiz-actions poussaient le
+     document à 342 px pour un viewport de 320 px. */
+  .flashcard-controls,
+  .flashcard-tools,
+  .quiz-actions,
+  .rdc-yn,
+  .rdc-tools-row,
+  .poly-modal .poly-dl { flex-wrap: wrap; row-gap: var(--space-2); }
+  .fc-btn, .rdc-btn, .quiz-actions .btn { min-width: 0; }
+  .quiz-actions .btn { flex: 1 1 auto; justify-content: center; }
+
+  /* Sur mobile, le lecteur ne flotte plus : il se dock en bas de la fenêtre sur
+     toute la largeur. Un panneau flottant y prendrait un tiers de l'écran et son
+     glissement entrerait en concurrence avec le défilement du doigt.
+     Les !important neutralisent les styles en ligne qu'un glissement aurait pu
+     laisser avant une rotation ou un redimensionnement. */
+  .mini-player {
+    left: 0 !important; right: 0 !important; bottom: 0 !important; top: auto !important;
+    width: auto; max-width: none;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    border-bottom: 0;
+    box-shadow: 0 -0.25rem 1rem rgba(0, 0, 0, 0.18);
+  }
+  .mini-player-head { cursor: default; }
+  /* La poignée n'a plus d'objet, et une fenêtre indépendante n'a pas de sens
+     sur un téléphone : les deux disparaissent. Reste la fermeture. */
+  .mini-player .mini-grip, .mini-player .mini-pop { display: none; }
+  /* Le téléchargement reste offert par le lecteur de la page : dans le bandeau
+     il ferait passer les commandes à la ligne, et chaque ligne coûte ici un
+     vingtième de l'écran. */
+  .mini-player .pp-dl { display: none; }
+  .mini-player .podcast-controls {
+    flex-wrap: nowrap; gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+  }
+  /* 2,75 rem : la zone tactile minimale retenue pour tout le site. Le bandeau
+     se resserre par ses marges et son libellé, jamais par ses cibles. */
+  .mini-player .pp-btn { min-width: 2.75rem; height: 2.75rem; padding: 0 var(--space-2); }
+  .mini-player .pp-progress { min-width: 2.5rem; }
+  .mini-player .pp-time { font-size: 0.6875rem; }
+  .mini-player .mini-player-head { padding: var(--space-2) var(--space-3); }
+  /* Le lecteur docké recouvrirait la fin de la page : on rend au corps
+     exactement sa hauteur, mesurée par media.js. */
+  body.a-lecteur { padding-bottom: var(--rdc-lecteur-h, 0px); }
+
+  /* (c) Bulle de glossaire : bornée au viewport. */
+  .gloss-pop { width: auto; max-width: calc(100vw - 2rem); }
+
+  /* (a) QCM — les trois boutons de degré de certitude sont posés sur
+     une grille repeat(3, 1fr) : chaque piste garde alors sa largeur
+     min-content et « Élevée / certain » débordait de 9 px à 320 px.
+     minmax(0, 1fr) autorise les pistes à se réduire, le texte passe à
+     la ligne. Le sélecteur est préfixé par `body` parce que ces règles
+     vivent dans une <style> en fin de <head> des pages QCM, donc après
+     nos feuilles : à spécificité égale, c'est elle qui l'emporterait. */
+  body .certainty-btns { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  body .cert-btn {
+    min-height: 2.75rem; padding: var(--space-3) var(--space-2);
+    overflow-wrap: break-word; hyphens: auto;
+  }
+  body .q-opt { min-height: 2.75rem; }
+  body .qcm-card { padding: var(--space-5); }
+}
+
+@media (max-width: 480px) {
+  /* Sur trois colonnes, « Moyenne / assez sûr » se réduit à une
+     colonne de 61 px pour 120 px de haut : illisible. On empile. */
+  body .certainty-btns { grid-template-columns: 1fr; gap: var(--space-2); }
+  body .cert-btn { padding: var(--space-3) var(--space-4); }
+}
+
+
+/* QCM — les 60 pastilles de navigation doivent atteindre la zone tactile de 44 px */
+@media (max-width: 768px) {
+  body .nav-grid { grid-template-columns: repeat(auto-fill, minmax(2.75rem, 1fr)); }
+  body .nav-cell { min-height: 2.75rem; min-width: 2.75rem; }
+}
+
+/* Mobile — les boutons ◀ / ▶ du lecteur de slides doivent atteindre la zone
+   tactile de 44 px (ils ne mesuraient que 38 px de large). Ils ne s'affichent
+   que tant que le PDF du chapitre n'a pas été déposé. */
+@media (max-width: 768px) {
+  body .slides-prev, body .slides-next { min-width: 2.75rem; min-height: 2.75rem; }
+}
+
+/* ================================================================
+   Playlist — panneau des pistes audio, à droite
+   Symétrique du menu de gauche : fixe quand l'écran est assez large,
+   tiroir à bouton en dessous. Le seuil vient d'une mesure : 320 px de
+   menu plus 880 px de contenu occupent déjà 1 200 px, il ne reste rien
+   sur un écran de 1 280.
+   Voir assets/js/playlist.js et l'index playlist-data.js.
+   ================================================================ */
+:root { --playlist-width: 320px; }
+
+.rdc-playlist {
+  position: fixed; top: var(--header-height); right: 0; bottom: 0;
+  width: var(--playlist-width); z-index: 90;
+  display: flex; flex-direction: column;
+  background: var(--bg-sidebar); border-left: 1px solid var(--border);
+  transform: translateX(100%);
+  transition: transform var(--duration-normal) var(--ease-out);
+}
+.rdc-playlist.est-ouverte { transform: translateX(0); }
+
+.pl-tete {
+  display: flex; align-items: center; gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border);
+}
+.pl-titre { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-sm); color: var(--text-primary); }
+.pl-compte {
+  font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--accent-dark);
+  background: var(--accent-glow); padding: 1px 8px; border-radius: var(--radius-full);
+}
+.pl-fermer {
+  margin-left: auto; width: 2rem; height: 2rem; display: grid; place-items: center;
+  border: 1px solid transparent; border-radius: var(--radius-sm);
+  background: transparent; color: var(--text-muted); cursor: pointer; font-size: var(--fs-sm);
+}
+.pl-fermer:hover { color: var(--error); background: var(--bg-sidebar-hover); }
+
+.pl-corps { flex: 1; overflow-y: auto; padding-bottom: var(--space-10); }
+
+.pl-chapitre { border-bottom: 1px solid var(--border-light); }
+.pl-ch-tete {
+  display: flex; align-items: center; gap: var(--space-2); width: 100%;
+  padding: var(--space-3) var(--space-4);
+  background: transparent; border: 0; cursor: pointer; text-align: left;
+  font-family: var(--font-display); font-size: var(--fs-xs); color: var(--text-secondary);
+}
+.pl-ch-tete:hover { background: var(--bg-sidebar-hover); color: var(--primary); }
+.pl-ch-tete:focus-visible { outline: 2px solid var(--border-focus); outline-offset: -2px; }
+.pl-ch-chevron { flex: 0 0 auto; color: var(--accent-dark); transition: transform var(--duration-fast); }
+.pl-chapitre.est-ouvert .pl-ch-chevron { transform: rotate(90deg); }
+.pl-ch-num {
+  flex: 0 0 auto; display: grid; place-items: center; width: 1.375rem; height: 1.375rem;
+  border-radius: var(--radius-full); background: var(--primary-glow);
+  color: var(--primary); font-weight: 700; font-size: var(--fs-xs);
+}
+.pl-ch-titre { flex: 1; min-width: 0; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pl-ch-compte { flex: 0 0 auto; font-family: var(--font-mono); color: var(--text-muted); }
+
+.pl-pistes { list-style: none; margin: 0; padding: 0 0 var(--space-2); }
+.pl-piste {
+  display: flex; align-items: center; gap: var(--space-2);
+  padding: var(--space-1) var(--space-4) var(--space-1) var(--space-3);
+  font-size: var(--fs-xs); color: var(--text-secondary);
+}
+.pl-piste:hover { background: var(--bg-sidebar-hover); }
+.pl-jouer {
+  flex: 0 0 auto; width: 1.75rem; height: 1.75rem; display: grid; place-items: center;
+  border: 1px solid var(--accent-dark); border-radius: var(--radius-full);
+  background: var(--accent); color: var(--primary-dark);
+  font-size: 0.6875rem; line-height: 1; cursor: pointer;
+  transition: transform var(--duration-fast) var(--ease-spring);
+}
+.pl-jouer:hover:not(:disabled) { transform: scale(1.1); }
+.pl-jouer:disabled { background: transparent; border-color: var(--border); color: var(--text-muted); cursor: default; }
+.pl-jouer:focus-visible { outline: 2px solid var(--border-focus); outline-offset: 0.125rem; }
+.pl-type { flex: 0 0 auto; font-size: 0.75rem; opacity: 0.75; }
+.pl-piste-titre { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pl-duree { flex: 0 0 auto; font-family: var(--font-mono); font-size: 0.6875rem; color: var(--text-muted); }
+
+/* Piste pas encore enregistrée : visible, pour annoncer ce qui vient. */
+.pl-piste.est-absente { opacity: 0.5; }
+.pl-piste.est-absente .pl-piste-titre { font-style: italic; }
+
+.pl-piste.est-active { background: var(--primary-glow); }
+.pl-piste.est-active .pl-piste-titre { color: var(--primary); font-weight: 700; }
+
+.pl-audio { display: none; }
+
+/* Bouton d'ouverture, dans l'en-tête, à droite. */
+.playlist-toggle {
+  display: grid; place-items: center;
+  width: 2.25rem; height: 2.25rem; flex: 0 0 auto;
+  border: 1px solid var(--border); border-radius: var(--radius-md);
+  background: var(--bg-sidebar); color: var(--text-secondary);
+  font-size: var(--fs-base); cursor: pointer;
+  transition: background var(--duration-fast), color var(--duration-fast), border-color var(--duration-fast);
+}
+.playlist-toggle:hover { background: var(--bg-sidebar-hover); color: var(--primary); border-color: var(--primary-light); }
+.playlist-toggle[aria-expanded="true"] { background: var(--accent-glow); color: var(--accent-dark); border-color: var(--accent-dark); }
+.playlist-toggle:focus-visible { outline: 2px solid var(--border-focus); outline-offset: 0.125rem; }
+
+.playlist-overlay { display: none; }
+
+/* Écran large : le panneau prend sa colonne, le contenu se décale, et la
+   barre de lecture se range à sa gauche pour ne pas passer dessous. */
+@media (min-width: 1400px) {
+  body.avec-playlist .main-wrapper { margin-right: var(--playlist-width); }
+  body.avec-playlist .mini-player { right: calc(var(--playlist-width) + 20px); }
+}
+
+/* Écran étroit : tiroir par-dessus la page, comme le menu de gauche. */
+@media (max-width: 1399px) {
+  .rdc-playlist { width: 86%; max-width: 340px; box-shadow: var(--shadow-lg); }
+  .playlist-overlay.show {
+    display: block; position: fixed; inset: 0; top: var(--header-height);
+    background: rgba(0, 0, 0, 0.4); z-index: 85;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Zone tactile conforme au reste du site. */
+  .playlist-toggle { width: 2.75rem; height: 2.75rem; }
+  .pl-jouer { width: 2.25rem; height: 2.25rem; font-size: var(--fs-xs); }
+  .pl-fermer { width: 2.75rem; height: 2.75rem; }
+  .pl-piste { padding-top: var(--space-2); padding-bottom: var(--space-2); }
+}
+
+@media print {
+  .rdc-playlist, .playlist-toggle, .playlist-overlay { display: none !important; }
+  body.avec-playlist .main-wrapper { margin-right: 0 !important; }
+}
+
 /* =========================================================
    i18n bilingue FR/EN (i18n.js)
+   Les deux langues coexistent dans le HTML, jumelées par
+   data-tr ; le CSS masque celle qui n'est pas active. Rien
+   n'est retiré du document : la recherche du navigateur et
+   l'impression trouvent toujours les deux versions.
    ========================================================= */
 html[data-lang="fr"] [data-tr="en"] { display: none !important; }
 html[data-lang="en"] [data-tr="fr"] { display: none !important; }
@@ -557,9 +889,8 @@ html[data-lang="en"] [data-tr="fr"] { display: none !important; }
 }
 .lang-toggle:hover { background: var(--bg-card-alt); border-color: var(--accent); }
 
-/* QA mobile : sous 480px, masquer le texte du logo (garder la pastille) pour
-   laisser la place aux boutons langue/accessibilité/thème dans l'en-tête. */
+/* Sous 480 px, l'en-tête doit loger langue + accessibilité + thème :
+   on masque le texte du logo et on garde la pastille. */
 @media (max-width: 480px) {
   .site-logo > span:not(.logo-icon) { display: none; }
-  .header-left, .header-right { gap: var(--space-2); }
 }

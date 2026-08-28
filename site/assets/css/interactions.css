@@ -1,0 +1,919 @@
+/* =================================================================
+   interactions.css — Moteur d'interactions pédagogiques (window.RDCX)
+   Cours "Réglementation des données et conformité"
+   Auteur : Mohamed EL AFRIT — CC BY-NC-SA 4.0
+
+   Chargée APRÈS components.css. N'utilise que les variables du site
+   (thème sombre pris en charge sans règle supplémentaire) et des rem
+   (le réglage d'accessibilité --fs-scale s'applique donc partout).
+   ================================================================= */
+
+/* ----------------------------------------------------------------
+   1. Bloc générique
+   ---------------------------------------------------------------- */
+.rdcx {
+  margin: var(--space-6) 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+.rdcx-checkpoint { border-left-color: var(--success); }
+.rdcx-reveal    { border-left-color: var(--info); }
+.rdcx-spot      { border-left-color: var(--error); }
+.rdcx-match     { border-left-color: var(--primary); }
+.rdcx-branch    { border-left-color: var(--legal); }
+.rdcx-hotspots  { border-left-color: var(--accent); }
+.rdcx-voice     { border-left-color: var(--accent); }
+
+.rdcx-head {
+  display: flex; align-items: center; gap: var(--space-3);
+  padding: var(--space-3) var(--space-5);
+  background: var(--bg-card-alt);
+  border-bottom: 1px solid var(--border);
+}
+.rdcx-ico {
+  flex: 0 0 auto; display: grid; place-items: center;
+  width: 2rem; height: 2rem; border-radius: var(--radius-sm);
+  background: var(--primary-glow); font-size: var(--fs-base); line-height: 1;
+}
+.rdcx-checkpoint .rdcx-ico { background: var(--success-bg); }
+.rdcx-reveal .rdcx-ico     { background: var(--info-bg); }
+.rdcx-spot .rdcx-ico       { background: var(--error-bg); }
+.rdcx-branch .rdcx-ico     { background: var(--legal-bg); }
+/* .rdcx-hotspots n'a plus d'en-tête : le schéma et sa liste parlent d'eux-mêmes. */
+
+.rdcx-title {
+  flex: 1; min-width: 0;
+  font-family: var(--font-display); font-weight: 700; font-size: var(--fs-base);
+  color: var(--text-primary); line-height: var(--lh-tight);
+}
+.rdcx-aside {
+  flex: 0 0 auto; font-family: var(--font-mono); font-size: var(--fs-xs);
+  color: var(--text-muted); white-space: nowrap;
+}
+.rdcx-count { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--accent-dark); background: var(--accent-glow); padding: 0.125rem 0.5rem; border-radius: var(--radius-full); }
+.rdcx-body { padding: var(--space-5) var(--space-6); }
+/* [hidden] doit l'emporter sur les display: flex / grid déclarés ci-dessous */
+.rdcx [hidden] { display: none; }
+
+/* ----------------------------------------------------------------
+   2. Éléments partagés (énoncés, options, retours, boutons)
+   ---------------------------------------------------------------- */
+.rdcx .rdcx-consigne { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-sm); color: var(--text-secondary); margin: 0 0 var(--space-4); line-height: var(--lh-normal); }
+.rdcx .rdcx-intro { font-size: var(--fs-sm); color: var(--text-secondary); margin: 0 0 var(--space-4); line-height: var(--lh-relaxed); }
+.rdcx .rdcx-q { font-family: var(--font-body); font-size: var(--fs-lg); color: var(--text-primary); line-height: var(--lh-normal); margin: 0 0 var(--space-4); }
+.rdcx .rdcx-q:focus { outline: none; }
+.rdcx .rdcx-q:focus-visible { outline: 2px solid var(--border-focus); outline-offset: 0.25rem; }
+.rdcx .rdcx-hint { font-size: var(--fs-sm); color: var(--text-muted); font-style: italic; margin: 0 0 var(--space-4); }
+.rdcx .rdcx-note { font-size: var(--fs-xs); color: var(--text-muted); margin: 0; }
+
+.rdcx-opts { display: flex; flex-direction: column; gap: var(--space-2); }
+.rdcx-opt {
+  display: flex; align-items: flex-start; gap: var(--space-3); width: 100%;
+  text-align: left; padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border); border-radius: var(--radius-md);
+  background: var(--bg-page); color: var(--text-primary);
+  font-family: var(--font-body); font-size: var(--fs-base); line-height: var(--lh-normal);
+  cursor: pointer; transition: background var(--duration-fast), border-color var(--duration-fast);
+}
+.rdcx-opt:hover:not(:disabled) { border-color: var(--accent); background: var(--bg-card-alt); }
+.rdcx-opt:disabled { cursor: default; }
+.rdcx-opt-letter {
+  flex: 0 0 auto; display: grid; place-items: center;
+  width: 1.5rem; height: 1.5rem; border-radius: var(--radius-sm);
+  background: var(--bg-card-alt); font-family: var(--font-display);
+  font-weight: 700; font-size: var(--fs-xs); color: var(--text-secondary);
+}
+.rdcx-opt-txt { flex: 1; min-width: 0; }
+.rdcx-opt.is-correct { border-color: var(--success); background: var(--success-bg); }
+.rdcx-opt.is-correct .rdcx-opt-letter { background: var(--success); color: var(--text-inverse); }
+.rdcx-opt.is-wrong { border-color: var(--error); background: var(--error-bg); }
+.rdcx-opt.is-wrong .rdcx-opt-letter { background: var(--error); color: var(--text-inverse); }
+.rdcx-opt.is-pale { opacity: 0.55; }
+
+.rdcx-fb, .rdcx-final {
+  display: none; margin-top: var(--space-3);
+  padding: var(--space-3) var(--space-4); border-radius: var(--radius-md);
+  background: var(--bg-card-alt); border: 1px solid var(--border-light);
+  font-size: var(--fs-sm); color: var(--text-secondary); line-height: var(--lh-relaxed);
+}
+.rdcx-fb.is-shown, .rdcx-fb:not(:empty), .rdcx-final:not([hidden]) { display: block; }
+.rdcx-fb-ok { color: var(--success); font-weight: 700; }
+.rdcx-fb-no { color: var(--error); font-weight: 700; }
+.rdcx-fb-neutre { color: var(--text-primary); font-weight: 700; }
+.rdcx-final { border-color: color-mix(in srgb, var(--success) 30%, transparent); background: var(--success-bg); }
+.rdcx-final:focus { outline: none; }
+.rdcx-final:focus-visible { outline: 2px solid var(--border-focus); outline-offset: 0.125rem; }
+
+.rdcx-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); margin-top: var(--space-4); }
+.rdcx-btn {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  padding: var(--space-2) var(--space-5); border: 1px solid var(--border);
+  border-radius: var(--radius-md); background: var(--bg-page); color: var(--text-primary);
+  font-family: var(--font-display); font-weight: 600; font-size: var(--fs-sm);
+  cursor: pointer; transition: background var(--duration-fast), border-color var(--duration-fast), opacity var(--duration-fast);
+}
+.rdcx-btn:hover:not(:disabled) { border-color: var(--accent); background: var(--bg-card-alt); }
+.rdcx-btn-main { background: var(--primary); border-color: var(--primary); color: var(--text-inverse); }
+.rdcx-btn-main:hover:not(:disabled) { background: var(--primary-dark); border-color: var(--primary-dark); color: var(--text-inverse); }
+.rdcx-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.rdcx-score {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-3);
+  padding: var(--space-4) var(--space-5); border-radius: var(--radius-md);
+  background: var(--warning-bg); border: 1px solid color-mix(in srgb, var(--warning) 35%, transparent);
+}
+.rdcx-score.is-parfait { background: var(--success-bg); border-color: color-mix(in srgb, var(--success) 35%, transparent); }
+.rdcx-score:focus { outline: none; }
+.rdcx-score:focus-visible { outline: 2px solid var(--border-focus); outline-offset: 0.125rem; }
+.rdcx-score-n { font-family: var(--font-display); font-weight: 800; font-size: var(--fs-2xl); color: var(--text-primary); }
+.rdcx-score-msg { font-size: var(--fs-sm); color: var(--text-secondary); }
+
+/* ----------------------------------------------------------------
+   3. Prédiction avant révélation (.rdcx-reveal)
+   ---------------------------------------------------------------- */
+.rdcx-engage { margin-bottom: var(--space-2); }
+.rdcx .rdcx-lbl { display: block; font-family: var(--font-display); font-weight: 600; font-size: var(--fs-sm); color: var(--text-secondary); margin-bottom: var(--space-2); }
+.rdcx-textarea {
+  width: 100%; padding: var(--space-3) var(--space-4);
+  font-family: var(--font-body); font-size: var(--fs-base); line-height: var(--lh-normal);
+  color: var(--text-primary); background: var(--bg-page);
+  border: 1px solid var(--border); border-radius: var(--radius-md); resize: vertical;
+}
+.rdcx-textarea:focus { outline: 2px solid var(--border-focus); outline-offset: 0.0625rem; border-color: var(--border-focus); }
+.rdcx-textarea:disabled { opacity: 0.75; }
+.rdcx-choices { display: flex; flex-direction: column; gap: var(--space-2); }
+.rdcx-choice {
+  display: flex; align-items: flex-start; gap: var(--space-3);
+  padding: var(--space-3) var(--space-4); border: 1px solid var(--border);
+  border-radius: var(--radius-md); background: var(--bg-page);
+  font-size: var(--fs-base); color: var(--text-primary); cursor: pointer;
+  transition: background var(--duration-fast), border-color var(--duration-fast);
+}
+.rdcx-choice:hover { border-color: var(--accent); background: var(--bg-card-alt); }
+.rdcx-choice input { flex: 0 0 auto; margin-top: 0.25rem; width: 1rem; height: 1rem; accent-color: var(--primary); }
+.rdcx-choice:focus-within { outline: 2px solid var(--border-focus); outline-offset: 0.125rem; }
+
+.rdcx-out { display: none; margin-top: var(--space-5); }
+.rdcx-out.is-shown { display: block; }
+.rdcx-out:focus { outline: none; }
+.rdcx-out:focus-visible { outline: 2px solid var(--border-focus); outline-offset: 0.25rem; }
+.rdcx-compare { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+.rdcx-col-mine, .rdcx-col-good { padding: var(--space-4); border-radius: var(--radius-md); border: 1px solid var(--border-light); background: var(--bg-card-alt); }
+.rdcx-col-good { border-color: color-mix(in srgb, var(--info) 35%, transparent); background: var(--info-bg); }
+.rdcx-col-head {
+  display: block; margin-bottom: var(--space-2);
+  font-family: var(--font-display); font-weight: 700; font-size: var(--fs-xs);
+  text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted);
+}
+.rdcx-col-good .rdcx-col-head { color: var(--info); }
+.rdcx-col-txt { font-size: var(--fs-sm); color: var(--text-secondary); line-height: var(--lh-relaxed); white-space: pre-line; }
+.rdcx-why { margin-top: var(--space-4); padding: var(--space-3) var(--space-4); border-left: 4px solid var(--info); border-radius: 0 var(--radius-md) var(--radius-md) 0; background: var(--bg-card-alt); font-size: var(--fs-sm); color: var(--text-secondary); line-height: var(--lh-relaxed); }
+
+/* ----------------------------------------------------------------
+   4. Repérage d'erreur (.rdcx-spot)
+   ---------------------------------------------------------------- */
+.rdcx .rdcx-doc {
+  list-style: none; margin: 0 0 var(--space-3); padding: var(--space-4);
+  background: var(--bg-page); border: 1px dashed var(--border);
+  border-radius: var(--radius-md);
+}
+.rdcx .rdcx-frag-item { margin: 0 0 var(--space-2); list-style: none; }
+.rdcx .rdcx-frag-item:last-child { margin-bottom: 0; }
+.rdcx-frag {
+  display: block; width: 100%; text-align: left;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid transparent; border-radius: var(--radius-sm);
+  background: transparent; color: var(--text-secondary);
+  font-family: var(--font-body); font-size: var(--fs-sm); line-height: var(--lh-relaxed);
+  cursor: pointer; transition: background var(--duration-fast), border-color var(--duration-fast), color var(--duration-fast);
+}
+.rdcx-frag:hover { background: var(--bg-card-alt); border-color: var(--border); }
+.rdcx-frag.is-faux { background: var(--error-bg); border-color: var(--error); color: var(--error); font-weight: 600; cursor: default; }
+.rdcx-frag.is-ok { animation: rdcxBlink 1.2s var(--ease-out) 1; }
+.rdcx-frag-why {
+  margin: var(--space-1) 0 var(--space-3) var(--space-4);
+  padding: var(--space-2) var(--space-4); border-left: 4px solid var(--error);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0; background: var(--bg-card-alt);
+  font-size: var(--fs-sm); color: var(--text-secondary); line-height: var(--lh-relaxed);
+}
+
+/* ----------------------------------------------------------------
+   5. Appariement (.rdcx-match)
+   ---------------------------------------------------------------- */
+.rdcx-match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+.rdcx-col { display: flex; flex-direction: column; gap: var(--space-2); min-width: 0; }
+.rdcx .rdcx-colhead {
+  margin: 0 0 var(--space-1); font-family: var(--font-display); font-size: var(--fs-xs);
+  font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted);
+}
+.rdcx-item-wrap { display: flex; flex-direction: column; gap: var(--space-1); }
+.rdcx-item {
+  width: 100%; text-align: left; padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border); border-radius: var(--radius-md);
+  background: var(--bg-page); color: var(--text-primary);
+  font-family: var(--font-display); font-weight: 600; font-size: var(--fs-sm); line-height: var(--lh-normal);
+  cursor: pointer; transition: background var(--duration-fast), border-color var(--duration-fast), opacity var(--duration-fast);
+}
+.rdcx-item:hover:not(:disabled) { border-color: var(--accent); background: var(--bg-card-alt); }
+.rdcx-item.is-sel { border-color: var(--primary); background: var(--primary-glow); box-shadow: var(--shadow-sm); }
+.rdcx-item.is-done { border-color: var(--success); background: var(--success-bg); color: var(--success); cursor: default; }
+.rdcx-item.is-shake { animation: rdcxShake 0.4s var(--ease-out) 1; border-color: var(--error); background: var(--error-bg); }
+.rdcx .rdcx-item-ex { margin: 0 0 var(--space-1) var(--space-3); font-size: var(--fs-xs); color: var(--text-secondary); line-height: var(--lh-normal); }
+
+/* ----------------------------------------------------------------
+   6. Cas à embranchements (.rdcx-branch)
+   ---------------------------------------------------------------- */
+.rdcx-situation {
+  padding: var(--space-4) var(--space-5); margin-bottom: var(--space-4);
+  border-left: 4px solid var(--legal); border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  background: var(--legal-bg); font-size: var(--fs-sm); color: var(--text-secondary); line-height: var(--lh-relaxed);
+}
+.rdcx-conseq { display: none; margin-top: var(--space-4); padding: var(--space-4) var(--space-5); border-radius: var(--radius-md); border: 1px solid var(--border-light); background: var(--bg-card-alt); }
+.rdcx-conseq.is-shown { display: block; }
+.rdcx-conseq.is-bon { border-color: color-mix(in srgb, var(--success) 30%, transparent); background: var(--success-bg); }
+.rdcx-conseq.is-risque { border-color: color-mix(in srgb, var(--warning) 35%, transparent); background: var(--warning-bg); }
+.rdcx-conseq-lbl { display: block; margin-bottom: var(--space-2); font-family: var(--font-display); font-weight: 700; font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); }
+.rdcx-conseq.is-bon .rdcx-conseq-lbl { color: var(--success); }
+.rdcx-conseq.is-risque .rdcx-conseq-lbl { color: var(--warning); }
+.rdcx-conseq-txt { font-size: var(--fs-sm); color: var(--text-secondary); line-height: var(--lh-relaxed); }
+.rdcx .rdcx-recap-head { margin: var(--space-5) 0 var(--space-3); display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-3); font-family: var(--font-display); font-size: var(--fs-base); color: var(--text-primary); }
+.rdcx-recap-score { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--accent-dark); background: var(--accent-glow); padding: 0.125rem 0.5rem; border-radius: var(--radius-full); }
+.rdcx .rdcx-recap { list-style: none; margin: 0 0 var(--space-4); padding: 0; display: grid; gap: var(--space-2); }
+.rdcx .rdcx-recap-item {
+  display: flex; align-items: flex-start; gap: var(--space-3); margin: 0;
+  padding: var(--space-2) var(--space-4); border-radius: var(--radius-sm);
+  border-left: 4px solid var(--border); background: var(--bg-card-alt);
+  font-size: var(--fs-sm); color: var(--text-secondary); line-height: var(--lh-normal);
+}
+.rdcx .rdcx-recap-item.is-bon { border-left-color: var(--success); }
+.rdcx .rdcx-recap-item.is-risque { border-left-color: var(--warning); }
+.rdcx-recap-num { flex: 0 0 auto; font-family: var(--font-display); font-weight: 700; font-size: var(--fs-xs); color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.rdcx-recap-txt { flex: 1; min-width: 0; }
+
+/* ----------------------------------------------------------------
+   7. Schéma à zones cliquables (.rdcx-hotspots)
+   ---------------------------------------------------------------- */
+.rdcx-hs-figure { margin: 0; }
+/* Pas d'overflow: hidden ici. Il n'y servait qu'à arrondir les angles de l'image,
+   mais il rognait aussi les bulles : ancrées en absolu dans ce conteneur, les plus
+   longues débordaient la hauteur du schéma et perdaient leurs dernières lignes.
+   L'arrondi est donc porté par l'image, et la bulle peut déborder sous le schéma —
+   elle est en z-index 3, avec une ombre : elle se lit comme une info-bulle. */
+.rdcx-hs-stage { position: relative; border-radius: var(--radius-md); background: var(--bg-card-alt); border: 1px solid var(--border-light); }
+.rdcx-hs-img { display: block; width: 100%; height: auto; border-radius: inherit; }
+.rdcx-hs-pt {
+  position: absolute; transform: translate(-50%, -50%);
+  display: grid; place-items: center; width: 2rem; height: 2rem;
+  border-radius: var(--radius-full); border: 2px solid var(--bg-page);
+  background: var(--primary); color: var(--text-inverse);
+  font-family: var(--font-display); font-weight: 700; font-size: var(--fs-xs);
+  cursor: pointer; box-shadow: var(--shadow-md);
+  transition: background var(--duration-fast), transform var(--duration-fast) var(--ease-spring);
+}
+.rdcx-hs-pt:hover, .rdcx-hs-pt.is-open { background: var(--accent); color: var(--primary-dark); transform: translate(-50%, -50%) scale(1.12); }
+.rdcx-hs-pt:focus-visible { outline: 2px solid var(--border-focus); outline-offset: 0.125rem; }
+.rdcx-hs-pop {
+  /* ancrée à gauche (is-left) ou à droite (is-right) du point : la largeur
+     plafonnée à 48 % garantit qu'elle ne déborde jamais du schéma */
+  position: absolute; z-index: 3; width: 18rem; max-width: 48%;
+  padding: var(--space-4) var(--space-5) var(--space-4) var(--space-4);
+  background: var(--bg-card); border: 1px solid var(--primary-light);
+  border-radius: var(--radius-md); box-shadow: var(--shadow-lg);
+}
+.rdcx-hs-pop[hidden] { display: none; }
+/* --rdcx-x / --rdcx-y sont posées par interactions.js (pourcentages du schéma) */
+.rdcx-hs-pop.is-left  { left: var(--rdcx-x, 50%); }
+.rdcx-hs-pop.is-right { right: var(--rdcx-x, 50%); }
+.rdcx-hs-pop.is-below { top: calc(var(--rdcx-y, 50%) + 1.7rem); }
+.rdcx-hs-pop.is-above { bottom: calc(var(--rdcx-y, 50%) + 1.7rem); }
+.rdcx-hs-pop-title { display: block; font-family: var(--font-display); font-weight: 700; font-size: var(--fs-sm); color: var(--text-primary); margin-bottom: var(--space-2); }
+.rdcx-hs-pop-txt { display: block; font-size: var(--fs-sm); color: var(--text-secondary); line-height: var(--lh-normal); }
+.rdcx-hs-close {
+  position: absolute; top: var(--space-1); right: var(--space-1);
+  width: 1.5rem; height: 1.5rem; display: grid; place-items: center;
+  border: none; background: transparent; color: var(--text-muted);
+  font-size: var(--fs-xs); line-height: 1; cursor: pointer; border-radius: var(--radius-sm);
+}
+.rdcx-hs-close:hover { color: var(--error); background: var(--bg-card-alt); }
+.rdcx .rdcx-hs-cap { margin: var(--space-3) 0 0; font-size: var(--fs-xs); color: var(--text-muted); font-style: italic; text-align: center; }
+/* La liste textuelle des points suit directement le schéma, sans intitulé. */
+.rdcx .rdcx-hs-list { list-style: none; margin: var(--space-5) 0 0; padding: 0; display: grid; gap: var(--space-3); }
+.rdcx .rdcx-hs-li { display: flex; align-items: flex-start; gap: var(--space-3); margin: 0; font-size: var(--fs-sm); color: var(--text-secondary); line-height: var(--lh-relaxed); }
+.rdcx-hs-li-num {
+  flex: 0 0 auto; display: grid; place-items: center; width: 1.5rem; height: 1.5rem;
+  border-radius: var(--radius-full); background: var(--primary-glow); color: var(--primary);
+  font-family: var(--font-display); font-weight: 700; font-size: var(--fs-xs);
+}
+.rdcx-hs-stage.is-missing { border: 1px dashed var(--border); background: var(--bg-card-alt); }
+.rdcx-hs-missing { display: grid; gap: var(--space-2); place-items: center; text-align: center; padding: var(--space-10) var(--space-5); }
+.rdcx-hs-missing-ico { font-size: var(--fs-3xl); opacity: 0.7; }
+.rdcx-hs-missing-t { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-base); color: var(--text-secondary); }
+.rdcx-hs-missing-f, .rdcx-hs-missing-p { font-size: var(--fs-xs); color: var(--text-muted); }
+.rdcx-hs-missing-n { font-size: var(--fs-xs); color: var(--text-muted); font-style: italic; }
+
+/* ----------------------------------------------------------------
+   8. Capsule audio « voix du formateur » (.rdcx-voice)
+   ---------------------------------------------------------------- */
+.rdcx.rdcx-voice { padding: var(--space-4) var(--space-5); }
+.rdcx-voice-row { display: flex; align-items: center; gap: var(--space-4); }
+.rdcx-voice-play {
+  flex: 0 0 auto; display: grid; place-items: center; width: 2.5rem; height: 2.5rem;
+  border-radius: var(--radius-full); border: 1px solid var(--accent-dark);
+  background: var(--accent); color: var(--primary-dark);
+  font-size: var(--fs-base); line-height: 1; cursor: pointer;
+  transition: transform var(--duration-fast) var(--ease-spring), background var(--duration-fast);
+}
+.rdcx-voice-play:hover:not(:disabled) { background: var(--accent-light); transform: scale(1.06); }
+.rdcx-voice-play:disabled { opacity: 0.45; cursor: not-allowed; }
+.rdcx-voice.is-playing .rdcx-voice-play { background: var(--accent-light); box-shadow: var(--shadow-sm); }
+.rdcx-voice.is-playing .rdcx-voice-titre { color: var(--primary); }
+.rdcx-voice-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--space-2); }
+.rdcx-voice-meta { display: flex; align-items: baseline; gap: var(--space-2); flex-wrap: wrap; }
+.rdcx-voice-ico { font-size: var(--fs-sm); }
+.rdcx-voice-titre { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-sm); color: var(--text-primary); }
+.rdcx-voice-duree { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--text-muted); }
+.rdcx-voice-bar { position: relative; height: 0.5rem; border-radius: var(--radius-full); background: var(--border-light); cursor: pointer; }
+.rdcx-voice-bar:focus-visible { outline: 2px solid var(--border-focus); outline-offset: 0.1875rem; }
+.rdcx-voice-fill { height: 100%; width: 0; border-radius: var(--radius-full); background: linear-gradient(90deg, var(--primary), var(--accent)); pointer-events: none; }
+.rdcx-voice-time { flex: 0 0 auto; font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--text-muted); white-space: nowrap; }
+.rdcx-voice-state:empty { display: none; }
+.rdcx-voice-state { margin-top: var(--space-3); }
+.rdcx-voice-missing { display: inline-block; font-size: var(--fs-xs); color: var(--text-muted); background: var(--bg-card-alt); border: 1px dashed var(--border); border-radius: var(--radius-sm); padding: var(--space-1) var(--space-3); }
+.rdcx-voice.is-missing .rdcx-voice-bar { opacity: 0.4; cursor: default; }
+.rdcx-voice-tools { margin-top: var(--space-2); }
+.rdcx-voice-toggle {
+  background: none; border: none; padding: var(--space-1) 0;
+  font-family: var(--font-display); font-size: var(--fs-xs); font-weight: 600;
+  color: var(--text-link); cursor: pointer;
+}
+.rdcx-voice-toggle:hover { color: var(--primary); text-decoration: underline; }
+.rdcx-voice-transcript {
+  margin-top: var(--space-2); padding: var(--space-4);
+  background: var(--bg-card-alt); border: 1px solid var(--border-light); border-radius: var(--radius-md);
+  font-size: var(--fs-sm); color: var(--text-secondary); line-height: var(--lh-relaxed);
+}
+.rdcx .rdcx-voice-transcript p { margin: 0 0 var(--space-3); color: var(--text-secondary); }
+.rdcx .rdcx-voice-transcript p:last-child { margin-bottom: 0; }
+.rdcx-voice-audio { display: none; }
+
+/* ----------------------------------------------------------------
+   9. Progression du chapitre (RDCX.progress)
+   ---------------------------------------------------------------- */
+/* (a) Objectifs cochables — la puce ✓ décorative laisse place à la case */
+.chapter-objectives.rdcx-obj > li::before,
+.chapter-objectives .rdcx-obj > li::before { content: none; }
+.rdcx-obj-lbl { flex: 1; display: flex; align-items: flex-start; gap: var(--space-3); cursor: pointer; min-width: 0; }
+.rdcx-obj-cb { flex: 0 0 auto; margin-top: 0.3rem; width: 1.125rem; height: 1.125rem; accent-color: var(--success); cursor: pointer; }
+.rdcx-obj-txt { flex: 1; min-width: 0; color: var(--text-secondary); }
+.rdcx-obj-cb:checked + .rdcx-obj-txt { color: var(--text-muted); text-decoration: line-through; text-decoration-color: var(--success); }
+.rdcx-obj-lbl:hover .rdcx-obj-txt { color: var(--text-primary); }
+.rdcx-obj-lbl:focus-within { outline: 2px solid var(--border-focus); outline-offset: 0.25rem; border-radius: var(--radius-sm); }
+.rdcx-obj-count { margin-top: var(--space-4); font-family: var(--font-display); font-size: var(--fs-xs); color: var(--text-muted); }
+.rdcx-obj-count.is-complet { color: var(--success); font-weight: 700; }
+
+/* (b) Barre fine de progression, sous l'en-tête, au-dessus du contenu */
+.rdcx-progress {
+  position: fixed; top: var(--header-height); left: var(--sidebar-width); right: 0; z-index: 80;
+  display: flex; align-items: flex-start; gap: var(--space-3);
+  pointer-events: none;
+}
+.rdcx-progress.is-full { left: 0; }
+.rdcx-progress-track { flex: 1; height: 0.1875rem; background: var(--border-light); }
+.rdcx-progress-fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--primary), var(--accent)); transition: width var(--duration-normal) var(--ease-out); }
+.rdcx-progress-label {
+  flex: 0 0 auto; margin-right: var(--space-4);
+  padding: 0.125rem var(--space-3); border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  background: var(--bg-card); border: 1px solid var(--border); border-top: none;
+  font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--text-muted); white-space: nowrap;
+}
+
+/* (c) Reprise de lecture — proposition discrète, jamais un saut imposé */
+.rdcx-resume {
+  display: flex; align-items: center; gap: var(--space-3);
+  margin: 0 0 var(--space-8); padding: var(--space-3) var(--space-4);
+  background: var(--bg-card-alt); border: 1px dashed var(--border);
+  border-left: 4px solid var(--accent); border-radius: var(--radius-md);
+}
+.rdcx-resume-ico { flex: 0 0 auto; color: var(--accent-dark); font-size: var(--fs-base); }
+.rdcx-resume-link {
+  flex: 1; min-width: 0; text-align: left; background: none; border: none; padding: 0;
+  font-family: var(--font-display); font-weight: 600; font-size: var(--fs-sm);
+  color: var(--text-link); cursor: pointer;
+}
+.rdcx-resume-link:hover { color: var(--primary); text-decoration: underline; }
+.rdcx-resume-close {
+  flex: 0 0 auto; width: 1.5rem; height: 1.5rem; display: grid; place-items: center;
+  border: none; background: transparent; color: var(--text-muted);
+  font-size: var(--fs-xs); line-height: 1; cursor: pointer; border-radius: var(--radius-sm);
+}
+.rdcx-resume-close:hover { color: var(--error); background: var(--bg-card); }
+
+/* ----------------------------------------------------------------
+   10. Parcours par étapes (RDCX.steps)
+   ---------------------------------------------------------------- */
+/* (a) Étape hors parcours courant — masquée à l'écran, conservée dans le DOM.
+   Le sélecteur composé l'emporte sur .content-section sans !important. */
+.content-section[data-step].rdcx-step-off { display: none; }
+
+/* (b) Fil des étapes, inséré juste avant la première étape */
+.rdcx-steps {
+  margin: 0 0 var(--space-8);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+.rdcx-steps [hidden], .rdcx-steps-nav [hidden] { display: none; }
+.rdcx-steps-bar, .rdcx-steps-continu {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+}
+.rdcx-steps-dots {
+  flex: 1 1 16rem; min-width: 0; max-width: 100%;
+  display: flex; align-items: center; gap: var(--space-2);
+  list-style: none; margin: 0; padding: var(--space-1) 0;
+  overflow-x: auto; overflow-y: hidden; scrollbar-width: thin;
+}
+.rdcx-steps-dot-li { flex: 0 0 auto; margin: 0; padding: 0; list-style: none; }
+.rdcx-steps-dot {
+  display: grid; place-items: center; width: 2rem; height: 2rem; padding: 0;
+  border: 1px solid var(--border); border-radius: var(--radius-full);
+  background: var(--bg-page); color: var(--text-muted);
+  font-family: var(--font-display); font-weight: 700; font-size: var(--fs-xs); line-height: 1;
+  cursor: pointer;
+  transition: background var(--duration-fast), border-color var(--duration-fast),
+              color var(--duration-fast), transform var(--duration-fast) var(--ease-spring);
+}
+.rdcx-steps-dot:hover { border-color: var(--accent); color: var(--text-primary); }
+.rdcx-steps-dot:focus-visible { outline: 2px solid var(--border-focus); outline-offset: 0.125rem; }
+.rdcx-steps-dot.is-done { border-color: var(--success); background: var(--success-bg); color: var(--success); }
+.rdcx-steps-dot.is-partiel { border-color: var(--warning); background: var(--warning-bg); color: var(--warning); }
+.rdcx-steps-dot.is-current {
+  border-color: var(--primary); background: var(--primary); color: var(--text-inverse);
+  transform: scale(1.12); box-shadow: var(--shadow-sm);
+}
+.rdcx-steps-meta { flex: 0 0 auto; display: flex; flex-direction: column; gap: 0.125rem; }
+.rdcx-steps-pos { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-xs); color: var(--text-primary); white-space: nowrap; }
+.rdcx-steps-reste { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--text-muted); white-space: nowrap; }
+.rdcx-steps-reste:empty { display: none; }
+.rdcx-steps-mode, .rdcx-steps-retour {
+  flex: 0 0 auto; padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--border); border-radius: var(--radius-full);
+  background: var(--bg-card-alt); color: var(--text-link);
+  font-family: var(--font-display); font-weight: 600; font-size: var(--fs-xs);
+  cursor: pointer; transition: background var(--duration-fast), border-color var(--duration-fast), color var(--duration-fast);
+}
+.rdcx-steps-mode:hover, .rdcx-steps-retour:hover { border-color: var(--accent); color: var(--primary); background: var(--bg-page); }
+.rdcx-steps-mode:focus-visible, .rdcx-steps-retour:focus-visible { outline: 2px solid var(--border-focus); outline-offset: 0.125rem; }
+.rdcx-steps-continu-txt { flex: 1 1 12rem; min-width: 0; font-size: var(--fs-xs); color: var(--text-muted); }
+
+/* (c) Barre de navigation, déplacée sous l'étape courante */
+.rdcx-steps-nav {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3);
+  margin: 0 0 var(--space-12); padding: var(--space-3) var(--space-4);
+  background: var(--bg-card-alt); border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+.rdcx-steps-prec { flex: 0 0 auto; }
+.rdcx-steps-nav-pos {
+  flex: 1 1 auto; text-align: center; white-space: nowrap;
+  font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--text-muted);
+}
+.rdcx-steps-suiv { flex: 0 0 auto; flex-direction: column; align-items: flex-end; gap: 0; text-align: right; }
+.rdcx-steps-suiv.is-fin { flex-direction: row; align-items: center; gap: var(--space-2); }
+.rdcx-steps-suiv-lbl { font-size: var(--fs-sm); line-height: var(--lh-tight); }
+.rdcx-steps-suiv-titre {
+  max-width: 14rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-family: var(--font-body); font-weight: 400; font-size: var(--fs-xs); opacity: 0.85;
+}
+
+/* (d) Écran de clôture du chapitre */
+.rdcx-steps-fin { border-left-color: var(--success); }
+.rdcx-steps-fin .rdcx-ico { background: var(--success-bg); }
+.rdcx-steps-fin:focus { outline: none; }
+.rdcx-steps-fin:focus-visible { outline: 2px solid var(--border-focus); outline-offset: 0.25rem; }
+.rdcx .rdcx-steps-cumul { margin: var(--space-4) 0 0; font-size: var(--fs-sm); color: var(--text-secondary); line-height: var(--lh-relaxed); }
+.rdcx .rdcx-steps-revoir-head {
+  margin: var(--space-5) 0 var(--space-3); font-family: var(--font-display);
+  font-size: var(--fs-sm); font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.06em; color: var(--text-muted);
+}
+.rdcx .rdcx-steps-revoir { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-2); }
+.rdcx .rdcx-steps-revoir-li { margin: 0; padding: 0; list-style: none; }
+.rdcx-steps-revoir-lien {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3);
+  width: 100%; text-align: left; padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--border); border-left: 4px solid var(--warning);
+  border-radius: var(--radius-sm); background: var(--bg-card-alt);
+  font-family: var(--font-body); font-size: var(--fs-sm); color: var(--text-secondary);
+  cursor: pointer; transition: background var(--duration-fast), border-color var(--duration-fast);
+}
+.rdcx-steps-revoir-lien:hover { background: var(--bg-page); border-color: var(--accent); border-left-color: var(--warning); }
+.rdcx-steps-revoir-lien:focus-visible { outline: 2px solid var(--border-focus); outline-offset: 0.125rem; }
+.rdcx-steps-revoir-num {
+  flex: 0 0 auto; font-family: var(--font-display); font-weight: 700; font-size: var(--fs-xs);
+  text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted);
+}
+.rdcx-steps-revoir-txt { flex: 1 1 8rem; min-width: 0; }
+.rdcx-steps-revoir-score {
+  flex: 0 0 auto; font-family: var(--font-mono); font-size: var(--fs-xs);
+  color: var(--warning); background: var(--warning-bg);
+  padding: 0.125rem 0.5rem; border-radius: var(--radius-full);
+}
+
+/* ----------------------------------------------------------------
+   11. Animations
+   ---------------------------------------------------------------- */
+@keyframes rdcxShake {
+  10%, 90% { transform: translateX(-0.125rem); }
+  20%, 80% { transform: translateX(0.25rem); }
+  30%, 50%, 70% { transform: translateX(-0.375rem); }
+  40%, 60% { transform: translateX(0.375rem); }
+}
+@keyframes rdcxBlink {
+  0%, 100% { background: transparent; border-color: transparent; }
+  35% { background: var(--bg-sidebar-hover); border-color: var(--slate-light); }
+}
+
+/* ----------------------------------------------------------------
+   12. Responsive
+   ---------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .rdcx-body { padding: var(--space-4) var(--space-4); }
+  .rdcx-compare, .rdcx-match-grid { grid-template-columns: 1fr; }
+  /* info-bulles pleine largeur : sélecteurs composés pour l'emporter sur is-left / is-right */
+  .rdcx-hs-pop.is-left, .rdcx-hs-pop.is-right { width: auto; max-width: none; left: var(--space-3); right: var(--space-3); }
+  .rdcx-progress { left: 0; }
+  .rdcx-progress-label { margin-right: var(--space-2); }
+  .rdcx-voice-row { flex-wrap: wrap; }
+  .rdcx-voice-main { flex: 1 1 100%; order: 3; }
+  /* fil des étapes : la ligne de pastilles passe sous les compteurs et défile seule */
+  .rdcx-steps-bar, .rdcx-steps-continu, .rdcx-steps-nav { padding: var(--space-3); }
+  .rdcx-steps-meta { order: 1; flex: 1 1 auto; }
+  .rdcx-steps-mode { order: 1; }
+  .rdcx-steps-dots { order: 2; flex: 1 1 100%; }
+  .rdcx-steps-suiv-titre { max-width: 9rem; }
+}
+@media (max-width: 480px) {
+  .rdcx-steps-dots { gap: var(--space-1); }
+  .rdcx-steps-dot { width: 1.75rem; height: 1.75rem; }
+  .rdcx-steps-prec, .rdcx-steps-suiv { flex: 1 1 45%; justify-content: center; }
+  .rdcx-steps-suiv { align-items: center; text-align: center; }
+  .rdcx-steps-suiv-titre { max-width: 100%; }
+  .rdcx-steps-nav-pos { order: 3; flex: 1 1 100%; }
+}
+
+/* ----------------------------------------------------------------
+   13. Impression — on garde le fond utile, on retire l'interactif
+   ---------------------------------------------------------------- */
+@media print {
+  .rdcx-progress, .rdcx-resume, .rdcx-hs-pt, .rdcx-hs-pop, .rdcx-voice-play, .rdcx-voice-bar, .rdcx-voice-toggle { display: none !important; }
+  .rdcx { break-inside: avoid; box-shadow: none; }
+  .rdcx-voice-transcript[hidden] { display: block !important; }
+  /* le parcours par étapes s'efface : le chapitre s'imprime en entier, quel que soit le mode */
+  .rdcx-steps, .rdcx-steps-nav, .rdcx-steps-fin { display: none !important; }
+  .content-section[data-step].rdcx-step-off { display: block !important; }
+}
+
+/* ============================================================
+   Bandeau « Ressources du chapitre » — polycopié mis en avant,
+   médias NotebookLM regroupés dans un dépliant.
+   ============================================================ */
+.ch-resources{
+  background:var(--bg-card-alt);
+  border:1px solid var(--border);
+  border-left:4px solid var(--accent);
+  border-radius:var(--radius-lg);
+  padding:var(--space-5) var(--space-6);
+  margin:var(--space-6) 0 var(--space-8);
+}
+.ch-res-main{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-4)}
+.ch-res-text{flex:1 1 16rem;min-width:0}
+.ch-res-title{font-family:var(--font-display);font-weight:700;color:var(--text-primary);margin:0 0 .15rem}
+.ch-res-sub{font-size:var(--fs-sm);color:var(--text-secondary);margin:0}
+.ch-res-actions{display:flex;flex-wrap:wrap;gap:var(--space-2)}
+.ch-res-more{margin-top:var(--space-4);border-top:1px solid var(--border-light);padding-top:var(--space-3)}
+.ch-res-more>summary{
+  cursor:pointer;list-style:none;font-family:var(--font-display);font-size:var(--fs-sm);
+  font-weight:600;color:var(--text-link);padding:.25rem 0;
+}
+.ch-res-more>summary::-webkit-details-marker{display:none}
+.ch-res-more>summary::before{content:'▸ ';display:inline-block;transition:transform var(--duration-fast) var(--ease-out)}
+.ch-res-more[open]>summary::before{content:'▾ '}
+.ch-res-more>summary:hover{color:var(--accent-dark)}
+.ch-res-more>summary:focus-visible{outline:2px solid var(--border-focus);outline-offset:2px;border-radius:var(--radius-sm)}
+.ch-res-more .podcast-section,
+.ch-res-more .slides-section,
+.ch-res-more .infographie-section{margin-top:var(--space-4)}
+@media (max-width:768px){
+  .ch-resources{padding:var(--space-4)}
+  .ch-res-actions{width:100%}
+  .ch-res-actions .dl-btn{flex:1 1 auto;text-align:center}
+}
+
+/* ============================================================
+   (k) Fil des étapes COLLANT — se fige sous l'en-tête fixe du site
+   et se resserre pour ne prendre qu'une fine bande de l'écran.
+   ============================================================ */
+.rdcx-steps {
+  position: -webkit-sticky; position: sticky;
+  top: var(--header-height);
+  z-index: 60;
+  transition: padding var(--duration-fast) var(--ease-out),
+              box-shadow var(--duration-fast) var(--ease-out);
+}
+/* Sentinelle : élément vide placé juste avant le fil, qui sert à détecter
+   le moment où celui-ci se colle (aucun rendu visuel).
+   Le sommaire (§ 14) réutilise la même mécanique, d'où le second sélecteur. */
+.rdcx-steps-sentinel,
+.rdcx-sommaire-sentinel { height: 1px; margin: 0; padding: 0; }
+
+/* --- état collé : version compacte --- */
+.rdcx-steps.is-stuck {
+  border-left-width: 0;
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
+.rdcx-steps.is-stuck .rdcx-steps-bar { padding: var(--space-2) var(--space-4); }
+.rdcx-steps.is-stuck .rdcx-steps-dot { width: 1.6rem; height: 1.6rem; font-size: var(--fs-xs); }
+.rdcx-steps.is-stuck .rdcx-steps-reste,
+.rdcx-steps.is-stuck .rdcx-steps-mode { display: none; }
+.rdcx-steps.is-stuck .rdcx-steps-pos { font-size: var(--fs-xs); }
+
+/* --- fine barre de progression, au bas du fil --- */
+.rdcx-steps-line {
+  height: 3px; width: 100%;
+  background: var(--border-light);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  overflow: hidden;
+}
+.rdcx-steps-line-fill {
+  display: block; height: 100%; width: 0;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  transition: width var(--duration-normal) var(--ease-out);
+}
+.rdcx-steps.is-continu .rdcx-steps-line { display: none; }
+
+@media (max-width: 768px) {
+  .rdcx-steps.is-stuck .rdcx-steps-bar { padding: var(--space-2) var(--space-3); }
+  .rdcx-steps.is-stuck .rdcx-steps-pos { display: none; }
+}
+@media print {
+  .rdcx-steps { position: static; }
+}
+
+/* ============================================================
+   Conformité mobile (interactions)
+   Encadré par media queries : neutre au-dessus de 768 px.
+   Variables existantes uniquement, tailles en rem.
+   ============================================================ */
+@media (max-width: 768px) {
+
+  /* (c) INFO-BULLES DES SCHÉMAS — composant le plus à risque.
+     Elles sont ancrées en absolu dans .rdcx-hs-stage, qui est en
+     overflow: hidden et ne mesure plus que ~140 px de haut une fois
+     l'image réduite à 320 px. Résultat mesuré : 17 bulles sur 17
+     tronquées verticalement (jusqu'à 199 px rognés en bas, 256 px en
+     haut) — le texte devenait illisible.
+     On les remet dans le flux, sous l'image : plus aucun rognage, plus
+     aucun débordement latéral, et le conteneur grandit pour les
+     accueillir. position: relative (et non static) est indispensable
+     pour que .rdcx-hs-close reste ancré sur la bulle. */
+  .rdcx-hs-pop,
+  .rdcx-hs-pop.is-left,
+  .rdcx-hs-pop.is-right,
+  .rdcx-hs-pop.is-above,
+  .rdcx-hs-pop.is-below {
+    position: relative;
+    inset: auto;
+    width: auto;
+    max-width: none;
+    margin: var(--space-3);
+    box-shadow: var(--shadow-md);
+  }
+  .rdcx-hs-pop-txt { overflow-wrap: break-word; }
+  /* La croix de fermeture reste tapable. */
+  .rdcx-hs-close { width: 2.75rem; height: 2.75rem; top: 0; right: 0; }
+
+  /* (d) Épingles du schéma — 2 rem visuellement, zone tactile 2.75 rem.
+     Les agrandir visuellement masquerait le schéma, déjà réduit. */
+  .rdcx-hs-pt { width: 2.25rem; height: 2.25rem; }
+  .rdcx-hs-pt::after {
+    content: ''; position: absolute; left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    width: 2.75rem; height: 2.75rem; border-radius: var(--radius-full);
+  }
+
+  /* (a) EN-TÊTE DE BLOC — .rdcx-aside est en flex: 0 0 auto +
+     white-space: nowrap : il ne cédait pas un pixel et écrasait le
+     titre (mesuré : .rdcx-title réduit à 12 px de large pour 74 px de
+     contenu, et jusqu'à 5 px sur l'appariement). Le compteur passe
+     désormais à la ligne. */
+  .rdcx-head { flex-wrap: wrap; row-gap: var(--space-2); }
+  .rdcx-title { flex: 1 1 10rem; }
+  .rdcx-aside { white-space: normal; }
+
+  /* (d) Zones tactiles des composants pédagogiques. */
+  .rdcx-btn,
+  .rdcx-opt,
+  .rdcx-item,
+  .rdcx-frag,
+  .rdcx-choice,
+  .rdcx-steps-mode,
+  .rdcx-steps-retour,
+  .rdcx-steps-revoir-lien,
+  .rdcx-resume-link,
+  .rdcx-voice-toggle,
+  .ch-res-more > summary { min-height: 2.75rem; }
+  .rdcx-opt, .rdcx-item, .rdcx-choice { align-items: center; }
+  .rdcx-voice-play { width: 2.75rem; height: 2.75rem; }
+  .rdcx-choice input { width: 1.375rem; height: 1.375rem; margin-top: 0; }
+  .rdcx-obj-cb { width: 1.375rem; height: 1.375rem; }
+  .rdcx-obj-lbl { min-height: 2.75rem; align-items: center; }
+  .rdcx-resume-close { width: 2.75rem; height: 2.75rem; }
+
+  /* (g) Capsule audio — la barre de progression reste saisissable. */
+  .rdcx-voice-bar { height: 0.75rem; }
+  .rdcx-voice-titre { overflow-wrap: break-word; }
+
+  /* (b) FIL DES ÉTAPES — huit pastilles de 44 px représentent 352 px :
+     elles ne peuvent pas tenir sur une seule ligne de 320 px. Plutôt
+     que de les faire défiler (une partie du parcours devient alors
+     invisible), on les laisse passer à la ligne : tout reste visible
+     ET tapable, sans défilement horizontal. */
+  .rdcx-steps-dots {
+    flex-wrap: wrap; overflow: visible;
+    gap: var(--space-2); row-gap: var(--space-2);
+  }
+  .rdcx-steps-dot { width: 2.75rem; height: 2.75rem; }
+  /* .is-current applique scale(1.12) : on borne pour que la pastille
+     agrandie ne chevauche pas ses voisines une fois la ligne pleine. */
+  .rdcx-steps-dot.is-current { transform: scale(1.06); }
+
+  /* (b) État collé — on resserre pour rester très en deçà du tiers de
+     l'écran (mesuré après correction : ~96 px, soit 12 % d'un écran de
+     812 px et 15 % d'un écran de 640 px). */
+  .rdcx-steps.is-stuck .rdcx-steps-dots { gap: var(--space-1); row-gap: var(--space-1); }
+  .rdcx-steps.is-stuck .rdcx-steps-dot { width: 2.375rem; height: 2.375rem; }
+  .rdcx-steps.is-stuck { max-height: 33vh; overflow-y: auto; }
+
+  /* (e) L'appariement empile déjà ses deux colonnes (règle existante
+     .rdcx-match-grid { grid-template-columns: 1fr }) ; on garantit en
+     plus que chaque colonne peut se réduire. */
+  .rdcx-col { min-width: 0; }
+  .rdcx-item { overflow-wrap: break-word; }
+
+  /* (a) Le récapitulatif et les listes de points restent sécables. */
+  .rdcx-recap-txt, .rdcx-hs-li, .rdcx-steps-revoir-txt { overflow-wrap: break-word; }
+}
+
+@media (max-width: 480px) {
+  /* Sur les écrans les plus étroits, la barre de navigation d'étape
+     garde ses deux boutons côte à côte : on borne le libellé de
+     l'étape suivante pour qu'il ne pousse pas la ligne. */
+  .rdcx-steps-suiv-titre { max-width: 100%; overflow-wrap: break-word; white-space: normal; }
+}
+
+/* ============================================================
+   14. Sommaire collant (RDCX.sommaire)
+
+   Même mécanique de collage que le fil des étapes — sentinelle
+   posée juste avant la barre, classe .is-stuck, resserrement une
+   fois collée — mais RIEN N'EST MASQUÉ : toutes les sections
+   restent affichées, la barre ne fait que conduire au bon endroit
+   et signaler où l'on se trouve.
+   ============================================================ */
+.rdcx-sommaire {
+  position: -webkit-sticky; position: sticky;
+  top: var(--header-height);
+  z-index: 60;
+  margin: 0 0 var(--space-8);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: padding var(--duration-fast) var(--ease-out),
+              box-shadow var(--duration-fast) var(--ease-out);
+}
+.rdcx-sommaire-bar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+}
+.rdcx-sommaire-titre {
+  flex: 0 0 auto;
+  font-family: var(--font-display); font-weight: 700; font-size: var(--fs-xs);
+  text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted);
+}
+/* Les pastilles passent à la ligne : à 320 px comme ailleurs, rien ne
+   déborde jamais de la page. position: relative rend offsetTop des
+   pastilles mesurable dans la liste (défilement interne à l'état collé). */
+.rdcx-sommaire-liste {
+  position: relative;
+  flex: 1 1 16rem; min-width: 0; max-width: 100%;
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: var(--space-2); row-gap: var(--space-2);
+  list-style: none; margin: 0; padding: 0;
+  scrollbar-width: thin;
+}
+.rdcx-sommaire-li { flex: 0 0 auto; max-width: 100%; margin: 0; padding: 0; list-style: none; }
+.rdcx-sommaire-lien {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  max-width: 100%; padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--border); border-radius: var(--radius-full);
+  background: var(--bg-page); color: var(--text-secondary);
+  font-family: var(--font-display); font-weight: 600; font-size: var(--fs-xs);
+  line-height: var(--lh-tight); text-align: left; text-decoration: none; cursor: pointer;
+  transition: background var(--duration-fast), border-color var(--duration-fast), color var(--duration-fast);
+}
+.rdcx-sommaire-lien:hover {
+  border-color: var(--accent); background: var(--bg-card-alt);
+  color: var(--text-primary); text-decoration: none;
+}
+.rdcx-sommaire-lien:focus-visible { outline: 2px solid var(--border-focus); outline-offset: 0.125rem; }
+.rdcx-sommaire-num { flex: 0 0 auto; font-family: var(--font-mono); color: var(--text-muted); }
+.rdcx-sommaire-txt { min-width: 0; overflow-wrap: break-word; }
+/* Section actuellement à l'écran */
+.rdcx-sommaire-lien.is-current {
+  border-color: var(--primary); background: var(--primary-glow); color: var(--primary);
+}
+.rdcx-sommaire-lien.is-current .rdcx-sommaire-num { color: var(--primary); }
+
+/* Titre visé par un saut d'ancre : il ne doit pas se glisser sous
+   l'en-tête fixe ni sous la barre collée. */
+.rdcx-sommaire-ancre { scroll-margin-top: calc(var(--header-height) + 5rem); }
+
+/* --- état collé : version compacte, comme le fil des étapes --- */
+.rdcx-sommaire.is-stuck {
+  border-left-width: 0;
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
+.rdcx-sommaire.is-stuck .rdcx-sommaire-bar { padding: var(--space-2) var(--space-4); }
+.rdcx-sommaire.is-stuck .rdcx-sommaire-titre { display: none; }
+/* Beaucoup d'entrées : la barre collée ne mange jamais plus d'un tiers
+   de l'écran, la liste défile alors sur elle-même. */
+.rdcx-sommaire.is-stuck .rdcx-sommaire-liste { max-height: 30vh; overflow-y: auto; }
+
+@media (max-width: 768px) {
+  .rdcx-sommaire-bar { padding: var(--space-3); }
+  .rdcx-sommaire-titre { flex: 1 1 100%; }
+  .rdcx-sommaire-liste { flex: 1 1 100%; }
+  /* zone tactile confortable, sans jamais élargir la page */
+  .rdcx-sommaire-lien { min-height: 2.75rem; padding: var(--space-2) var(--space-3); }
+  .rdcx-sommaire.is-stuck .rdcx-sommaire-bar { padding: var(--space-2) var(--space-3); }
+  .rdcx-sommaire.is-stuck .rdcx-sommaire-liste { max-height: 28vh; }
+}
+
+@media print {
+  /* Le sommaire ne sert qu'à l'écran : le document s'imprime en entier. */
+  .rdcx-sommaire, .rdcx-sommaire-sentinel { display: none !important; }
+  .rdcx-sommaire-ancre { scroll-margin-top: 0; }
+}
+
+/* ----------------------------------------------------------------
+   12. En-tête de chapitre pliable (.rdcx-entete-*)
+   Le préambule — objectifs, podcast, slides, infographie, capsule — se replie
+   derrière un bouton. Le titre et la méta restent visibles : ils identifient
+   la page. Voir le module « En-tête de chapitre pliable » d'interactions.js.
+   ---------------------------------------------------------------- */
+.rdcx-entete-btn {
+  display: flex; align-items: center; gap: var(--space-3);
+  width: 100%; min-height: 2.75rem;
+  margin-top: var(--space-6);
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-card-alt);
+  border: 1px solid var(--border); border-radius: var(--radius-md);
+  font-family: var(--font-display); font-size: var(--fs-sm); font-weight: 700;
+  color: var(--text-primary); text-align: left; cursor: pointer;
+  transition: background var(--duration-fast), border-color var(--duration-fast);
+}
+.rdcx-entete-btn:hover { background: var(--bg-card); border-color: var(--primary-light); }
+.rdcx-entete-btn:focus-visible { outline: 2px solid var(--border-focus); outline-offset: 0.125rem; }
+.rdcx-entete-chevron {
+  flex: 0 0 auto; color: var(--accent-dark);
+  transition: transform var(--duration-fast) var(--ease-spring);
+}
+.rdcx-entete-btn[aria-expanded="true"] .rdcx-entete-chevron { transform: rotate(90deg); }
+.rdcx-entete-titre { flex: 0 1 auto; }
+.rdcx-entete-detail {
+  margin-left: auto; padding-left: var(--space-3);
+  font-family: var(--font-body); font-size: var(--fs-xs); font-weight: 400;
+  color: var(--text-muted); text-align: right;
+}
+/* Sur mobile la liste des ressources ferait passer le bouton sur trois lignes :
+   le libellé suffit, le contenu se découvre en dépliant. */
+@media (max-width: 768px) {
+  .rdcx-entete-detail { display: none; }
+}
+/* À l'impression, un polycopié amputé de ses objectifs n'aurait pas de sens :
+   la zone est toujours dépliée et le bouton disparaît. */
+@media print {
+  .rdcx-entete-btn { display: none; }
+  .rdcx-entete-corps[hidden] { display: block !important; }
+}

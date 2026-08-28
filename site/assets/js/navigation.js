@@ -19,19 +19,16 @@
   function L(x) { return (x && typeof x === 'object') ? (x[lang()] || x.fr || x.en || '') : (x || ''); }
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 
-  var UI = {
-    fr: { chapters: 'Chapitres', resources: 'Ressources', home: 'Accueil du cours',
-          reset: '↺ Réinitialiser ma progression', resetTitle: 'Effacer les chapitres marqués comme terminés',
-          confirmReset: 'Réinitialiser votre progression (chapitres terminés) ?',
-          secToggle: 'Afficher ou masquer les sections',
-          doneMark: 'Marquer ce chapitre comme terminé', doneUnmark: '✓ Chapitre terminé — cliquez pour annuler' },
-    en: { chapters: 'Chapters', resources: 'Resources', home: 'Course home',
-          reset: '↺ Reset my progress', resetTitle: 'Clear chapters marked as done',
-          confirmReset: 'Reset your progress (completed chapters)?',
-          secToggle: 'Show or hide sections',
-          doneMark: 'Mark this chapter as done', doneUnmark: '✓ Chapter done — click to undo' }
+  /* Les libellés vivent dans ui-labels.js, avec ceux de tous les autres
+     moteurs : un seul dictionnaire à tenir, et verifier_i18n.py les contrôle.
+     Cette table ne fait plus que relier les noms courts d'ici aux clés. */
+  var CLES = {
+    chapters: 'nav.chapitres', resources: 'nav.ressources', home: 'nav.accueil',
+    reset: 'nav.reinitialiser', resetTitle: 'nav.reinitialiserTitre',
+    confirmReset: 'nav.reinitialiserConfirme', secToggle: 'nav.sections',
+    doneMark: 'nav.marquerFait', doneUnmark: 'nav.marquerAnnuler'
   };
-  function t(k) { return (UI[lang()] || UI.fr)[k]; }
+  function t(k) { return window.T ? window.T(CLES[k] || k) : k; }
 
   // -- Suivi de progression (chapitres terminés, localStorage) --
   var DONE_KEY = 'tpl-done';

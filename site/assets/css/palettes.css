@@ -1,0 +1,156 @@
+/* =================================================================
+   palettes.css — La couleur d'accent d'un cours
+   Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
+
+   POURQUOI CE FICHIER
+   La charte est commune à tous les cours : même typographie, même mise
+   en page, mêmes comportements. Un étudiant reconnaît un cours de la
+   collection au premier coup d'œil. Seule la teinte change, pour que
+   deux cours ouverts côte à côte ne se confondent pas.
+
+   COMMENT L'UTILISER
+   Une seule chose à faire : poser l'attribut sur la balise <html>.
+
+       <html lang="fr" data-accent="emeraude">
+
+   `nouveau_cours.py` l'écrit pour vous, d'après le champ `palette` de
+   cours.json. Sans attribut, c'est « marine » qui s'applique.
+
+   CE QU'IL NE FAUT PAS FAIRE
+   N'inventez pas une palette en modifiant ces valeurs au hasard : chaque
+   couple a été vérifié en contraste sur fond clair ET sur fond sombre.
+   Pour en ajouter une, dupliquez un bloc complet — les huit variables,
+   dans les deux thèmes — puis relancez la vérification :
+
+       python3 outils/verifier_contraste.py
+
+   Charger ce fichier APRÈS main.css : il n'écrase que les huit variables
+   d'identité, tout le reste vient de la charte commune.
+   ================================================================= */
+
+/* ---------------------------------------------------------------
+   marine — bleu nuit institutionnel et doré. Palette par défaut.
+   Sérieux, neutre, adapté au droit, à la gestion, à la conformité.
+   --------------------------------------------------------------- */
+:root,
+html[data-accent="marine"] {
+  --primary: #1b3a5b;
+  --primary-light: #2d5d8a;
+  --primary-dark: #0e2238;
+  --primary-glow: rgba(27, 58, 91, 0.12);
+  --accent: #af8f3c;          /* assombri : #c2a14d ne donnait que 2,47:1 sur blanc */
+  --accent-light: #d9bd72;
+  --accent-dark: #8c722e;     /* sert de texte sur fond clair : 4,60:1 */
+  --accent-glow: rgba(175, 143, 60, 0.16);
+}
+[data-theme="dark"],
+html[data-accent="marine"][data-theme="dark"] {
+  --primary: #5f8ebe;         /* éclairci : #4a7fb5 ne donnait que 3,74:1 sur carte */
+  --primary-light: #6699cc;
+  --primary-dark: #2d5d8a;
+  --primary-glow: rgba(95, 142, 190, 0.18);
+  --accent: #d9bd72;
+  --accent-light: #e7d398;
+  --accent-dark: #c2a14d;
+  --accent-glow: rgba(217, 189, 114, 0.18);
+}
+
+/* ---------------------------------------------------------------
+   emeraude — vert profond et cuivre.
+   Environnement, santé, développement durable, sciences du vivant.
+   --------------------------------------------------------------- */
+html[data-accent="emeraude"] {
+  --primary: #14503f;
+  --primary-light: #1f7a5f;
+  --primary-dark: #0b3227;
+  --primary-glow: rgba(20, 80, 63, 0.12);
+  --accent: #b5713a;
+  --accent-light: #d19056;
+  --accent-dark: #8e5628;
+  --accent-glow: rgba(181, 113, 58, 0.16);
+}
+html[data-accent="emeraude"][data-theme="dark"] {
+  --primary: #43a184;
+  --primary-light: #66bda2;
+  --primary-dark: #1f7a5f;
+  --primary-glow: rgba(67, 161, 132, 0.18);
+  --accent: #d19056;
+  --accent-light: #e3ae7e;
+  --accent-dark: #b5713a;
+  --accent-glow: rgba(209, 144, 86, 0.18);
+}
+
+/* ---------------------------------------------------------------
+   prune — violet profond et sable rosé.
+   Sciences humaines, communication, design, culture.
+   --------------------------------------------------------------- */
+html[data-accent="prune"] {
+  --primary: #4a2352;
+  --primary-light: #713a7c;
+  --primary-dark: #2e1434;
+  --primary-glow: rgba(74, 35, 82, 0.12);
+  --accent: #b06a7a;
+  --accent-light: #c88d9a;
+  --accent-dark: #8a4f5d;
+  --accent-glow: rgba(176, 106, 122, 0.16);
+}
+html[data-accent="prune"][data-theme="dark"] {
+  --primary: #a978b5;
+  --primary-light: #c39acc;
+  --primary-dark: #713a7c;
+  --primary-glow: rgba(169, 120, 181, 0.18);
+  --accent: #c88d9a;
+  --accent-light: #dcaeb8;
+  --accent-dark: #b06a7a;
+  --accent-glow: rgba(200, 141, 154, 0.18);
+}
+
+/* ---------------------------------------------------------------
+   ardoise — gris-bleu et orange brûlé.
+   Réseaux, infrastructures, sécurité, systèmes d'information.
+   --------------------------------------------------------------- */
+html[data-accent="ardoise"] {
+  --primary: #33475c;
+  --primary-light: #4f6b86;
+  --primary-dark: #1e2b38;
+  --primary-glow: rgba(51, 71, 92, 0.12);
+  --accent: #c05f2c;
+  --accent-light: #d98551;
+  --accent-dark: #96491f;
+  --accent-glow: rgba(192, 95, 44, 0.16);
+}
+html[data-accent="ardoise"][data-theme="dark"] {
+  --primary: #7d9bba;
+  --primary-light: #9db6cf;
+  --primary-dark: #4f6b86;
+  --primary-glow: rgba(125, 155, 186, 0.18);
+  --accent: #e0865a;
+  --accent-light: #eda57f;
+  --accent-dark: #c05f2c;
+  --accent-glow: rgba(224, 134, 90, 0.18);
+}
+
+/* ---------------------------------------------------------------
+   bordeaux — rouge sombre et sable.
+   Droit, histoire, sciences politiques, économie.
+   --------------------------------------------------------------- */
+html[data-accent="bordeaux"] {
+  --primary: #5c1f2b;
+  --primary-light: #85333f;
+  --primary-dark: #3a1219;
+  --primary-glow: rgba(92, 31, 43, 0.12);
+  --accent: #a8823f;
+  --accent-light: #c4a065;
+  --accent-dark: #85662c;
+  --accent-glow: rgba(168, 130, 63, 0.16);
+}
+html[data-accent="bordeaux"][data-theme="dark"] {
+  --primary: #c5727f;         /* +1 point de luminosité : 4,46:1 passait sous le seuil */
+  --primary-light: #d894a0;
+  --primary-dark: #85333f;
+  --primary-glow: rgba(197, 114, 127, 0.18);
+  --accent: #c4a065;
+  --accent-light: #d8bb8b;
+  --accent-dark: #a8823f;
+  --accent-glow: rgba(196, 160, 101, 0.18);
+}

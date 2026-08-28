@@ -1,0 +1,9 @@
+# Fins de ligne des lanceurs — fixées ici pour ne plus dépendre du core.autocrlf
+# de chaque poste. Un demarrer.command livré en CRLF échoue sous macOS, avec un
+# message peu parlant : « bad interpreter: /bin/sh^M ».
+#
+# Règles volontairement limitées aux lanceurs : un « * text=auto » renormaliserait
+# tout le dépôt et noierait les prochains diffs.
+*.command text eol=lf
+*.sh       text eol=lf
+*.bat      text eol=crlf

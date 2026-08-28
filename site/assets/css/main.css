@@ -421,6 +421,27 @@ img { max-width: 100%; height: auto; }
 @media (max-width: 1024px) {
   :root { --sidebar-width: 280px; }
   .main-content { padding: var(--space-8) var(--space-5) var(--space-12); }
+
+  /* (j) Barre de navigation de chapitre — juste au-dessus du seuil de
+     768 px, .chapter-nav est encore affichée et ses quatre boutons
+     (Sommaire, Précédent, Polycopié, Suivant) mesurent 500 px : ajoutés
+     au logo et aux deux boutons de l'en-tête, le total atteignait
+     868 px pour un viewport de 759 px, et ♿ / 🌙 se retrouvaient hors
+     de l'écran. On compacte les boutons et on autorise le titre à se
+     tronquer. */
+  .site-header { padding: 0 var(--space-4); gap: var(--space-3); }
+  .header-left { flex: 1 1 auto; min-width: 0; }
+  .site-logo { min-width: 0; }
+  .site-logo > span:last-child {
+    min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  /* Ni .header-right ni .chapter-nav ne doivent se réduire sous leur
+     contenu : leurs boutons déborderaient alors de leur boîte et
+     viendraient recouvrir ♿ / 🌙. C'est le titre du site, et lui seul,
+     qui absorbe la contrainte de largeur. */
+  .header-right { flex: 0 0 auto; gap: var(--space-2); }
+  .chapter-nav { flex: 0 0 auto; gap: var(--space-1); }
+  .chapter-nav-btn { padding: var(--space-2) var(--space-3); font-size: var(--fs-xs); }
 }
 @media (max-width: 768px) {
   .sidebar { transform: translateX(-100%); width: 86%; max-width: 340px; box-shadow: var(--shadow-lg); }
@@ -431,4 +452,119 @@ img { max-width: 100%; height: auto; }
   .landing-header { padding-left: var(--space-5); padding-right: var(--space-5); }
   .landing-section, .conseils-inner { padding-left: var(--space-5); padding-right: var(--space-5); }
   .sidebar-overlay.show { position: fixed; inset: 0; top: var(--header-height); background: rgba(0,0,0,0.4); z-index: 85; }
+}
+
+/* Sous-lien du menu latéral correspondant à la section réellement affichée */
+.nav-sublink.active {
+  color: var(--primary);
+  border-left-color: var(--accent);
+  background: var(--bg-sidebar-hover);
+  font-weight: 600;
+}
+
+/* ----------------------------------------------------------------
+   11. Conformité mobile (structure)
+   Tout ce qui suit est encadré par des media queries : au-dessus de
+   768 px, rien ne change. Uniquement des variables déjà déclarées,
+   aucune couleur en dur, toutes les tailles en rem.
+   ---------------------------------------------------------------- */
+@media (max-width: 768px) {
+
+  /* (h) Plancher typographique — --fs-xs valait 0.75rem, soit 12 px
+     effectifs : sous le seuil de lisibilité mobile. On le remonte à
+     14 px. Le site étant intégralement en rem, le réglage
+     d'accessibilité --fs-scale continue de s'appliquer par-dessus. */
+  :root { --fs-xs: 0.875rem; }
+  .nav-toggle { font-size: var(--fs-xs); }
+
+  /* (a) (i) En-tête — le libellé du logo n'a pas de min-width : 0, il
+     refusait donc de se réduire et poussait ♿ / 🌙 hors de l'écran
+     (mesuré : bord droit à 517 px pour un viewport de 320 px, boutons
+     inatteignables). Le titre se tronque désormais à l'ellipse. */
+  .site-header { padding: 0 var(--space-3); gap: var(--space-2); }
+  .header-left { flex: 1 1 auto; min-width: 0; gap: var(--space-2); }
+  .header-right { flex: 0 0 auto; gap: var(--space-2); }
+  .site-logo { min-width: 0; gap: var(--space-2); font-size: var(--fs-base); }
+  .site-logo > span:last-child {
+    min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .logo-icon { flex: 0 0 auto; }
+  /* Le CTA « Accéder au cours » de l'accueil fait doublon avec le
+     bouton flottant .fab-cours, toujours présent : on le retire de
+     l'en-tête, trop étroit pour l'accueillir. */
+  .header-right > .chapter-nav-btn { display: none; }
+
+  /* (d) Les zones tactiles de l'en-tête (☰ / ♿ / 🌙) sont portées à
+     44 px dans components.css : ce fichier étant chargé après main.css,
+     c'est le seul endroit où la règle l'emporte à coup sûr sur le
+     .a11y-toggle qui y est redéclaré. */
+
+  /* (a) Listes en display:flex — chaque fragment de texte inline y
+     devient un item de flex insécable ; le <li> ne peut alors plus
+     descendre sous la largeur cumulée de ses fragments et fait
+     déborder toute la page (mesuré : document à 398 px pour un
+     viewport de 320 px sur le chapitre 2). On repasse le <li> en flux
+     normal et on ancre la puce en absolu. */
+  .chapter-objectives > ul,
+  .takeaways-body > ul { grid-template-columns: minmax(0, 1fr); }
+  .chapter-objectives > ul > li,
+  .takeaways-body > ul > li {
+    display: block; position: relative; min-width: 0;
+    padding-left: var(--space-8);
+  }
+  .chapter-objectives > ul > li::before,
+  .takeaways-body > ul > li::before {
+    position: absolute; left: 0; top: 0.15em; margin-top: 0;
+  }
+  /* Variante « objectifs cochables » (RDCX.progress) : le <li> n'a
+     alors qu'un seul enfant réel, le flex reste correct. */
+  .chapter-objectives .rdcx-obj > li,
+  .chapter-objectives.rdcx-obj > li { display: flex; padding-left: 0; }
+
+  /* (i) Menu latéral — width: 86% se résolvait contre un bloc plus
+     large que l'écran ; on borne explicitement au viewport. */
+  .sidebar { width: min(86vw, 21.25rem); max-width: none; }
+  .sidebar-content { overflow-x: hidden; }
+  .nav-row { min-width: 0; }
+  /* .nav-label n'avait pas de min-width : 0, son mot le plus long
+     imposait une largeur mini et faisait défiler le menu à l'horizontale. */
+  .nav-link { min-height: 2.75rem; }
+  .nav-link .nav-label { min-width: 0; overflow-wrap: break-word; }
+  .nav-toggle { flex: 0 0 2.75rem; min-height: 2.75rem; }
+  .nav-sublink { display: flex; align-items: center; min-height: 2.75rem; }
+  .nav-reset button { min-height: 2.75rem; }
+
+  /* (a) Filet de sécurité : longues URL et mots insécables du corps
+     de texte, qui deviennent débordants sous 400 px. */
+  .main-content { overflow-wrap: break-word; }
+}
+
+@media (max-width: 480px) {
+  /* Sous 480 px, le titre est réduit plutôt que masqué : la marque
+     reste lisible, l'ellipse absorbe le reste. */
+  .site-logo { font-size: var(--fs-sm); }
+  .logo-icon { width: 2.125rem; height: 2.125rem; font-size: var(--fs-base); }
+}
+
+/* ============================================================
+   Mobile — garder le polycopié accessible.
+   La barre de chapitre est masquée sous 768 px (place insuffisante pour
+   ses quatre boutons), mais le polycopié n'existe QUE là : on l'y laisse
+   donc passer seul, réduit à son icône. Le libellé « 📄 Polycopié » reste
+   dans le DOM en font-size:0, donc toujours annoncé par un lecteur d'écran.
+   ============================================================ */
+@media (max-width: 768px) {
+  .header-right .chapter-nav { display: flex; gap: 0; flex: 0 0 auto; }
+  .header-right .chapter-nav > :not(.poly-btn) { display: none; }
+  .header-right .chapter-nav .poly-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 2.75rem; min-height: 2.75rem;
+    padding: 0 var(--space-2);
+    font-size: 0;
+  }
+  .header-right .chapter-nav .poly-btn::before {
+    content: '📄';
+    font-size: 1.125rem;
+    line-height: 1;
+  }
 }
