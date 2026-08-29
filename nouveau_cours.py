@@ -207,6 +207,71 @@ SQUELETTE_POLYCOPIES = {
 }
 
 
+def renommer_identite(sortie, c):
+    """Substitue l'identite du cours creee a celle de la demonstration.
+
+    Titre de l'onglet, meta-description, auteur des metadonnees, badge et pied
+    de page : rien de tout cela n'est dans le corps du texte, donc rien de tout
+    cela n'etait purge. Un cours de cybersecurite s'annoncait « Concevoir un
+    cours en ligne » dans la barre d'onglets du navigateur.
+    """
+    tfr = c["titre"]["fr"]
+    ten = c["titre"].get("en", tfr) if "en" in (c.get("langues") or []) else tfr
+    st = c.get("sous_titre") or {}
+    sfr = st.get("fr", "")
+    sen = st.get("en", sfr)
+    auteur = c["auteur"]
+
+    def att(s):
+        """Un texte utilisable dans un attribut HTML."""
+        return s.replace("&", "&amp;").replace('"', "&quot;").replace("<", "&lt;")
+
+    # Les variantes longues d'abord : « ... efficace » contient « ... » tout court.
+    paires = [
+        ("Concevoir un cours en ligne efficace", tfr),
+        ("Designing an effective online course", ten),
+        ("Concevoir un cours en ligne", tfr),
+        ("Designing an online course", ten),
+        ("Cours-démo", "Cours"),
+        ("cours-démo", "cours"),
+        ("Demo course", "Course"),
+        ("demo course", "course"),
+        ("Mohamed EL AFRIT", auteur),
+    ]
+
+    desc_fr = ("%s. %s" % (tfr, sfr)).strip().strip(".") + "."
+    touchees = 0
+    for f in sorted(glob.glob(os.path.join(sortie, "site", "**", "*.html"),
+                              recursive=True)):
+        s = io.open(f, encoding="utf-8").read()
+        avant = s
+
+        # La meta-description des chapitres est deja reecrite par le squelette ;
+        # celle des autres pages parlait encore de la demonstration.
+        if os.sep + "chapitres" + os.sep not in f:
+            s = re.sub(r'<meta name="description" content="[^"]*">',
+                       '<meta name="description" content="%s">' % att(desc_fr), s)
+        s = re.sub(r'<meta name="author" content="[^"]*">',
+                   '<meta name="author" content="%s">' % att(auteur), s)
+
+        # Le sous-titre de l'accueil : de la prose propre a la demonstration.
+        if sfr:
+            s = re.sub(
+                r'(<p class="chapter-subtitle">\s*)<span data-tr="fr">.*?</span>\s*'
+                r'<span data-tr="en">.*?</span>',
+                lambda m: '%s<span data-tr="fr">%s</span>\n          '
+                          '<span data-tr="en">%s</span>' % (m.group(1), sfr, sen),
+                s, flags=re.S)
+
+        for a, b in paires:
+            s = s.replace(a, b)
+
+        if s != avant:
+            ecrire(f, s)
+            touchees += 1
+    return touchees
+
+
 def recoudre_liens(sortie, c):
     """Fait pointer tous les liens de chapitre vers les chapitres DECLARES.
 
@@ -812,6 +877,10 @@ def main():
         r, s = purger_demo(sortie, c)
         print("  contenu de demonstration retire : %d media(s), %d fichier(s) "
               "remis a l'etat de squelette" % (r, s))
+
+    # --- l'identite : titre d'onglet, description, auteur, pied de page
+    i = renommer_identite(sortie, c)
+    print("  %d page(s) renommee(s) au nom du cours" % i)
 
     # --- les liens de chapitre : ils pointaient vers la demonstration
     r = recoudre_liens(sortie, c)

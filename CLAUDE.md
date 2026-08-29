@@ -95,11 +95,12 @@ entend du français.
 
 ## 5. Vérifier
 
-Trois contrôles, à lancer souvent. Ils attrapent ce que l'œil ne voit pas.
+Quatre contrôles, à lancer souvent. Ils attrapent ce que l'œil ne voit pas.
 
 ```bash
 python3 outils/verifier_i18n.py       # clés dépareillées, blocs data-tr déséquilibrés
 python3 outils/verifier_contraste.py  # palettes lisibles en clair ET en sombre
+python3 outils/verifier_liens.py      # href et src qui ne mènent nulle part
 python3 demarrer.py                   # le site, sans cache
 ```
 
@@ -110,6 +111,19 @@ JavaScript après une modification, et l'on cherche un défaut qui n'existe pas.
 **Si un changement JavaScript ne semble pas prendre**, changez de port plutôt
 que de recharger : certains navigateurs gardent le script en cache malgré
 l'en-tête.
+
+Ces contrôles mesurent ce qui est mesurable : des clés, des contrastes, des
+chemins.
+Ils ne disent rien du seul défaut qui compte vraiment ici — **un cours créé qui
+hérite du contenu de la démonstration**. Cela ne se voit qu'en générant :
+
+```bash
+python3 nouveau_cours.py --essai      # dit ce qu'il ferait, n'écrit rien
+```
+
+Après toute modification du moteur ou du générateur, déroulez
+`docs/RECETTE.md` en entier. Son troisième test est le seul qui dise ce que
+l'utilisateur recevra réellement.
 
 ---
 
@@ -147,6 +161,7 @@ l'en-tête.
 | Le bilingue en profondeur | `docs/I18N.md` |
 | Les pratiques et leurs raisons | `docs/BONNES_PRATIQUES.md` |
 | Ce qu'il reste à faire avant de livrer | `docs/CHECKLIST.md` |
+| Vérifier que le gabarit lui-même fonctionne | `docs/RECETTE.md` |
 | Les prompts de production | `prompts/` |
 | Les skills et le pipeline | `.claude/skills/README.md` |
 

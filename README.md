@@ -32,6 +32,7 @@
 - [Démarrage rapide](#-démarrage-rapide)
   - [Voie A — Générer un nouveau cours avec Claude](#voie-a--générer-un-nouveau-cours-avec-claude)
   - [Voie B — Lancer le site en local](#voie-b--lancer-le-site-en-local)
+  - [Voie C — Vérifier](#voie-c--vérifier)
 - [Bonnes pratiques](#-bonnes-pratiques)
 - [Licences](#-licences)
 - [Crédit](#-crédit)
@@ -86,7 +87,7 @@ template_cours/
 ├── outils/            # Audio ElevenLabs, playlist, schémas, vérificateurs
 ├── tools/             # Polycopiés DOCX/PDF, QCM papier
 ├── prompts/           # Bibliothèque de prompts de rédaction
-├── docs/              # Architecture, guide, i18n, bonnes pratiques, checklist
+├── docs/              # Architecture, guide, i18n, bonnes pratiques, checklist, recette
 └── .claude/skills/    # Skills Claude Code livrés avec le template
 ```
 
@@ -158,7 +159,10 @@ passe au suivant.
 ```bash
 python3 outils/verifier_i18n.py       # clés dépareillées, blocs FR/EN déséquilibrés
 python3 outils/verifier_contraste.py  # palettes lisibles en clair et en sombre
+python3 outils/verifier_liens.py      # href et src qui ne mènent nulle part
 ```
+
+> 🧪 À la réception du template, ou après toute modification du moteur, déroulez [`docs/RECETTE.md`](docs/RECETTE.md) : vingt minutes, trois tests. Le dernier — générer un cours vide — est le seul qui vous dise ce que vous recevrez réellement en démarrant un nouveau cours.
 
 ## 💡 Bonnes pratiques
 
@@ -198,6 +202,7 @@ Template conçu pour fabriquer des sites de cours **avec l'aide de Claude**.
 - [Quick start](#-quick-start)
   - [Path A — Generate a new course with Claude](#path-a--generate-a-new-course-with-claude)
   - [Path B — Run the site locally](#path-b--run-the-site-locally)
+  - [Path C — Verify](#path-c--verify)
 - [Best practices](#-best-practices)
 - [Licenses](#-licenses)
 - [Credit](#-credit)
@@ -246,7 +251,7 @@ template_cours/
 ├── outils/            # ElevenLabs audio, playlist, diagrams, verifiers
 ├── tools/             # DOCX/PDF handouts, printable quiz
 ├── prompts/           # Writing prompt library
-├── docs/              # Architecture, guide, i18n, best practices, checklist
+├── docs/              # Architecture, guide, i18n, best practices, checklist, acceptance tests
 └── .claude/skills/    # Claude Code skills shipped with the template
 ```
 
@@ -279,25 +284,27 @@ Two paths, depending on what you want to do.
 
 ### Path B — Run the site locally
 
-Since the site is **static**, simply opening a page works — but a **small static server** is recommended (some loads, such as PDFs or CSVs, behave better over `http://` than `file://`).
-
-**Simple option** — open the file directly:
-
-```text
-site/index.html   (double-click, or "Open with" your browser)
-```
-
-**Recommended option** — a local static server from the `site/` folder:
+Use the bundled launcher. Double-click it in Finder or Explorer, or run:
 
 ```bash
-# Python 3
-python -m http.server 8000
-
-# or Node.js
-npx serve .
+./demarrer.command     # macOS
+demarrer.bat           # Windows
+python3 demarrer.py    # anywhere
 ```
 
-Then open **http://localhost:8000** in your browser.
+It serves `site/` on **http://localhost:8765**, opens your browser, and falls back to the next free port if 8765 is taken.
+
+> ⚠️ Prefer it over a plain `python -m http.server`. The launcher **disables caching** and answers **in parallel** — two defects it exists to prevent: a browser serving stale JavaScript after an edit, so you hunt a bug that no longer exists; and a single open tab freezing every other client, silently. If a change still refuses to show, switch ports: some browsers keep the script in memory regardless.
+
+### Path C — Verify
+
+```bash
+python3 outils/verifier_i18n.py       # unpaired keys, unbalanced FR/EN blocks
+python3 outils/verifier_contraste.py  # palettes readable in light and dark
+python3 outils/verifier_liens.py      # href and src pointing nowhere
+```
+
+> 🧪 When you first receive the template, or after any engine change, work through [`docs/RECETTE.md`](docs/RECETTE.md) (in French): twenty minutes, three tests. The last one — generating an empty course — is the only one that tells you what you will actually get when starting a new course.
 
 ## 💡 Best practices
 
