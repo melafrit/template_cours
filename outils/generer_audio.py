@@ -225,6 +225,8 @@ def pistes_attendues():
             out.append((n, cid, src.group(1).split("/")[-1], titre.replace("**", "")))
         # capsules bilingues, dont la source vient de TEXTES et non d'un litteral
         out.extend(capsules_bilingues(page, n))
+    # les podcasts ne sont declares dans aucune page : ils viennent des fiches
+    out.extend(podcasts_des_fiches())
     return out
 
 
@@ -245,6 +247,29 @@ def capsules_bilingues(page, n):
         titre = ttl.group(1) if ttl else os.path.basename(chemin)
         cid = "capsule-%d" % n
         out.append((n, cid, chemin.split("/")[-1], titre))
+    return out
+
+
+def podcasts_des_fiches():
+    """Les podcasts, qui ne sont declares dans aucune page.
+
+    media.js les cherche par convention de nommage — il n'y a donc rien a lire
+    dans le HTML. La fiche de production, elle, donne l'emplacement exact : on
+    part de la.
+    """
+    out = []
+    for fiche in sorted(glob.glob(os.path.join(RACINE, "docs", "prompts", "*.md"))):
+        t = io.open(fiche, encoding="utf-8").read()
+        for m in re.finditer(
+                r"\*\*Nom exact du fichier :\*\*\s*`([^`]+)`(.*?)"
+                r"(?=\*\*Nom exact du fichier :\*\*|\Z)", t, re.S):
+            nom, bloc = m.group(1), m.group(2)
+            n = re.match(r"chapitre-(\d+)-podcast\.", nom)
+            if not n or "media/podcasts" not in bloc:
+                continue
+            titre = re.search(r"^## (.+)$", bloc, re.M)
+            out.append((int(n.group(1)), "podcast-%s" % n.group(1), nom,
+                        titre.group(1).strip() if titre else nom))
     return out
 
 
@@ -340,7 +365,9 @@ def main():
     for n, cid, nom, titre in pistes_attendues():
         if args.chapitre and n != args.chapitre:
             continue
-        if os.path.exists(os.path.join(sortie, nom)) and not args.force:
+        dossier = (os.path.join(SITE, "assets", "media", "podcasts")
+                   if "-podcast." in nom else sortie)
+        if os.path.exists(os.path.join(dossier, nom)) and not args.force:
             continue
         sc = scripts.get(nom)
         if not sc:
@@ -408,7 +435,14 @@ def main():
             print("      conservée pour écoute : outils/quarantaine/%s" % nom)
             rejetes.append((nom, griefs))
             continue
-        os.replace(tmp, os.path.join(sortie, nom))
+        # Un podcast ne va pas dans le meme dossier qu'une capsule : media.js
+        # et l'index de playlist le cherchent dans podcasts/. Sans ce routage,
+        # il atterrissait dans voix/ et restait invisible des deux cotes.
+        dest = (os.path.join(SITE, "assets", "media", "podcasts")
+                if "-podcast." in nom else sortie)
+        if not os.path.isdir(dest):
+            os.makedirs(dest)
+        os.replace(tmp, os.path.join(dest, nom))
         print("      déposée — %d:%02d, %d mots/min" % (d // 60, d % 60, debit))
         deposes.append(nom)
 

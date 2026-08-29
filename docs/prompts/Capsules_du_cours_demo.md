@@ -226,3 +226,79 @@ Trois formats, trois intentions. Le texte sert à ce qu'on relit : une définiti
 ```
 Three formats, three intentions. Text is for what gets re-read: a definition, a procedure, an exact figure. Audio is for what carries in a voice: an intention, a nuance, an encouragement. A diagram is for what no single sentence can hold. The trap is choosing from the tool you happen to own, rather than from what you want to achieve: you have a microphone, so you record. A definition delivered by voice is lost — you would have to listen again, and nobody listens again. Above all, remember this: two formats that repeat each other are worth less than one well chosen.
 ```
+
+---
+
+## Podcast 1 FR — Chapitre 1
+
+- **Nom exact du fichier :** `chapitre-1-podcast.fr.mp3`
+- **Emplacement exact :** `site/assets/media/podcasts/chapitre-1-podcast.fr.mp3`
+- **Durée visée :** ≈ 2 min (290 mots parlés, tolérance 1 min 30 → 2 min 40)
+
+- [x] Podcast généré et déposé — contrôlé par outils/generer_audio.py
+
+**▶️ Script ElevenLabs**
+
+```
+[warmly] Quelques minutes pour poser ce que le chapitre 1 va vous demander de décider.
+
+[pause]
+
+[thoughtful] Un cours mal cadré se répare mal. On s'en aperçoit à la troisième séance, quand il est trop tard pour tout reprendre. Le cadrage, c'est ce qu'on fait avant d'écrire la première ligne — et c'est précisément ce qu'on saute, parce qu'on a hâte de produire.
+
+[serious] Trois décisions, dans un ordre qui n'est pas négociable. Pour qui. Pour quoi faire. Autour de quoi.
+
+[curious] Le public d'abord, et cela surprend. On croit souvent qu'un cours part de ses objectifs. Mais tant qu'on ignore qui apprend, on ne peut ni fixer un objectif atteignable, ni juger si un fil rouge parlera. Et attention à la façon de décrire ce public : « étudiants de master » ne décrit personne. Ce qui décide, ce sont les prérequis réellement acquis, le temps disponible, et les contraintes matérielles. C'est la troisième qu'on oublie, et souvent la plus déterminante.
+
+[pause]
+
+[thoughtful] Les objectifs ensuite. Un objectif dit ce que l'apprenant sera capable de faire, pas ce qu'il aura vu ou compris. Le test est simple : si vous ne pouvez pas imaginer l'exercice qui prouverait l'objectif atteint, il est mal écrit — et vous ne pourrez pas évaluer.
+
+[curious] Le fil rouge enfin. Un cas, un projet, un scénario qui traverse tout le cours. Il répond par avance à la question que l'apprenant se pose à chaque chapitre : à quoi cela va-t-il me servir. Et il sert d'arbitre le jour où l'on vous retire une séance.
+
+[warmly] Chacune de ces trois décisions restreint le champ de la suivante. C'est ce qui rend le cadrage utile — et c'est pour cela que les sauter ne fait pas gagner de temps : cela le déplace vers la refonte. Bonne lecture.
+```
+
+**📄 Transcription affichée sur la page**
+
+```
+Quelques minutes pour poser ce que le chapitre 1 va vous demander de décider. Un cours mal cadré se répare mal : on s'en aperçoit à la troisième séance, quand il est trop tard pour tout reprendre. Trois décisions, dans un ordre qui n'est pas négociable : pour qui, pour quoi faire, autour de quoi. Le public d'abord — tant qu'on ignore qui apprend, on ne peut ni fixer un objectif atteignable, ni juger si un fil rouge parlera. Les objectifs ensuite : un objectif dit ce que l'apprenant sera capable de faire, et si vous ne pouvez pas imaginer l'exercice qui le prouverait, il est mal écrit. Le fil rouge enfin, qui répond à « à quoi cela va-t-il me servir » et sert d'arbitre quand il faut couper. Chacune restreint le champ de la suivante : c'est ce qui rend le cadrage utile.
+```
+
+---
+
+## Podcast 2 EN — Chapter 1
+
+- **Nom exact du fichier :** `chapitre-1-podcast.en.mp3`
+- **Emplacement exact :** `site/assets/media/podcasts/chapitre-1-podcast.en.mp3`
+- **Durée visée :** ≈ 2 min (290 mots parlés, tolérance 1 min 30 → 2 min 40)
+
+- [x] Podcast généré et déposé — contrôlé par outils/generer_audio.py
+
+**▶️ Script ElevenLabs**
+
+```
+[warmly] A few minutes to set out what chapter one will ask you to decide.
+
+[pause]
+
+[thoughtful] A badly scoped course is hard to repair. You notice on the third session, when it is too late to start over. Scoping is what you do before writing a single line — and it is exactly what gets skipped, because you are impatient to produce.
+
+[serious] Three decisions, in an order that is not negotiable. For whom. To do what. Around what.
+
+[curious] The audience first, and that surprises people. We often believe a course starts from its objectives. But until you know who is learning, you can neither set a reachable objective nor judge whether a through-line will land. And mind how you describe that audience: "master's students" describes nobody. What decides are the prerequisites actually acquired, the time available, and the practical constraints. The third is the forgotten one, and often the decisive one.
+
+[pause]
+
+[thoughtful] Objectives next. An objective states what the learner will be able to do, not what they will have seen or understood. The test is simple: if you cannot picture the exercise that would prove it reached, it is badly written — and you will not be able to assess.
+
+[curious] The through-line last. A case, a project, a scenario running across the whole course. It answers in advance the question the learner asks at every chapter: what will this be used for. And it acts as the arbiter on the day a session is taken away from you.
+
+[warmly] Each of these three decisions narrows the field of the next. That is what makes scoping useful — and why skipping them does not save time: it moves the time to the rewrite. Enjoy the chapter.
+```
+
+**📄 Transcription affichée sur la page**
+
+```
+A few minutes to set out what chapter one will ask you to decide. A badly scoped course is hard to repair: you notice on the third session, when it is too late to start over. Three decisions, in an order that is not negotiable: for whom, to do what, around what. The audience first — until you know who is learning, you can neither set a reachable objective nor judge whether a through-line will land. Objectives next: an objective states what the learner will be able to do, and if you cannot picture the exercise that would prove it, it is badly written. The through-line last, answering "what will this be used for" and acting as the arbiter when you must cut. Each one narrows the field of the next: that is what makes scoping useful.
+```

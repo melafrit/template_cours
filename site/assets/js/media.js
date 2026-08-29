@@ -15,25 +15,55 @@
   var base = '../assets/media/';
 
   // --- Podcast : lecteur personnalisé (±10 s + progression) + mini-lecteur flottant + pop-out ---
-  var pod = document.querySelector('.podcast-section');
-  if (pod) {
-    var audio = document.createElement('audio');
-    audio.preload = 'auto'; // 'auto' (et non 'metadata') : télécharge tout le fichier -> audio entièrement « seekable » même sans support des requêtes HTTP Range (ouverture locale, Safari) -> les boutons ±10 s fonctionnent partout
-    [['mp3', 'audio/mpeg'], ['m4a', 'audio/mp4']].forEach(function (f) {
-      var s = document.createElement('source');
-      s.src = base + 'podcasts/chapitre-' + N + '-podcast.' + f[0];
-      s.type = f[1];
-      audio.appendChild(s);
-    });
-    audio.addEventListener('loadedmetadata', function onMeta() {
-      audio.removeEventListener('loadedmetadata', onMeta);
-      var ph = pod.querySelector('.podcast-placeholder-msg'); if (ph) ph.remove();
-      var tEl = pod.querySelector('.podcast-title');
-      buildPodcastPlayer(pod, audio, tEl ? tEl.textContent : 'Podcast — chapitre ' + N);
-    });
-    pod.appendChild(audio);
-    audio.load();
-  }
+    var pod = document.querySelector('.podcast-section');
+    if (pod) {
+      /* Le podcast existe par langue : chapitre-<N>-podcast.<langue>.mp3, avec
+         repli sur le nom sans suffixe pour un cours monolingue. Sans cela, un
+         lecteur passe en anglais continuerait d'entendre le francais. */
+      var audioPod = null;
+
+      function languePod() {
+        return (window.TPLI18N && TPLI18N.lang && TPLI18N.lang()) || 'fr';
+      }
+
+      function chargerPodcast() {
+        if (audioPod) {
+          try { audioPod.pause(); } catch (e) {}
+          if (audioPod.parentNode) audioPod.parentNode.removeChild(audioPod);
+        }
+        /* On VIDE la barre du lecteur, on ne la SUPPRIME pas :
+           buildPodcastPlayer y insere ses controles et ne fait rien si
+           l'element a disparu. Le lecteur restait alors invisible, sans
+           erreur — l'audio etait charge, mais rien ne s'affichait. */
+        var barre = pod.querySelector('.podcast-player');
+        if (barre) barre.innerHTML = '';
+
+        audioPod = document.createElement('audio');
+        audioPod.preload = 'auto';
+        var lg = languePod();
+        var noms = ['-podcast.' + lg + '.mp3', '-podcast.mp3',
+                    '-podcast.' + lg + '.m4a', '-podcast.m4a'];
+        noms.forEach(function (suffixe) {
+          var s = document.createElement('source');
+          s.src = base + 'podcasts/chapitre-' + N + suffixe;
+          s.type = suffixe.indexOf('.m4a') > -1 ? 'audio/mp4' : 'audio/mpeg';
+          audioPod.appendChild(s);
+        });
+        audioPod.addEventListener('loadedmetadata', function onMeta() {
+          audioPod.removeEventListener('loadedmetadata', onMeta);
+          var ph = pod.querySelector('.podcast-placeholder-msg');
+          if (ph) ph.remove();
+          var tEl = pod.querySelector('.podcast-title');
+          buildPodcastPlayer(pod, audioPod,
+            tEl ? tEl.textContent : 'Podcast — chapitre ' + N);
+        });
+        pod.appendChild(audioPod);
+        audioPod.load();
+      }
+
+      chargerPodcast();
+      document.addEventListener('tpl:langchange', chargerPodcast);
+    }
 
   // --- Slides : PDF (généré par NotebookLM) + agrandissement en popup plein écran ---
   var sl = document.querySelector('.slides-section');

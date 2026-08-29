@@ -73,18 +73,25 @@ def pistes_du_chapitre(n, chemin_page):
     pistes = []
 
     # --- le podcast : posé par media.js d'après le nom, pas écrit dans la page
-    for ext in ("mp3", "m4a", "wav") if n else ():
-        rel = "assets/media/podcasts/chapitre-%d-podcast.%s" % (n, ext)
-        if os.path.isfile(os.path.join(SITE, rel)):
+    # Le podcast existe par langue : « chapitre-1-podcast.fr.mp3 ». On indexe
+    # chaque langue trouvee, et on retombe sur le nom sans suffixe pour un
+    # cours monolingue.
+    for langue in (("fr", "en", None) if n else ()):
+        for ext in ("mp3", "m4a", "wav"):
+            suffixe = ("." + langue) if langue else ""
+            rel = "assets/media/podcasts/chapitre-%d-podcast%s.%s" % (n, suffixe, ext)
+            if not os.path.isfile(os.path.join(SITE, rel)):
+                continue
             titre = t.find('class="podcast-title"')
             lib = "Podcast du chapitre"
             if titre > -1:
-                m = re.search(r'class="podcast-title"[^>]*>(.*?)</', t[titre - 40:titre + 400], re.S)
+                m = re.search(r'class="podcast-title"[^>]*>(.*?)</',
+                              t[titre - 40:titre + 400], re.S)
                 if m:
-                    lib = texte(m.group(1)) or lib
+                    lib = texte_langue(m.group(1), langue or "fr") or lib
             pistes.append({"type": "podcast", "titre": lib, "src": rel,
                            "duree": duree_reelle(os.path.join(SITE, rel)) or "",
-                           "present": True})
+                           "present": True, "langue": langue})
             break
 
     # --- les capsules, dans l'ordre où leurs conteneurs apparaissent

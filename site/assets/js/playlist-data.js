@@ -16,6 +16,22 @@ window.RDC_PLAYLIST = {
   "page": "chapitres/01-cadrage.html",
   "pistes": [
    {
+    "type": "podcast",
+    "titre": "Podcast — Cadrer avant de produire",
+    "src": "assets/media/podcasts/chapitre-1-podcast.fr.mp3",
+    "duree": "1:53",
+    "present": true,
+    "langue": "fr"
+   },
+   {
+    "type": "podcast",
+    "titre": "Podcast — Cadrer avant de produire",
+    "src": "assets/media/podcasts/chapitre-1-podcast.en.mp3",
+    "duree": "1:49",
+    "present": true,
+    "langue": "en"
+   },
+   {
     "type": "ouverture",
     "titre": "Ce que ce chapitre vous demande de décider",
     "src": "assets/media/voix/chapitre-1-capsule-fr.mp3",
