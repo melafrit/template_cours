@@ -78,6 +78,29 @@ template_cours/
 
 ---
 
+## 0 bis. Amorcer la mécanique avant d'écrire
+
+Le squelette d'un cours ne s'écrit pas à la main :
+
+```bash
+cp cours.exemple.json cours.json     # puis remplissez-le
+python3 nouveau_cours.py --essai     # ce qu'il ferait, sans rien écrire
+python3 nouveau_cours.py             # crée le cours dans le dossier « sortie »
+```
+
+Le script produit l'arborescence, la charte, la navigation, les squelettes de
+chapitres et les outils. **Il ne rédige aucun contenu** — c'est le rôle des
+phases qui suivent.
+
+Il **retire aussi le contenu de démonstration** : capsules, schémas, polycopiés,
+QCM et glossaire du cours-démo ne partent pas dans votre cours. À leur place,
+des squelettes qui montrent la forme. Le chapitre vitrine, lui, est conservé
+sous `site/chapitres/_modele.html` : c'est le seul endroit où les composants
+sont appelés pour de vrai. **On copie depuis là.**
+
+Vos documents de référence vont dans `sources/`, hors dépôt. C'est eux que
+Claude lit avant de poser la moindre question.
+
 ## 1. La boucle « questions une à une » du prompt maître
 
 C'est le point le plus important du guide, parce que c'est là que tout se joue. Le prompt maître `01_cadrage_maitre.md` ne fonctionne **pas** comme une commande qu'on lance et qu'on oublie : c'est un **dialogue cadré**.
@@ -239,6 +262,25 @@ Le pipeline se déroule en **quatre phases**. Vous pouvez itérer à l'intérieu
 - **Intégration :** appliquez les correctifs proposés dans les fichiers du site, puis **revérifiez au navigateur** (section 3).
 
 ---
+
+## 2 bis. Le moteur pédagogique à votre disposition
+
+Un chapitre n'est pas qu'un texte. `interactions.js` expose `window.RDCX` :
+
+| Composant | Ce qu'il fait |
+|---|---|
+| `checkpoint` | Point de contrôle : questions à choix, avec explication |
+| `reveal` | Une question posée AVANT la lecture, dont on révèle la réponse |
+| `spotError` | Repérer les affirmations fausses dans un document |
+| `match` | Relier deux colonnes |
+| `branch` | Un scénario à embranchements, avec les conséquences de chaque décision |
+| `hotspots` | Un schéma annoté de points cliquables |
+| `voice` | Une capsule audio, avec sa transcription |
+| `steps` | La lecture par étapes, section par section |
+| `sommaire` | La barre de sommaire collante |
+
+Choisissez selon l'intention, pas selon la nouveauté : un `checkpoint` après
+une notion difficile vaut mieux qu'un `branch` plaqué là où rien ne se décide.
 
 ## 3. La vérification au navigateur (incontournable)
 

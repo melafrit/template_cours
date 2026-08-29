@@ -85,6 +85,59 @@ simple, replie `fr → en → ''`) — voir `navigation.js` / `flashcards.js` :
 function L(x){ return (x && typeof x === 'object') ? (x[lang()] || x.fr || x.en || '') : (x || ''); }
 ```
 
+### 4) INTERFACE DES MOTEURS → `ui-labels.js` et `T('cle')`
+
+Tout ce qu'un moteur fabrique à l'exécution — boutons, états, messages. Ces
+textes n'existent pas dans le HTML : ils ne peuvent donc pas être jumelés.
+
+```js
+// ui-labels.js — la clé existe dans les DEUX blocs
+'etapes.suivante': 'Étape suivante ›'   // fr
+'etapes.suivante': 'Next step ›'        // en
+
+// le moteur
+html += '<button>' + T('etapes.suivante') + '</button>';
+```
+
+**Ne jamais écrire un libellé en dur dans un moteur.** Il ne se traduira pas, et
+rien ne le signalera. `outils/verifier_i18n.py` contrôle la parité des clés et
+les clés appelées sans être définies.
+
+Attention au cas discret : un libellé écrit **une seule fois** au montage — le
+bouton « Tout afficher », le titre d'un en-tête pliable — reste dans la langue
+du chargement même si le moteur écoute `tpl:langchange`. Il faut le repeindre
+explicitement dans la fonction de rendu. Aucun vérificateur ne l'attrape : cela
+se voit en basculant la langue et en regardant.
+
+### 5) CONTENU DES COMPOSANTS D'UNE PAGE → l'objet `TEXTES`
+
+Les composants `RDCX` reçoivent des chaînes, pas des `{fr, en}`. Le bilingue se
+règle dans la page :
+
+```js
+var TEXTES = { fr: { … }, en: { … } };
+function monter() {
+  var X = TEXTES[TPLI18N.lang()] || TEXTES.fr;
+  CONTENEURS.forEach(function (id) { document.getElementById(id).innerHTML = ''; });
+  RDCX.checkpoint('check-1-1', { titre: X.checkTitre, … });
+}
+monter();
+document.addEventListener('tpl:langchange', monter);
+```
+
+Vider les conteneurs est indispensable : sans cela, changer de langue empile
+deux exemplaires du même exercice. Modèle complet : `site/chapitres/_modele.html`.
+
+### 6) LES MÉDIAS → un fichier par langue
+
+```
+chapitre-<N>-capsule-<langue>.mp3
+chapitre-<N>-schema-1-<slug>.<langue>.webp
+chapitre-<N>-polycopie.<langue>.pdf
+```
+
+Sans le suffixe, l'auditeur anglophone entend du français.
+
 ## API publique `window.TPLI18N`
 
 Seul point d'entrée. **N'écrivez jamais `data-lang` ni `tpl-lang` à la main.**

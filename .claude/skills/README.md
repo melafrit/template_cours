@@ -24,6 +24,15 @@ de chaque skill et **renvoient** aux docs du dépôt plutôt que de les duplique
 | **`cours-glossaire-flashcards-activites`** | Infobulles de glossaire, flashcards, `TPLActivities`. | On ajoute un **glossaire**, des **flashcards**, des activités interactives (*glossary tooltips, flashcards, activities*). |
 | **`cours-supports-imprimables`** | Générateurs Python des supports papier (polycopiés + QCM papier). | On produit des **supports imprimables**, polycopiés, PDF/DOCX, QCM papier (*printable handouts, polycopié*). |
 
+## Ce que les skills supposent connu
+
+Elles ont été écrites avant le moteur pédagogique et la chaîne audio. Deux
+fichiers font désormais autorité et priment en cas de contradiction :
+
+- **`CLAUDE.md`** — le contrat de travail, lu à chaque ouverture.
+- **`docs/ARCHITECTURE.md`** §2.2 bis — les moteurs `RDCX`, `ui-labels`,
+  `playlist` et les palettes.
+
 ## Point d'entrée
 
 Commencez par demander à Claude de **« créer un cours »** (ou *« create a course »*) : cela active

@@ -158,6 +158,22 @@ Pour **chaque** chapitre :
 
 ---
 
+## Phase 10 bis — Les vérificateurs
+
+- [ ] `python3 outils/verifier_i18n.py` passe — clés appariées, blocs `data-tr`
+      équilibrés, titres cohérents entre le menu et les pages
+- [ ] `python3 outils/verifier_contraste.py` passe — palettes lisibles en clair
+      **et** en sombre
+- [ ] Le site tourne : `python3 demarrer.py`, sans erreur en console
+- [ ] Aucun média référencé n'est manquant (les composants affichent leur état,
+      ce qui est différent d'un lien mort)
+- [ ] La bascule 🌐 traduit **tout** : contenu, barre d'étapes, en-tête pliable,
+      capsule audio, schéma, polycopié — puis revient
+
+> ⚠️ Si un changement JavaScript ne semble pas prendre, **changez de port**
+> plutôt que de recharger : certains navigateurs gardent le script en cache
+> malgré l'en-tête `no-store` du lanceur.
+
 ## Phase 11 — Accessibilité
 
 - [ ] Panneau de réglages présent et **persistant**

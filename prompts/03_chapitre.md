@@ -167,6 +167,40 @@
 
 ---
 
+## Le moteur pédagogique — à utiliser, pas à réinventer
+
+Un chapitre du template n'est pas qu'un texte. `window.RDCX` fournit sept
+composants, tous appelés pour de vrai dans `site/chapitres/_modele.html` —
+**copiez depuis là plutôt que d'écrire de mémoire.**
+
+| Composant | Quand l'employer |
+|---|---|
+| `reveal` | Poser une question AVANT la lecture, pour créer l'attente |
+| `checkpoint` | Vérifier après une notion difficile |
+| `spotError` | Faire relire un document d'un œil critique |
+| `match` | Relier deux séries de notions |
+| `branch` | Montrer les conséquences d'une décision |
+| `hotspots` | Annoter un schéma de points cliquables |
+| `voice` | Une capsule d'ouverture qui situe le chapitre |
+
+**Choisissez selon l'intention, pas selon la nouveauté.** Un `checkpoint` après
+une notion difficile vaut mieux qu'un `branch` plaqué là où rien ne se décide.
+Deux à quatre composants par chapitre suffisent : la vitrine les a tous parce
+qu'elle les démontre, pas parce que c'est souhaitable.
+
+Ajoutez aussi, en fin de bloc de script :
+
+```js
+RDCX.steps({ chapitre: '{{NUMERO_DU_CHAPITRE}}' });   // lecture par étapes
+RDCX.sommaire({ titre: T('sommaire.titre') });        // barre de sommaire
+```
+
+`steps` s'appuie sur les attributs `data-step`, `data-step-titre` et
+`data-step-duree` posés sur chaque `<section class="content-section">`.
+
+**Tout le contenu des composants passe par un objet `TEXTES = { fr, en }`** et
+une fonction `monter()` rejouée sur `tpl:langchange`. Voir `docs/I18N.md` §3 bis.
+
 ## Conseils
 
 - **Une langue à la fois pour la relecture** : générez d'abord le chapitre, puis vérifiez la version FR seule (bascule 🌐) avant de relire l'EN — les erreurs de traduction se voient mieux séparément.
