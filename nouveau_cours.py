@@ -28,6 +28,7 @@ appelés pour de vrai, avec le motif bilingue à recopier.
 
 import argparse
 import io
+import glob
 import json
 import os
 import re
@@ -52,6 +53,7 @@ BLOCS = {
     "glossaire":           ["site/glossaire.html", "site/assets/js/glossaire-data.js",
                             "site/assets/js/glossaire-tooltip.js"],
     "flashcards":          ["site/assets/js/flashcards.js", "site/assets/js/flashcards-data.js"],
+    "activites":           ["site/activites.html"],
     "polycopies":          ["site/assets/polycopies", "tools/generate_polycopies.py"],
     "atelier":             ["site/atelier", "site/atelier.html"],
     "documents_formateur": ["docs/generate_cahier_de_texte.py",
@@ -62,6 +64,12 @@ BLOCS = {
 
 # Contenu de DEMONSTRATION, retire de tout cours cree — sauf --avec-demo.
 # Le squelette de chapitre etait deja vide ; ces fichiers-la ne l'etaient pas.
+# Pages propres au TEMPLATE, retirees de tout cours cree : elles parlent du
+# template lui-meme, pas de la matiere enseignee.
+DEMO_FICHIERS = [
+    "site/about.html",
+]
+
 DEMO_DOSSIERS = [
     "site/assets/media/voix",
     "site/assets/media/schemas",
@@ -199,6 +207,105 @@ SQUELETTE_POLYCOPIES = {
 }
 
 
+def recoudre_liens(sortie, c):
+    """Fait pointer tous les liens de chapitre vers les chapitres DECLARES.
+
+    Sans cela, l'accueil, le sommaire, l'atelier et la pagination des squelettes
+    menaient encore aux chapitres de la demonstration : des liens morts sur les
+    pages les plus visitees.
+    """
+    chaps = c["chapitres"]
+    premier = chaps[0]["fichier"]
+    recousus = 0
+
+    # --- repli statique des boutons « commencer »
+    for rel in ("site/index.html", "site/cours.html", "site/atelier.html"):
+        p = os.path.join(sortie, rel.replace("/", os.sep))
+        if not os.path.isfile(p):
+            continue
+        s = io.open(p, encoding="utf-8").read()
+        neuf = re.sub(r'(data-chapitre="1" href=")chapitres/\d\d-[a-z0-9-]+\.html"',
+                      r'\1chapitres/%s"' % premier, s)
+        if neuf != s:
+            ecrire(p, neuf)
+            recousus += 1
+
+    # --- pagination des squelettes : elle suit l'ordre declare
+    for i, ch in enumerate(chaps):
+        p = os.path.join(sortie, "site", "chapitres", ch["fichier"])
+        if not os.path.isfile(p):
+            continue
+        s = io.open(p, encoding="utf-8").read()
+        prec = chaps[i - 1]["fichier"] if i > 0 else "../index.html"
+        suiv = chaps[i + 1]["fichier"] if i + 1 < len(chaps) else "../QCM/index.html"
+        s = re.sub(r'(<a href=")\d\d-[a-z0-9-]+\.html(" class="chapter-nav-btn">'
+                   r'<span data-tr="fr">← Précédent)', r'\1%s\2' % prec, s)
+        s = re.sub(r'(<a href=")[^"]*(" class="chapter-nav-btn"><span data-tr="fr">Suivant)',
+                   r'\1%s\2' % suiv, s)
+        s = re.sub(r'(<a href=")[^"]*(" class="pagination-link prev")',
+                   r'\1%s\2' % prec, s)
+        s = re.sub(r'(<a href=")[^"]*(" class="pagination-link next")',
+                   r'\1%s\2' % suiv, s)
+        ecrire(p, s)
+        recousus += 1
+
+    # --- le modele : sa pagination ne mene plus nulle part, on la ramene a l'accueil
+    p = os.path.join(sortie, "site", "chapitres", "_modele.html")
+    if os.path.isfile(p):
+        s = io.open(p, encoding="utf-8").read()
+        s = re.sub(r'(<a href=")\d\d-[a-z0-9-]+\.html(")', r'\1../index.html\2', s)
+        ecrire(p, s)
+        recousus += 1
+
+    return recousus
+
+
+def regenerer_sommaire(sortie, c):
+    """Reecrit la grille de chapitres de cours.html depuis les chapitres declares.
+
+    Ces cartes portent une prose propre a chaque chapitre : gardees telles
+    quelles, un cours de droit aurait annonce « Cadrer son cours » et renvoye
+    vers une page inexistante.
+    """
+    F = os.path.join(sortie, "site", "cours.html")
+    if not os.path.isfile(F):
+        return 0
+    t = io.open(F, encoding="utf-8").read()
+    m = re.search(r'(<div class="concept-grid">)(.*?)(\n\s*</div>\s*\n\s*</section>)',
+                  t, re.S)
+    if not m:
+        return 0
+
+    bi = "en" in (c.get("langues") or [])
+    cartes = []
+    for ch in c["chapitres"]:
+        tfr = ch["titre"]["fr"]
+        ten = ch["titre"].get("en", tfr) if bi else tfr
+        cartes.append(
+            '\n          <div class="concept-card">\n'
+            '            <div class="concept-card-header">\n'
+            '              <span class="concept-card-emoji">%s</span>\n'
+            '              <span class="concept-card-title">'
+            '<span data-tr="fr">%s · %s</span>'
+            '<span data-tr="en">%s · %s</span></span>\n'
+            '            </div>\n'
+            '            <p><span data-tr="fr">A rediger : deux lignes qui disent ce que '
+            'ce chapitre permet de faire.</span>'
+            '<span data-tr="en">To be written: two lines saying what this chapter '
+            'enables.</span></p>\n'
+            '            <p style="margin-top:.75rem">'
+            '<a class="btn btn-primary" href="chapitres/%s">'
+            '<span data-tr="fr">Ouvrir le chapitre %s &rarr;</span>'
+            '<span data-tr="en">Open chapter %s &rarr;</span></a></p>\n'
+            '          </div>\n'
+            % (ch.get("ico", "\U0001f4d8"), ch.get("num", ""), tfr,
+               ch.get("num", ""), ten, ch["fichier"], ch.get("num", ""), ch.get("num", "")))
+
+    t = t[:m.start(2)] + "".join(cartes) + t[m.end(2):]
+    ecrire(F, t)
+    return len(cartes)
+
+
 def purger_demo(sortie, c):
     """Retire le contenu de demonstration et remet des squelettes a la place.
 
@@ -216,6 +323,19 @@ def purger_demo(sortie, c):
             if os.path.isfile(p):
                 os.remove(p)
                 retires += 1
+
+    for rel in DEMO_FICHIERS:
+        p = os.path.join(sortie, rel.replace("/", os.sep))
+        if os.path.isfile(p):
+            os.remove(p)
+            retires += 1
+    # et le lien qui y menait, sinon il resterait mort dans chaque pied de page
+    for f in glob.glob(os.path.join(sortie, "site", "**", "*.html"), recursive=True):
+        s = io.open(f, encoding="utf-8").read()
+        if "about.html" not in s:
+            continue
+        s = re.sub(r' · <a href="[^"]*about\.html">.*?</a>', "", s, flags=re.S)
+        io.open(f, "w", encoding="utf-8", newline="\n").write(s)
 
     js = os.path.join(sortie, "site", "assets", "js")
     qcm = os.path.join(sortie, "site", "QCM")
@@ -360,6 +480,8 @@ def course_data(c):
         res.append(("📝", "QCM/index.html", "QCM d'évaluation", "Assessment quiz"))
     if b.get("polycopies", True):
         res.append(("📄", "polycopies.html", "Polycopiés", "Handouts"))
+    if b.get("activites", True):
+        res.append(("🧩", "activites.html", "Activités interactives", "Interactive activities"))
     if b.get("atelier", True):
         res.append(("🧵", "atelier.html", "Atelier fil rouge", "Capstone workshop"))
     for ico, href, fr, en in res:
@@ -690,6 +812,15 @@ def main():
         r, s = purger_demo(sortie, c)
         print("  contenu de demonstration retire : %d media(s), %d fichier(s) "
               "remis a l'etat de squelette" % (r, s))
+
+    # --- les liens de chapitre : ils pointaient vers la demonstration
+    r = recoudre_liens(sortie, c)
+    print("  %d fichier(s) recousu(s) sur les chapitres declares" % r)
+
+    # --- le sommaire : ses cartes portent la prose du cours de demonstration
+    k = regenerer_sommaire(sortie, c)
+    if k:
+        print("  cours.html : %d carte(s) de chapitre regeneree(s)" % k)
 
     # --- sources et bibliographie
     src_dir = os.path.join(sortie, "sources")

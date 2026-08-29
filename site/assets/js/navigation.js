@@ -102,6 +102,18 @@
     });
   }
 
+  /* Les boutons « commencer le chapitre N » etaient ecrits en dur sur le
+     fichier du cours de demonstration. Dans un cours cree, ils menaient a une
+     page inexistante — et un bouton d'appel a l'action qui echoue est le pire
+     endroit ou laisser un lien mort. Ils portent desormais data-chapitre, et
+     leur href vient des donnees. */
+  document.querySelectorAll('a[data-chapitre]').forEach(function (a) {
+    var i = parseInt(a.getAttribute('data-chapitre'), 10) - 1;
+    var ch = (COURSE.chapters || [])[i];
+    if (ch) a.setAttribute('href', base + 'chapitres/' + ch.file);
+    else a.style.display = 'none';
+  });
+
   // -- Thème clair/sombre --
   var THEME_KEY = 'tpl-theme';
   var root = document.documentElement;

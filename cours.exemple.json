@@ -59,6 +59,7 @@
   "blocs": {
     "qcm": true,
     "flashcards": true,
+    "activites": true,
     "glossaire": true,
     "polycopies": true,
     "atelier": true,
