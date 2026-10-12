@@ -2,7 +2,7 @@
 
 > **Quand l'utiliser :** au tout début, avant d'écrire le moindre prompt à Claude. C'est la carte du dossier `prompts/`. Lisez-la une fois, puis revenez-y comme aiguillage entre deux étapes.
 
-Ce dossier contient **13 prompts** qui, enchaînés dans l'ordre, permettent de fabriquer **avec Claude** un site de cours pédagogique complet, hors-ligne et bilingue (FR/EN), à partir du template de ce dépôt.
+Ce dossier contient **14 prompts** qui, enchaînés dans l'ordre, permettent de fabriquer **avec Claude** un site de cours pédagogique complet, hors-ligne et bilingue (FR/EN), à partir du template de ce dépôt.
 
 ---
 
@@ -65,6 +65,7 @@ Suivez l'ordre. Vous pouvez itérer à l'intérieur d'une phase (régénérer un
 | **03** | `03_fil_rouge.md` | Concevoir le scénario continu qui relie tous les chapitres. | Fiche de cadrage, plan, `{{FIL_ROUGE}}` | Scénario fil rouge + jalons par chapitre |
 | **04** | `04_chapitre.md` | Rédiger un chapitre **bilingue** prêt à intégrer au site. | Plan, `{{DOCUMENTS_DE_REFERENCE}}`, n° de chapitre | Chapitre HTML (FR/EN) : accroche, objectifs, contenu, exemples, « à retenir » |
 | **05** | `05_glossaire.md` | Produire le glossaire bilingue auto-surligné. | Chapitres rédigés, fiche de cadrage | Termes + définitions + exemples (FR/EN), prêts pour info-bulles |
+| **06 b** | `06b_glossaire_ou_en_parle_t_on.md` | Relier chaque terme du glossaire à tous les endroits du cours qui l'emploient. | Glossaire, pages du cours publiées | Badge « Où en parle-t-on ? » et fenêtre des endroits, liens précis, terme surligné à l'arrivée |
 | **06** | `06_fiches_resume.md` | Synthétiser chaque chapitre en fiche « à retenir ». | Chapitres rédigés | Fiches-résumés structurées (FR/EN) |
 | **07** | `07_qcm_cbm.md` | Générer la banque de questions QCM **notation CBM**. | Chapitres, objectifs, `{{NB_CHAPITRES}}` | Banque QCM (réponse unique, positions équilibrées, distracteurs débiaisés) |
 | **08** | `08_flashcards.md` | Créer les flashcards recto/verso par chapitre. | Chapitres, glossaire | Jeu de flashcards (FR/EN) |
