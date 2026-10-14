@@ -35,6 +35,14 @@ RACINE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = os.path.join(RACINE, "site")
 LABELS = os.path.join(SITE, "assets", "js", "ui-labels.js")
 
+# La console Windows n'est pas en UTF-8 par défaut : sans cela, les accents des
+# messages sortent en charabia. Sans effet sur macOS et Linux.
+for flux in (sys.stdout, sys.stderr):
+    try:
+        flux.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+
 
 def cles_du_bloc(source, langue):
     """Les clés déclarées dans le bloc fr: {...} ou en: {...}."""

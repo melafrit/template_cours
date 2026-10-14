@@ -30,6 +30,13 @@ vérifiables hors ligne.
 Les cibles construites en JavaScript ne sont pas visibles ici : les boutons
 `data-chapitre`, par exemple, reçoivent leur `href` à l'exécution. C'est
 volontaire, et c'est justement ce qui les met à l'abri.
+
+LES RENVOIS « POUR APPROFONDIR » des quiz sont écrits dans le JavaScript des
+pages, en paires ["libellé", "adresse"] : aucun href ne les porte. Ils sont
+contrôlés à part, fichier ET ancre — un renvoi vers le bon chapitre mais la
+mauvaise section ne se voit qu'en cliquant, et l'étudiant qui clique arrive en
+haut d'une page sans savoir où lire. Les adresses externes (https://) ont été
+ouvertes à leur ajout : elles sont comptées, pas revisitées.
 """
 
 import argparse
@@ -41,11 +48,51 @@ from urllib.parse import unquote
 
 RACINE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# La console Windows n'est pas en UTF-8 par défaut : sans cela, les accents des
+# messages sortent en charabia. Sans effet sur macOS et Linux.
+for flux in (sys.stdout, sys.stderr):
+    try:
+        flux.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+
 # href="..." et src="...", en simples ou doubles guillemets.
 LIEN = re.compile(r'(?:href|src)\s*=\s*(["\'])(.*?)\1', re.I | re.S)
 
 # Ce qui ne désigne pas un fichier du site.
 IGNORE = re.compile(r'^\s*(?:https?:|//|mailto:|tel:|javascript:|data:|#|\{)', re.I)
+
+# Une paire ["libellé", "adresse"] écrite en JavaScript ; seules comptent celles
+# dont l'adresse a la forme d'un renvoi — les mêmes formes que le moteur accepte
+# (lienExplication, interactions.js). Les autres paires de chaînes (appariements,
+# libellés) ne ressemblent pas à une adresse et sont ignorées.
+PAIRE = re.compile(r'\[\s*"(?:[^"\\]|\\.)*"\s*,\s*"((?:[^"\\]|\\.)*)"\s*\]')
+RENVOI_INTERNE = re.compile(r'^(#[\w-]+|(?:\.\.?/)?[\w./-]+\.html(?:#[\w-]+)?)$')
+RENVOI_EXTERNE = re.compile(r'^https://[^\s"\'<>]+$')
+
+
+def renvois_de(page):
+    """(internes, externes) : les adresses des renvois écrits dans le JavaScript d'une page."""
+    t = io.open(page, encoding="utf-8", errors="replace").read()
+    internes, externes = [], []
+    for m in PAIRE.finditer(t):
+        url = m.group(1)
+        if RENVOI_INTERNE.match(url):
+            internes.append(url)
+        elif RENVOI_EXTERNE.match(url):
+            externes.append(url)
+    return internes, externes
+
+
+def renvoi_casse(page, url):
+    """La raison pour laquelle un renvoi interne ne mène nulle part, ou None."""
+    chemin, _, ancre = url.partition("#")
+    cible = os.path.normpath(os.path.join(os.path.dirname(page), unquote(chemin))) if chemin else page
+    if not os.path.isfile(cible):
+        return "fichier absent"
+    if ancre and ('id="%s"' % ancre) not in io.open(cible, encoding="utf-8", errors="replace").read():
+        return "ancre absente"
+    return None
 
 
 def liens_de(page, site):
@@ -87,14 +134,24 @@ def main():
     print("  %d page(s) analysée(s) dans %s" % (len(pages), os.path.relpath(site, RACINE)))
 
     morts = []
-    total = 0
+    total, internes, externes = 0, 0, 0
     for p in sorted(pages):
         for cible, reel in liens_de(p, site):
             total += 1
             if not os.path.exists(reel):
                 morts.append((os.path.relpath(p, site), cible))
+        dedans, dehors = renvois_de(p)
+        internes += len(dedans)
+        externes += len(dehors)
+        for url in dedans:
+            raison = renvoi_casse(p, url)
+            if raison:
+                morts.append((os.path.relpath(p, site), "%s  (renvoi « Pour approfondir » : %s)"
+                              % (url, raison)))
 
     print("  %d lien(s) local(aux) contrôlé(s)" % total)
+    print("  %d renvoi(s) « Pour approfondir » contrôlé(s), fichier et ancre ; %d externe(s)"
+          % (internes, externes))
 
     if not morts:
         print("\nBilan\n-----\n  Aucun lien mort.")

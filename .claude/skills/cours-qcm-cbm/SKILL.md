@@ -90,8 +90,12 @@ Issu de `prompts/07_qcm_banque.md` — à respecter pour une banque équitable :
   réponses ». Pas d'indice grammatical (accord, article, ponctuation) ni de mot de
   l'énoncé répété uniquement dans la bonne réponse.
 - **Bilingue strict** : versions FR et EN équivalentes (même bonne réponse, même ordre
-  A/B/C/D, même sens). Explications formatives : pourquoi la bonne réponse, et brièvement
-  pourquoi chaque distracteur est faux.
+  A/B/C/D, même sens).
+- **Chaque proposition expliquée** (exigence de l'auteur) : pourquoi la bonne réponse est
+  juste, **pourquoi chacune des autres ne l'est pas** — l'idée fausse qui la rend
+  tentante —, et **deux à quatre renvois** vers l'endroit exact du cours qui répond.
+  Dans les points de contrôle, le moteur affiche `pourquoi` et `approfondir` ; dans
+  `corrections.js`, l'explication les porte en prose. Voir `prompts/15_explications_quiz.md`.
 
 ## 6. ⚠️ Mise en garde SIGNATURE (figer la banque pendant un examen)
 

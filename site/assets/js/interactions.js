@@ -103,9 +103,50 @@
 
   var LETTRES = ['A', 'B', 'C', 'D', 'E', 'F'];
 
+  // Explication complète d'une question à choix. Une explication qui ne dit que
+  // pourquoi la bonne réponse est juste laisse l'étudiant seul avec son erreur :
+  // c'est pourtant la proposition qu'il a choisie qu'il faut démonter.
+  // q.pourquoi suit l'ordre des propositions : pourquoi chacune des autres ne
+  // convient pas (la case de la bonne réponse reste vide). q.approfondir :
+  // [[libellé, adresse], …], deux à quatre renvois vers l'endroit exact du cours
+  // qui répond. Une adresse du cours (#ancre ou page .html relative) s'ouvre dans
+  // le même onglet ; une adresse externe (https://) dans un nouvel onglet,
+  // signalé aux lecteurs d'écran. Toute autre forme d'adresse est écartée.
+  function lienExplication(l) {
+    var t = l && (l.t || l[0]), u = l && (l.u || l[1]);
+    if (!t || !u) return '';
+    if (/^https:\/\/[^\s"'<>]+$/.test(u)) {
+      return '<a href="' + esc(u) + '" target="_blank" rel="noopener noreferrer">' + rich(t)
+        + '<span class="rdcx-ext" aria-hidden="true">↗</span><span class="sr-only"> '
+        + esc(T('lien.nouvelOnglet')) + '</span></a>';
+    }
+    if (/^(#[\w-]+|(\.\.\/|\.\/)?[\w.\/-]+\.html(#[\w-]+)?)$/.test(u)) return '<a href="' + esc(u) + '">' + rich(t) + '</a>';
+    return '';
+  }
+  function autresPropositions(q, choisi) {
+    var p = q.pourquoi || [], items = '';
+    (q.options || []).forEach(function (o, k) {
+      if (k === q.correct || !p[k]) return;
+      var lettre = esc(LETTRES[k] || (k + 1));
+      items += '<li' + (k === choisi ? ' class="is-choisi"' : '') + '>'
+        + '<span class="rdcx-fb-lettre" aria-hidden="true">' + lettre + '</span>'
+        + '<span><span class="sr-only">' + esc(T('controle.proposition')) + ' ' + lettre + esc(T('controle.deuxPoints')) + '</span>' + rich(p[k])
+        + (k === choisi ? ' <strong class="rdcx-fb-vous">' + esc(T('controle.votreChoix')) + '</strong>' : '') + '</span></li>';
+    });
+    return items ? '<p class="rdcx-fb-titre">' + esc(T('controle.pourquoiPas')) + '</p><ul class="rdcx-fb-autres">' + items + '</ul>' : '';
+  }
+  function pourApprofondir(liens) {
+    var out = (liens || []).map(lienExplication).filter(Boolean);
+    return out.length ? '<p class="rdcx-fb-liens"><span class="rdcx-fb-titre">' + esc(T('controle.approfondir')) + '</span> '
+      + out.join('<span class="rdcx-fb-sep" aria-hidden="true"> · </span>') + '</p>' : '';
+  }
+
   /* ----------------------------------------------------------------
      1. Point de contrôle de fin de section
-        cfg = { titre, questions:[ { q, options:[…], correct, explication } ] }
+        cfg = { titre, questions:[ { q, options:[…], correct, explication,
+                                     pourquoi:[…], approfondir:[[libellé, adresse], …] } ] }
+        pourquoi et approfondir sont facultatifs (voir autresPropositions,
+        pourApprofondir) — mais attendus : prompts/15_explications_quiz.md.
      ---------------------------------------------------------------- */
   RDCX.checkpoint = function (containerId, cfg) {
     var box = byId(containerId); if (!box) return;
@@ -131,7 +172,7 @@
         + '  <div class="rdcx-opts" role="group" aria-label="' + T('controle.propositions') + '">' + options + '</div>'
         + '  <div class="rdcx-fb" aria-live="polite"></div>'
         + '  <div class="rdcx-actions"><button type="button" class="rdcx-btn rdcx-btn-main rdcx-next" hidden>'
-        + (i === QS.length - 1 ? T('etapes.voirResultat') : 'Question suivante ›') + '</button></div>'
+        + (i === QS.length - 1 ? T('etapes.voirResultat') : T('controle.suivante')) + '</button></div>'
         + '</div>';
 
       var opts = box.querySelectorAll('.rdcx-opt');
@@ -151,8 +192,14 @@
             else if (x === b) x.classList.add('is-wrong');
             x.disabled = true;
           });
-          fb.innerHTML = (ok ? '<span class="rdcx-fb-ok">✅ Exact.</span> ' : '<span class="rdcx-fb-no">❌ Non.</span> ')
-            + rich(q.explication || '');
+          // Avec les raisons de chaque proposition, la lettre de la bonne réponse est
+          // nommée : la liste qui suit parle des autres, par leur lettre.
+          var bonne = q.pourquoi ? ' — ' + esc(T('controle.bonneReponse')) + ' ' + esc(LETTRES[q.correct] || (q.correct + 1)) : '';
+          fb.innerHTML = '<p class="rdcx-fb-why">'
+            + (ok ? '<span class="rdcx-fb-ok">' + esc(T('controle.exact')) + '</span> '
+                  : '<span class="rdcx-fb-no">' + esc(T('controle.non')) + bonne + '.</span> ')
+            + rich(q.explication || '') + '</p>'
+            + autresPropositions(q, k) + pourApprofondir(q.approfondir);
           fb.classList.add('is-shown');
           next.hidden = false;
           // Dernière question répondue : le parcours par étapes (RDCX.steps) est prévenu.
@@ -172,14 +219,14 @@
       var n = sectionNum(box);
       var msg = parfait
         ? T('controle.acquis')
-        : (n ? 'Relisez la section ' + n + ' avant de continuer.' : 'Relisez cette section avant de continuer.');
-      box.innerHTML = head('✅', titre, 'Terminé')
+        : (n ? T('controle.relireSection') + ' ' + n + ' ' + T('controle.avantDeContinuer') : T('controle.relireCette'));
+      box.innerHTML = head('✅', titre, T('controle.termine'))
         + '<div class="rdcx-body">'
         + '  <div class="rdcx-score' + (parfait ? ' is-parfait' : '') + '" tabindex="-1" aria-live="polite">'
         + '    <span class="rdcx-score-n">' + score + ' / ' + QS.length + '</span>'
         + '    <span class="rdcx-score-msg">' + esc(msg) + '</span>'
         + '  </div>'
-        + '  <div class="rdcx-actions"><button type="button" class="rdcx-btn rdcx-restart">↺ Recommencer</button></div>'
+        + '  <div class="rdcx-actions"><button type="button" class="rdcx-btn rdcx-restart">' + T('controle.recommencer') + '</button></div>'
         + '</div>';
       // Un nouveau passage réarme l'émission : le score corrigé remonte au parcours.
       box.querySelector('.rdcx-restart').addEventListener('click', function () { i = 0; score = 0; emis = false; question(true); });

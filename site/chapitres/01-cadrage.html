@@ -290,6 +290,20 @@
                 "on peut décrire l'exercice qui prouverait qu'il est atteint.",
                 "il est formulé en une seule phrase."],
       checkE2: "La deuxième. La vérifiabilité ne tient ni à l'importance de la notion ni à la concision : elle tient à l'existence d'une preuve observable.",
+      /* Pourquoi chaque autre proposition ne convient pas (vide pour la bonne
+         réponse), et où approfondir : prompts/15_explications_quiz.md. */
+      checkP1: ["Un intitulé de diplôme ne décrit personne : il ne dit ni les prérequis réellement acquis, ni le temps disponible, ni les contraintes matérielles. Aucune décision de cadrage n'en sort.",
+                "",
+                "C'est un souhait, pas une description : il vaudrait pour n'importe quel public, et ne dit rien de ce que l'apprenant sait, du temps qu'il a ni de l'écran sur lequel il lit."],
+      checkA1: [["§ 2 — Qui apprend, exactement ?", "#ch1-s2"],
+                ["§ 1 — Pourquoi cadrer avant de produire", "#ch1-s1"],
+                ["Glossaire — public cible", "../glossaire.html"]],
+      checkP2: ["L'importance d'une notion ne dit pas comment constater qu'elle est acquise : « comprendre une notion importante » ne s'observe pas davantage qu'une notion secondaire.",
+                "",
+                "La concision est une qualité de rédaction, pas une preuve : une phrase courte comme « comprendre la notion d'objectif » reste invérifiable."],
+      checkA2: [["§ 3 — Des objectifs qu'on peut vérifier", "#ch1-s3"],
+                ["Glossaire — objectif pédagogique", "../glossaire.html"],
+                ["Wikipédia — Taxonomie de Bloom : des verbes d'action pour écrire un objectif", "https://fr.wikipedia.org/wiki/Taxonomie_de_Bloom"]],
 
       matchConsigne: "Reliez chaque formulation au jugement qui lui convient. Cliquez à gauche, puis à droite.",
       matchG: "Formulation d'objectif",
@@ -361,6 +375,18 @@
                 "you can describe the exercise that would prove it reached.",
                 "it is written in a single sentence."],
       checkE2: "The second. Verifiability rests neither on the importance of the notion nor on brevity: it rests on the existence of observable proof.",
+      checkP1: ["A degree title describes nobody: it gives neither the prerequisites actually acquired, nor the time available, nor the practical constraints. No scoping decision can come out of it.",
+                "",
+                "That is a wish, not a description: it would fit any audience, and says nothing about what the learner knows, how much time they have or which screen they read on."],
+      checkA1: [["§ 2 — Who is learning, exactly?", "#ch1-s2"],
+                ["§ 1 — Why scope before producing", "#ch1-s1"],
+                ["Glossary — target audience", "../glossaire.html"]],
+      checkP2: ["How important a notion is says nothing about how to observe that it has been acquired: “understanding an important notion” is no more observable than a minor one.",
+                "",
+                "Brevity is a writing quality, not a proof: a short sentence such as “understand the notion of an objective” remains impossible to verify."],
+      checkA2: [["§ 3 — Objectives you can verify", "#ch1-s3"],
+                ["Glossary — learning objective", "../glossaire.html"],
+                ["Wikipedia — Bloom's taxonomy: action verbs for writing objectives", "https://en.wikipedia.org/wiki/Bloom%27s_taxonomy"]],
 
       matchConsigne: "Match each wording with the judgement that fits. Click on the left, then on the right.",
       matchG: "Objective wording",
@@ -443,8 +469,10 @@
     RDCX.checkpoint('check-1-1', {
       titre: X.checkTitre,
       questions: [
-        { q: X.checkQ1, options: X.checkO1, correct: 1, explication: X.checkE1 },
-        { q: X.checkQ2, options: X.checkO2, correct: 1, explication: X.checkE2 }
+        { q: X.checkQ1, options: X.checkO1, correct: 1, explication: X.checkE1,
+          pourquoi: X.checkP1, approfondir: X.checkA1 },
+        { q: X.checkQ2, options: X.checkO2, correct: 1, explication: X.checkE2,
+          pourquoi: X.checkP2, approfondir: X.checkA2 }
       ]
     });
 

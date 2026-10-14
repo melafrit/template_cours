@@ -28,6 +28,14 @@ RACINE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PALETTES = os.path.join(RACINE, "site", "assets", "css", "palettes.css")
 MAIN = os.path.join(RACINE, "site", "assets", "css", "main.css")
 
+# La console Windows n'est pas en UTF-8 par défaut : sans cela, les accents des
+# messages sortent en charabia. Sans effet sur macOS et Linux.
+for flux in (sys.stdout, sys.stderr):
+    try:
+        flux.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+
 
 # ---------------------------------------------------------------- couleurs
 def rvb(c):

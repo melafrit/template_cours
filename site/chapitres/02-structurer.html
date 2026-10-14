@@ -215,6 +215,16 @@
       checkQ2: "Une séquence de cinq minutes est du micro-apprentissage lorsque…",
       checkO2: ["elle dure moins de dix minutes.", "elle se suffit à elle-même : l'apprenant qui s'arrête là en ressort avec quelque chose d'utilisable.", "elle se lit sur un téléphone."],
       checkE2: "La deuxième. La durée et le support ne font pas le micro-apprentissage : c'est l'autonomie de la séquence. Un chapitre coupé en tranches de cinq minutes reste un chapitre coupé.",
+      checkP1: ["On écrit volontiers la question : on sait pourquoi on enseigne une notion. Elle compte, mais c'est rarement elle qu'on oublie.",
+                "",
+                "Le contenu est la partie qu'un auteur maîtrise le mieux : c'est celle qu'on écrit en premier, pas celle qui manque."],
+      checkA1: [["§ 1 — Du syllabus aux séquences", "#ch2-s1"],
+                ["Chapitre 1, § 3 — Des objectifs qu'on peut vérifier", "01-cadrage.html#ch1-s3"]],
+      checkP2: ["La durée ne suffit pas : une séquence de cinq minutes qui ne se suffit pas à elle-même n'est qu'un chapitre coupé au milieu.",
+                "",
+                "Le support relève du format, que tranche le profil du public ; il ne dit pas si l'apprenant qui s'arrête là repart avec quelque chose d'utilisable."],
+      checkA2: [["§ 2 — Penser en micro-apprentissage", "#ch2-s2"],
+                ["Chapitre 1, § 2 — Qui apprend, exactement ?", "01-cadrage.html#ch1-s2"]],
 
       matchConsigne: "Reliez chaque contrainte de public à la décision de format qu'elle impose.",
       matchG: "Contrainte du public",
@@ -251,6 +261,16 @@
       checkQ2: "A five-minute sequence counts as micro-learning when…",
       checkO2: ["it lasts under ten minutes.", "it stands on its own: a learner who stops there leaves with something usable.", "it can be read on a phone."],
       checkE2: "The second. Neither duration nor device makes micro-learning: it is the autonomy of the sequence. A chapter sliced into five-minute pieces is still a sliced chapter.",
+      checkP1: ["We readily write the question: we know why we teach a notion. It matters, but it is rarely the part we forget.",
+                "",
+                "Content is the part an author masters best: it is the one written first, not the one that goes missing."],
+      checkA1: [["§ 1 — From syllabus to sequences", "#ch2-s1"],
+                ["Chapter 1, § 3 — Objectives you can verify", "01-cadrage.html#ch1-s3"]],
+      checkP2: ["Duration is not enough: a five-minute sequence that does not stand on its own is just a chapter cut in half.",
+                "",
+                "The device is a format question, settled by the audience profile; it does not tell whether a learner who stops there leaves with something usable."],
+      checkA2: [["§ 2 — Thinking in micro-learning", "#ch2-s2"],
+                ["Chapter 1, § 2 — Who is learning, exactly?", "01-cadrage.html#ch1-s2"]],
 
       matchConsigne: "Match each audience constraint with the format decision it imposes.",
       matchG: "Audience constraint",
@@ -300,8 +320,10 @@
     RDCX.checkpoint('check-2-1', {
       titre: X.checkTitre,
       questions: [
-        { q: X.checkQ1, options: X.checkO1, correct: 1, explication: X.checkE1 },
-        { q: X.checkQ2, options: X.checkO2, correct: 1, explication: X.checkE2 }
+        { q: X.checkQ1, options: X.checkO1, correct: 1, explication: X.checkE1,
+          pourquoi: X.checkP1, approfondir: X.checkA1 },
+        { q: X.checkQ2, options: X.checkO2, correct: 1, explication: X.checkE2,
+          pourquoi: X.checkP2, approfondir: X.checkA2 }
       ]
     });
 
