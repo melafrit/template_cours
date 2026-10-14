@@ -67,15 +67,23 @@
     "deploiement": true
   },
 
-  "_audio": "Les capsules audio du cours. « capsule_par_section » en pose une sous chaque titre de section ; « podcast_par_chapitre » réserve un épisode long par chapitre. La génération elle-même passe par outils/generer_audio.py et sa configuration séparée (outils/elevenlabs.json), qui porte votre clé et votre voix — jamais ce fichier-ci.",
+  "_audio": "Les capsules audio du cours. « capsule_par_section » en pose une sous chaque titre de section ; « podcast_par_chapitre » réserve un épisode long par chapitre. La génération passe par outils/generer_audio.py, toujours en Eleven v4 avec l'accent retenu par l'auteur, un témoin écouté avant toute série (prompts/14_capsules_audio.md). Sa configuration séparée, outils/elevenlabs.json, porte votre clé et votre voix — jamais ce fichier-ci — et se recopie telle quelle dans le nouveau cours.",
   "audio": {
     "capsule_ouverture_chapitre": true,
     "capsule_par_section": true,
     "podcast_par_chapitre": false,
-    "_duree_capsule": "Fourchette visée, en secondes. Les seuils de contrôle qualité du générateur sont calibrés là-dessus.",
+    "_duree_capsule": "Fourchette visée, en secondes, pour écrire les scripts. En Eleven v4, le contrôle qualité déduit la fenêtre de chaque piste de ses mots.",
     "duree_capsule_s": [60, 120]
   },
 
-  "_sortie": "Où créer le cours. Chemin relatif à ce dépôt, ou absolu. Le script refuse d'écrire dans un dossier non vide, sauf avec --ecraser.",
+  "_publication": "Où le cours se publie. nouveau_cours.py en tire deploiement/destination.json, versionné avec le cours. Les accès à l'hébergement, eux, viennent de deploiement/config.json, recopié tel quel depuis le template : son éventuel répertoire distant n'est JAMAIS lu, puisqu'il désignerait le dossier d'un autre cours. Un dossier propre à CE cours, jamais une racine d'hébergement ni un dossier à l'intérieur d'un autre cours. Laissez vide si vous ne savez pas encore : le déployeur refusera d'envoyer tant que ce n'est pas renseigné.",
+  "publication": {
+    "repertoire_distant": "",
+    "url": "",
+    "_zones_protegees": "Dossiers du site placés derrière un mot de passe (ex. « correction/ ») : leur contenu ne part qu'une fois la protection en ligne (deploiement/proteger_zones.py).",
+    "zones_protegees": []
+  },
+
+  "_sortie": "Où créer le cours. Chemin relatif à ce dépôt, ou absolu — jamais le template lui-même ni un dossier qui le contient. Le script refuse d'écrire dans un dossier non vide, sauf avec --ecraser.",
   "sortie": "../mon-cours"
 }

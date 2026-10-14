@@ -37,15 +37,49 @@ import sys
 
 RACINE = os.path.dirname(os.path.abspath(__file__))
 CONFIG_DEFAUT = os.path.join(RACINE, "cours.json")
+
+# La console Windows n'est pas en UTF-8 par défaut : sans cela, les accents des
+# messages sortent en charabia. Sans effet sur macOS et Linux.
+for flux in (sys.stdout, sys.stderr):
+    try:
+        flux.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
 MODELE = os.path.join(RACINE, "cours.exemple.json")
 
 PALETTES = ("marine", "emeraude", "prune", "ardoise", "bordeaux")
 
-# Ce qui est copié tel quel dans le nouveau cours.
-COPIER = ["site", "outils", "prompts", "docs", ".claude",
+# Ce qui est copié tel quel dans le nouveau cours. CLAUDE.md suit à part
+# (contrat_du_cours) : ses passages propres au template en sont retirés.
+COPIER = ["site", "outils", "prompts", "docs", ".claude", "deploiement", "tools",
           "demarrer.py", "demarrer.bat", "demarrer.command",
           ".gitattributes", ".gitignore", ".editorconfig",
           "LICENSE", "LICENSE-CONTENT.md"]
+
+# Jamais recopié avec l'arborescence : secrets, carnets d'envoi, sorties
+# régénérables, réglages locaux. Les deux secrets utiles à un nouveau cours
+# suivent à part, octet pour octet et sans être ouverts (SECRETS_LOCAUX).
+NE_PAS_COPIER = shutil.ignore_patterns(
+    "__pycache__", "*.pyc", "_tmp*", "elevenlabs.json", "*.config.json", "config.json",
+    "manifeste.json", "manifeste.json.tmp", "known_hosts", "destination.json", "quarantaine",
+    "acces.json", "acces-zones.json", "Cahier_de_texte*.docx", "out", "settings.local.json")
+
+# Les secrets qui servent à tous les cours de l'auteur — la clé ElevenLabs et sa
+# voix, les accès à l'hébergement — se recopient tels quels dans le nouveau
+# cours, en local : jamais ouverts, jamais affichés, et seulement si le
+# .gitignore du cours les exclut. La destination, elle, est propre à chaque
+# cours : deploiement/destination.json, écrit d'après le bloc « publication ».
+# (chemin, bloc qui le rend utile, motifs du .gitignore qui doivent l'exclure)
+SECRETS_LOCAUX = [
+    ("outils/elevenlabs.json", None, ("**/elevenlabs.json", "outils/elevenlabs.json")),
+    ("deploiement/config.json", "deploiement", ("deploiement/config.json",)),
+]
+
+# Racines d'hébergement : un cours ne s'y publie jamais (voir deploiement/deployer.py).
+RACINES_HEBERGEMENT = ("/", "/www", "/htdocs", "/public_html")
+
+# Les passages du CLAUDE.md propres au template, retirés du contrat d'un cours créé.
+BLOC_GABARIT = re.compile(r"\n?<!-- gabarit:debut -->.*?<!-- gabarit:fin -->\n?", re.S)
 
 # Pages et dossiers retirés quand le bloc correspondant est à false.
 BLOCS = {
@@ -432,6 +466,80 @@ def purger_demo(sortie, c):
     return retires, remplaces
 
 
+def copier_secrets(sortie, c, essai=False):
+    """Recopie en local les secrets communs à tous les cours, sans les ouvrir.
+
+    [(chemin, ce qui a été fait)]. Un secret n'est copié que si le .gitignore du
+    nouveau cours l'exclut : sinon, le premier « git add . » le publierait.
+    """
+    gi = os.path.join(sortie if not essai else RACINE, ".gitignore")
+    regles = set()
+    if os.path.isfile(gi):
+        regles = {l.strip() for l in io.open(gi, encoding="utf-8") if l.strip()}
+    bilan = []
+    for rel, bloc, motifs in SECRETS_LOCAUX:
+        src = os.path.join(RACINE, rel.replace("/", os.sep))
+        if not os.path.isfile(src):
+            bilan.append((rel, "absent du template : à déposer à la main"))
+        elif bloc and not (c.get("blocs") or {}).get(bloc, True):
+            bilan.append((rel, "bloc « %s » désactivé : non copié" % bloc))
+        elif not regles & set(motifs):
+            bilan.append((rel, "NON copié : le .gitignore du cours ne l'exclut pas"))
+        elif essai:
+            bilan.append((rel, "serait copié en local, ignoré par Git"))
+        else:
+            dst = os.path.join(sortie, rel.replace("/", os.sep))
+            os.makedirs(os.path.dirname(dst), exist_ok=True)
+            shutil.copyfile(src, dst)
+            bilan.append((rel, "copié en local, ignoré par Git — contenu non affiché"))
+    return bilan
+
+
+def destination_json(c):
+    """deploiement/destination.json : où ce cours se publie. Sans secret, versionné.
+
+    Le répertoire distant ne vient jamais de deploiement/config.json : recopiée
+    d'un cours à l'autre, cette configuration désigne le dossier du cours
+    précédent, et le premier envoi l'aurait écrasé.
+    """
+    p = c.get("publication") or {}
+    d = {
+        "_lisez_moi": "Où ce cours se publie — écrit par nouveau_cours.py d'après cours.json. "
+                      "Sans secret : versionné avec le cours. Les accès à l'hébergement sont dans "
+                      "deploiement/config.json (local, ignoré par Git). Voir deploiement/LISEZMOI.md.",
+        "cours": c["slug"],
+        "repertoire_distant": str(p.get("repertoire_distant") or "/www/chemin/du-cours"),
+        "url": str(p.get("url") or ""),
+        "zones_protegees": list(p.get("zones_protegees") or []),
+    }
+    return json.dumps(d, ensure_ascii=False, indent=2) + "\n"
+
+
+def contrat_du_cours(c):
+    """Le CLAUDE.md du nouveau cours : celui du template, sans ses passages propres au template.
+
+    Claude le lit à chaque ouverture du dossier : les exigences de l'auteur — dialogue,
+    secrets, Git, audio, quiz, publication — s'y appliquent sans qu'on ait à les rappeler.
+    """
+    t = io.open(os.path.join(RACINE, "CLAUDE.md"), encoding="utf-8").read()
+    t = BLOC_GABARIT.sub("\n", t)
+    entete = ("# %s — contrat de travail\n\n"
+              "Le site du cours « %s » (identifiant `%s`), créé à partir du template de\n"
+              "cours. Ce fichier est lu à chaque ouverture : il dit ce qu'il faut savoir\n"
+              "avant de toucher à quoi que ce soit. La méthode de création, avec ses jalons,\n"
+              "est dans `prompts/PROMPT-Cours-parametrable.md`."
+              % (c["titre"]["fr"], c["titre"]["fr"], c["slug"]))
+    t = re.sub(r"^# .*$", lambda m: entete, t, count=1, flags=re.M)
+    # Les sections retirées laissaient un trou dans la numérotation : on renumérote.
+    rang = [0]
+
+    def renumeroter(m):
+        rang[0] += 1
+        return "## %d. " % rang[0]
+    t = re.sub(r"^## \d+\. ", renumeroter, t, flags=re.M)
+    return re.sub(r"\n{3,}", "\n\n", t)
+
+
 # ---------------------------------------------------------------- lecture
 def charger(chemin):
     if not os.path.isfile(chemin):
@@ -488,6 +596,17 @@ def valider(c):
 
     if not str(c.get("auteur", "")).strip() or c.get("auteur") == "Prénom NOM":
         griefs.append("« auteur » est vide ou resté sur la valeur du modèle.")
+
+    # La destination de publication : facultative à la création, mais jamais une
+    # racine d'hébergement — une purge y effacerait tous les autres cours.
+    distant = str((c.get("publication") or {}).get("repertoire_distant") or "").strip()
+    if distant:
+        norme = "/" + distant.strip("/")
+        if norme in RACINES_HEBERGEMENT or ".." in norme.split("/"):
+            griefs.append("« publication.repertoire_distant » (%s) doit être un dossier propre au "
+                          "cours, pas une racine d'hébergement." % distant)
+        else:
+            c["publication"]["repertoire_distant"] = norme
 
     if griefs:
         print("\nLa configuration ne permet pas de générer le cours :\n")
@@ -618,6 +737,13 @@ def textes_vides(c):
       checkQ2: "Deuxieme question ?",
       checkO2: ["Proposition A.", "Proposition B.", "Proposition C."],
       checkE2: "L'explication de la deuxieme question.",
+      /* Pourquoi chaque autre proposition ne convient pas (vide pour la bonne
+         reponse), et deux a quatre renvois vers l'endroit exact qui repond :
+         prompts/15_explications_quiz.md. */
+      checkP1: ["Pourquoi A ne convient pas — a rediger.", "", "Pourquoi C ne convient pas — a rediger."],
+      checkA1: [["Section 2 de ce chapitre", "#ch1-s2"], ["Section 1 de ce chapitre", "#ch1-s1"]],
+      checkP2: ["Pourquoi A ne convient pas — a rediger.", "", "Pourquoi C ne convient pas — a rediger."],
+      checkA2: [["Section 3 de ce chapitre", "#ch1-s3"], ["Section 1 de ce chapitre", "#ch1-s1"]],
       matchConsigne: "Reliez chaque element a son correspondant.",
       matchG: "Colonne de gauche",
       matchD: "Colonne de droite",
@@ -654,6 +780,10 @@ def textes_vides(c):
       checkQ2: "Second question?",
       checkO2: ["Option A.", "Option B.", "Option C."],
       checkE2: "The explanation for the second question.",
+      checkP1: ["Why A does not fit — to be written.", "", "Why C does not fit — to be written."],
+      checkA1: [["Section 2 of this chapter", "#ch1-s2"], ["Section 1 of this chapter", "#ch1-s1"]],
+      checkP2: ["Why A does not fit — to be written.", "", "Why C does not fit — to be written."],
+      checkA2: [["Section 3 of this chapter", "#ch1-s3"], ["Section 1 of this chapter", "#ch1-s1"]],
       matchConsigne: "Match each item with its counterpart.",
       matchG: "Left column",
       matchD: "Right column",
@@ -788,12 +918,24 @@ def main():
     actifs = [k for k, v in (c.get("blocs") or {}).items() if v]
     print("  blocs     : %s" % (", ".join(sorted(actifs)) or "aucun"))
     print("  sortie    : %s" % sortie)
+    distant = (c.get("publication") or {}).get("repertoire_distant")
+    if (c.get("blocs") or {}).get("deploiement", True):
+        print("  publication : %s" % (distant or "à renseigner (destination.json) avant le premier envoi"))
 
+    # Le template n'est jamais sa propre sortie : y écrire écraserait son site de
+    # démonstration et ses squelettes de référence.
+    s, r = os.path.normcase(sortie), os.path.normcase(RACINE)
+    if s == r or r.startswith(s + os.sep) or s.startswith(r + os.sep):
+        sys.exit("\n  La sortie désigne le template lui-même, un dossier qui le contient ou un "
+                 "dossier qu'il contient : %s\n  Choisissez un dossier à part." % sortie)
     if os.path.isdir(sortie) and os.listdir(sortie) and not args.ecraser:
         sys.exit("\n  Le dossier de sortie n'est pas vide : %s\n"
                  "  Relancez avec --ecraser si c'est voulu." % sortie)
 
     if args.essai:
+        print("\n  Secrets locaux :")
+        for rel, quoi in copier_secrets(sortie, c, essai=True):
+            print("      %-26s %s" % (rel, quoi))
         print("\n  Simulation : rien n'a été écrit.")
         return 0
 
@@ -809,10 +951,14 @@ def main():
         if os.path.isdir(src):
             if os.path.isdir(dst):
                 shutil.rmtree(dst)
-            shutil.copytree(src, dst, ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+            shutil.copytree(src, dst, ignore=NE_PAS_COPIER)
         else:
             shutil.copy2(src, dst)
     print("  arborescence copiée (%d entrées)" % len(COPIER))
+
+    # --- le contrat de travail du cours, lu par Claude à chaque ouverture
+    ecrire(os.path.join(sortie, "CLAUDE.md"), contrat_du_cours(c))
+    print("  CLAUDE.md écrit : les exigences de l'auteur s'appliquent à ce cours")
 
     # --- blocs désactivés
     retires = 0
@@ -891,11 +1037,22 @@ def main():
     if k:
         print("  cours.html : %d carte(s) de chapitre regeneree(s)" % k)
 
-    # --- sources et bibliographie
+    # --- sources et bibliographie : le mode d'emploi et la bibliographie à remplir,
+    #     jamais les documents d'un autre cours, restés sous droits dans sources/
     src_dir = os.path.join(sortie, "sources")
-    if not os.path.isdir(src_dir):
-        shutil.copytree(os.path.join(RACINE, "sources"), src_dir)
+    os.makedirs(src_dir, exist_ok=True)
+    for nom in ("README.md", "bibliographie.md"):
+        if not os.path.isfile(os.path.join(src_dir, nom)):
+            shutil.copy2(os.path.join(RACINE, "sources", nom), os.path.join(src_dir, nom))
     print("  sources/ prêt — déposez-y vos documents de référence")
+
+    # --- la destination de publication et les secrets locaux
+    if os.path.isdir(os.path.join(sortie, "deploiement")):
+        ecrire(os.path.join(sortie, "deploiement", "destination.json"), destination_json(c))
+        print("  deploiement/destination.json écrit (cours « %s »%s)"
+              % (c["slug"], "" if distant else ", répertoire distant à renseigner"))
+    for rel, quoi in copier_secrets(sortie, c):
+        print("  %-26s %s" % (rel, quoi))
 
     # --- mémo de démarrage
     ecrire(os.path.join(sortie, "DEMARRER-ICI.md"), memo(c, sortie))
@@ -905,7 +1062,8 @@ def main():
     print("  1. Déposez vos documents de référence dans sources/")
     print("  2. Complétez sources/bibliographie.md")
     print("  3. Ouvrez le dossier avec Claude Code et demandez « créer le cours » :")
-    print("     la skill lira vos sources et vous posera ses questions de cadrage.")
+    print("     la skill suit prompts/PROMPT-Cours-parametrable.md, lit vos sources et")
+    print("     vous pose ses questions de cadrage, une à une.")
     print("  4. Pour voir le site : python3 demarrer.py")
     return 0
 
@@ -929,13 +1087,37 @@ sur quoi le cours repose.
 ## 2. Faites le cadrage avec Claude
 
 Ouvrez ce dossier avec Claude Code et demandez-lui de **créer le cours**. La
-skill `creer-cours-template` prend la main : elle lit d'abord vos sources, puis
+skill `creer-cours-template` prend la main et suit
+`prompts/PROMPT-Cours-parametrable.md` : elle lit d'abord vos sources, puis
 vous pose ses questions **une à une**, et ne rédige rien tant que le cadrage
 n'est pas validé.
 
 Règle qu'elle applique et qu'il faut connaître : les documents sont la source
 de vérité. Ce qui n'y figure pas est signalé comme lacune, jamais comblé
-d'invention.
+d'invention. Les autres exigences — dialogue, Git, secrets, audio, quiz,
+publication — sont dans `CLAUDE.md`, que Claude lit à chaque ouverture.
+
+## 2 bis. Secrets et publication
+
+- `outils/elevenlabs.json` (clé ElevenLabs et voix) et `deploiement/config.json`
+  (accès à l'hébergement) ont été **recopiés tels quels depuis le template**,
+  s'ils y étaient. Ils restent locaux, ignorés par Git, et ne s'ouvrent pas.
+- `deploiement/destination.json` dit **où ce cours se publie** : identifiant
+  `%s`, répertoire distant à vérifier avant le premier envoi. Le déployeur
+  refuse d'écrire dans le dossier d'un autre cours.
+
+```
+python3 deploiement/deployer.py --essai   # ce qui partirait, garde-fou compris
+```
+
+## 2 ter. Audio
+
+Toutes les pistes se génèrent en **Eleven v4**, avec l'accent retenu par
+l'auteur. Écoutez **un témoin** avant toute série :
+
+```
+python3 outils/generer_audio.py --temoin --limite 1
+```
 
 ## 3. Le contenu de démonstration a été retiré
 
@@ -959,17 +1141,19 @@ composants sont appelés pour de vrai, avec le motif bilingue. Copiez depuis là
 python3 demarrer.py                  # le site, sans cache
 python3 outils/verifier_i18n.py      # bilingue cohérent
 python3 outils/verifier_contraste.py # palettes lisibles en clair et en sombre
+python3 outils/verifier_liens.py     # liens et renvois « Pour approfondir »
 ```
 
 ## Repères
 
 - Titre : %s
+- Identifiant : `%s`
 - Auteur : %s
 - Palette : `%s`
 - Langues : %s
 - Chapitres déclarés : %d
 - Dossier : `%s`
-""" % (c["titre"]["fr"], c["titre"]["fr"], c["auteur"], c["palette"],
+""" % (c["titre"]["fr"], c["slug"], c["titre"]["fr"], c["slug"], c["auteur"], c["palette"],
        " et ".join(c["langues"]), len(c["chapitres"]), sortie)
 
 
