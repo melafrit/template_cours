@@ -25,9 +25,15 @@ CONVENTION DE NOMMAGE
 Le suffixe de langue n'est pas décoratif : une page bilingue doit servir la
 capsule de la langue affichée. Sans lui, l'auditeur anglophone entend du
 français.
+LES FICHES : toutes celles de docs/prompts/ dont le nom commence par
+« Capsules » (Capsules_du_cours_demo.md dans le template, Capsules_chapitres.md
+dans un cours…). Seules les capsules d'ouverture de chapitre, nommées selon la
+convention ci-dessus, sont reportées ici ; une capsule d'un autre genre (schéma,
+TP) se synchronise avec l'outil de sa page.
 """
 
 import argparse
+import glob
 import io
 import json
 import os
@@ -36,14 +42,21 @@ import sys
 
 RACINE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = os.path.join(RACINE, "site")
-FICHE = os.path.join(RACINE, "docs", "prompts", "Capsules_du_cours_demo.md")
+FICHES = os.path.join(RACINE, "docs", "prompts", "Capsules*.md")
+
+for flux in (sys.stdout, sys.stderr):
+    try:
+        flux.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
 
 
 def capsules_de_la_fiche():
     """{(chapitre, langue): {'fichier', 'transcription', 'duree'}}"""
-    if not os.path.isfile(FICHE):
-        sys.exit("Fiche introuvable : %s" % FICHE)
-    t = io.open(FICHE, encoding="utf-8").read()
+    fiches = sorted(glob.glob(FICHES))
+    if not fiches:
+        sys.exit("Aucune fiche de capsules dans docs/prompts/ (Capsules*.md).")
+    t = "\n---\n".join(io.open(f, encoding="utf-8").read() for f in fiches)
     out = {}
     blocs = re.split(r"\n---\n", t)
     for b in blocs:
@@ -53,7 +66,7 @@ def capsules_de_la_fiche():
         nom = m.group(1)
         n = re.match(r"chapitre-(\d+)-capsule-(fr|en)\.mp3$", nom)
         if not n:
-            print("  /!\\ nom hors convention, ignoré : %s" % nom)
+            # podcasts, schémas, TP… : d'autres genres, qui ne vivent pas dans TEXTES
             continue
         tr = re.search(r"\*\*📄 Transcription affichée sur la page\*\*\s*\n+```\n(.*?)\n```",
                        b, re.S)

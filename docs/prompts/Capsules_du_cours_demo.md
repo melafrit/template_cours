@@ -9,6 +9,14 @@ modifiez-la ici, puis relancez `python3 outils/synchroniser_capsules.py`.
 
 ## ⚠️ À lire avant de commencer
 
+> **Une fiche d'une autre génération.** Ces six capsules de démonstration ont été
+> écrites et générées en **Eleven v3** (balises `[warmly]`, `[pause]`). Tout cours
+> créé depuis le template génère désormais en **Eleven v4**, avec l'accent retenu par
+> l'auteur ajouté par le générateur, sans `[pause]`, témoin d'abord : voir
+> `prompts/14_capsules_audio.md`. Cette fiche reste comme exemple du **format** — les
+> marqueurs que lit le générateur —, pas du ton. Elle n'est pas recopiée dans un cours
+> créé.
+
 - **Durée visée : 40 à 70 secondes.** Chaque script fait environ 115 mots
   parlés, soit ~47 s au débit médian de 146 mots par minute. C'est court à
   dessein : une capsule d'ouverture situe, elle n'enseigne pas.

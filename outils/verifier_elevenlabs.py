@@ -10,11 +10,13 @@ crédits :
   1. la clé fonctionne-t-elle ?
   2. quel est l'identifiant de mon clone vocal ? — l'interface du site bouge,
      l'API non : elle donne la liste exacte, à copier telle quelle ;
-  3. le modèle v3 est-il accessible ? Lui seul interprète les balises entre
-     crochets. Sur les autres modèles elles seraient lues à voix haute, et les
-     prises inutilisables.
+  3. Eleven v4 est-il accessible ? C'est le modèle de toutes les pistes : il
+     interprète les balises de jeu entre crochets et l'accent ajouté par
+     outils/generer_audio.py. Sur un modèle qui ne les comprend pas, elles
+     seraient lues à voix haute, et les prises inutilisables.
 
-Affiche aussi le quota restant, pour savoir si les 37 pistes tiennent.
+Affiche aussi le quota restant, et ce que demandent les pistes encore à
+générer : on sait avant de lancer si la série tient.
 
 Aucune génération, aucun crédit consommé. La clé n'est jamais affichée.
 Sans dépendance : urllib suffit.
@@ -29,13 +31,11 @@ import urllib.error
 import urllib.request
 
 RACINE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# Le site vit dans site/, pas a la racine : celle-ci porte aussi les outils,
-# les fiches de production et la documentation, qui ne sont pas publies.
-SITE = os.path.join(RACINE, "site")
 CONFIG = os.path.join(RACINE, "outils", "elevenlabs.json")
 MODELE = os.path.join(RACINE, "outils", "elevenlabs.exemple.json")
 BASE = "https://api.elevenlabs.io/v1"
 GABARITS = {"a-remplir", "sk_a-remplir", ""}
+VOULU = "eleven_v4"
 
 for flux in (sys.stdout, sys.stderr):
     try:
@@ -79,10 +79,28 @@ def appeler(chemin, cle):
     req = urllib.request.Request(BASE + chemin, headers={
         "xi-api-key": cle,
         "Accept": "application/json",
-        "User-Agent": "cours-reglementation/1.0",
+        "User-Agent": "cours-template/1.0",
     })
     with urllib.request.urlopen(req, timeout=30, context=CTX) as r:
         return json.loads(r.read().decode("utf-8"))
+
+
+def besoin_du_cours():
+    """(pistes, caractères) encore à générer, accent compris — ce que coûtera la série."""
+    sys.path.insert(0, os.path.join(RACINE, "outils"))
+    try:
+        import generer_audio as G
+    except Exception:
+        return None
+    scripts = G.scripts_des_fiches()
+    sortie = os.path.join(G.SITE, "assets", "media", "voix")
+    n, car = 0, 0
+    for _n, _cid, nom, _t in G.pistes_attendues():
+        dossier = os.path.join(G.SITE, "assets", "media", "podcasts") if "-podcast." in nom else sortie
+        if nom in scripts and not os.path.exists(os.path.join(dossier, nom)):
+            n += 1
+            car += len(G.avec_accent(scripts[nom], G.ACCENTS.get(G.langue_piste(nom), "")))
+    return n, car
 
 
 def main():
@@ -115,7 +133,7 @@ def main():
         sys.exit("  Connexion impossible : %s" % raison)
     print("  clé acceptée.")
 
-    # --- quota
+    # --- quota, et ce que demandent les pistes qui manquent
     util = abo.get("character_count")
     plafond = abo.get("character_limit")
     if isinstance(util, int) and isinstance(plafond, int):
@@ -123,19 +141,20 @@ def main():
         print("  offre : %s" % abo.get("tier", "?"))
         print("  quota : %s / %s caractères utilisés — il reste %s"
               % (format(util, ","), format(plafond, ","), format(reste, ",")))
-        besoin = 51205
-        if reste < besoin:
-            print("  /!\\ les 37 pistes restantes demandent environ %s caractères :"
-                  % format(besoin, ","))
-            print("      le quota actuel n'y suffit pas. Générez par chapitre, ou attendez"
-                  " le renouvellement.")
-        else:
-            print("  les 37 pistes restantes (environ %s caractères) tiennent dans ce quota."
-                  % format(besoin, ","))
+        besoin = besoin_du_cours()
+        if besoin and besoin[0]:
+            n, car = besoin
+            verdict = "tiennent dans ce quota" if car <= reste else "NE tiennent PAS dans ce quota"
+            print("  les %d piste(s) à générer (≈ %s caractères, accent compris) %s."
+                  % (n, format(car, ","), verdict))
+            if car > reste:
+                print("      Générez par chapitre (--chapitre), ou attendez le renouvellement.")
+        elif besoin:
+            print("  aucune piste à générer : toutes celles que les pages réclament sont en place.")
 
     # --- modèles
     print("\nModèles disponibles\n-------------------")
-    voulu = str(c.get("modele", "")).strip()
+    configure = str(c.get("modele", "")).strip()
     dispo = []
     try:
         modeles = appeler("/models", cle)
@@ -146,31 +165,22 @@ def main():
         mid = m.get("model_id", "?")
         dispo.append(mid)
         marque = ""
-        if "v3" in mid:
-            marque = "   <-- interprète les balises"
-        if mid == voulu:
+        if mid == VOULU:
+            marque = "   <-- le modèle de toutes les pistes"
+        if mid == configure and mid != VOULU:
             marque += "   <-- votre configuration"
         print("  %-34s %s%s" % (mid, (m.get("name") or "")[:30], marque))
 
-    # Le modèle configuré prime s'il est disponible : plusieurs variantes de v3
-    # coexistent (narration, conversationnel) et elles ne se valent pas. Ne
-    # suggérer un remplacement que si le modèle voulu est réellement absent.
-    v3 = [m for m in dispo if "v3" in m]
-    if voulu and voulu in dispo:
-        print("\n  « %s » est disponible : rien à changer." % voulu)
-        if "v3" not in voulu:
-            print("  /!\\ ce modèle n'est pas un v3 : les balises entre crochets seraient")
-            print("      lues à voix haute. Les modèles v3 de la liste : %s"
-                  % (", ".join(v3) or "aucun"))
-    elif v3:
-        print("\n  /!\\ « %s » ne figure pas dans la liste." % (voulu or "(vide)"))
-        print("      Modèles v3 disponibles : %s" % ", ".join(v3))
-        print("      Pour de la narration, préférez « eleven_v3 » à la variante")
-        print("      conversationnelle, dont le débit et les intonations diffèrent.")
-    else:
-        print("\n  /!\\ AUCUN modèle v3 dans cette liste.")
-        print("      Les balises [warmly], [pause]… seraient lues à voix haute ou ignorées.")
-        print("      Continuez à générer depuis l'interface du site, où v3 est disponible.")
+    if VOULU in dispo:
+        print("\n  « %s » est disponible : le générateur l'utilisera." % VOULU)
+        if configure and configure != VOULU:
+            print("  Votre configuration indique « %s » : le générateur la corrige à la volée." % configure)
+            print("  Pour ne plus voir ce message, mettez « modele » à « %s »." % VOULU)
+    elif dispo:
+        print("\n  /!\\ « %s » ne figure pas dans la liste de votre compte." % VOULU)
+        print("      Les balises de jeu et l'accent ne seraient pas interprétés. N'essayez un autre")
+        print("      modèle que sur un témoin : python3 outils/generer_audio.py --temoin --limite 1"
+              " --modele <modèle>")
 
     # --- voix
     print("\nVos voix\n--------")
