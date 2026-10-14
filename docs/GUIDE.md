@@ -2,9 +2,11 @@
 
 > **Quand l'utiliser :** dès que vous démarrez un cours avec ce dépôt, gardez ce guide ouvert. Il explique, phase par phase, **quel prompt lancer, quoi préparer, ce que Claude vous renvoie, et où coller le résultat dans le template**. C'est le mode d'emploi opérationnel de la bibliothèque `prompts/`.
 
-Ce dépôt est un **template réutilisable de site de cours** : un site statique HTML/CSS/JavaScript vanilla, hors-ligne, thémable et bilingue (FR/EN). Vous ne le remplissez pas à la main : vous le fabriquez **avec Claude**, en enchaînant les 13 prompts du dossier `prompts/`, chacun produisant un livrable que vous déposez dans l'arborescence du site.
+Ce dépôt est un **template réutilisable de site de cours** : un site statique HTML/CSS/JavaScript vanilla, hors-ligne, thémable et bilingue (FR/EN). Vous ne le remplissez pas à la main : vous le fabriquez **avec Claude**, en enchaînant les prompts du dossier `prompts/`, chacun produisant un livrable que vous déposez dans l'arborescence du site.
 
-Double licence du dépôt : **MIT** pour le code, **CC BY 4.0** pour le contenu et les prompts. Auteur du template : **Mohamed EL AFRIT**.
+> **Le chemin le plus court :** remplissez le bloc de paramètres de [`prompts/PROMPT-Cours-parametrable.md`](../prompts/PROMPT-Cours-parametrable.md) et demandez à Claude de **créer le cours**. Il amorce le cours, pose ses questions une à une et déroule les phases ci-dessous avec leurs jalons. Ce guide détaille chaque étape.
+
+Double licence du dépôt : **MIT** pour le code, **CC BY 4.0** pour le contenu et les prompts. Auteur du template : **Mohamed Amine EL AFRIT**.
 
 ---
 
@@ -89,8 +91,14 @@ python3 nouveau_cours.py             # crée le cours dans le dossier « sortie 
 ```
 
 Le script produit l'arborescence, la charte, la navigation, les squelettes de
-chapitres et les outils. **Il ne rédige aucun contenu** — c'est le rôle des
-phases qui suivent.
+chapitres, les outils et le déployeur. **Il ne rédige aucun contenu** — c'est le
+rôle des phases qui suivent. Il écrit aussi :
+
+- `CLAUDE.md` — le contrat de travail du cours, avec les exigences de l'auteur ;
+- `deploiement/destination.json` — où ce cours se publie (bloc `publication` de
+  `cours.json`) ; le déployeur refuse le dossier d'un autre cours ;
+- les **secrets communs** — `outils/elevenlabs.json` et `deploiement/config.json`,
+  recopiés tels quels depuis le template, en local, ignorés par Git.
 
 Il **retire aussi le contenu de démonstration** : capsules, schémas, polycopiés,
 QCM et glossaire du cours-démo ne partent pas dans votre cours. À leur place,
@@ -224,11 +232,25 @@ Le pipeline se déroule en **quatre phases**. Vous pouvez itérer à l'intérieu
 - **Ce que Claude renvoie :** l'**atelier fil rouge** complet — mission, livrables, critères d'évaluation, **templates téléchargeables** (DOCX/XLSX) que l'étudiant complète, et **corrigé formateur** — plus le **contenu HTML** intégrable dans la page « Atelier » et les **scripts Python** qui fabriquent les fichiers.
 - **Intégration :** collez le contenu pédagogique dans `site/atelier/`, déposez les gabarits générés dans `site/atelier/templates/`, et rangez les scripts Python dans `tools/`.
 
+### `15_explications_quiz.md` — Expliquer chaque proposition
+
+- **Quand :** dès qu'une question à choix est écrite — point de contrôle, mini-quiz, QCM d'entraînement — ou en lot sur des questions existantes.
+- **À préparer :** les questions, la page ou la fiche de chacune, les ancres réelles des pages (`id` des `h2`, `h3`, figures), la bibliographie vérifiée.
+- **Ce que Claude renvoie :** pour chaque question, **une raison par proposition écartée** (l'idée fausse qui la rend tentante) et **deux à quatre renvois** « Pour approfondir » vers l'endroit exact du cours ou une référence externe déjà vérifiée.
+- **Intégration :** `pourquoi` et `approfondir` dans l'appel `RDCX.checkpoint` (dans `TEXTES` pour une page bilingue, comme dans `_modele.html`) ; puis `python3 outils/verifier_liens.py` contrôle chaque renvoi, fichier et ancre.
+
 ---
 
 ## Phase 4 — Médias & supports, puis audit
 
 *On fabrique les supports imprimables/téléchargeables, on prépare l'écosystème média, et on contrôle la qualité.*
+
+### `14_capsules_audio.md` — Capsules audio (Eleven v4)
+
+- **Quand :** une fois les pages et les schémas stabilisés — une capsule reformule pour l'oreille ce que la page dit déjà.
+- **À préparer :** la liste des capsules (page, conteneur, nom exact du fichier), `outils/elevenlabs.json` en place (recopié depuis le template).
+- **Ce que Claude renvoie :** une **fiche de production** `docs/prompts/Capsules_*.md` au format que lit le générateur : script balisé (une balise de jeu par paragraphe, « speaking slowly » pour une capsule explicative, jamais l'accent, ajouté par le générateur), transcription d'affichage, témoin désigné.
+- **Intégration :** `python3 outils/verifier_elevenlabs.py`, puis `python3 outils/generer_audio.py --temoin …` — **l'auteur écoute le témoin** —, puis la série, `outils/synchroniser_capsules.py` et `outils/generer_playlist.py`.
 
 ### `12_polycopies.md` — Polycopiés de synthèse (DOCX + PDF)
 
@@ -269,7 +291,7 @@ Un chapitre n'est pas qu'un texte. `interactions.js` expose `window.RDCX` :
 
 | Composant | Ce qu'il fait |
 |---|---|
-| `checkpoint` | Point de contrôle : questions à choix, avec explication |
+| `checkpoint` | Point de contrôle : questions à choix, avec l'explication de chaque proposition et des renvois « Pour approfondir » |
 | `reveal` | Une question posée AVANT la lecture, dont on révèle la réponse |
 | `spotError` | Repérer les affirmations fausses dans un document |
 | `match` | Relier deux colonnes |
@@ -317,16 +339,21 @@ Phase 3 — Évaluation & activités
   07  Banque QCM (CBM) .......................... moteur QCM + correction/ + dashboard/
   08  QCM papier (DOCX) ......................... questions + grille + corrigé → tools/
   11  Atelier fil rouge + templates ............. site/atelier/ + atelier/templates/ + tools/
+  15  Explications des quiz ..................... pourquoi + approfondir → verifier_liens.py
 
 Phase 4 — Médias & supports, puis audit
+  14  Capsules audio (Eleven v4) ................ fiche → témoin → série → playlist
   12  Polycopiés (DOCX + PDF) ................... tools/generate_polycopies.py
   09  Fiche NotebookLM .......................... .docx → source NotebookLM
   10  Prompts NotebookLM ........................ médias → assets/media/{podcasts,slides,infographies}
   13  Accessibilité & QA ........................ audit + corrections → VÉRIFIER AU NAVIGATEUR
+
+Mise en ligne
+      deploiement/deployer.py --essai ........... destination.json, garde-fou, puis envoi (après accord)
 ```
 
 > **À chaque étape :** un seul livrable, validé avant de continuer ; exactitude vérifiée contre les documents de référence ; et un passage au navigateur avant de déclarer l'étape close.
 
 ---
 
-> **Auteur du template :** Mohamed EL AFRIT · **Licence :** CC BY 4.0 (contenu et prompts), MIT (code).
+> **Auteur du template :** Mohamed Amine EL AFRIT · **Licence :** CC BY 4.0 (contenu et prompts), MIT (code).

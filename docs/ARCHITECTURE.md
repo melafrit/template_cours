@@ -124,7 +124,7 @@ tout ce qui rend un chapitre interactif.
 | Fichier | Rôle | Lit | Persiste (localStorage) |
 |---|---|---|---|
 | **ui-labels.js** | `window.UI_LABELS` + l'accesseur `T('cle')` : **tous** les textes d'interface fabriqués en JavaScript, en FR et EN. Un libellé écrit en dur dans un moteur est un défaut : il ne se traduira pas. | `TPLI18N.lang()` | — |
-| **interactions.js** | `window.RDCX` — le moteur pédagogique. Sept composants : `checkpoint` (point de contrôle), `reveal` (révélation d'une réponse), `spotError` (repérage d'erreurs dans un document), `match` (appariement), `branch` (scénario à embranchements), `hotspots` (schéma à points chauds), `voice` (capsule audio). Plus `steps` (lecture par étapes), `sommaire` (barre de sommaire collante) et le **repli de l'en-tête de chapitre**, montés automatiquement. | attributs `data-step`, `data-sommaire-titre` des sections | `rdc-step-<N>`, `rdc-entete-<page>` |
+| **interactions.js** | `window.RDCX` — le moteur pédagogique. Sept composants : `checkpoint` (point de contrôle ; avec `pourquoi` et `approfondir`, il explique chaque proposition écartée et propose des renvois — internes dans l'onglet, externes dans un nouvel onglet signalé aux lecteurs d'écran), `reveal` (révélation d'une réponse), `spotError` (repérage d'erreurs dans un document), `match` (appariement), `branch` (scénario à embranchements), `hotspots` (schéma à points chauds), `voice` (capsule audio). Plus `steps` (lecture par étapes), `sommaire` (barre de sommaire collante) et le **repli de l'en-tête de chapitre**, montés automatiquement. | attributs `data-step`, `data-sommaire-titre` des sections | `rdc-step-<N>`, `rdc-entete-<page>` |
 | **playlist.js** | Panneau latéral rassemblant les pistes du cours, avec enchaînement automatique et tiroir sur mobile. **Filtre par langue** : une piste marquée `langue` n'apparaît que dans cette langue. | `RDC_PLAYLIST` | `rdc-playlist-ouverte` |
 | **quiz.js** | Quiz simple en cours de chapitre (distinct du QCM noté, qui vit dans `site/QCM/`). | config passée à l'appel | — |
 
@@ -397,6 +397,15 @@ Pour **rebrander** : modifiez `--primary`, `--accent` et les `--bg-*`/`--text-*`
 ### Déploiement (hébergement statique)
 
 Le livrable à publier est le **contenu du dossier `site/`** (il devient la racine du site).
+
+- **Hébergement OVH (l'usage de l'auteur)** : `deploiement/deployer.py`, en SFTP. Les accès
+  viennent de `deploiement/config.json` (local, recopié d'un cours à l'autre), la
+  destination de `deploiement/destination.json` (versionné, propre au cours). Envoi
+  incrémental par carnet déposé sur le serveur au nom du cours ; garde-fou qui refuse le
+  dossier d'un autre cours ; `.htaccess`, `.htpasswd`, `.user.ini`, `.ovhconfig` jamais
+  écrasés ; zones protégées publiées après leur protection
+  (`deploiement/proteger_zones.py`). Mode d'emploi : `deploiement/LISEZMOI.md` ; tests hors
+  ligne : `deploiement/tester_deployer.py`.
 
 - **GitHub Pages.** Deux options :
   1. *Branche + dossier* : dans **Settings → Pages**, servir depuis une branche, en pointant le dossier `/site` (si Pages propose `/ (root)` ou `/docs` seulement, déplacer le contenu de `site/` à la racine de la branche de publication, ou utiliser un workflow GitHub Actions qui publie `site/`).

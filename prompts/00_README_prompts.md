@@ -2,7 +2,15 @@
 
 > **Quand l'utiliser :** au tout début, avant d'écrire le moindre prompt à Claude. C'est la carte du dossier `prompts/`. Lisez-la une fois, puis revenez-y comme aiguillage entre deux étapes.
 
-Ce dossier contient **14 prompts** qui, enchaînés dans l'ordre, permettent de fabriquer **avec Claude** un site de cours pédagogique complet, hors-ligne et bilingue (FR/EN), à partir du template de ce dépôt.
+Ce dossier contient **le prompt paramétrable** de création d'un cours, et **seize prompts de production** qui, enchaînés dans l'ordre, permettent de fabriquer **avec Claude** un site de cours pédagogique complet, hors-ligne et (si on le veut) bilingue FR/EN, à partir du template de ce dépôt.
+
+---
+
+## 0. Le point d'entrée : le prompt paramétrable
+
+**[`PROMPT-Cours-parametrable.md`](PROMPT-Cours-parametrable.md)** — un bloc de paramètres (le cours, les filières, le fil rouge, le TP, les livrables, l'évaluation, les médias, la publication, Git) et la méthode complète : règles de conduite, étape zéro depuis ce template, chaînes de production, **douze phases avec leurs jalons STOP**, contrôles avant mise en ligne, définition de « terminé ».
+
+C'est lui que suit la skill `creer-cours-template` quand on demande à Claude de « créer un cours ». Les prompts ci-dessous en sont les outils, étape par étape.
 
 ---
 
@@ -10,14 +18,15 @@ Ce dossier contient **14 prompts** qui, enchaînés dans l'ordre, permettent de 
 
 **On ne génère pas un cours en un seul prompt.** Un cours de qualité — exact, progressif, motivant, accessible, évalué — se construit **étape par étape**, chaque étape s'appuyant sur la précédente.
 
-Quatre principes gouvernent toute la bibliothèque :
+Cinq principes gouvernent toute la bibliothèque :
 
 1. **Le cadrage d'abord, toujours.** Rien ne se génère tant que le périmètre n'est pas fixé : sujet, public, niveau, durée, langues, documents de référence, fil rouge, nombre de chapitres. C'est le rôle du prompt **`01`**, qui pose les questions **une à une** et produit une **fiche de cadrage** réutilisée par tous les prompts suivants.
 2. **Exactitude non négociable.** Chaque prompt qui produit du contenu demande explicitement à Claude d'**analyser en détail les documents de référence AVANT de rédiger**, de **ne rien inventer**, et de **citer ses sources**. En cas de doute ou de lacune, Claude le signale plutôt que de combler par de la fiction.
-3. **Un livrable par prompt.** Chaque prompt a une sortie claire et vérifiable (un plan, un chapitre HTML, une banque de QCM, un atelier, un script Python…). On valide une étape avant de passer à la suivante.
-4. **Le template pilote la forme.** Les prompts connaissent les fonctionnalités du site (bascule FR/EN, podcast, slides PDF, infographie, QCM CBM, flashcards, glossaire auto-surligné, accessibilité, ateliers fil rouge, polycopiés DOCX/PDF, NotebookLM…) et produisent des sorties qui s'y insèrent directement, sans bricolage.
+3. **Un livrable par prompt.** Chaque prompt a une sortie claire et vérifiable (un plan, un chapitre HTML, une banque de QCM, une fiche de capsules…). On valide une étape avant de passer à la suivante.
+4. **Le template pilote la forme.** Les prompts connaissent les fonctionnalités du site (bascule FR/EN, composants RDCX, QCM CBM, flashcards, glossaire, capsules audio, polycopiés…) et produisent des sorties qui s'y insèrent directement.
+5. **Chaque erreur s'explique.** Toute question à choix dit pourquoi la bonne réponse est juste, pourquoi chacune des autres ne l'est pas, et où approfondir (prompt **`15`**).
 
-**Règle d'or :** commencez **TOUJOURS** par `01_cadrage`. Sa sortie alimente tout le reste. Sauter cette étape, c'est s'exposer à des chapitres incohérents, un fil rouge bancal et des QCM hors-sujet.
+**Règle d'or :** commencez **TOUJOURS** par le cadrage (`01`, appelé par le prompt paramétrable). Sauter cette étape, c'est s'exposer à des chapitres incohérents, un fil rouge bancal et des QCM hors-sujet.
 
 ---
 
@@ -28,31 +37,32 @@ Suivez l'ordre. Vous pouvez itérer à l'intérieur d'une phase (régénérer un
 ### Phase 1 — Cadrage & architecture
 > *On décide quoi enseigner, à qui, comment, et dans quel ordre.*
 
-- **`01`** Cadrage interactif (questions une à une → **fiche de cadrage**).
-- **`02`** Plan détaillé du cours (chapitres, sections, objectifs pédagogiques, progression).
-- **`03`** Fil rouge & scénario continu (le cas pratique qui traverse tout le cours).
+- **`01`** Cadrage interactif (questions une à une → **fiche de cadrage**, plan du site, feuille de route).
+- **`02`** Plan détaillé et syllabus (chapitres, sections, objectifs, progression, ancres).
 
 ### Phase 2 — Contenu pédagogique
 > *On rédige le cœur du cours, chapitre par chapitre, avec le vocabulaire associé.*
 
-- **`04`** Rédaction d'un chapitre (HTML bilingue : accroche, objectifs, contenu, exemples, « à retenir »).
-- **`05`** Glossaire bilingue (termes + définitions + exemples → auto-surlignage et info-bulles).
-- **`06`** Fiches-résumés / synthèses de chapitre (« à retenir » structuré, prêt pour polycopiés).
+- **`03`** Rédaction d'un chapitre (accroche, objectifs, contenu, exemples, « à retenir »).
+- **`04`** Relecture pédagogique d'un chapitre.
+- **`06`** Glossaire (termes, définitions, exemples → info-bulles) ; **`06b`** « Où en parle-t-on ? ».
 
 ### Phase 3 — Évaluation & activités
 > *On vérifie les acquis et on fait pratiquer.*
 
-- **`07`** Banque de QCM à notation CBM (réponse unique, positions équilibrées, distracteurs débiaisés).
-- **`08`** Flashcards de révision (recto/verso par chapitre).
-- **`09`** Activités interactives (assistant de décision, quiz-classificateur, calculateur, checklist à score…) — choisies **selon le sujet**.
-- **`10`** Atelier « fil rouge » (livrables, templates téléchargeables, corrigé formateur).
+- **`05`** Activités interactives, choisies **selon le sujet**.
+- **`07`** Banque de QCM à notation CBM.
+- **`15`** Explications complètes de chaque question à choix, avec renvois « Pour approfondir ».
+- **`11`** Atelier « fil rouge » (livrables, modèles téléchargeables, corrigé formateur).
 
-### Phase 4 — Production des supports & diffusion
-> *On fabrique les supports imprimables/téléchargeables et on prépare l'écosystème média.*
+### Phase 4 — Médias, supports, audit
+> *On fabrique les supports et les médias, puis on contrôle tout.*
 
-- **`11`** Polycopiés de synthèse (scripts Python : `python-docx` + `fpdf2` → DOCX + PDF).
-- **`12`** QCM papier imprimable (DOCX : page de garde, consignes, barème CBM, questions 2 colonnes, grille, corrigé).
-- **`13`** Pack NotebookLM (fiche de cours DOCX + prompts pour infographie / slides / podcast par chapitre).
+- **`14`** Capsules audio en Eleven v4 (fiche de production, témoin d'abord).
+- **`12`** Polycopiés de synthèse (DOCX + PDF).
+- **`08`** QCM papier imprimable (DOCX).
+- **`09`** et **`10`** Pack NotebookLM (fiche de cours, prompts infographie / slides / podcast).
+- **`13`** Accessibilité et contrôle qualité.
 
 ---
 
@@ -60,56 +70,56 @@ Suivez l'ordre. Vous pouvez itérer à l'intérieur d'une phase (régénérer un
 
 | N° | Fichier | Objectif | Entrées | Sorties |
 |----|---------|----------|---------|---------|
-| **01** | `01_cadrage.md` | Définir le périmètre du cours en interrogeant l'utilisateur **question par question**. | `{{SUJET_DU_COURS}}`, `{{DOCUMENTS_DE_REFERENCE}}`, réponses de l'utilisateur | **Fiche de cadrage** (sujet, public, niveau, durée, langues, fil rouge, nb chapitres, contraintes) |
-| **02** | `02_plan_detaille.md` | Bâtir le plan complet : chapitres, sections, objectifs, progression. | Fiche de cadrage, `{{DOCUMENTS_DE_REFERENCE}}` | Plan détaillé + arborescence des sections (ancres de navigation) |
-| **03** | `03_fil_rouge.md` | Concevoir le scénario continu qui relie tous les chapitres. | Fiche de cadrage, plan, `{{FIL_ROUGE}}` | Scénario fil rouge + jalons par chapitre |
-| **04** | `04_chapitre.md` | Rédiger un chapitre **bilingue** prêt à intégrer au site. | Plan, `{{DOCUMENTS_DE_REFERENCE}}`, n° de chapitre | Chapitre HTML (FR/EN) : accroche, objectifs, contenu, exemples, « à retenir » |
-| **05** | `05_glossaire.md` | Produire le glossaire bilingue auto-surligné. | Chapitres rédigés, fiche de cadrage | Termes + définitions + exemples (FR/EN), prêts pour info-bulles |
-| **06 b** | `06b_glossaire_ou_en_parle_t_on.md` | Relier chaque terme du glossaire à tous les endroits du cours qui l'emploient. | Glossaire, pages du cours publiées | Badge « Où en parle-t-on ? » et fenêtre des endroits, liens précis, terme surligné à l'arrivée |
-| **06** | `06_fiches_resume.md` | Synthétiser chaque chapitre en fiche « à retenir ». | Chapitres rédigés | Fiches-résumés structurées (FR/EN) |
-| **07** | `07_qcm_cbm.md` | Générer la banque de questions QCM **notation CBM**. | Chapitres, objectifs, `{{NB_CHAPITRES}}` | Banque QCM (réponse unique, positions équilibrées, distracteurs débiaisés) |
-| **08** | `08_flashcards.md` | Créer les flashcards recto/verso par chapitre. | Chapitres, glossaire | Jeu de flashcards (FR/EN) |
-| **09** | `09_activites_interactives.md` | Concevoir des activités interactives adaptées au sujet. | Fiche de cadrage, chapitres, fil rouge | 1+ activités (assistant, quiz-classificateur, calculateur, checklist…) |
-| **10** | `10_atelier_fil_rouge.md` | Construire l'atelier pratique du fil rouge. | Scénario fil rouge, plan | Énoncé + livrables + templates téléchargeables + corrigé |
-| **11** | `11_polycopies.md` | Générer les scripts Python des polycopiés DOCX + PDF. | Fiches-résumés, chapitres | Scripts `python-docx` + `fpdf2` → DOCX + PDF par chapitre |
-| **12** | `12_qcm_papier.md` | Produire le QCM papier imprimable. | Banque QCM (07) | DOCX : garde + consignes + barème CBM + questions 2 col. + grille + corrigé |
-| **13** | `13_pack_notebooklm.md` | Préparer l'intégration NotebookLM. | Chapitres, plan | Fiche de cours DOCX + prompts infographie / slides / podcast par chapitre |
+| — | `PROMPT-Cours-parametrable.md` | Créer un cours complet, de l'amorçage à la mise en ligne. | Bloc de paramètres, `sources/` | Le cours, phase par phase, jalons STOP |
+| **01** | `01_cadrage_maitre.md` | Cadrer le cours en interrogeant l'auteur **question par question**. | Sujet, documents de référence, réponses | **Fiche de cadrage**, plan du site, feuille de route |
+| **02** | `02_plan_syllabus.md` | Bâtir le plan complet : chapitres, sections, objectifs, progression. | Fiche de cadrage, sources | Syllabus + ancres de navigation |
+| **03** | `03_chapitre.md` | Rédiger un chapitre prêt à intégrer. | Plan, sources, n° de chapitre | Chapitre HTML (FR, ou FR/EN) |
+| **04** | `04_relecture_pedagogique.md` | Relire un chapitre : exactitude, progression, clarté, fidélité aux sources. | Chapitre, sources | Corrections et lacunes signalées |
+| **05** | `05_activites_interactives.md` | Concevoir des activités adaptées au sujet. | Cadrage, chapitres, fil rouge | Activités prêtes à monter |
+| **06** | `06_glossaire.md` | Produire le glossaire et ses info-bulles. | Chapitres, cadrage | Termes, définitions, exemples |
+| **06b** | `06b_glossaire_ou_en_parle_t_on.md` | Relier chaque terme à tous les endroits qui l'emploient. | Glossaire, pages publiées | Badge « Où en parle-t-on ? » et liens précis |
+| **07** | `07_qcm_banque.md` | Générer la banque de QCM **notation CBM**. | Chapitres, objectifs | `questions.js` + `corrections.js` |
+| **08** | `08_qcm_papier.md` | Produire le QCM papier imprimable. | Banque QCM | DOCX : garde, consignes, barème, questions, grille, corrigé |
+| **09** | `09_notebooklm_fiche.md` | Préparer la fiche de cours pour NotebookLM. | Chapitres | Fiche DOCX |
+| **10** | `10_notebooklm_18prompts.md` | Les prompts NotebookLM par chapitre. | Fiche | Infographie, slides, podcast |
+| **11** | `11_atelier_templates.md` | Construire l'atelier fil rouge. | Fil rouge, plan | Énoncé, livrables, modèles, corrigé |
+| **12** | `12_polycopies.md` | Générer les polycopiés DOCX + PDF. | Chapitres | `tools/generate_polycopies.py` et ses sorties |
+| **13** | `13_accessibilite_qa.md` | Auditer l'accessibilité et la qualité. | Site assemblé | Corrections, puis vérification au navigateur |
+| **14** | `14_capsules_audio.md` | Écrire les capsules audio pour Eleven v4. | Pages, schémas, sources | Fiche `docs/prompts/Capsules_*.md`, témoin désigné |
+| **15** | `15_explications_quiz.md` | Expliquer chaque proposition d'un quiz. | Questions, pages, ancres | `pourquoi` + `approfondir` par question |
 
-> **Lecture du tableau :** chaque ligne consomme les sorties des lignes au-dessus d'elle. La **fiche de cadrage** (01) est l'entrée commune à presque tout. C'est pourquoi on ne la saute jamais.
+> **Lecture du tableau :** chaque ligne consomme les sorties des lignes au-dessus d'elle. La **fiche de cadrage** (01) est l'entrée commune à presque tout.
 
 ---
 
 ## 4. Placeholders communs
 
-Tous les prompts utilisent la notation `{{NOM_DU_PLACEHOLDER}}`. Remplissez-les une fois (idéalement dans la fiche de cadrage produite par `01`), puis réutilisez les mêmes valeurs partout pour garantir la cohérence.
+Tous les prompts utilisent la notation `{{NOM_DU_PLACEHOLDER}}`. Remplissez-les une fois (idéalement dans la fiche de cadrage produite par `01`, ou dans le bloc de paramètres du prompt paramétrable), puis réutilisez les mêmes valeurs partout.
 
 | Placeholder | Signification | Exemple |
 |-------------|---------------|---------|
-| `{{SUJET_DU_COURS}}` | Intitulé et thème du cours. | « Réglementation des données personnelles » |
-| `{{PUBLIC_CIBLE}}` | À qui s'adresse le cours. | « Étudiants en master, profils non-juristes » |
+| `{{SUJET_DU_COURS}}` / `{{TITRE_DU_COURS}}` | Intitulé et thème du cours. | « Réglementation des données personnelles » |
+| `{{PUBLIC_CIBLE}}` | À qui s'adresse le cours : prérequis et contraintes. | « Développeurs en alternance, sans formation sécurité » |
 | `{{NIVEAU}}` | Niveau de prérequis attendu. | « Débutant / Intermédiaire / Avancé » |
-| `{{DUREE}}` | Volume horaire ou durée totale. | « 18 h réparties sur 6 séances » |
-| `{{LANGUES}}` | `français seul` **OU** `français + anglais`. | « français + anglais » |
-| `{{DOCUMENTS_DE_REFERENCE}}` | Sources faisant autorité à analyser **avant** de rédiger. | « Texte de loi X, rapport Y, normes Z » |
+| `{{DUREE}}` | Volume horaire ou durée totale. | « 14 h sur deux jours » |
+| `{{LANGUES}}` | `français seul` **OU** `français + anglais`. | « français seul » |
+| `{{DOCUMENTS_DE_REFERENCE}}` | Sources faisant autorité, analysées **avant** de rédiger. | « Fiche module, grille d'évaluation, norme X » |
 | `{{FIL_ROUGE}}` | Cas pratique continu traversant le cours. | « Projet UrbanHub Smart City » |
+| `{{INTERDITS_DU_COURS}}` | Mots et exemples à ne jamais employer (sujet du TP…). | « le sujet du TP, ses chiffres » |
 | `{{NB_CHAPITRES}}` | Nombre de chapitres prévus. | « 6 » |
-| `{{AUTEUR}}` | Auteur·rice du cours (mentions, crédits). | « Mohamed EL AFRIT » |
+| `{{AUTEUR}}` | Auteur du cours (mentions, crédits, commits). | « Mohamed Amine EL AFRIT » |
 | `{{LICENCE}}` | Licence du contenu produit. | « CC BY 4.0 (contenu), MIT (code) » |
-| `{{CONTRAINTES}}` | Limites, exclusions, ton, exigences spécifiques. | « Pas de jargon, exemples français, hors-ligne » |
-
-> **Astuce :** gardez votre fiche de cadrage ouverte à côté de chaque prompt. Quand un prompt demande `{{FIL_ROUGE}}` ou `{{NB_CHAPITRES}}`, copiez la valeur depuis la fiche — pas de mémoire approximative.
+| `{{CONTRAINTES}}` | Limites, exclusions, ton, exigences. | « Pas de jargon, hors-ligne, RGAA » |
 
 ---
 
 ## 5. Démarrage rapide
 
-1. Ouvrez **`01_cadrage.md`**, copiez le prompt, complétez `{{SUJET_DU_COURS}}` et `{{DOCUMENTS_DE_REFERENCE}}`, lancez-le dans Claude.
-2. Répondez aux questions **une à une**. Récupérez la **fiche de cadrage** générée — c'est votre socle.
-3. Enchaînez `02` puis `03` pour figer plan et fil rouge.
-4. Déroulez les phases 2 → 4 dans l'ordre, en validant chaque livrable avant le suivant.
-5. Intégrez les sorties dans le site-template ; régénérez ponctuellement un livrable si besoin sans tout reprendre.
+1. Ouvrez **`PROMPT-Cours-parametrable.md`**, remplissez le bloc de paramètres (laissez vide ce que vous ne savez pas), et demandez à Claude de **créer le cours** depuis le template.
+2. Claude amorce le cours (`nouveau_cours.py`), vous fait déposer vos sources, puis pose ses questions **une à une**.
+3. Validez chaque jalon « STOP ». Les prompts `01` à `15` servent, phase par phase, à produire chaque livrable.
+4. Vérifiez au navigateur à chaque étape, et laissez les vérificateurs dire ce que l'œil ne voit pas.
 
 ---
 
-> **Auteur du template :** {{AUTEUR}} · **Licence :** {{LICENCE}}.
-> Double licence du dépôt : **MIT** pour le code, **CC BY 4.0** pour le contenu et les prompts.
+> **Auteur du template :** Mohamed Amine EL AFRIT · Double licence du dépôt : **MIT** pour le code, **CC BY 4.0** pour le contenu et les prompts.

@@ -1,8 +1,12 @@
 # Template de site de cours — contrat de travail
 
+<!-- gabarit:debut -->
 Ce dépôt sert à **fabriquer des sites de cours** : statiques, hors-ligne,
 bilingues FR/EN, sans framework. Ce fichier est lu à chaque ouverture : il dit
-ce qu'il faut savoir avant de toucher à quoi que ce soit.
+ce qu'il faut savoir avant de toucher à quoi que ce soit. `nouveau_cours.py` le
+recopie dans chaque cours créé, sans ses passages propres au template : les
+exigences de l'auteur (§ 2) s'y appliquent de la même façon.
+<!-- gabarit:fin -->
 
 ---
 
@@ -22,13 +26,122 @@ Concrètement :
 - Signaler les lacunes et les contradictions entre sources plutôt que trancher
   en silence.
 - Tenir `sources/bibliographie.md` à jour au fur et à mesure, pas à la fin.
+- Ne jamais reproduire le texte ni les figures d'un ouvrage : on reformule, on
+  cite, on renvoie.
 
 `sources/` est exclu du dépôt — droit d'auteur. Seuls son mode d'emploi et la
 bibliographie sont versionnés.
 
 ---
 
-## 2. Démarrer un cours
+## 2. Les exigences de l'auteur
+
+Elles viennent de demandes explicites, faites cours après cours. Elles valent
+dans ce dépôt comme dans chaque cours créé, et priment sur les habitudes par
+défaut de l'outil.
+
+### Le dialogue
+
+- **Une question à la fois**, posée avec l'outil de question à options
+  cliquables (AskUserQuestion) — jamais une liste de questions dans le texte.
+  Deux à quatre options, la recommandation en premier.
+- **Chaque étape se termine par une question cliquable** sur la suite.
+- Tout en français : messages, documents, commits.
+- Dire ce qui a été fait **et ce qui ne l'a pas été** ; un test qui échoue se
+  rapporte avec sa sortie.
+
+### Git
+
+- Commits au seul nom de l'auteur :
+  `Mohamed Amine EL AFRIT <elafrit.mohamed@gmail.com>`. **Jamais** de ligne
+  `Co-Authored-By`, jamais de mention d'un outil ou d'une IA — même quand
+  l'outil propose une attribution par défaut.
+- `git add` par chemins explicites, jamais `git add -A` ni `git add .`.
+- **Demander avant de commiter et de pousser**, puis, séparément, **avant de
+  mettre en ligne**. Un accord vaut pour l'action demandée, pas pour la suivante.
+
+### Les secrets
+
+- **Ne jamais lire, afficher ni demander** le contenu de
+  `outils/elevenlabs.json`, `deploiement/config.json`, `docs/acces.json`,
+  `docs/acces-zones.json`, ni d'aucune copie (`*.config.json`). Les scripts s'en
+  servent sans que Claude les voie ; une recherche dans le dépôt les exclut
+  explicitement.
+- Pour un nouveau cours, ils se **recopient tels quels**, octet pour octet,
+  depuis le template — `nouveau_cours.py` le fait, et seulement si le
+  `.gitignore` du cours les exclut. Ils ne vont jamais dans Git.
+- Ne jamais s'authentifier soi-même sur le site en ligne avec des identifiants :
+  l'auteur teste dans son navigateur.
+
+### Le contenu
+
+- Aucune **date fixe** dans le contenu : « Jour 1 », « séance 2 ». Les dates
+  réelles ne servent qu'aux outils de planning.
+- **Rien ne souffle une réponse** : un exemple de méthode porte sur un cas
+  neutre ; les réponses d'un TP ne vivent que dans sa correction, placée dans
+  une zone protégée par mot de passe.
+- Les **interdits propres au cours** — mots du sujet de TP, exemples à éviter —
+  sont listés dans sa fiche de cadrage et contrôlés par ses générateurs.
+- Typographie française : espace insécable avant `: ; ? !` et à l'intérieur des
+  guillemets `« »`.
+
+### La pédagogie
+
+- **Tout schéma a son explication élément par élément**, écrite pour un
+  débutant : ce qu'il montre, comment le lire, chaque élément et son rôle, ses
+  liens avec les autres pièces, le piège à éviter.
+- **Toute question à choix** — point de contrôle, mini-quiz, QCM
+  d'entraînement — explique pourquoi la bonne réponse est juste **et pourquoi
+  chacune des autres ne l'est pas**, puis donne **deux à quatre renvois**
+  « Pour approfondir » vers l'endroit exact du cours, ou vers une référence
+  externe vérifiée. Voir `prompts/15_explications_quiz.md`.
+- **Liens externes** : `target="_blank" rel="noopener noreferrer"`, signalés aux
+  lecteurs d'écran ; chaque adresse est ouverte et vérifiée avant d'être
+  ajoutée.
+
+### L'audio
+
+- **Eleven v4** pour toutes les pistes, avec la voix clonée de l'auteur et
+  l'**accent parisien marqué** (« strong Parisian French accent », ajouté par
+  `outils/generer_audio.py` aux balises des pistes françaises).
+- Ton **pédagogique, académique, professionnel et motivant**, au vouvoiement.
+  Une capsule explicative définit la notion, lit l'exemple élément par élément,
+  relie aux autres pièces, finit par le piège et la phrase à retenir — avec
+  « speaking slowly » dans ses balises.
+- **Un témoin d'abord**, écouté par l'auteur ; la série ensuite. Voir
+  `prompts/14_capsules_audio.md`.
+
+### La publication
+
+- `deploiement/destination.json` dit où va **ce** cours ; le déployeur refuse un
+  dossier qui appartient à un autre cours, et ne lit jamais le répertoire
+  distant de `config.json`.
+- Ne partent que les fichiers de `site/` suivis par Git : jamais les sources,
+  les outils, la documentation de production ni les secrets.
+- Une zone protégée ne reçoit son contenu qu'après sa protection
+  (`deploiement/proteger_zones.py`).
+
+### La vérification
+
+- Ce qui se voit se vérifie au navigateur : thème clair et sombre, 1280 et
+  375 px, console vide. Quand l'onglet intégré n'affiche rien, un navigateur
+  sans interface (Edge ou Chrome, `--headless`) fait les captures.
+- Sous Windows : un correctif se scripte dans un fichier `.py` (pas d'heredoc à
+  antislashs), la console se met en UTF-8 (`PYTHONIOENCODING=utf-8`), et aucun
+  octet NUL ne doit entrer dans un fichier modifié.
+- Un travail confié à des sous-agents part avec une consigne écrite complète, et
+  ne s'accepte qu'après un contrôle automatique.
+
+### Le journal du cours
+
+- Chaque choix structurant devient une décision numérotée (D01, D02… : la
+  question, le choix, la raison) dans `docs/01-Decisions-de-conception.md` ;
+  l'état d'avancement se tient dans `docs/02-Etat-d-avancement.md`.
+
+---
+
+<!-- gabarit:debut -->
+## 3. Démarrer un cours
 
 ```bash
 cp cours.exemple.json cours.json     # puis le remplir
@@ -37,17 +150,17 @@ python3 nouveau_cours.py             # crée le cours dans le dossier « sortie 
 ```
 
 Le script met en place la mécanique — arborescence, charte, navigation,
-squelettes, outils. **Il ne rédige aucun contenu.** Le contenu vient ensuite,
-par la skill `creer-cours-template`, qui conduit le cadrage en posant ses
-questions **une à une** et ne produit rien avant validation explicite.
-
-Le chapitre vitrine est conservé sous `site/chapitres/_modele.html` : c'est le
-seul endroit où les composants sont appelés pour de vrai. **Copier depuis là**
-plutôt qu'écrire de mémoire.
+squelettes, outils, déployeur, `CLAUDE.md`, `deploiement/destination.json` — et
+recopie en local les secrets communs (§ 2). **Il ne rédige aucun contenu.** Le
+contenu vient ensuite, par la skill `creer-cours-template`, qui suit
+`prompts/PROMPT-Cours-parametrable.md` : cadrage d'abord, questions **une à
+une**, rien de produit avant validation explicite.
 
 ---
 
-## 3. Ce qui ne se modifie pas à la main
+<!-- gabarit:fin -->
+
+## 4. Ce qui ne se modifie pas à la main
 
 Ces fichiers sont **générés**. Les éditer, c'est perdre le travail à la
 prochaine régénération.
@@ -65,7 +178,7 @@ d'écouter. **La fiche est la source unique.**
 
 ---
 
-## 4. Le contrat bilingue
+## 5. Le contrat bilingue
 
 Trois mécanismes, selon la nature du texte.
 
@@ -89,18 +202,18 @@ bilingue : c'est ce qui les garde simples. Modèle complet dans `_modele.html`.
 **Audio bilingue** : un seul appel `RDCX.voice`, mais une source par langue,
 déclarée dans `TEXTES` sous `capsuleSrc`. Convention de nommage :
 `chapitre-<N>-capsule-<langue>.mp3`. Sans le suffixe, l'auditeur anglophone
-entend du français.
+entend du français — et la piste reçoit l'accent parisien des pistes françaises.
 
 ---
 
-## 5. Vérifier
+## 6. Vérifier
 
 Quatre contrôles, à lancer souvent. Ils attrapent ce que l'œil ne voit pas.
 
 ```bash
 python3 outils/verifier_i18n.py       # clés dépareillées, blocs data-tr déséquilibrés
 python3 outils/verifier_contraste.py  # palettes lisibles en clair ET en sombre
-python3 outils/verifier_liens.py      # href et src qui ne mènent nulle part
+python3 outils/verifier_liens.py      # href, src et renvois « Pour approfondir » qui ne mènent nulle part
 python3 demarrer.py                   # le site, sans cache
 ```
 
@@ -112,6 +225,10 @@ JavaScript après une modification, et l'on cherche un défaut qui n'existe pas.
 que de recharger : certains navigateurs gardent le script en cache malgré
 l'en-tête.
 
+Après toute modification du déployeur : `python3 deploiement/tester_deployer.py`
+(hors ligne, faux serveur).
+
+<!-- gabarit:debut -->
 Ces contrôles mesurent ce qui est mesurable : des clés, des contrastes, des
 chemins.
 Ils ne disent rien du seul défaut qui compte vraiment ici — **un cours créé qui
@@ -125,12 +242,16 @@ Après toute modification du moteur ou du générateur, déroulez
 `docs/RECETTE.md` en entier. Son troisième test est le seul qui dise ce que
 l'utilisateur recevra réellement.
 
+<!-- gabarit:fin -->
 ---
 
-## 6. Conventions à ne pas enfreindre
+## 7. Conventions à ne pas enfreindre
 
 - **Statique et hors-ligne.** HTML, CSS et JavaScript nus. Aucun framework,
   aucune dépendance à un CDN, aucun appel réseau au chargement.
+- **Copier depuis le chapitre vitrine.** `site/chapitres/_modele.html` est le seul
+  endroit où tous les composants sont appelés pour de vrai, avec le motif
+  bilingue : on copie depuis là plutôt qu'écrire de mémoire.
 - **Charte commune, accent par cours.** La teinte se choisit dans `cours.json`
   parmi les palettes de `palettes.css`, toutes vérifiées en contraste. Ne pas
   inventer une couleur sans relancer `verifier_contraste.py`.
@@ -141,9 +262,9 @@ l'utilisateur recevra réellement.
   chaque capsule, contraste vérifié, navigation au clavier. Ce n'est pas une
   faveur faite à une minorité : cela rend la ressource utilisable dans plus de
   situations.
-- **Jamais de secret dans le dépôt.** Clé API ElevenLabs, identifiants FTP,
-  documents sous droits : tous exclus par `.gitignore`. L'historique Git ne
-  s'efface pas.
+- **Jamais de secret dans le dépôt.** Clé API ElevenLabs, accès à
+  l'hébergement, mots de passe des zones protégées, documents sous droits : tous
+  exclus par `.gitignore`. L'historique Git ne s'efface pas.
 - **Ne jamais attribuer le contenu à une IA.** Le cours est signé par son
   auteur.
 - **Anonymat des copies.** Si le cours produit des livrables étudiants, aucun
@@ -152,22 +273,26 @@ l'utilisateur recevra réellement.
 
 ---
 
-## 7. Où chercher le détail
+## 8. Où chercher le détail
 
 | Question | Fichier |
 |---|---|
+| Créer un cours de bout en bout, avec ses paramètres | `prompts/PROMPT-Cours-parametrable.md` |
 | Comment fabriquer un cours, pas à pas | `docs/GUIDE.md` |
 | Rôle de chaque fichier et de chaque moteur | `docs/ARCHITECTURE.md` |
 | Le bilingue en profondeur | `docs/I18N.md` |
 | Les pratiques et leurs raisons | `docs/BONNES_PRATIQUES.md` |
 | Ce qu'il reste à faire avant de livrer | `docs/CHECKLIST.md` |
 | Vérifier que le gabarit lui-même fonctionne | `docs/RECETTE.md` |
+| Écrire les capsules audio (Eleven v4) | `prompts/14_capsules_audio.md` |
+| Expliquer chaque proposition d'un quiz | `prompts/15_explications_quiz.md` |
+| Publier, protéger une zone | `deploiement/LISEZMOI.md` |
 | Les prompts de production | `prompts/` |
 | Les skills et le pipeline | `.claude/skills/README.md` |
 
 ---
 
-## 8. Comment travailler ici
+## 9. Comment travailler ici
 
 - **Vérifier plutôt qu'affirmer.** Ce dépôt fournit des vérificateurs : les
   lancer coûte quelques secondes et évite des heures.

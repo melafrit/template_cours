@@ -3,6 +3,8 @@
 Ordre recommandé. On peut itérer **à l'intérieur** d'une phase (régénérer un chapitre, retoucher un QCM), mais on ne saute pas une phase en avant sans avoir **validé** la précédente. La règle reste : **un livrable par prompt**, on valide avant de passer au suivant.
 
 > Le détail de chaque prompt (placeholders, bloc à copier, conseils) est dans le fichier lui-même. L'index complet est `prompts/00_README_prompts.md`. Commencer **toujours** par `01`.
+>
+> Ces quatre phases outillent les phases 1 à 11 du **prompt paramétrable** (`prompts/PROMPT-Cours-parametrable.md`), qui fixe aussi les jalons STOP, l'étape zéro (`nouveau_cours.py`), l'audio, Yparéo, l'import Livrables et le déploiement.
 
 ## Phase 1 — Cadrage & architecture
 
@@ -32,6 +34,7 @@ Ordre recommandé. On peut itérer **à l'intérieur** d'une phase (régénérer
 | `prompts/07_qcm_banque.md` | Banque de QCM à **notation CBM** (réponse unique, positions des bonnes réponses équilibrées, distracteurs débiaisés) → `questions.js` + `corrections.js`. |
 | `prompts/05_activites_interactives.md` | Conçoit les activités interactives adaptées au sujet (assistant de décision, quiz-classificateur, calculateur, checklist à score, flashcards…). |
 | `prompts/11_atelier_templates.md` | Atelier « fil rouge » : énoncé, livrables, templates téléchargeables, corrigé formateur. |
+| `prompts/15_explications_quiz.md` | Pour **toute** question à choix : pourquoi chaque proposition écartée ne convient pas, et deux à quatre renvois « Pour approfondir » (fichier et ancre vérifiés). |
 
 ## Phase 4 — Supports & diffusion
 
@@ -39,6 +42,7 @@ Ordre recommandé. On peut itérer **à l'intérieur** d'une phase (régénérer
 
 | Fichier | Rôle (une ligne) |
 |---|---|
+| `prompts/14_capsules_audio.md` | Fiche de production des capsules (Eleven v4, accent parisien marqué ajouté par le générateur, « speaking slowly ») ; **témoin d'abord**, série ensuite. |
 | `prompts/12_polycopies.md` | Scripts Python des polycopiés de synthèse par chapitre (`python-docx` + `fpdf2` → DOCX + PDF). |
 | `prompts/08_qcm_papier.md` | QCM papier imprimable (DOCX) : page de garde, consignes, barème CBM, questions 2 colonnes, grille de réponses, corrigé. |
 | `prompts/09_notebooklm_fiche.md` | Fiche de cours (DOCX) à fournir à NotebookLM. |
@@ -59,7 +63,7 @@ Renseignés **une fois** (idéalement dans la fiche de cadrage produite par `01`
 | `{{DOCUMENTS_DE_REFERENCE}}` | Sources faisant autorité, à analyser **avant** de rédiger. | « Texte de loi X, rapport Y, normes Z » |
 | `{{FIL_ROUGE}}` | Cas pratique continu traversant le cours. | « Projet UrbanHub Smart City » |
 | `{{NB_CHAPITRES}}` | Nombre de chapitres prévus. | « 6 » |
-| `{{AUTEUR}}` | Auteur·rice (mentions, crédits, commits). | « Mohamed EL AFRIT » |
+| `{{AUTEUR}}` | Auteur·rice (mentions, crédits, commits). | « Mohamed Amine EL AFRIT » |
 | `{{LICENCE}}` | Licence du contenu produit. | « CC BY 4.0 (contenu), MIT (code) » |
 | `{{CONTRAINTES}}` | Limites, exclusions, ton, exigences. | « Pas de jargon, exemples FR, hors-ligne, RGAA » |
 

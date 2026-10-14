@@ -70,9 +70,12 @@ Tout ce que le template (et donc les prompts) sait produire :
 - **🧠 Moteur de composants pédagogiques (`RDCX`)** — point de contrôle, révélation d'une réponse, repérage d'erreurs dans un document, appariement, scénario à embranchements, schéma à points chauds, capsule audio. Tous appelés pour de vrai dans `site/chapitres/_modele.html`, à copier depuis là.
 - **📖 Lecture par étapes** — un chapitre se parcourt section par section, avec une barre de progression, un mode « tout afficher » et une reprise là où l'on s'était arrêté.
 - **🎵 Playlist latérale** — toutes les pistes audio du cours, enchaînement automatique, tiroir sur mobile, et **filtrage par langue** : un lecteur francophone ne voit pas les capsules anglaises.
-- **🗣️ Chaîne audio ElevenLabs** — script écrit dans une fiche de production, génération par l'API, **contrôle qualité avant dépôt** (durée, débit, silences) et mise en quarantaine de ce qui sort des clous. Une capsule par langue.
+- **🗣️ Chaîne audio ElevenLabs (Eleven v4)** — script écrit dans une fiche de production, génération par l'API avec votre voix clonée et l'accent retenu à l'écoute, **un témoin écouté avant toute série**, **contrôle qualité avant dépôt** (durée, débit, silences) et mise en quarantaine de ce qui sort des clous. Une capsule par langue.
+- **💬 Quiz qui expliquent l'erreur** — chaque point de contrôle dit pourquoi la bonne réponse est juste, **pourquoi chacune des autres ne l'est pas**, et propose des renvois « Pour approfondir » vers l'endroit exact du cours ; le vérificateur de liens contrôle chaque renvoi, fichier et ancre.
 - **🎨 Palettes vérifiées** — charte commune à tous vos cours, couleur d'accent choisie dans `cours.json` parmi cinq palettes contrôlées en contraste, en thème clair **et** sombre.
-- **🚀 Amorçage en une commande** — `nouveau_cours.py` fabrique l'arborescence complète d'un nouveau cours à partir d'un fichier de configuration commenté.
+- **🚀 Amorçage en une commande** — `nouveau_cours.py` fabrique l'arborescence complète d'un nouveau cours à partir d'un fichier de configuration commenté, avec son contrat de travail (`CLAUDE.md`), sa destination de publication, et vos secrets recopiés en local.
+- **📋 Prompt paramétrable** — `prompts/PROMPT-Cours-parametrable.md` : un bloc de paramètres et la méthode complète, de l'amorçage à la mise en ligne, avec ses jalons.
+- **🔐 Déploiement OVH sûr** — SFTP, envoi incrémental, **garde-fou qui refuse d'écraser le dossier d'un autre cours**, protections du serveur jamais touchées, zones protégées (correction de TP) publiées après leur mot de passe. Testé hors ligne.
 
 ## 🗂️ Structure du dépôt
 
@@ -86,10 +89,13 @@ template_cours/
 ├── site/              # Le site lui-même : cours de démonstration à 3 chapitres
 ├── outils/            # Audio ElevenLabs, playlist, schémas, vérificateurs
 ├── tools/             # Polycopiés DOCX/PDF, QCM papier
-├── prompts/           # Bibliothèque de prompts de rédaction
+├── deploiement/       # Déploiement SFTP vers OVH, garde-fou, zones protégées, tests hors ligne
+├── prompts/           # Prompt paramétrable + bibliothèque de prompts de rédaction
 ├── docs/              # Architecture, guide, i18n, bonnes pratiques, checklist, recette
 └── .claude/skills/    # Skills Claude Code livrés avec le template
 ```
+
+> 🔒 **Secrets.** `outils/elevenlabs.json` (clé et voix ElevenLabs) et `deploiement/config.json` (accès à l'hébergement) vivent **uniquement sur votre poste**, ignorés par Git ; le dépôt n'en contient que les modèles `*.exemple.json`. `nouveau_cours.py` les recopie tels quels dans chaque nouveau cours. Le répertoire distant, lui, est propre à chaque cours : `deploiement/destination.json`.
 
 ## 🤖 Skills Claude Code
 
@@ -111,17 +117,25 @@ Deux voies, selon ce que vous voulez faire.
 
 ### Voie A — Créer un nouveau cours
 
+**0. Le plus court : le prompt paramétrable.** Remplissez le bloc de paramètres de
+[`prompts/PROMPT-Cours-parametrable.md`](prompts/PROMPT-Cours-parametrable.md) — ce
+que vous ignorez reste vide — et demandez à Claude de **créer le cours** depuis ce
+template. Il fait lui-même les étapes ci-dessous, en vous posant ses questions une
+à une, et s'arrête à chaque jalon.
+
 **1. Amorcer la mécanique.**
 
 ```bash
-cp cours.exemple.json cours.json     # puis remplissez-le : titre, palette, chapitres…
+cp cours.exemple.json cours.json     # puis remplissez-le : titre, palette, chapitres, publication…
 python3 nouveau_cours.py --essai     # ce qu'il ferait, sans rien écrire
 python3 nouveau_cours.py             # crée le cours dans le dossier « sortie »
 ```
 
-Le script produit l'arborescence, la charte, la navigation et les squelettes de
-chapitres. **Il ne rédige aucun contenu** — c'est voulu : un script qui
-inventerait des chapitres produirait un cours générique.
+Le script produit l'arborescence, la charte, la navigation, les squelettes de
+chapitres et le déployeur ; il écrit le `CLAUDE.md` et la destination de
+publication du cours, et recopie vos secrets en local. **Il ne rédige aucun
+contenu** — c'est voulu : un script qui inventerait des chapitres produirait un
+cours générique.
 
 **2. Déposer vos sources.** Référentiel, supports existants, articles, normes vont
 dans `sources/`. Ce dossier est **exclu du dépôt** — ces documents ne vous
@@ -159,7 +173,8 @@ passe au suivant.
 ```bash
 python3 outils/verifier_i18n.py       # clés dépareillées, blocs FR/EN déséquilibrés
 python3 outils/verifier_contraste.py  # palettes lisibles en clair et en sombre
-python3 outils/verifier_liens.py      # href et src qui ne mènent nulle part
+python3 outils/verifier_liens.py      # href, src et renvois « Pour approfondir » qui ne mènent nulle part
+python3 deploiement/tester_deployer.py  # garde-fou et protections du déployeur, hors ligne
 ```
 
 > 🧪 À la réception du template, ou après toute modification du moteur, déroulez [`docs/RECETTE.md`](docs/RECETTE.md) : vingt minutes, trois tests. Le dernier — générer un cours vide — est le seul qui vous dise ce que vous recevrez réellement en démarrant un nouveau cours.
@@ -237,6 +252,10 @@ Everything the template (and therefore the prompts) can produce:
 - **🖨️ Printable paper quiz (DOCX)** — cover page + instructions + CBM scoring guide with examples + two-column questions + answer grid + instructor key.
 - **🧵 "Red thread" workshop** — a continuous scenario running through the whole course, with deliverables, downloadable templates and a model answer.
 - **🔗 NotebookLM integration** — a course sheet (DOCX) to feed NotebookLM, plus prompts to generate infographic / slides / podcast per chapter.
+- **🗣️ ElevenLabs audio chain (Eleven v4)** — scripts written in a production sheet, generated with your cloned voice and the accent chosen by ear, **one test take listened to before any batch**, and **quality control before publishing** (duration, pace, silences).
+- **💬 Quizzes that explain the mistake** — every checkpoint says why the right answer is right, **why each of the others is not**, and links to the exact place in the course to go further; the link checker verifies each link, file and anchor.
+- **📋 Parametrizable prompt** — `prompts/PROMPT-Cours-parametrable.md`: a parameter block and the full method, from bootstrapping to going live, with its milestones (in French).
+- **🔐 Safe OVH deployment** — SFTP, incremental upload, **a guard that refuses to overwrite another course's folder**, server-side protections never touched, password-protected zones published only once protected. Tested offline.
 
 ## 🗂️ Repository structure
 
@@ -250,10 +269,13 @@ template_cours/
 ├── site/              # The site itself: a 3-chapter demo course
 ├── outils/            # ElevenLabs audio, playlist, diagrams, verifiers
 ├── tools/             # DOCX/PDF handouts, printable quiz
-├── prompts/           # Writing prompt library
+├── deploiement/       # SFTP deployment to OVH, identity guard, protected zones, offline tests
+├── prompts/           # Parametrizable prompt + writing prompt library
 ├── docs/              # Architecture, guide, i18n, best practices, checklist, acceptance tests
 └── .claude/skills/    # Claude Code skills shipped with the template
 ```
+
+> 🔒 **Secrets.** `outils/elevenlabs.json` (ElevenLabs key and voice) and `deploiement/config.json` (hosting access) live **only on your machine**, ignored by Git; the repository only holds the `*.exemple.json` models. `nouveau_cours.py` copies them as-is into each new course. The remote folder is specific to each course: `deploiement/destination.json`.
 
 ## 🤖 Claude Code skills
 
@@ -275,6 +297,7 @@ Two paths, depending on what you want to do.
 
 ### Path A — Generate a new course with Claude
 
+0. **Shortest route:** fill in the parameter block of [`prompts/PROMPT-Cours-parametrable.md`](prompts/PROMPT-Cours-parametrable.md) and ask Claude to **create the course** from this template. It runs `nouveau_cours.py`, asks its questions one at a time and stops at each milestone. The steps below are the manual equivalent.
 1. Open the **`prompts/`** folder and start with prompt **`01`** (course framing).
 2. Fill in the **placeholders** in `{{ }}` — e.g. `{{SUJET_DU_COURS}}`, `{{PUBLIC_CIBLE}}`, `{{NIVEAU}}`, `{{DUREE}}`, `{{LANGUES}}`, `{{DOCUMENTS_DE_REFERENCE}}`, `{{FIL_ROUGE}}`, `{{NB_CHAPITRES}}`, `{{AUTEUR}}`, `{{LICENCE}}`, `{{CONTRAINTES}}`.
 3. Paste the prompt into Claude, **provide your reference documents**, then **run the following prompts in order** (chapters, quiz, glossary, workshops, exports…).
@@ -301,7 +324,8 @@ It serves `site/` on **http://localhost:8765**, opens your browser, and falls ba
 ```bash
 python3 outils/verifier_i18n.py       # unpaired keys, unbalanced FR/EN blocks
 python3 outils/verifier_contraste.py  # palettes readable in light and dark
-python3 outils/verifier_liens.py      # href and src pointing nowhere
+python3 outils/verifier_liens.py      # href, src and "go further" links pointing nowhere
+python3 deploiement/tester_deployer.py  # deployment guard and protections, offline
 ```
 
 > 🧪 When you first receive the template, or after any engine change, work through [`docs/RECETTE.md`](docs/RECETTE.md) (in French): twenty minutes, three tests. The last one — generating an empty course — is the only one that tells you what you will actually get when starting a new course.

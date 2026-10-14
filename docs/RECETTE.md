@@ -90,10 +90,28 @@ palette marine, en place depuis deux ans.
 
     python3 outils/verifier_liens.py
 
-Tous les `href` et `src` qui désignent un fichier du site. Doit finir sur
-**« Aucun lien mort »**. C'est le contrôle le plus rentable du lot : quatre
+Tous les `href` et `src` qui désignent un fichier du site, et les renvois
+« Pour approfondir » des points de contrôle — fichier **et** ancre. Doit finir
+sur **« Aucun lien mort »**. C'est le contrôle le plus rentable du lot : quatre
 familles de liens différentes ont, tour à tour, survécu à la génération en
 pointant vers les chapitres de la démonstration.
+
+    python3 deploiement/tester_deployer.py
+
+Le garde-fou d'identité, les protections du serveur et les zones protégées,
+rejoués hors ligne contre un faux serveur : aucune connexion, aucun envoi. Doit
+finir sur **« Tous les cas sont conformes »**.
+
+    python3 outils/generer_audio.py --essai --force
+
+La chaîne audio sans dépense, si `outils/elevenlabs.json` est en place : modèle
+**eleven_v4**, accent sur les pistes françaises seulement (« sans accent ajouté »
+sur les anglaises), et le rappel du témoin avant toute série.
+
+- [ ] Au chapitre 1, répondez faux au point de contrôle : l'explication nomme la
+      bonne réponse, dit **pourquoi chaque autre proposition** ne convient pas,
+      marque « votre choix », et propose des renvois « Pour approfondir » — le
+      lien Wikipédia s'ouvre dans un nouvel onglet. En anglais aussi.
 
 ---
 
@@ -118,18 +136,41 @@ Renseignez ces deux champs dans `cours.json`, puis :
 Le cours atterrit dans `../mon-cours`. **Avec les trois chapitres du modèle,
 la sortie doit annoncer :**
 
-    contenu de demonstration retire : 26 media(s), 5 fichier(s) remis a l'etat de squelette
+    arborescence copiée (15 entrées)
+    CLAUDE.md écrit : les exigences de l'auteur s'appliquent à ce cours
+    contenu de demonstration retire : 26 media(s), 6 fichier(s) remis a l'etat de squelette
     14 page(s) renommee(s) au nom du cours
     7 fichier(s) recousu(s) sur les chapitres declares
     cours.html : 3 carte(s) de chapitre regeneree(s)
+    deploiement/destination.json écrit (cours « … »)
+    outils/elevenlabs.json     copié en local, ignoré par Git — contenu non affiché
+    deploiement/config.json    copié en local, ignoré par Git — contenu non affiché
 
-Les deux derniers chiffres suivent le nombre de chapitres déclarés : une carte
-par chapitre, et un recousage par chapitre plus les quatre pages qui les
-citent. Les 26 médias et les 5 squelettes, eux, ne bougent pas.
+Les chiffres des recousages et des cartes suivent le nombre de chapitres
+déclarés : une carte par chapitre, et un recousage par chapitre plus les quatre
+pages qui les citent. Les 26 médias et les 6 squelettes, eux, ne bougent pas.
+Les deux dernières lignes disent « absent du template » si vos secrets n'y sont
+pas : c'est le cas d'un dépôt fraîchement cloné (§ 4).
 
 Puis, sur le cours produit :
 
     python3 outils/verifier_liens.py --site ../mon-cours/site
+
+Et, pour les secrets — sans les ouvrir :
+
+    cd ../mon-cours && git init -q
+    git check-ignore -v outils/elevenlabs.json deploiement/config.json   # deux lignes attendues
+    sha256sum ../template_cours/outils/elevenlabs.json outils/elevenlabs.json   # empreintes identiques
+
+- [ ] Les deux secrets sont **ignorés par Git** dans le cours créé, et leurs
+      empreintes égales à celles du template. 🔴
+- [ ] `CLAUDE.md` du cours porte son titre et **aucun** passage propre au
+      template (`grep -c "gabarit:" CLAUDE.md` rend 0).
+- [ ] `deploiement/destination.json` porte le slug du cours et le répertoire de
+      `cours.json` (bloc `publication`) — ou la valeur du modèle, que le
+      déployeur refusera tant qu'elle n'est pas remplacée.
+- [ ] `python3 deploiement/tester_deployer.py` finit sur « Tous les cas sont
+      conformes ».
 
 Le cours créé embarque son propre lanceur. Ouvrez-le :
 
@@ -171,10 +212,17 @@ un autre port.
     python3 demarrer.py --port 8790
 
 **Les fichiers à secrets sont absents d'un dépôt fraîchement cloné**, et c'est
-voulu : `outils/elevenlabs.json` porte votre clé API, `deploiement/config.json`
-vos identifiants d'hébergement, `docs/acces.json` ceux du site de cours. Aucun
-n'entre au dépôt. Recopiez `outils/elevenlabs.exemple.json` avant de tester la
-génération audio, elle échouera sinon.
+voulu : `outils/elevenlabs.json` porte votre clé API et votre voix,
+`deploiement/config.json` vos accès à l'hébergement, `docs/acces.json` ceux du
+site de cours. Aucun n'entre au dépôt. Sur votre poste, le template en garde la
+**copie de référence** — `nouveau_cours.py` la recopie dans chaque nouveau cours.
+Sur un poste neuf, déposez-les une fois dans le template (à partir des modèles
+`*.exemple.json`), jamais dans une conversation.
+
+**Le template ne se déploie pas.** Il n'a pas de `deploiement/destination.json` :
+le déployeur refuse donc d'envoyer quoi que ce soit depuis ici. C'est voulu — son
+site de démonstration n'a rien à faire sur votre hébergement, et votre
+`config.json` vise un serveur où vivent de vrais cours.
 
 ---
 
@@ -189,6 +237,10 @@ génération audio, elle échouera sinon.
 | Une couleur est illisible | `site/assets/css/palettes.css`, puis relancer le vérificateur |
 | Le bouton d'un polycopié n'apparaît pas | la convention de nommage : `chapitre-N-polycopie.<langue>.pdf` |
 | Une capsule ne se génère pas | `outils/verifier_elevenlabs.py` avant tout le reste |
+| Une série audio est refusée | aucun témoin pour le modèle : `outils/generer_audio.py --temoin --limite 1`, écouté d'abord |
+| Un secret n'a pas été recopié | `SECRETS_LOCAUX` dans `nouveau_cours.py`, et le `.gitignore` du template (le motif doit y figurer) |
+| Le déployeur refuse d'envoyer | lire la raison : `destination.json`, puis `garde_identite()` dans `deploiement/deployer.py` ; `tester_deployer.py` rejoue chaque cas hors ligne |
+| Un renvoi « Pour approfondir » est signalé | l'ancre visée n'existe pas dans la page cible : `renvoi_casse()` dans `outils/verifier_liens.py` |
 
 Un test qui échoue n'est pas une anomalie de recette : c'est un défaut du
 gabarit, qui partirait tel quel dans tous les cours suivants. Corrigez-le ici,

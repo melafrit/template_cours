@@ -224,3 +224,108 @@ plus loin.
 
 Cela vaut pour les rendus de Claude comme pour les vôtres. Quand un lot est
 livré, dire ce qu'il contient **et ce qu'il ne contient pas encore**.
+
+---
+
+## 13. Un secret se recopie, il ne se lit pas
+
+La clé ElevenLabs, la voix clonée, les accès à l'hébergement sont les mêmes pour
+tous les cours de l'auteur. Les ressaisir à chaque cours, c'est les faire
+transiter par une conversation, un message, un presse-papiers — autant d'endroits
+d'où ils ne repartent jamais.
+
+Ils se **recopient donc tels quels**, octet pour octet, du template vers le cours
+(`nouveau_cours.py` le fait), et seulement si le `.gitignore` du cours les exclut.
+Claude ne les ouvre pas : les scripts s'en servent. Une recherche dans le dépôt
+les exclut explicitement — un `grep` sur tout le dossier affiche aussi ce qu'il y
+a dans un fichier de secrets.
+
+Pour vérifier qu'une copie est fidèle sans la lire, on compare les empreintes :
+
+```bash
+sha256sum ../template_cours/outils/elevenlabs.json outils/elevenlabs.json
+```
+
+---
+
+## 14. Une configuration recopiée ne doit pas décider où l'on publie
+
+Le premier déployeur lisait le répertoire distant dans la même configuration que
+le mot de passe. Recopiée pour un nouveau cours, elle désignait le dossier du
+cours précédent : le premier envoi l'aurait écrasé, la première purge l'aurait
+vidé — et les étudiants l'auraient découvert avant l'auteur.
+
+La destination vit donc à part, dans `deploiement/destination.json`, versionné
+avec le cours et écrit à sa création. Et le carnet déposé sur le serveur porte
+l'identifiant du cours : le déployeur refuse d'écrire dans un dossier marqué au
+nom d'un autre, dans un dossier occupé sans carnet, ou dans un dossier logé à
+l'intérieur d'un autre cours. Le garde-fou se teste hors ligne
+(`deploiement/tester_deployer.py`) : un faux serveur, aucun risque.
+
+Le motif est général : **ce qui se recopie d'un projet à l'autre ne doit porter
+que ce qui est vraiment commun.**
+
+---
+
+## 15. La protection d'abord, le contenu ensuite
+
+La correction d'un TP vit derrière un mot de passe. Publiée une minute avant sa
+protection, elle a été vue — ou peut l'avoir été, ce qui revient au même.
+
+Le déployeur retient donc le contenu d'une zone protégée tant que son
+`.htaccess` n'est pas en ligne, et ne remplace ni ne purge jamais un `.htaccess`,
+un `.htpasswd`, un `.user.ini` ou un `.ovhconfig` posé côté serveur.
+`deploiement/proteger_zones.py` pose la protection, la relit, et vérifie que la
+zone répond 401 sans identifiants.
+
+---
+
+## 16. Un témoin avant la série
+
+Une série de capsules se paie d'avance et s'écoute après. Une voix mal réglée,
+un accent qui ne s'entend pas, un débit trop rapide : toutes les pistes partent
+avec le même défaut.
+
+On génère donc **une** prise témoin, à côté (`--temoin`), que l'auteur écoute sur
+la page ; la série ne part qu'ensuite. Le générateur refuse une série tant
+qu'aucun témoin n'existe pour le modèle. C'est ainsi qu'ont été tranchés le modèle
+(Eleven v4), l'accent (la formulation « marquée », la « naturelle » ne
+s'entendant pas) et la lecture posée des capsules explicatives.
+
+L'accent, comme les seuils de contrôle, vit **dans le générateur**, pas dans la
+configuration (§ 8) : une configuration ancienne ne doit pas faire repartir une
+prise sans accent.
+
+---
+
+## 17. Une explication démonte aussi l'erreur
+
+Une explication qui ne dit que pourquoi la bonne réponse est juste laisse
+l'étudiant seul avec son erreur. Or c'est la proposition qu'il a choisie qu'il
+faut démonter : l'idée fausse qui la rendait tentante, et pourquoi elle ne tient
+pas ici.
+
+Chaque question à choix porte donc une raison par proposition écartée, et deux à
+quatre renvois vers **l'endroit exact** qui répond — la section, le schéma, la
+fiche —, jamais « le chapitre 3 ». `outils/verifier_liens.py` contrôle chaque
+renvoi, fichier **et** ancre : un renvoi vers la bonne page mais la mauvaise
+section ne se voit qu'en cliquant.
+
+---
+
+## 18. Une adresse externe s'ouvre avant d'être citée
+
+Une adresse recopiée de mémoire, ou devinée d'après le titre d'un article, mène
+une fois sur deux à une page d'erreur — ou pire, à une autre page. Chaque lien
+externe s'ouvre donc avant d'être ajouté, s'affiche dans un nouvel onglet
+(`target="_blank" rel="noopener noreferrer"`) et se signale aux lecteurs d'écran.
+
+---
+
+## 19. Vérifier sans écran
+
+L'onglet de navigateur intégré à l'outil ne s'affiche pas toujours. Un navigateur
+sans interface (Edge ou Chrome lancé en `--headless`, piloté par le protocole de
+débogage) fait alors les captures et les parcours automatiques : cliquer chaque
+proposition d'un quiz, mesurer un contraste, vérifier qu'une ancre est visible.
+Ce qui compte, c'est que la vérification ait lieu, pas l'outil qui la fait.

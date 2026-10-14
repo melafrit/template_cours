@@ -24,6 +24,10 @@
 - [ ] Contraintes recensées (techniques, légales, de marque, de temps) — `{{CONTRAINTES}}`
 - [ ] Objectifs pédagogiques généraux rédigés (verbes d'action mesurables)
 - [ ] **Exigence d'exactitude posée** : Claude doit analyser en détail les documents AVANT de produire, ne rien inventer, citer ses sources 🔴
+- [ ] **Interdits du cours** listés dans la fiche de cadrage (sujet du TP, exemples à éviter) et contrôlés par les générateurs
+- [ ] Cours créé par `nouveau_cours.py` dans un dossier à part ; sa sortie annonce les **secrets copiés en local, ignorés par Git** 🔴
+- [ ] `deploiement/destination.json` au nom du cours, répertoire distant **propre au cours** 🔴
+- [ ] Dépôt Git privé ; commits au nom de l'auteur, **sans** ligne `Co-Authored-By` 🔴
 
 > ✅ **Jalon :** le cadrage est figé par écrit et relu. On ne passe au plan qu'une fois ce jalon validé.
 
@@ -59,6 +63,11 @@ Pour **chaque** chapitre :
 - [ ] Ancres de sections en place (cohérentes avec le sous-menu de navigation)
 - [ ] Chapitre relu (orthographe, grammaire, exactitude factuelle, cohérence avec les autres chapitres) 🔴
 - [ ] Longueur et densité homogènes d'un chapitre à l'autre
+- [ ] Chaque schéma a son **explication élément par élément**, pour un débutant 🔴
+- [ ] Chaque point de contrôle explique **chaque proposition** et donne deux à quatre renvois « Pour approfondir » 🔴
+- [ ] Aucune date fixe ; aucun texte ni figure recopié d'un ouvrage ; rien du sujet du TP
+- [ ] Liens externes dans un nouvel onglet (`rel="noopener noreferrer"`), adresses ouvertes avant ajout
+- [ ] Typographie : espaces insécables avant `: ; ? !` et dans `« »`
 
 > ✅ **Jalon :** tous les chapitres rédigés ET relus. La relecture est bloquante : pas de chapitre « brouillon » en production.
 
@@ -89,6 +98,7 @@ Pour **chaque** chapitre :
 - [ ] **Tableau de bord** testé (agrégation de plusieurs CSV)
 - [ ] Aucune réponse fausse présentée comme vraie ; corrigé relu 🔴
 - [ ] Réponses fondées sur les documents de référence (rien d'inventé)
+- [ ] Chaque question explique pourquoi la bonne réponse est juste **et pourquoi chacune des autres ne l'est pas**, avec des renvois vers l'endroit exact du cours (`prompts/15_explications_quiz.md`) 🔴
 
 > ✅ **Jalon :** équilibrage des positions, débiaisage des distracteurs et exactitude du corrigé contrôlés explicitement.
 
@@ -158,12 +168,25 @@ Pour **chaque** chapitre :
 
 ---
 
+## Phase 10 ter — Capsules audio (Eleven v4)
+
+- [ ] Fiches de production au format exact (`prompts/14_capsules_audio.md`) : nom de fichier, script balisé, transcription
+- [ ] Ton pédagogique, académique, professionnel et motivant ; « speaking slowly » pour les capsules explicatives
+- [ ] `python3 outils/verifier_elevenlabs.py` : clé, voix, Eleven v4 disponible, quota suffisant
+- [ ] **Témoin** généré (`--temoin`) et **écouté par l'auteur** sur la page avant toute série 🔴
+- [ ] Sortie du générateur : modèle `eleven_v4`, accent « strong Parisian French accent » sur les pistes françaises
+- [ ] Aucune prise en quarantaine laissée sans décision ; transcriptions synchronisées ; playlist régénérée
+
+---
+
 ## Phase 10 bis — Les vérificateurs
 
 - [ ] `python3 outils/verifier_i18n.py` passe — clés appariées, blocs `data-tr`
       équilibrés, titres cohérents entre le menu et les pages
 - [ ] `python3 outils/verifier_contraste.py` passe — palettes lisibles en clair
       **et** en sombre
+- [ ] `python3 outils/verifier_liens.py` finit sur « Aucun lien mort » — renvois
+      « Pour approfondir » compris (fichier et ancre)
 - [ ] Le site tourne : `python3 demarrer.py`, sans erreur en console
 - [ ] Aucun média référencé n'est manquant (les composants affichent leur état,
       ce qui est différent d'un lien mort)
@@ -227,8 +250,10 @@ Pour **chaque** chapitre :
 - [ ] Tous les téléchargements testés (podcasts, slides, polycopiés, templates, CSV)
 - [ ] Pieds de page propres et cohérents sur toutes les pages
 - [ ] Métadonnées de page renseignées (titre, description, langue)
-- [ ] Versionné et committé sous Git
-- [ ] Déployé (hébergement statique) et URL de production vérifiée 🔴
+- [ ] Versionné et committé sous Git — **après accord de l'auteur**
+- [ ] `python3 deploiement/deployer.py --essai` : destination attendue, **garde-fou passé**, aucun fichier hors de `site/` 🔴
+- [ ] Zones protégées (correction…) : `proteger_zones.py` lancé **avant** le premier envoi de leur contenu ; elles répondent 401 sans identifiants 🔴
+- [ ] Déployé — **après un second accord de l'auteur** — et URL de production vérifiée 🔴
 - [ ] Vérification post-déploiement : site accessible, médias chargés, bascule de langue OK
 - [ ] Checklist archivée avec le cours comme preuve de qualité
 
