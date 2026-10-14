@@ -44,18 +44,28 @@ cours.json
 
 # Generation audio — CLE API ElevenLabs. Ne jamais versionner : elle engage des
 # depenses, et l'historique Git ne s'efface pas. Seul elevenlabs.exemple.json,
-# sans secret, est suivi.
-outils/elevenlabs.json
+# sans secret, est suivi. Le motif ** couvre une copie deposee ailleurs dans le
+# depot (un dossier de documents de reference, par exemple).
+**/elevenlabs.json
 outils/*.config.json
-# Prises rejetees par le controle qualite : on les garde pour ecoute, pas pour
-# publication.
+# Prises rejetees par le controle qualite, et temoins : on les garde pour
+# ecoute, pas pour publication.
 outils/quarantaine/
 
 # Configuration de deploiement — identifiants d'hebergement, meme regle.
+# destination.json, lui, n'a rien de secret : il est versionne avec chaque cours.
 deploiement/config.json
+deploiement/*.config.json
 deploiement/manifeste.json
+# Empreinte du serveur SFTP, retenue au premier contact : propre a chaque poste.
+deploiement/known_hosts
 
 # Cahier de texte — le fichier d'acces porte les identifiants du site de cours.
 # Le document produit les porte aussi : ni l'un ni l'autre n'entre au depot.
 docs/acces.json
 docs/Cahier_de_texte*.docx
+
+# Comptes des zones protegees (correction de TP…) : mots de passe en clair.
+# Dans un depot de cours PRIVE, l'auteur peut decider de le versionner ; dans
+# ce template, public, jamais.
+docs/acces-zones.json

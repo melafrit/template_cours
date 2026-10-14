@@ -1,0 +1,13 @@
+{
+  "_lisez_moi": "MODÈLE — sans secret. Copiez-le en docs/acces-zones.json, puis lancez python3 deploiement/proteger_zones.py --hors-ligne pour contrôler, et sans option pour poser la protection en ligne. docs/acces-zones.json est ignoré par Git : il porte des mots de passe en clair. Chaque dossier de « zones » doit aussi figurer dans « zones_protegees » de deploiement/destination.json.",
+  "_comptes": "Un compte par public. Les identifiants doivent différer d'un compte à l'autre, et ne pas contenir « : ». Les mots de passe partent sur le serveur chiffrés par bcrypt ; ce fichier-ci les garde en clair pour que vous puissiez les communiquer.",
+  "comptes": {
+    "etudiants": { "identifiant": "a-remplir", "mot_de_passe": "a-remplir" },
+    "formateur": { "identifiant": "a-remplir", "mot_de_passe": "a-remplir" }
+  },
+  "_zones": "Un dossier du site par zone (relatif à site/), le nom affiché par le navigateur dans sa fenêtre d'identification, et les comptes admis. « verifier » (facultatif) : l'adresse à demander sans identifiant pour constater le 401 ; par défaut, l'« url » de destination.json suivie du dossier.",
+  "zones": [
+    { "dossier": "correction", "nom": "Correction du TP", "comptes": ["etudiants", "formateur"] },
+    { "dossier": "correction/formateur", "nom": "Correction du TP - partie formateur", "comptes": ["formateur"] }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "_lisez_moi": "Où CE cours se publie. Sans secret : ce fichier est versionné avec le cours. nouveau_cours.py l'écrit d'après le bloc « publication » de cours.json ; sinon, copiez ce modèle en destination.json et renseignez-le. Les accès à l'hébergement, eux, sont dans config.json.",
+  "_cours": "L'identifiant du cours : son slug. Il est inscrit dans le carnet déposé sur le serveur, et c'est lui qui empêche un autre cours d'écraser ce dossier : le déployeur refuse d'écrire dans un dossier marqué au nom d'un autre cours.",
+  "cours": "mon-cours",
+  "_repertoire_distant": "Le dossier de CE cours sur le serveur, depuis la racine du compte (ex. /www/teaching/<domaine>/<cours>). Un dossier qui lui est propre : jamais /www, jamais le dossier d'un autre cours, ni un dossier à l'intérieur d'un autre cours — sa purge l'effacerait. Il est créé au premier envoi s'il n'existe pas.",
+  "repertoire_distant": "/www/chemin/du-cours",
+  "_url": "L'adresse publique correspondante, rappelée après chaque envoi et utilisée pour vérifier les zones protégées.",
+  "url": "https://exemple.org/chemin/du-cours/",
+  "_zones_protegees": "Dossiers du site (relatifs à site/, ex. « correction/ ») qui ne partent qu'une fois protégés par mot de passe en ligne — la correction d'un TP, la partie formateur. deploiement/proteger_zones.py pose la protection ; les comptes sont dans docs/acces-zones.json. Laissez la liste vide si le cours n'en a pas.",
+  "zones_protegees": []
+}

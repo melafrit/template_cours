@@ -1,24 +1,48 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Déploiement du site du cours vers un hébergement OVH, par FTP.
+"""Déploiement du site du cours vers un hébergement OVH, par SFTP (ou FTPS / FTP).
 
     python3 deploiement/deployer.py --essai      # simulation, rien n'est envoyé
     python3 deploiement/deployer.py              # envoi réel
     python3 deploiement/deployer.py --purge      # + suppression des fichiers obsolètes
-    python3 deploiement/deployer.py --tout       # ignore le manifeste, réenvoie tout
+    python3 deploiement/deployer.py --tout       # ignore le carnet, réenvoie tout
+    python3 deploiement/deployer.py --adopter    # reprend un dossier déjà publié par un autre outil
 
-Le transfert est INCRÉMENTAL. Le site pèse plus de 300 Mo, dont l'essentiel en
-podcasts et en slides qui ne changent jamais : tout réenvoyer à chaque
-publication prendrait des dizaines de minutes pour rien. On compare donc
-l'empreinte SHA-256 de chaque fichier à celle du dernier envoi réussi.
+DEUX FICHIERS, DEUX RÔLES.
 
-La liste de ce qui part en ligne est celle de Git. C'est volontaire : ce qui est
-ignoré par Git — identifiants, PNG sources, fichiers temporaires — ne peut pas
-partir par accident. Les exclusions de la configuration retirent ensuite ce qui
-est suivi mais n'a rien à faire sur le serveur (docs de production, générateurs).
+  deploiement/config.json       les ACCÈS à l'hébergement : hôte, identifiant, mot de passe,
+                                protocole. Secret, ignoré par Git, identique d'un cours à
+                                l'autre : on le recopie tel quel, sans l'ouvrir.
+  deploiement/destination.json  OÙ VA CE COURS : son identifiant et son répertoire distant.
+                                Sans secret, versionné avec le cours, écrit par nouveau_cours.py.
 
-Aucune dépendance : tout vient de la bibliothèque standard de Python 3.
-Testé pour un usage depuis macOS comme depuis Windows.
+Le répertoire distant ne vient JAMAIS de config.json. Recopiée d'un cours à l'autre, cette
+configuration désigne encore le dossier du cours précédent : le premier envoi du nouveau cours
+l'aurait écrasé, et la première purge l'aurait vidé.
+
+LE GARDE-FOU D'IDENTITÉ. Le carnet des envois, déposé sur le serveur, porte l'identifiant du
+cours. Avant d'écrire quoi que ce soit, le script vérifie que le dossier distant est vide ou
+qu'il appartient à ce cours ; sinon il refuse. Un dossier publié par un autre outil — carnet
+sans identifiant, ou fichiers sans carnet — ne se reprend qu'avec --adopter. Un dossier situé
+À L'INTÉRIEUR d'un cours déjà publié est toujours refusé : la purge de ce cours l'effacerait.
+
+LES PROTECTIONS DU SERVEUR. Un mot de passe (.htaccess, .htpasswd) ou un réglage d'hébergement
+(.user.ini, .ovhconfig) posés côté serveur ne sont jamais écrasés ni purgés. Les zones protégées
+déclarées dans destination.json — une correction de TP, par exemple — ne partent que si leur
+.htaccess est déjà en ligne : deploiement/proteger_zones.py le pose.
+
+Le transfert est INCRÉMENTAL. Capsules audio, polycopiés et schémas ne changent presque jamais :
+tout réenvoyer à chaque correction de texte serait du temps perdu. On compare donc l'empreinte
+SHA-256 de chaque fichier à celle du dernier envoi réussi.
+
+La liste de ce qui part en ligne est celle de Git, limitée à site/. C'est volontaire : ce qui est
+ignoré par Git — identifiants, PNG sources, fichiers temporaires — ne peut pas partir par
+accident, et les outils, les fiches de production, les sources et la documentation restent au
+dépôt par construction.
+
+Dépendance : paramiko pour le SFTP (python3 -m pip install paramiko) ; FTP et FTPS n'utilisent
+que la bibliothèque standard. Testé depuis macOS comme depuis Windows. Tests hors ligne du
+garde-fou et des protections : python3 deploiement/tester_deployer.py
 """
 
 import argparse
@@ -28,6 +52,7 @@ import hashlib
 import io
 import json
 import os
+import re
 import ssl
 import subprocess
 import sys
@@ -43,23 +68,44 @@ for flux in (sys.stdout, sys.stderr):
 
 DEPOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Ce qui part en ligne, c'est site/ — et rien d'autre. Les outils, les fiches
-# de production, les sources et la documentation restent au depot. Dans le
+# de production, les sources et la documentation restent au depot. Dans les
 # cours dont ce template est issu, le site etait la racine et il fallait donc
 # une longue liste d'exclusions ; ici la separation est structurelle.
 RACINE = os.path.join(DEPOT, "site")
 DOSSIER = os.path.join(DEPOT, "deploiement")
 CONFIG = os.path.join(DOSSIER, "config.json")
+DESTINATION = os.path.join(DOSSIER, "destination.json")
 MANIFESTE = os.path.join(DOSSIER, "manifeste.json")
+CONNUS = os.path.join(DOSSIER, "known_hosts")
 
 # Le manifeste de référence vit SUR le serveur, pas sur le poste qui envoie.
 # Sinon chaque machine tient sa propre comptabilité : la première publication
-# depuis un poste neuf réexpédie les 340 Mo déjà en ligne, faute de savoir
-# ce que l'autre poste a déjà déposé. Ici, Mac et PC lisent le même carnet.
-# Le fichier local ne sert plus que de secours si le serveur est injoignable.
+# depuis un poste neuf réexpédie les centaines de Mo déjà en ligne, faute de
+# savoir ce que l'autre poste a déjà déposé. Ici, Mac et PC lisent le même
+# carnet. Le fichier local ne sert plus que de secours si le serveur est
+# injoignable.
 MANIFESTE_DISTANT = ".deploiement-manifeste.json"
 
-# Valeurs du modèle : si elles sont encore là, la configuration n'a pas été remplie.
-GABARITS = {"a-remplir", "", "ftp.exemple.ovh.net", "votre-identifiant", "votre-mot-de-passe"}
+# Protections plancher, ajoutées à celles de la configuration : même une
+# configuration incomplète ne doit pas pouvoir faire tomber le mot de passe du
+# cours ni les réglages PHP de l'hébergement. Un motif sans « / » vise le nom
+# du fichier dans n'importe quel dossier.
+PROTEGES_TOUJOURS = (".htaccess", ".htpasswd", ".user.ini", ".ovhconfig")
+
+# Exclusions plancher, relatives à site/ : du code ou des reliquats de poste
+# n'ont rien à faire sur un serveur, quelle que soit la configuration.
+EXCLUS_TOUJOURS = ("*.py", "*.pyc", ".DS_Store", "Thumbs.db", "desktop.ini", "_tmp*")
+
+# Valeurs des modèles : si elles sont encore là, le fichier n'a pas été rempli.
+GABARITS = {"a-remplir", "", "ftp.exemple.ovh.net", "votre-identifiant", "votre-mot-de-passe",
+            "mon-cours", "/www/chemin/du-cours"}
+
+# Racines d'hébergement : un cours ne s'y publie jamais, une purge y effacerait
+# tout ce que ce dépôt ne connaît pas.
+RACINES_HEBERGEMENT = ("/", "/www", "/htdocs", "/public_html")
+
+# Codes de sortie, pour un lancement non interactif.
+OK, ECHECS, CONNEXION, REFUS = 0, 1, 2, 3
 
 
 # ---------------------------------------------------------------- affichage
@@ -95,44 +141,82 @@ class Journal(object):
 
 
 # ---------------------------------------------------------------- configuration
-def charger_config():
-    if not os.path.isfile(CONFIG):
-        modele = os.path.join(DOSSIER, "config.exemple.json")
-        sys.exit(
-            "Configuration absente : %s\n"
-            "Copiez le modèle puis renseignez-le :\n"
-            "    cp %s %s" % (CONFIG, modele, CONFIG))
-    with open(CONFIG, encoding="utf-8") as f:
+def lire_json(chemin, modele):
+    if not os.path.isfile(chemin):
+        sys.exit("Fichier absent : %s\n"
+                 "Copiez le modèle puis renseignez-le :\n"
+                 "    cp %s %s" % (chemin, modele, chemin))
+    with open(chemin, encoding="utf-8") as f:
         try:
-            c = json.load(f)
+            return json.load(f)
         except ValueError as e:
-            sys.exit("Configuration illisible (%s) : %s" % (CONFIG, e))
+            sys.exit("Fichier illisible (%s) : %s" % (os.path.basename(chemin), e))
 
-    obligatoires = ("hote", "identifiant", "motdepasse", "repertoire_distant")
-    for cle in obligatoires:
+
+def charger_config():
+    """Les accès (config.json) et la destination (destination.json), réunis."""
+    c = lire_json(CONFIG, os.path.join(DOSSIER, "config.exemple.json"))
+    for cle in ("hote", "identifiant", "motdepasse"):
         if cle not in c:
-            sys.exit("Configuration : la clé « %s » manque." % cle)
+            sys.exit("config.json : la clé « %s » manque." % cle)
         if str(c[cle]).strip() in GABARITS:
-            sys.exit("Configuration : « %s » est resté sur la valeur du modèle." % cle)
+            sys.exit("config.json : « %s » est resté sur la valeur du modèle." % cle)
+    c["repertoire_distant_ignore"] = bool(str(c.pop("repertoire_distant", "")).strip())
 
-    distant = "/" + str(c["repertoire_distant"]).strip().strip("/")
-    # Garde-fou : --purge sur la racine du serveur effacerait le site entier,
-    # y compris ce que ce dépôt ne connaît pas.
-    if distant in ("/", "/www", "/htdocs", "/public_html"):
-        sys.exit("Configuration : « repertoire_distant » (%s) est une racine "
-                 "d'hébergement. Visez un sous-répertoire dédié au cours." % distant)
-    c["repertoire_distant"] = distant
-    c.setdefault("port", 21)
     c.setdefault("tls", True)
+    # « sftp » (SSH), « ftps » (FTP chiffré) ou « ftp ». Sans la clé, les
+    # anciennes configurations gardent leur comportement : tls vaut ftps.
+    c.setdefault("protocole", "ftps" if c["tls"] else "ftp")
+    c["protocole"] = str(c["protocole"]).lower()
+    if c["protocole"] not in ("sftp", "ftps", "ftp"):
+        sys.exit("config.json : « protocole » doit valoir sftp, ftps ou ftp.")
+    c["tls"] = c["protocole"] == "ftps"
+    c.setdefault("port", 22 if c["protocole"] == "sftp" else 21)
+    if c["protocole"] == "sftp" and int(c["port"]) == 21:
+        c["port"] = 22                    # le port 21 est celui du FTP, jamais du SSH
     c.setdefault("passif", True)
-    c.setdefault("exclure", [])
     c.setdefault("delai", 30)
+
+    d = charger_destination()
+    c["cours"] = d["cours"]
+    c["repertoire_distant"] = d["repertoire_distant"]
+    c["url"] = d.get("url", "")
+    c["zones"] = d["zones_protegees"]
+    c["exclure"] = sorted(set(c.get("exclure", [])) | set(d.get("exclure", [])) | set(EXCLUS_TOUJOURS))
+    c["proteger"] = sorted(set(c.get("proteger", [])) | set(d.get("proteger", []))
+                           | set(PROTEGES_TOUJOURS))
     return c
+
+
+def charger_destination():
+    """Où va CE cours. Refuse tôt et clairement plutôt que de viser au hasard."""
+    d = lire_json(DESTINATION, os.path.join(DOSSIER, "destination.exemple.json"))
+    for cle in ("cours", "repertoire_distant"):
+        if str(d.get(cle, "")).strip() in GABARITS:
+            sys.exit("destination.json : « %s » est vide ou resté sur la valeur du modèle." % cle)
+    cours = str(d["cours"]).strip()
+    if not re.match(r"^[a-z0-9][a-z0-9-]*$", cours):
+        sys.exit("destination.json : « cours » ne doit contenir que des minuscules, chiffres et "
+                 "tirets (lu : %r)." % cours)
+    distant = "/" + str(d["repertoire_distant"]).strip().strip("/")
+    if distant in RACINES_HEBERGEMENT:
+        sys.exit("destination.json : « repertoire_distant » (%s) est une racine d'hébergement. "
+                 "Visez un sous-répertoire dédié au cours." % distant)
+    if ".." in distant.split("/"):
+        sys.exit("destination.json : « repertoire_distant » ne doit pas contenir « .. ».")
+    zones = []
+    for z in d.get("zones_protegees") or []:
+        z = str(z).strip().strip("/")
+        if not z or ".." in z.split("/"):
+            sys.exit("destination.json : zone protégée invalide : %r" % z)
+        zones.append(z + "/")
+    d["cours"], d["repertoire_distant"], d["zones_protegees"] = cours, distant, sorted(set(zones))
+    return d
 
 
 # ---------------------------------------------------------------- inventaire local
 def fichiers_suivis():
-    """Chemins relatifs suivis par Git, en séparateurs POSIX."""
+    """Chemins relatifs à site/, suivis par Git, en séparateurs POSIX."""
     try:
         sortie = subprocess.check_output(
             ["git", "-C", RACINE, "ls-files"], stderr=subprocess.STDOUT)
@@ -154,6 +238,16 @@ def exclu(chemin, motifs):
     return False
 
 
+def protege(chemin, motifs):
+    """Vrai pour un fichier que le serveur garde quoi qu'il arrive.
+    Un motif sans « / » vise le nom du fichier dans n'importe quel dossier."""
+    nom = chemin.rsplit("/", 1)[-1]
+    for m in motifs:
+        if ("/" not in m and fnmatch.fnmatch(nom, m)) or fnmatch.fnmatch(chemin, m):
+            return True
+    return False
+
+
 def empreinte(absolu):
     h = hashlib.sha256()
     with open(absolu, "rb") as f:
@@ -163,21 +257,18 @@ def empreinte(absolu):
 
 
 # ---------------------------------------------------------------- manifeste
-def lire_manifeste():
+def lire_manifeste(cours):
+    """Le carnet local, s'il est bien celui de ce cours."""
     if not os.path.isfile(MANIFESTE):
         return {}
     try:
         with open(MANIFESTE, encoding="utf-8") as f:
-            return json.load(f).get("fichiers", {})
+            donnees = json.load(f)
     except ValueError:
         return {}
-
-
-def ecrire_manifeste(fichiers, hote, distant):
-    tmp = MANIFESTE + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(corps_manifeste(fichiers, hote, distant), f, ensure_ascii=False, indent=1)
-    os.replace(tmp, MANIFESTE)
+    if donnees.get("cours") not in (None, cours):
+        return {}
+    return donnees.get("fichiers", {})
 
 
 def nom_poste():
@@ -189,36 +280,42 @@ def nom_poste():
         return os.environ.get("COMPUTERNAME") or "?"
 
 
-def corps_manifeste(fichiers, hote, distant):
-    return {"hote": hote, "repertoire_distant": distant,
+def corps_manifeste(fichiers, c):
+    return {"cours": c["cours"], "hote": c["hote"], "repertoire_distant": c["repertoire_distant"],
             "horodatage": time.strftime("%Y-%m-%d %H:%M:%S"),
             "dernier_envoi_depuis": nom_poste(),
             "fichiers": fichiers}
 
 
-def lire_manifeste_distant(ftp, base, jr):
-    """Le carnet tel que le serveur le connaît. None si absent ou illisible."""
+def ecrire_manifeste(fichiers, c):
+    tmp = MANIFESTE + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(corps_manifeste(fichiers, c), f, ensure_ascii=False, indent=1)
+    os.replace(tmp, MANIFESTE)
+
+
+def lire_carnet(ftp, dossier):
+    """Le carnet déposé dans `dossier` : (« absent » | « illisible » | « ok », données)."""
     tampon = io.BytesIO()
     try:
-        ftp.retrbinary("RETR " + base + "/" + MANIFESTE_DISTANT, tampon.write)
-    except ftplib.error_perm:
-        return None                       # 550 : pas encore de carnet, première fois
-    except ftplib.all_errors as e:
-        jr.alerte("carnet distant illisible (%s)" % e)
-        return None
+        ftp.retrbinary("RETR " + dossier.rstrip("/") + "/" + MANIFESTE_DISTANT, tampon.write)
+    except ftplib.all_errors:
+        # 550 en FTP, fichier absent en SFTP — ou dossier illisible : dans les
+        # deux cas, aucun carnet que l'on puisse prendre en compte.
+        return "absent", None
     try:
         donnees = json.loads(tampon.getvalue().decode("utf-8"))
+        if not isinstance(donnees, dict):
+            raise ValueError("pas un objet JSON")
     except (ValueError, UnicodeDecodeError):
-        jr.alerte("carnet distant corrompu : il sera reconstruit.")
-        return None
-    return donnees.get("fichiers", {})
+        return "illisible", None
+    return "ok", donnees
 
 
-def ecrire_manifeste_distant(ftp, base, fichiers, hote, jr):
-    brut = json.dumps(corps_manifeste(fichiers, hote, base),
-                      ensure_ascii=False, indent=1).encode("utf-8")
+def ecrire_manifeste_distant(ftp, fichiers, c, jr):
+    brut = json.dumps(corps_manifeste(fichiers, c), ensure_ascii=False, indent=1).encode("utf-8")
     try:
-        ftp.storbinary("STOR " + base + "/" + MANIFESTE_DISTANT, io.BytesIO(brut))
+        ftp.storbinary("STOR " + c["repertoire_distant"] + "/" + MANIFESTE_DISTANT, io.BytesIO(brut))
         return True
     except ftplib.all_errors as e:
         jr.alerte("le carnet distant n'a pas pu être mis à jour (%s).\n"
@@ -226,7 +323,109 @@ def ecrire_manifeste_distant(ftp, base, fichiers, hote, jr):
         return False
 
 
-# ---------------------------------------------------------------- FTP
+# ---------------------------------------------------------------- garde-fou
+def ancetres(distant):
+    """/www/a/b/c → ['/www/a/b', '/www/a', '/www'] : les dossiers qui contiennent la cible."""
+    parties = [p for p in distant.strip("/").split("/") if p]
+    return ["/" + "/".join(parties[:i]) for i in range(len(parties) - 1, 0, -1)]
+
+
+def lister_entrees(ftp, chemin):
+    """Les noms présents dans `chemin` (sans descendre), ou None si le dossier n'existe pas.
+
+    Un dossier qui existe mais ne se lit pas lève une erreur, au lieu de passer
+    pour absent : on ne publie pas à l'aveugle dans un dossier qu'on ne voit pas.
+    """
+    try:
+        return [n for n, _f in ftp.mlsd(chemin) if n not in (".", "..")]
+    except FileNotFoundError:
+        return None                       # SFTP : le dossier n'existe pas
+    except ftplib.error_perm:
+        pass                              # FTP : dossier absent, ou serveur sans MLSD
+    try:
+        noms = ftp.nlst(chemin)
+    except ftplib.error_perm:
+        return None                       # 550 : le dossier n'existe pas
+    return [n.rsplit("/", 1)[-1] for n in noms if n.rsplit("/", 1)[-1] not in (".", "..")]
+
+
+def garde_identite(ftp, c, adopter):
+    """(autorisé, message, fichiers du carnet distant ou None).
+
+    Un dossier distant se publie s'il est vide, absent, ou déjà marqué au nom de
+    ce cours. Tout autre cas demande une décision humaine : un cours écrasé par
+    un autre ne se voit qu'une fois en ligne, par les étudiants.
+    """
+    base, cours = c["repertoire_distant"], c["cours"]
+
+    for a in ancetres(base):
+        etat, donnees = lire_carnet(ftp, a)
+        if etat != "absent":
+            autre = (donnees or {}).get("cours") or "sans identifiant"
+            return (False, "le dossier visé est À L'INTÉRIEUR d'un site déjà publié dans %s "
+                           "(cours « %s ») : sa prochaine purge l'effacerait. Choisissez un "
+                           "dossier à part dans destination.json." % (a, autre), None)
+
+    etat, donnees = lire_carnet(ftp, base)
+    if etat == "ok":
+        autre = donnees.get("cours")
+        if autre == cours:
+            return True, "dossier distant reconnu : il appartient à ce cours.", donnees.get("fichiers", {})
+        if autre:
+            return (False, "le dossier distant appartient au cours « %s », pas à « %s ». "
+                           "Vérifiez destination.json." % (autre, cours), None)
+        if adopter:
+            return True, "dossier repris (--adopter) : le carnet portera désormais ce cours.", \
+                donnees.get("fichiers", {})
+        return (False, "le dossier distant porte un carnet SANS identifiant de cours : un site y a "
+                       "été publié par un autre outil. Si c'est bien ce cours, relancez avec "
+                       "--adopter.", None)
+    if etat == "illisible":
+        if adopter:
+            return True, "dossier repris (--adopter), carnet illisible : tout sera renvoyé.", {}
+        return (False, "le carnet du dossier distant est illisible : impossible de savoir à quel "
+                       "cours il appartient. Si c'est bien ce cours, relancez avec --adopter.", None)
+
+    try:
+        noms = lister_entrees(ftp, base)
+    except ftplib.all_errors as e:
+        return False, "le dossier distant existe peut-être, mais ne se lit pas (%s)." % e, None
+    if noms is None:
+        return True, "dossier distant absent : il sera créé (premier envoi).", None
+    occupants = sorted(n for n in noms if not protege(n, c["proteger"]))
+    if not occupants:
+        return True, "dossier distant vide : premier envoi.", None
+    if adopter:
+        return True, "dossier repris (--adopter) : %d élément(s) déjà présent(s)." % len(occupants), None
+    return (False, "le dossier distant n'est pas vide et n'a pas de carnet (%s%s) : un autre site "
+                   "y vit peut-être. Si c'est bien ce cours, relancez avec --adopter."
+            % (", ".join(occupants[:5]), "…" if len(occupants) > 5 else ""), None)
+
+
+def protection_en_place(ftp, base, zone):
+    """Vrai si le .htaccess de la zone est en ligne et demande un mot de passe."""
+    tampon = io.BytesIO()
+    try:
+        ftp.retrbinary("RETR %s/%s.htaccess" % (base.rstrip("/"), zone), tampon.write)
+    except ftplib.all_errors:
+        return False
+    texte = tampon.getvalue()
+    return b"AuthUserFile" in texte and b"Require valid-user" in texte
+
+
+def retenir_zones(a_envoyer, zones, ftp, base):
+    """(à envoyer, retenus, zones sans protection) : un fichier d'une zone protégée ne part que si
+    chaque zone qui le contient est protégée en ligne — la protection d'abord, le contenu ensuite."""
+    concernees = sorted({z for rel, _a, _t in a_envoyer for z in zones if rel.startswith(z)})
+    manquantes = [z for z in concernees if not (ftp and protection_en_place(ftp, base, z))]
+    if not manquantes:
+        return a_envoyer, [], []
+    garde = [x for x in a_envoyer if not any(x[0].startswith(z) for z in manquantes)]
+    retenus = [x for x in a_envoyer if any(x[0].startswith(z) for z in manquantes)]
+    return garde, retenus, manquantes
+
+
+# ---------------------------------------------------------------- connexion
 def contexte_ssl():
     """Magasin de certificats fiable, quelle que soit l'installation de Python.
 
@@ -241,7 +440,6 @@ def contexte_ssl():
         return ssl.create_default_context()
 
 
-
 def diagnostic(e):
     """Message utile quand l'échec vient du magasin de certificats."""
     if "CERTIFICATE_VERIFY_FAILED" not in str(e):
@@ -254,11 +452,136 @@ def diagnostic(e):
             % (sys.version_info.major, sys.version_info.minor))
 
 
+class SFTPCommeFTP(object):
+    """Le SFTP (SSH), présenté avec les quelques opérations FTP dont le script
+    se sert : le reste du déploiement — carnet, garde-fou, comparaison, purge —
+    ne sait pas par quel canal passent les fichiers.
+
+    POURQUOI LE SFTP. L'hébergement mutualisé OVH refuse le FTPS (« 500 This
+    security scheme is not implemented ») mais ouvre SSH : c'est la seule voie
+    où mot de passe et contenus ne circulent pas en clair.
+
+    LES CHEMINS. En FTP, OVH enferme l'utilisateur à la racine de son compte :
+    « /www/… » y désigne le site. En SFTP, la racine est celle du serveur et le
+    compte vit dans un dossier personnel. Un chemin absolu dont le premier
+    dossier n'existe pas à la racine du serveur est donc lu à partir du dossier
+    personnel : la même destination sert aux deux protocoles.
+
+    L'EMPREINTE DU SERVEUR est retenue au premier contact dans
+    deploiement/known_hosts, puis exigée : un serveur qui change d'empreinte
+    fait échouer la connexion au lieu de recevoir le mot de passe.
+    """
+
+    def __init__(self, c, jr):
+        import paramiko
+        self.client = paramiko.SSHClient()
+        if os.path.isfile(CONNUS):
+            self.client.load_host_keys(CONNUS)
+        nouveau = []
+
+        class Retenir(paramiko.MissingHostKeyPolicy):
+            def missing_host_key(self, client, hote, cle):
+                client.get_host_keys().add(hote, cle.get_name(), cle)
+                client.save_host_keys(CONNUS)
+                nouveau.append((cle.get_name(), cle.get_fingerprint().hex(":")))
+
+        self.client.set_missing_host_key_policy(Retenir())
+        try:
+            self.client.connect(c["hote"], port=int(c["port"]), username=c["identifiant"],
+                                password=c["motdepasse"], timeout=c["delai"],
+                                banner_timeout=c["delai"], auth_timeout=c["delai"],
+                                allow_agent=False, look_for_keys=False)
+        except paramiko.BadHostKeyException as e:
+            raise OSError("l'empreinte du serveur a changé depuis le dernier envoi (%s). "
+                          "Vérifiez auprès d'OVH avant de supprimer deploiement/known_hosts." % e)
+        except paramiko.AuthenticationException:
+            raise OSError("identifiant ou mot de passe refusé par le serveur SSH")
+        except paramiko.SSHException as e:
+            raise OSError("échec de la connexion SSH : %s" % e)
+        if nouveau:
+            jr.info("empreinte du serveur retenue (%s %s) dans deploiement/known_hosts"
+                    % nouveau[0])
+        self.sftp = self.client.open_sftp()
+        self.maison = self.sftp.normalize(".")
+        self._racine = None
+
+    def _reel(self, chemin):
+        """Chemin du serveur correspondant à un chemin « à la FTP »."""
+        if self._racine is None:
+            premier = "/" + chemin.strip("/").split("/")[0]
+            try:
+                self.sftp.stat(premier)
+                self._racine = ""                 # le chemin existe tel quel
+            except IOError:
+                self._racine = self.maison        # lu depuis le dossier personnel
+        if not self._racine:
+            return chemin
+        return self._racine.rstrip("/") + "/" + chemin.lstrip("/")
+
+    @staticmethod
+    def _chemin(commande):
+        return commande.split(" ", 1)[1] if " " in commande else commande
+
+    def retrbinary(self, commande, rappel):
+        try:
+            with self.sftp.open(self._reel(self._chemin(commande)), "rb") as f:
+                while True:
+                    bloc = f.read(262144)
+                    if not bloc:
+                        break
+                    rappel(bloc)
+        except FileNotFoundError:
+            raise ftplib.error_perm("550 fichier absent")
+
+    def storbinary(self, commande, fichier, blocksize=262144, callback=None):
+        with self.sftp.open(self._reel(self._chemin(commande)), "wb") as f:
+            f.set_pipelined(True)
+            while True:
+                bloc = fichier.read(blocksize)
+                if not bloc:
+                    break
+                f.write(bloc)
+                if callback:
+                    callback(bloc)
+
+    def mkd(self, chemin):
+        reel = self._reel(chemin)
+        try:
+            self.sftp.mkdir(reel)
+        except IOError:
+            try:
+                self.sftp.stat(reel)
+            except IOError:
+                raise
+            raise ftplib.error_perm("550 existe déjà")
+
+    def mlsd(self, chemin):
+        import stat as st
+        for a in self.sftp.listdir_attr(self._reel(chemin)):
+            yield a.filename, {"type": "dir" if st.S_ISDIR(a.st_mode) else "file"}
+
+    def delete(self, chemin):
+        self.sftp.remove(self._reel(chemin))
+
+    def quit(self):
+        self.close()
+
+    def close(self):
+        try:
+            self.sftp.close()
+        finally:
+            self.client.close()
+
+
 def connecter(c, jr):
     adresse = "%s:%s" % (c["hote"], c["port"])
+    if c["protocole"] == "sftp":
+        ftp = SFTPCommeFTP(c, jr)
+        jr.info("connecté à %s en SFTP (chiffré)" % adresse)
+        return ftp
     if c["tls"]:
-        # FTPS explicite : OVH le propose, et sans lui identifiants comme
-        # contenus circulent en clair sur le réseau.
+        # FTPS explicite : sans lui, identifiants comme contenus circulent en
+        # clair sur le réseau.
         ftp = ftplib.FTP_TLS(context=contexte_ssl(), timeout=c["delai"])
     else:
         ftp = ftplib.FTP(timeout=c["delai"])
@@ -356,57 +679,92 @@ def lister_distant(ftp, base, jr):
 
 
 # ---------------------------------------------------------------- programme
-def main():
+def main(argv=None):
     ap = argparse.ArgumentParser(
-        description="Déploie le site du cours vers l'hébergement OVH par FTP.")
+        description="Déploie le site du cours vers l'hébergement OVH (SFTP, FTPS ou FTP).")
     ap.add_argument("--essai", action="store_true",
                     help="simulation : affiche ce qui serait envoyé, n'envoie rien")
     ap.add_argument("--tout", action="store_true",
-                    help="ignore le manifeste et réenvoie tous les fichiers")
+                    help="ignore le carnet et réenvoie tous les fichiers")
     ap.add_argument("--purge", action="store_true",
                     help="supprime en ligne les fichiers absents du dépôt (demande confirmation)")
     ap.add_argument("--purge-confirme", action="store_true", dest="purge_confirme",
                     help="purge sans poser de question — pour un lancement non interactif")
-    args = ap.parse_args()
+    ap.add_argument("--adopter", action="store_true",
+                    help="reprend un dossier distant publié par un autre outil (jamais avec --purge)")
+    args = ap.parse_args(argv)
     if args.purge_confirme:
         args.purge = True
+    if args.adopter and args.purge:
+        sys.exit("--adopter et --purge ne se combinent pas : adoptez d'abord le dossier, "
+                 "vérifiez le site, puis purgez lors d'un envoi suivant.")
 
     jr = Journal(args.essai)
     c = charger_config()
     base = c["repertoire_distant"]
 
+    jr.titre("Destination")
+    jr.info("cours « %s » → %s" % (c["cours"], base))
+    if c["repertoire_distant_ignore"]:
+        jr.info("config.json désigne aussi un répertoire distant : il est ignoré, "
+                "la destination vient de destination.json.")
+    if c["zones"]:
+        jr.info("zones protégées : %s" % ", ".join(c["zones"]))
+
     jr.titre("Inventaire")
     tous = fichiers_suivis()
-    retenus = [f for f in tous if not exclu(f, c["exclure"])]
-    jr.info("%d fichiers suivis par Git, %d retenus après exclusions"
+    retenus = [f for f in tous
+               if not exclu(f, c["exclure"]) and not protege(f, c["proteger"])]
+    jr.info("%d fichiers de site/ suivis par Git, %d retenus après exclusions"
             % (len(tous), len(retenus)))
 
-    # --- on se connecte AVANT de comparer, y compris en simulation : le carnet
-    #     de référence est sur le serveur, et une simulation qui devine ne sert
-    #     à rien. Sans connexion on retombe sur le carnet local, en le disant.
+    # --- on se connecte AVANT de comparer, y compris en simulation et avec --tout :
+    #     le garde-fou et le carnet de référence sont sur le serveur. Sans
+    #     connexion, une simulation retombe sur le carnet local, en le disant.
+    jr.titre("Connexion")
     ftp = None
-    if not args.tout:
-        jr.titre("Connexion")
+    try:
+        ftp = connecter(c, jr)
+    except ftplib.all_errors as e:
+        if not args.essai:
+            jr.alerte("connexion impossible : %s%s" % (e, diagnostic(e)))
+            return CONNEXION
+        jr.alerte("connexion impossible (%s).%s" % (e, diagnostic(e)))
+        jr.info("simulation poursuivie d'après le carnet local, qui peut être en retard ;")
+        jr.info("le garde-fou d'identité n'a PAS pu être vérifié.")
+
+    def raccrocher():
+        if not ftp:
+            return
         try:
-            ftp = connecter(c, jr)
-        except ftplib.all_errors as e:
-            if not args.essai:
-                jr.alerte("connexion impossible : %s%s" % (e, diagnostic(e)))
-                return 2
-            jr.alerte("connexion impossible (%s).%s" % (e, diagnostic(e)))
-            jr.info("simulation poursuivie d'après le carnet local, qui peut être en retard.")
+            ftp.quit()
+        except Exception:
+            try:
+                ftp.close()
+            except Exception:
+                pass
+
+    carnet = None
+    if ftp:
+        jr.titre("Garde-fou")
+        autorise, message, carnet = garde_identite(ftp, c, args.adopter)
+        if not autorise:
+            jr.alerte("envoi refusé : " + message)
+            jr.info("rien n'a été envoyé ni supprimé.")
+            raccrocher()
+            return REFUS
+        jr.info(message)
 
     if args.tout:
         manifeste = {}
         jr.info("option --tout : le carnet est ignoré, tout sera renvoyé.")
+    elif carnet is not None:
+        manifeste = carnet
+        jr.info("carnet lu sur le serveur : %d fichiers déjà en ligne." % len(manifeste))
     else:
-        manifeste = lire_manifeste_distant(ftp, base, jr) if ftp else None
-        if manifeste is None:
-            manifeste = lire_manifeste()
-            jr.info("aucun carnet sur le serveur : lecture du carnet local (%d entrées)."
-                    % len(manifeste))
-        else:
-            jr.info("carnet lu sur le serveur : %d fichiers déjà en ligne." % len(manifeste))
+        manifeste = lire_manifeste(c["cours"]) if not ftp else {}
+        jr.info("aucun carnet sur le serveur%s (%d entrées)."
+                % (" : lecture du carnet local" if not ftp else "", len(manifeste)))
 
     jr.titre("Comparaison")
     a_envoyer, inchanges, poids = [], 0, 0
@@ -421,25 +779,26 @@ def main():
         else:
             a_envoyer.append((rel, absolu, taille))
             poids += taille
+    jr.info("%d inchangés, %d à envoyer (%s)" % (inchanges, len(a_envoyer), humain(poids)))
 
-    jr.info("%d inchangés, %d à envoyer (%s)"
-            % (inchanges, len(a_envoyer), humain(poids)))
-
-    def raccrocher():
-        if not ftp:
-            return
-        try:
-            ftp.quit()
-        except Exception:
-            try:
-                ftp.close()
-            except Exception:
-                pass
+    # --- les zones protégées ne partent jamais sans leur protection en ligne :
+    #     leurs fichiers restent ici, le reste du site part. Le carnet ne les
+    #     note pas, le déploiement suivant les enverra une fois la zone protégée.
+    a_envoyer, retenus_zones, manquantes = retenir_zones(a_envoyer, c["zones"], ftp, base)
+    for rel, _a, _t in retenus_zones:
+        courant.pop(rel, None)
+        if rel in manifeste:
+            courant[rel] = manifeste[rel]
+    if manquantes:
+        poids = sum(t for _r, _a, t in a_envoyer)
+        jr.alerte("protection absente en ligne (%s) : %d fichier(s) de zone protégée ne partent "
+                  "pas. Lancez d'abord : python3 deploiement/proteger_zones.py"
+                  % (", ".join(manquantes), len(retenus_zones)))
 
     if not a_envoyer and not args.purge:
         jr.info("le site en ligne est déjà à jour.")
         raccrocher()
-        return 0
+        return OK
 
     if args.essai:
         jr.titre("Simulation")
@@ -450,15 +809,7 @@ def main():
         jr.info("destination : %s%s" % (c["hote"], base))
         jr.info("rien n'a été envoyé.")
         raccrocher()
-        return 0
-
-    if ftp is None:                       # cas --tout : la connexion reste à ouvrir
-        jr.titre("Connexion")
-        try:
-            ftp = connecter(c, jr)
-        except ftplib.all_errors as e:
-            jr.alerte("connexion impossible : %s%s" % (e, diagnostic(e)))
-            return 2
+        return OK
 
     connus = set()
     envoyes, echecs, cumul = 0, [], 0
@@ -466,6 +817,10 @@ def main():
 
     try:
         assurer_repertoire(ftp, base, connus)
+        # Le carnet part AVANT le premier fichier : le dossier porte le nom du
+        # cours dès sa création, et un premier envoi interrompu ne laisse pas un
+        # dossier anonyme que le garde-fou refuserait ensuite à son propre cours.
+        ecrire_manifeste_distant(ftp, manifeste, c, jr)
         jr.titre("Envoi")
         for i, (rel, absolu, taille) in enumerate(a_envoyer, 1):
             cible = base + "/" + rel
@@ -475,15 +830,15 @@ def main():
                 envoyer(ftp, absolu, cible, taille, jr)
                 envoyes += 1
                 cumul += taille
-                # Carnet tenu au fil de l'eau : une coupure au milieu de 340 Mo
+                # Carnet tenu au fil de l'eau : une coupure au milieu de 300 Mo
                 # ne doit pas obliger à tout réenvoyer. Le local est gratuit, on
-                # l'écrit à chaque fichier ; le distant coûte un aller-retour FTP,
-                # on le publie tous les 25 fichiers et à la fin.
+                # l'écrit à chaque fichier ; le distant coûte un aller-retour, on
+                # le publie tous les 25 fichiers et à la fin.
                 partiel = dict(manifeste)
                 partiel.update({r: courant[r] for r, _a, _t in a_envoyer[:i]})
-                ecrire_manifeste(partiel, c["hote"], base)
+                ecrire_manifeste(partiel, c)
                 if i % 25 == 0:
-                    ecrire_manifeste_distant(ftp, base, partiel, c["hote"], jr)
+                    ecrire_manifeste_distant(ftp, partiel, c, jr)
             except ftplib.all_errors as e:
                 echecs.append((rel, str(e)))
                 jr.alerte("échec sur %s : %s" % (rel, e))
@@ -493,9 +848,13 @@ def main():
             jr.titre("Fichiers obsolètes en ligne")
             distants = lister_distant(ftp, base, jr)
             locaux = set(retenus)
+            gardes = sorted(d for d in distants if d and protege(d, c["proteger"]))
             # le carnet n'est pas un fichier du site : il ne doit jamais être purgé
             obsoletes = sorted(d for d in distants
-                               if d and d not in locaux and d != MANIFESTE_DISTANT)
+                               if d and d not in locaux and d != MANIFESTE_DISTANT
+                               and d not in gardes)
+            for g in gardes:
+                jr.info("conservé (protégé) : %s" % g)
             if not obsoletes:
                 jr.info("aucun.")
             else:
@@ -518,12 +877,12 @@ def main():
                     jr.info("suppression annulée.")
 
         if not echecs:
-            ecrire_manifeste_distant(ftp, base, courant, c["hote"], jr)
+            ecrire_manifeste_distant(ftp, courant, c, jr)
     finally:
         raccrocher()
 
     if not echecs:
-        ecrire_manifeste(courant, c["hote"], base)
+        ecrire_manifeste(courant, c)
 
     jr.titre("Bilan")
     jr.info("%d fichiers envoyés, %s en %s" % (envoyes, humain(cumul), duree(time.time() - depart)))
@@ -531,9 +890,11 @@ def main():
         jr.alerte("%d échec(s) — ces fichiers seront repris au prochain lancement :" % len(echecs))
         for rel, e in echecs[:10]:
             jr.info("%s : %s" % (rel, e))
-        return 1
+        return ECHECS
     jr.info("site à jour sur %s%s" % (c["hote"], base))
-    return 0
+    if c["url"]:
+        jr.info("à vérifier : %s" % c["url"])
+    return OK
 
 
 if __name__ == "__main__":
