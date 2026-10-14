@@ -25,7 +25,13 @@
 (function () {
   var KEY = 'tpl-lang';
   var DEFAULT = (document.documentElement.getAttribute('lang') || 'fr').slice(0, 2);
-  var SUPPORTED = ['fr', 'en'];
+  // Un cours monolingue le déclare sur <html data-langues="fr"> (nouveau_cours.py) :
+  // pas de bouton de bascule, et ni la langue du navigateur ni un choix mémorisé
+  // ne font passer les libellés des moteurs dans une langue que le cours n'a pas.
+  // Sans l'attribut, le cours est bilingue.
+  var DECLAREES = (document.documentElement.getAttribute('data-langues') || 'fr en').split(/[\s,]+/);
+  var SUPPORTED = ['fr', 'en'].filter(function (l) { return DECLAREES.indexOf(l) >= 0; });
+  if (!SUPPORTED.length) SUPPORTED = ['fr'];
 
   function saved() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
   function store(l) { try { localStorage.setItem(KEY, l); } catch (e) {} }
@@ -84,6 +90,7 @@
 
   // Injecte le bouton de bascule dans l'en-tête (à côté du thème / accessibilité)
   function injectToggle() {
+    if (SUPPORTED.length < 2) return;          // cours monolingue : rien à basculer
     var hr = document.querySelector('.header-right');
     if (!hr || hr.querySelector('.lang-toggle')) return;
     var btn = document.createElement('button');

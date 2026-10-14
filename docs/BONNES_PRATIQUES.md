@@ -322,6 +322,22 @@ externe s'ouvre donc avant d'être ajouté, s'affiche dans un nouvel onglet
 
 ---
 
+## 19 bis. Un remplacement qui commence par un chiffre
+
+En Python, `re.sub(motif, r'\1%s' % nom, texte)` paraît anodin. Si `nom` vaut
+`01-intro.html`, le remplacement devient `\101-intro.html` : `\101` est lu comme
+un caractère octal, la lettre « A ». Le lien `<a href="01-intro.html"` devient
+`A-intro.html"` — plus de `href`, donc rien que le vérificateur de liens puisse
+signaler. Les boutons « Suivant » des cours créés ont disparu ainsi, sans
+message ; la même erreur avait déjà mangé la ponctuation d'une série
+d'explications.
+
+**La règle** : dans un remplacement, `\g<1>` plutôt que `\1`, ou une fonction
+(`lambda m: m.group(1) + nom`). Et `verifier_liens.py` cherche désormais les
+fins de liens orphelines (`….html" class=` sans `href=` devant).
+
+---
+
 ## 19. Vérifier sans écran
 
 L'onglet de navigateur intégré à l'outil ne s'affiche pas toujours. Un navigateur

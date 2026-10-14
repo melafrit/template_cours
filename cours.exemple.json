@@ -11,6 +11,12 @@
     "fr": "Une phrase qui dit à qui s'adresse le cours et ce qu'il permet de faire. Elle s'affiche sous le titre, sur l'accueil.",
     "en": "One sentence saying who the course is for and what it enables. Shown under the title, on the home page."
   },
+  "_titre_court": "FACULTATIF — le nom affiché en tête de chaque page, à côté du pictogramme. Par défaut : la partie du titre qui précède « : ». « logo » : une ou deux lettres pour le pictogramme (la seconde prend la couleur d'accent) ; par défaut, les deux premières du titre court.",
+  "titre_court": {
+    "fr": "Titre court",
+    "en": "Short title"
+  },
+  "logo": "Tc",
 
   "_auteur": "Apparaît dans le pied de page, les métadonnées des pages et les documents générés.",
   "auteur": "Prénom NOM",

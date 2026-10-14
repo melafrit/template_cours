@@ -250,7 +250,8 @@ def renommer_identite(sortie, c):
     cours en ligne » dans la barre d'onglets du navigateur.
     """
     tfr = c["titre"]["fr"]
-    ten = c["titre"].get("en", tfr) if "en" in (c.get("langues") or []) else tfr
+    bi = "en" in (c.get("langues") or [])
+    ten = c["titre"].get("en", tfr) if bi else tfr
     st = c.get("sous_titre") or {}
     sfr = st.get("fr", "")
     sen = st.get("en", sfr)
@@ -259,6 +260,21 @@ def renommer_identite(sortie, c):
     def att(s):
         """Un texte utilisable dans un attribut HTML."""
         return s.replace("&", "&amp;").replace('"', "&quot;").replace("<", "&lt;")
+
+    # Le nom court de l'en-tête et son pictogramme : « Concevoir un cours » et
+    # « Ce » restaient en tête de chaque page d'un cours créé. Par défaut, la
+    # partie du titre qui précède « : », et ses deux premières lettres.
+    court = c.get("titre_court") or {}
+    cfr = str(court.get("fr") or tfr.split(" : ")[0]).strip()
+    cen = str(court.get("en") or (ten.split(": ")[0] if bi else cfr)).strip()
+    logo = str(c.get("logo") or re.sub(r"[\W_]", "", cfr)[:2] or "Co")
+    lic = c.get("licence") or {}
+    lfr = str(lic.get("fr", "")).strip()
+    len_ = str(lic.get("en", lfr)).strip()
+    marque = ('<span data-tr="fr">Concevoir un cours</span><span data-tr="en">Design a course</span>',
+              '<span data-tr="fr">%s</span><span data-tr="en">%s</span>' % (att(cfr), att(cen)))
+    picto = ('<span class="logo-icon">C<span class="acc">e</span></span>',
+             '<span class="logo-icon">%s<span class="acc">%s</span></span>' % (att(logo[:1]), att(logo[1:2])))
 
     # Les variantes longues d'abord : « ... efficace » contient « ... » tout court.
     paires = [
@@ -297,6 +313,18 @@ def renommer_identite(sortie, c):
                           '<span data-tr="en">%s</span>' % (m.group(1), sfr, sen),
                 s, flags=re.S)
 
+        # L'en-tête : nom court et pictogramme du cours.
+        s = s.replace(*marque).replace(*picto)
+
+        # Le pied de page : la licence de cours.json, pas celle de la démonstration.
+        if lfr:
+            s = re.sub(r'<span class="cc-badges">[^<]*</span>',
+                       lambda m: '<span class="cc-badges"><span data-tr="fr">%s</span>'
+                                 '<span data-tr="en">%s</span></span>' % (att(lfr), att(len_)), s)
+            s = re.sub(r'\s*<span data-tr="fr"> Code sous licence MIT, contenu sous licence Creative '
+                       r'Commons BY 4\.0\.</span>\s*<span data-tr="en"> Code under MIT license, content '
+                       r'under Creative Commons BY 4\.0\.</span>', "", s)
+
         for a, b in paires:
             s = s.replace(a, b)
 
@@ -304,6 +332,71 @@ def renommer_identite(sortie, c):
             ecrire(f, s)
             touchees += 1
     return touchees
+
+
+def fin_div(t, debut):
+    """L'indice qui suit la balise </div> refermant la <div> ouverte à `debut`, ou -1."""
+    prof = 0
+    for m in re.finditer(r"<div\b|</div>", t[debut:]):
+        prof += 1 if m.group(0) != "</div>" else -1
+        if prof == 0:
+            return debut + m.end()
+    return -1
+
+
+PAGE_A_REDIGER = """    <div class="callout warning">
+      <div class="callout-icon">✏️</div>
+      <div class="callout-content">
+        <h4><span data-tr="fr">Page à rédiger</span><span data-tr="en">Page to be written</span></h4>
+        <p><span data-tr="fr">%s</span><span data-tr="en">%s</span></p>
+      </div>
+    </div>"""
+
+# Les pages de démonstration vidées : (fichier, titre fr, titre en, consigne fr, consigne en)
+PAGES_DEMO = [
+    ("site/atelier.html", "Atelier fil rouge", "Capstone workshop",
+     "L'énoncé de l'atelier fil rouge, ses livrables et ses modèles téléchargeables "
+     "(prompts/11_atelier_templates.md). Le contenu de démonstration a été retiré ; "
+     "l'atelier complet reste consultable dans le template (site/atelier.html).",
+     "The capstone workshop brief, its deliverables and downloadable templates "
+     "(prompts/11_atelier_templates.md). The demo content has been removed; the full "
+     "workshop remains in the template (site/atelier.html)."),
+    ("site/activites.html", "Activités interactives", "Interactive activities",
+     "Les activités du cours (prompts/05_activites_interactives.md), construites avec les "
+     "patrons de assets/js/tools.js. Les exemples de démonstration ont été retirés ; ils "
+     "restent dans le template (site/activites.html).",
+     "The course activities (prompts/05_activites_interactives.md), built with the patterns "
+     "of assets/js/tools.js. The demo examples have been removed; they remain in the "
+     "template (site/activites.html)."),
+]
+
+SECTION_ACCUEIL = """<section class="content-section">
+      <h2><span data-tr="fr">Ce que vous saurez faire</span><span data-tr="en">What you will be able to do</span></h2>
+      <p><span data-tr="fr">À rédiger : trois à cinq objectifs du cours, chacun avec un verbe d'action observable.</span><span data-tr="en">To be written: three to five course objectives, each with an observable action verb.</span></p>
+    </section>"""
+
+
+def vider_page(chemin, titre_fr, titre_en, consigne_fr, consigne_en):
+    """Garde l'en-tête d'une page de démonstration, remplace son contenu par un repère.
+
+    L'atelier racontait « Concevez votre propre cours en ligne » et les activités
+    demandaient « quel format d'évaluation ? » dans un cours de cybersécurité :
+    aucune n'était vidée, et rien ne le signalait.
+    """
+    s = io.open(chemin, encoding="utf-8").read()
+    m = re.search(r'<div class="chapter-header">', s)
+    fin = fin_div(s, m.start()) if m else -1
+    fm = s.find("</main>", fin) if fin > 0 else -1
+    if fm < 0:
+        return False
+    s = s[:fin] + "\n\n" + PAGE_A_REDIGER % (consigne_fr, consigne_en) + "\n\n  " + s[fm:]
+    s = re.sub(r'(<h1 class="chapter-title">).*?(</h1>)',
+               lambda x: '%s<span data-tr="fr">%s</span><span data-tr="en">%s</span>%s'
+                         % (x.group(1), titre_fr, titre_en, x.group(2)), s, count=1, flags=re.S)
+    # les appels de démonstration ne trouveraient plus leurs conteneurs
+    s = re.sub(r'<script>\s*TPLActivities\..*?</script>\s*', "", s, flags=re.S)
+    ecrire(chemin, s)
+    return True
 
 
 def recoudre_liens(sortie, c):
@@ -329,22 +422,55 @@ def recoudre_liens(sortie, c):
             ecrire(p, neuf)
             recousus += 1
 
-    # --- pagination des squelettes : elle suit l'ordre declare
+    # --- navigation des squelettes : réécrite d'après l'ordre déclaré. Les deux blocs
+    #     (boutons de l'en-tête, pagination du pied) sont refaits en entier : recousus
+    #     par motifs, ils gardaient les libellés du chapitre vitrine (« ← Accueil »,
+    #     « Structurer le contenu ») et, faute de « \g<1> », un nom de fichier qui
+    #     commence par un chiffre devenait un caractère octal : « \101-… » donnait
+    #     « A-… », et le lien disparaissait sans qu'aucun vérificateur ne le voie.
+    bi = "en" in (c.get("langues") or [])
+    qcm = os.path.isfile(os.path.join(sortie, "site", "QCM", "index.html"))
+
+    def h(x):
+        return str(x).replace("&", "&amp;").replace("<", "&lt;")
+
+    def deux(fr, en):
+        return '<span data-tr="fr">%s</span><span data-tr="en">%s</span>' % (h(fr), h(en if bi else fr))
+
     for i, ch in enumerate(chaps):
         p = os.path.join(sortie, "site", "chapitres", ch["fichier"])
         if not os.path.isfile(p):
             continue
         s = io.open(p, encoding="utf-8").read()
-        prec = chaps[i - 1]["fichier"] if i > 0 else "../index.html"
-        suiv = chaps[i + 1]["fichier"] if i + 1 < len(chaps) else "../QCM/index.html"
-        s = re.sub(r'(<a href=")\d\d-[a-z0-9-]+\.html(" class="chapter-nav-btn">'
-                   r'<span data-tr="fr">← Précédent)', r'\1%s\2' % prec, s)
-        s = re.sub(r'(<a href=")[^"]*(" class="chapter-nav-btn"><span data-tr="fr">Suivant)',
-                   r'\1%s\2' % suiv, s)
-        s = re.sub(r'(<a href=")[^"]*(" class="pagination-link prev")',
-                   r'\1%s\2' % prec, s)
-        s = re.sub(r'(<a href=")[^"]*(" class="pagination-link next")',
-                   r'\1%s\2' % suiv, s)
+        avant = chaps[i - 1] if i > 0 else None
+        apres = chaps[i + 1] if i + 1 < len(chaps) else None
+        prec = avant["fichier"] if avant else "../index.html"
+        if apres:
+            suiv, titre_suiv = apres["fichier"], deux(apres["titre"]["fr"],
+                                                      apres["titre"].get("en") or apres["titre"]["fr"])
+        elif qcm:
+            suiv, titre_suiv = "../QCM/index.html", deux("QCM d'évaluation", "Assessment quiz")
+        else:
+            suiv, titre_suiv = "../cours.html", deux("Sommaire du cours", "Course contents")
+        entete = ('<nav class="chapter-nav">\n'
+                  '      <a href="../cours.html" class="chapter-nav-btn">%s</a>\n' % deux("← Sommaire", "← Contents")
+                  + ('      <a href="%s" class="chapter-nav-btn">%s</a>\n' % (prec, deux("← Précédent", "← Previous"))
+                     if avant else "")
+                  + '      <a href="%s" class="chapter-nav-btn">%s</a>\n    </nav>' % (suiv, deux("Suivant →", "Next →")))
+        pied = ('<nav class="chapter-pagination">\n'
+                '      <a href="%s" class="pagination-link prev">\n'
+                '        <span class="pagination-label">%s</span>\n' % (
+                    prec, deux("← Précédent", "← Previous") if avant else deux("← Accueil", "← Home"))
+                + ('        <span class="pagination-title">%s</span>\n'
+                   % deux(avant["titre"]["fr"], avant["titre"].get("en") or avant["titre"]["fr"])
+                   if avant else "")
+                + '      </a>\n'
+                  '      <a href="%s" class="pagination-link next">\n'
+                  '        <span class="pagination-label">%s</span>\n'
+                  '        <span class="pagination-title">%s</span>\n'
+                  '      </a>\n    </nav>' % (suiv, deux("Suivant →", "Next →"), titre_suiv))
+        s = re.sub(r'<nav class="chapter-nav">.*?</nav>', lambda m: entete, s, count=1, flags=re.S)
+        s = re.sub(r'<nav class="chapter-pagination">.*?</nav>', lambda m: pied, s, count=1, flags=re.S)
         ecrire(p, s)
         recousus += 1
 
@@ -462,6 +588,22 @@ def purger_demo(sortie, c):
     if os.path.isfile(fiche):
         os.remove(fiche)
         retires += 1
+
+    # l'accueil presentait les fonctionnalites du template, pas le cours
+    acc = os.path.join(sortie, "site", "index.html")
+    if os.path.isfile(acc):
+        s = io.open(acc, encoding="utf-8").read()
+        neuf = re.sub(r'<section class="content-section">\s*<h2><span data-tr="fr">Ce que démontre ce site'
+                      r'</span>.*?</section>', lambda m: SECTION_ACCUEIL, s, count=1, flags=re.S)
+        if neuf != s:
+            ecrire(acc, neuf)
+            remplaces += 1
+
+    # l'atelier et les activites de la demonstration
+    for rel, tfr, ten, cfr, cen in PAGES_DEMO:
+        p = os.path.join(sortie, rel.replace("/", os.sep))
+        if os.path.isfile(p) and vider_page(p, tfr, ten, cfr, cen):
+            remplaces += 1
 
     return retires, remplaces
 
@@ -596,6 +738,9 @@ def valider(c):
 
     if not str(c.get("auteur", "")).strip() or c.get("auteur") == "Prénom NOM":
         griefs.append("« auteur » est vide ou resté sur la valeur du modèle.")
+
+    if c.get("logo") is not None and not (1 <= len(str(c["logo"])) <= 2):
+        griefs.append("« logo » : une ou deux lettres (lu : %r)." % c["logo"])
 
     # La destination de publication : facultative à la création, mais jamais une
     # racine d'hébergement — une purge y effacerait tous les autres cours.
@@ -764,7 +909,12 @@ def textes_vides(c):
       ],
       branchLibelle: "Consequence",
       schemaAlt: "Description du schema, pour qui ne le voit pas.",
-      schemaLegende: "Schema 1 — ce qu'il montre et ce qu'il faut en retenir."
+      schemaLegende: "Schema 1 — ce qu'il montre et ce qu'il faut en retenir.",
+      /* Le schema et ses points chauds : absents, monter() s'arretait sur
+         « X.schemaPoints.map » et ni le parcours par etapes ni le sommaire
+         n'etaient montes. Chaque point : [x %, y %, titre, explication]. */
+      schemaSrc: "",
+      schemaPoints: [[50, 50, "Premier element du schema", "Ce qu'il represente, et comment le lire — a rediger."]]
     },
     en: {
       capsuleTitre: "Opening capsule title",
@@ -804,7 +954,9 @@ def textes_vides(c):
       ],
       branchLibelle: "Consequence",
       schemaAlt: "Description of the diagram, for those who cannot see it.",
-      schemaLegende: "Diagram 1 — what it shows and what to take from it."
+      schemaLegende: "Diagram 1 — what it shows and what to take from it.",
+      schemaSrc: "",
+      schemaPoints: [[50, 50, "First element of the diagram", "What it represents, and how to read it — to be written."]]
     }
   };
 """
@@ -986,10 +1138,7 @@ def main():
 
     # --- squelettes de chapitres
     for ch in c["chapitres"]:
-        t = squelette_chapitre(c, ch, modele_src)
-        if not bi:
-            t = depouiller_langue(t, langue)
-        ecrire(os.path.join(chap, ch["fichier"]), t)
+        ecrire(os.path.join(chap, ch["fichier"]), squelette_chapitre(c, ch, modele_src))
     print("  %d squelette(s) de chapitre écrit(s)" % len(c["chapitres"]))
 
     # --- données du cours
@@ -1006,15 +1155,15 @@ def main():
             t = io.open(p, encoding="utf-8").read()
             avant = t
             t = re.sub(r'data-accent="[a-z]+"', 'data-accent="%s"' % c["palette"], t)
-            t = re.sub(r'<html lang="[a-z]{2}" data-lang="[a-z]{2}"',
-                       '<html lang="%s" data-lang="%s"' % (langue, langue), t)
-            if not bi:
-                t = depouiller_langue(t, langue)
+            # Un cours monolingue le déclare sur <html> : i18n.js n'y pose alors pas
+            # de bouton de bascule, et n'accepte que cette langue.
+            t = re.sub(r'<html lang="[a-z]{2}" data-lang="[a-z]{2}"(?: data-langues="[a-z ]*")?',
+                       '<html lang="%s" data-lang="%s"%s'
+                       % (langue, langue, "" if bi else ' data-langues="%s"' % langue), t)
             if t != avant:
                 io.open(p, "w", encoding="utf-8", newline="\n").write(t)
                 n += 1
-    print("  %d page(s) mise(s) à la palette « %s »%s"
-          % (n, c["palette"], "" if bi else " et dépouillée(s) de l'anglais"))
+    print("  %d page(s) mise(s) à la palette « %s »" % (n, c["palette"]))
 
     # --- purge du contenu de demonstration
     if args.avec_demo:
@@ -1036,6 +1185,21 @@ def main():
     k = regenerer_sommaire(sortie, c)
     if k:
         print("  cours.html : %d carte(s) de chapitre regeneree(s)" % k)
+
+    # --- cours monolingue : l'autre langue se retire EN DERNIER. Retirée plus tôt,
+    #     elle emportait les repères data-tr dont se servent le renommage (sous-titre
+    #     de l'accueil et du sommaire), le recousage (boutons « Suivant ») et le
+    #     sommaire, qui réécrit ses cartes dans les deux langues : un cours en
+    #     français seul gardait la prose de la démonstration et des liens morts.
+    if not bi:
+        d = 0
+        for f in glob.glob(os.path.join(sortie, "site", "**", "*.html"), recursive=True):
+            t = io.open(f, encoding="utf-8").read()
+            neuf = depouiller_langue(t, langue).replace(" · PDF · français et anglais", " · PDF")
+            if neuf != t:
+                ecrire(f, neuf)
+                d += 1
+        print("  %d page(s) dépouillée(s) de la langue non retenue" % d)
 
     # --- sources et bibliographie : le mode d'emploi et la bibliographie à remplir,
     #     jamais les documents d'un autre cours, restés sous droits dans sources/

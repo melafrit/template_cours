@@ -138,17 +138,19 @@ la sortie doit annoncer :**
 
     arborescence copiée (15 entrées)
     CLAUDE.md écrit : les exigences de l'auteur s'appliquent à ce cours
-    contenu de demonstration retire : 26 media(s), 6 fichier(s) remis a l'etat de squelette
+    contenu de demonstration retire : 26 media(s), 9 fichier(s) remis a l'etat de squelette
     14 page(s) renommee(s) au nom du cours
-    7 fichier(s) recousu(s) sur les chapitres declares
+    6 fichier(s) recousu(s) sur les chapitres declares
     cours.html : 3 carte(s) de chapitre regeneree(s)
     deploiement/destination.json écrit (cours « … »)
     outils/elevenlabs.json     copié en local, ignoré par Git — contenu non affiché
     deploiement/config.json    copié en local, ignoré par Git — contenu non affiché
 
 Les chiffres des recousages et des cartes suivent le nombre de chapitres
-déclarés : une carte par chapitre, et un recousage par chapitre plus les quatre
-pages qui les citent. Les 26 médias et les 6 squelettes, eux, ne bougent pas.
+déclarés : une carte par chapitre, et un recousage par chapitre plus les trois
+pages qui les citent (accueil, sommaire, chapitre vitrine). Les 26 médias et les
+9 squelettes — dont l'accueil, l'atelier et les activités, vidés de leur
+démonstration —, eux, ne bougent pas.
 Les deux dernières lignes disent « absent du template » si vos secrets n'y sont
 pas : c'est le cas d'un dépôt fraîchement cloné (§ 4).
 
@@ -189,16 +191,39 @@ Le cours créé embarque son propre lanceur. Ouvrez-le :
       ligne d'auteur du pied de page. 🔴
 - [ ] `verifier_liens.py` finit sur « Aucun lien mort ».
 
+- [ ] L'en-tête porte le **nom court** du cours et son pictogramme, le pied de
+      page **sa** licence ; chaque chapitre a ses boutons « ← Précédent » et
+      « Suivant → » vers les chapitres déclarés, titres compris.
+- [ ] Console vide sur un chapitre squelette (hors sondes 404 des médias à
+      produire) : parcours par étapes et sommaire montés.
+
 **Toute trace du cours « concevoir un cours en ligne » dans `../mon-cours` est
-un défaut.** Y compris un titre d'onglet, une méta-donnée, un attribut. La
-seule exception est `site/chapitres/_modele.html`, le chapitre vitrine gardé
-comme référence : il conserve volontairement ses exemples de composants.
+un défaut.** Y compris un titre d'onglet, une méta-donnée, un attribut, le nom
+de l'en-tête, un titre de chapitre dans une pagination. La seule exception est
+`site/chapitres/_modele.html`, le chapitre vitrine gardé comme référence : il
+conserve volontairement ses exemples de composants.
 
 Le contrôle en une ligne, depuis le dossier du cours créé :
 
-    grep -ril "concevoir un cours en ligne" site/ | grep -v _modele
+    grep -rilE "concevoir un cours|design a course|Ce que démontre|Concevez votre propre|format d'évaluation|cours-démo|Structurer le contenu|Cadrer son cours|Créer les ressources" site/ | grep -v _modele
 
 Il ne doit rien retourner.
+
+### 3 bis. Le même cours, en français seul
+
+Un cours monolingue suit un autre chemin dans le générateur : la langue non
+retenue se retire **en dernier**, et chaque page déclare sa langue
+(`data-langues`). Mettez `"langues": ["fr"]` dans `cours.json`, régénérez
+(`--ecraser`), puis :
+
+    grep -rc 'data-tr=' --include=*.html site | grep -v ":0"     # rien
+    grep -rho '<html[^>]*>' --include=*.html site | sort | uniq -c   # data-langues="fr" partout
+
+- [ ] Aucun bloc anglais, aucun bouton 🌐 ; les libellés des moteurs restent en
+      français même dans un navigateur réglé en anglais. 🔴
+- [ ] `verifier_liens.py` finit sur « Aucun lien mort » — il signale aussi un
+      lien abîmé, dont le début aurait disparu.
+- [ ] Le contrôle des traces de la démonstration ne retourne rien.
 
 ---
 
@@ -231,6 +256,8 @@ site de démonstration n'a rien à faire sur votre hébergement, et votre
 | Symptôme | Où regarder |
 |---|---|
 | Un lien mène nulle part dans un cours créé | `recoudre_liens()` dans `nouveau_cours.py` |
+| Un lien « abîmé » (son début a disparu) | une substitution par motif dont le remplacement commence par un chiffre : `\1` suivi de `01-…` devient un octal — écrire `\g<1>` ou une fonction |
+| Un cours en français seul garde de l'anglais ou un bouton 🌐 | le retrait final de la langue dans `main()`, et `data-langues` lu par `i18n.js` |
 | Du contenu de la démonstration a survécu | `purger_demo()`, listes `DEMO_DOSSIERS` et `DEMO_FICHIERS` |
 | Le titre de la démo reste dans un onglet | `renommer_identite()`, liste `paires` |
 | Un libellé reste en français en anglais | `site/assets/js/ui-labels.js`, et l'abonnement à `tpl:langchange` du moteur concerné |

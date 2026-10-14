@@ -114,6 +114,19 @@ def liens_de(page, site):
     return vus
 
 
+def balises_cassees(page):
+    """Les restes de liens dont le début a disparu : « A-plantuml.html" class=… ».
+
+    Un lien abîmé par une substitution ratée n'a plus de href : le contrôle des
+    cibles ne le voit pas, et la page perd son bouton sans rien signaler. Ce
+    contrôle-ci compare les fins de liens aux liens entiers.
+    """
+    t = io.open(page, encoding="utf-8", errors="replace").read()
+    fins = re.findall(r'([^\s"<>=]*\.html(?:#[\w-]+)?)" class="', t)
+    entiers = set(re.findall(r'(?:href|src)="([^"]*\.html(?:#[\w-]+)?)" class="', t))
+    return [f for f in fins if not any(e.endswith(f) for e in entiers)]
+
+
 def main():
     ap = argparse.ArgumentParser(description="Cherche les liens morts du site.")
     ap.add_argument("--site", default=os.path.join(RACINE, "site"),
@@ -140,6 +153,8 @@ def main():
             total += 1
             if not os.path.exists(reel):
                 morts.append((os.path.relpath(p, site), cible))
+        for reste in balises_cassees(p):
+            morts.append((os.path.relpath(p, site), "%s  (lien abîmé : son « <a href= » a disparu)" % reste))
         dedans, dehors = renvois_de(p)
         internes += len(dedans)
         externes += len(dehors)
