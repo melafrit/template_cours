@@ -6,9 +6,12 @@
   // -- Révélation au défilement --
   const reveals = document.querySelectorAll('.reveal, .content-section, .concept-card, .chapter-card, .eval-item, .tip');
   if ('IntersectionObserver' in window) {
+    // Seuil nul : la révélation part dès que le haut du bloc entre dans la fenêtre. Un seuil en
+    // proportion (8 %) ne serait jamais atteint par une section plus haute que l'écran ne peut en
+    // montrer : sur un téléphone, une section longue resterait invisible.
     const io = new IntersectionObserver((entries) => {
       entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
-    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0, rootMargin: '0px 0px -40px 0px' });
     reveals.forEach(el => { el.classList.add('reveal'); io.observe(el); });
   } else {
     reveals.forEach(el => el.classList.add('visible'));

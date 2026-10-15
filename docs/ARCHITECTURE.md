@@ -113,7 +113,7 @@ Trois mécanismes coexistent ; un développeur qui ajoute du contenu doit choisi
 | **flashcards.js** | Classe `FlashcardDeck(containerId, cards, key)` : carte recto/verso, navigation, « su / à revoir », mélange, barre de progression. Supporte `**gras**` dans les textes. | tableau passé à l'instanciation (souvent `RDC_FLASHCARDS[n]`) | `rdc-flash-<key>` |
 | **glossaire-tooltip.js** | Dans les chapitres, repère la 1re occurrence des termes de `window.GLOSSARY` (langue courante) hors titres/liens/code, et y attache une info-bulle (terme + def + exemple + lien glossaire). Re-scanne au changement de langue. | `GLOSSARY` | — |
 | **tools.js** | Objet global `window.TPLActivities` : 3 fabriques d'activités interactives pilotées par config (voir §4.5). | config passée à l'appel | — |
-| **animations.js** | Révélation des sections au défilement (IntersectionObserver → classe `.visible`), waveform podcast décorative, encarts repliables, galerie de slides-images (lit `data-slides`). | `data-slides` | — |
+| **animations.js** | Révélation des sections au défilement (IntersectionObserver → classe `.visible`, seuil nul : une section plus haute que l'écran apparaît aussi sur téléphone), waveform podcast décorative, encarts repliables, galerie de slides-images (lit `data-slides`). | `data-slides` | — |
 | **QCM/qcm-core.js** | `window.QCMCore` : barème **CBM**, SHA-256 autonome (compatible `file://`), construction/lecture/**signature** du CSV, **scoring**, calcul de la note /20, rappel de barème HTML bilingue. Partagé par les 4 pages QCM. | — | — |
 
 ### 2.2 bis — Le moteur pédagogique et l'audio

@@ -70,6 +70,8 @@ du chapitre.
 - [ ] **Console vide** (⌥⌘I). Un 404 de favicon suffit à faire perdre
       l'habitude de la regarder.
 - [ ] **Thème sombre** et **affichage téléphone** — le menu passe en tiroir.
+- [ ] **Sections longues sur téléphone** — à 375 px, la plus longue section du cours
+      apparaît dès qu'on y arrive en défilant (aucun bloc ne reste vide).
 
 ---
 
