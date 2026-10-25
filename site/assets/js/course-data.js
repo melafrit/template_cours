@@ -22,7 +22,8 @@ window.COURSE = {
   resources: [
     { ico: '📄', href: 'polycopies.html',
       label: { fr: "Polycopiés", en: "Handouts" } },
-    { ico: '📚', href: 'glossaire.html',    label: { fr: "Glossaire bilingue", en: "Bilingual glossary" } },
+    { ico: '🎙️', href: 'podcasts.html',     label: { fr: "Podcasts", en: "Podcasts" } },
+    { ico: '📚', href: 'glossaire.html',   label: { fr: "Glossaire bilingue", en: "Bilingual glossary" } },
     { ico: '🧩', href: 'activites.html',     label: { fr: "Activités interactives", en: "Interactive activities" } },
     { ico: '📝', href: 'QCM/index.html',     label: { fr: "QCM d'évaluation", en: "Assessment quiz" } },
     { ico: '🧵', href: 'atelier.html',       label: { fr: "Atelier fil rouge", en: "Capstone workshop" } }

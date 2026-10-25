@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr" data-lang="fr" data-accent="marine">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>Les podcasts du cours / The course podcasts</title>
+<meta name="description" content="Les podcasts du cours-démo : chaque épisode, son lecteur, ses diapositives et ce qu'il faut en retenir.">
+<meta name="author" content="Mohamed EL AFRIT">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<link rel="stylesheet" href="assets/css/palettes.css">
+<link rel="stylesheet" href="assets/css/components.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-left">
+    <button class="sidebar-toggle" aria-label="Menu">☰</button>
+    <a href="index.html" class="site-logo"><span class="logo-icon">C<span class="acc">e</span></span>
+      <span data-tr="fr">Concevoir un cours</span><span data-tr="en">Design a course</span></a>
+  </div>
+  <div class="header-right">
+    <a href="cours.html" class="chapter-nav-btn"><span data-tr="fr">← Sommaire</span><span data-tr="en">← Contents</span></a>
+    <button class="theme-toggle" aria-label="Thème">🌙</button>
+  </div>
+</header>
+
+<aside class="sidebar">
+  <div class="sidebar-progress"><div class="sidebar-progress-bar"></div></div>
+  <div class="sidebar-content"><ul class="nav-tree" id="nav-tree"></ul></div>
+</aside>
+
+<div class="main-wrapper full-width">
+<main class="main-content">
+
+  <!-- La liste des épisodes, la ligne d'état de l'en-tête et la mention du pied de page sont des fragments :
+       outils/generer_fragments.py les réécrit d'après outils/podcasts.py et les fichiers publiés. Rien à la main
+       entre les marqueurs. -->
+  <div class="chapter-header">
+    <div class="chapter-meta">
+      <span class="chapter-badge">🎙️ <span data-tr="fr">Ressource</span><span data-tr="en">Resource</span></span>
+      <span class="chapter-duration">🎧 <!-- FRAGMENT:podcasts-etat --><span data-tr="fr">1&nbsp;épisode en ligne · 2&nbsp;min d'écoute</span><span data-tr="en">1 episode online · 2&nbsp;min of listening</span><!-- /FRAGMENT:podcasts-etat --></span>
+    </div>
+    <h1 class="chapter-title"><span data-tr="fr">Les podcasts du cours</span><span data-tr="en">The course podcasts</span></h1>
+    <p class="chapter-subtitle">
+      <span data-tr="fr">Le cours se raconte aussi à voix haute : des épisodes pour découvrir un chapitre avant de le lire, ou le réviser loin de l'écran — dans le train, en marchant, avant une séance.</span>
+      <span data-tr="en">The course also speaks out loud: episodes to discover a chapter before reading it, or to revise it away from the screen — on the train, while walking, before a session.</span>
+    </p>
+  </div>
+
+  <!-- gabarit:debut -->
+  <!-- Ce passage explique l'outillage du template : nouveau_cours.py le retire d'un cours créé. -->
+  <div class="callout info">
+    <div class="callout-icon">🔄</div>
+    <div class="callout-content">
+      <h4><span data-tr="fr">Une page écrite d'après sa source</span><span data-tr="en">A page written from its source</span></h4>
+      <p><span data-tr="fr">Les épisodes et leurs textes vivent dans <code>outils/podcasts.py</code> ; <code>outils/generer_podcasts.py</code> convertit les fichiers déposés dans <code>Podcasts/</code>, rend les diapositives, puis réécrit cette page et les encadrés « Le podcast du chapitre ». Un épisode qui n'est pas encore publié s'annonce « à venir ».</span>
+        <span data-tr="en">The episodes and their texts live in <code>outils/podcasts.py</code>; <code>outils/generer_podcasts.py</code> converts the files dropped into <code>Podcasts/</code>, renders the slides, then rewrites this page and the “chapter podcast” boxes. An episode not yet published is shown as “coming soon”.</span></p>
+    </div>
+  </div>
+  <!-- gabarit:fin -->
+
+<!-- FRAGMENT:podcasts -->
+<section class="content-section pod-episode" data-sommaire-titre="1 · Chapitre&nbsp;1" data-sommaire-titre-en="1 · Chapter 1">
+<h2 id="episode-1"><span data-tr="fr">Épisode&nbsp;1 — Chapitre&nbsp;1 · Cadrer son cours</span><span data-tr="en">Episode 1 — Chapter 1 · Scoping your course</span></h2>
+<div class="pod-media"><div data-tr="fr"><div class="pod-etat"><span class="pod-duree">⏱ 2&nbsp;min</span><span class="pod-voix">🎙️ voix clonée de l'auteur</span><a class="pod-telecharger" href="assets/media/podcasts/chapitre-1-podcast.fr.mp3" download>Télécharger l'épisode (MP3, 1,7&nbsp;Mo)</a></div>
+<audio class="pod-lecteur" controls preload="none" src="assets/media/podcasts/chapitre-1-podcast.fr.mp3" aria-label="Épisode&nbsp;1 — Chapitre&nbsp;1 · Cadrer son cours"></audio></div><div data-tr="en"><div class="pod-etat"><span class="pod-duree">⏱ 2&nbsp;min</span><span class="pod-voix">🎙️ the author's cloned voice</span><a class="pod-telecharger" href="assets/media/podcasts/chapitre-1-podcast.en.mp3" download>Download the episode (MP3, 1.7&nbsp;MB)</a></div>
+<audio class="pod-lecteur" controls preload="none" src="assets/media/podcasts/chapitre-1-podcast.en.mp3" aria-label="Episode 1 — Chapter 1 · Scoping your course"></audio></div></div>
+<div class="pod-texte"><div data-tr="fr"><h3>Ce que couvre l'épisode</h3>
+<p>Trois décisions à prendre avant d'écrire la première ligne, dans un ordre qui n'est pas négociable&nbsp;: pour qui, pour quoi faire, autour de quoi. Le public d'abord, décrit par ses prérequis réellement acquis, son temps disponible et ses contraintes matérielles&nbsp;; puis les objectifs, qui disent ce que l'apprenant sera capable de faire&nbsp;; enfin le fil rouge, qui répond à «&nbsp;à quoi cela va-t-il me servir&nbsp;?&nbsp;» et sert d'arbitre quand il faut couper.</p>
+<h3>À retenir</h3>
+<ul class="pod-retenir"><li>Un cours mal cadré se répare mal.</li><li>Le public d'abord&nbsp;: ses prérequis, son temps, ses contraintes matérielles.</li><li>Un objectif se prouve par un exercice&nbsp;: sinon, il est mal écrit.</li><li>Le fil rouge sert d'arbitre quand il faut couper.</li><li>Sauter le cadrage ne fait pas gagner de temps&nbsp;: cela le déplace vers la refonte.</li></ul>
+<p class="pod-liens">À lire avec l'épisode&nbsp;: <a href="chapitres/01-cadrage.html">le chapitre&nbsp;1 en ligne</a></p></div><div data-tr="en"><h3>What the episode covers</h3>
+<p>Three decisions to make before writing a single line, in an order that is not negotiable: for whom, to do what, around what. The audience first, described by the prerequisites actually acquired, the time available and the practical constraints; then the objectives, which state what the learner will be able to do; finally the through-line, which answers “what will this be used for?” and acts as the arbiter when you must cut.</p>
+<h3>Key takeaways</h3>
+<ul class="pod-retenir"><li>A badly scoped course is hard to repair.</li><li>Audience first: its prerequisites, its time, its practical constraints.</li><li>An objective is proven by an exercise: otherwise, it is badly written.</li><li>The through-line acts as the arbiter when you must cut.</li><li>Skipping scoping does not save time: it moves the time to the rewrite.</li></ul>
+<p class="pod-liens">Read with the episode: <a href="chapitres/01-cadrage.html">chapter 1 online</a></p></div></div>
+</section>
+<!-- /FRAGMENT:podcasts -->
+
+<!-- FRAGMENT:podcasts-mention --><div data-tr="fr"><p class="pod-mention">🤖 Voix clonée de Mohamed&nbsp;EL&nbsp;AFRIT, générée par intelligence artificielle (ElevenLabs), à partir de son cours.</p></div><div data-tr="en"><p class="pod-mention">🤖 The cloned voice of Mohamed&nbsp;EL&nbsp;AFRIT, generated by artificial intelligence (ElevenLabs), from the course.</p></div><!-- /FRAGMENT:podcasts-mention -->
+
+</main>
+</div>
+
+<footer class="site-footer">
+  <p><span data-tr="fr">Cours-démo « Concevoir un cours en ligne » — </span><span data-tr="en">Demo course "Designing an online course" — </span><a href="#">Mohamed EL AFRIT</a></p>
+  <p class="license"><span class="cc-badges">MIT · CC BY 4.0</span> · <a href="about.html"><span data-tr="fr">À propos du template</span><span data-tr="en">About the template</span></a></p>
+</footer>
+
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/ui-labels.js"></script>
+<script src="assets/js/course-data.js"></script>
+<script src="assets/js/nav-sections.js"></script>
+<script src="assets/js/navigation.js"></script>
+<script src="assets/js/accessibility.js"></script>
+<script src="assets/js/animations.js"></script>
+<script src="assets/js/podcasts.js"></script>
+</body>
+</html>

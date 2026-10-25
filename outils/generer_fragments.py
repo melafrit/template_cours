@@ -22,6 +22,14 @@ Fragments connus :
   duree-totale          la somme des durées des chapitres     ← referentiel.DUREES
   val-<clé>             un chiffre ou un nom du cas           ← referentiel.VALEURS
   <nom>                 un fragment composé                   ← referentiel.FRAGMENTS
+  podcasts              la liste des épisodes de podcasts.html ← outils/podcasts.py (module 03)
+  podcasts-etat         la ligne d'état de son en-tête         ← outils/podcasts.py
+  podcasts-mention      la mention des voix générées par IA    ← outils/podcasts.py
+  podcast-N             l'encadré qui mène à l'épisode N       ← outils/podcasts.py
+
+La liste des épisodes rend elle-même ses deux langues sur une page en blocs data-tr : chaque section n'y paraît qu'une
+fois, et l'ancre episode-N que visent les encadrés reste unique. Les chemins (médias, page Podcasts) se calculent
+d'après la place de la page.
 
 Un fragment inconnu, ou dont la valeur manque, est signalé ; sa place reçoit « … » et --essai échoue. Les contrôles
 de referentiel.verifier() passent avant toute écriture. Repris, en générique, du cours d'architecture logicielle.
@@ -49,7 +57,9 @@ MARQUEUR = re.compile(r"(<!-- FRAGMENT:(?P<nom>[a-z0-9-]+) -->)(?P<corps>.*?)(<!
 JETON = re.compile(r"<!--.*?-->|<script\b.*?</script>|<style\b.*?</style>|<(/?)([a-zA-Z][a-zA-Z0-9]*)\b([^>]*?)(/?)>",
                    re.S | re.I)
 VIDES = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "source", "track", "wbr"}
-BLOCS = re.compile(r"<(?:p|div|ul|ol|li|table|section|figure|h[1-6]|dl|blockquote|pre)\b", re.I)
+BLOCS = re.compile(r"<(?:p|div|ul|ol|li|table|section|figure|h[1-6]|dl|blockquote|pre|nav)\b", re.I)
+# Les fragments qui rendent eux-mêmes leurs deux langues, sur une page en blocs data-tr.
+DEUX_LANGUES = re.compile(r"podcasts$")
 INSECABLE = " "
 MANQUE = "…"
 _UNITES = ["zéro", "un", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix", "onze", "douze",
@@ -66,6 +76,17 @@ class Manque(Exception):
 
 def charger_referentiel():
     spec = importlib.util.spec_from_file_location("referentiel", os.path.join(RACINE, "outils", "referentiel.py"))
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def charger_podcasts():
+    """outils/podcasts.py (module 03), ou None pour un cours sans série de podcasts."""
+    chemin = os.path.join(RACINE, "outils", "podcasts.py")
+    if not os.path.isfile(chemin):
+        return None
+    spec = importlib.util.spec_from_file_location("podcasts", chemin)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
@@ -131,9 +152,15 @@ def valeur(v, langue):
     return html.escape(str(v))
 
 
-def rendre(nom, langue, ref, nums):
-    """Le contenu du fragment nom, dans une langue ; Manque s'il est inconnu ou incomplet."""
+def rendre(nom, langue, ref, nums, page="", serie=None):
+    """Le contenu du fragment nom, dans une langue, pour la page page (depuis la racine du site) ; Manque s'il est
+    inconnu ou incomplet. serie : outils/podcasts.py, s'il existe."""
     durees = getattr(ref, "DUREES", {}) or {}
+    if serie is not None and serie.FRAGMENT.match(nom):
+        try:
+            return serie.rendre(nom, langue, page)
+        except KeyError as e:
+            raise Manque(e.args[0] if e.args else "épisode inconnu")
     if nom == "nb-chapitres":
         return str(len(nums))
     if nom == "nb-chapitres-lettres":
@@ -188,13 +215,13 @@ def contextes(t):
     return out
 
 
-def regenerer(t, ref, nums, manques, rel):
+def regenerer(t, ref, nums, manques, rel, serie=None):
     """Le texte de la page, fragments réécrits ; les manques s'ajoutent à la liste."""
     langues, ctx = langues_de_page(t), contextes(t)
 
     def un(nom, langue):
         try:
-            return rendre(nom, langue, ref, nums)
+            return rendre(nom, langue, ref, nums, rel, serie)
         except Manque as e:
             manques.append("%s : %s — %s" % (rel, nom, e))
             return MANQUE
@@ -203,6 +230,8 @@ def regenerer(t, ref, nums, manques, rel):
         nom, lg = m.group("nom"), ctx.get(m.start())
         if lg or len(langues) == 1:
             corps = un(nom, lg or langues[0])
+        elif DEUX_LANGUES.match(nom):
+            corps = un(nom, "fr+en")
         else:
             fr, en = un(nom, "fr"), un(nom, "en")
             if fr == en:
@@ -219,10 +248,11 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--essai", action="store_true", help="dit ce qui n'est plus à jour, sans rien écrire")
     args = ap.parse_args()
-    ref = charger_referentiel()
-    ecarts = ref.verifier() if hasattr(ref, "verifier") else []
+    ref, serie = charger_referentiel(), charger_podcasts()
+    ecarts = ["outils/referentiel.py : " + e for e in (ref.verifier() if hasattr(ref, "verifier") else [])]
+    ecarts += ["outils/podcasts.py : " + e for e in (serie.controler() if serie is not None else [])]
     if ecarts:
-        print("Référentiel incohérent (outils/referentiel.py) — rien n'est écrit :")
+        print("Sources incohérentes — rien n'est écrit :")
         for e in ecarts:
             print("  ✗", e)
         return 1
@@ -234,7 +264,7 @@ def main():
             continue
         rel = os.path.relpath(chemin, SITE).replace("\\", "/")
         n += len(MARQUEUR.findall(t))
-        neuf = regenerer(t, ref, nums, manques, rel)
+        neuf = regenerer(t, ref, nums, manques, rel, serie)
         if neuf == t:
             a_jour += 1
             continue

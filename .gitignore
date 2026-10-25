@@ -25,6 +25,10 @@ venv/
 # site/assets/media/slides/*.pdf
 # site/assets/media/infographies/*.png
 
+# Les épisodes bruts de la série de podcasts et leurs diaporamas (module 03), déposés par l'auteur : jamais
+# versionnés, jamais publiés. outils/generer_podcasts.py en tire les MP3 et les diapositives de site/, qui le sont.
+/Podcasts/
+
 # Sorties générées par les scripts Python (régénérables)
 tools/out/
 

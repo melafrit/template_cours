@@ -41,8 +41,9 @@ for flux in (sys.stdout, sys.stderr):
         pass
 
 # Chemins depuis la racine de la langue : une page, ou un dossier (terminé par /). « À propos » présente le template,
-# pas le cours ; la correction et le tableau de bord du QCM donnent des réponses, que la fenêtre ne doit pas souffler.
-EXCLUES = ("glossaire.html", "about.html", "QCM/correction/", "QCM/dashboard/")
+# pas le cours ; la correction et le tableau de bord du QCM donnent des réponses, que la fenêtre ne doit pas souffler ;
+# la page Podcasts résume des épisodes, qui renvoient au cours sans l'expliquer.
+EXCLUES = ("glossaire.html", "about.html", "QCM/correction/", "QCM/dashboard/", "podcasts.html")
 BALISES_SAUTEES = {"script", "style", "pre", "code", "svg", "button", "nav", "template", "noscript", "select",
                    "textarea"}
 CLASSES_SAUTEES = {"sr-only", "chapter-pagination", "chapter-nav"}
