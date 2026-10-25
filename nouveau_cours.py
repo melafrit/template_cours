@@ -97,7 +97,26 @@ BLOCS = {
     "documents_formateur": ["docs/generate_cahier_de_texte.py",
                             "docs/generate_questions_oral.py"],
     "deploiement":         ["deploiement"],
+    "podcasts":            ["site/podcasts.html", "site/assets/js/podcasts.js", "outils/podcasts.py",
+                            "outils/generer_podcasts.py"],
 }
+
+# Un bloc absent de cours.json est actif, sauf ceux-ci : la série de podcasts (module 03) ne s'ajoute que demandée,
+# sans quoi un cours créé avec un ancien cours.json gagnerait une page vide dans son menu.
+BLOCS_INACTIFS_PAR_DEFAUT = {"podcasts"}
+
+
+def bloc_actif(c, cle):
+    """Vrai si le bloc cle est actif pour le cours c (cours.json, « blocs »)."""
+    return bool((c.get("blocs") or {}).get(cle, cle not in BLOCS_INACTIFS_PAR_DEFAUT))
+
+
+# L'encadré « Le podcast du chapitre » du chapitre vitrine : il mène à l'épisode de la démonstration, qu'un cours créé
+# n'a pas. Le modèle et les squelettes gardent, à sa place, un repère si le cours a une série.
+ENCADRE_PODCAST = re.compile(r"[ \t]*<!-- L'encadré « Le podcast du chapitre »[^\n]*-->\n"
+                             r"[ \t]*<!-- FRAGMENT:podcast-\d+ -->.*?<!-- /FRAGMENT:podcast-\d+ -->\n", re.S)
+REPERE_PODCAST = ("      <!-- Ici, l'encadré « Le podcast du chapitre », si un épisode de la série accompagne ce "
+                  "chapitre : prompts/modules/03-podcasts-notebooklm.md (fragment podcast-N). -->\n")
 
 
 # Contenu de DEMONSTRATION, retire de tout cours cree — sauf --avec-demo.
@@ -558,12 +577,14 @@ def purger_demo(sortie, c):
         if os.path.isfile(p):
             os.remove(p)
             retires += 1
-    # et le lien qui y menait, sinon il resterait mort dans chaque pied de page
+    # et le lien qui y menait, sinon il resterait mort dans chaque pied de page ; et, dans les pages, les passages
+    # propres au template (<!-- gabarit:debut --> … <!-- gabarit:fin -->), qui expliquent son outillage
     for f in glob.glob(os.path.join(sortie, "site", "**", "*.html"), recursive=True):
         s = io.open(f, encoding="utf-8").read()
-        if "about.html" not in s:
+        if "about.html" not in s and "<!-- gabarit:debut -->" not in s:
             continue
         s = re.sub(r' · <a href="[^"]*about\.html">.*?</a>', "", s, flags=re.S)
+        s = BLOC_GABARIT.sub("\n", s)
         io.open(f, "w", encoding="utf-8", newline="\n").write(s)
 
     js = os.path.join(sortie, "site", "assets", "js")
@@ -627,7 +648,7 @@ def copier_secrets(sortie, c, essai=False):
         src = os.path.join(RACINE, rel.replace("/", os.sep))
         if not os.path.isfile(src):
             bilan.append((rel, "absent du template : à déposer à la main"))
-        elif bloc and not (c.get("blocs") or {}).get(bloc, True):
+        elif bloc and not bloc_actif(c, bloc):
             bilan.append((rel, "bloc « %s » désactivé : non copié" % bloc))
         elif not regles & set(motifs):
             bilan.append((rel, "NON copié : le .gitignore du cours ne l'exclut pas"))
@@ -814,6 +835,8 @@ def course_data(c):
         res.append(("📝", "QCM/index.html", "QCM d'évaluation", "Assessment quiz"))
     if b.get("polycopies", True):
         res.append(("📄", "polycopies.html", "Polycopiés", "Handouts"))
+    if bloc_actif(c, "podcasts"):
+        res.append(("🎙️", "podcasts.html", "Podcasts", "Podcasts"))
     if b.get("activites", True):
         res.append(("🧩", "activites.html", "Activités interactives", "Interactive activities"))
     if b.get("atelier", True):
@@ -1100,7 +1123,7 @@ def main():
     print("  blocs     : %s" % (", ".join(sorted(actifs)) or "aucun"))
     print("  sortie    : %s" % sortie)
     distant = (c.get("publication") or {}).get("repertoire_distant")
-    if (c.get("blocs") or {}).get("deploiement", True):
+    if bloc_actif(c, "deploiement"):
         print("  publication : %s" % (distant or "à renseigner (destination.json) avant le premier envoi"))
 
     # Le template n'est jamais sa propre sortie : y écrire écraserait son site de
@@ -1144,7 +1167,7 @@ def main():
     # --- blocs désactivés
     retires = 0
     for cle, chemins in BLOCS.items():
-        if (c.get("blocs") or {}).get(cle, True):
+        if bloc_actif(c, cle):
             continue
         for rel in chemins:
             p = os.path.join(sortie, rel.replace("/", os.sep))
@@ -1155,10 +1178,20 @@ def main():
     if retires:
         print("  %d élément(s) retiré(s) pour les blocs désactivés" % retires)
 
+    # --- la série de podcasts part vide : l'épisode de la démonstration accompagnait son chapitre 1
+    serie = os.path.join(sortie, "outils", "podcasts.py")
+    if os.path.isfile(serie):
+        s = io.open(serie, encoding="utf-8").read()
+        neuf = re.sub(r"^EPISODES = \[\n.*?^\]\n", "EPISODES = []\n", s, count=1, flags=re.S | re.M)
+        if neuf != s:
+            ecrire(serie, neuf)
+            print("  outils/podcasts.py : la série part vide — ses épisodes s'y déclarent (module 03)")
+
     # --- chapitre vitrine conservé comme modèle
     chap = os.path.join(sortie, "site", "chapitres")
     vitrine = os.path.join(chap, "01-cadrage.html")
     modele_src = io.open(vitrine, encoding="utf-8").read() if os.path.isfile(vitrine) else ""
+    modele_src = ENCADRE_PODCAST.sub(REPERE_PODCAST if bloc_actif(c, "podcasts") else "", modele_src)
     for f in os.listdir(chap):
         os.remove(os.path.join(chap, f))
     if modele_src:

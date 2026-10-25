@@ -20,8 +20,10 @@ titre d'un chapitre vient de course-data.js ; un autre titre qui mêle les deux 
 réduit au titre du cours ; sinon il reste à traduire, et l'outil le dit. Rien ne s'écrit si une page contient un
 bloc mal fermé.
 
-La conversion appelle ensuite generer_langues.py et generer_nav_sections.py ; restent liens_langues.py,
-hreflang.py, verifier_parite.py, verifier_liens.py, verifier_i18n.py, et la recette au navigateur.
+La conversion appelle ensuite generer_langues.py, generer_nav_sections.py et generer_fragments.py (un fragment
+rendu dans les deux langues hors d'un bloc data-tr, comme la liste des épisodes de la page Podcasts, traverse la
+conversion tel quel : chaque page le reçoit alors dans sa seule langue) ; restent liens_langues.py, hreflang.py,
+verifier_parite.py, verifier_liens.py, verifier_i18n.py, et la recette au navigateur.
 Le gabarit garde sa démonstration en blocs data-tr, le modèle de secours : l'outil refuse d'y tourner.
 """
 import argparse
@@ -31,6 +33,7 @@ import io
 import os
 import posixpath
 import re
+import subprocess
 import sys
 
 RACINE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -152,6 +155,11 @@ def main():
     print("langues-data.js : %d page(s) traduite(s)" % len(traduites))
     _a_jour, nch, nsec = charger_module("generer_nav_sections").generer(RACINE)
     print("nav-sections.js : %d chapitre(s), %d section(s)" % (nch, nsec))
+    fragments = os.path.join(RACINE, "outils", "generer_fragments.py")
+    if os.path.isfile(fragments):
+        r = subprocess.run([sys.executable, fragments], capture_output=True, text=True, encoding="utf-8",
+                           errors="replace", env=dict(os.environ, PYTHONIOENCODING="utf-8"))
+        print("fragments : %s" % ((r.stdout.strip().splitlines() or ["…"])[-1]))
     print("Ensuite : liens_langues.py, hreflang.py, verifier_parite.py, verifier_liens.py, verifier_i18n.py, et la "
           "recette au navigateur.")
     return 0
