@@ -26,9 +26,12 @@
 ## 2. Le modèle
 
 - **Le gabarit** : les zones protégées du déployeur (`deploiement/proteger_zones.py`), les
-  comptes dans `docs/acces-zones.json` (secret ; modèle : `docs/acces-zones.exemple.json`).
+  comptes dans `docs/acces-zones.json` (secret ; modèle : `docs/acces-zones.exemple.json`),
+  les interdits du cours (`outils/interdits.py`) et leur contrôle
+  (`outils/verifier_interdits.py`).
 - **Le cours d'architecture logicielle** (lecture seule) : la correction du TP et ses
-  capsules, l'espace formateur, le contrôle des interdits (`outils/verifier_tp.py`).
+  capsules, l'espace formateur, le contrôle des chiffres du TP (`outils/verifier_tp.py`),
+  dont `verifier_interdits.py` est la version générique.
 - **Le cours EADL** (lecture seule) : un projet au lieu d'un TP, trois zones protégées par
   langue, un site entièrement protégé.
 
@@ -48,8 +51,10 @@ Une question à la fois.
 ## 4. La méthode
 
 1. **Les interdits** : le sujet du TP, ses chiffres et ses mots n'apparaissent que sur les
-   pages du TP et dans la correction ; ils entrent dans `interdits`, contrôlés par les
-   générateurs sur toutes les pages publiques.
+   pages du TP et dans la correction. Ils entrent dans `outils/interdits.py` — mots,
+   nombres (cherchés aussi en toutes lettres, pour les scripts audio), motifs — avec, dans
+   `PERMIS`, la page du TP et le dossier de la correction ; `outils/verifier_interdits.py`
+   les cherche partout ailleurs.
 2. **La page du TP** : énoncé, étapes, attendus, modèles adaptés au cas.
 3. **La correction** : réponses, corrigé commenté, barème adossé à la grille officielle.
 4. **La protection d'abord** : `deploiement/proteger_zones.py` pose la protection en ligne
@@ -73,7 +78,7 @@ Une question à la fois.
 
 ## 6. Les contrôles
 
-Aucun interdit sur les pages publiques ; aucun lien public vers la correction ; la zone
+`verifier_interdits.py` sans écart ; aucun lien public vers la correction ; la zone
 répond 401 sans identifiant, en ligne, avant que son contenu parte ; l'auteur confirme
 l'accès avec les identifiants.
 

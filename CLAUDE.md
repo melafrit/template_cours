@@ -96,8 +96,10 @@ défaut de l'outil.
 - **Rien ne souffle une réponse** : un exemple de méthode porte sur un cas
   neutre ; les réponses d'un TP ne vivent que dans sa correction, placée dans
   une zone protégée par mot de passe.
-- Les **interdits propres au cours** — mots du sujet de TP, exemples à éviter —
-  sont listés dans sa fiche de cadrage et contrôlés par ses générateurs.
+- Les **interdits propres au cours** — mots et chiffres du sujet de TP, d'une
+  épreuve, exemples à éviter — sont listés dans `outils/interdits.py`, avec les
+  pages où ils sont permis, et contrôlés par `outils/verifier_interdits.py`
+  partout où le cours se publie, scripts des capsules compris.
 - Typographie française : espace insécable avant `: ; ? !` et à l'intérieur des
   guillemets `« »`.
 - **Une faute de français** relevée en chemin n'est jamais corrigée en
@@ -278,13 +280,14 @@ entend du français — et la piste reçoit l'accent parisien des pistes frança
 
 ## 6. Vérifier
 
-Cinq contrôles, à lancer souvent. Ils attrapent ce que l'œil ne voit pas.
+Six contrôles, à lancer souvent. Ils attrapent ce que l'œil ne voit pas.
 
 ```bash
 python3 outils/verifier_i18n.py       # clés dépareillées, blocs data-tr déséquilibrés
 python3 outils/verifier_contraste.py  # palettes lisibles en clair ET en sombre
 python3 outils/verifier_liens.py      # href, src et renvois « Pour approfondir » qui ne mènent nulle part
 python3 outils/generer_nav_sections.py --essai  # le menu suit-il les <h2 id> des chapitres ?
+python3 outils/verifier_interdits.py  # aucun interdit du cours hors de sa place (outils/interdits.py)
 python3 demarrer.py                   # le site, sans cache
 ```
 

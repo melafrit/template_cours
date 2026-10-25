@@ -187,6 +187,11 @@ Pour **chaque** chapitre :
       **et** en sombre
 - [ ] `python3 outils/verifier_liens.py` finit sur « Aucun lien mort » — renvois
       « Pour approfondir » compris (fichier et ancre)
+- [ ] `python3 outils/verifier_interdits.py` ne trouve aucun interdit hors de sa
+      place — sujet du TP, chiffres d'une épreuve (`outils/interdits.py`)
+- [ ] En site miroir : `python3 outils/verifier_parite.py` finit sur « 0 écart »,
+      et `generer_langues.py --essai`, `liens_langues.py --essai`,
+      `hreflang.py --essai` n'ont rien à faire
 - [ ] Le site tourne : `python3 demarrer.py`, sans erreur en console
 - [ ] Aucun média référencé n'est manquant (les composants affichent leur état,
       ce qui est différent d'un lien mort)

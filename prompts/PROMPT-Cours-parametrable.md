@@ -267,8 +267,9 @@ journal. Celles qui reviennent à chaque étape :
    Vocabulaire stable : chapitre (unité de contenu), séance (demi-journée réelle),
    livrable, version de travail, version finale ; un QCM noté est un livrable.
 8. Rien ne souffle une réponse : exemples de méthode sur un cas NEUTRE ; interdits :
-   {{interdits}}. [[SI modules.tp.actif]] Rien du sujet du TP ({{modules.tp.sujet}}) ni de
-   ses chiffres hors du TP. [[FIN]]
+   {{interdits}}, dans outils/interdits.py dès le cadrage, contrôlés par
+   outils/verifier_interdits.py. [[SI modules.tp.actif]] Rien du sujet du TP
+   ({{modules.tp.sujet}}) ni de ses chiffres hors du TP. [[FIN]]
 9. Toute question à choix explique pourquoi la bonne réponse est juste ET pourquoi
    chacune des autres ne l'est pas, avec deux à quatre renvois « Pour approfondir »
    (prompts/15_explications_quiz.md). Tout schéma a sa lecture élément par élément, pour
@@ -395,8 +396,8 @@ les épisodes. Une mise en ligne suit chaque étape publiable, toujours sur acco
 
 Référentiel cohérent · verifier_i18n, verifier_contraste, verifier_liens (renvois compris)
 sans écart · generer_nav_sections.py --essai : menu à jour · node --check · aucun octet
-NUL · captures clair/sombre, chaque filière, 1280 et 375 px, console vide · interdits
-absents des pages publiques · contrôles propres à chaque module actif · deployer.py
+NUL · captures clair/sombre, chaque filière, 1280 et 375 px, console vide ·
+verifier_interdits.py sans écart · contrôles propres à chaque module actif · deployer.py
 --essai : destination attendue, garde-fou passé, aucun fichier hors de site/.
 
 # DÉFINITION DE « TERMINÉ »
