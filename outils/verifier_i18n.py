@@ -15,7 +15,9 @@ Quatre contrôles, dans l'ordre où ils font mal quand on les oublie :
 
 3. BLOCS data-tr DÉPAREILLÉS dans les pages — un titre traduit dont le
    paragraphe ne l'est pas laisse un trou en anglais. Le script compte
-   les blocs de chaque langue par page et signale les écarts.
+   les blocs de chaque langue par page et signale les écarts ; il cherche
+   aussi les intitulés portés par un attribut (data-step-titre,
+   data-sommaire-titre) sans leur version anglaise (…-en).
 
 4. TITRES DIVERGENTS entre course-data.js et les pages — un chapitre
    renommé dans sa page mais pas dans les données affiche deux titres
@@ -25,6 +27,7 @@ Quatre contrôles, dans l'ordre où ils font mal quand on les oublie :
 Sort en code 1 si un contrôle échoue : utilisable en CI ou en pré-commit.
 """
 
+import html
 import io
 import os
 import re
@@ -76,6 +79,28 @@ def blocs_data_tr():
     return out
 
 
+def intitules_sans_anglais():
+    """[(page, attribut, valeur)] : dans une page en blocs data-tr, un intitulé porté par un attribut
+    (data-step-titre, data-sommaire-titre) sans sa version anglaise (…-en) — la vue anglaise l'afficherait en
+    français. Une page d'une seule langue (site miroir, cours monolingue) n'en a pas besoin."""
+    out = []
+    for f in sorted(glob.glob(os.path.join(SITE, "**", "*.html"), recursive=True)):
+        t = io.open(f, encoding="utf-8").read()
+        if 'data-tr="en"' not in re.sub(r"<script\b.*?</script>", "", t, flags=re.S):
+            continue
+        for balise in re.findall(r"<[a-zA-Z][^>]*\bdata-(?:step|sommaire)-titre=\"[^>]*>", t):
+            for nom in ("data-step-titre", "data-sommaire-titre"):
+                v = re.search(r'\s%s="([^"]*)"' % nom, balise)
+                if v and v.group(1).strip() and not re.search(r'\s%s-en="[^"]*\S[^"]*"' % nom, balise):
+                    out.append((os.path.relpath(f, SITE).replace(os.sep, "/"), nom, v.group(1)))
+    return out
+
+
+def texte_seul(fragment):
+    """Le texte d'un fragment HTML : balises ôtées, entités décodées, espaces resserrés."""
+    return re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", "", fragment))).strip()
+
+
 def titres_divergents():
     """[(fichier, titre des donnees, titre de la page)] pour chaque ecart.
 
@@ -102,8 +127,20 @@ def titres_divergents():
             continue
         pfr = re.search(r'data-tr="fr">(.*?)</span>', t1.group(1), re.S)
         pen = re.search(r'data-tr="en">(.*?)</span>', t1.group(1), re.S)
-        pfr = pfr.group(1).strip() if pfr else ""
-        pen = pen.group(1).strip() if pen else ""
+        if pfr or pen:
+            # Blocs data-tr : les deux langues dans la page.
+            pfr = pfr.group(1).strip() if pfr else ""
+            pen = pen.group(1).strip() if pen else ""
+        else:
+            # Une page d'une seule langue (site miroir, ou cours monolingue) : le titre anglais vient de la
+            # jumelle site/en/chapitres/ ; sans jumelle, il n'y a rien à comparer en anglais.
+            pfr = texte_seul(t1.group(1))
+            jumelle = os.path.join(SITE, "en", "chapitres", fichier)
+            t2 = None
+            if os.path.isfile(jumelle):
+                t2 = re.search(r'<h1 class="chapter-title">(.*?)</h1>', io.open(jumelle, encoding="utf-8").read(),
+                               re.S)
+            pen = texte_seul(t2.group(1)) if t2 else den
         if (dfr, den) != (pfr, pen):
             out.append((fichier, "%s / %s" % (dfr, den), "%s / %s" % (pfr, pen)))
     return out
@@ -164,6 +201,14 @@ def main():
             print("      %-44s fr=%d  en=%d" % (page, a, b))
     else:
         print("   Toutes les pages ont autant de blocs français qu'anglais.")
+    sans_en = intitules_sans_anglais()
+    if sans_en:
+        echecs += 1
+        print("   %d intitulé(s) d'étape ou de sommaire sans version anglaise (…-en) :" % len(sans_en))
+        for page, nom, valeur in sans_en[:12]:
+            print("      %-30s %s=\"%s\"" % (page, nom, valeur))
+    else:
+        print("   Les intitulés d'étapes et de sommaire ont leur version anglaise.")
 
     print("\n4. Titres : donnees du cours et pages")
     print("   -----------------------------")

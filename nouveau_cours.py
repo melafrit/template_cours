@@ -1007,10 +1007,10 @@ def squelette_chapitre(c, ch, modele):
     def num_section(m):
         num_section.n += 1
         return '%s="Section %d"' % (m.group(1), num_section.n)
-    num_section.n = 0
-    t = re.sub(r'(data-step-titre)="[^"]*"', num_section, t)
-    num_section.n = 0
-    t = re.sub(r'(data-sommaire-titre)="[^"]*"', num_section, t)
+    # Leur version anglaise (…-en) aussi : sans quoi un cours créé gardait en anglais les intitulés de la démo.
+    for nom in ("data-step-titre", "data-sommaire-titre", "data-step-titre-en", "data-sommaire-titre-en"):
+        num_section.n = 0
+        t = re.sub(r'(%s)="[^"]*"' % re.escape(nom), num_section, t)
 
     # le contenu des composants : les cles restent, les valeurs sont videes
     d = t.index("  var TEXTES = {")
@@ -1039,10 +1039,16 @@ def squelette_chapitre(c, ch, modele):
 
 
 def depouiller_langue(t, garder):
-    """Retire les blocs de la langue non retenue, pour un cours monolingue."""
+    """Retire les blocs de la langue non retenue, pour un cours monolingue. Les attributs à version anglaise
+    (data-step-titre-en…) disparaissent d'un cours français ; un cours anglais en garde la valeur."""
     autre = "en" if garder == "fr" else "fr"
     t = re.sub(r'<span data-tr="%s">.*?</span>' % autre, "", t, flags=re.S)
     t = re.sub(r'\sdata-tr="%s"' % garder, "", t)
+    for nom in ("data-step-titre", "data-sommaire-titre"):
+        if garder == "en":
+            t = re.sub(r'(\s%s=")[^"]*("[^>]*?)\s%s-en="([^"]*)"' % (nom, nom),
+                       lambda m: m.group(1) + m.group(3) + m.group(2), t)
+        t = re.sub(r'\s%s-en="[^"]*"' % nom, "", t)
     return t
 
 

@@ -963,7 +963,11 @@
 
           <section class="content-section" data-step
                    data-step-titre="Champ d'application"
+                   data-step-titre-en="Scope"
                    data-step-duree="4 min"> … </section>
+
+        data-step-titre-en : l'intitulé anglais d'une page en blocs data-tr
+        (même règle pour data-sommaire-titre-en, plus bas).
 
         Les sections sans attribut data-step (en-tête, ressources, accroche)
         ne font pas partie du parcours et restent toujours visibles.
@@ -992,12 +996,29 @@
     return h + ' h' + (r ? ' ' + (r < 10 ? '0' + r : r) : '');
   }
 
+  /* Un intitulé porté par un attribut a sa version anglaise à côté :
+     data-step-titre="…" data-step-titre-en="…". Les blocs data-tr ne couvrent
+     pas les attributs : sans elle, la vue anglaise gardait l'intitulé français.
+     Une page d'une seule langue (site miroir) n'a que data-step-titre, dans sa
+     langue. */
+  function attrLangue(el, nom) {
+    var lg = (window.TPLI18N && TPLI18N.lang && TPLI18N.lang()) || 'fr';
+    var t = el.getAttribute(nom + '-' + lg);
+    return t && t.replace(/\s/g, '') ? t : el.getAttribute(nom);
+  }
+  // Le texte d'un titre dans la langue affichée : son bloc data-tr s'il en a.
+  function texteAffiche(el) {
+    var lg = (window.TPLI18N && TPLI18N.lang && TPLI18N.lang()) || 'fr';
+    var s = el.querySelector('[data-tr="' + lg + '"]');
+    return String((s || el).textContent);
+  }
+
   // Titre de l'étape : data-step-titre, sinon le h2 débarrassé de sa numérotation
   function titreEtape(sec, k) {
-    var t = sec.getAttribute('data-step-titre');
+    var t = attrLangue(sec, 'data-step-titre');
     if (t && t.replace(/\s/g, '')) return t;
     var h = sec.querySelector('h2');
-    if (h) return String(h.textContent).replace(/^\s*\d+\.\s*/, '').replace(/^\s+|\s+$/g, '');
+    if (h) return texteAffiche(h).replace(/^\s*\d+\.\s*/, '').replace(/^\s+|\s+$/g, '');
     return T('etapes.etape') + ' ' + (k + 1);
   }
 
@@ -1331,11 +1352,11 @@
         au bon endroit et de signaler où l'on se trouve.
      ---------------------------------------------------------------- */
 
-  // Libellé d'une entrée : data-sommaire-titre, sinon le h2 sans sa numérotation
+  // Libellé d'une entrée : data-sommaire-titre (ou sa version anglaise), sinon le h2 sans sa numérotation
   function titreSommaire(sec, h2, k) {
-    var t = sec.getAttribute('data-sommaire-titre');
+    var t = attrLangue(sec, 'data-sommaire-titre');
     if (t && t.replace(/\s/g, '')) return t;
-    var s = String(h2.textContent).replace(/^\s*\d+\.\s*/, '').replace(/^\s+|\s+$/g, '');
+    var s = texteAffiche(h2).replace(/^\s*\d+\.\s*/, '').replace(/^\s+|\s+$/g, '');
     return s || ('Section ' + (k + 1));
   }
 
