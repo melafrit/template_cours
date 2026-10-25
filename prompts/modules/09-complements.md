@@ -71,13 +71,16 @@ contact.
 ## 5. Le glossaire (`glossaire`)
 
 Chaque terme : sa définition, son chapitre d'introduction, un exemple ; des termes vedettes ;
-les info-bulles du moteur (`glossaire-tooltip.js`). Puis **« Où en parle-t-on ? »** : pour
-chaque terme, les pages qui l'emploient (`prompts/06_glossaire.md`,
-`prompts/06b_glossaire_ou_en_parle_t_on.md`) ; sur le cours de référence,
-`outils/generer_glossaire.py` et `outils/glossaire_emplois.py`, qui excluent les pages qui
-n'expliquent aucune notion (une table des matières, la page du polycopié, celle des
-podcasts). Avant d'y poser des QR codes (module 02), vérifier comment une adresse ouvre un
-terme précis.
+les info-bulles du moteur (`glossaire-tooltip.js`). Puis **« Où en parle-t-on ? »**
+(`prompts/06_glossaire.md`, `prompts/06b_glossaire_ou_en_parle_t_on.md`) :
+`outils/glossaire_emplois.py` compte, section par section et dans chaque langue, où le
+cours emploie chaque terme — formes, pluriels, alias (`alias`), hors des expressions où le
+mot ne désigne pas la notion (`exclus`), deux champs facultatifs de `glossaire-data.js` —,
+et la page du glossaire l'affiche sous chaque terme. Une page qui n'explique aucune notion
+(une table des matières, la page du polycopié, celle des podcasts) entre dans `EXCLUES`.
+Chaque terme a son ancre (`glossaire.html#g-…`), que vise l'info-bulle des chapitres :
+c'est aussi l'adresse d'un QR code vers un terme (module 02). Le générateur se relance
+après chaque retouche d'une page.
 
 ---
 

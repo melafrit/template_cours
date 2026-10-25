@@ -5,6 +5,8 @@ Une fois le glossaire produit (prompt `06`) et les pages du cours écrites — c
 
 À lancer **en fin de production** : la liste se calcule en lisant les pages publiées. Le générateur se relance ensuite après chaque retouche d'une page.
 
+> **Le gabarit fournit déjà le mécanisme** : `outils/glossaire_emplois.py` compte les emplois, section par section et dans chaque langue, et la page `glossaire.html` les affiche sous chaque terme, avec une ancre par terme (`#g-…`) que vise l'info-bulle des chapitres. Ce prompt sert à l'adapter au cours : les alias et les expressions écartées de chaque terme (champs `alias` et `exclus` de `glossaire-data.js`), les pages à exclure (`EXCLUES` du générateur), et, si le cours le veut, le surlignage du mot à l'arrivée.
+
 ---
 
 ## Placeholders à compléter

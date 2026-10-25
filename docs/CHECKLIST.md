@@ -192,6 +192,8 @@ Pour **chaque** chapitre :
 - [ ] `python3 outils/generer_fragments.py --essai` n'a rien à faire — chaque
       chiffre des pages suit le référentiel (`outils/referentiel.py`), aucune
       valeur ne manque
+- [ ] `python3 outils/glossaire_emplois.py --essai` dit « à jour » — la fenêtre
+      « Où en parle-t-on ? » du glossaire suit les pages
 - [ ] En site miroir : `python3 outils/verifier_parite.py` finit sur « 0 écart »,
       et `generer_langues.py --essai`, `liens_langues.py --essai`,
       `hreflang.py --essai` n'ont rien à faire

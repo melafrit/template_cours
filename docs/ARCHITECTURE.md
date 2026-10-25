@@ -168,7 +168,8 @@ La transcription affichée est **générée** depuis la fiche de production par
 |---|---|---|---|
 | **course-data.js** | `window.COURSE` | `{ title, subtitle, author, license, chapters:[{num,ico,file,title}], resources:[{ico,href,label}] }` (libellés `{fr,en}`) | navigation.js, pages |
 | **nav-sections.js** ⚙️ | `window.RDC_SECTIONS` | `{ "<num>": [{ id, t:{fr,en} }] }` — une entrée par `<h2 id>` du chapitre | navigation.js (sous-menu pliable) |
-| **glossaire-data.js** | `window.GLOSSARY` | `[{ fr, en, def:{fr,en}, ex:{fr,en} }]` | glossaire.html, glossaire-tooltip.js |
+| **glossaire-data.js** | `window.GLOSSARY` | `[{ fr, en, def:{fr,en}, ex:{fr,en}, alias?:{fr:[],en:[]}, exclus?:{fr:[],en:[]} }]` | glossaire.html, glossaire-tooltip.js, outils/glossaire_emplois.py |
+| **glossaire-emplois.js** ⚙️ | `window.GLOSSARY_EMPLOIS` | `{ fr:{ "g-…": [{ p, a, page, section, n }] }, en:{…} }` — où le cours emploie chaque terme, par langue | glossaire.html (« Où en parle-t-on ? ») |
 | **flashcards-data.js** | `window.RDC_FLASHCARDS` | `{ "<num>": [{ front:{fr,en}, back:{fr,en}, ref }] }` | pages de chapitre (instanciation `FlashcardDeck`) |
 | **QCM/questions.js** | `window.QCM_QUESTIONS` | `{ meta:{…}, questions:[{ id, chapitre, difficulte, enonce:{fr,en}, propositions:[{fr,en}×4] }] }` | pages QCM |
 | **QCM/corrections.js** | `window.QCM_CORRECTIONS` | `{ corrections:[{ id, chapitre, difficulte, bonne_reponse_index, explication:{fr,en} }] }` | entrainement, correction, dashboard |
@@ -176,7 +177,8 @@ La transcription affichée est **générée** depuis la fiche de production par
 | **langues-data.js** ⚙️ | `window.TPL_LANGUES` | `["chapitres/01-x.html", …]` — les pages qui ont leur jumelle sous `en/` (vide hors site miroir) | langue.js, navigation.js, glossaire-tooltip.js |
 
 **⚙️ = fichier GÉNÉRÉ.** `langues-data.js` est produit par `outils/generer_langues.py`
-d'après les fichiers de `site/en/` ; `playlist-data.js`, par
+d'après les fichiers de `site/en/` ; `glossaire-emplois.js`, par
+`outils/glossaire_emplois.py` d'après les termes du glossaire et les pages ; `playlist-data.js`, par
 `outils/generer_playlist.py` d'après les pages et les fichiers audio réels ;
 `nav-sections.js`, par `outils/generer_nav_sections.py` d'après les `<h2 id>` des
 chapitres (`nouveau_cours.py` le lance à la création du cours). Les corriger à la
