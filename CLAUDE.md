@@ -239,7 +239,14 @@ d'écouter. **La fiche est la source unique.**
 
 ## 5. Le contrat bilingue
 
-Trois mécanismes, selon la nature du texte.
+**Le modèle par défaut est le site miroir** (décision de l'auteur, 25 octobre 2026) :
+chaque page française a sa jumelle anglaise sous `en/` — même chemin, même nom, même suite
+de blocs —, écrite une fois le français stable ; `verifier_parite.py` contrôle la parité.
+Les blocs `data-tr` ci-dessous restent le **modèle de secours**, pour un cours court écrit
+bilingue d'emblée. Les deux modèles en détail : `docs/I18N.md` ; la méthode :
+`prompts/modules/01-bilingue.md`.
+
+En modèle `data-tr`, trois mécanismes, selon la nature du texte.
 
 **Contenu rédigé** — blocs jumelés dans le HTML, le CSS masque la langue
 inactive :

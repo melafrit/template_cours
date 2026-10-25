@@ -29,8 +29,8 @@
   "_palette": "L'identité visuelle. La charte est commune à tous vos cours ; seule la teinte change, pour que deux cours ouverts côte à côte ne se confondent pas. Valeurs possibles : marine (droit, gestion, conformité) · emeraude (environnement, santé, vivant) · prune (sciences humaines, communication, design) · ardoise (réseaux, infrastructures, sécurité) · bordeaux (droit, histoire, économie). Chaque palette est vérifiée en contraste, en thème clair ET sombre.",
   "palette": "marine",
 
-  "_langues": "Le premier élément est la langue par défaut. Retirez « en » pour un cours en français seul : le script supprime alors les blocs anglais et le bouton de bascule. ATTENTION — un cours bilingue double la rédaction ET la facture audio.",
-  "langues": ["fr", "en"],
+  "_langues": "Le premier élément est la langue par défaut. [\"fr\"] (par défaut) : le cours se crée en français, et sa version anglaise vient ensuite, en site miroir sous en/, une fois le français stable — le modèle retenu (docs/I18N.md, prompts/modules/01-bilingue.md). [\"fr\", \"en\"] : les deux langues dans chaque page (blocs data-tr), le modèle de secours, pour un cours court écrit bilingue d'emblée. ATTENTION — un cours bilingue double la rédaction ET la facture audio.",
+  "langues": ["fr"],
 
   "_public": "Sert au cadrage et s'affiche sur la page d'accueil. Décrivez le public par ses PRÉREQUIS et ses CONTRAINTES, pas par son intitulé de diplôme : « master 2 » ne permet aucune décision, « sans bagage technique, deux heures par semaine, souvent sur téléphone » en permet beaucoup.",
   "public": {

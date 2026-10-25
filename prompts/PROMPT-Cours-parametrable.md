@@ -166,7 +166,7 @@ malus_version_de_travail: 0
 modules:
   bilingue:                     # 01 — l'anglais, après le français
     actif: false
-    modele: ""                  # "miroir" (pages en/) ou "data-tr" (blocs jumelés) : voir le module
+    modele: "miroir"            # pages jumelles sous en/ ; "data-tr" (blocs jumelés) en secours : voir le module
   polycopie:                    # 02 — le livret Word et PDF
     actif: false
   podcasts:                     # 03 — NotebookLM
@@ -287,7 +287,7 @@ journal. Celles qui reviennent à chaque étape :
    sections régénéré. Initialise le dépôt Git ; crée docs/00-Lisez-moi.md,
    docs/01-Decisions-de-conception.md, docs/02-Etat-d-avancement.md et TODO.md.
 2. Le moteur du template couvre : navigation et menu des sections généré, bilingue en
-   blocs data-tr, composants RDCX (checkpoint expliqué, reveal, spotError, match, branch,
+   blocs data-tr (le modèle de secours), composants RDCX (checkpoint expliqué, reveal, spotError, match, branch,
    hotspots, voice, steps), glossaire à info-bulles, flashcards, QCM CBM avec correction
    et tableau de bord, QCM papier, playlist, audio Eleven v4, déploiement SFTP avec
    garde-fou et zones protégées.
@@ -335,9 +335,11 @@ journal. Celles qui reviennent à chaque étape :
 - Site statique sans framework ni build, dans site/ : index.html, cours.html,
   chapitres/NN-*.html, glossaire.html, activites.html, atelier.html, QCM/… Seul site/ se
   publie.
-- Contenu rédigé en blocs data-tr ; contenu des composants dans TEXTES = { fr, en } et
-  monter() rejoué sur tpl:langchange ; libellés des moteurs dans ui-labels.js (T()) —
-  jamais en dur. Le modèle « miroir » a ses propres règles (module bilingue).
+- Le bilingue (docs/I18N.md) : par défaut, des pages en français, puis leur jumelle
+  anglaise sous en/ une fois le français stable (module 01) ; en secours, des blocs
+  data-tr, le contenu des composants dans TEXTES = { fr, en } et monter() rejoué sur
+  tpl:langchange. Dans les deux cas, les libellés des moteurs vivent dans ui-labels.js
+  (T()), jamais en dur.
 - Copier depuis site/chapitres/_modele.html, le seul endroit où tous les composants sont
   appelés pour de vrai.
 - Chaque chapitre : capsule d'ouverture, sections numérotées (h2 id), composants RDCX là

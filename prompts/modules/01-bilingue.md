@@ -4,7 +4,8 @@
 > filière anglophone, une diffusion plus large.
 >
 > **Paramètres.** `modules.bilingue.actif` ; `modules.bilingue.modele` : `"miroir"` (des
-> pages anglaises sous `en/`) ou `"data-tr"` (les deux langues dans chaque page).
+> pages anglaises sous `en/`, le modèle par défaut) ou `"data-tr"` (les deux langues dans
+> chaque page, le modèle de secours).
 >
 > **Place.** Phase 9 du tronc, une fois le français stable : contenus, évaluations,
 > compléments et audio français validés. En modèle « data-tr », les blocs anglais peuvent
@@ -40,10 +41,12 @@ servent ensuite au livret anglais (module 02) et aux podcasts anglais (module 03
 | Le contrôle | `verifier_parite.py` : même suite de blocs, 0 écart | `verifier_i18n.py` : blocs équilibrés, clés jumelles |
 | Convient à | un cours long, traduit lot par lot une fois le français stable | un cours court, écrit dans les deux langues dès le départ |
 
-Recommandation : le **miroir** pour un cours long — le modèle qui a fonctionné sur le cours
-d'architecture —, **data-tr** pour un cours court écrit bilingue d'emblée. Le choix est une
-décision Dnn, prise au cadrage (phase 0) : il fixe `langues` dans `cours.json` (`["fr"]`
-pour le miroir, l'anglais venant ensuite ; `["fr", "en"]` pour data-tr).
+**Le modèle retenu par l'auteur (25 octobre 2026) : le site miroir**, celui de ses deux cours
+bilingues, sur lequel reposent le livret anglais, la page Podcasts et les balises `hreflang`.
+**data-tr reste en secours**, pour un cours court écrit dans les deux langues dès le départ ;
+le choisir est une décision Dnn, prise au cadrage (phase 0). Le modèle fixe `langues` dans
+`cours.json` : `["fr"]` pour le miroir, l'anglais venant ensuite ; `["fr", "en"]` pour
+data-tr. Le détail des deux modèles : `docs/I18N.md`.
 
 ---
 
@@ -75,7 +78,7 @@ template), et dis à l'auteur ce que tu reprends : chaque reprise est une décis
 
 Une question à la fois ; entre parenthèses, le choix retenu sur le cours de référence.
 
-- **Le modèle** (miroir), section 2.
+- **Le modèle**, seulement s'il y a lieu de s'écarter du miroir (section 2).
 - **L'accent des pistes anglaises** (*clear, well-articulated, professional General
   American accent* ; l'audio français garde son accent parisien marqué).
 - **Les noms dans le code et les schémas** (en anglais).
