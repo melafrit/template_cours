@@ -1,10 +1,10 @@
 {
   "_lisez_moi": "MODÈLE — sans secret, c'est le seul des deux fichiers qui soit versionné. Copiez-le en docs/acces.json puis renseignez le mot de passe. docs/acces.json reste local ; le document produit, lui, est versionné.",
 
-  "site": "https://mohamedelafrit.com/teaching/ISM/06-Data_Management_GDPR/MS2D_ERIS/",
-  "login": "CoursISM",
+  "site": "https://example.org/a-remplir/",
+  "login": "a-remplir",
   "motdepasse": "a-remplir",
-  "qcm": "https://mohamedelafrit.com/teaching/ISM/06-Data_Management_GDPR/MS2D_ERIS/QCM/index.html",
+  "qcm": "https://example.org/a-remplir/QCM/index.html",
 
   "_courriel": "OPTIONNEL. Laissez vide pour écrire « à l'adresse communiquée par le formateur » — utile si le document circule.",
   "courriel": ""

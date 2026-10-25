@@ -1,6 +1,6 @@
 /* =================================================================
    media.js — Chargement automatique des médias NotebookLM par chapitre
-   Cours "Réglementation des données et conformité" — M. EL AFRIT (CC BY-NC-SA 4.0)
+   Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
 
    Déposez vos fichiers dans assets/media/{infographies,slides,podcasts}/
    nommés  chapitre-<N>-<type>.<ext>  (ex. chapitre-3-podcast.mp3) :

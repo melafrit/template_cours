@@ -1,7 +1,6 @@
 /* =================================================================
    playlist.js — panneau de lecture, à droite de la page
-   Cours "Réglementation des données et conformité"
-   Auteur : Mohamed EL AFRIT — CC BY-NC-SA 4.0
+   Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
 
    Rassemble les pistes audio de tous les chapitres. Celui qu'on lit est
    déplié ; les autres restent pliés, mais leurs pistes se jouent sans

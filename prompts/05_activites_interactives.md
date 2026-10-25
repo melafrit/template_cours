@@ -17,7 +17,7 @@ Quand vous voulez ajouter à un (ou plusieurs) chapitre(s) du site-template une 
 - `{{DUREE}}` — temps visé pour réaliser l'activité (ex. « 5–10 min »).
 - `{{LANGUES}}` — `français seul` OU `français + anglais`.
 - `{{DOCUMENTS_DE_REFERENCE}}` — fichiers/sources faisant autorité (textes officiels, supports de cours, polycopiés). Claude doit s'y tenir.
-- `{{FIL_ROUGE}}` — scénario continu du cours (ex. « UrbanHub Smart City ») pour ancrer l'activité dans le cas pratique, si pertinent.
+- `{{FIL_ROUGE}}` — scénario continu du cours (ex. « une coopérative agricole fictive qui numérise ses ventes ») pour ancrer l'activité dans le cas pratique, si pertinent.
 - `{{NB_ACTIVITES}}` — combien d'activités vous souhaitez au total (ex. 1, ou « 1 par chapitre »).
 - `{{CONTRAINTES}}` — limites à respecter (hors-ligne, pas de dépendances externes, accessibilité, durée, ton, neutralité…).
 - `{{AUTEUR}}` — auteur du cours.

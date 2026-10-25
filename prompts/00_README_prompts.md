@@ -104,7 +104,7 @@ Tous les prompts utilisent la notation `{{NOM_DU_PLACEHOLDER}}`. Remplissez-les 
 | `{{DUREE}}` | Volume horaire ou durée totale. | « 14 h sur deux jours » |
 | `{{LANGUES}}` | `français seul` **OU** `français + anglais`. | « français seul » |
 | `{{DOCUMENTS_DE_REFERENCE}}` | Sources faisant autorité, analysées **avant** de rédiger. | « Fiche module, grille d'évaluation, norme X » |
-| `{{FIL_ROUGE}}` | Cas pratique continu traversant le cours. | « Projet UrbanHub Smart City » |
+| `{{FIL_ROUGE}}` | Cas pratique continu traversant le cours. | « Une coopérative agricole fictive qui numérise ses ventes » |
 | `{{INTERDITS_DU_COURS}}` | Mots et exemples à ne jamais employer (sujet du TP…). | « le sujet du TP, ses chiffres » |
 | `{{NB_CHAPITRES}}` | Nombre de chapitres prévus. | « 6 » |
 | `{{AUTEUR}}` | Auteur du cours (mentions, crédits, commits). | « Mohamed Amine EL AFRIT » |

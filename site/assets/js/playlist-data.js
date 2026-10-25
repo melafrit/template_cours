@@ -1,7 +1,5 @@
 /* =================================================================
    playlist-data.js — index des pistes audio, tous chapitres
-   Cours "Réglementation des données et conformité"
-   Auteur : Mohamed EL AFRIT — CC BY-NC-SA 4.0
 
    FICHIER GÉNÉRÉ — ne pas modifier à la main.
    Régénérer après tout ajout de capsule ou de podcast :

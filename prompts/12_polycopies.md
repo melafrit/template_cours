@@ -13,7 +13,7 @@
 - `{{NB_CHAPITRES}}` — nombre de chapitres à traiter (ou « tous »).
 - `{{LISTE_CHAPITRES}}` — titres + numéros des chapitres concernés.
 - `{{DOCUMENTS_DE_REFERENCE}}` — chemins/URL des fichiers HTML des chapitres déjà produits + sources primaires (la **source de vérité**).
-- `{{FIL_ROUGE}}` — scénario continu du cours (ex. UrbanHub Smart City), à rappeler dans les exemples.
+- `{{FIL_ROUGE}}` — scénario continu du cours (ex. une coopérative agricole fictive qui numérise ses ventes), à rappeler dans les exemples.
 - `{{AUTEUR}}` — auteur (pied de page, page de garde).
 - `{{LICENCE}}` — licence du contenu (ex. CC BY 4.0).
 - `{{COULEURS_THEME}}` — couleurs du thème du site (primaire, secondaire, accent) en hexadécimal, pour harmoniser les encadrés. Ex. `#1A3A5A`, `#0E7C66`, `#C8442B`.

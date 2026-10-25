@@ -185,9 +185,7 @@ def main():
 
     entete = (
         "/* =================================================================\n"
-        "   playlist-data.js — index des pistes audio, tous chapitres\n"
-        "   Cours \"Réglementation des données et conformité\"\n"
-        "   Auteur : Mohamed EL AFRIT — CC BY-NC-SA 4.0\n\n"
+        "   playlist-data.js — index des pistes audio, tous chapitres\n\n"
         "   FICHIER GÉNÉRÉ — ne pas modifier à la main.\n"
         "   Régénérer après tout ajout de capsule ou de podcast :\n"
         "       python3 outils/generer_playlist.py\n\n"

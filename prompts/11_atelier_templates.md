@@ -12,7 +12,7 @@
 - `{{DUREE}}` — durée totale du cours et/ou temps alloué à l'atelier (ex. « 24 h de cours, atelier ~6 h réparti sur les chapitres »).
 - `{{LANGUES}}` — `français seul` **ou** `français + anglais` (si bilingue, TOUT l'atelier et les templates doivent être produits en FR **et** EN).
 - `{{DOCUMENTS_DE_REFERENCE}}` — la liste précise des sources à analyser (textes de loi, normes, supports de cours, articles). **À analyser AVANT de produire quoi que ce soit.**
-- `{{FIL_ROUGE}}` — le scénario continu déjà retenu pour le cours (organisation fictive, contexte, enjeu). Ex. : « UrbanHub, ville intelligente qui déploie des capteurs et services data ». Si vide, demander à Claude de le proposer puis de le valider avant de continuer.
+- `{{FIL_ROUGE}}` — le scénario continu déjà retenu pour le cours (organisation fictive, contexte, enjeu). Ex. : « une coopérative agricole fictive qui numérise ses ventes et ses stocks ». Si vide, demander à Claude de le proposer puis de le valider avant de continuer.
 - `{{NB_CHAPITRES}}` — le nombre de chapitres du cours, pour cadencer les livrables intermédiaires.
 - `{{COMPETENCES_VISEES}}` — les compétences/objectifs pédagogiques du cours auxquels l'atelier doit être relié (idéalement repris du plan de cours).
 - `{{LIVRABLE_FINAL}}` — le rendu final attendu (ex. « un dossier de conformité », « un plan d'architecture », « un rapport d'audit »). Si vide, Claude le déduit du sujet et du fil rouge.

@@ -15,7 +15,7 @@ Remplacez chaque `{{...}}` avant d'envoyer le prompt. Si vous ne connaissez pas 
 - `{{DUREE}}` — volume horaire ou durée prévue (ex. « 14 h », « 5 séances de 3 h »).
 - `{{NB_CHAPITRES}}` — nombre de chapitres envisagé (ou « à définir avec toi »).
 - `{{LANGUES}}` — `français seul` **OU** `français + anglais`.
-- `{{FIL_ROUGE}}` — scénario continu traversant le cours (ex. « UrbanHub Smart City »), ou « à proposer ».
+- `{{FIL_ROUGE}}` — scénario continu traversant le cours (ex. « une coopérative agricole fictive qui numérise ses ventes »), ou « à proposer ».
 - `{{AUTEUR}}` — nom de l'auteur·rice (ex. « Mohamed EL AFRIT »).
 - `{{LICENCE}}` — licence du contenu (ex. « CC BY 4.0 pour le contenu, MIT pour le code »).
 - `{{CONTRAINTES}}` — contraintes à respecter (délais, charte graphique imposée, accessibilité, hors-ligne obligatoire, RGAA, etc.).

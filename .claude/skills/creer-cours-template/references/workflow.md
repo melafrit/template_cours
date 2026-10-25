@@ -61,7 +61,7 @@ Renseignés **une fois** (idéalement dans la fiche de cadrage produite par `01`
 | `{{DUREE}}` | Volume horaire ou durée totale. | « 18 h sur 6 séances » |
 | `{{LANGUES}}` | `français seul` **OU** `français + anglais`. | « français + anglais » |
 | `{{DOCUMENTS_DE_REFERENCE}}` | Sources faisant autorité, à analyser **avant** de rédiger. | « Texte de loi X, rapport Y, normes Z » |
-| `{{FIL_ROUGE}}` | Cas pratique continu traversant le cours. | « Projet UrbanHub Smart City » |
+| `{{FIL_ROUGE}}` | Cas pratique continu traversant le cours. | « Une coopérative agricole fictive qui numérise ses ventes » |
 | `{{NB_CHAPITRES}}` | Nombre de chapitres prévus. | « 6 » |
 | `{{AUTEUR}}` | Auteur·rice (mentions, crédits, commits). | « Mohamed Amine EL AFRIT » |
 | `{{LICENCE}}` | Licence du contenu produit. | « CC BY 4.0 (contenu), MIT (code) » |

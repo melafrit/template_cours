@@ -15,7 +15,7 @@ Remplace chaque `{{...}}` par ta valeur avant d'envoyer le prompt.
 - `{{NIVEAU}}` — débutant / intermédiaire / avancé.
 - `{{LANGUES}}` — `français seul` **ou** `français + anglais` (déclenche la vérification de cohérence bilingue).
 - `{{DOCUMENTS_DE_REFERENCE}}` — sources faisant autorité pour vérifier les faits (textes de loi, articles, normes, supports officiels, chemins de fichiers, URL). **Indispensable pour la vérification d'exactitude.**
-- `{{FIL_ROUGE}}` — scénario continu du cours auquel le chapitre doit se rattacher (ex. « UrbanHub Smart City »). Mets `aucun` si non applicable.
+- `{{FIL_ROUGE}}` — scénario continu du cours auquel le chapitre doit se rattacher (ex. « une coopérative agricole fictive qui numérise ses ventes »). Mets `aucun` si non applicable.
 - `{{OBJECTIFS_PEDAGOGIQUES}}` — ce que l'étudiant doit savoir/savoir-faire après ce chapitre (si connus ; sinon `à déduire`).
 - `{{TON}}` — registre attendu (ex. « professionnel, accessible, qui motive sans infantiliser »).
 - `{{CONTRAINTES}}` — limites à respecter (longueur, vocabulaire imposé/interdit, neutralité, accessibilité, terminologie maison, etc.).

@@ -1,7 +1,6 @@
 /* =================================================================
    interactions.js — Moteur d'interactions pédagogiques
-   Cours "Réglementation des données et conformité"
-   Auteur : Mohamed EL AFRIT — CC BY-NC-SA 4.0
+   Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
 
    Espace de noms : window.RDCX
      RDCX.checkpoint('id', cfg)  // point de contrôle de fin de section
@@ -1518,7 +1517,7 @@
    Fil des étapes — collage sous l'en-tête + barre de progression
    Complément autonome : n'entre pas dans RDCX.steps, se branche
    simplement sur le fil une fois qu'il a été rendu.
-   Auteur : Mohamed EL AFRIT — CC BY-NC-SA 4.0
+   Auteur : Mohamed EL AFRIT — MIT / CC BY 4.0
    ================================================================= */
 (function () {
   'use strict';

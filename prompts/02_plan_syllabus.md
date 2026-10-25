@@ -15,7 +15,7 @@ Juste après la fiche de cadrage (prompt `01`), quand le périmètre du cours es
 | `{{DUREE}}` | Volume horaire total visé (ex. 14 h, 6 séances de 3 h, 20 h en autonomie). |
 | `{{LANGUES}}` | `français seul` **ou** `français + anglais` (le syllabus est alors entièrement bilingue, titres et objectifs en FR/EN). |
 | `{{DOCUMENTS_DE_REFERENCE}}` | Liste des sources faisant autorité (textes de loi, normes, manuels, supports internes, URLs, PDF joints). |
-| `{{FIL_ROUGE}}` | Le scénario continu qui traverse tout le cours (ex. « UrbanHub, ville intelligente qui déploie un service de mobilité »). |
+| `{{FIL_ROUGE}}` | Le scénario continu qui traverse tout le cours (ex. « une coopérative agricole fictive qui ouvre une boutique en ligne »). |
 | `{{NB_CHAPITRES}}` | Nombre de chapitres souhaité, ou « à proposer » si tu laisses Claude décider et justifier. |
 | `{{AUTEUR}}` | Nom de l'auteur·rice du cours. |
 | `{{LICENCE}}` | Licence du contenu (ex. CC BY 4.0). |

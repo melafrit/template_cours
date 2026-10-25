@@ -13,7 +13,7 @@
 - `{{NB_QUESTIONS}}` — nombre total de questions à produire (ex. 30).
 - `{{LANGUES}}` — `français seul` **OU** `français + anglais`.
 - `{{DOCUMENTS_DE_REFERENCE}}` — contenus de chapitre, polycopiés, textes officiels, glossaire… sur lesquels s'appuyer **exclusivement**.
-- `{{FIL_ROUGE}}` — scénario continu du cours (ex. « UrbanHub Smart City »), pour ancrer certaines questions dans un cas concret.
+- `{{FIL_ROUGE}}` — scénario continu du cours (ex. « une coopérative agricole fictive qui numérise ses ventes »), pour ancrer certaines questions dans un cas concret.
 - `{{REPARTITION_DIFFICULTE}}` — répartition visée (ex. « ~40 % faciles, ~40 % moyennes, ~20 % difficiles »).
 - `{{AUTEUR}}` — auteur du cours.
 - `{{LICENCE}}` — licence du contenu (ex. « CC BY 4.0 »).

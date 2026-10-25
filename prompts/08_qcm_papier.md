@@ -15,12 +15,12 @@ Le tout est généré par un script Python (`tools/generate_qcm_papier.py`, bas�
 ## Placeholders à compléter
 
 - `{{SUJET_DU_COURS}}` — ex. « Réglementation des données et conformité »
-- `{{PUBLIC_CIBLE}}` — ex. « étudiants de Master EADL, Bloc 2 »
+- `{{PUBLIC_CIBLE}}` — ex. « étudiants de Master 1, Bloc 2 »
 - `{{NIVEAU}}` — ex. « Master 1 / 2 »
 - `{{LANGUES}}` — `français seul` **ou** `français + anglais` (voir note bilingue plus bas)
 - `{{NB_QUESTIONS}}` — nombre total de questions (ex. `60`). Idéalement **divisible par 3** pour une grille en 3 blocs équilibrés.
 - `{{DUREE_EPREUVE}}` — ex. « 1 h 30 »
-- `{{SOUS_TITRE}}` — bandeau institutionnel, ex. « Master EADL — Bloc 2 · 2025-2026 »
+- `{{SOUS_TITRE}}` — bandeau institutionnel, ex. « Master 1 — Bloc 2 · 2026-2027 »
 - `{{ANNEE}}` — millésime affiché dans les champs de date, ex. `2026`
 - `{{BANQUE_QCM}}` — **source des questions** : chemin du fichier de questions du QCM web (ex. `QCM/questions.js` ou `QCM/questions.json`), OU le contenu collé. C'est la **référence d'exactitude** : ne rien réécrire, ne rien réinventer.
 - `{{DOCUMENTS_DE_REFERENCE}}` — supports de cours sur lesquels s'appuient les explications du corrigé (pour vérification, **pas** pour inventer du contenu).

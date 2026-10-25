@@ -1,7 +1,7 @@
 /* =================================================================
    questions.js — Banque de questions BILINGUE (FR/EN) du QCM-démo
    Thème : « Concevoir un cours en ligne » (3 chapitres)
-   Template de cours — M. EL AFRIT (CC BY-NC-SA 4.0)
+   Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
 
    Format attendu par les pages (index / entrainement / correction / dashboard) :
      { id, chapitre, difficulte, enonce:{fr,en}, propositions:[{fr,en}×4] }

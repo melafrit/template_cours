@@ -1,6 +1,6 @@
 /* =================================================================
    qcm-core.js — Logique partagée du QCM (QCM, correction, dashboard)
-   Cours "Réglementation des données et conformité" — M. EL AFRIT (CC BY-NC-SA 4.0)
+   Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
 
    Barème CBM strict (Certainty-Based Marking), indépendant de la difficulté :
      Certitude Élevée  : bonne réponse +3 / mauvaise −3

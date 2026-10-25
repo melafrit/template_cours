@@ -1,6 +1,6 @@
 /* =================================================================
    flashcards.js — Cartes de révision active (mémorisation)
-   Cours "Réglementation des données et conformité" — M. EL AFRIT (CC BY-NC-SA 4.0)
+   Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
    Usage :
      new FlashcardDeck('id-conteneur', [
        { front:'Question / notion', back:'Définition **avec gras**', ref:'art. 5' }, …

@@ -34,7 +34,7 @@ VERT_BG = "EAF7EF"
 ROUGE_BG = "FDEDEC"
 
 AUTEUR = "Mohamed EL AFRIT"
-LICENCE = "CC BY-NC-SA 4.0"
+LICENCE = "CC BY 4.0"
 BANDEAU = ("DOCUMENT FORMATEUR — ne pas diffuser aux étudiants. "
            "Réponses tirées du dossier remis aux étudiants.")
 
