@@ -49,6 +49,14 @@ défaut de l'outil.
 - Tout en français : messages, documents, commits.
 - Dire ce qui a été fait **et ce qui ne l'a pas été** ; un test qui échoue se
   rapporte avec sa sortie.
+- **Un exemple avant la série** : une transformation répétée — mise en forme,
+  liens, QR codes, capsules — se montre d'abord sur un cas ; elle ne se
+  généralise qu'après l'accord de l'auteur.
+- Quand l'auteur doit déposer des fichiers (audio, PDF exportés d'un autre
+  outil), lui donner **le nom exact et le dossier exact** de chacun.
+- Ce que l'auteur demande de garder pour plus tard va dans le registre
+  **`TODO.md`**, à la racine, daté ; « ce qui reste à faire » se répond à partir
+  de lui.
 
 ### Git
 
@@ -56,17 +64,25 @@ défaut de l'outil.
   `Mohamed Amine EL AFRIT <elafrit.mohamed@gmail.com>`. **Jamais** de ligne
   `Co-Authored-By`, jamais de mention d'un outil ou d'une IA — même quand
   l'outil propose une attribution par défaut.
+- Vérifier `git config user.name` et `git config user.email` avant chaque
+  commit.
 - `git add` par chemins explicites, jamais `git add -A` ni `git add .`.
 - **Demander avant de commiter et de pousser**, puis, séparément, **avant de
   mettre en ligne**. Un accord vaut pour l'action demandée, pas pour la suivante.
+- Un dépôt qui contient de l'évaluation (sujets, corrections, QCM papier) reste
+  **privé**. Le template, lui, est public : y pousser, c'est publier.
 
 ### Les secrets
 
 - **Ne jamais lire, afficher ni demander** le contenu de
   `outils/elevenlabs.json`, `deploiement/config.json`, `docs/acces.json`,
   `docs/acces-zones.json`, ni d'aucune copie (`*.config.json`). Les scripts s'en
-  servent sans que Claude les voie ; une recherche dans le dépôt les exclut
-  explicitement.
+  servent sans que Claude les voie.
+- Le fichier **`.rgignore`** les cache aux recherches : l'outil de recherche de
+  Claude Code ignore le `.gitignore`, pas ce fichier. Tout nouveau secret s'y
+  ajoute. Un filtre de fichiers explicite (`*.json`, `*.{md,json}`) passe outre
+  le `.rgignore` : une recherche qui inclut les `.json` exclut les secrets
+  nommément (`!**/config.json`…), ou ne se fait pas.
 - Pour un nouveau cours, ils se **recopient tels quels**, octet pour octet,
   depuis le template — `nouveau_cours.py` le fait, et seulement si le
   `.gitignore` du cours les exclut. Ils ne vont jamais dans Git.
@@ -84,6 +100,9 @@ défaut de l'outil.
   sont listés dans sa fiche de cadrage et contrôlés par ses générateurs.
 - Typographie française : espace insécable avant `: ; ? !` et à l'intérieur des
   guillemets `« »`.
+- **Une faute de français** relevée en chemin n'est jamais corrigée en
+  silence : elle est proposée à l'auteur, puis corrigée dans un commit séparé —
+  et dans l'autre langue si la même erreur s'y trouve.
 
 ### La pédagogie
 
@@ -111,6 +130,20 @@ défaut de l'outil.
 - **Un témoin d'abord**, écouté par l'auteur ; la série ensuite. Voir
   `prompts/14_capsules_audio.md`.
 
+### Les outils externes
+
+- **Un prompt destiné à un autre outil** (NotebookLM, traduction…) se livre dans
+  un fichier `.md` de `docs/prompts/`, pas seulement dans la conversation.
+  Limites de NotebookLM, espaces et retours à la ligne compris : **4 800
+  caractères** pour un prompt d'audio, **3 700** pour un diaporama. La longueur
+  se compte par script, avec une marge : à la copie, un retour à la ligne peut
+  valoir deux caractères. Une série est enchaînée : chaque épisode rappelle le
+  précédent et annonce le suivant. Voir `prompts/10_notebooklm_18prompts.md`.
+- **Ce qu'un outil externe produit se relit avant publication** — podcast,
+  diaporama, traduction : chiffres ou exemples inventés, propos prêtés aux
+  personnages du cas, QR codes factices, coquilles. Chaque export corrigé se
+  revérifie en entier : une correction peut se perdre d'un export à l'autre.
+
 ### La publication
 
 - `deploiement/destination.json` dit où va **ce** cours ; le déployeur refuse un
@@ -120,6 +153,11 @@ défaut de l'outil.
   les outils, la documentation de production ni les secrets.
 - Une zone protégée ne reçoit son contenu qu'après sa protection
   (`deploiement/proteger_zones.py`).
+- Toute mise en ligne commence par un **essai à blanc** (`--essai`). La sortie
+  du déployeur ne montre ni l'hôte, ni le port, ni le répertoire distant ; une
+  commande qui en afficherait se filtre avant d'arriver à l'écran.
+- Après la mise en ligne, **le site se contrôle en ligne** : les pages
+  publiques répondent 200, les zones protégées 401 — sans s'authentifier.
 
 ### La vérification
 
@@ -131,6 +169,21 @@ défaut de l'outil.
   octet NUL ne doit entrer dans un fichier modifié.
 - Un travail confié à des sous-agents part avec une consigne écrite complète, et
   ne s'accepte qu'après un contrôle automatique.
+
+### Les pièges de production
+
+- Les générateurs se lancent **dans l'ordre** (§ 4) : un générateur qui lit la
+  sortie d'un autre, lancé trop tôt, fige un état périmé.
+- **Un seul export à la fois** quand un script pilote une application (Word, un
+  navigateur sans interface) : deux exports simultanés se marchent dessus. Un
+  PDF exporté se contrôle, langue déclarée comprise (`/Lang`), que l'export ne
+  pose pas toujours.
+- **Un schéma validé ne se rend pas de nouveau sur un autre poste** (PlantUML,
+  Mermaid…) : la version de l'outil et les polices changent le rendu. On le
+  régénère là où il a été validé, ou on le fait revalider.
+- **Aucun nom ne diffère d'un autre par la seule casse** (`Polycopie/` et
+  `polycopie/`) : Windows les confond, le serveur les distingue — une exclusion
+  ou un lien juste en local devient faux en ligne.
 
 ### Le journal du cours
 
@@ -168,8 +221,13 @@ prochaine régénération.
 | Fichier | Produit par | Source réelle |
 |---|---|---|
 | `site/assets/js/playlist-data.js` | `outils/generer_playlist.py` | les pages et les fichiers audio |
-| `site/assets/js/nav-sections.js` | idem | les titres `<h2>` des chapitres |
+| `site/assets/js/nav-sections.js` | `outils/generer_nav_sections.py` | les titres `<h2 id>` des chapitres |
 | transcriptions des capsules | `outils/synchroniser_capsules.py` | `docs/prompts/Capsules_*.md` |
+
+**L'ordre compte.** `generer_playlist.py` indexe les pages et les fichiers
+audio réels : il passe après `synchroniser_capsules.py` et `generer_audio.py`.
+`generer_nav_sections.py` se relance après tout ajout, retrait ou renommage de
+section — `nouveau_cours.py` le lance à la création du cours.
 
 Une capsule vit à deux endroits — le script balisé et la transcription lisible.
 Tenues à la main, elles divergent dès la première correction, et personne ne
@@ -208,12 +266,13 @@ entend du français — et la piste reçoit l'accent parisien des pistes frança
 
 ## 6. Vérifier
 
-Quatre contrôles, à lancer souvent. Ils attrapent ce que l'œil ne voit pas.
+Cinq contrôles, à lancer souvent. Ils attrapent ce que l'œil ne voit pas.
 
 ```bash
 python3 outils/verifier_i18n.py       # clés dépareillées, blocs data-tr déséquilibrés
 python3 outils/verifier_contraste.py  # palettes lisibles en clair ET en sombre
 python3 outils/verifier_liens.py      # href, src et renvois « Pour approfondir » qui ne mènent nulle part
+python3 outils/generer_nav_sections.py --essai  # le menu suit-il les <h2 id> des chapitres ?
 python3 demarrer.py                   # le site, sans cache
 ```
 

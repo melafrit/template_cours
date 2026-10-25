@@ -1,6 +1,6 @@
 # Prompts NotebookLM (infographie / slides / podcast)
 
-**Quand l'utiliser** — Une fois que les chapitres de votre cours existent (au moins leur plan détaillé ou leur texte rédigé), pour produire dans **NotebookLM** les trois médias de chaque chapitre du template : (a) l'**infographie de synthèse**, (b) les **slides**, (c) le **podcast** (dialogue pédagogique). Ce fichier vous donne un *générateur de prompts* : Claude lit vos chapitres et vous renvoie, pour chacun, 3 prompts NotebookLM autonomes, prêts à coller, chacun ≤ 5200 caractères.
+**Quand l'utiliser** — Une fois que les chapitres de votre cours existent (au moins leur plan détaillé ou leur texte rédigé), pour produire dans **NotebookLM** les trois médias de chaque chapitre du template : (a) l'**infographie de synthèse**, (b) les **slides**, (c) le **podcast** (dialogue pédagogique). Ce fichier vous donne un *générateur de prompts* : Claude lit vos chapitres et vous renvoie, pour chacun, 3 prompts NotebookLM autonomes, prêts à coller, dans les limites des champs de NotebookLM : 4 800 caractères pour le podcast, 3 700 pour les slides, retours à la ligne compris.
 
 > Rappel : NotebookLM travaille à partir des **sources** que vous y déposez (vos chapitres, votre fiche de cours DOCX, vos documents de référence). Les prompts ci-dessous *pilotent* la génération (audio, rapport/infographie, présentation) mais ne remplacent pas les sources : déposez d'abord le bon matériel dans le notebook.
 
@@ -15,7 +15,7 @@
 - `{{NB_CHAPITRES}}` — nombre de chapitres à traiter.
 - `{{LISTE_DES_CHAPITRES}}` — pour chaque chapitre : numéro, titre, et 1–3 lignes de résumé OU le texte/plan complet.
 - `{{DOCUMENTS_DE_REFERENCE}}` — sources déposées dans NotebookLM (titres + nature : loi, norme, rapport, manuel…).
-- `{{FIL_ROUGE}}` — scénario continu du cours (ex. la ville fictive UrbanHub Smart City), à mobiliser dans les exemples.
+- `{{FIL_ROUGE}}` — scénario continu du cours (ex. une coopérative agricole fictive qui numérise ses ventes), à mobiliser dans les exemples.
 - `{{AUTEUR}}` — auteur du cours (mention de crédit).
 - `{{LICENCE}}` — licence du contenu (ex. CC BY 4.0).
 - `{{CHARTE_VISUELLE}}` — *(optionnel)* couleurs, ambiance, ton visuel (ex. « sobre institutionnel, bleu nuit + accent ocre »).
@@ -66,9 +66,11 @@ CONTRAINTES DE FORMAT DES PROMPTS PRODUITS
   SLIDES, PODCAST.
 - Chaque prompt est AUTONOME (se suffit à lui-même, sans dépendre des autres) et
   conçu pour fonctionner EN UNE SEULE PASSE dans NotebookLM.
-- Chaque prompt fait AU PLUS 5200 caractères. Reste nettement en dessous quand
-  possible. Indique entre crochets le nombre de caractères à la fin de chaque prompt,
-  ex. « [≈ 1830 caractères] ».
+- Longueur maximale de chaque prompt, espaces et retours à la ligne compris :
+  PODCAST 4 800 caractères, SLIDES 3 700, INFOGRAPHIE 3 700 (par prudence). Vise
+  50 caractères de moins : à la copie, un retour à la ligne peut compter double.
+  Compte avec un script, pas à l'œil, et indique entre crochets à la fin de chaque
+  prompt son nombre exact de caractères, ex. « [1 830 caractères] ».
 - Langue des prompts et des livrables : respecte {{LANGUES}}. Si « français +
   anglais », demande une version FR ET une version EN du livrable (deux passes ou
   deux sections clairement séparées) ; sinon, français seul.
@@ -112,25 +114,30 @@ SPÉCIFICATIONS PAR TYPE DE MÉDIA
 - crédit auteur + licence à l'oral en clôture.
 
 OÙ DÉPOSER LES FICHIERS GÉNÉRÉS (à rappeler en fin de réponse, pas dans les prompts)
-Une fois les médias générés dans NotebookLM puis exportés/téléchargés, range-les dans
-le template ainsi (chap NN sur deux chiffres : 01, 02, …) :
-- Infographie  -> assets/media/infographies/chapNN-infographie.(png|webp|svg)
-- Slides (PDF) -> assets/media/slides/chapNN-slides.pdf
-- Podcast (mp3)-> assets/media/podcasts/chapNN-podcast.mp3
-Conserve les sources/exports bruts hors du site, dans /sources-notebooklm/chapNN/.
+Une fois les médias générés dans NotebookLM puis exportés/téléchargés, donne pour
+chaque fichier son nom exact et son dossier exact. N est le numéro du chapitre, sans
+zéro, celui qui ouvre le nom de sa page (03-….html -> 3) ; c'est ce que lit media.js :
+- Infographie  -> site/assets/media/infographies/chapitre-N-infographie.png
+- Slides (PDF) -> site/assets/media/slides/chapitre-N-slides.pdf
+- Podcast      -> site/assets/media/podcasts/chapitre-N-podcast.fr.mp3
+                  (chapitre-N-podcast.en.mp3 pour l'anglais ; sans suffixe de
+                  langue pour un cours monolingue ; .m4a accepté aussi)
+Conserve les sources/exports bruts hors du site, dans sources-notebooklm/chapitre-N/.
 Nomme tout en minuscules, sans espaces ni accents.
 
 SORTIE ATTENDUE DE TA PART (Claude)
 Pour chaque chapitre, dans l'ordre :
-### Chapitre NN — {titre}
+### Chapitre N — {titre}
 1) PROMPT INFOGRAPHIE
-   <le prompt, prêt à coller>  [≈ N caractères]
+   <le prompt, prêt à coller>  [nombre exact de caractères]
 2) PROMPT SLIDES
-   <le prompt, prêt à coller>  [≈ N caractères]
+   <le prompt, prêt à coller>  [nombre exact de caractères]
 3) PROMPT PODCAST
-   <le prompt, prêt à coller>  [≈ N caractères]
+   <le prompt, prêt à coller>  [nombre exact de caractères]
 
 Termine par le bloc « OÙ DÉPOSER LES FICHIERS GÉNÉRÉS » récapitulatif.
+Enregistre le tout dans un fichier Markdown (docs/prompts/PROMPTS-NotebookLM.md) :
+c'est de là que je copierai les prompts.
 Ne produis que ces prompts et ce récapitulatif. Pas de commentaire superflu.
 ```
 
@@ -140,9 +147,9 @@ Ne produis que ces prompts et ce récapitulatif. Pas de commentaire superflu.
 
 - **Déposez d'abord les bonnes sources** dans NotebookLM (chapitres + fiche de cours DOCX + documents de référence). La qualité des trois médias dépend directement de ce qui est dans le notebook : un prompt parfait sur des sources pauvres donnera un média pauvre.
 - **Un notebook par cours, généré chapitre par chapitre.** Lancez les prompts un à la fois et vérifiez chaque sortie avant de passer au suivant ; NotebookLM est plus fiable sur des demandes ciblées que sur une consigne monolithique.
-- **Limite des 5200 caractères** : c'est une marge de sécurité confortable. Si un prompt approche la limite, demandez à Claude de le resserrer plutôt que de couper à l'aveugle.
+- **Limites de NotebookLM** : 4 800 caractères pour le podcast, 3 700 pour les slides, retours à la ligne compris. Si un prompt approche la limite, demandez à Claude de le resserrer plutôt que de couper à l'aveugle.
 - **Bilingue** : pour `français + anglais`, générez de préférence FR et EN en deux passes séparées (deux fichiers distincts), c'est plus propre que de mélanger les deux langues dans un même média. Côté template, le sélecteur de langue 🌐 pointera vers la version adéquate.
 - **Vérification factuelle obligatoire** : NotebookLM peut paraphraser de travers. Relisez chiffres, dates, articles de loi et citations avant publication — surtout sur un cours réglementaire.
 - **Accessibilité** : pour l'infographie en lightbox du template, prévoyez un texte alternatif décrivant le contenu, et vérifiez les contrastes. Pour le podcast, NotebookLM ne fournit pas toujours de transcription : pensez à en générer une (utile pour le glossaire auto-surligné et pour l'accessibilité).
-- **Nommage et rangement** : respectez strictement `chapNN-…` et l'arborescence `assets/media/...` ; c'est ce que le template attend pour relier podcast, slides (popup PDF) et infographie (lightbox) à chaque chapitre.
+- **Nommage et rangement** : respectez strictement `chapitre-N-…` (N sans zéro : `chapitre-3-slides.pdf`) et l'arborescence `site/assets/media/...` ; c'est ce que `media.js` attend pour relier podcast, slides (popup PDF) et infographie (lightbox) à chaque chapitre. Un autre nom, et le média ne s'affiche pas — sans message d'erreur.
 - **Crédit et licence** : laissez la mention `{{AUTEUR}}` + `{{LICENCE}}` discrète mais présente sur chaque média (dernière diapo, coin d'infographie, clôture audio).

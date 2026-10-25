@@ -270,7 +270,7 @@ Le pipeline se déroule en **quatre phases**. Vous pouvez itérer à l'intérieu
 
 - **Quand :** une fois les chapitres existants (au moins leur plan détaillé) et la fiche `09` déposée dans NotebookLM.
 - **À préparer :** les chapitres, déposés comme sources dans le notebook (les prompts *pilotent* la génération, ils ne remplacent pas les sources).
-- **Ce que Claude renvoie :** un **générateur de prompts** : pour chaque chapitre, 3 prompts NotebookLM autonomes (infographie de synthèse, slides, podcast en dialogue pédagogique), prêts à coller, chacun ≤ 5200 caractères.
+- **Ce que Claude renvoie :** un **générateur de prompts** : pour chaque chapitre, 3 prompts NotebookLM autonomes (infographie de synthèse, slides, podcast en dialogue pédagogique), prêts à coller, dans les limites de NotebookLM : 4 800 caractères pour le podcast, 3 700 pour les slides, retours à la ligne compris.
 - **Intégration :** collez chaque prompt dans NotebookLM, récupérez les médias, puis rangez-les :
   - le **podcast** audio → `site/assets/media/podcasts/` (lecteur personnalisé : lecture, ±10 s, mini-lecteur flottant déplaçable, pop-out, téléchargement) ;
   - les **slides** PDF → `site/assets/media/slides/` (popup plein écran) ;

@@ -164,19 +164,21 @@ La transcription affichée est **générée** depuis la fiche de production par
 | Fichier | Variable globale | Forme | Consommé par |
 |---|---|---|---|
 | **course-data.js** | `window.COURSE` | `{ title, subtitle, author, license, chapters:[{num,ico,file,title}], resources:[{ico,href,label}] }` (libellés `{fr,en}`) | navigation.js, pages |
-| **nav-sections.js** | `window.RDC_SECTIONS` | `{ "<num>": [{ id, t:{fr,en} }] }` — une entrée par `<h2 id>` du chapitre | navigation.js (sous-menu pliable) |
+| **nav-sections.js** ⚙️ | `window.RDC_SECTIONS` | `{ "<num>": [{ id, t:{fr,en} }] }` — une entrée par `<h2 id>` du chapitre | navigation.js (sous-menu pliable) |
 | **glossaire-data.js** | `window.GLOSSARY` | `[{ fr, en, def:{fr,en}, ex:{fr,en} }]` | glossaire.html, glossaire-tooltip.js |
 | **flashcards-data.js** | `window.RDC_FLASHCARDS` | `{ "<num>": [{ front:{fr,en}, back:{fr,en}, ref }] }` | pages de chapitre (instanciation `FlashcardDeck`) |
 | **QCM/questions.js** | `window.QCM_QUESTIONS` | `{ meta:{…}, questions:[{ id, chapitre, difficulte, enonce:{fr,en}, propositions:[{fr,en}×4] }] }` | pages QCM |
 | **QCM/corrections.js** | `window.QCM_CORRECTIONS` | `{ corrections:[{ id, chapitre, difficulte, bonne_reponse_index, explication:{fr,en} }] }` | entrainement, correction, dashboard |
 | **playlist-data.js** ⚙️ | `window.RDC_PLAYLIST` | `{ "<num>": { titre, page, pistes:[{ type, titre, src, duree, present, langue }] } }` | playlist.js |
 
-**⚙️ = fichier GÉNÉRÉ.** `playlist-data.js` et `nav-sections.js` sont produits par
-`outils/generer_playlist.py` d'après les pages et les fichiers audio réels. Les
-corriger à la main donne l'illusion d'avoir résolu le problème jusqu'à la
-régénération suivante, qui écrase tout sans prévenir.
+**⚙️ = fichier GÉNÉRÉ.** `playlist-data.js` est produit par
+`outils/generer_playlist.py` d'après les pages et les fichiers audio réels ;
+`nav-sections.js`, par `outils/generer_nav_sections.py` d'après les `<h2 id>` des
+chapitres (`nouveau_cours.py` le lance à la création du cours). Les corriger à la
+main donne l'illusion d'avoir résolu le problème jusqu'à la régénération
+suivante, qui écrase tout sans prévenir.
 
-**Source unique de vérité.** `course-data.js` pilote l'arbre de navigation *partout*. `nav-sections.js` doit refléter les `<h2 id>` réels de chaque chapitre. Les `id` de questions (`Q01`…) doivent **correspondre** entre `questions.js` et `corrections.js`.
+**Source unique de vérité.** `course-data.js` pilote l'arbre de navigation *partout*. `nav-sections.js` reflète les `<h2 id>` réels de chaque chapitre : relancer `outils/generer_nav_sections.py` après tout ajout, retrait ou renommage de section (`--essai` dit s'il est à jour, sans rien écrire). Les `id` de questions (`Q01`…) doivent **correspondre** entre `questions.js` et `corrections.js`.
 
 ---
 

@@ -3,7 +3,7 @@
 **Quand l'utiliser**
 Une fois que la structure du cours et les contenus des chapitres existent, pour produire **un document de synthèse unique et dense** (à exporter en `.docx`) que tu déposeras dans **NotebookLM comme source principale**. NotebookLM s'en servira ensuite pour générer automatiquement les **résumés audio (podcasts)**, les **slides** et les **infographies** par chapitre. La qualité de ces générations dépend directement de la fidélité, de la densité et de la structuration de cette fiche : elle doit contenir tout l'essentiel du cours, rien d'inventé, et être organisée pour qu'une IA puisse la « lire » sans contresens.
 
-> À enchaîner ensuite avec le prompt **`10_notebooklm_prompts.md`** (prompts à coller dans NotebookLM pour générer infographie / slides / podcast par chapitre à partir de cette fiche).
+> À enchaîner ensuite avec le prompt **`10_notebooklm_18prompts.md`** (prompts à coller dans NotebookLM pour générer infographie / slides / podcast par chapitre à partir de cette fiche).
 
 ---
 
@@ -143,5 +143,5 @@ FORMAT DE SORTIE
 - **Garde un glossaire stable.** Renseigner `{{GLOSSAIRE}}` évite que NotebookLM redéfinisse les termes à sa façon dans les podcasts/slides. C'est le même vocabulaire qui doit alimenter le glossaire auto-surligné du site.
 - **Densité vs. longueur NotebookLM.** Si tes générations partent dans tous les sens, c'est souvent que la fiche est trop longue ou trop touffue : resserre via `{{CONTRAINTES}}` (ex. « 1 à 2 pages par chapitre maximum »).
 - **Privilégie la prose à voix haute.** NotebookLM excelle quand le texte se lit comme un script : phrases complètes, transitions explicites, peu de tableaux. Les « Pistes de visualisation » servent surtout aux infographies et aux slides.
-- **Export `.docx`.** Une fois la fiche validée, convertis-la (voir le prompt des polycopiés `08_polycopie_docx.md` ou un simple copier-coller dans un traitement de texte) avant de la déposer comme source dans NotebookLM.
+- **Export `.docx`.** Une fois la fiche validée, convertis-la (voir le prompt des polycopiés `12_polycopies.md` ou un simple copier-coller dans un traitement de texte) avant de la déposer comme source dans NotebookLM.
 - **Bilingue.** En mode `français + anglais`, le bloc « Key terms (EN) » suffit pour que NotebookLM produise un podcast/des slides exploitables en anglais sans alourdir la source ; pour un rendu 100 % anglais, génère une seconde fiche entièrement en anglais à partir du même plan.
