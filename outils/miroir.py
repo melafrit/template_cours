@@ -96,14 +96,18 @@ def garder_langue_html(t, langue):
 
 
 def garder_langue(t, langue):
-    """La page entière dans une seule langue : scripts, styles et commentaires restent intacts."""
-    morceaux, i = [], 0
-    for m in INTACT.finditer(t):
-        morceaux.append(garder_langue_html(t[i:m.start()], langue))
-        morceaux.append(m.group(0))
-        i = m.end()
-    morceaux.append(garder_langue_html(t[i:], langue))
-    return "".join(morceaux)
+    """La page entière dans une seule langue : scripts, styles et commentaires restent intacts. Ils sont masqués
+    sur place par un repère, puis restitués — et non découpés : un bloc data-tr peut contenir un commentaire (le
+    marqueur d'un fragment), et sa fermeture doit rester visible. Un repère tombé avec le bloc qui le contenait
+    part avec lui."""
+    gardes = []
+
+    def masquer(m):
+        gardes.append(m.group(0))
+        return "\x00%d\x00" % (len(gardes) - 1)
+
+    sortie = garder_langue_html(INTACT.sub(masquer, t), langue)
+    return re.sub("\x00(\\d+)\x00", lambda m: gardes[int(m.group(1))], sortie)
 
 
 def bilingue(t):
