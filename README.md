@@ -66,7 +66,7 @@ Tout ce que le template (et donc les prompts) sait produire :
 - **📄 Polycopiés de synthèse** — par chapitre, générés en **DOCX + PDF** (Python : `python-docx` + `fpdf2`).
 - **🖨️ QCM papier imprimable (DOCX)** — page de garde + consignes + barème CBM avec exemples + questions en 2 colonnes + grille de réponses + corrigé formateur.
 - **🧵 Atelier « fil rouge »** — un scénario continu qui traverse tout le cours, avec livrables, templates téléchargeables et corrigé.
-- **🔗 Intégration NotebookLM** — une fiche de cours (DOCX) à fournir à NotebookLM, et des prompts pour générer infographie / slides / podcast par chapitre.
+- **🔗 Intégration NotebookLM** — une fiche de cours (DOCX) à fournir à NotebookLM, et des prompts pour générer infographie / slides / podcast par chapitre ; ou une série de podcasts enchaînés et leurs diaporamas, tirés du polycopié, avec leur page sur le site (module 03).
 - **🧠 Moteur de composants pédagogiques (`RDCX`)** — point de contrôle, révélation d'une réponse, repérage d'erreurs dans un document, appariement, scénario à embranchements, schéma à points chauds, capsule audio. Tous appelés pour de vrai dans `site/chapitres/_modele.html`, à copier depuis là.
 - **📖 Lecture par étapes** — un chapitre se parcourt section par section, avec une barre de progression, un mode « tout afficher » et une reprise là où l'on s'était arrêté.
 - **🎵 Playlist latérale** — toutes les pistes audio du cours, enchaînement automatique, tiroir sur mobile, et **filtrage par langue** : un lecteur francophone ne voit pas les capsules anglaises.
@@ -74,7 +74,7 @@ Tout ce que le template (et donc les prompts) sait produire :
 - **💬 Quiz qui expliquent l'erreur** — chaque point de contrôle dit pourquoi la bonne réponse est juste, **pourquoi chacune des autres ne l'est pas**, et propose des renvois « Pour approfondir » vers l'endroit exact du cours ; le vérificateur de liens contrôle chaque renvoi, fichier et ancre.
 - **🎨 Palettes vérifiées** — charte commune à tous vos cours, couleur d'accent choisie dans `cours.json` parmi cinq palettes contrôlées en contraste, en thème clair **et** sombre.
 - **🚀 Amorçage en une commande** — `nouveau_cours.py` fabrique l'arborescence complète d'un nouveau cours à partir d'un fichier de configuration commenté, avec son contrat de travail (`CLAUDE.md`), sa destination de publication, et vos secrets recopiés en local.
-- **📋 Prompt paramétrable** — `prompts/PROMPT-Cours-parametrable.md` : un bloc de paramètres et la méthode complète, de l'amorçage à la mise en ligne, avec ses jalons.
+- **📋 Prompt paramétrable** — `prompts/PROMPT-Cours-parametrable.md` : un tronc commun (un bloc de paramètres, la méthode de l'amorçage à la mise en ligne, ses jalons) et un module par option dans `prompts/modules/` — bilingue, polycopié, podcasts NotebookLM, audio, évaluations, TP, Yparéo et Livrables, déploiement, compléments. Un module sert aussi seul, sur un cours existant.
 - **🔐 Déploiement OVH sûr** — SFTP, envoi incrémental, **garde-fou qui refuse d'écraser le dossier d'un autre cours**, protections du serveur jamais touchées, zones protégées (correction de TP) publiées après leur mot de passe. Testé hors ligne.
 
 ## 🗂️ Structure du dépôt
@@ -251,10 +251,10 @@ Everything the template (and therefore the prompts) can produce:
 - **📄 Synthesis handouts** — per chapter, generated as **DOCX + PDF** (Python: `python-docx` + `fpdf2`).
 - **🖨️ Printable paper quiz (DOCX)** — cover page + instructions + CBM scoring guide with examples + two-column questions + answer grid + instructor key.
 - **🧵 "Red thread" workshop** — a continuous scenario running through the whole course, with deliverables, downloadable templates and a model answer.
-- **🔗 NotebookLM integration** — a course sheet (DOCX) to feed NotebookLM, plus prompts to generate infographic / slides / podcast per chapter.
+- **🔗 NotebookLM integration** — a course sheet (DOCX) to feed NotebookLM, plus prompts to generate infographic / slides / podcast per chapter; or a chained podcast series with its slide decks, drawn from the course book, with its own page on the site (module 03).
 - **🗣️ ElevenLabs audio chain (Eleven v4)** — scripts written in a production sheet, generated with your cloned voice and the accent chosen by ear, **one test take listened to before any batch**, and **quality control before publishing** (duration, pace, silences).
 - **💬 Quizzes that explain the mistake** — every checkpoint says why the right answer is right, **why each of the others is not**, and links to the exact place in the course to go further; the link checker verifies each link, file and anchor.
-- **📋 Parametrizable prompt** — `prompts/PROMPT-Cours-parametrable.md`: a parameter block and the full method, from bootstrapping to going live, with its milestones (in French).
+- **📋 Parametrizable prompt** — `prompts/PROMPT-Cours-parametrable.md`: a common core (a parameter block, the method from bootstrapping to going live, its milestones) and one module per option in `prompts/modules/` — bilingual site, course book, NotebookLM podcasts, audio, assessments, lab, school tools, deployment, extras (in French). A module also works on its own, on an existing course.
 - **🔐 Safe OVH deployment** — SFTP, incremental upload, **a guard that refuses to overwrite another course's folder**, server-side protections never touched, password-protected zones published only once protected. Tested offline.
 
 ## 🗂️ Repository structure

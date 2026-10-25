@@ -2,15 +2,29 @@
 
 > **Quand l'utiliser :** au tout début, avant d'écrire le moindre prompt à Claude. C'est la carte du dossier `prompts/`. Lisez-la une fois, puis revenez-y comme aiguillage entre deux étapes.
 
-Ce dossier contient **le prompt paramétrable** de création d'un cours, et **seize prompts de production** qui, enchaînés dans l'ordre, permettent de fabriquer **avec Claude** un site de cours pédagogique complet, hors-ligne et (si on le veut) bilingue FR/EN, à partir du template de ce dépôt.
+Ce dossier contient **le prompt paramétrable** de création d'un cours et **ses modules**, et **seize prompts de production** qui, enchaînés dans l'ordre, permettent de fabriquer **avec Claude** un site de cours pédagogique complet, hors-ligne et (si on le veut) bilingue FR/EN, à partir du template de ce dépôt.
 
 ---
 
-## 0. Le point d'entrée : le prompt paramétrable
+## 0. Le point d'entrée : le prompt paramétrable et ses modules
 
-**[`PROMPT-Cours-parametrable.md`](PROMPT-Cours-parametrable.md)** — un bloc de paramètres (le cours, les filières, le fil rouge, le TP, les livrables, l'évaluation, les médias, la publication, Git) et la méthode complète : règles de conduite, étape zéro depuis ce template, chaînes de production, **douze phases avec leurs jalons STOP**, contrôles avant mise en ligne, définition de « terminé ».
+**[`PROMPT-Cours-parametrable.md`](PROMPT-Cours-parametrable.md)** — le tronc commun : un bloc de paramètres (le cours, les filières, le fil rouge, les livrables, les modules, l'écosystème, Git) et la méthode : règles de conduite, étape zéro depuis ce template, conventions, **quinze phases avec leurs jalons STOP**, contrôles avant mise en ligne, définition de « terminé ».
 
-C'est lui que suit la skill `creer-cours-template` quand on demande à Claude de « créer un cours ». Les prompts ci-dessous en sont les outils, étape par étape.
+**[`modules/`](modules/)** — un fichier par option, lu avant sa phase s'il est actif ; chacun sert aussi **seul**, sur un cours existant :
+
+| Module | Ce qu'il ajoute |
+|---|---|
+| [`01-bilingue.md`](modules/01-bilingue.md) | la version anglaise, après le français (site miroir `en/` ou blocs `data-tr`) |
+| [`02-polycopie.md`](modules/02-polycopie.md) | le livret Word et PDF, ses QR codes cliquables, sa page sur le site |
+| [`03-podcasts-notebooklm.md`](modules/03-podcasts-notebooklm.md) | la série de podcasts NotebookLM, ses diaporamas, sa page sur le site |
+| [`04-audio-elevenlabs.md`](modules/04-audio-elevenlabs.md) | les capsules, à la voix clonée de l'auteur |
+| [`05-evaluations.md`](modules/05-evaluations.md) | QCM en ligne, papier et d'entraînement, et leur correction publique |
+| [`06-tp-correction.md`](modules/06-tp-correction.md) | le TP et sa correction protégée |
+| [`07-ypareo-livrables.md`](modules/07-ypareo-livrables.md) | les cahiers de texte Yparéo, les classeurs d'import Livrables |
+| [`08-deploiement.md`](modules/08-deploiement.md) | la mise en ligne, ses garde-fous, ses contrôles |
+| [`09-complements.md`](modules/09-complements.md) | schémas, illustrations, simulateurs, glossaire, Boîte à outils, fiches mémo |
+
+C'est le tronc que suit la skill `creer-cours-template` quand on demande à Claude de « créer un cours ». Les prompts ci-dessous en sont les outils, étape par étape.
 
 ---
 
@@ -59,9 +73,9 @@ Suivez l'ordre. Vous pouvez itérer à l'intérieur d'une phase (régénérer un
 > *On fabrique les supports et les médias, puis on contrôle tout.*
 
 - **`14`** Capsules audio en Eleven v4 (fiche de production, témoin d'abord).
-- **`12`** Polycopiés de synthèse (DOCX + PDF).
+- **`12`** Polycopiés de synthèse par chapitre (DOCX + PDF) ; pour un livret complet, le module `02-polycopie.md`.
 - **`08`** QCM papier imprimable (DOCX).
-- **`09`** et **`10`** Pack NotebookLM (fiche de cours, prompts infographie / slides / podcast).
+- **`09`** et **`10`** Pack NotebookLM (fiche de cours, prompts infographie / slides / podcast par chapitre) ; pour une série de podcasts enchaînés tirée du livret, le module `03-podcasts-notebooklm.md`.
 - **`13`** Accessibilité et contrôle qualité.
 
 ---
@@ -71,6 +85,7 @@ Suivez l'ordre. Vous pouvez itérer à l'intérieur d'une phase (régénérer un
 | N° | Fichier | Objectif | Entrées | Sorties |
 |----|---------|----------|---------|---------|
 | — | `PROMPT-Cours-parametrable.md` | Créer un cours complet, de l'amorçage à la mise en ligne. | Bloc de paramètres, `sources/` | Le cours, phase par phase, jalons STOP |
+| — | `modules/01` à `09` | Ajouter une option, à la création ou sur un cours existant. | Le cours, ses paramètres | L'option, avec ses contrôles |
 | **01** | `01_cadrage_maitre.md` | Cadrer le cours en interrogeant l'auteur **question par question**. | Sujet, documents de référence, réponses | **Fiche de cadrage**, plan du site, feuille de route |
 | **02** | `02_plan_syllabus.md` | Bâtir le plan complet : chapitres, sections, objectifs, progression. | Fiche de cadrage, sources | Syllabus + ancres de navigation |
 | **03** | `03_chapitre.md` | Rédiger un chapitre prêt à intégrer. | Plan, sources, n° de chapitre | Chapitre HTML (FR, ou FR/EN) |
@@ -115,7 +130,7 @@ Tous les prompts utilisent la notation `{{NOM_DU_PLACEHOLDER}}`. Remplissez-les 
 
 ## 5. Démarrage rapide
 
-1. Ouvrez **`PROMPT-Cours-parametrable.md`**, remplissez le bloc de paramètres (laissez vide ce que vous ne savez pas), et demandez à Claude de **créer le cours** depuis le template.
+1. Ouvrez **`PROMPT-Cours-parametrable.md`**, remplissez le bloc de paramètres, modules compris (laissez vide ce que vous ne savez pas), et demandez à Claude de **créer le cours** depuis le template.
 2. Claude amorce le cours (`nouveau_cours.py`), vous fait déposer vos sources, puis pose ses questions **une à une**.
 3. Validez chaque jalon « STOP ». Les prompts `01` à `15` servent, phase par phase, à produire chaque livrable.
 4. Vérifiez au navigateur à chaque étape, et laissez les vérificateurs dire ce que l'œil ne voit pas.

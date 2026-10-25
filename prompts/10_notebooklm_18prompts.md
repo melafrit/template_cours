@@ -1,5 +1,12 @@
 # Prompts NotebookLM (infographie / slides / podcast)
 
+> **Une série de podcasts enchaînés plutôt que trois médias par chapitre ?** Le module
+> [`modules/03-podcasts-notebooklm.md`](modules/03-podcasts-notebooklm.md) écrit une série
+> d'épisodes qui se répondent (accueil, chapitres, conseils pour continuer) et leurs
+> diaporamas, tirés du polycopié, avec la relecture de ce que NotebookLM produit et la page
+> « Podcasts » du site. Ce prompt-ci reste pour l'infographie, les slides et le podcast de
+> chaque chapitre.
+
 **Quand l'utiliser** — Une fois que les chapitres de votre cours existent (au moins leur plan détaillé ou leur texte rédigé), pour produire dans **NotebookLM** les trois médias de chaque chapitre du template : (a) l'**infographie de synthèse**, (b) les **slides**, (c) le **podcast** (dialogue pédagogique). Ce fichier vous donne un *générateur de prompts* : Claude lit vos chapitres et vous renvoie, pour chacun, 3 prompts NotebookLM autonomes, prêts à coller, dans les limites des champs de NotebookLM : 4 800 caractères pour le podcast, 3 700 pour les slides, retours à la ligne compris.
 
 > Rappel : NotebookLM travaille à partir des **sources** que vous y déposez (vos chapitres, votre fiche de cours DOCX, vos documents de référence). Les prompts ci-dessous *pilotent* la génération (audio, rapport/infographie, présentation) mais ne remplacent pas les sources : déposez d'abord le bon matériel dans le notebook.

@@ -1,5 +1,11 @@
 # Polycopiés de synthèse (DOCX + PDF)
 
+> **Un livret complet plutôt qu'un polycopié par chapitre ?** Le module
+> [`modules/02-polycopie.md`](modules/02-polycopie.md) produit le livre entier du cours —
+> page de garde, mini-sommaires, QR codes cliquables vers le site, glossaire, index —, en
+> Word et en PDF, avec sa page sur le site. Ce prompt-ci reste pour des synthèses courtes,
+> chapitre par chapitre.
+
 **Quand l'utiliser** — Une fois les chapitres rédigés et stabilisés. Ce prompt génère, **par chapitre**, un polycopié de synthèse académique (mini-sommaire, encadrés colorés, tableau récapitulatif, « à retenir ») exporté simultanément en **DOCX** *et* **PDF** via un script Python unique (`tools/generate_polycopies.py`). Les polycopiés sont les documents que l'étudiant imprime, annote et révise hors écran ; ils doivent rester strictement cohérents avec le contenu du site.
 
 ---

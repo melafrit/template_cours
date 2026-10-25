@@ -4,6 +4,8 @@
 Une fois que la structure du cours et les contenus des chapitres existent, pour produire **un document de synthèse unique et dense** (à exporter en `.docx`) que tu déposeras dans **NotebookLM comme source principale**. NotebookLM s'en servira ensuite pour générer automatiquement les **résumés audio (podcasts)**, les **slides** et les **infographies** par chapitre. La qualité de ces générations dépend directement de la fidélité, de la densité et de la structuration de cette fiche : elle doit contenir tout l'essentiel du cours, rien d'inventé, et être organisée pour qu'une IA puisse la « lire » sans contresens.
 
 > À enchaîner ensuite avec le prompt **`10_notebooklm_18prompts.md`** (prompts à coller dans NotebookLM pour générer infographie / slides / podcast par chapitre à partir de cette fiche).
+>
+> Si le cours a son polycopié (module `modules/02-polycopie.md`), le PDF du livret est la meilleure source pour NotebookLM : la série de podcasts du module `modules/03-podcasts-notebooklm.md` en part directement, sans cette fiche.
 
 ---
 

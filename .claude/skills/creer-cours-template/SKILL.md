@@ -7,8 +7,11 @@ description: Orchestre la création d'un cours en ligne complet à partir du tem
 
 Skill **orchestrateur** : point d'entrée pour fabriquer, avec ce dépôt, un **site de cours
 complet, pédagogique, hors-ligne et statique** (HTML/CSS/JS vanilla, aucun framework). La
-méthode complète — paramètres, règles, étape zéro, chaînes de production, phases et
-jalons — est dans **`prompts/PROMPT-Cours-parametrable.md`** : ce skill la déroule.
+méthode complète — paramètres, règles, étape zéro, phases et jalons — est dans
+**`prompts/PROMPT-Cours-parametrable.md`**, le tronc commun ; chaque option (bilingue,
+polycopié, podcasts NotebookLM, audio, évaluations, TP, Yparéo et Livrables, déploiement,
+compléments) a son **module** dans `prompts/modules/`, lu avant sa phase s'il est actif.
+Ce skill déroule le tronc et ses modules.
 
 ## Quand l'utiliser
 
@@ -103,8 +106,8 @@ Skills domaine à mobiliser selon la tâche :
 - **`cours-glossaire-flashcards-activites`** — glossaire, flashcards, activités.
 - **`cours-supports-imprimables`** — polycopiés et QCM papier.
 
-Docs de référence du dépôt : `CLAUDE.md`, `prompts/PROMPT-Cours-parametrable.md`,
-`docs/ARCHITECTURE.md`, `docs/I18N.md`, `docs/GUIDE.md`, `docs/CHECKLIST.md`,
+Docs de référence du dépôt : `CLAUDE.md`, `prompts/PROMPT-Cours-parametrable.md` et
+`prompts/modules/`, `docs/ARCHITECTURE.md`, `docs/I18N.md`, `docs/GUIDE.md`, `docs/CHECKLIST.md`,
 `deploiement/LISEZMOI.md` et `prompts/00_README_prompts.md`.
 
 ## Fichiers de référence joints

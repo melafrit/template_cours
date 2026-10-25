@@ -671,7 +671,8 @@ def contrat_du_cours(c):
               "Le site du cours « %s » (identifiant `%s`), créé à partir du template de\n"
               "cours. Ce fichier est lu à chaque ouverture : il dit ce qu'il faut savoir\n"
               "avant de toucher à quoi que ce soit. La méthode de création, avec ses jalons,\n"
-              "est dans `prompts/PROMPT-Cours-parametrable.md`."
+              "est dans `prompts/PROMPT-Cours-parametrable.md` et ses modules\n"
+              "(`prompts/modules/`, un par option)."
               % (c["titre"]["fr"], c["titre"]["fr"], c["slug"]))
     t = re.sub(r"^# .*$", lambda m: entete, t, count=1, flags=re.M)
     # Les sections retirées laissaient un trou dans la numérotation : on renumérote.
@@ -1246,8 +1247,8 @@ def main():
     print("  1. Déposez vos documents de référence dans sources/")
     print("  2. Complétez sources/bibliographie.md")
     print("  3. Ouvrez le dossier avec Claude Code et demandez « créer le cours » :")
-    print("     la skill suit prompts/PROMPT-Cours-parametrable.md, lit vos sources et")
-    print("     vous pose ses questions de cadrage, une à une.")
+    print("     la skill suit prompts/PROMPT-Cours-parametrable.md et ses modules,")
+    print("     lit vos sources et vous pose ses questions de cadrage, une à une.")
     print("  4. Pour voir le site : python3 demarrer.py")
     return 0
 
@@ -1272,9 +1273,9 @@ sur quoi le cours repose.
 
 Ouvrez ce dossier avec Claude Code et demandez-lui de **créer le cours**. La
 skill `creer-cours-template` prend la main et suit
-`prompts/PROMPT-Cours-parametrable.md` : elle lit d'abord vos sources, puis
-vous pose ses questions **une à une**, et ne rédige rien tant que le cadrage
-n'est pas validé.
+`prompts/PROMPT-Cours-parametrable.md` et ses modules (`prompts/modules/`) :
+elle lit d'abord vos sources, puis vous pose ses questions **une à une**, et ne
+rédige rien tant que le cadrage n'est pas validé.
 
 Règle qu'elle applique et qu'il faut connaître : les documents sont la source
 de vérité. Ce qui n'y figure pas est signalé comme lacune, jamais comblé

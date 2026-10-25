@@ -206,8 +206,9 @@ Le script met en place la mécanique — arborescence, charte, navigation,
 squelettes, outils, déployeur, `CLAUDE.md`, `deploiement/destination.json` — et
 recopie en local les secrets communs (§ 2). **Il ne rédige aucun contenu.** Le
 contenu vient ensuite, par la skill `creer-cours-template`, qui suit
-`prompts/PROMPT-Cours-parametrable.md` : cadrage d'abord, questions **une à
-une**, rien de produit avant validation explicite.
+`prompts/PROMPT-Cours-parametrable.md` et ses modules (`prompts/modules/`) :
+cadrage d'abord, questions **une à une**, rien de produit avant validation
+explicite.
 
 ---
 
@@ -337,6 +338,7 @@ l'utilisateur recevra réellement.
 | Question | Fichier |
 |---|---|
 | Créer un cours de bout en bout, avec ses paramètres | `prompts/PROMPT-Cours-parametrable.md` |
+| Ajouter une option : anglais, polycopié, podcasts, audio… | `prompts/modules/` (un fichier par option, utilisable seul) |
 | Comment fabriquer un cours, pas à pas | `docs/GUIDE.md` |
 | Rôle de chaque fichier et de chaque moteur | `docs/ARCHITECTURE.md` |
 | Le bilingue en profondeur | `docs/I18N.md` |

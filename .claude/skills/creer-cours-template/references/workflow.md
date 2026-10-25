@@ -4,7 +4,7 @@ Ordre recommandé. On peut itérer **à l'intérieur** d'une phase (régénérer
 
 > Le détail de chaque prompt (placeholders, bloc à copier, conseils) est dans le fichier lui-même. L'index complet est `prompts/00_README_prompts.md`. Commencer **toujours** par `01`.
 >
-> Ces quatre phases outillent les phases 1 à 11 du **prompt paramétrable** (`prompts/PROMPT-Cours-parametrable.md`), qui fixe aussi les jalons STOP, l'étape zéro (`nouveau_cours.py`), l'audio, Yparéo, l'import Livrables et le déploiement.
+> Ces quatre phases outillent les phases 0 à 14 du **prompt paramétrable** (`prompts/PROMPT-Cours-parametrable.md`), qui fixe aussi les jalons STOP et l'étape zéro (`nouveau_cours.py`). Les options — bilingue, polycopié, podcasts NotebookLM, audio, évaluations, TP, Yparéo et Livrables, déploiement, compléments — ont chacune leur module dans `prompts/modules/`, lu avant sa phase s'il est actif.
 
 ## Phase 1 — Cadrage & architecture
 
