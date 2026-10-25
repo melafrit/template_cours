@@ -35,7 +35,7 @@ servent ensuite au livret anglais (module 02) et aux podcasts anglais (module 03
 | | Miroir (`en/`) | Blocs jumelés (`data-tr`) |
 |---|---|---|
 | Où vit l'anglais | une page jumelle par page, même chemin sous `en/` | dans la même page, `<span data-tr="en">` à côté du français |
-| Ce que le gabarit fournit | rien encore : les outils viennent du cours d'architecture | tout : `i18n.js`, `ui-labels.js`, `verifier_i18n.py`, `docs/I18N.md` |
+| Ce que le gabarit fournit | le bouton, la liste des pages traduites, la préparation des jumelles, la conversion, les liens, `hreflang`, la parité (`docs/I18N.md`, § A.9) | `i18n.js`, `ui-labels.js`, `verifier_i18n.py` (`docs/I18N.md`, partie B) |
 | Le bouton FR / EN | ouvre la jumelle au bloc lu, repéré par son rang | bascule sur place, sans recharger |
 | Le référencement | `hreflang` page par page, deux adresses | une adresse par page |
 | Le contrôle | `verifier_parite.py` : même suite de blocs, 0 écart | `verifier_i18n.py` : blocs équilibrés, clés jumelles |
@@ -50,9 +50,16 @@ data-tr. Le détail des deux modèles : `docs/I18N.md`.
 
 ---
 
-## 3. Le modèle : le cours d'architecture logicielle (lecture seule)
+## 3. Les outils, et le modèle de la méthode
 
-Le miroir a été fait de bout en bout sur `C:\projets\Cours\Cours_Architecture_Logicielle`
+**Les outils du miroir sont dans le gabarit** (`docs/I18N.md`, § A.9) : le bouton FR / EN
+(`langue.js`), la liste des pages traduites (`langues-data.js`, `generer_langues.py`), la
+préparation d'une jumelle (`creer_jumelle.py`), la conversion d'un cours en blocs `data-tr`
+(`data_tr_vers_miroir.py`), les liens (`liens_langues.py`, `documents_en.py`), les balises
+(`hreflang.py`) et la parité (`verifier_parite.py`). Un cours créé avant leur arrivée les
+reprend du gabarit.
+
+**La méthode** a été rodée de bout en bout sur `C:\projets\Cours\Cours_Architecture_Logicielle`
 (lots 0 à 8, décisions D97 à D113, puis D118 pour le livret anglais). **Étudie-le avant de
 concevoir quoi que ce soit, et n'y modifie jamais rien** — lis ses modules Python, ne les
 importe pas. Ses fichiers secrets valent ceux du cours : ne les lis jamais.
@@ -63,14 +70,11 @@ importe pas. Ses fichiers secrets valent ceux du cours : ne les lis jamais.
 | `docs\traduction\lexique.md`, `docs\traduction\guide-de-style.md` | les termes fixés, les écarts harmonisés, le style |
 | `docs\01-Decisions-de-conception.md` | D97 à D113 |
 | `docs\03-Guide-de-production.md`, § 8 bis | l'ordre de génération des deux langues |
-| `assets\js\langue.js` | le bouton FR / EN qui garde la position |
-| `outils\generer_langues.py`, `liens_langues.py`, `hreflang.py`, `documents_en.py` | la liste des pages traduites, les liens rebranchés, les balises, les noms anglais des documents |
-| `outils\verifier_parite.py`, `verifier_traductions_en.py` | les contrôles |
-| `outils\traduction_en.py`, `correction_en.py`, les modules `*_en.py` | les tables et les modules jumeaux |
+| `outils\traduction_en.py`, `correction_en.py`, les modules `*_en.py`, `verifier_traductions_en.py` | les tables de traduction des générateurs, les modules jumeaux, leur contrôle |
 | `outils\generer_audio.py` (options anglaises) | l'audio anglais |
 
-Reprends ce qui s'applique, adapte ce qui diffère (`site/` dans un cours créé depuis le
-template), et dis à l'auteur ce que tu reprends : chaque reprise est une décision Dnn.
+Reprends ce qui s'applique, adapte ce qui diffère, et dis à l'auteur ce que tu reprends :
+chaque reprise est une décision Dnn.
 
 ---
 
@@ -90,16 +94,21 @@ Une question à la fois ; entre parenthèses, le choix retenu sur le cours de r�
 
 ---
 
-## 5. L'architecture à reprendre (modèle miroir)
+## 5. L'architecture (modèle miroir)
 
-- **Site miroir sous `en/`** : même chemin, même nom de fichier, **même suite de blocs**
-  que la page française. `verifier_parite.py` contrôle les blocs (0 écart exigé) ; le
-  bouton repère le bloc lu par son rang. Pour une liste que chaque langue trie à sa façon
+- **Site miroir sous `site/en/`** : même chemin, même nom de fichier, **même suite de
+  blocs** que la page française. `verifier_parite.py` contrôle les blocs (0 écart exigé) ;
+  le bouton repère le bloc lu par son rang. Pour une liste que chaque langue trie à sa façon
   (le glossaire), une **clé commune** aux deux langues (`data-jumeau`).
-- **La liste des pages traduites** (générée) : le menu et le bouton n'offrent l'anglais que
-  là où la jumelle existe. Tant qu'une jumelle manque, le lien d'une page anglaise mène à la
-  page française, marqué `hreflang="fr"` ; un outil de post-traitement rebranche tout dès
-  qu'elle existe, documents compris (une seule table des noms anglais des documents).
+- **Les jumelles naissent de deux façons** : `creer_jumelle.py <page>` prépare la jumelle
+  d'une page française, chemins réglés, marquée « À TRADUIRE » (le texte, lui, reste à
+  traduire, bloc pour bloc) ; `data_tr_vers_miroir.py` coupe en deux, d'un coup, chaque page
+  d'un cours en blocs `data-tr`.
+- **La liste des pages traduites** (`langues-data.js`, générée) : le menu et le bouton
+  n'offrent l'anglais que là où la jumelle existe. Tant qu'une jumelle manque, le lien d'une
+  page anglaise mène à la page française, marqué `hreflang="fr"` ; `liens_langues.py`
+  rebranche tout dès qu'elle existe, documents compris (une seule table des noms anglais
+  des documents, `documents_en.py`).
 - **Les générateurs écrivent les deux langues** : l'anglais vient de **modules jumeaux
   `*_en.py`** (mêmes signatures) ou de **tables `{texte français exact : texte anglais}`**,
   en **mode strict** — un texte sans traduction arrête la génération. Mêmes nombres qu'en
@@ -200,9 +209,12 @@ traduction, le lexique, les décisions, l'état d'avancement et `TODO.md` sont �
 
 ## 10. Pour commencer
 
-1. Lis le dépôt du cours (structure, générateurs, `docs\`, `TODO.md`) et le modèle de la
-   section 3.
-2. Fais l'inventaire chiffré du site à traduire.
+1. Lis le dépôt du cours (structure, générateurs, `docs\`, `TODO.md`), `docs/I18N.md` du
+   gabarit et le modèle de la section 3. Un cours créé avant les outils du miroir les
+   reprend du gabarit (`site/assets/js/langue.js`, `langues-data.js`, `navigation.js`,
+   `i18n.js`, et les outils du § A.9).
+2. Fais l'inventaire chiffré du site à traduire. Un cours en blocs `data-tr` se convertit
+   d'abord, une fois (`data_tr_vers_miroir.py --essai`, puis sans).
 3. Pose les questions de cadrage, **une à une** (section 4).
 4. Propose le plan par lots, puis attends l'accord de l'auteur pour lancer le lot 0.
 

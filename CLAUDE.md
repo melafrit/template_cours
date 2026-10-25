@@ -222,13 +222,17 @@ prochaine régénération.
 | Fichier | Produit par | Source réelle |
 |---|---|---|
 | `site/assets/js/playlist-data.js` | `outils/generer_playlist.py` | les pages et les fichiers audio |
-| `site/assets/js/nav-sections.js` | `outils/generer_nav_sections.py` | les titres `<h2 id>` des chapitres |
+| `site/assets/js/nav-sections.js` | `outils/generer_nav_sections.py` | les titres `<h2 id>` des chapitres (l'anglais, de leurs jumelles en site miroir) |
+| `site/assets/js/langues-data.js` | `outils/generer_langues.py` | les pages jumelles de `site/en/` (site miroir) |
 | transcriptions des capsules | `outils/synchroniser_capsules.py` | `docs/prompts/Capsules_*.md` |
 
 **L'ordre compte.** `generer_playlist.py` indexe les pages et les fichiers
 audio réels : il passe après `synchroniser_capsules.py` et `generer_audio.py`.
 `generer_nav_sections.py` se relance après tout ajout, retrait ou renommage de
-section — `nouveau_cours.py` le lance à la création du cours.
+section — `nouveau_cours.py` le lance à la création du cours. En site miroir
+(`docs/I18N.md`, partie A) : `creer_jumelle.py` ou `data_tr_vers_miroir.py`, puis
+`generer_langues.py` et `liens_langues.py`, puis les autres générateurs, et
+`hreflang.py` **en dernier**.
 
 Une capsule vit à deux endroits — le script balisé et la transcription lisible.
 Tenues à la main, elles divergent dès la première correction, et personne ne
@@ -283,6 +287,10 @@ python3 outils/verifier_liens.py      # href, src et renvois « Pour approfondir
 python3 outils/generer_nav_sections.py --essai  # le menu suit-il les <h2 id> des chapitres ?
 python3 demarrer.py                   # le site, sans cache
 ```
+
+En site miroir, trois de plus : `python3 outils/verifier_parite.py` (les pages
+jumelles ont la même suite de blocs), `python3 outils/generer_langues.py --essai`
+(la liste des pages traduites est à jour) et `python3 outils/hreflang.py --essai`.
 
 `demarrer.py` sert `site/` et envoie `Cache-Control: no-store`. C'est
 volontaire : avec un serveur ordinaire, le navigateur ressert l'ancien

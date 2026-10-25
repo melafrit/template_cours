@@ -38,7 +38,9 @@ site/
     │   ├── main.css            # Design system : variables (:root), thème, layout, a11y
     │   └── components.css      # Composants : callouts, cartes, glossaire, contrat i18n
     ├── js/
-    │   ├── i18n.js             # MOTEUR : bascule FR/EN (cœur du template)
+    │   ├── i18n.js             # MOTEUR : bascule FR/EN (cœur du template), racine du site
+    │   ├── langue.js           # MOTEUR : bouton FR / EN du site miroir (chargé par navigation.js)
+    │   ├── langues-data.js     # DONNÉES ⚙️ : pages qui ont leur jumelle anglaise sous en/
     │   ├── navigation.js       # MOTEUR : arbre de nav, thème, progression, sidebar
     │   ├── nav-sections.js     # DONNÉES : sous-sections (ancres) par chapitre
     │   ├── accessibility.js    # MOTEUR : panneau ♿ (taille texte, police DYS, skip-link)
@@ -106,7 +108,8 @@ Trois mécanismes coexistent ; un développeur qui ajoute du contenu doit choisi
 
 | Fichier | Rôle | Lit | Persiste (localStorage) |
 |---|---|---|---|
-| **i18n.js** | Cœur bilingue : bascule FR/EN, bouton 🌐, évènement `tpl:langchange`. | `data-lang` du `<html>` | `tpl-lang` |
+| **i18n.js** | Cœur bilingue : bascule FR/EN, bouton 🌐, évènement `tpl:langchange` ; calcule la racine du site (`window.TPL_RACINE`), où les moteurs prennent leurs médias. Une page qui déclare une seule langue (`data-langues`) n'a pas de bouton 🌐. | `data-lang`, `data-langues` du `<html>` | `tpl-lang` |
+| **langue.js** | Site miroir (`docs/I18N.md`, partie A) : le bouton FR / EN ouvre la jumelle de la page et s'y replace sur le bloc lu. Chargé par `navigation.js` sur les pages d'une seule langue ; absent si la jumelle n'existe pas. | `TPL_LANGUES` | `tpl-lang` (et `tpl-bascule` en session) |
 | **navigation.js** | Construit l'arbre de nav (`#nav-tree`) depuis `window.COURSE` + `window.RDC_SECTIONS` ; gère le **thème** clair/sombre (bouton 🌙/☀️), la **progression** (chapitres terminés, barre, marquage auto au scroll), la **sidebar mobile** et la **barre de lecture**. | `COURSE`, `RDC_SECTIONS` | `tpl-theme`, `tpl-done` |
 | **accessibility.js** | Bouton ♿ + panneau : taille du texte (`--fs-scale`), police « lecture adaptée » DYS (Atkinson Hyperlegible, chargée à la demande), skip-link « Aller au contenu ». | — | `rdc-a11y` |
 | **media.js** | Sur une page de chapitre `NN-…html`, déduit le numéro `N` et **charge automatiquement** podcast / slides PDF / infographie / polycopié s'ils existent. Construit le lecteur audio personnalisé (±10 s, mini-lecteur flottant déplaçable, pop-out), les popups plein écran (slides, image, polycopié). | fichiers de `assets/media/` et `assets/polycopies/` | — |
@@ -170,8 +173,10 @@ La transcription affichée est **générée** depuis la fiche de production par
 | **QCM/questions.js** | `window.QCM_QUESTIONS` | `{ meta:{…}, questions:[{ id, chapitre, difficulte, enonce:{fr,en}, propositions:[{fr,en}×4] }] }` | pages QCM |
 | **QCM/corrections.js** | `window.QCM_CORRECTIONS` | `{ corrections:[{ id, chapitre, difficulte, bonne_reponse_index, explication:{fr,en} }] }` | entrainement, correction, dashboard |
 | **playlist-data.js** ⚙️ | `window.RDC_PLAYLIST` | `{ "<num>": { titre, page, pistes:[{ type, titre, src, duree, present, langue }] } }` | playlist.js |
+| **langues-data.js** ⚙️ | `window.TPL_LANGUES` | `["chapitres/01-x.html", …]` — les pages qui ont leur jumelle sous `en/` (vide hors site miroir) | langue.js, navigation.js, glossaire-tooltip.js |
 
-**⚙️ = fichier GÉNÉRÉ.** `playlist-data.js` est produit par
+**⚙️ = fichier GÉNÉRÉ.** `langues-data.js` est produit par `outils/generer_langues.py`
+d'après les fichiers de `site/en/` ; `playlist-data.js`, par
 `outils/generer_playlist.py` d'après les pages et les fichiers audio réels ;
 `nav-sections.js`, par `outils/generer_nav_sections.py` d'après les `<h2 id>` des
 chapitres (`nouveau_cours.py` le lance à la création du cours). Les corriger à la

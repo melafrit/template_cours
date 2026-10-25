@@ -287,7 +287,8 @@ journal. Celles qui reviennent à chaque étape :
    sections régénéré. Initialise le dépôt Git ; crée docs/00-Lisez-moi.md,
    docs/01-Decisions-de-conception.md, docs/02-Etat-d-avancement.md et TODO.md.
 2. Le moteur du template couvre : navigation et menu des sections généré, bilingue en
-   blocs data-tr (le modèle de secours), composants RDCX (checkpoint expliqué, reveal, spotError, match, branch,
+   site miroir (bouton FR / EN qui garde la position, jumelles, liens, hreflang, parité :
+   docs/I18N.md) et en blocs data-tr (le modèle de secours), composants RDCX (checkpoint expliqué, reveal, spotError, match, branch,
    hotspots, voice, steps), glossaire à info-bulles, flashcards, QCM CBM avec correction
    et tableau de bord, QCM papier, playlist, audio Eleven v4, déploiement SFTP avec
    garde-fou et zones protégées.
