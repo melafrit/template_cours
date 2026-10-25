@@ -499,8 +499,8 @@ class SFTPCommeFTP(object):
         except paramiko.SSHException as e:
             raise OSError("échec de la connexion SSH : %s" % e)
         if nouveau:
-            jr.info("empreinte du serveur retenue (%s %s) dans deploiement/known_hosts"
-                    % nouveau[0])
+            # Ni l'hôte ni l'empreinte à l'écran : la sortie du déployeur peut être recopiée ou affichée.
+            jr.info("empreinte du serveur retenue dans deploiement/known_hosts")
         self.sftp = self.client.open_sftp()
         self.maison = self.sftp.normalize(".")
         self._racine = None
@@ -574,10 +574,10 @@ class SFTPCommeFTP(object):
 
 
 def connecter(c, jr):
-    adresse = "%s:%s" % (c["hote"], c["port"])
+    # Ni l'hôte ni le port à l'écran : la sortie du déployeur peut être recopiée ou affichée (CLAUDE.md, § 2).
     if c["protocole"] == "sftp":
         ftp = SFTPCommeFTP(c, jr)
-        jr.info("connecté à %s en SFTP (chiffré)" % adresse)
+        jr.info("connecté en SFTP (chiffré)")
         return ftp
     if c["tls"]:
         # FTPS explicite : sans lui, identifiants comme contenus circulent en
@@ -595,7 +595,7 @@ def connecter(c, jr):
         ftp.sendcmd("OPTS UTF8 ON")
     except Exception:
         pass                              # serveur sans UTF-8 : on continue
-    jr.info("connecté à %s en %s" % (adresse, "FTPS" if c["tls"] else "FTP (non chiffré)"))
+    jr.info("connecté en %s" % ("FTPS" if c["tls"] else "FTP (non chiffré)"))
     return ftp
 
 
@@ -704,7 +704,7 @@ def main(argv=None):
     base = c["repertoire_distant"]
 
     jr.titre("Destination")
-    jr.info("cours « %s » → %s" % (c["cours"], base))
+    jr.info("cours « %s » → son répertoire distant (deploiement/destination.json, non affiché)" % c["cours"])
     if c["repertoire_distant_ignore"]:
         jr.info("config.json désigne aussi un répertoire distant : il est ignoré, "
                 "la destination vient de destination.json.")
@@ -806,7 +806,7 @@ def main(argv=None):
             jr.action("%s  (%s)" % (rel, humain(taille)))
         if len(a_envoyer) > 40:
             jr.info("… et %d autres fichiers" % (len(a_envoyer) - 40))
-        jr.info("destination : %s%s" % (c["hote"], base))
+        jr.info("destination : le répertoire du cours (deploiement/destination.json) — hôte masqué")
         jr.info("rien n'a été envoyé.")
         raccrocher()
         return OK
@@ -891,7 +891,7 @@ def main(argv=None):
         for rel, e in echecs[:10]:
             jr.info("%s : %s" % (rel, e))
         return ECHECS
-    jr.info("site à jour sur %s%s" % (c["hote"], base))
+    jr.info("site à jour (hôte masqué)")
     if c["url"]:
         jr.info("à vérifier : %s" % c["url"])
     return OK

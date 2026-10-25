@@ -1,0 +1,8 @@
+# Les fichiers secrets, cachés à toute recherche : l'outil Grep de Claude Code (ripgrep) ignore le .gitignore mais
+# respecte ce fichier. Ils restent locaux, ignorés par Git, jamais lus ni affichés (CLAUDE.md, § 2).
+**/elevenlabs.json
+outils/*.config.json
+deploiement/config.json
+deploiement/known_hosts
+docs/acces.json
+docs/acces-zones.json

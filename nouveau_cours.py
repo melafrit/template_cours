@@ -27,6 +27,7 @@ appelés pour de vrai, avec le motif bilingue à recopier.
 """
 
 import argparse
+import importlib.util
 import io
 import glob
 import json
@@ -54,6 +55,7 @@ PALETTES = ("marine", "emeraude", "prune", "ardoise", "bordeaux")
 COPIER = ["site", "outils", "prompts", "docs", ".claude", "deploiement", "tools",
           "demarrer.py", "demarrer.bat", "demarrer.command",
           ".gitattributes", ".gitignore", ".editorconfig",
+          ".rgignore",      # cache les secrets aux recherches (Grep ignore le .gitignore, pas ce fichier)
           "LICENSE", "LICENSE-CONTENT.md"]
 
 # Jamais recopié avec l'arborescence : secrets, carnets d'envoi, sorties
@@ -854,6 +856,15 @@ def vider_prose(t):
     corps = t[debut:fin]
     corps = re.sub(r'<span data-tr="(fr|en)">(?:(?!</span>).)*?</span>',
                    remplacer, corps, flags=re.S)
+
+    # Les titres de section : un repère court et numéroté, pas le paragraphe de remplissage — ils s'affichent dans
+    # la page et dans le menu (outils/generer_nav_sections.py les y reporte).
+    def titre(m):
+        titre.n += 1
+        return ('<h2%s><span data-tr="fr">%d. Titre de section à rédiger</span>'
+                '<span data-tr="en">%d. Section title to be written</span></h2>' % (m.group(1), titre.n, titre.n))
+    titre.n = 0
+    corps = re.sub(r"<h2\b([^>]*)>.*?</h2>", titre, corps, flags=re.S)
     return t[:debut] + corps + t[fin:]
 
 
@@ -1200,6 +1211,15 @@ def main():
                 ecrire(f, neuf)
                 d += 1
         print("  %d page(s) dépouillée(s) de la langue non retenue" % d)
+
+    # --- le menu : les sections des chapitres du cours, lues dans leurs <h2 id>. Sans cela, le cours gardait
+    #     dans son menu les sections du cours de démonstration (nav-sections.js n'était produit par aucun outil).
+    spec = importlib.util.spec_from_file_location("generer_nav_sections",
+                                                  os.path.join(RACINE, "outils", "generer_nav_sections.py"))
+    gns = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(gns)
+    _a_jour, nch, nsec = gns.generer(sortie)
+    print("  nav-sections.js régénéré : %d chapitre(s), %d section(s)" % (nch, nsec))
 
     # --- sources et bibliographie : le mode d'emploi et la bibliographie à remplir,
     #     jamais les documents d'un autre cours, restés sous droits dans sources/
