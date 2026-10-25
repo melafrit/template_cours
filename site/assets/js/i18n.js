@@ -23,6 +23,14 @@
    API : TPLI18N.lang() · TPLI18N.set('en') · TPLI18N.toggle()
    ================================================================= */
 (function () {
+  // La racine du site, d'après l'adresse de ce script, chargé le premier sur chaque page : les moteurs y
+  // prennent leurs médias quelle que soit la profondeur de la page — une page anglaise jumelle vit un
+  // dossier plus bas, sous en/ (docs/I18N.md, partie A). Vide si l'adresse ne se lit pas : chacun garde
+  // alors son ancien chemin relatif.
+  var moi = (document.currentScript && document.currentScript.src) || '';
+  var racine = moi.replace(/assets\/js\/[^\/?#]+(?:[?#].*)?$/, '');
+  window.TPL_RACINE = racine && racine !== moi ? racine : '';
+
   var KEY = 'tpl-lang';
   var DEFAULT = (document.documentElement.getAttribute('lang') || 'fr').slice(0, 2);
   // Un cours monolingue le déclare sur <html data-langues="fr"> (nouveau_cours.py) :

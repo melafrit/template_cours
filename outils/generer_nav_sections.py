@@ -54,12 +54,23 @@ def sections(chemin):
 
 
 def produire(racine):
-    """Le texte de nav-sections.js pour le site de racine."""
+    """Le texte de nav-sections.js pour le site de racine. En site miroir (docs/I18N.md), le titre anglais d'une
+    section vient de la jumelle site/en/chapitres/<fichier>, à identifiant égal."""
     donnees = {}
     for num, fichier in chapitres(racine):
         p = os.path.join(racine, "site", "chapitres", fichier)
-        if os.path.isfile(p):
-            donnees[num] = sections(p)
+        if not os.path.isfile(p):
+            continue
+        secs = sections(p)
+        jumelle = os.path.join(racine, "site", "en", "chapitres", fichier)
+        if os.path.isfile(jumelle):
+            anglais = {s["id"]: s["t"] for s in sections(jumelle)}
+            for s in secs:
+                en = anglais.get(s["id"])
+                en = en.get("en") or en.get("fr") if isinstance(en, dict) else en
+                if en:
+                    s["t"] = {"fr": s["t"].get("fr") if isinstance(s["t"], dict) else s["t"], "en": en}
+        donnees[num] = secs
     return ENTETE + "window.RDC_SECTIONS = " + json.dumps(donnees, ensure_ascii=False, indent=1) + ";\n"
 
 

@@ -44,9 +44,9 @@
   }
 
   function base() {
-    // Les chemins de l'index partent de la racine du site ; les pages de
-    // chapitre sont un cran plus bas.
-    return /\/chapitres\//.test(location.pathname) ? '../' : '';
+    // Les chemins de l'index partent de la racine du site, qu'i18n.js donne ; à
+    // défaut, les pages de chapitre sont un cran plus bas.
+    return window.TPL_RACINE || (/\/chapitres\//.test(location.pathname) ? '../' : '');
   }
 
   function esc(s) {

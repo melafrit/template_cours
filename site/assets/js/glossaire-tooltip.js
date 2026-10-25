@@ -40,6 +40,15 @@
      depuis /chapitres/, « ./ » depuis la racine. Il etait ecrit en dur pour
      les chapitres, et pointait au-dessus du site sur toute page racine. */
   var BASE_GLOSSAIRE = (/\/chapitres\//.test(location.pathname) ? '../' : './') + 'glossaire.html';
+  /* Une page anglaise jumelle (site miroir, en/) renvoie au glossaire anglais s'il
+     existe, sinon au glossaire français : la liste des pages traduites
+     (langues-data.js) le dit, lue au moment où la bulle s'affiche. */
+  function lienGlossaire() {
+    var decl = (document.documentElement.getAttribute('data-langues') || '').split(/[\s,]+/);
+    if (!window.TPL_RACINE || decl.length !== 1 || decl[0] !== 'en') return BASE_GLOSSAIRE;
+    var traduit = (window.TPL_LANGUES || []).indexOf('glossaire.html') >= 0;
+    return window.TPL_RACINE + (traduit ? 'en/' : '') + 'glossaire.html';
+  }
 
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
   function popHtml(e) {
@@ -48,7 +57,7 @@
       + '<span class="gloss-pop-fr">' + esc(e.fr) + '</span>'
       + (e.en ? '<span class="gloss-pop-en">' + esc(e.en) + '</span>' : '')
       + '<span class="gloss-pop-def">' + esc(d) + '</span>'
-      + '<a class="gloss-pop-link" href="' + BASE_GLOSSAIRE + '">' + T('glossaire.voir') + '</a></span>';
+      + '<a class="gloss-pop-link" href="' + lienGlossaire() + '">' + T('glossaire.voir') + '</a></span>';
   }
   function buildRe(ph) {
     var e = ph.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');

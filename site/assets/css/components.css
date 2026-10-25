@@ -889,6 +889,27 @@ html[data-lang="en"] [data-tr="fr"] { display: none !important; }
 }
 .lang-toggle:hover { background: var(--bg-card-alt); border-color: var(--accent); }
 
+/* Le site miroir (docs/I18N.md, partie A) : le bouton FR / EN de langue.js ouvre la
+   jumelle de la page dans l'autre langue, au même endroit ; même gabarit que le bouton
+   des blocs data-tr. Dans le menu d'une page anglaise, une page encore en français porte
+   la mention « FR », comme un lien de son contenu (outils/liens_langues.py). */
+.langue-toggle {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 54px; height: 40px; padding: 0 10px; border-radius: var(--radius-full);
+  background: transparent; border: 1px solid var(--border); color: var(--text-primary);
+  cursor: pointer; font-family: var(--font-display); font-weight: 600; font-size: var(--fs-sm);
+  line-height: 1; letter-spacing: .04em; transition: background var(--duration-fast), border-color var(--duration-fast);
+}
+.langue-toggle:hover { background: var(--bg-card-alt); border-color: var(--accent); }
+.langue-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.nav-langue,
+.main-content a[hreflang="fr"]::after {
+  display: inline-block; margin-left: 6px; padding: 0 5px; border-radius: var(--radius-sm);
+  background: var(--bg-card-alt); color: var(--text-muted); font-family: var(--font-mono);
+  font-size: 10px; font-weight: 600; line-height: 1.5; vertical-align: middle;
+}
+.main-content a[hreflang="fr"]::after { content: "FR"; margin-left: 4px; }
+
 /* Sous 480 px, l'en-tête doit loger langue + accessibilité + thème :
    on masque le texte du logo et on garde la pastille. */
 @media (max-width: 480px) {

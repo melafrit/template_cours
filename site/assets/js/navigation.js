@@ -13,6 +13,23 @@
   var base = inChapters ? '../' : './';
   var currentFile = path.split('/').pop() || 'index.html';
   var totalCh = COURSE.chapters.length;
+  var MOI = (document.currentScript && document.currentScript.src) || '';
+
+  /* Le site miroir (docs/I18N.md, partie A) : une page d'une seule langue le
+     déclare sur <html data-langues="fr"> ou "en". Une page anglaise jumelle vit
+     sous en/, au même chemin que la française ; son menu mène à la jumelle
+     anglaise de chaque page quand elle existe (window.TPL_LANGUES, écrit par
+     outils/generer_langues.py), sinon à la page française, marquée « FR ». */
+  var DECL = (document.documentElement.getAttribute('data-langues') || '').split(/[\s,]+/).filter(Boolean);
+  var MONO = DECL.length === 1;
+  var EN = MONO && DECL[0] === 'en';
+  function traduite(cible) { return (window.TPL_LANGUES || []).indexOf(cible.split('#')[0]) >= 0; }
+  // cible : le chemin d'une page depuis la racine du site (« chapitres/01-x.html »).
+  function vers(cible) { return EN && !traduite(cible) ? base + '../' + cible : base + cible; }
+  function marque(cible) {
+    return EN && !traduite(cible)
+      ? ' <span class="nav-langue" lang="fr" title="' + t('enFrancais') + '">FR</span>' : '';
+  }
 
   function lang() { return window.TPLI18N ? TPLI18N.lang() : 'fr'; }
   // L(x) : x peut être une chaîne ou un objet { fr, en }
@@ -26,7 +43,7 @@
     chapters: 'nav.chapitres', resources: 'nav.ressources', home: 'nav.accueil',
     reset: 'nav.reinitialiser', resetTitle: 'nav.reinitialiserTitre',
     confirmReset: 'nav.reinitialiserConfirme', secToggle: 'nav.sections',
-    doneMark: 'nav.marquerFait', doneUnmark: 'nav.marquerAnnuler'
+    doneMark: 'nav.marquerFait', doneUnmark: 'nav.marquerAnnuler', enFrancais: 'nav.enFrancais'
   };
   function t(k) { return window.T ? window.T(CLES[k] || k) : k; }
 
@@ -51,22 +68,22 @@
       var secs = (window.RDC_SECTIONS && window.RDC_SECTIONS[ch.num]) || [];
       var isCur = ch.file === currentFile;
       html += '<li class="nav-item' + (secs.length ? ' has-sub' : '') + (isCur && secs.length ? ' open' : '') + '">';
-      html += '<div class="nav-row"><a class="nav-link' + active + d + '" data-file="' + ch.file + '" href="' + base + 'chapitres/' + ch.file + '"><span class="nav-num">' + (done[ch.file] ? '✓' : ch.num) + '</span><span class="nav-label">' + esc(L(ch.title)) + '</span></a>';
+      html += '<div class="nav-row"><a class="nav-link' + active + d + '" data-file="' + ch.file + '" href="' + vers('chapitres/' + ch.file) + '"><span class="nav-num">' + (done[ch.file] ? '✓' : ch.num) + '</span><span class="nav-label">' + esc(L(ch.title)) + marque('chapitres/' + ch.file) + '</span></a>';
       if (secs.length) html += '<button type="button" class="nav-toggle" aria-label="' + t('secToggle') + '" aria-expanded="' + (isCur ? 'true' : 'false') + '">▸</button>';
       html += '</div>';
       if (secs.length) {
         html += '<ul class="nav-sub">';
-        secs.forEach(function (s) { html += '<li><a class="nav-sublink" href="' + base + 'chapitres/' + ch.file + '#' + s.id + '">' + esc(L(s.t)) + '</a></li>'; });
+        secs.forEach(function (s) { html += '<li><a class="nav-sublink" href="' + vers('chapitres/' + ch.file) + '#' + s.id + '">' + esc(L(s.t)) + '</a></li>'; });
         html += '</ul>';
       }
       html += '</li>';
     });
     html += '<li class="nav-section-label">' + t('resources') + '</li>';
     (COURSE.resources || []).forEach(function (r) {
-      html += '<li class="nav-item"><a class="nav-link" href="' + base + r.href + '"><span class="nav-ico">' + (r.ico || '') + '</span><span class="nav-label">' + esc(L(r.label)) + '</span></a></li>';
+      html += '<li class="nav-item"><a class="nav-link" href="' + vers(r.href) + '"><span class="nav-ico">' + (r.ico || '') + '</span><span class="nav-label">' + esc(L(r.label)) + marque(r.href) + '</span></a></li>';
     });
     html += '<li class="nav-section-label">&nbsp;</li>';
-    html += '<li class="nav-item"><a class="nav-link" href="' + base + 'index.html"><span class="nav-ico">🏠</span><span class="nav-label">' + t('home') + '</span></a></li>';
+    html += '<li class="nav-item"><a class="nav-link" href="' + vers('index.html') + '"><span class="nav-ico">🏠</span><span class="nav-label">' + t('home') + marque('index.html') + '</span></a></li>';
     html += '<li class="nav-reset"><button type="button" id="nav-reset-btn" title="' + t('resetTitle') + '">' + t('reset') + '</button></li>';
     tree.innerHTML = html;
     tree.querySelectorAll('.nav-toggle').forEach(function (btn) {
@@ -110,7 +127,7 @@
   document.querySelectorAll('a[data-chapitre]').forEach(function (a) {
     var i = parseInt(a.getAttribute('data-chapitre'), 10) - 1;
     var ch = (COURSE.chapters || [])[i];
-    if (ch) a.setAttribute('href', base + 'chapitres/' + ch.file);
+    if (ch) a.setAttribute('href', vers('chapitres/' + ch.file));
     else a.style.display = 'none';
   });
 
@@ -182,4 +199,21 @@
   renderTree();
   renderChapterDone();
   document.addEventListener('tpl:langchange', function () { renderTree(); renderChapterDone(); });
+
+  /* -- Le bouton FR / EN du site miroir (langue.js), sur les pages d'une seule
+     langue : la liste des pages traduites d'abord, si la page ne l'a pas déjà
+     chargée, puis le bouton. Une page bilingue (blocs data-tr) garde son
+     bouton 🌐, posé par i18n.js. Une page anglaise qui reçoit la liste ici
+     redessine son menu, désormais exact. */
+  if (MONO && MOI) {
+    var dossier = MOI.replace(/navigation\.js(?:[?#].*)?$/, '');
+    var charger = function (nom, puis) {
+      var s = document.createElement('script');
+      s.src = dossier + nom;
+      if (puis) s.onload = puis;
+      document.body.appendChild(s);
+    };
+    if (window.TPL_LANGUES) charger('langue.js');
+    else charger('langues-data.js', function () { if (EN) renderTree(); charger('langue.js'); });
+  }
 })();

@@ -12,7 +12,8 @@
   var m = file.match(/^(\d{1,2})-/);          // 01-introduction.html -> 1 ; 06-atelier-... -> 6
   if (!m) return;
   var N = parseInt(m[1], 10);
-  var base = '../assets/media/';
+  // La racine du site vient d'i18n.js : une page anglaise jumelle (en/chapitres/) est un cran plus bas.
+  var base = (window.TPL_RACINE || '../') + 'assets/media/';
 
   // --- Podcast : lecteur personnalisé (±10 s + progression) + mini-lecteur flottant + pop-out ---
     var pod = document.querySelector('.podcast-section');
@@ -147,7 +148,7 @@
         return (window.TPLI18N && TPLI18N.lang && TPLI18N.lang()) || 'fr';
       }
       function chemin() {
-        return '../assets/polycopies/chapitre-' + N + '-polycopie.' + langue() + '.pdf';
+        return (window.TPL_RACINE || '../') + 'assets/polycopies/chapitre-' + N + '-polycopie.' + langue() + '.pdf';
       }
 
       function poser() {
@@ -411,7 +412,7 @@
 
   function openPopout(src, t, title) {
     if (!src) return;
-    var url = '../assets/player.html?src=' + encodeURIComponent(src) + '&t=' + Math.floor(t || 0) + '&title=' + encodeURIComponent(title || 'Podcast');
+    var url = (window.TPL_RACINE || '../') + 'assets/player.html?src=' + encodeURIComponent(src) + '&t=' + Math.floor(t || 0) + '&title=' + encodeURIComponent(title || 'Podcast');
     window.open(url, 'rdc_podcast_player', 'width=430,height=210,menubar=no,toolbar=no,location=no,status=no,resizable=yes,scrollbars=no');
   }
 
