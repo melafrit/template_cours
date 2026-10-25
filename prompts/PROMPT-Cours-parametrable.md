@@ -149,7 +149,7 @@ fil_rouge:
   nom: ""                       # le cas qui traverse tout le cours
   source: "sources/…"
   projet_par_filiere: {}
-  referentiel: ""               # ex. outils/<cas>.py — source unique des chiffres du cas
+  referentiel: "outils/referentiel.py"   # source unique des chiffres du cas, écrits dans les pages par generer_fragments.py
 interdits: []                   # mots et exemples à ne jamais employer hors de leur place (sujet du TP, épreuve…)
 
 # ─────────────────────────────── LES LIVRABLES (dans l'ordre du cours)
@@ -394,7 +394,8 @@ les épisodes. Une mise en ligne suit chaque étape publiable, toujours sur acco
 
 # CONTRÔLES AVANT CHAQUE MISE EN LIGNE
 
-Référentiel cohérent · verifier_i18n, verifier_contraste, verifier_liens (renvois compris)
+Référentiel cohérent, generer_fragments.py --essai sans écart · verifier_i18n,
+verifier_contraste, verifier_liens (renvois compris)
 sans écart · generer_nav_sections.py --essai : menu à jour · node --check · aucun octet
 NUL · captures clair/sombre, chaque filière, 1280 et 375 px, console vide ·
 verifier_interdits.py sans écart · contrôles propres à chaque module actif · deployer.py

@@ -93,6 +93,9 @@ défaut de l'outil.
 
 - Aucune **date fixe** dans le contenu : « Jour 1 », « séance 2 ». Les dates
   réelles ne servent qu'aux outils de planning.
+- **Aucun chiffre du cas écrit à la main** : il vient du référentiel
+  (`outils/referentiel.py`), et `outils/generer_fragments.py` l'écrit entre les
+  marqueurs `<!-- FRAGMENT:… -->` des pages.
 - **Rien ne souffle une réponse** : un exemple de méthode porte sur un cas
   neutre ; les réponses d'un TP ne vivent que dans sa correction, placée dans
   une zone protégée par mot de passe.
@@ -226,10 +229,13 @@ prochaine régénération.
 | `site/assets/js/playlist-data.js` | `outils/generer_playlist.py` | les pages et les fichiers audio |
 | `site/assets/js/nav-sections.js` | `outils/generer_nav_sections.py` | les titres `<h2 id>` des chapitres (l'anglais, de leurs jumelles en site miroir) |
 | `site/assets/js/langues-data.js` | `outils/generer_langues.py` | les pages jumelles de `site/en/` (site miroir) |
+| le contenu entre `<!-- FRAGMENT:nom -->` et `<!-- /FRAGMENT:nom -->` | `outils/generer_fragments.py` | `outils/referentiel.py`, `course-data.js` |
 | transcriptions des capsules | `outils/synchroniser_capsules.py` | `docs/prompts/Capsules_*.md` |
 
-**L'ordre compte.** `generer_playlist.py` indexe les pages et les fichiers
-audio réels : il passe après `synchroniser_capsules.py` et `generer_audio.py`.
+**L'ordre compte.** `generer_fragments.py` passe d'abord, après toute retouche
+du référentiel ou des pages : un fragment peut tenir dans un titre que les autres
+lisent. `generer_playlist.py` indexe les pages et les fichiers audio réels : il
+passe après `synchroniser_capsules.py` et `generer_audio.py`.
 `generer_nav_sections.py` se relance après tout ajout, retrait ou renommage de
 section — `nouveau_cours.py` le lance à la création du cours. En site miroir
 (`docs/I18N.md`, partie A) : `creer_jumelle.py` ou `data_tr_vers_miroir.py`, puis
@@ -280,7 +286,7 @@ entend du français — et la piste reçoit l'accent parisien des pistes frança
 
 ## 6. Vérifier
 
-Six contrôles, à lancer souvent. Ils attrapent ce que l'œil ne voit pas.
+Sept contrôles, à lancer souvent. Ils attrapent ce que l'œil ne voit pas.
 
 ```bash
 python3 outils/verifier_i18n.py       # clés dépareillées, blocs data-tr déséquilibrés
@@ -288,6 +294,7 @@ python3 outils/verifier_contraste.py  # palettes lisibles en clair ET en sombre
 python3 outils/verifier_liens.py      # href, src et renvois « Pour approfondir » qui ne mènent nulle part
 python3 outils/generer_nav_sections.py --essai  # le menu suit-il les <h2 id> des chapitres ?
 python3 outils/verifier_interdits.py  # aucun interdit du cours hors de sa place (outils/interdits.py)
+python3 outils/generer_fragments.py --essai  # chaque chiffre des pages suit le référentiel
 python3 demarrer.py                   # le site, sans cache
 ```
 

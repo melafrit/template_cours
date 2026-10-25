@@ -183,6 +183,12 @@ chapitres (`nouveau_cours.py` le lance à la création du cours). Les corriger �
 main donne l'illusion d'avoir résolu le problème jusqu'à la régénération
 suivante, qui écrase tout sans prévenir.
 
+**Les fragments.** Un chiffre du cas ne s'écrit pas dans une page : il vient de
+`outils/referentiel.py` (`VALEURS`, `DUREES`, fragments composés), et
+`outils/generer_fragments.py` le réécrit entre des marqueurs
+`<!-- FRAGMENT:nom -->…<!-- /FRAGMENT:nom -->`, dans la langue de la page ou du bloc
+`data-tr` qui l'entoure. Le contenu entre deux marqueurs est donc généré, lui aussi.
+
 **Source unique de vérité.** `course-data.js` pilote l'arbre de navigation *partout*. `nav-sections.js` reflète les `<h2 id>` réels de chaque chapitre : relancer `outils/generer_nav_sections.py` après tout ajout, retrait ou renommage de section (`--essai` dit s'il est à jour, sans rien écrire). Les `id` de questions (`Q01`…) doivent **correspondre** entre `questions.js` et `corrections.js`.
 
 ---

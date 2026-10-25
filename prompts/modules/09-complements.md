@@ -17,12 +17,17 @@
 
 ## 1. Les fragments générés : aucun chiffre écrit à la main
 
-Le référentiel du cas (`fil_rouge.referentiel`) porte **tous** les chiffres du cas et une
-fonction `verifier()` ; un chiffre ne s'écrit jamais à la main dans une page. Sur le cours
-d'architecture logicielle (lecture seule), `outils/generer_fragments.py` réécrit les
-passages chiffrés des pages entre des marqueurs `<!-- FRAGMENT:nom -->` ; les schémas, les
-fiches et le livret puisent aux mêmes sources. Le gabarit n'a pas encore cet outil : le
-reprendre est une décision Dnn.
+Le référentiel du cas, `outils/referentiel.py`, porte **tous** les chiffres du cas
+(`VALEURS`, `DUREES`, des fragments composés) et une fonction `verifier()` ; un chiffre ne
+s'écrit jamais à la main dans une page. La page marque l'endroit —
+`<!-- FRAGMENT:val-places -->12 000<!-- /FRAGMENT:val-places -->` — et
+`outils/generer_fragments.py` y écrit la valeur, dans la langue de la page ou du bloc
+`data-tr` qui l'entoure ; il fournit aussi `nb-chapitres` et `nb-chapitres-lettres`, d'après
+`course-data.js`. Son `--essai` signale un fragment périmé, inconnu ou sans valeur ; il fait
+partie des contrôles avant mise en ligne. Les schémas, les fiches et le livret puisent aux
+mêmes sources. Sur le cours d'architecture logicielle (lecture seule), le même principe
+porte aussi les séances, les personnages, les étapes du TP : de quoi s'inspirer pour les
+fragments composés.
 
 ---
 

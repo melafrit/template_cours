@@ -189,6 +189,9 @@ Pour **chaque** chapitre :
       « Pour approfondir » compris (fichier et ancre)
 - [ ] `python3 outils/verifier_interdits.py` ne trouve aucun interdit hors de sa
       place — sujet du TP, chiffres d'une épreuve (`outils/interdits.py`)
+- [ ] `python3 outils/generer_fragments.py --essai` n'a rien à faire — chaque
+      chiffre des pages suit le référentiel (`outils/referentiel.py`), aucune
+      valeur ne manque
 - [ ] En site miroir : `python3 outils/verifier_parite.py` finit sur « 0 écart »,
       et `generer_langues.py --essai`, `liens_langues.py --essai`,
       `hreflang.py --essai` n'ont rien à faire
