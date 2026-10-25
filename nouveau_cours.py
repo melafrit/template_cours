@@ -34,6 +34,7 @@ import json
 import os
 import re
 import shutil
+import subprocess
 import sys
 
 RACINE = os.path.dirname(os.path.abspath(__file__))
@@ -995,6 +996,8 @@ def squelette_chapitre(c, ch, modele):
     t = t.replace(">Chapter 1<", ">Chapter %s<" % ch.get("num", ""))
     t = t.replace("RDCX.steps({ chapitre: '1' })",
                   "RDCX.steps({ chapitre: '%s' })" % ch.get("num", "1"))
+    # La durée de l'en-tête est un fragment du référentiel (outils/generer_fragments.py) : celui du chapitre.
+    t = re.sub(r"FRAGMENT:duree-\d+ ", "FRAGMENT:duree-%s " % ch.get("num", "1"), t)
 
     # La meta-description decrivait le chapitre de demonstration : elle part
     # dans les moteurs de recherche et dans les apercus de partage.
@@ -1036,6 +1039,13 @@ def squelette_chapitre(c, ch, modele):
     t = t.replace('    <!-- ============ Médias du chapitre ============ -->',
                   avert + '\n    <!-- ============ Médias du chapitre ============ -->', 1)
     return t
+
+
+def referentiel_vide():
+    """Le référentiel du template (outils/referentiel.py), sans les valeurs du cours de démonstration."""
+    t = io.open(os.path.join(RACINE, "outils", "referentiel.py"), encoding="utf-8").read()
+    t = re.sub(r"\n# Le cours de démonstration[^\n]*\n", "\n", t)
+    return re.sub(r"^(DUREES|VALEURS|FRAGMENTS) = .*$", lambda m: "%s = {}" % m.group(1), t, flags=re.M)
 
 
 def depouiller_langue(t, garder):
@@ -1227,6 +1237,15 @@ def main():
     spec.loader.exec_module(gns)
     _a_jour, nch, nsec = gns.generer(sortie)
     print("  nav-sections.js régénéré : %d chapitre(s), %d section(s)" % (nch, nsec))
+
+    # --- les fragments : le référentiel du cours part vide (celui de la démonstration portait ses durées), et les
+    #     pages reçoivent les valeurs du cours — son vrai nombre de chapitres, « … » pour une durée à renseigner.
+    ecrire(os.path.join(sortie, "outils", "referentiel.py"), referentiel_vide())
+    r = subprocess.run([sys.executable, os.path.join(sortie, "outils", "generer_fragments.py")],
+                       capture_output=True, text=True, encoding="utf-8")
+    manques = r.stdout.count("✗")
+    print("  fragments écrits%s" % (" — %d à renseigner dans outils/referentiel.py (durées des chapitres)" % manques
+                                    if manques else ""))
 
     # --- sources et bibliographie : le mode d'emploi et la bibliographie à remplir,
     #     jamais les documents d'un autre cours, restés sous droits dans sources/
