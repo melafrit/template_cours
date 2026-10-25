@@ -43,6 +43,12 @@
   /* Une page anglaise jumelle (site miroir, en/) renvoie au glossaire anglais s'il
      existe, sinon au glossaire français : la liste des pages traduites
      (langues-data.js) le dit, lue au moment où la bulle s'affiche. */
+  // L'ancre d'un terme dans le glossaire, comme la calculent sa page et outils/glossaire_emplois.py.
+  function ancre(fr) {
+    var s = String(fr || '').toLowerCase().replace(/œ/g, 'oe').replace(/æ/g, 'ae');
+    try { s = s.normalize('NFD').replace(/[̀-ͯ]/g, ''); } catch (e) {}
+    return 'g-' + s.replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  }
   function lienGlossaire() {
     var decl = (document.documentElement.getAttribute('data-langues') || '').split(/[\s,]+/);
     if (!window.TPL_RACINE || decl.length !== 1 || decl[0] !== 'en') return BASE_GLOSSAIRE;
@@ -57,7 +63,7 @@
       + '<span class="gloss-pop-fr">' + esc(e.fr) + '</span>'
       + (e.en ? '<span class="gloss-pop-en">' + esc(e.en) + '</span>' : '')
       + '<span class="gloss-pop-def">' + esc(d) + '</span>'
-      + '<a class="gloss-pop-link" href="' + lienGlossaire() + '">' + T('glossaire.voir') + '</a></span>';
+      + '<a class="gloss-pop-link" href="' + lienGlossaire() + '#' + ancre(e.fr) + '">' + T('glossaire.voir') + '</a></span>';
   }
   function buildRe(ph) {
     var e = ph.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');

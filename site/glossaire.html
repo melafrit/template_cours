@@ -146,6 +146,17 @@
     color: var(--text-muted, #6b7280);
     margin-bottom: .2rem;
   }
+  /* « Où en parle-t-on ? » : les sections du cours qui emploient le terme. */
+  .glossary-emplois { margin-top: .7rem; font-size: .88rem; }
+  .glossary-emplois summary { cursor: pointer; color: var(--accent, #2f6fed); font-weight: 600; }
+  .glossary-emplois-n {
+    display: inline-block; min-width: 1.4em; padding: 0 .35em; border-radius: 999px; text-align: center;
+    background: var(--bg-card-alt, rgba(47, 111, 237, .08)); color: var(--text-muted, #6b7280); font-size: .78rem;
+  }
+  .glossary-emplois ul { margin: .4rem 0 0; padding-left: 1.1rem; }
+  .glossary-emplois li { margin: .15rem 0; }
+  .glossary-emplois-fois { color: var(--text-muted, #6b7280); font-size: .8rem; }
+  .glossary-cible { outline: 3px solid var(--accent, #2f6fed); outline-offset: 2px; }
   .glossary-empty {
     margin-top: 1rem;
     padding: 1.25rem;
@@ -171,8 +182,12 @@
 <script src="assets/js/accessibility.js"></script>
 <script src="assets/js/animations.js"></script>
 <script src="assets/js/glossaire-data.js"></script>
+<script src="assets/js/glossaire-emplois.js"></script>
 <script>
-/* Rendu du glossaire piloté par les données (window.GLOSSARY) */
+/* Rendu du glossaire piloté par les données (window.GLOSSARY), avec, sous chaque
+   terme, « Où en parle-t-on ? » (window.GLOSSARY_EMPLOIS, écrit par
+   outils/glossaire_emplois.py). Chaque terme a son ancre (#g-…), que vise aussi
+   l'info-bulle des chapitres. */
 (function () {
   var DATA = (window.GLOSSARY || []).slice();
   var listEl  = document.getElementById('glossary-list');
@@ -183,9 +198,25 @@
 
   // Libellés bilingues de l'UI générée
   var UI = {
-    fr: { example: 'Exemple', count: function (n, t) { return n + ' / ' + t + ' termes'; } },
-    en: { example: 'Example', count: function (n, t) { return n + ' / ' + t + ' terms'; } }
+    fr: { example: 'Exemple', count: function (n, t) { return n + ' / ' + t + ' termes'; },
+          emplois: 'Où en parle-t-on ?', haut: 'haut de la page' },
+    en: { example: 'Example', count: function (n, t) { return n + ' / ' + t + ' terms'; },
+          emplois: 'Where is it discussed?', haut: 'top of the page' }
   };
+  // Un lien fabriqué par le DOM : son texte est échappé, et verifier_liens.py ne prend pas le code qui le
+  // construit pour une adresse du site.
+  function lien(url, texte) {
+    var a = document.createElement('a');
+    a.setAttribute('href', url);
+    a.textContent = texte;
+    return a.outerHTML;
+  }
+  // L'ancre d'un terme : comme outils/glossaire_emplois.py et glossaire-tooltip.js (« g-objectif-pedagogique »).
+  function ancre(fr) {
+    var s = String(fr || '').toLowerCase().replace(/œ/g, 'oe').replace(/æ/g, 'ae');
+    try { s = s.normalize('NFD').replace(/[̀-ͯ]/g, ''); } catch (e) {}
+    return 'g-' + s.replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  }
   function L() { return (window.TPLI18N && TPLI18N.lang && TPLI18N.lang()) || 'fr'; }
   function ui() { return UI[L()] || UI.fr; }
   function other(l) { return l === 'fr' ? 'en' : 'fr'; }
@@ -207,7 +238,7 @@
     var def = (entry.def && (entry.def[l] || entry.def[o])) || '';
     var ex  = (entry.ex  && (entry.ex[l]  || entry.ex[o]))  || '';
     var html =
-      '<article class="concept-card glossary-card">' +
+      '<article class="concept-card glossary-card" id="' + ancre(entry.fr) + '">' +
         '<div class="concept-card-header">' +
           '<span class="concept-card-emoji">📌</span>' +
           '<span class="concept-card-title">' +
@@ -222,8 +253,29 @@
                 esc(ex) +
               '</p>';
     }
+    var lieux = ((window.GLOSSARY_EMPLOIS || {})[l] || {})[ancre(entry.fr)] || [];
+    if (lieux.length) {
+      var total = lieux.reduce(function (s, x) { return s + x.n; }, 0);
+      html += '<details class="glossary-emplois"><summary>' + esc(ui().emplois) +
+                ' <span class="glossary-emplois-n">' + total + '</span></summary><ul>' +
+                lieux.map(function (x) {
+                  return '<li>' + lien(x.p + (x.a ? '#' + x.a : ''), x.page + ' — ' + (x.section || ui().haut)) +
+                         (x.n > 1 ? ' <span class="glossary-emplois-fois">×' + x.n + '</span>' : '') + '</li>';
+                }).join('') +
+              '</ul></details>';
+    }
     html += '</article>';
     return html;
+  }
+
+  // Arrivée sur un terme (#g-…), depuis une info-bulle : les cartes sont dessinées après le chargement, le
+  // navigateur n'a pas pu s'y rendre seul.
+  function allerAuTerme() {
+    var h = decodeURIComponent((location.hash || '').slice(1));
+    var el = h && /^g-/.test(h) ? document.getElementById(h) : null;
+    if (!el) return;
+    el.classList.add('glossary-cible');
+    el.scrollIntoView({ block: 'center' });
   }
 
   function render() {
@@ -247,10 +299,12 @@
   document.addEventListener('tpl:langchange', render);
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', render);
+    document.addEventListener('DOMContentLoaded', function () { render(); allerAuTerme(); });
   } else {
     render();
+    allerAuTerme();
   }
+  window.addEventListener('hashchange', allerAuTerme);
 })();
 </script>
 </body>

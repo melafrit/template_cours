@@ -88,7 +88,8 @@ BLOC_GABARIT = re.compile(r"\n?<!-- gabarit:debut -->.*?<!-- gabarit:fin -->\n?"
 BLOCS = {
     "qcm":                 ["site/QCM"],
     "glossaire":           ["site/glossaire.html", "site/assets/js/glossaire-data.js",
-                            "site/assets/js/glossaire-tooltip.js"],
+                            "site/assets/js/glossaire-tooltip.js", "site/assets/js/glossaire-emplois.js",
+                            "outils/glossaire_emplois.py"],
     "flashcards":          ["site/assets/js/flashcards.js", "site/assets/js/flashcards-data.js"],
     "activites":           ["site/activites.html"],
     "polycopies":          ["site/assets/polycopies", "tools/generate_polycopies.py"],
@@ -1246,6 +1247,13 @@ def main():
     manques = r.stdout.count("✗")
     print("  fragments écrits%s" % (" — %d à renseigner dans outils/referentiel.py (durées des chapitres)" % manques
                                     if manques else ""))
+
+    # --- « Où en parle-t-on ? » : les emplois des termes du glossaire du cours (celui de la démonstration en avait
+    #     d'autres). Le générateur se relance après chaque retouche d'une page.
+    emplois = os.path.join(sortie, "outils", "glossaire_emplois.py")
+    if os.path.isfile(emplois):
+        r = subprocess.run([sys.executable, emplois], capture_output=True, text=True, encoding="utf-8")
+        print("  %s" % ((r.stdout.strip().splitlines() or ["glossaire-emplois.js : non écrit"])[-1]))
 
     # --- sources et bibliographie : le mode d'emploi et la bibliographie à remplir,
     #     jamais les documents d'un autre cours, restés sous droits dans sources/
