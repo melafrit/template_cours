@@ -173,6 +173,7 @@ modules:
     actif: false
     episodes: 0                 # 0 = à proposer (le cours de référence en compte 12)
     diaporamas: true            # un diaporama par épisode
+                                # (cours.json : le bloc « podcasts » amène la page et ses outils)
   audio:                        # 04 — ElevenLabs
     actif: true
     capsules: []                # ex. ["accueil", "ouverture de chapitre", "un par schéma", "TP pas à pas"]

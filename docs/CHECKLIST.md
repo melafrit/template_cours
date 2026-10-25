@@ -161,6 +161,10 @@ Pour **chaque** chapitre :
 - [ ] Fiche de cours (DOCX) préparée pour NotebookLM
 - [ ] Prompts de génération prêts (infographie / slides / podcast par chapitre)
 - [ ] **Podcast** déposé par chapitre et lu dans le lecteur audio personnalisé (lecture, ±10 s, mini-lecteur flottant, pop-out, téléchargement) 🔴
+- [ ] **Série de podcasts** (bloc `podcasts`, module 03) : épisodes déclarés dans
+      `outils/podcasts.py`, bruts et diaporamas déposés dans `Podcasts/<langue>/`,
+      publiés par `python3 outils/generer_podcasts.py` ; page Podcasts et encadrés à
+      jour, visionneuse testée (×, Échap, flèches)
 - [ ] **Slides PDF** déposées et affichées en popup plein écran
 - [ ] **Infographie** déposée et zoomable en lightbox
 - [ ] Médias nommés/rangés selon la convention du template (chemins corrects)
@@ -194,6 +198,8 @@ Pour **chaque** chapitre :
       valeur ne manque
 - [ ] `python3 outils/glossaire_emplois.py --essai` dit « à jour » — la fenêtre
       « Où en parle-t-on ? » du glossaire suit les pages
+- [ ] Avec la série de podcasts : `python3 outils/podcasts.py` finit sur
+      « 0 défaut(s) » — chaque épisode complet, chaque encadré à sa place
 - [ ] En site miroir : `python3 outils/verifier_parite.py` finit sur « 0 écart »,
       et `generer_langues.py --essai`, `liens_langues.py --essai`,
       `hreflang.py --essai` n'ont rien à faire

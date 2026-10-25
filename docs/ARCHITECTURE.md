@@ -15,6 +15,7 @@ site/
 ├── glossaire.html              # Glossaire bilingue filtrable (rendu JS depuis GLOSSARY)
 ├── activites.html              # Démos des 3 patrons d'activités de tools.js
 ├── atelier.html                # Atelier « fil rouge » (page de contenu statique)
+├── podcasts.html               # La série de podcasts : lecteur, résumé, diapositives (module 03)
 ├── about.html                  # À propos / crédits / licences
 │
 ├── chapitres/                  # Une page HTML par chapitre
@@ -45,6 +46,7 @@ site/
     │   ├── nav-sections.js     # DONNÉES : sous-sections (ancres) par chapitre
     │   ├── accessibility.js    # MOTEUR : panneau ♿ (taille texte, police DYS, skip-link)
     │   ├── media.js            # MOTEUR : chargement auto podcast/slides/infographie/polycopié
+    │   ├── podcasts.js         # MOTEUR : bande des diapositives et visionneuse de la page Podcasts
     │   ├── flashcards.js       # MOTEUR : FlashcardDeck (cartes de révision)
     │   ├── flashcards-data.js  # DONNÉES : cartes par chapitre
     │   ├── glossaire-tooltip.js# MOTEUR : surligne les termes du glossaire dans le texte
@@ -54,7 +56,7 @@ site/
     │   ├── animations.js       # MOTEUR : révélation au défilement + détails divers
     │   └── quiz.js             # (présent dans le dépôt, non inclus par les pages actuelles)
     └── media/                  # Médias par chapitre (déposés à la main, voir §4.2)
-        ├── podcasts/           # chapitre-<N>-podcast.mp3 (ou .m4a)
+        ├── podcasts/           # chapitre-<N>-podcast.<langue>.mp3 ; diaporamas/ de la série (module 03)
         ├── slides/             # chapitre-<N>-slides.pdf
         └── infographies/       # chapitre-<N>-infographie.png
 ```
@@ -113,6 +115,7 @@ Trois mécanismes coexistent ; un développeur qui ajoute du contenu doit choisi
 | **navigation.js** | Construit l'arbre de nav (`#nav-tree`) depuis `window.COURSE` + `window.RDC_SECTIONS` ; gère le **thème** clair/sombre (bouton 🌙/☀️), la **progression** (chapitres terminés, barre, marquage auto au scroll), la **sidebar mobile** et la **barre de lecture**. | `COURSE`, `RDC_SECTIONS` | `tpl-theme`, `tpl-done` |
 | **accessibility.js** | Bouton ♿ + panneau : taille du texte (`--fs-scale`), police « lecture adaptée » DYS (Atkinson Hyperlegible, chargée à la demande), skip-link « Aller au contenu ». | — | `rdc-a11y` |
 | **media.js** | Sur une page de chapitre `NN-…html`, déduit le numéro `N` et **charge automatiquement** podcast / slides PDF / infographie / polycopié s'ils existent. Construit le lecteur audio personnalisé (±10 s, mini-lecteur flottant déplaçable, pop-out), les popups plein écran (slides, image, polycopié). | fichiers de `assets/media/` et `assets/polycopies/` | — |
+| **podcasts.js** | Page Podcasts (module 03) : dessine sous chaque épisode la bande de ses diapositives (vignettes) et ouvre la visionneuse plein écran — ×, Échap, flèches, Début, Fin, glissé, focus gardé dans la fenêtre puis rendu à la vignette. Libellés dans la langue du conteneur. | `data-dossier`, `data-nombre`, `data-episode` des `.pod-diapos` | — |
 | **flashcards.js** | Classe `FlashcardDeck(containerId, cards, key)` : carte recto/verso, navigation, « su / à revoir », mélange, barre de progression. Supporte `**gras**` dans les textes. | tableau passé à l'instanciation (souvent `RDC_FLASHCARDS[n]`) | `rdc-flash-<key>` |
 | **glossaire-tooltip.js** | Dans les chapitres, repère la 1re occurrence des termes de `window.GLOSSARY` (langue courante) hors titres/liens/code, et y attache une info-bulle (terme + def + exemple + lien glossaire). Re-scanne au changement de langue. | `GLOSSARY` | — |
 | **tools.js** | Objet global `window.TPLActivities` : 3 fabriques d'activités interactives pilotées par config (voir §4.5). | config passée à l'appel | — |
@@ -190,6 +193,11 @@ suivante, qui écrase tout sans prévenir.
 `outils/generer_fragments.py` le réécrit entre des marqueurs
 `<!-- FRAGMENT:nom -->…<!-- /FRAGMENT:nom -->`, dans la langue de la page ou du bloc
 `data-tr` qui l'entoure. Le contenu entre deux marqueurs est donc généré, lui aussi.
+La page Podcasts et les encadrés « Le podcast du chapitre » en sont aussi (fragments
+`podcasts`, `podcasts-etat`, `podcasts-mention`, `podcast-N`) : leur source est
+`outils/podcasts.py`, et `outils/generer_podcasts.py` publie les fichiers qu'ils
+annoncent (MP3 mono à 64 kbit/s, PDF, diapositives WebP), à partir des dépôts de
+`Podcasts/`, jamais versionnés.
 
 **Source unique de vérité.** `course-data.js` pilote l'arbre de navigation *partout*. `nav-sections.js` reflète les `<h2 id>` réels de chaque chapitre : relancer `outils/generer_nav_sections.py` après tout ajout, retrait ou renommage de section (`--essai` dit s'il est à jour, sans rien écrire). Les `id` de questions (`Q01`…) doivent **correspondre** entre `questions.js` et `corrections.js`.
 
@@ -276,6 +284,7 @@ Détails utiles :
 - Le **modèle** `01-cadrage.html` contient déjà ces trois `<section>` avec un texte de remplacement (« déposez un fichier… »). Si le média existe, `media.js` remplace le placeholder ; sinon, le placeholder reste (aucune erreur visible).
 - Pour les **slides**, gardez `data-slides="[]"` : c'est le mode PDF géré par `media.js`. (Le mode « galerie d'images » d'`animations.js` ne s'active que si `data-slides` contient un tableau d'URL non vide — usage alternatif.)
 - **En `http(s)`**, `media.js` fait un `fetch HEAD` pour vérifier l'existence du fichier avant d'afficher. **En `file://`**, la vérification est impossible : l'aperçu est activé d'office (PDF/infographie). C'est pourquoi `preload='auto'` est utilisé pour l'audio (fichier entièrement *seekable* en local).
+- La **série de podcasts** (module 03, bloc `podcasts`) réutilise ces fichiers : l'épisode nommé `chapitre-<N>-podcast` joue, sur la page Podcasts, le MP3 que lit le chapitre ; ses diapositives et ses textes viennent de `outils/podcasts.py` et de `outils/generer_podcasts.py`, et l'encadré « Le podcast du chapitre » (fragment `podcast-N`) y mène depuis l'en-tête du chapitre.
 - Le **pop-out** du lecteur audio ouvre `assets/player.html` (à fournir si vous voulez cette fonction ; absent par défaut, le reste du lecteur fonctionne sans).
 
 ### 4.3 Ajouter une question au QCM

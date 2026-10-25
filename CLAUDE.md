@@ -229,14 +229,17 @@ prochaine régénération.
 | `site/assets/js/playlist-data.js` | `outils/generer_playlist.py` | les pages et les fichiers audio |
 | `site/assets/js/nav-sections.js` | `outils/generer_nav_sections.py` | les titres `<h2 id>` des chapitres (l'anglais, de leurs jumelles en site miroir) |
 | `site/assets/js/langues-data.js` | `outils/generer_langues.py` | les pages jumelles de `site/en/` (site miroir) |
-| le contenu entre `<!-- FRAGMENT:nom -->` et `<!-- /FRAGMENT:nom -->` | `outils/generer_fragments.py` | `outils/referentiel.py`, `course-data.js` |
+| le contenu entre `<!-- FRAGMENT:nom -->` et `<!-- /FRAGMENT:nom -->` | `outils/generer_fragments.py` | `outils/referentiel.py`, `course-data.js`, `outils/podcasts.py` (la série de podcasts) |
 | `site/assets/js/glossaire-emplois.js` | `outils/glossaire_emplois.py` | les termes de `glossaire-data.js` et les pages qui les emploient |
+| les MP3, PDF et diapositives de `site/assets/media/podcasts/` | `outils/generer_podcasts.py` | les épisodes bruts et les diaporamas déposés dans `Podcasts/` (jamais versionnés) |
 | transcriptions des capsules | `outils/synchroniser_capsules.py` | `docs/prompts/Capsules_*.md` |
 
 **L'ordre compte.** `generer_fragments.py` passe d'abord, après toute retouche
 du référentiel ou des pages : un fragment peut tenir dans un titre que les autres
 lisent. `generer_playlist.py` indexe les pages et les fichiers audio réels : il
 passe après `synchroniser_capsules.py` et `generer_audio.py`.
+`generer_podcasts.py` passe après chaque dépôt dans `Podcasts/` : il relance
+`generer_fragments.py`, qui réécrit la page Podcasts et les encadrés.
 `generer_nav_sections.py` se relance après tout ajout, retrait ou renommage de
 section, et `glossaire_emplois.py` après toute retouche d'une page —
 `nouveau_cours.py` les lance à la création du cours. En site miroir
@@ -304,6 +307,8 @@ python3 demarrer.py                   # le site, sans cache
 En site miroir, trois de plus : `python3 outils/verifier_parite.py` (les pages
 jumelles ont la même suite de blocs), `python3 outils/generer_langues.py --essai`
 (la liste des pages traduites est à jour) et `python3 outils/hreflang.py --essai`.
+Avec la série de podcasts (bloc `podcasts`), un de plus : `python3 outils/podcasts.py`
+(chaque épisode complet dans les deux langues, chaque encadré à sa place).
 
 `demarrer.py` sert `site/` et envoie `Cache-Control: no-store`. C'est
 volontaire : avec un serveur ordinaire, le navigateur ressert l'ancien

@@ -3,7 +3,8 @@
 > **Quand l'activer.** Quand le cours gagne à s'écouter : découvrir une partie avant de la
 > lire, réviser loin de l'écran, raccrocher un étudiant que l'écrit décourage.
 >
-> **Paramètres.** `modules.podcasts` : `actif`, `episodes` (0 = à proposer), `diaporamas`.
+> **Paramètres.** `modules.podcasts` : `actif`, `episodes` (0 = à proposer), `diaporamas` ;
+> dans `cours.json`, le bloc `podcasts` (à `false` par défaut) amène la page et ses outils.
 >
 > **Place.** Phase 11 du tronc : après le livret, que NotebookLM prend pour source ; les QR
 > codes des épisodes entrent ensuite dans le livret (module 02).
@@ -45,6 +46,15 @@ codes dans le livret). **Lis sans rien modifier** ; ne lis jamais ses fichiers s
 | `outils\podcasts.py`, `outils\podcasts_en.py` | la source unique des textes de la page, contrôlée |
 | `outils\generer_podcasts.py` | la conversion, les diapositives, les pages, les encadrés |
 | `podcasts.html`, `en\podcasts.html`, `assets\js\podcasts.js` | la page et sa visionneuse |
+
+> **Le gabarit fournit déjà l'outillage**, repris de ce cours, en générique et bilingue :
+> `outils/podcasts.py`, la source des épisodes (titres, résumés, points à retenir, page
+> liée, voix, dans les deux langues) ; `outils/generer_podcasts.py`, le convertisseur (MP3,
+> PDF, diapositives WebP) ; `site/podcasts.html` et `assets/js/podcasts.js`, la page et sa
+> visionneuse ; l'encadré « Le podcast du chapitre » (fragment `podcast-N`). La page et
+> les encadrés sont des fragments, écrits par `outils/generer_fragments.py`. Le cours de
+> référence reste le modèle des prompts, de la relecture et des décisions : ne recopie
+> pas son code.
 
 ---
 
@@ -145,18 +155,18 @@ langue, la durée la plus longue ; *Diaporama* → *Personnaliser* : format pré
 
 - **Les noms exacts.** Donne à l'auteur, épisode par épisode, le nom de chaque fichier et
   son dossier : les épisodes bruts dans `Podcasts/fr/` (et `Podcasts/en/`), extension
-  d'origine gardée — sur le cours de référence, `01-bienvenue` à `12-et-maintenant`, en
-  anglais `01-welcome` à `12-whats-next` ; les diaporamas au même nom, suivi de
-  `-diaporama.pdf` (en anglais `-slides.pdf`). Ces dossiers ne sont **jamais versionnés**
-  pour l'audio et les PDF, **ni déployés**.
-- **Le générateur** (à reprendre : `generer_podcasts.py`, avec `--essai` et `--anglais`) :
+  d'origine gardée, sous le nom déclaré dans `outils/podcasts.py` — l'épisode d'un
+  chapitre se nomme `chapitre-<N>-podcast`, le fichier que joue aussi le lecteur du
+  chapitre ; les diaporamas au même nom, en `.pdf`. Ces dossiers ne sont **jamais
+  versionnés** (`/Podcasts/` dans le `.gitignore`), **ni déployés** (hors de `site/`).
+- **Le générateur** (`outils/generer_podcasts.py`, fourni par le gabarit ; `--essai` d'abord) :
   il convertit chaque épisode en MP3 publié (mono, 64 kbit/s, 44,1 kHz, étiquettes ID3 ;
   seulement si le MP3 manque ou si le brut est plus récent) ; copie chaque diaporama ; rend
-  ses diapositives en WebP (1 600 px) et en vignettes (320 px) ; réécrit les pages entre
-  leurs marqueurs ; met à jour les encadrés du cours ; signale un fichier mal nommé, sans
-  le convertir. Rien ne s'écrit qui ne change.
+  ses diapositives en WebP (1 600 px) et en vignettes (320 px) ; relance
+  `generer_fragments.py`, qui réécrit la page et les encadrés ; signale un fichier mal
+  nommé, sans le convertir. Rien ne s'écrit qui ne change.
 - **Les textes** (titre, résumé, à retenir, page liée, voix) vivent dans une source unique,
-  contrôlée ; quand un épisode passe à la voix de l'auteur, sa source le dit, et la mention
+  contrôlée (`outils/podcasts.py`) ; quand un épisode passe à la voix de l'auteur, sa source le dit, et la mention
   du pied de page suit.
 - **Ce qui part en ligne est ce qui est versionné** : les MP3 et les WebP publiés le sont.
 - **Ensuite seulement**, les QR codes des épisodes dans le livret (module 02) : la chaîne
@@ -188,6 +198,8 @@ langue, la durée la plus longue ; *Diaporama* → *Personnaliser* : format pré
 - Chaque prompt sous sa limite, compté par script ; le tableau des longueurs à jour.
 - Chaque fichier déposé reconnu : le tableau du générateur dit, épisode par épisode, ce qui
   est en ligne et ce qui manque.
+- `python3 outils/podcasts.py` sans défaut (chaque épisode complet dans les deux langues,
+  chaque encadré à sa place) ; `generer_podcasts.py --essai` sans rien à faire.
 - La page : lecteurs, diapositives, visionneuse (×, Échap, flèches), console vide, 1280 et
   375 px ; la parité et les liens si le cours est bilingue.
 - Après la mise en ligne : MP3, PDF et WebP en 200, depuis le site public.
@@ -201,7 +213,10 @@ d'avancement, le guide de production et `TODO.md` sont à jour.
 ## 9. Pour commencer
 
 1. Lis le dépôt du cours et le modèle de la section 2 ; vérifie que le livret existe (le
-   module 02 le produit) : c'est la source de NotebookLM.
+   module 02 le produit) : c'est la source de NotebookLM. Sur un cours créé sans le bloc
+   `podcasts`, reprends du gabarit `site/podcasts.html`, `assets/js/podcasts.js`,
+   `outils/podcasts.py`, `outils/generer_podcasts.py`, les styles `.pod-*` de
+   `components.css` et l'entrée « 🎙️ Podcasts » du menu, puis vide sa liste d'épisodes.
 2. Propose le découpage de la série, épisode par épisode, avec la partie du livret de
    chacun.
 3. Pose les questions de cadrage, **une à une** (section 3).
