@@ -66,7 +66,7 @@
 
     var btn = document.createElement('button');
     btn.type = 'button'; btn.className = 'a11y-toggle';
-    btn.setAttribute('aria-label', "' + T('a11y.titre') + '");
+    btn.setAttribute('aria-label', T('a11y.titre'));
     btn.setAttribute('aria-expanded', 'false');
     btn.innerHTML = '♿'; // ♿
 
