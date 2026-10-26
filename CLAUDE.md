@@ -6,6 +6,11 @@ bilingues FR/EN, sans framework. Ce fichier est lu à chaque ouverture : il dit
 ce qu'il faut savoir avant de toucher à quoi que ce soit. `nouveau_cours.py` le
 recopie dans chaque cours créé, sans ses passages propres au template : les
 exigences de l'auteur (§ 2) s'y appliquent de la même façon.
+
+**À la reprise du travail sur le gabarit, lire d'abord `TODO.md`** (le registre :
+où en est le gabarit, ce qui reste à faire), puis `JOURNAL.md` (ce qui a été
+fait, session par session, avec ses commits). Tous deux sont à la racine et ne
+partent jamais dans un cours ; tout `docs/`, lui, part dans chaque cours.
 <!-- gabarit:fin -->
 
 ---
