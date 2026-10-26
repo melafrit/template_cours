@@ -153,7 +153,7 @@ window.UI_LABELS = {
     /* ---- médias ---- */
     'media.slidesPleinEcran': 'Agrandir les slides en plein écran',
     'media.infographie': 'Infographie de synthèse',
-    'media.polycopie': '📄 Polycopié',
+    'media.polycopie': '📄 Fiche de synthèse',
 
     /* ---- schémas à points chauds ---- */
     'schema.titre': 'Schéma du cours',
@@ -296,7 +296,7 @@ window.UI_LABELS = {
     /* ---- media ---- */
     'media.slidesPleinEcran': 'Open the slides full screen',
     'media.infographie': 'Summary infographic',
-    'media.polycopie': '📄 Handout',
+    'media.polycopie': '📄 Summary sheet',
 
     /* ---- hotspot diagrams ---- */
     'schema.titre': 'Course diagram',

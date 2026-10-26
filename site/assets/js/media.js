@@ -137,7 +137,8 @@
     img.src = infoUrl;
   }
 
-  // --- Polycopié : bouton dans la barre de navigation (entre Précédent et Suivant) + popup plein écran ---
+  // --- Fiche de synthèse du chapitre : bouton dans la barre de navigation (entre Précédent et Suivant) + popup
+  //     plein écran. « Polycopié » désigne le livret complet (polycopie.html) ---
   (function () {
     var nav = document.querySelector('.chapter-nav');
     if (!nav) return;
@@ -157,7 +158,7 @@
         var openModal = buildPolyModal(chemin(), N);
         var btn = document.createElement('button');
         btn.type = 'button'; btn.className = 'chapter-nav-btn poly-btn';
-        btn.innerHTML = window.T ? T('media.polycopie') : '📄 Polycopié';
+        btn.innerHTML = window.T ? T('media.polycopie') : '📄 Fiche de synthèse';
         btn.addEventListener('click', openModal);
         var links = nav.querySelectorAll('a, button');
         var last = links[links.length - 1];
@@ -224,18 +225,18 @@
     return open;
   }
 
-  /* ===== Popup polycopié (aperçu PDF + téléchargement PDF) ===== */
+  /* ===== Popup de la fiche de synthèse (aperçu PDF + téléchargement PDF) ===== */
   function buildPolyModal(pdfUrl, N) {
     var modal = document.createElement('div');
     modal.className = 'slides-modal poly-modal'; modal.hidden = true;
     modal.innerHTML =
         '<button type="button" class="slides-modal-close" aria-label="Fermer">✕</button>'
-      + '<div class="slides-modal-bar"><span class="slides-modal-title">📄 Polycopié — chapitre ' + N + '</span>'
+      + '<div class="slides-modal-bar"><span class="slides-modal-title">📄 Fiche de synthèse — chapitre ' + N + '</span>'
       + '<span class="poly-dl">'
       + '<a class="slides-modal-open" href="' + pdfUrl + '" download>⬇ PDF</a>'
       + '<a class="slides-modal-open" href="' + pdfUrl + '" target="_blank" rel="noopener">Ouvrir ↗</a>'
       + '</span></div>'
-      + '<iframe class="slides-modal-frame" title="Polycopié — chapitre ' + N + '"></iframe>';
+      + '<iframe class="slides-modal-frame" title="Fiche de synthèse — chapitre ' + N + '"></iframe>';
     document.body.appendChild(modal);
     var frame = modal.querySelector('.slides-modal-frame');
     var btnClose = modal.querySelector('.slides-modal-close');
