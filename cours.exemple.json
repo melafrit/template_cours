@@ -61,7 +61,7 @@
       "titre": { "fr": "Titre du troisième chapitre", "en": "Third chapter title" } }
   ],
 
-  "_blocs": "Ce que le cours embarque. Mettez à false ce dont vous n'avez pas besoin : le script retire alors les pages, les entrées de menu et les générateurs correspondants. Vous pouvez toujours les remettre plus tard, mais un bloc jamais rempli qui traîne dans le menu donne un cours inachevé. « podcasts » (la série de podcasts, sa page et ses encadrés, module 03) part à false : mettez-le à true si le cours aura ses épisodes ; absent, il vaut false.",
+  "_blocs": "Ce que le cours embarque. Mettez à false ce dont vous n'avez pas besoin : le script retire alors les pages, les entrées de menu et les générateurs correspondants. Vous pouvez toujours les remettre plus tard, mais un bloc jamais rempli qui traîne dans le menu donne un cours inachevé. « podcasts » (la série de podcasts, sa page et ses encadrés, module 03) part à false : mettez-le à true si le cours aura ses épisodes ; absent, il vaut false. « livret » (le polycopié : tout le cours en un livret A4, sa page « 📘 Polycopié » et sa chaîne Word → PDF, module 02) part à false de même ; il demande « glossaire ». Les « polycopies » sont les fiches de synthèse par chapitre : les deux se cumulent.",
   "blocs": {
     "qcm": true,
     "flashcards": true,
@@ -69,6 +69,7 @@
     "glossaire": true,
     "polycopies": true,
     "podcasts": false,
+    "livret": false,
     "atelier": true,
     "documents_formateur": true,
     "deploiement": true

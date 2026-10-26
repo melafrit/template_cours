@@ -27,6 +27,7 @@ appelés pour de vrai, avec le motif bilingue à recopier.
 """
 
 import argparse
+import datetime
 import importlib.util
 import io
 import glob
@@ -99,11 +100,14 @@ BLOCS = {
     "deploiement":         ["deploiement"],
     "podcasts":            ["site/podcasts.html", "site/assets/js/podcasts.js", "outils/podcasts.py",
                             "outils/generer_podcasts.py"],
+    "livret":              ["site/polycopie.html", "site/livret", "outils/generer_polycopie.py",
+                            "outils/publier_polycopie.py", "outils/polycopie", "outils/livret.py"],
 }
 
-# Un bloc absent de cours.json est actif, sauf ceux-ci : la série de podcasts (module 03) ne s'ajoute que demandée,
-# sans quoi un cours créé avec un ancien cours.json gagnerait une page vide dans son menu.
-BLOCS_INACTIFS_PAR_DEFAUT = {"podcasts"}
+# Un bloc absent de cours.json est actif, sauf ceux-ci : la série de podcasts (module 03) et le polycopié (module
+# 02) ne s'ajoutent que demandés, sans quoi un cours créé avec un ancien cours.json gagnerait une page vide dans son
+# menu.
+BLOCS_INACTIFS_PAR_DEFAUT = {"podcasts", "livret"}
 
 
 def bloc_actif(c, cle):
@@ -134,6 +138,7 @@ DEMO_DOSSIERS = [
     "site/assets/media/infographies",
     "site/assets/media/slides",
     "site/assets/polycopies",
+    "site/livret",
 ]
 
 SQUELETTE_QCM_QUESTIONS = """/* =================================================================
@@ -554,6 +559,24 @@ def regenerer_sommaire(sortie, c):
     return len(cartes)
 
 
+def vider_fiche_livret(sortie):
+    """outils/livret.py (bloc « livret ») : la fiche du livret de démonstration perd ce qui parlait du template — le
+    pied de la couverture, la catégorie, la présentation de l'auteur, que l'auteur écrit et valide (module 02) ;
+    l'année devient celle de la création. Vrai si la fiche a changé."""
+    f = os.path.join(sortie, "outils", "livret.py")
+    if not os.path.isfile(f):
+        return False
+    s = io.open(f, encoding="utf-8").read()
+    neuf = s
+    for cle, suivante in (("pied_couverture", "categorie"), ("categorie", "annee"), ("presentation", "fiction")):
+        neuf = re.sub(r"(^    %s=).*?(?=^    %s=)" % (cle, suivante),
+                      lambda m: m.group(1) + '{"fr": "", "en": ""},\n', neuf, count=1, flags=re.S | re.M)
+    neuf = re.sub(r"^    annee=\d{4},", "    annee=%d," % datetime.date.today().year, neuf, count=1, flags=re.M)
+    if neuf != s:
+        ecrire(f, neuf)
+    return neuf != s
+
+
 def purger_demo(sortie, c):
     """Retire le contenu de demonstration et remet des squelettes a la place.
 
@@ -606,6 +629,9 @@ def purger_demo(sortie, c):
     pc = os.path.join(sortie, "tools", "polycopies_content.json")
     if os.path.isfile(pc):
         ecrire(pc, json.dumps(SQUELETTE_POLYCOPIES, ensure_ascii=False, indent=2) + "\n")
+        remplaces += 1
+
+    if vider_fiche_livret(sortie):
         remplaces += 1
 
     # la fiche de capsules du cours de demonstration n'a rien a faire ici
@@ -768,6 +794,10 @@ def valider(c):
     if c.get("logo") is not None and not (1 <= len(str(c["logo"])) <= 2):
         griefs.append("« logo » : une ou deux lettres (lu : %r)." % c["logo"])
 
+    if bloc_actif(c, "livret") and not bloc_actif(c, "glossaire"):
+        griefs.append("le bloc « livret » demande le bloc « glossaire » : le polycopié imprime le glossaire, "
+                      "les définitions dans la marge et l'index.")
+
     # La destination de publication : facultative à la création, mais jamais une
     # racine d'hébergement — une purge y effacerait tous les autres cours.
     distant = str((c.get("publication") or {}).get("repertoire_distant") or "").strip()
@@ -829,12 +859,14 @@ def course_data(c):
     lignes.append("  resources: [")
     res = []
     b = c.get("blocs", {})
+    if bloc_actif(c, "livret"):
+        res.append(("📘", "polycopie.html", "Polycopié", "Course book"))
     if b.get("glossaire", True):
         res.append(("📚", "glossaire.html", "Glossaire bilingue", "Bilingual glossary"))
     if b.get("qcm", True):
         res.append(("📝", "QCM/index.html", "QCM d'évaluation", "Assessment quiz"))
     if b.get("polycopies", True):
-        res.append(("📄", "polycopies.html", "Polycopiés", "Handouts"))
+        res.append(("📄", "polycopies.html", "Fiches de synthèse", "Summary sheets"))
     if bloc_actif(c, "podcasts"):
         res.append(("🎙️", "podcasts.html", "Podcasts", "Podcasts"))
     if b.get("activites", True):
@@ -1234,6 +1266,9 @@ def main():
         r, s = purger_demo(sortie, c)
         print("  contenu de demonstration retire : %d media(s), %d fichier(s) "
               "remis a l'etat de squelette" % (r, s))
+        if bloc_actif(c, "livret"):
+            print("  outils/livret.py : la fiche du polycopié part vide — l'auteur y écrit sa présentation, "
+                  "imprimée mot pour mot (module 02)")
 
     # --- l'identite : titre d'onglet, description, auteur, pied de page
     i = renommer_identite(sortie, c)
