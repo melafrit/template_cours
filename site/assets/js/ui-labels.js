@@ -154,6 +154,10 @@ window.UI_LABELS = {
     'media.slidesPleinEcran': 'Agrandir les slides en plein écran',
     'media.infographie': 'Infographie de synthèse',
     'media.polycopie': '📄 Fiche de synthèse',
+    'media.fiche': 'Fiche de synthèse',
+    'media.chapitre': 'chapitre',
+    'media.ouvrir': 'Ouvrir ↗',
+    'media.fermer': 'Fermer',
 
     /* ---- schémas à points chauds ---- */
     'schema.titre': 'Schéma du cours',
@@ -297,6 +301,10 @@ window.UI_LABELS = {
     'media.slidesPleinEcran': 'Open the slides full screen',
     'media.infographie': 'Summary infographic',
     'media.polycopie': '📄 Summary sheet',
+    'media.fiche': 'Summary sheet',
+    'media.chapitre': 'chapter',
+    'media.ouvrir': 'Open ↗',
+    'media.fermer': 'Close',
 
     /* ---- hotspot diagrams ---- */
     'schema.titre': 'Course diagram',
