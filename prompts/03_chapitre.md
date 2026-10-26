@@ -188,15 +188,12 @@ une notion difficile vaut mieux qu'un `branch` plaqué là où rien ne se décid
 Deux à quatre composants par chapitre suffisent : la vitrine les a tous parce
 qu'elle les démontre, pas parce que c'est souhaitable.
 
-Ajoutez aussi, en fin de bloc de script :
-
-```js
-RDCX.steps({ chapitre: '{{NUMERO_DU_CHAPITRE}}' });   // lecture par étapes
-RDCX.sommaire({ titre: T('sommaire.titre') });        // barre de sommaire
-```
-
-`steps` s'appuie sur les attributs `data-step`, `data-step-titre` et
-`data-step-duree` posés sur chaque `<section class="content-section">`.
+**Ni barre d'étapes ni sommaire dans la page.** Le chapitre se lit d'un bout à
+l'autre ; ses sections sont les sous-entrées du chapitre dans le menu de gauche
+(`nav-sections.js`, régénéré par `outils/generer_nav_sections.py` d'après les
+`<h2 id>`). Les composants `RDCX.steps` et `RDCX.sommaire` restent dans le moteur,
+mais ne s'appellent plus par défaut : les étudiants trouvaient la page encombrée
+par deux navigations qui doublaient le menu.
 
 **Tout le contenu des composants passe par un objet `TEXTES = { fr, en }`** et
 une fonction `monter()` rejouée sur `tpl:langchange`. Voir `docs/I18N.md` §3 bis.

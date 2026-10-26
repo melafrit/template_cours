@@ -343,8 +343,6 @@
 
   function demarrer() {
     monter();
-    RDCX.steps({ chapitre: '3' });
-    RDCX.sommaire({ titre: T('sommaire.titre') });
     new FlashcardDeck('flash-ch3', (window.RDC_FLASHCARDS || {})['3'] || [], 'ch3');
   }
 

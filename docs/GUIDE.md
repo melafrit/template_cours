@@ -298,8 +298,8 @@ Un chapitre n'est pas qu'un texte. `interactions.js` expose `window.RDCX` :
 | `branch` | Un scénario à embranchements, avec les conséquences de chaque décision |
 | `hotspots` | Un schéma annoté de points cliquables |
 | `voice` | Une capsule audio, avec sa transcription |
-| `steps` | La lecture par étapes, section par section |
-| `sommaire` | La barre de sommaire collante |
+| `steps` | La lecture par étapes, section par section — non appelée par défaut : les sections sont dans le menu de gauche |
+| `sommaire` | La barre de sommaire collante — non appelée par défaut : les sections sont dans le menu de gauche |
 
 Choisissez selon l'intention, pas selon la nouveauté : un `checkpoint` après
 une notion difficile vaut mieux qu'un `branch` plaqué là où rien ne se décide.

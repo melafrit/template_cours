@@ -197,7 +197,8 @@ Le cours créé embarque son propre lanceur. Ouvrez-le :
       page **sa** licence ; chaque chapitre a ses boutons « ← Précédent » et
       « Suivant → » vers les chapitres déclarés, titres compris.
 - [ ] Console vide sur un chapitre squelette (hors sondes 404 des médias à
-      produire) : parcours par étapes et sommaire montés.
+      produire) ; ni barre d'étapes ni sommaire dans la page, les sections
+      du chapitre en sous-entrées dans le menu de gauche.
 
 **Toute trace du cours « concevoir un cours en ligne » dans `../mon-cours` est
 un défaut.** Y compris un titre d'onglet, une méta-donnée, un attribut, le nom
