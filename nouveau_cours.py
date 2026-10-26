@@ -321,6 +321,7 @@ def renommer_identite(sortie, c):
     ]
 
     desc_fr = ("%s. %s" % (tfr, sfr)).strip().strip(".") + "."
+    accueil = os.path.normcase(os.path.abspath(os.path.join(sortie, "site", "index.html")))
     touchees = 0
     for f in sorted(glob.glob(os.path.join(sortie, "site", "**", "*.html"),
                               recursive=True)):
@@ -335,14 +336,11 @@ def renommer_identite(sortie, c):
         s = re.sub(r'<meta name="author" content="[^"]*">',
                    '<meta name="author" content="%s">' % att(auteur), s)
 
-        # Le sous-titre de l'accueil : de la prose propre a la demonstration.
-        if sfr:
-            s = re.sub(
-                r'(<p class="chapter-subtitle">\s*)<span data-tr="fr">.*?</span>\s*'
-                r'<span data-tr="en">.*?</span>',
-                lambda m: '%s<span data-tr="fr">%s</span>\n          '
-                          '<span data-tr="en">%s</span>' % (m.group(1), sfr, sen),
-                s, flags=re.S)
+        # Le sous-titre de l'accueil : de la prose propre a la demonstration. Les autres pages gardent le leur —
+        # appliqué partout, il remplaçait celui du sommaire (et son fragment), des chapitres et des ressources ;
+        # les squelettes, les pages vidées et le glossaire reçoivent le leur (squelette_chapitre, purger_demo).
+        if sfr and os.path.normcase(os.path.abspath(f)) == accueil:
+            s = sous_titre(s, sfr, sen)
 
         # L'en-tête : nom court et pictogramme du cours.
         s = s.replace(*marque).replace(*picto)
@@ -407,6 +405,23 @@ SECTION_ACCUEIL = """<section class="content-section">
     </section>"""
 
 
+SOUS_TITRE_PAGE = ("À rédiger : une phrase qui présente cette page.",
+                   "To be written: one sentence introducing this page.")
+SOUS_TITRE_CHAPITRE = ("À rédiger : une ou deux phrases qui disent ce que ce chapitre permet de faire.",
+                       "To be written: one or two sentences saying what this chapter enables.")
+SOUS_TITRE_GLOSSAIRE = ("Les termes clés du cours, avec leur équivalent dans l'autre langue, une définition et un "
+                        "exemple. Tapez un mot pour filtrer la liste.",
+                        "The key terms of the course, with their equivalent in the other language, a definition and "
+                        "an example. Type a word to filter the list.")
+
+
+def sous_titre(t, fr, en):
+    """Le sous-titre de l'en-tête d'une page (<p class="chapter-subtitle">, blocs fr et en), remplacé par fr et en."""
+    return re.sub(r'(<p class="chapter-subtitle">\s*)<span data-tr="fr">.*?</span>\s*<span data-tr="en">.*?</span>',
+                  lambda m: '%s<span data-tr="fr">%s</span>\n      <span data-tr="en">%s</span>'
+                            % (m.group(1), fr, en), t, count=1, flags=re.S)
+
+
 def vider_page(chemin, titre_fr, titre_en, consigne_fr, consigne_en):
     """Garde l'en-tête d'une page de démonstration, remplace son contenu par un repère.
 
@@ -424,6 +439,7 @@ def vider_page(chemin, titre_fr, titre_en, consigne_fr, consigne_en):
     s = re.sub(r'(<h1 class="chapter-title">).*?(</h1>)',
                lambda x: '%s<span data-tr="fr">%s</span><span data-tr="en">%s</span>%s'
                          % (x.group(1), titre_fr, titre_en, x.group(2)), s, count=1, flags=re.S)
+    s = sous_titre(s, *SOUS_TITRE_PAGE)
     # les appels de démonstration ne trouveraient plus leurs conteneurs
     s = re.sub(r'<script>\s*TPLActivities\..*?</script>\s*', "", s, flags=re.S)
     ecrire(chemin, s)
@@ -636,6 +652,15 @@ def purger_demo(sortie, c):
 
     if vider_fiche_livret(sortie):
         remplaces += 1
+
+    # le sous-titre du glossaire nommait la matière de la démonstration
+    glo = os.path.join(sortie, "site", "glossaire.html")
+    if os.path.isfile(glo):
+        s = io.open(glo, encoding="utf-8").read()
+        neuf = sous_titre(s, *SOUS_TITRE_GLOSSAIRE)
+        if neuf != s:
+            ecrire(glo, neuf)
+            remplaces += 1
 
     # la fiche de capsules du cours de demonstration n'a rien a faire ici
     fiche = os.path.join(sortie, "docs", "prompts", "Capsules_du_cours_demo.md")
@@ -1057,6 +1082,9 @@ def squelette_chapitre(c, ch, modele):
                   "RDCX.steps({ chapitre: '%s' })" % ch.get("num", "1"))
     # La durée de l'en-tête est un fragment du référentiel (outils/generer_fragments.py) : celui du chapitre.
     t = re.sub(r"FRAGMENT:duree-\d+ ", "FRAGMENT:duree-%s " % ch.get("num", "1"), t)
+
+    # Le sous-titre de l'en-tête : l'accroche du chapitre de démonstration.
+    t = sous_titre(t, *SOUS_TITRE_CHAPITRE)
 
     # La meta-description decrivait le chapitre de demonstration : elle part
     # dans les moteurs de recherche et dans les apercus de partage.
