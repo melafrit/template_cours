@@ -93,7 +93,7 @@ BLOCS = {
                             "outils/glossaire_emplois.py"],
     "flashcards":          ["site/assets/js/flashcards.js", "site/assets/js/flashcards-data.js"],
     "activites":           ["site/activites.html"],
-    "polycopies":          ["site/assets/polycopies", "tools/generate_polycopies.py"],
+    "polycopies":          ["site/polycopies.html", "site/assets/polycopies", "tools/generate_polycopies.py"],
     "atelier":             ["site/atelier", "site/atelier.html"],
     "documents_formateur": ["docs/generate_cahier_de_texte.py",
                             "docs/generate_questions_oral.py"],
