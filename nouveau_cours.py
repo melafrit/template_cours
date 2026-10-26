@@ -85,6 +85,9 @@ RACINES_HEBERGEMENT = ("/", "/www", "/htdocs", "/public_html")
 # Les passages du CLAUDE.md propres au template, retirés du contrat d'un cours créé.
 BLOC_GABARIT = re.compile(r"\n?<!-- gabarit:debut -->.*?<!-- gabarit:fin -->\n?", re.S)
 
+# Les passages des pages qui renvoient au polycopié complet, retirés d'un cours sans bloc « livret ».
+BLOC_LIVRET = re.compile(r"<!-- livret:debut -->.*?<!-- livret:fin -->", re.S)
+
 # Pages et dossiers retirés quand le bloc correspondant est à false.
 BLOCS = {
     "qcm":                 ["site/QCM"],
@@ -1209,6 +1212,11 @@ def main():
                 os.remove(p); retires += 1
     if retires:
         print("  %d élément(s) retiré(s) pour les blocs désactivés" % retires)
+    if not bloc_actif(c, "livret"):
+        for f in glob.glob(os.path.join(sortie, "site", "**", "*.html"), recursive=True):
+            s = io.open(f, encoding="utf-8").read()
+            if "<!-- livret:debut -->" in s:
+                ecrire(f, BLOC_LIVRET.sub("", s))
 
     # --- la série de podcasts part vide : l'épisode de la démonstration accompagnait son chapitre 1
     serie = os.path.join(sortie, "outils", "podcasts.py")
