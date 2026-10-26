@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr" data-lang="fr" data-accent="marine">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>Le polycopié du cours / The course book</title>
+<meta name="description" content="Le polycopié du cours-démo : tout le cours en un livret A4, à télécharger en PDF, relié au site par ses QR codes.">
+<meta name="author" content="Mohamed EL AFRIT">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<link rel="stylesheet" href="assets/css/palettes.css">
+<link rel="stylesheet" href="assets/css/components.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-left">
+    <button class="sidebar-toggle" aria-label="Menu">☰</button>
+    <a href="index.html" class="site-logo"><span class="logo-icon">C<span class="acc">e</span></span>
+      <span data-tr="fr">Concevoir un cours</span><span data-tr="en">Design a course</span></a>
+  </div>
+  <div class="header-right">
+    <a href="cours.html" class="chapter-nav-btn"><span data-tr="fr">← Sommaire</span><span data-tr="en">← Contents</span></a>
+    <button class="theme-toggle" aria-label="Thème">🌙</button>
+  </div>
+</header>
+
+<aside class="sidebar">
+  <div class="sidebar-progress"><div class="sidebar-progress-bar"></div></div>
+  <div class="sidebar-content"><ul class="nav-tree" id="nav-tree"></ul></div>
+</aside>
+
+<div class="main-wrapper full-width">
+<main class="main-content">
+
+  <!-- La couverture, la fiche (titre, auteur, téléchargement, format) et la présentation de l'auteur sont des
+       fragments : outils/generer_fragments.py les réécrit d'après outils/polycopie/page.py, outils/livret.py et le
+       livret publié par outils/publier_polycopie.py. Rien à la main entre les marqueurs. -->
+  <div class="chapter-header">
+    <div class="chapter-meta">
+      <span class="chapter-badge">📘 <span data-tr="fr">Ressource</span><span data-tr="en">Resource</span></span>
+      <span class="chapter-duration"><span data-tr="fr">Tout le cours · un livret A4 · PDF</span><span data-tr="en">The whole course · one A4 book · PDF</span></span>
+    </div>
+    <h1 class="chapter-title"><span data-tr="fr">Le polycopié du cours</span><span data-tr="en">The course book</span></h1>
+    <p class="chapter-subtitle">
+      <span data-tr="fr">Tout le cours en un seul livret, à lire hors ligne, crayon en main. Le site le prolonge là où le papier s'arrête : dans la marge, des QR codes vous ramènent au bon endroit pour écouter, manipuler et vous corriger.</span>
+      <span data-tr="en">The whole course in a single book, to read offline, pencil in hand. The website picks up where paper leaves off: in the margin, QR codes take you back to the right spot to listen, experiment, and check your answers.</span>
+    </p>
+  </div>
+
+  <!-- gabarit:debut -->
+  <!-- Ce passage explique l'outillage du template : nouveau_cours.py le retire d'un cours créé. -->
+  <div class="callout info">
+    <div class="callout-icon">🔄</div>
+    <div class="callout-content">
+      <h4><span data-tr="fr">Un livret tiré des pages du site</span><span data-tr="en">A book drawn from the site's pages</span></h4>
+      <p><span data-tr="fr"><code>outils/generer_polycopie.py</code> lit les chapitres du site et compose le livret Word, puis Word en exporte le PDF ; <code>outils/publier_polycopie.py</code> le publie ici, avec sa couverture. Ce qui est propre au cours — la présentation de l'auteur, le pied de la couverture — vit dans <code>outils/livret.py</code>. Les QR codes du livret de démonstration portent une adresse d'exemple : un cours en ligne y met la sienne.</span>
+        <span data-tr="en"><code>outils/generer_polycopie.py</code> reads the site's chapters and builds the Word book, then Word exports the PDF; <code>outils/publier_polycopie.py</code> publishes it here, with its cover. What belongs to the course — the author's introduction, the cover footer — lives in <code>outils/livret.py</code>. The QR codes of the demo book carry an example address: a course that is online puts its own there.</span></p>
+    </div>
+  </div>
+  <!-- gabarit:fin -->
+
+  <section class="content-section">
+    <h2 id="poly-livret"><span data-tr="fr">1. Le livret</span><span data-tr="en">1. The book</span></h2>
+    <div class="poly-fiche">
+<!-- FRAGMENT:livret-couverture --><div data-tr="fr"><figure class="poly-couverture"><img src="livret/couverture.fr.webp" width="480" height="679" alt="Couverture du polycopié : « Concevoir un cours en ligne »"></figure></div><div data-tr="en"><figure class="poly-couverture"><img src="livret/couverture.en.webp" width="480" height="679" alt="Cover of the course book: “Designing an online course”"></figure></div><!-- /FRAGMENT:livret-couverture -->
+      <div class="poly-fiche-texte">
+<!-- FRAGMENT:livret-fiche --><div data-tr="fr"><p class="poly-titre">Concevoir un cours en ligne</p><p class="poly-sous-titre">Un cours-démo qui enseigne comment fabriquer un cours en ligne efficace — en utilisant les fonctionnalités qu'il démontre.</p><p class="poly-auteur">Mohamed EL AFRIT · Cours de démonstration · Template de site de cours · Première édition</p><p class="poly-telecharger"><a class="btn btn-primary" href="livret/livret.fr.pdf" download="Polycopie-Concevoir-un-cours-en-ligne.pdf">📘 Télécharger le polycopié</a></p><p class="poly-format">PDF · 23&nbsp;pages · 0,9&nbsp;Mo · en&nbsp;français</p></div><div data-tr="en"><p class="poly-titre">Designing an online course</p><p class="poly-sous-titre">A demo course that teaches how to build an effective online course — using the very features it showcases.</p><p class="poly-auteur">Mohamed EL AFRIT · Demo course · Course website template · First edition</p><p class="poly-telecharger"><a class="btn btn-primary" href="livret/livret.en.pdf" download="Course-book-Designing-an-online-course.pdf">📘 Download the course book</a></p><p class="poly-format">PDF · 23&nbsp;pages · 0.9&nbsp;MB · in&nbsp;English</p></div><!-- /FRAGMENT:livret-fiche -->
+      </div>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <h2 id="poly-contenu"><span data-tr="fr">2. Ce qu'il contient</span><span data-tr="en">2. What it contains</span></h2>
+    <p><span data-tr="fr">Le livret reprend le cours en ligne dans son ordre, avec les mêmes titres et les mêmes sections que le site : vous passez de l'un à l'autre sans rien chercher.</span>
+      <span data-tr="en">The book follows the online course in its order, with the same titles and the same sections as the site: you move from one to the other without searching.</span></p>
+    <ul>
+      <li><span data-tr="fr"><strong>Les chapitres</strong>, chacun ouvert par son mini-sommaire : le texte, les schémas expliqués élément par élément, les activités devenues exercices sur papier, « À retenir ».</span><span data-tr="en"><strong>The chapters</strong>, each opening with its contents: the text, the diagrams explained element by element, the activities turned into paper exercises, “Key points”.</span></li>
+      <li><span data-tr="fr"><strong>Le glossaire</strong> : le vocabulaire du cours, avec ses équivalents anglais.</span><span data-tr="en"><strong>The glossary</strong>: the course vocabulary, with its French equivalents.</span></li>
+      <li><span data-tr="fr"><strong>L'index</strong>, pour retrouver une notion : en gras, la page où la marge la définit.</span><span data-tr="en"><strong>The index</strong>, to find a notion again: in bold, the page where the margin defines it.</span></li>
+    </ul>
+  </section>
+
+  <section class="content-section">
+    <h2 id="poly-site"><span data-tr="fr">3. Le livret et le site</span><span data-tr="en">3. The book and the site</span></h2>
+    <p><span data-tr="fr">La grande marge extérieure de chaque page porte vos notes et des QR codes : visez-en un avec l'appareil photo de votre téléphone, il ouvre, au bon endroit, la ressource en ligne qui prolonge le paragraphe voisin. Dans le PDF, à l'écran, cliquez le QR code ou sa légende : ils mènent au même endroit.</span>
+      <span data-tr="en">The wide outer margin of each page holds your notes and QR codes: point your phone’s camera at one, and it opens, at the right spot, the online resource that extends the paragraph next to it. In the PDF, on screen, click the QR code or its caption: both lead to the same place.</span></p>
+    <div class="callout info">
+      <div class="callout-icon">🔎</div>
+      <div class="callout-content">
+        <h4><span data-tr="fr">Aucune réponse n'est imprimée</span><span data-tr="en">No answers are printed</span></h4>
+        <p><span data-tr="fr">Cherchez d'abord sur papier, puis scannez le QR code de l'activité : chaque réponse y est expliquée, la bonne comme les autres.</span><span data-tr="en">Work on paper first, then scan the activity’s QR code: every answer is explained there, the correct one and the others alike.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <h2 id="poly-imprimer"><span data-tr="fr">4. Pour l'imprimer</span><span data-tr="en">4. Printing it</span></h2>
+    <p><span data-tr="fr">Le livret se lit aussi à l'écran : les signets du PDF mènent droit à chaque chapitre et à chaque section. Pour l'imprimer : A4, taille réelle (100 %), recto verso — les marges sont en miroir, la grande marge toujours à l'extérieur. Le noir et blanc suffit : chaque encadré se reconnaît à son pictogramme, à son libellé et à son filet.</span>
+      <span data-tr="en">You can also read the book on screen: the PDF bookmarks lead straight to each chapter and each section. To print it: A4, actual size (100%), double-sided — the margins are mirrored, the wide margin always on the outside. Black and white is enough: each box can be recognized by its icon, its label, and its border.</span></p>
+  </section>
+
+  <section class="content-section">
+    <h2 id="poly-auteur"><span data-tr="fr">5. L'auteur</span><span data-tr="en">5. The author</span></h2>
+<!-- FRAGMENT:livret-auteur --><div data-tr="fr"><p>Ce texte présente l'auteur du cours : son parcours, ce qu'il enseigne et ce qui l'a conduit à écrire ce cours. Dans un cours créé depuis le gabarit, l'auteur l'écrit et le valide dans outils/livret.py ; le livret l'imprime alors mot pour mot.</p></div><div data-tr="en"><p>This text introduces the author of the course: their background, what they teach, and what led them to write this course. In a course created from the template, the author writes and approves it in outils/livret.py; the course book then prints it word for word.</p></div><!-- /FRAGMENT:livret-auteur -->
+  </section>
+
+</main>
+</div>
+
+<footer class="site-footer">
+  <p><span data-tr="fr">Cours-démo « Concevoir un cours en ligne » — </span><span data-tr="en">Demo course "Designing an online course" — </span><a href="#">Mohamed EL AFRIT</a></p>
+  <p class="license"><span class="cc-badges">MIT · CC BY 4.0</span> · <a href="about.html"><span data-tr="fr">À propos du template</span><span data-tr="en">About the template</span></a></p>
+</footer>
+
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/ui-labels.js"></script>
+<script src="assets/js/course-data.js"></script>
+<script src="assets/js/nav-sections.js"></script>
+<script src="assets/js/navigation.js"></script>
+<script src="assets/js/accessibility.js"></script>
+<script src="assets/js/animations.js"></script>
+</body>
+</html>

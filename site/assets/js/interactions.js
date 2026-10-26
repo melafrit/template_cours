@@ -1777,3 +1777,37 @@
     document.addEventListener('DOMContentLoaded', init);
   } else { init(); }
 })();
+
+/* -----------------------------------------------------------------
+   Pour le polycopié (outils/polycopie) : chaque fabrique de contenu garde
+   la configuration qu'elle a reçue, dans la langue affichée — ce que la
+   page calcule (textes, .map…) et qu'un lecteur du source ne verrait pas.
+   Ouverte avec ?polycopie (ou ?polycopie=en), la page l'écrit en JSON dans
+   <script type="application/json" id="rdcx-donnees">, que Chrome sans
+   interface rend au générateur (--dump-dom).
+   ----------------------------------------------------------------- */
+(function () {
+  var RDCX = window.RDCX || {};
+  var donnees = window.RDCX_DONNEES = {};
+  ['checkpoint', 'reveal', 'spotError', 'match', 'branch', 'hotspots', 'voice'].forEach(function (sorte) {
+    var fabrique = RDCX[sorte];
+    if (typeof fabrique !== 'function') return;
+    RDCX[sorte] = function (id, cfg) {
+      donnees[id] = { sorte: sorte, config: cfg };
+      return fabrique.apply(this, arguments);
+    };
+  });
+  var demande = /[?&]polycopie(?:=([a-z]{2}))?(?:&|$)/.exec(location.search);
+  if (!demande) return;
+  document.addEventListener('DOMContentLoaded', function () {
+    if (demande[1] && window.TPLI18N && TPLI18N.lang() !== demande[1]) TPLI18N.set(demande[1]);
+  });
+  window.addEventListener('load', function () {
+    var s = document.createElement('script');
+    s.type = 'application/json';
+    s.id = 'rdcx-donnees';
+    s.textContent = JSON.stringify({ langue: window.TPLI18N ? TPLI18N.lang() : '', composants: donnees })
+      .replace(/</g, '\\u003c');
+    document.body.appendChild(s);
+  });
+})();

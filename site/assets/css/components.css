@@ -1080,3 +1080,39 @@ html.pod-v-ouverte { overflow: hidden; }
 @media print {
   .pod-renvoi, .pod-diapos, .pod-lecteur { display: none; }
 }
+
+/* =========================================================
+   Le polycopié (module 02) : la fiche du livret, sur la page
+   polycopie.html. La couverture (page 1 du PDF, en WebP) à
+   gauche du titre, de l'auteur et du bouton de téléchargement ;
+   sur téléphone, l'une au-dessus des autres. La vignette, la
+   fiche et la présentation de l'auteur sont des fragments
+   (outils/polycopie/page.py), que outils/publier_polycopie.py
+   fait réécrire à chaque publication.
+   ========================================================= */
+.poly-fiche {
+  display: grid; grid-template-columns: minmax(150px, 220px) minmax(0, 1fr); gap: var(--space-6); align-items: center;
+  margin: var(--space-6) 0 var(--space-2); padding: var(--space-6); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); background: var(--bg-card-alt);
+}
+.poly-couverture { margin: 0; }
+.poly-couverture img {
+  display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 3px;
+  background: #FFFFFF; box-shadow: var(--shadow-md);
+}
+.poly-couverture.poly-a-venir {
+  aspect-ratio: 210 / 297; border: 1px dashed var(--border); border-radius: 3px; background: var(--bg-card);
+}
+.poly-fiche .poly-titre { margin: 0 0 var(--space-2); font-family: var(--font-display); font-size: var(--fs-2xl); font-weight: 800; line-height: var(--lh-tight); color: var(--text-primary); }
+.poly-fiche .poly-sous-titre { margin: 0 0 var(--space-3); font-style: italic; line-height: var(--lh-normal); }
+.poly-fiche .poly-auteur { margin: 0 0 var(--space-5); font-family: var(--font-display); font-size: var(--fs-sm); font-weight: 600; color: var(--text-muted); }
+.poly-fiche .poly-telecharger { margin: 0 0 var(--space-2); }
+.poly-telecharger .btn { padding: var(--space-3) var(--space-6); font-size: var(--fs-base); box-shadow: var(--shadow-sm); }
+.poly-telecharger .btn:hover, .poly-telecharger .btn:focus-visible { color: #FFFFFF; box-shadow: var(--shadow-md); }
+.poly-fiche .poly-format { margin: 0; font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--text-muted); }
+@media (max-width: 600px) {
+  .poly-fiche { grid-template-columns: minmax(0, 1fr); justify-items: center; gap: var(--space-5); padding: var(--space-5); text-align: center; }
+  .poly-couverture { width: min(200px, 64%); }
+  .poly-fiche .poly-titre { font-size: var(--fs-xl); }
+  .poly-telecharger .btn { justify-content: center; }
+}

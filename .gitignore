@@ -29,6 +29,12 @@ venv/
 # versionnés, jamais publiés. outils/generer_podcasts.py en tire les MP3 et les diapositives de site/, qui le sont.
 /Podcasts/
 
+# Le polycopié (module 02) : son espace de travail n'est jamais publié (hors de site/) ; ses images et QR codes se
+# regénèrent, le témoin et les PDF de travail aussi. Seul le Word du livret complet est versionné.
+/Polycopie/_cache/
+/Polycopie/temoin/
+/Polycopie/*.pdf
+
 # Sorties générées par les scripts Python (régénérables)
 tools/out/
 

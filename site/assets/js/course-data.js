@@ -20,8 +20,9 @@ window.COURSE = {
       title: { fr: "Créer les ressources", en: "Creating the resources" } }
   ],
   resources: [
+    { ico: '📘', href: 'polycopie.html',    label: { fr: "Polycopié", en: "Course book" } },
     { ico: '📄', href: 'polycopies.html',
-      label: { fr: "Polycopiés", en: "Handouts" } },
+      label: { fr: "Fiches de synthèse", en: "Summary sheets" } },
     { ico: '🎙️', href: 'podcasts.html',     label: { fr: "Podcasts", en: "Podcasts" } },
     { ico: '📚', href: 'glossaire.html',   label: { fr: "Glossaire bilingue", en: "Bilingual glossary" } },
     { ico: '🧩', href: 'activites.html',     label: { fr: "Activités interactives", en: "Interactive activities" } },
