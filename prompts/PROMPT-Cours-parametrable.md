@@ -348,10 +348,11 @@ journal. Celles qui reviennent à chaque étape :
 - Chaque chapitre : capsule d'ouverture, sections numérotées (h2 id), composants RDCX là
   où une notion se joue, point de contrôle expliqué en fin de section, schéma expliqué
   élément par élément, « à retenir », flashcards.
-- Menu, dans le même ordre pour chaque langue : « Accueil du cours » en tête
-  [[SI modules.polycopie.actif]], « 📘 Polycopié » juste après [[FIN]]
-  [[SI modules.podcasts.actif]], puis « 🎙️ Podcasts » [[FIN]] ; ensuite les chapitres et
-  les ressources ; « 🏋️ QCM d'entraînement » [[SI modules.evaluations.correction_publique]],
+- Menu, dans le même ordre pour chaque langue : « Accueil du cours » en tête ; ensuite les
+  chapitres, puis les ressources de `course-data.js`
+  [[SI modules.polycopie.actif]], « 📘 Polycopié » en tête des ressources [[FIN]]
+  [[SI modules.podcasts.actif]], « 🎙️ Podcasts » parmi elles [[FIN]] ;
+  « 🏋️ QCM d'entraînement » [[SI modules.evaluations.correction_publique]],
   suivi aussitôt de « ✅ Correction des QCM » (page publique : chaque question, sa
   réponse, ses explications ; jamais la correction protégée du TP) [[FIN]].
 - Accessibilité : clavier, aria, .sr-only, contrastes vérifiés dans les deux thèmes,

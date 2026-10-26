@@ -66,8 +66,9 @@ Une question à la fois ; entre parenthèses, le choix retenu sur le cours de r�
   pas à pas, les schémas, la Boîte à outils, « et maintenant ? »).
 - **Les voix** (NotebookLM d'abord ; la voix clonée de l'auteur plus tard, épisode par
   épisode — voir la section 7).
-- **La place** (« 🎙️ Podcasts » juste après « 📘 Polycopié » en tête du menu ; une carte
-  sur l'accueil, à côté de celle du polycopié).
+- **La place** (« 🎙️ Podcasts » parmi les ressources du menu, après « 📘 Polycopié », qui
+  les ouvre ; le cours de référence les met tous deux en tête du menu, juste après
+  « Accueil du cours » ; une carte sur l'accueil, à côté de celle du polycopié).
 - **Les renvois** (un encadré par chapitre et par page de ressource, une ligne sur la page
   du polycopié, un QR code à l'ouverture de chaque partie du livret).
 - **La mention** (une ligne en pied de page : voix générées par IA).
