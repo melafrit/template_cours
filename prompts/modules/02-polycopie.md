@@ -4,7 +4,8 @@
 > qu'on annote et qu'on révise hors écran, relié au site par des QR codes.
 >
 > **Paramètres.** `modules.polycopie.actif`. Le livret anglais suit si le module bilingue
-> est actif.
+> est actif. Dans `cours.json`, le bloc « livret » amène la chaîne et la page (inactif par
+> défaut ; il demande le bloc « glossaire »).
 >
 > **Place.** Phase 10 du tronc : après les contenus, les évaluations, les compléments et la
 > version anglaise ; avant les podcasts, que NotebookLM tire du livret et dont les QR codes
@@ -29,18 +30,53 @@ Il existe en **Word** (en local et sur le dépôt, jamais publié) et en **PDF**
 format téléchargeable, uniquement sur le site). Si le cours est bilingue, un **livret
 anglais** suit le français.
 
-Sur le site : une page « 📘 Polycopié » (« 📘 Course Book » en anglais) qui présente le
-livret et le fait télécharger, une entrée de menu juste après « Accueil du cours », une
-carte sur l'accueil.
+Sur le site : une page « 📘 Polycopié » (« 📘 Course book » en anglais) qui présente le
+livret et le fait télécharger ; son entrée en tête des ressources du menu, avant les
+fiches de synthèse par chapitre (« 📄 Fiches de synthèse », bloc « polycopies » : les deux
+se cumulent) ; une carte sur l'accueil, si l'auteur la veut.
 
 ---
 
-## 2. Le modèle : le cours d'architecture logicielle (lecture seule)
+## 2. Le point de départ : la chaîne du gabarit, et son modèle
 
-Ce travail a été fait de bout en bout sur `C:\projets\Cours\Cours_Architecture_Logicielle`
-(décisions D114 à D122). **Étudie-le avant de concevoir quoi que ce soit, et n'y modifie
-jamais rien** — pas même un `__pycache__` : lis ses modules Python, ne les importe pas.
-Ses fichiers secrets valent ceux du cours : ne les lis jamais.
+**Le gabarit fournit l'outillage**, repris en générique et bilingue du cours de
+référence. Un cours créé avec le bloc « livret » le reçoit ; un cours créé sans, ou avant,
+recopie depuis le gabarit les fichiers du tableau et ajoute l'entrée du menu dans
+`course-data.js`.
+
+| Fichier | Rôle |
+|---|---|
+| `outils/generer_polycopie.py` | compose le livret Word, puis le PDF par Word, dans `Polycopie/` (jamais publié) |
+| `outils/polycopie/` | le paquet : sources, libelles, navigateur, lecture, gabarit, ooxml, pictos, images, qr, rendu, pages, word, controles, page |
+| `outils/livret.py` | la fiche du livret : ce que le site ne dit pas — pied de couverture, catégorie, année du copyright, **présentation de l'auteur** (le livret refuse de s'écrire sans elle), cas fictif, adresses à nommer, noms gardant leur minuscule, chapitres du témoin |
+| `outils/publier_polycopie.py` | contrôle le PDF, le publie dans `site/livret/` avec la vignette de sa couverture et `livret.json`, puis réécrit la page |
+| `site/polycopie.html` | la page : fragments `livret-couverture`, `livret-fiche`, `livret-auteur`, écrits par `outils/generer_fragments.py` |
+| `site/assets/js/interactions.js` | l'enregistreur : chaque composant RDCX garde sa configuration ; l'adresse `?polycopie=fr` (ou `en`) la dépose dans la page, que Chrome sans interface lit |
+
+Le livret se tire des pages du site, sans rien recopier : les chapitres de
+`course-data.js` dans leur ordre ; leurs composants (checkpoint, reveal, match, spotError,
+branch, hotspots, voice) devenus exercices sur papier, chacun corrigé en ligne derrière
+son QR code ; le glossaire de `glossaire-data.js` en fin de livret, dans la marge (la
+définition à la première rencontre du terme) et dans l'index. Les QR codes portent
+l'« url » de `deploiement/destination.json` ; sans elle, une adresse d'exemple, et la
+vérification en ligne n'a pas lieu.
+
+**Étendre le vocabulaire.** Un composant nouveau du moteur s'ajoute à l'enregistreur
+(`interactions.js`, la liste des sortes), puis à `rendu.Rendu.activite` ; un encadré
+nouveau, à `lecture.py` (sa classe CSS) et à `rendu.STYLES_ENCADRES` ; un libellé, à
+`libelles.py`, dans les deux langues. **Un schéma à zones** dont les titres sont numérotés
+(« 1. Le public ») garde son image telle quelle, et l'encadré de lecture reprend ses
+numéros : c'est le rendu le plus propre. Sinon chaque zone reçoit une pastille numérotée,
+posée dans le blanc le plus proche de son point.
+
+**Ce que le gabarit n'a pas** et que le modèle montre : la bibliographie, les fiches mémo
+en pleine page, l'étude de cas et le TP pas à pas, les filières, le manifeste des QR codes.
+
+**Le modèle : le cours d'architecture logicielle (lecture seule).** Ce travail a été fait
+de bout en bout sur `C:\projets\Cours\Cours_Architecture_Logicielle` (décisions D114 à
+D122). **Étudie-le pour ce que le gabarit n'a pas, et n'y modifie jamais rien** — pas même
+un `__pycache__` : lis ses modules Python, ne les importe pas. Ses fichiers secrets valent
+ceux du cours : ne les lis jamais.
 
 | À lire | Ce qu'on y trouve |
 |---|---|
@@ -96,8 +132,8 @@ Une question à la fois ; entre parenthèses, le choix retenu sur le cours de r�
   fais-la valider avant qu'elle entre dans le livret).
 - **Sur le site** (la page « 📘 Polycopié » : couverture, bouton de téléchargement, PDF,
   pages, poids, langue ; ce que contient le livret ; ses QR codes ; comment l'imprimer ;
-  l'auteur — entrée de menu juste après « Accueil du cours » ; carte sur l'accueil, qui mène
-  à la page et non au PDF).
+  l'auteur — la page du gabarit a tout cela ; entrée de menu en tête des ressources ; carte
+  sur l'accueil, qui mène à la page et non au PDF).
 - **Podcasts**, si le module 03 est actif (un QR code « PODCAST » à l'ouverture de chaque
   partie, vers l'épisode qui la raconte ; posé une fois les épisodes publiés).
 - **Production** (un **témoin** d'abord, validé par l'auteur ; puis le **livret
@@ -114,11 +150,12 @@ Selon le cours, deux décisions de plus :
 
 ---
 
-## 4. L'architecture à reprendre (et à adapter)
+## 4. L'architecture (celle du gabarit, à adapter)
 
 - **Une chaîne, pensée pour durer** : `outils/generer_polycopie.py` (options `--temoin`,
   `--anglais`, `--essai`, `--sans-pdf`, `--hors-ligne`, `--apercus`, `--images`,
-  `--verrou`, `--sortie`, `--manifeste`) et un paquet `outils/polycopie/` : lecture des
+  `--verrou`, `--sortie` ; le cours de référence y ajoute `--manifeste`) et un paquet
+  `outils/polycopie/` : lecture des
   pages du site (le contenu de `<main>`) en blocs Word — intertitres, paragraphes, listes,
   tableaux, figures, encadrés, activités, capsules, termes du glossaire ; un lien vers une
   autre partie du livret devient un renvoi « (p. n) » ; libellés dans les deux langues. Les
@@ -145,16 +182,18 @@ Selon le cours, deux décisions de plus :
   titre posés dans le PDF.
 - **Schémas** : les SVG du site, photographiés en PNG haute définition par Chrome sans
   interface.
-- **Fiches mémo** : dans le Word, une image pleine page ; dans le PDF, la page est
+- **Fiches mémo** (cours de référence) : dans le Word, une image pleine page ; dans le PDF, la page est
   remplacée par la fiche vectorielle du site, dont les réponses imprimées s'effacent au
   profit du QR code de la fiche en ligne.
-- **Publication** : `outils/publier_polycopie.py [--anglais] [--essai]` contrôle le PDF
-  (titre, langue, nombre de pages, poids), le copie dans le dossier publié, rend la
-  vignette de la couverture et réécrit la fiche de téléchargement des pages entre des
-  marqueurs.
+- **Publication** : `outils/publier_polycopie.py [--anglais] [--essai] [--pdf <chemin>]`
+  contrôle le PDF (titre, langue, nombre de pages, poids), le copie dans `site/livret/`,
+  rend la vignette de la couverture, écrit `livret.json` et réécrit la fiche de
+  téléchargement de la page (ses fragments). Le nom proposé au téléchargement suit la
+  langue du livret : `Polycopie-<titre>.pdf`, `Course-book-<titre>.pdf`.
 - **Dossier de travail `Polycopie/`**, hors du site publié : jamais déployé ; seuls les
   Word y sont versionnés (le témoin, les PDF de travail et `_cache/` sont ignorés). Si le
-  cours est bilingue, la page anglaise propose le livret anglais.
+  cours est bilingue, la page anglaise propose le livret anglais ; tant qu'il n'est pas
+  publié, le français, marqué `hreflang="fr"`.
 
 ---
 
@@ -191,6 +230,9 @@ commit séparé.
   (identifiant d'ancre, paramètre de l'index) avant d'y poser des QR codes.
 - **PyMuPDF ne lit pas le WebP** : les planches de contrôle qui en contiennent passent par
   Pillow.
+- **Une image pas encore produite** (une adresse vide, comme dans un squelette de chapitre)
+  ne s'imprime pas : la génération la signale (« schéma absent du site », « image absente
+  du site »). Un livret à publier n'en signale aucune.
 
 ---
 
@@ -218,8 +260,9 @@ décisions, l'état d'avancement, le guide de production et `TODO.md` sont à jo
 
 ## 8. Pour commencer
 
-1. Lis le dépôt du cours (structure, pages, générateurs, `docs\`, `TODO.md`) et le modèle
-   de la section 2.
+1. Lis le dépôt du cours (structure, pages, générateurs, `docs\`, `TODO.md`), la chaîne
+   du gabarit et le modèle de la section 2 ; si le cours n'a pas la chaîne, recopie-la
+   depuis le gabarit.
 2. Fais l'inventaire chiffré de ce que le livret contiendra : chapitres et sections,
    schémas (avec ou sans lecture), capsules audio, activités et QCM, ressources, fiches
    mémo, termes du glossaire, références, documents du TP, épisodes du podcast. Recompte

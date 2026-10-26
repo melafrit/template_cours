@@ -1,11 +1,24 @@
 ---
 name: cours-supports-imprimables
-description: Produit les SUPPORTS IMPRIMABLES du template_cours avec les générateurs Python — polycopiés de synthèse (DOCX + PDF) et QCM papier (DOCX). À utiliser quand on demande des documents à imprimer, distribuer ou réviser hors écran. Mots-clés FR — polycopié, support imprimable, fiche de synthèse, QCM papier, version papier, imprimer, PDF, DOCX, Word, grille de réponses, corrigé, barème CBM. EN keywords — handout, printable support, paper quiz, answer grid, marking key, generate documents, print.
+description: Produit les SUPPORTS IMPRIMABLES du template_cours avec les générateurs Python — le polycopié (tout le cours en un livret Word et PDF à QR codes, outils/generer_polycopie.py), les fiches de synthèse par chapitre (DOCX + PDF) et le QCM papier (DOCX). À utiliser quand on demande des documents à imprimer, distribuer ou réviser hors écran. Mots-clés FR — polycopié, livret, livre du cours, QR code, support imprimable, fiche de synthèse, QCM papier, version papier, imprimer, PDF, DOCX, Word, grille de réponses, corrigé, barème CBM. EN keywords — course book, handout, summary sheet, QR code, printable support, paper quiz, answer grid, marking key, generate documents, print.
 ---
 
-# Supports imprimables — polycopiés & QCM papier (générateurs Python)
+# Supports imprimables — polycopié, fiches de synthèse & QCM papier (générateurs Python)
 
-Deux générateurs Python, dans `tools/`, transforment le contenu du cours en documents imprimables **bilingues FR/EN**. On **n'écrit jamais les DOCX/PDF à la main** : on édite la source (JSON ou banque QCM), puis on relance le script.
+Trois générateurs Python transforment le contenu du cours en documents imprimables **bilingues FR/EN**. On **n'écrit jamais les DOCX/PDF à la main** : on édite la source (les pages du site, un JSON ou la banque QCM), puis on relance le script.
+
+## 0. Le polycopié — `outils/generer_polycopie.py` (bloc `livret`, module 02)
+
+Tout le cours en **un livret A4**, tiré des pages du site : garde, mentions, présentation de l'auteur, mini-sommaires, schémas expliqués, activités devenues exercices sur papier, glossaire, index ; des **QR codes cliquables** dans la grande marge, **aucune réponse imprimée**. La méthode complète, ses décisions et ses contrôles : `prompts/modules/02-polycopie.md`.
+
+```bash
+python3 outils/generer_polycopie.py --temoin                    # le témoin, validé par l'auteur avant tout
+python3 outils/generer_polycopie.py --verrou <fichier>          # le livret français : Polycopie/ (jamais publié)
+python3 outils/generer_polycopie.py --anglais --verrou <fichier> # le livret anglais
+python3 outils/publier_polycopie.py [--anglais] [--essai]       # → site/livret/ et la page « 📘 Polycopié »
+```
+
+Source : les pages du site, `course-data.js`, `glossaire-data.js` et la fiche `outils/livret.py` (présentation de l'auteur, validée par lui, imprimée mot pour mot). Demande Microsoft Word (export PDF, sous verrou : un seul export à la fois) et Chrome ou Edge (photographies, composants).
 
 ## Installation
 
@@ -17,9 +30,9 @@ pip install -r tools/requirements.txt
 - Les sorties vont dans **`tools/out/`** : dossier **gitignoré et régénérable**, à ne pas versionner.
 - Toutes les commandes **sans argument de langue produisent FR **et** EN** (`both` par défaut).
 
-## 1. Polycopiés de synthèse — `generate_polycopies.py`
+## 1. Fiches de synthèse — `generate_polycopies.py`
 
-Produit, **par chapitre**, un polycopié académique (mini-sommaire, encadrés colorés, « à retenir ») en **DOCX + PDF**.
+Produit, **par chapitre**, une fiche de synthèse académique (mini-sommaire, encadrés colorés, « à retenir ») en **DOCX + PDF** ; au menu, « 📄 Fiches de synthèse », à côté du polycopié complet.
 
 ```bash
 python tools/generate_polycopies.py          # FR + EN (défaut)
@@ -86,6 +99,7 @@ Pour modifier le QCM papier, on **corrige la banque** (`questions.js` / `correct
 
 ## Pour aller plus loin
 
+- `prompts/modules/02-polycopie.md` — le polycopié : décisions, architecture, pièges, contrôles.
 - `tools/README.md` — référence des commandes et du schéma.
 - `prompts/12_polycopies.md` — polycopiés : structure pédagogique, exigence d'exactitude, checklist.
 - `prompts/08_qcm_papier.md` — QCM papier : contrôle d'intégrité de la banque, mise en page compacte N&B, checklist avant impression.

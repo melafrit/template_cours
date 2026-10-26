@@ -143,6 +143,26 @@ Pour **chaque** chapitre :
 
 ---
 
+## Phase 8 bis — Le polycopié (bloc `livret`, module 02)
+
+- [ ] Fiche du livret remplie : `outils/livret.py` — présentation de l'auteur **validée
+      par lui**, pied de couverture, catégorie, année
+- [ ] **Témoin** généré (`python3 outils/generer_polycopie.py --temoin`) et **validé par
+      l'auteur** avant le livret complet 🔴
+- [ ] Livret français, puis anglais si le cours est bilingue : 0 anomalie aux contrôles
+      (adresses et ancres des QR codes, règles du livret, champs, QR codes relus et
+      cliquables) ; aucun schéma ni aucune image signalés absents
+- [ ] Chaque page du PDF relue à l'œil (`--apercus`) : marge, QR codes, mini-sommaires,
+      encadrés, schémas nets
+- [ ] Publié : `python3 outils/publier_polycopie.py [--anglais]` ; `--essai` n'a plus
+      rien à publier
+- [ ] Page « 📘 Polycopié » vérifiée au navigateur : couverture, téléchargement, format,
+      auteur ; à 1280 et 375 px, en clair et en sombre
+- [ ] Le Word du livret complet versionné ; `Polycopie/temoin/`, les PDF de travail et
+      `Polycopie/_cache/` ignorés
+
+---
+
 ## Phase 9 — QCM papier imprimable (DOCX)
 
 - [ ] Page de garde présente

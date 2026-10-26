@@ -16,6 +16,9 @@ site/
 ├── activites.html              # Démos des 3 patrons d'activités de tools.js
 ├── atelier.html                # Atelier « fil rouge » (page de contenu statique)
 ├── podcasts.html               # La série de podcasts : lecteur, résumé, diapositives (module 03)
+├── polycopie.html              # Le polycopié : le livret A4 à télécharger, relié au site par ses QR codes (module 02)
+├── polycopies.html             # Les fiches de synthèse par chapitre (tools/generate_polycopies.py)
+├── livret/                     # Le livret publié : livret.<langue>.pdf, couverture.<langue>.webp, livret.json
 ├── about.html                  # À propos / crédits / licences
 │
 ├── chapitres/                  # Une page HTML par chapitre
@@ -130,7 +133,7 @@ tout ce qui rend un chapitre interactif.
 | Fichier | Rôle | Lit | Persiste (localStorage) |
 |---|---|---|---|
 | **ui-labels.js** | `window.UI_LABELS` + l'accesseur `T('cle')` : **tous** les textes d'interface fabriqués en JavaScript, en FR et EN. Un libellé écrit en dur dans un moteur est un défaut : il ne se traduira pas. | `TPLI18N.lang()` | — |
-| **interactions.js** | `window.RDCX` — le moteur pédagogique. Sept composants : `checkpoint` (point de contrôle ; avec `pourquoi` et `approfondir`, il explique chaque proposition écartée et propose des renvois — internes dans l'onglet, externes dans un nouvel onglet signalé aux lecteurs d'écran), `reveal` (révélation d'une réponse), `spotError` (repérage d'erreurs dans un document), `match` (appariement), `branch` (scénario à embranchements), `hotspots` (schéma à points chauds), `voice` (capsule audio). Plus `steps` (lecture par étapes), `sommaire` (barre de sommaire collante) et le **repli de l'en-tête de chapitre**, montés automatiquement. | attributs `data-step`, `data-sommaire-titre` des sections | `rdc-step-<N>`, `rdc-entete-<page>` |
+| **interactions.js** | `window.RDCX` — le moteur pédagogique. Sept composants : `checkpoint` (point de contrôle ; avec `pourquoi` et `approfondir`, il explique chaque proposition écartée et propose des renvois — internes dans l'onglet, externes dans un nouvel onglet signalé aux lecteurs d'écran), `reveal` (révélation d'une réponse), `spotError` (repérage d'erreurs dans un document), `match` (appariement), `branch` (scénario à embranchements), `hotspots` (schéma à points chauds), `voice` (capsule audio). Plus `steps` (lecture par étapes), `sommaire` (barre de sommaire collante) et le **repli de l'en-tête de chapitre**, montés automatiquement. En fin de fichier, l'**enregistreur** garde la configuration de chaque composant (`window.RDCX_DONNEES`) ; l'adresse `?polycopie=fr` (ou `en`) la dépose dans la page, où `outils/polycopie/navigateur.py` la lit pour composer le livret (module 02). | attributs `data-step`, `data-sommaire-titre` des sections | `rdc-step-<N>`, `rdc-entete-<page>` |
 | **playlist.js** | Panneau latéral rassemblant les pistes du cours, avec enchaînement automatique et tiroir sur mobile. **Filtre par langue** : une piste marquée `langue` n'apparaît que dans cette langue. | `RDC_PLAYLIST` | `rdc-playlist-ouverte` |
 | **quiz.js** | Quiz simple en cours de chapitre (distinct du QCM noté, qui vit dans `site/QCM/`). | config passée à l'appel | — |
 
@@ -197,7 +200,10 @@ La page Podcasts et les encadrés « Le podcast du chapitre » en sont aussi (fr
 `podcasts`, `podcasts-etat`, `podcasts-mention`, `podcast-N`) : leur source est
 `outils/podcasts.py`, et `outils/generer_podcasts.py` publie les fichiers qu'ils
 annoncent (MP3 mono à 64 kbit/s, PDF, diapositives WebP), à partir des dépôts de
-`Podcasts/`, jamais versionnés.
+`Podcasts/`, jamais versionnés. La page du polycopié aussi (fragments
+`livret-couverture`, `livret-fiche`, `livret-auteur`) : leur source est
+`outils/polycopie/page.py`, qui lit `outils/livret.py` et l'inventaire
+`site/livret/livret.json` qu'écrit `outils/publier_polycopie.py`.
 
 **Source unique de vérité.** `course-data.js` pilote l'arbre de navigation *partout*. `nav-sections.js` reflète les `<h2 id>` réels de chaque chapitre : relancer `outils/generer_nav_sections.py` après tout ajout, retrait ou renommage de section (`--essai` dit s'il est à jour, sans rien écrire). Les `id` de questions (`Q01`…) doivent **correspondre** entre `questions.js` et `corrections.js`.
 

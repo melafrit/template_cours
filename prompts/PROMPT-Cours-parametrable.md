@@ -168,7 +168,7 @@ modules:
     actif: false
     modele: "miroir"            # pages jumelles sous en/ ; "data-tr" (blocs jumelés) en secours : voir le module
   polycopie:                    # 02 — le livret Word et PDF
-    actif: false
+    actif: false                # (cours.json : le bloc « livret » amène la chaîne et la page ; il demande le glossaire)
   podcasts:                     # 03 — NotebookLM
     actif: false
     episodes: 0                 # 0 = à proposer (le cours de référence en compte 12)
