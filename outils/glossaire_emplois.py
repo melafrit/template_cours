@@ -50,7 +50,10 @@ for flux in (sys.stdout, sys.stderr):
 EXCLUES = ("glossaire.html", "about.html", "QCM/correction/", "QCM/dashboard/", "podcasts.html", "polycopie.html")
 BALISES_SAUTEES = {"script", "style", "pre", "code", "svg", "button", "nav", "template", "noscript", "select",
                    "textarea"}
-CLASSES_SAUTEES = {"sr-only", "chapter-pagination", "chapter-nav"}
+# hors-glossaire : un homonyme balisé par la page (la « requête » HTTP d'une API n'est pas la requête de recherche du
+# glossaire) ; les info-bulles le sautent aussi (glossaire-tooltip.js), sinon « Où en parle-t-on ? » renverrait à un
+# autre sens du mot.
+CLASSES_SAUTEES = {"sr-only", "chapter-pagination", "chapter-nav", "hors-glossaire"}
 VIDES = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "source", "track", "wbr"}
 ARRETS = {"de", "du", "des", "à", "au", "aux", "en", "par", "pour", "sur", "sans", "entre", "la", "le", "les", "et",
           "ou", "dans", "avec"}

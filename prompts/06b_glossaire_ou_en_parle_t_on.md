@@ -49,7 +49,9 @@ Une fois le glossaire produit (prompt `06`) et les pages du cours écrites — c
 >    Relever dans les pages les formes que le glossaire ne connaît pas encore (« SLI », « manœuvre
 >    inverse »…) et les déclarer. Écarter les emplois qui ne désignent pas la notion
 >    ({{EXEMPLES_DOUBLE_SENS}}) : une expression, ou une fiche entière où le mot a un autre sens d'un bout à
->    l'autre. Ces exclusions vivent dans la source du glossaire ; rien ne les signale sur la page.
+>    l'autre. Ces exclusions vivent dans la source du glossaire ; rien ne les signale sur la page. Un
+>    homonyme isolé peut aussi se baliser dans la page, `<span class="hors-glossaire">…</span>` : il n'a
+>    alors ni info-bulle ni emploi.
 > 5. Ne comptent pas : le code, les schémas, les boutons, la navigation, ce qui est masqué, et ce que les
 >    scripts dessinent après coup (quiz des fiches, transcriptions audio, exercices), sauf les flashcards
 >    et le QCM, lus dans leurs données. Dans le QCM, seul l'énoncé compte : surligner une proposition

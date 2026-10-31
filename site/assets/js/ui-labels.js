@@ -173,6 +173,7 @@ window.UI_LABELS = {
 
     /* ---- glossaire ---- */
     'glossaire.voir': '→ Voir au glossaire',
+    'glossaire.fermerBulle': 'Fermer la définition',
 
     /* ---- flashcards ---- */
     'flash.question': 'Question',
@@ -388,6 +389,7 @@ window.UI_LABELS = {
 
     /* ---- glossary ---- */
     'glossaire.voir': '→ See in the glossary',
+    'glossaire.fermerBulle': 'Close the definition',
 
     /* ---- flashcards ---- */
     'flash.question': 'Question',

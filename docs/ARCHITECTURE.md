@@ -342,7 +342,9 @@ Dans `assets/js/glossaire-data.js`, ajouter au tableau `window.GLOSSARY` :
   ex:  { fr: "Exemple FR.",    en: "Example EN." } }
 ```
 - `glossaire.html` régénère sa grille (recherche FR+EN, compteur, suit la bascule de langue).
-- `glossaire-tooltip.js` repère automatiquement la **1re occurrence** du terme (dans la langue courante) dans le texte des chapitres et y greffe l'info-bulle. Pour ne lier qu'une sélection de termes, ajoutez `curated: true` aux entrées voulues et décommentez le filtre dans `curated()` (`glossaire-tooltip.js`). Des **alias** (variantes orthographiques → entrée canonique) se règlent dans l'objet `ALIASES` du même fichier.
+- `glossaire-tooltip.js` repère la **1re occurrence** de chaque terme de la liste curatée `GLOSSARY_CURATED` (dans `glossaire-data.js` ; variantes facultatives dans `GLOSSARY_ALIASES`) et y greffe l'info-bulle. Sur une page anglaise du site miroir (`en/`), le terme se cherche par sa forme anglaise (`en`, `alias.en`, pluriel régulier). Les expressions d'`exclus` ne comptent pas, dans la langue de la page.
+- Un **homonyme** isolé se balise dans la page : `<span class="hors-glossaire">requête HTTP</span>` n'a ni info-bulle, ni emploi dans « Où en parle-t-on ? » (`outils/glossaire_emplois.py`).
+- Sur téléphone et tablette, la bulle s'ouvre en bandeau au bas de l'écran ; sur ordinateur, elle se pose sous son mot et reste dans la fenêtre. Échap la referme.
 
 ### 4.5 Ajouter une activité interactive (les 3 patrons de `tools.js`)
 
