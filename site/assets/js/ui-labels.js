@@ -45,6 +45,9 @@ window.UI_LABELS = {
     'lecteur.aEnregistrer': 'Capsule à enregistrer — fichier attendu :',
     'lecteur.prevu': '(prévu)',
     'lecteur.capsule': 'Capsule audio',
+    'lecteur.aVenir': 'Capsule audio bientôt disponible.',
+    'lecteur.aVenirTranscription': 'Capsule audio bientôt disponible — en attendant, lisez sa transcription.',
+    'lecteur.fichierAttendu': 'Fichier attendu\u00a0: ',
 
     /* ---- playlist ---- */
     'playlist.titre': 'Pistes audio',
@@ -52,6 +55,8 @@ window.UI_LABELS = {
     'playlist.basculer': 'Afficher ou masquer les pistes audio',
     'playlist.aEnregistrer': 'Piste à enregistrer',
     'playlist.sections': 'Afficher ou masquer les sections',
+    'playlist.lire': 'Lire\u00a0: ',
+    'playlist.aria': 'Pistes audio du cours',
 
     /* ---- étapes de lecture ---- */
     'etapes.etape': 'Étape',
@@ -77,6 +82,18 @@ window.UI_LABELS = {
     'etapes.sur': '/',
     'etapes.reste': '⏱ reste ≈',
     'etapes.surN': 'sur',
+    'etapes.parcours': 'Parcours du chapitre',
+    'etapes.bilan': 'Bilan',
+    'etapes.bonnesReponses': 'bonnes réponses.',
+    'etapes.reprendre': 'Reprendre où vous en étiez — section',
+    'etapes.reprendreTitre': '\u00a0:\u00a0«\u00a0{t}\u00a0»',
+    'etapes.masquerReprise': 'Masquer la proposition de reprise',
+    'objectifs.compte1': '{n} / {total} objectif coché',
+    'objectifs.compteN': '{n} / {total} objectifs cochés',
+    'progression.aria': 'Progression dans le chapitre',
+    'progression.valeur': 'Section {n} sur {total}',
+    'progression.etiquette': 'Section {n} / {total}',
+    'progression.section': 'Section {n}',
 
     /* ---- point de contrôle ---- */
     'controle.titre': 'Point de contrôle',
@@ -104,11 +121,20 @@ window.UI_LABELS = {
     'controle.deuxPoints': ' : ',
     'controle.votreChoix': '— votre choix',
     'controle.approfondir': '📚 Pour approfondir :',
+    'controle.indice': 'Indice\u00a0:',
+    'controle.repondreDabord': "Répondez d'abord — même approximativement.",
+    'controle.pourquoi': 'Pourquoi\u00a0:',
     'lien.nouvelOnglet': '(nouvel onglet)',
 
     /* ---- repérage d'erreurs ---- */
     'erreurs.titre': 'Repérez les erreurs',
     'erreurs.bilan': "Vous savez maintenant relire ce type de document d'un œil critique.",
+    'erreurs.compte1': '{n} / {total} erreur trouvée',
+    'erreurs.compteN': '{n} / {total} erreurs trouvées',
+    'erreurs.erreur': '⚠ Erreur.',
+    'erreurs.correct': 'Celui-ci est correct.',
+    'erreurs.ailleurs': 'Cherchez ailleurs.',
+    'erreurs.toutes': '🎯 Toutes les erreurs sont repérées.',
 
     /* ---- appariement ---- */
     'match.consigne': 'Associez chaque élément',
@@ -116,6 +142,14 @@ window.UI_LABELS = {
     'match.paires': 'paires trouvées',
     'match.trouvee': 'trouvée',
     'match.sur': 'sur',
+    'match.compte1': '{n} / {total} paire trouvée',
+    'match.compteN': '{n} / {total} paires trouvées',
+    'match.colonneA': 'Colonne A',
+    'match.colonneB': 'Colonne B',
+    'match.toutes': '🎯 Toutes les paires sont trouvées.',
+    'match.bonne': '✅ Bonne association.',
+    'match.mauvaise': '❌ Ces deux-là ne vont pas ensemble.',
+    'match.reessayez': 'Réessayez.',
 
     /* ---- scénario à embranchements ---- */
     'scenario.decisions': 'Décisions possibles',
@@ -123,10 +157,19 @@ window.UI_LABELS = {
     'scenario.vosDecisions': 'Vos décisions',
     'scenario.nonNote': "Ce cas n'est pas noté : il sert à mesurer les conséquences de chaque décision.",
     'scenario.consequence': 'Conséquence',
+    'scenario.titre': 'Cas pratique',
+    'scenario.conclure': 'Conclure ›',
+    'scenario.bilan': 'Bilan',
+    'scenario.sansRisque': 'sans risque',
 
     /* ---- sommaire et en-tête pliable ---- */
     'sommaire.titre': 'Sommaire',
     'entete.replier': 'Objectifs et ressources du chapitre',
+    'entete.objectifs': 'Objectifs',
+    'entete.podcast': 'Podcast',
+    'entete.slides': 'Slides',
+    'entete.infographie': 'Infographie',
+    'entete.capsule': "Capsule d'ouverture",
 
     /* ---- glossaire ---- */
     'glossaire.voir': '→ Voir au glossaire',
@@ -134,6 +177,12 @@ window.UI_LABELS = {
     /* ---- flashcards ---- */
     'flash.question': 'Question',
     'flash.reponse': 'Réponse',
+    'flash.aria': 'Carte de révision\u00a0: cliquer pour retourner',
+    'flash.retourner': '↺ Cliquer pour retourner',
+    'flash.jeSavais': '✓ Je savais',
+    'flash.carte': 'Carte',
+    'flash.etatSu': '✓ su',
+    'flash.etatRevoir': '↻ à revoir',
     'flash.precedente': 'Carte précédente',
     'flash.suivante': 'Carte suivante',
     'flash.aRevoir': 'À revoir ↻',
@@ -149,6 +198,7 @@ window.UI_LABELS = {
     /* ---- accessibilité ---- */
     'a11y.titre': "Réglages d'accessibilité et de lecture",
     'a11y.court': 'Réglages de lecture',
+    'a11y.allerContenu': 'Aller au contenu',
 
     /* ---- médias ---- */
     'media.slidesPleinEcran': 'Agrandir les slides en plein écran',
@@ -158,10 +208,28 @@ window.UI_LABELS = {
     'media.chapitre': 'chapitre',
     'media.ouvrir': 'Ouvrir ↗',
     'media.fermer': 'Fermer',
+    'media.agrandir': '⤢ Agrandir',
+    'media.slides': 'Slides',
+    'media.slidesPleinEcranTitre': 'Slides plein écran',
+    'media.ouvrirOnglet': 'Ouvrir dans un onglet ↗',
+    'media.podcast': 'Podcast',
+    'media.lecturePause': 'Lecture / Pause',
+    'media.reculer': 'Reculer de 10 secondes',
+    'media.avancer': 'Avancer de 10 secondes',
+    'media.telecharger': "Télécharger l'épisode",
+    'media.telechargerTitre': "Télécharger l'épisode (MP3)",
+    'media.fenetre': 'Ouvrir dans une fenêtre indépendante',
+    'media.fenetreCourt': 'Fenêtre indépendante',
+    'media.fermerLecteur': 'Fermer le lecteur',
 
     /* ---- schémas à points chauds ---- */
     'schema.titre': 'Schéma du cours',
     'schema.fermer': 'Fermer',
+    'schema.fermerInfo': "Fermer l'info-bulle",
+    'schema.aDeposer': 'Schéma à déposer',
+    'schema.fichierAttendu': 'Fichier attendu\u00a0:',
+    'schema.chemin': 'Chemin\u00a0:',
+    'schema.pointsLisibles': 'Les points du schéma restent lisibles ci-dessous.',
 
     /* ---- navigation ---- */
     'nav.accueil': 'Accueil du cours',
@@ -192,6 +260,9 @@ window.UI_LABELS = {
     'lecteur.aEnregistrer': 'Capsule not recorded yet — expected file:',
     'lecteur.prevu': '(planned)',
     'lecteur.capsule': 'Audio capsule',
+    'lecteur.aVenir': 'Audio capsule coming soon.',
+    'lecteur.aVenirTranscription': 'Audio capsule coming soon — read its transcript in the meantime.',
+    'lecteur.fichierAttendu': 'Expected file: ',
 
     /* ---- playlist ---- */
     'playlist.titre': 'Audio tracks',
@@ -199,6 +270,8 @@ window.UI_LABELS = {
     'playlist.basculer': 'Show or hide the audio tracks',
     'playlist.aEnregistrer': 'Track not recorded yet',
     'playlist.sections': 'Show or hide the sections',
+    'playlist.lire': 'Play: ',
+    'playlist.aria': 'Course audio tracks',
 
     /* ---- reading steps ---- */
     'etapes.etape': 'Step',
@@ -224,6 +297,18 @@ window.UI_LABELS = {
     'etapes.sur': '/',
     'etapes.reste': '⏱ approx. left',
     'etapes.surN': 'of',
+    'etapes.parcours': 'Chapter path',
+    'etapes.bilan': 'Summary',
+    'etapes.bonnesReponses': 'correct answers.',
+    'etapes.reprendre': 'Pick up where you left off — section',
+    'etapes.reprendreTitre': ': “{t}”',
+    'etapes.masquerReprise': 'Hide the resume suggestion',
+    'objectifs.compte1': '{n} / {total} objective checked',
+    'objectifs.compteN': '{n} / {total} objectives checked',
+    'progression.aria': 'Chapter progress',
+    'progression.valeur': 'Section {n} of {total}',
+    'progression.etiquette': 'Section {n} / {total}',
+    'progression.section': 'Section {n}',
 
     /* ---- checkpoint ---- */
     'controle.titre': 'Checkpoint',
@@ -251,11 +336,20 @@ window.UI_LABELS = {
     'controle.deuxPoints': ': ',
     'controle.votreChoix': '— your choice',
     'controle.approfondir': '📚 To go further:',
+    'controle.indice': 'Hint:',
+    'controle.repondreDabord': 'Answer first — even roughly.',
+    'controle.pourquoi': 'Why:',
     'lien.nouvelOnglet': '(opens in a new tab)',
 
     /* ---- spot the errors ---- */
     'erreurs.titre': 'Spot the errors',
     'erreurs.bilan': 'You can now read this kind of document with a critical eye.',
+    'erreurs.compte1': '{n} / {total} error found',
+    'erreurs.compteN': '{n} / {total} errors found',
+    'erreurs.erreur': '⚠ Error.',
+    'erreurs.correct': 'This one is correct.',
+    'erreurs.ailleurs': 'Look elsewhere.',
+    'erreurs.toutes': '🎯 All the errors have been spotted.',
 
     /* ---- matching ---- */
     'match.consigne': 'Match each item',
@@ -263,6 +357,14 @@ window.UI_LABELS = {
     'match.paires': 'pairs found',
     'match.trouvee': 'found',
     'match.sur': 'of',
+    'match.compte1': '{n} / {total} pair found',
+    'match.compteN': '{n} / {total} pairs found',
+    'match.colonneA': 'Column A',
+    'match.colonneB': 'Column B',
+    'match.toutes': '🎯 All the pairs have been found.',
+    'match.bonne': '✅ Correct match.',
+    'match.mauvaise': "❌ These two don't go together.",
+    'match.reessayez': 'Try again.',
 
     /* ---- branching scenario ---- */
     'scenario.decisions': 'Possible decisions',
@@ -270,10 +372,19 @@ window.UI_LABELS = {
     'scenario.vosDecisions': 'Your decisions',
     'scenario.nonNote': 'This case is not graded: it shows the consequences of each decision.',
     'scenario.consequence': 'Consequence',
+    'scenario.titre': 'Case study',
+    'scenario.conclure': 'Conclude ›',
+    'scenario.bilan': 'Summary',
+    'scenario.sansRisque': 'risk-free',
 
     /* ---- contents and collapsible header ---- */
     'sommaire.titre': 'Contents',
     'entete.replier': 'Chapter objectives and resources',
+    'entete.objectifs': 'Objectives',
+    'entete.podcast': 'Podcast',
+    'entete.slides': 'Slides',
+    'entete.infographie': 'Infographic',
+    'entete.capsule': 'Opening capsule',
 
     /* ---- glossary ---- */
     'glossaire.voir': '→ See in the glossary',
@@ -281,6 +392,12 @@ window.UI_LABELS = {
     /* ---- flashcards ---- */
     'flash.question': 'Question',
     'flash.reponse': 'Answer',
+    'flash.aria': 'Review card: click to flip',
+    'flash.retourner': '↺ Click to flip',
+    'flash.jeSavais': '✓ I knew it',
+    'flash.carte': 'Card',
+    'flash.etatSu': '✓ known',
+    'flash.etatRevoir': '↻ to review',
     'flash.precedente': 'Previous card',
     'flash.suivante': 'Next card',
     'flash.aRevoir': 'Review again ↻',
@@ -296,6 +413,7 @@ window.UI_LABELS = {
     /* ---- accessibility ---- */
     'a11y.titre': 'Accessibility and reading settings',
     'a11y.court': 'Reading settings',
+    'a11y.allerContenu': 'Skip to content',
 
     /* ---- media ---- */
     'media.slidesPleinEcran': 'Open the slides full screen',
@@ -305,10 +423,28 @@ window.UI_LABELS = {
     'media.chapitre': 'chapter',
     'media.ouvrir': 'Open ↗',
     'media.fermer': 'Close',
+    'media.agrandir': '⤢ Enlarge',
+    'media.slides': 'Slides',
+    'media.slidesPleinEcranTitre': 'Full-screen slides',
+    'media.ouvrirOnglet': 'Open in a new tab ↗',
+    'media.podcast': 'Podcast',
+    'media.lecturePause': 'Play / Pause',
+    'media.reculer': 'Back 10 seconds',
+    'media.avancer': 'Forward 10 seconds',
+    'media.telecharger': 'Download the episode',
+    'media.telechargerTitre': 'Download the episode (MP3)',
+    'media.fenetre': 'Open in a separate window',
+    'media.fenetreCourt': 'Separate window',
+    'media.fermerLecteur': 'Close the player',
 
     /* ---- hotspot diagrams ---- */
     'schema.titre': 'Course diagram',
     'schema.fermer': 'Close',
+    'schema.fermerInfo': 'Close the tooltip',
+    'schema.aDeposer': 'Diagram to be added',
+    'schema.fichierAttendu': 'Expected file:',
+    'schema.chemin': 'Path:',
+    'schema.pointsLisibles': "The diagram's points remain readable below.",
 
     /* ---- navigation ---- */
     'nav.accueil': 'Course home',

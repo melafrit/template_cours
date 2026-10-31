@@ -14,6 +14,11 @@
   var N = parseInt(m[1], 10);
   // La racine du site vient d'i18n.js : une page anglaise jumelle (en/chapitres/) est un cran plus bas.
   var base = (window.TPL_RACINE || '../') + 'assets/media/';
+  /* Les libellés viennent de ui-labels.js, dans la langue de la page (repli français sans dictionnaire). Écrits en dur,
+     ils restaient en français pour un lecteur anglophone. Ce qui ne se reconstruit pas à la bascule de langue — les
+     diapositives, l'infographie, leurs fenêtres, le lecteur persistant — repose ses libellés sur « tpl:langchange ». */
+  function t(cle, defaut) { return window.T ? T(cle) : defaut; }
+  function duChapitre() { return ' — ' + t('media.chapitre', 'chapitre') + ' ' + N; }
 
   // --- Podcast : lecteur personnalisé (±10 s + progression) + mini-lecteur flottant + pop-out ---
     var pod = document.querySelector('.podcast-section');
@@ -56,7 +61,7 @@
           if (ph) ph.remove();
           var tEl = pod.querySelector('.podcast-title');
           buildPodcastPlayer(pod, audioPod,
-            tEl ? tEl.textContent : 'Podcast — chapitre ' + N);
+            tEl ? tEl.textContent : t('media.podcast', 'Podcast') + duChapitre());
         });
         pod.appendChild(audioPod);
         audioPod.load();
@@ -75,34 +80,41 @@
     var openModal = buildSlidesModal(pdfUrl, N);
 
     var enableSlides = function () {
+      var ifr = null, hint = null, layer = null, bEnl = null, aOpen = null;
       if (vp) {
         vp.innerHTML = '';
-        var ifr = document.createElement('iframe');
+        ifr = document.createElement('iframe');
         ifr.className = 'slides-pdf';
         ifr.src = pdfUrl + '#view=FitH';
-        ifr.title = 'Slides — chapitre ' + N;
         vp.appendChild(ifr);
         // indice + couche de clic : cliquer le conteneur ouvre la popup
-        var hint = document.createElement('div');
+        hint = document.createElement('div');
         hint.className = 'slides-zoom-hint';
-        hint.textContent = '⤢ Agrandir';
-        var layer = document.createElement('button');
+        layer = document.createElement('button');
         layer.type = 'button';
         layer.className = 'slides-click-layer';
-        layer.setAttribute('aria-label', T('media.slidesPleinEcran'));
         layer.addEventListener('click', openModal);
         vp.appendChild(hint);
         vp.appendChild(layer);
       }
       if (ctrls) {
         ctrls.innerHTML = '';
-        var bEnl = document.createElement('button');
-        bEnl.type = 'button'; bEnl.className = 'chapter-nav-btn'; bEnl.textContent = '⤢ Agrandir';
+        bEnl = document.createElement('button');
+        bEnl.type = 'button'; bEnl.className = 'chapter-nav-btn';
         bEnl.addEventListener('click', openModal);
-        var aOpen = document.createElement('a');
-        aOpen.className = 'chapter-nav-btn'; aOpen.href = pdfUrl; aOpen.target = '_blank'; aOpen.rel = 'noopener'; aOpen.textContent = 'Ouvrir ↗';
+        aOpen = document.createElement('a');
+        aOpen.className = 'chapter-nav-btn'; aOpen.href = pdfUrl; aOpen.target = '_blank'; aOpen.rel = 'noopener';
         ctrls.appendChild(bEnl); ctrls.appendChild(aOpen);
       }
+      function libeller() {
+        if (ifr) ifr.title = t('media.slides', 'Slides') + duChapitre();
+        if (hint) hint.textContent = t('media.agrandir', '⤢ Agrandir');
+        if (layer) layer.setAttribute('aria-label', t('media.slidesPleinEcran', 'Agrandir les slides en plein écran'));
+        if (bEnl) bEnl.textContent = t('media.agrandir', '⤢ Agrandir');
+        if (aOpen) aOpen.textContent = t('media.ouvrir', 'Ouvrir ↗');
+      }
+      libeller();
+      document.addEventListener('tpl:langchange', libeller);
     };
 
     if (location.protocol === 'http:' || location.protocol === 'https:') {
@@ -121,15 +133,21 @@
     var openImg = buildImageModal();
     var img = document.createElement('img');
     img.className = 'infographie-img';
-    img.alt = 'Infographie de synthèse — chapitre ' + N;
     img.style.display = 'none';            // masquée tant que le chargement n'est pas confirmé
+    var hintInfo = null;
+    var libellerInfo = function () {
+      img.alt = t('media.infographie', 'Infographie de synthèse') + duChapitre();
+      if (hintInfo) hintInfo.textContent = t('media.agrandir', '⤢ Agrandir');
+    };
+    libellerInfo();
+    document.addEventListener('tpl:langchange', libellerInfo);
     img.onload = function () {
       img.style.display = '';
       infoVp.innerHTML = ''; infoVp.appendChild(img);
-      var hint = document.createElement('div');
-      hint.className = 'infographie-zoom-hint';
-      hint.textContent = '⤢ Agrandir';
-      infoVp.appendChild(hint);
+      hintInfo = document.createElement('div');
+      hintInfo.className = 'infographie-zoom-hint';
+      infoVp.appendChild(hintInfo);
+      libellerInfo();
     };
     img.onerror = function () { if (img.parentNode) img.parentNode.removeChild(img); }; // garde le placeholder
     img.addEventListener('click', function () { openImg(infoUrl, img.alt); });
@@ -197,15 +215,23 @@
     modal.className = 'slides-modal';
     modal.hidden = true;
     modal.innerHTML =
-        '<button type="button" class="slides-modal-close" aria-label="Fermer">✕</button>'
+        '<button type="button" class="slides-modal-close">✕</button>'
       + '<div class="slides-modal-bar">'
-      + '<span class="slides-modal-title">📊 Slides — chapitre ' + N + '</span>'
-      + '<a class="slides-modal-open" href="' + pdfUrl + '" target="_blank" rel="noopener">Ouvrir dans un onglet ↗</a>'
+      + '<span class="slides-modal-title"></span>'
+      + '<a class="slides-modal-open" href="' + pdfUrl + '" target="_blank" rel="noopener"></a>'
       + '</div>'
-      + '<iframe class="slides-modal-frame" title="Slides plein écran — chapitre ' + N + '"></iframe>';
+      + '<iframe class="slides-modal-frame"></iframe>';
     document.body.appendChild(modal);
     var frame = modal.querySelector('.slides-modal-frame');
     var btnClose = modal.querySelector('.slides-modal-close');
+    function libeller() {
+      btnClose.setAttribute('aria-label', t('media.fermer', 'Fermer'));
+      modal.querySelector('.slides-modal-title').textContent = '📊 ' + t('media.slides', 'Slides') + duChapitre();
+      modal.querySelector('.slides-modal-open').textContent = t('media.ouvrirOnglet', 'Ouvrir dans un onglet ↗');
+      frame.title = t('media.slidesPleinEcranTitre', 'Slides plein écran') + duChapitre();
+    }
+    libeller();
+    document.addEventListener('tpl:langchange', libeller);
     function close() { modal.hidden = true; frame.src = 'about:blank'; document.body.style.overflow = ''; }
     function open(e) { if (e) e.preventDefault(); frame.src = pdfUrl + '#view=FitH'; modal.hidden = false; document.body.style.overflow = 'hidden'; btnClose.focus(); }
     btnClose.addEventListener('click', close);
@@ -220,12 +246,15 @@
     modal.className = 'img-modal';
     modal.hidden = true;
     modal.innerHTML =
-        '<button type="button" class="img-modal-close" aria-label="Fermer">✕</button>'
+        '<button type="button" class="img-modal-close">✕</button>'
       + '<div class="img-modal-body"><img class="img-modal-img" alt=""></div>';
     document.body.appendChild(modal);
     var imgEl = modal.querySelector('.img-modal-img');
     var body = modal.querySelector('.img-modal-body');
     var btnClose = modal.querySelector('.img-modal-close');
+    function libeller() { btnClose.setAttribute('aria-label', t('media.fermer', 'Fermer')); }
+    libeller();
+    document.addEventListener('tpl:langchange', libeller);
     function close() { modal.hidden = true; imgEl.src = ''; imgEl.classList.remove('zoomed'); document.body.style.overflow = ''; }
     function open(src, alt) { imgEl.src = src; imgEl.alt = alt || ''; imgEl.classList.remove('zoomed'); modal.hidden = false; document.body.style.overflow = 'hidden'; btnClose.focus(); }
     btnClose.addEventListener('click', close);
@@ -237,8 +266,7 @@
 
   /* ===== Popup de la fiche de synthèse (aperçu PDF + téléchargement PDF) ===== */
   function buildPolyModal(pdfUrl, N) {
-    // Les libellés viennent de ui-labels.js, dans la langue de la page (repli français sans dictionnaire).
-    function t(cle, defaut) { return window.T ? T(cle) : defaut; }
+    // Refaite à chaque changement de langue (voir poser()) : elle lit ses libellés à sa construction.
     var chapitre = ' — ' + t('media.chapitre', 'chapitre') + ' ' + N;
     var modal = document.createElement('div');
     modal.className = 'slides-modal poly-modal'; modal.hidden = true;
@@ -269,14 +297,32 @@
 
   function controlBarHtml(withPop) {
     return '<div class="podcast-controls">'
-      + '<button type="button" class="pp-btn pp-play" aria-label="Lecture / Pause">▶</button>'
-      + '<button type="button" class="pp-btn pp-back" aria-label="Reculer de 10 secondes">⏪<span class="pp-sec">10</span></button>'
-      + '<button type="button" class="pp-btn pp-fwd" aria-label="Avancer de 10 secondes"><span class="pp-sec">10</span>⏩</button>'
+      + '<button type="button" class="pp-btn pp-play">▶</button>'
+      + '<button type="button" class="pp-btn pp-back">⏪<span class="pp-sec">10</span></button>'
+      + '<button type="button" class="pp-btn pp-fwd"><span class="pp-sec">10</span>⏩</button>'
       + '<div class="pp-progress"><div class="pp-progress-fill"></div></div>'
       + '<span class="pp-time">0:00 / 0:00</span>'
-      + '<button type="button" class="pp-btn pp-dl" title="Télécharger l\'épisode (MP3)" aria-label="Télécharger l\'épisode">⬇</button>'
-      + (withPop ? '<button type="button" class="pp-btn pp-pop" title="Ouvrir dans une fenêtre indépendante" aria-label="Ouvrir dans une fenêtre indépendante">⧉</button>' : '')
+      + '<button type="button" class="pp-btn pp-dl">⬇</button>'
+      + (withPop ? '<button type="button" class="pp-btn pp-pop">⧉</button>' : '')
       + '</div>';
+  }
+
+  /* Les libellés d'une barre de contrôle, posés après sa construction : la barre du podcast se refait à chaque
+     changement de langue, celle du lecteur persistant non — il les repose lui-même (LECTEUR). */
+  function libellerBarre(bar) {
+    if (!bar) return;
+    function poser(sel, aria, titre) {
+      var b = bar.querySelector(sel);
+      if (!b) return;
+      b.setAttribute('aria-label', aria);
+      if (titre) b.title = titre;
+    }
+    poser('.pp-play', t('media.lecturePause', 'Lecture / Pause'));
+    poser('.pp-back', t('media.reculer', 'Reculer de 10 secondes'));
+    poser('.pp-fwd', t('media.avancer', 'Avancer de 10 secondes'));
+    poser('.pp-dl', t('media.telecharger', "Télécharger l'épisode"), t('media.telechargerTitre', "Télécharger l'épisode (MP3)"));
+    poser('.pp-pop', t('media.fenetre', 'Ouvrir dans une fenêtre indépendante'),
+          t('media.fenetre', 'Ouvrir dans une fenêtre indépendante'));
   }
 
   /* Câble une barre de contrôle (.podcast-controls) sur un élément <audio>. */
@@ -336,13 +382,15 @@
           '<div class="mini-player-head">'
         + '<span class="mini-grip" aria-hidden="true">⠿</span>'
         + '<span class="mini-title"></span>'
-        + '<button type="button" class="pp-btn mini-pop" title="Fenêtre indépendante" aria-label="Ouvrir dans une fenêtre indépendante">⧉</button>'
-        + '<button type="button" class="pp-btn mini-close" title="Fermer le lecteur" aria-label="Fermer le lecteur">✕</button>'
+        + '<button type="button" class="pp-btn mini-pop">⧉</button>'
+        + '<button type="button" class="pp-btn mini-close">✕</button>'
         + '</div>'
         + controlBarHtml(false);
       document.body.appendChild(el);
       bar = el.querySelector('.podcast-controls');
       titreEl = el.querySelector('.mini-title');
+      libeller();
+      document.addEventListener('tpl:langchange', libeller);
 
       brancherBarre(bar, function () { return courant; });
       el.querySelector('.mini-pop').addEventListener('click', function () {
@@ -358,6 +406,17 @@
       });
       makeDraggable(el, el.querySelector('.mini-player-head'), mobile);
       window.addEventListener('resize', majMarge);
+    }
+
+    // Le lecteur persistant ne se reconstruit pas : ses libellés se reposent à chaque changement de langue.
+    function libeller() {
+      if (!el) return;
+      var pop = el.querySelector('.mini-pop'), fermer = el.querySelector('.mini-close');
+      pop.title = t('media.fenetreCourt', 'Fenêtre indépendante');
+      pop.setAttribute('aria-label', t('media.fenetre', 'Ouvrir dans une fenêtre indépendante'));
+      fermer.title = t('media.fermerLecteur', 'Fermer le lecteur');
+      fermer.setAttribute('aria-label', t('media.fermerLecteur', 'Fermer le lecteur'));
+      libellerBarre(bar);
     }
 
     /* Docké en bas sur mobile, il masquerait la fin de la page : on rend au
@@ -414,6 +473,7 @@
     if (player) {
       player.innerHTML = controlBarHtml(true);
       var bar = player.querySelector('.podcast-controls');
+      libellerBarre(bar);
       brancherBarre(bar, function () { return audio; }, function () {
         openPopout(audio.currentSrc, audio.currentTime, title);
         audio.pause(); LECTEUR.cacher();

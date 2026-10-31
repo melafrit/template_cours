@@ -106,7 +106,7 @@
           + '<li class="pl-piste' + (absente ? ' est-absente' : '') + '"'
           + ' data-ch="' + n + '" data-i="' + i + '">'
           + '  <button type="button" class="pl-jouer"' + (absente ? ' disabled' : '')
-          + '     aria-label="' + esc(absente ? T('playlist.aEnregistrer') : 'Lire : ' + p.titre) + '">'
+          + '     aria-label="' + esc(absente ? T('playlist.aEnregistrer') : T('playlist.lire') + p.titre) + '">'
           + (absente ? '·' : '▶') + '</button>'
           + '  <span class="pl-type" aria-hidden="true">' + (ICONES[p.type] || '') + '</span>'
           + '  <span class="pl-piste-titre">' + esc(p.titre) + '</span>'
@@ -120,7 +120,7 @@
 
     var panneau = document.createElement('aside');
     panneau.className = 'rdc-playlist';
-    panneau.setAttribute('aria-label', '' + T('playlist.titre') + ' du cours');
+    panneau.setAttribute('aria-label', T('playlist.aria'));
     panneau.innerHTML = html;
     document.body.appendChild(panneau);
     return panneau;

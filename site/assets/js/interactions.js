@@ -25,6 +25,12 @@
   /* ----------------------------------------------------------------
      Utilitaires communs
      ---------------------------------------------------------------- */
+  /* Compteur bilingue et accordé : « x.compte1 » pour un total de 1, « x.compteN » au-delà ;
+     {n} et {total} y sont remplacés (« 2 / 3 erreurs trouvées », « 2 / 3 errors found »). */
+  function compteur(cle, n, total) {
+    return T(cle + (total > 1 ? 'N' : '1')).replace('{n}', n).replace('{total}', total);
+  }
+
   function esc(s) {
     return String(s == null ? '' : s)
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -259,17 +265,17 @@
     } else {
       champ = '<label class="rdcx-lbl" for="' + idF + '">' + T('controle.votreHypothese') + '</label>'
         + '<textarea class="rdcx-textarea" id="' + idF + '" rows="3" '
-        + 'placeholder="Écrivez ce que vous pensez — même incertain : c\'est l\'essai qui fait apprendre."></textarea>';
+        + 'placeholder="' + esc(T('controle.placeholder')) + '"></textarea>';
     }
 
     box.innerHTML = head('🤔', T('controle.avantDeLire'))
       + '<div class="rdcx-body">'
       + '  <p class="rdcx-q" id="' + idQ + '" tabindex="-1">' + rich(cfg.question) + '</p>'
-      + (cfg.indice ? '  <p class="rdcx-hint">💡 Indice : ' + rich(cfg.indice) + '</p>' : '')
+      + (cfg.indice ? '  <p class="rdcx-hint">💡 ' + T('controle.indice') + ' ' + rich(cfg.indice) + '</p>' : '')
       + '  <div class="rdcx-engage">' + champ + '</div>'
       + '  <div class="rdcx-actions"><button type="button" class="rdcx-btn rdcx-btn-main rdcx-show" disabled '
       + 'aria-describedby="' + idQ + '">' + T('controle.reveler') + '</button>'
-      + '<span class="rdcx-note">Répondez d\'abord — même approximativement.</span></div>'
+      + '<span class="rdcx-note">' + T('controle.repondreDabord') + '</span></div>'
       + '  <div class="rdcx-out" tabindex="-1" aria-live="polite"></div>'
       + '</div>';
 
@@ -310,7 +316,7 @@
         + '  <div class="rdcx-col-mine"><span class="rdcx-col-head">' + T('controle.votreReponse') + '</span><div class="rdcx-col-txt">' + rich(mienne) + '</div></div>'
         + '  <div class="rdcx-col-good"><span class="rdcx-col-head">' + T('controle.laReponse') + '</span><div class="rdcx-col-txt">' + rich(cfg.reponse) + '</div></div>'
         + '</div>'
-        + (cfg.pourquoi ? '<div class="rdcx-why"><strong>Pourquoi&nbsp;:</strong> ' + rich(cfg.pourquoi) + '</div>' : '');
+        + (cfg.pourquoi ? '<div class="rdcx-why"><strong>' + T('controle.pourquoi') + '</strong> ' + rich(cfg.pourquoi) + '</div>' : '');
       out.classList.add('is-shown');
       focusNode(out);
     });
@@ -342,7 +348,7 @@
     }).join('');
 
     box.innerHTML = head('🔍', T('erreurs.titre'),
-        '<span class="rdcx-count" aria-live="polite">0 / ' + total + ' erreur' + (total > 1 ? 's' : '') + ' trouvée' + (total > 1 ? 's' : '') + '</span>')
+        '<span class="rdcx-count" aria-live="polite">' + compteur('erreurs.compte', 0, total) + '</span>')
       + '<div class="rdcx-body">'
       + '  <p class="rdcx-consigne">' + rich(cfg.consigne) + '</p>'
       + (cfg.intro ? '  <p class="rdcx-intro">' + rich(cfg.intro) + '</p>' : '')
@@ -365,14 +371,14 @@
         if (f.faux) {
           if (b.classList.contains('is-faux')) return;
           b.classList.add('is-faux');
-          why.innerHTML = '<span class="rdcx-fb-no">⚠ Erreur.</span> ' + rich(f.pourquoi || '');
+          why.innerHTML = '<span class="rdcx-fb-no">' + T('erreurs.erreur') + '</span> ' + rich(f.pourquoi || '');
           why.hidden = false;
           b.setAttribute('aria-describedby', why.id);
           trouves++;
-          cnt.textContent = trouves + ' / ' + total + ' erreur' + (total > 1 ? 's' : '') + ' trouvée' + (total > 1 ? 's' : '');
+          cnt.textContent = compteur('erreurs.compte', trouves, total);
           fb.innerHTML = '';
           if (trouves === total) {
-            fin.innerHTML = '<span class="rdcx-fb-ok">🎯 Toutes les erreurs sont repérées.</span> '
+            fin.innerHTML = '<span class="rdcx-fb-ok">' + T('erreurs.toutes') + '</span> '
               + rich(cfg.conclusion || T('erreurs.bilan'));
             fin.hidden = false;
             focusNode(fin);
@@ -384,7 +390,7 @@
           void b.offsetWidth;
           b.classList.add('is-ok');
           minuteur = setTimeout(function () { b.classList.remove('is-ok'); }, 1200);
-          fb.innerHTML = '<span class="rdcx-fb-neutre">Celui-ci est correct.</span> Cherchez ailleurs.';
+          fb.innerHTML = '<span class="rdcx-fb-neutre">' + T('erreurs.correct') + '</span> ' + T('erreurs.ailleurs');
         }
       });
     });
@@ -415,15 +421,15 @@
       }).join('');
 
       box.innerHTML = head('🔗', T('match.consigne'),
-          '<span class="rdcx-count" aria-live="polite">0 / ' + total + ' paires trouvées</span>')
+          '<span class="rdcx-count" aria-live="polite">' + compteur('match.compte', 0, total) + '</span>')
         + '<div class="rdcx-body">'
         + '  <p class="rdcx-consigne">' + rich(cfg.consigne || T('match.aide')) + '</p>'
         + '  <div class="rdcx-match-grid">'
-        + '    <div class="rdcx-col"><h4 class="rdcx-colhead">' + rich(cfg.colonneGauche || 'Colonne A') + '</h4>' + gauche + '</div>'
-        + '    <div class="rdcx-col"><h4 class="rdcx-colhead">' + rich(cfg.colonneDroite || 'Colonne B') + '</h4>' + droite + '</div>'
+        + '    <div class="rdcx-col"><h4 class="rdcx-colhead">' + rich(cfg.colonneGauche || T('match.colonneA')) + '</h4>' + gauche + '</div>'
+        + '    <div class="rdcx-col"><h4 class="rdcx-colhead">' + rich(cfg.colonneDroite || T('match.colonneB')) + '</h4>' + droite + '</div>'
         + '  </div>'
         + '  <div class="rdcx-fb" aria-live="polite"></div>'
-        + '  <div class="rdcx-actions"><button type="button" class="rdcx-btn rdcx-restart">↺ Recommencer</button></div>'
+        + '  <div class="rdcx-actions"><button type="button" class="rdcx-btn rdcx-restart">' + T('controle.recommencer') + '</button></div>'
         + '</div>';
 
       var cnt = box.querySelector('.rdcx-count');
@@ -457,14 +463,14 @@
           ex.innerHTML = '↔ <strong>' + rich(P[k].d) + '</strong>' + (P[k].ex ? ' — <em>' + rich(P[k].ex) + '</em>' : '');
           ex.hidden = false;
           faits++;
-          cnt.textContent = faits + ' / ' + total + ' paires trouvées';
+          cnt.textContent = compteur('match.compte', faits, total);
           fb.innerHTML = faits === total
-            ? '<span class="rdcx-fb-ok">🎯 Toutes les paires sont trouvées.</span>'
-            : '<span class="rdcx-fb-ok">✅ Bonne association.</span>';
+            ? '<span class="rdcx-fb-ok">' + T('match.toutes') + '</span>'
+            : '<span class="rdcx-fb-ok">' + T('match.bonne') + '</span>';
         } else {
           secousse(g); secousse(d);
           deselect(g); deselect(d);
-          fb.innerHTML = '<span class="rdcx-fb-no">❌ Ces deux-là ne vont pas ensemble.</span> Réessayez.';
+          fb.innerHTML = '<span class="rdcx-fb-no">' + T('match.mauvaise') + '</span> ' + T('match.reessayez');
         }
       }
 
@@ -498,7 +504,7 @@
     if (!E.length) return;
     mount(box, 'rdcx-branch');
 
-    var titre = cfg.titre || 'Cas pratique';
+    var titre = cfg.titre || T('scenario.titre');
     var i = 0, parcours = [];
 
     function etape(auto) {
@@ -521,7 +527,7 @@
         + '  <div class="rdcx-opts" role="group" aria-label="' + T('scenario.decisions') + '">' + choix + '</div>'
         + '  <div class="rdcx-conseq" aria-live="polite"></div>'
         + '  <div class="rdcx-actions"><button type="button" class="rdcx-btn rdcx-btn-main rdcx-next" hidden>'
-        + (i === E.length - 1 ? 'Conclure ›' : T('etapes.suivante')) + '</button></div>'
+        + (i === E.length - 1 ? T('scenario.conclure') : T('etapes.suivante')) + '</button></div>'
         + '</div>';
 
       var opts = box.querySelectorAll('.rdcx-opt');
@@ -557,12 +563,12 @@
           + '<span class="rdcx-recap-txt">' + rich(p.t) + '</span></li>';
       }).join('');
 
-      box.innerHTML = head('🧭', titre, 'Bilan')
+      box.innerHTML = head('🧭', titre, T('scenario.bilan'))
         + '<div class="rdcx-body">'
         + '  <div class="rdcx-final" tabindex="-1">' + rich(cfg.conclusion || '') + '</div>'
-        + '  <h4 class="rdcx-recap-head">' + T('scenario.vosDecisions') + ' <span class="rdcx-recap-score">' + bons + ' / ' + parcours.length + ' sans risque</span></h4>'
+        + '  <h4 class="rdcx-recap-head">' + T('scenario.vosDecisions') + ' <span class="rdcx-recap-score">' + bons + ' / ' + parcours.length + ' ' + T('scenario.sansRisque') + '</span></h4>'
         + '  <ul class="rdcx-recap">' + recap + '</ul>'
-        + '  <p class="rdcx-note">Ce cas n\'est pas noté : il sert à mesurer les conséquences de chaque décision.</p>'
+        + '  <p class="rdcx-note">' + T('scenario.nonNote') + '</p>'
         + '  <div class="rdcx-actions"><button type="button" class="rdcx-btn rdcx-restart">' + T('scenario.rejouer') + '</button></div>'
         + '</div>';
       box.querySelector('.rdcx-restart').addEventListener('click', function () { i = 0; parcours = []; etape(true); });
@@ -601,7 +607,7 @@
         + ' id="' + base + '-pop' + k + '" ' + ancre + ' hidden>'
         + '<span class="rdcx-hs-pop-title">' + (k + 1) + '. ' + rich(p.titre) + '</span>'
         + '<span class="rdcx-hs-pop-txt">' + rich(p.texte) + '</span>'
-        + '<button type="button" class="rdcx-hs-close" data-k="' + k + '" aria-label="Fermer l\'info-bulle">✕</button>'
+        + '<button type="button" class="rdcx-hs-close" data-k="' + k + '" aria-label="' + T('schema.fermerInfo') + '">✕</button>'
         + '</div>';
     });
 
@@ -615,7 +621,7 @@
         '<div class="rdcx-body">'
       + '  <figure class="rdcx-hs-figure">'
       + '    <div class="rdcx-hs-stage">'
-      + '      <img class="rdcx-hs-img" src="' + esc(src) + '" alt="' + esc(cfg.alt || 'Schéma du cours') + '">'
+      + '      <img class="rdcx-hs-img" src="' + esc(src) + '" alt="' + esc(cfg.alt || T('schema.titre')) + '">'
       + pins + pops
       + '    </div>'
       + (cfg.legende ? '    <figcaption class="rdcx-hs-cap">' + rich(cfg.legende) + '</figcaption>' : '')
@@ -666,10 +672,10 @@
       stage.classList.add('is-missing');
       stage.innerHTML = '<div class="rdcx-hs-missing">'
         + '<span class="rdcx-hs-missing-ico" aria-hidden="true">🖼️</span>'
-        + '<span class="rdcx-hs-missing-t">Schéma à déposer</span>'
-        + '<span class="rdcx-hs-missing-f">Fichier attendu : <code>' + esc(nom) + '</code></span>'
-        + '<span class="rdcx-hs-missing-p">Chemin : <code>' + esc(src) + '</code></span>'
-        + '<span class="rdcx-hs-missing-n">Les points du schéma restent lisibles ci-dessous.</span>'
+        + '<span class="rdcx-hs-missing-t">' + T('schema.aDeposer') + '</span>'
+        + '<span class="rdcx-hs-missing-f">' + T('schema.fichierAttendu') + ' <code>' + esc(nom) + '</code></span>'
+        + '<span class="rdcx-hs-missing-p">' + T('schema.chemin') + ' <code>' + esc(src) + '</code></span>'
+        + '<span class="rdcx-hs-missing-n">' + T('schema.pointsLisibles') + '</span>'
         + '</div>';
     });
   };
@@ -699,7 +705,7 @@
       + '  <div class="rdcx-voice-main">'
       + '    <div class="rdcx-voice-meta">'
       + '      <span class="rdcx-voice-ico" aria-hidden="true">🎧</span>'
-      + '      <span class="rdcx-voice-titre">' + rich(cfg.titre || 'Capsule audio') + '</span>'
+      + '      <span class="rdcx-voice-titre">' + rich(cfg.titre || T('lecteur.capsule')) + '</span>'
       + '      <span class="rdcx-voice-duree">' + esc(cfg.duree || '') + '</span>'
       + '    </div>'
       + '    <div class="rdcx-voice-bar" role="slider" tabindex="0" aria-label="' + T('lecteur.progression') + '"'
@@ -787,8 +793,12 @@
       bar.setAttribute('aria-disabled', 'true');
       bar.removeAttribute('tabindex');
       temps.textContent = '';
-      duree.textContent = cfg.duree ? cfg.duree + ' (prévu)' : '';
-      etat.innerHTML = '<span class="rdcx-voice-missing">🎙 Capsule à enregistrer — fichier attendu : <code>' + esc(nom) + '</code></span>';
+      duree.textContent = cfg.duree ? cfg.duree + ' ' + T('lecteur.prevu') : '';
+      // L'étudiant lit « bientôt disponible », et la transcription ne lui est promise que si la page en donne une ;
+      // le nom attendu reste en infobulle pour l'auteur, qui sait ainsi quel fichier déposer.
+      var aVenir = String(cfg.transcription || '').replace(/\s/g, '') ? 'lecteur.aVenirTranscription' : 'lecteur.aVenir';
+      etat.innerHTML = '<span class="rdcx-voice-missing" title="' + esc(T('lecteur.fichierAttendu') + nom) + '">🎧 '
+        + esc(T(aVenir)) + '</span>';
     });
 
     /* Le lecteur persistant de media.js accueille aussi les capsules : une fois
@@ -797,7 +807,7 @@
     if (window.RDC_LECTEUR && window.RDC_LECTEUR.attacher) {
       // Le titre est posé en textContent : rien à échapper, seuls les marqueurs
       // de gras de rich() sont à retirer.
-      var titrePlat = String(cfg.titre || 'Capsule audio').replace(/\*\*/g, '');
+      var titrePlat = String(cfg.titre || T('lecteur.capsule')).replace(/\*\*/g, '');
       window.RDC_LECTEUR.attacher(audio, '🎧 ' + titrePlat);
     }
 
@@ -840,8 +850,8 @@
     function majCompte() {
       var n = 0;
       each(items, function (li, k) { if (etat[k] === true) n++; });
-      compte.textContent = n + ' / ' + items.length + ' objectif' + (items.length > 1 ? 's' : '') + ' coché' + (items.length > 1 ? 's' : '')
-        + (n === items.length ? ' — chapitre maîtrisé.' : '');
+      compte.textContent = compteur('objectifs.compte', n, items.length)
+        + (n === items.length ? ' ' + T('etapes.maitrise') : '');
       compte.className = 'rdcx-obj-count' + (n === items.length ? ' is-complet' : '');
     }
 
@@ -881,9 +891,9 @@
     var barre = document.createElement('div');
     barre.className = 'rdcx-progress';
     barre.innerHTML =
-        '<div class="rdcx-progress-track" role="progressbar" aria-label="Progression dans le chapitre"'
+        '<div class="rdcx-progress-track" role="progressbar" aria-label="' + T('progression.aria') + '"'
       + ' aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="rdcx-progress-fill"></div></div>'
-      + '<span class="rdcx-progress-label">Section 1 / ' + total + '</span>';
+      + '<span class="rdcx-progress-label">' + T('progression.etiquette').replace('{n}', 1).replace('{total}', total) + '</span>';
     if (!document.querySelector('.sidebar')) barre.classList.add('is-full');
     document.body.appendChild(barre);
 
@@ -910,8 +920,8 @@
       var pct = Math.round(c / total * 100);
       jauge.style.width = pct + '%';
       piste.setAttribute('aria-valuenow', pct);
-      piste.setAttribute('aria-valuetext', 'Section ' + Math.max(c, 1) + ' sur ' + total);
-      etiquette.textContent = 'Section ' + Math.max(c, 1) + ' / ' + total;
+      piste.setAttribute('aria-valuetext', T('progression.valeur').replace('{n}', Math.max(c, 1)).replace('{total}', total));
+      etiquette.textContent = T('progression.etiquette').replace('{n}', Math.max(c, 1)).replace('{total}', total);
       if (c > vu) { vu = c; saveJSON(cle, { i: c }); }
     }
 
@@ -932,9 +942,9 @@
       var repere = document.createElement('div');
       repere.className = 'rdcx-resume';
       repere.innerHTML = '<span class="rdcx-resume-ico" aria-hidden="true">↩</span>'
-        + '<button type="button" class="rdcx-resume-link">Reprendre où vous en étiez — section ' + vu
-        + (h2 ? ' : « ' + esc(String(h2.textContent).replace(/^\s*\d+\.\s*/, '')) + ' »' : '') + '</button>'
-        + '<button type="button" class="rdcx-resume-close" aria-label="Masquer la proposition de reprise">✕</button>';
+        + '<button type="button" class="rdcx-resume-link">' + T('etapes.reprendre') + ' ' + vu
+        + (h2 ? T('etapes.reprendreTitre').replace('{t}', esc(String(h2.textContent).replace(/^\s*\d+\.\s*/, ''))) : '') + '</button>'
+        + '<button type="button" class="rdcx-resume-close" aria-label="' + T('etapes.masquerReprise') + '">✕</button>';
       var ancre = document.querySelector('.chapter-header');
       if (ancre && ancre.parentNode) ancre.parentNode.insertBefore(repere, ancre.nextSibling);
       else if (secs[0].parentNode) secs[0].parentNode.insertBefore(repere, secs[0]);
@@ -1074,7 +1084,7 @@
 
     var fil = document.createElement('nav');
     fil.className = 'rdcx-steps';
-    fil.setAttribute('aria-label', 'Parcours du chapitre');
+    fil.setAttribute('aria-label', T('etapes.parcours'));
     fil.innerHTML =
         '<div class="rdcx-steps-bar">'
       + '  <ol class="rdcx-steps-dots">' + dots + '</ol>'
@@ -1213,16 +1223,16 @@
           + '<span class="rdcx-steps-revoir-score">' + x.s + ' / ' + x.t + '</span></button></li>';
       }).join('');
 
-      fin.innerHTML = head('🏁', '' + T('etapes.chapitreTermine') + ' — ' + valides + ' / ' + N, 'Bilan')
+      fin.innerHTML = head('🏁', '' + T('etapes.chapitreTermine') + ' — ' + valides + ' / ' + N, T('etapes.bilan'))
         + '<div class="rdcx-body">'
         + '  <div class="rdcx-score' + (complet ? ' is-parfait' : '') + '">'
         + '    <span class="rdcx-score-n">' + valides + ' / ' + N + '</span>'
         + '    <span class="rdcx-score-msg">' + esc(valides === N
-              ? 'étapes validées — le chapitre est parcouru en entier.'
-              : 'étapes validées — les autres restent ouvertes.') + '</span>'
+              ? T('etapes.valideesToutes')
+              : T('etapes.valideesPartiel')) + '</span>'
         + '  </div>'
         + (t
-            ? '  <p class="rdcx-steps-cumul">Points de contrôle du chapitre : <strong>' + s + ' / ' + t + '</strong> bonnes réponses.</p>'
+            ? '  <p class="rdcx-steps-cumul">' + T('etapes.pointsControle') + ' <strong>' + s + ' / ' + t + '</strong> ' + T('etapes.bonnesReponses') + '</p>'
             : '  <p class="rdcx-steps-cumul">' + T('etapes.sansControle') + '</p>')
         + (revoir.length
             ? '  <h4 class="rdcx-steps-revoir-head">' + T('etapes.aRevoir') + '</h4>'
@@ -1361,7 +1371,7 @@
     var t = attrLangue(sec, 'data-sommaire-titre');
     if (t && t.replace(/\s/g, '')) return t;
     var s = texteAffiche(h2).replace(/^\s*\d+\.\s*/, '').replace(/^\s+|\s+$/g, '');
-    return s || ('Section ' + (k + 1));
+    return s || T('progression.section').replace('{n}', k + 1);
   }
 
   RDCX.sommaire = function (cfg) {
@@ -1387,7 +1397,7 @@
       h2s[k].classList.add('rdcx-sommaire-ancre');
     }
 
-    var titre = String(cfg.titre || 'Sommaire');
+    var titre = String(cfg.titre || T('sommaire.titre'));
 
     /* ---------- construction de la barre ---------- */
     var items = '';
@@ -1683,14 +1693,15 @@
      replier revient à cacher des ressources sans dire lesquelles. */
   function inventaire(corps) {
     var vu = [];
-    function si(sel, mot) { if (corps.querySelector(sel)) vu.push(mot); }
-    si('.chapter-objectives', 'Objectifs');
-    si('.podcast-section', 'Podcast');
-    si('.slides-section', 'Slides');
-    si('.infographie-section', 'Infographie');
+    // Des clés de ui-labels.js, pas des mots : écrits en dur, ils restaient en français sur les pages anglaises.
+    function si(sel, cle) { if (corps.querySelector(sel)) vu.push(cle); }
+    si('.chapter-objectives', 'entete.objectifs');
+    si('.podcast-section', 'entete.podcast');
+    si('.slides-section', 'entete.slides');
+    si('.infographie-section', 'entete.infographie');
     // .rdcx-voice est posée par RDCX.voice ; le conteneur statique #voix-N-N, lui,
     // est toujours là. On teste les deux pour ne pas dépendre de l'ordre des scripts.
-    si('.rdcx-voice, [id^="voix-"]', "Capsule d'ouverture");
+    si('.rdcx-voice, [id^="voix-"]', 'entete.capsule');
     return vu;
   }
 
@@ -1725,13 +1736,14 @@
     btn.type = 'button';
     btn.className = 'rdcx-entete-btn';
     btn.setAttribute('aria-controls', corps.id);
-    var detail = inventaire(corps).join(' · ');
+    var cles = inventaire(corps);
+    function detail() { return cles.map(function (k) { return T(k); }).join(' · '); }
     btn.innerHTML =
         '<span class="rdcx-entete-chevron" aria-hidden="true">▸</span>'
       + '<span class="rdcx-entete-titre">'
       + (entete.getAttribute('data-repli-titre') || T('entete.replier'))
       + '</span>'
-      + (detail ? '<span class="rdcx-entete-detail">' + detail + '</span>' : '');
+      + (cles.length ? '<span class="rdcx-entete-detail">' + detail() + '</span>' : '');
     entete.appendChild(btn);
 
     function poser(ouvert, memoriser) {
@@ -1765,6 +1777,8 @@
       var ti = btn.querySelector('.rdcx-entete-titre');
       if (ti) ti.textContent = entete.getAttribute('data-repli-titre')
                             || (window.T ? window.T('entete.replier') : ti.textContent);
+      var de = btn.querySelector('.rdcx-entete-detail');
+      if (de && window.T) de.textContent = detail();
     });
 
     return true;

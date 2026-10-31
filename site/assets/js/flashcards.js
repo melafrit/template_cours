@@ -39,23 +39,23 @@
     var self = this;
     this.el.classList.add('flashcards');
     this.el.innerHTML =
-        '<div class="flashcard" tabindex="0" role="button" aria-label="Carte de révision : cliquer pour retourner">'
-      + '  <div class="flashcard-face flashcard-front"><span class="flashcard-tag">Question</span><div class="flashcard-text"></div><span class="flashcard-hint">↺ Cliquer pour retourner</span></div>'
-      + '  <div class="flashcard-face flashcard-back"><span class="flashcard-tag">Réponse</span><div class="flashcard-text"></div><span class="flashcard-ref"></span></div>'
+        '<div class="flashcard" tabindex="0" role="button">'
+      + '  <div class="flashcard-face flashcard-front"><span class="flashcard-tag fc-tag-question"></span><div class="flashcard-text"></div><span class="flashcard-hint"></span></div>'
+      + '  <div class="flashcard-face flashcard-back"><span class="flashcard-tag fc-tag-reponse"></span><div class="flashcard-text"></div><span class="flashcard-ref"></span></div>'
       + '</div>'
       + '<div class="flashcard-bar">'
       + '  <div class="flashcard-known-bar"><span></span></div>'
       + '  <div class="flashcard-status"></div>'
       + '</div>'
       + '<div class="flashcard-controls">'
-      + '  <button type="button" class="fc-btn fc-prev" aria-label="' + T('flash.precedente') + '">‹</button>'
-      + '  <button type="button" class="fc-btn fc-revoir">' + T('flash.aRevoir') + '</button>'
-      + '  <button type="button" class="fc-btn fc-su">✓ Je savais</button>'
-      + '  <button type="button" class="fc-btn fc-next" aria-label="' + T('flash.suivante') + '">›</button>'
+      + '  <button type="button" class="fc-btn fc-prev">‹</button>'
+      + '  <button type="button" class="fc-btn fc-revoir"></button>'
+      + '  <button type="button" class="fc-btn fc-su"></button>'
+      + '  <button type="button" class="fc-btn fc-next">›</button>'
       + '</div>'
       + '<div class="flashcard-tools">'
-      + '  <button type="button" class="fc-link fc-shuffle">' + T('flash.melanger') + '</button>'
-      + '  <button type="button" class="fc-link fc-reset">' + T('flash.reinitialiser') + '</button>'
+      + '  <button type="button" class="fc-link fc-shuffle"></button>'
+      + '  <button type="button" class="fc-link fc-reset"></button>'
       + '</div>';
 
     this.card = this.el.querySelector('.flashcard');
@@ -64,6 +64,7 @@
     this.refEl = this.el.querySelector('.flashcard-ref');
     this.statusEl = this.el.querySelector('.flashcard-status');
     this.knownBar = this.el.querySelector('.flashcard-known-bar span');
+    this.libelles();
 
     this.card.addEventListener('click', function () { self.flip(); });
     this.card.addEventListener('keydown', function (e) { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); self.flip(); } });
@@ -77,11 +78,29 @@
     // perdre sa face.
     document.addEventListener('tpl:langchange', function () {
       var retournee = self.flipped;
+      self.libelles();
       self.render();
       if (retournee) self.flip();
     });
 
     this.render();
+  };
+
+  /* Les libellés du paquet, dans la langue de la page : posés à la construction, et de nouveau à chaque changement de
+     langue. Écrits en dur, ils restaient en français sur une page anglaise. */
+  FlashcardDeck.prototype.libelles = function () {
+    var el = this.el;
+    function poser(sel, texte) { var n = el.querySelector(sel); if (n) n.textContent = texte; }
+    this.card.setAttribute('aria-label', T('flash.aria'));
+    poser('.fc-tag-question', T('flash.question'));
+    poser('.fc-tag-reponse', T('flash.reponse'));
+    poser('.flashcard-hint', T('flash.retourner'));
+    el.querySelector('.fc-prev').setAttribute('aria-label', T('flash.precedente'));
+    el.querySelector('.fc-next').setAttribute('aria-label', T('flash.suivante'));
+    poser('.fc-revoir', T('flash.aRevoir'));
+    poser('.fc-su', T('flash.jeSavais'));
+    poser('.fc-shuffle', T('flash.melanger'));
+    poser('.fc-reset', T('flash.reinitialiser'));
   };
 
   FlashcardDeck.prototype.current = function () { return this.cards[this.order[this.pos]]; };
@@ -97,8 +116,8 @@
     this.refEl.style.display = ref ? '' : 'none';
     var idx = this.order[this.pos];
     var state = this.known[idx] === true ? 'su' : (this.known[idx] === false ? 'revoir' : '');
-    this.statusEl.textContent = 'Carte ' + (this.pos + 1) + ' / ' + this.cards.length
-      + (state === 'su' ? ' · ✓ su' : state === 'revoir' ? ' · ↻ à revoir' : '');
+    this.statusEl.textContent = T('flash.carte') + ' ' + (this.pos + 1) + ' / ' + this.cards.length
+      + (state === 'su' ? ' · ' + T('flash.etatSu') : state === 'revoir' ? ' · ' + T('flash.etatRevoir') : '');
     this.statusEl.className = 'flashcard-status' + (state ? ' is-' + state : '');
     var pct = Math.round(this.countKnown() / this.cards.length * 100);
     this.knownBar.style.width = pct + '%';

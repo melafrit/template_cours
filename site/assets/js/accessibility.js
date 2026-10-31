@@ -55,7 +55,11 @@
       if (main) {
         if (!main.id) main.id = 'main-content';
         var sk = document.createElement('a');
-        sk.className = 'skip-link'; sk.href = '#' + main.id; sk.textContent = 'Aller au contenu';
+        sk.className = 'skip-link'; sk.href = '#' + main.id;
+        // Écrit en dur, il restait en français sur les pages anglaises ; il suit aussi une bascule dans la page (data-tr).
+        var libelle = function () { sk.textContent = window.T ? T('a11y.allerContenu') : 'Aller au contenu'; };
+        libelle();
+        document.addEventListener('tpl:langchange', libelle);
         document.body.insertBefore(sk, document.body.firstChild);
       }
     }
