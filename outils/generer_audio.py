@@ -266,13 +266,21 @@ def pages_a_scruter():
     Une page qui n'est pas un chapitre peut porter une capsule (l'accueil, une
     soutenance, le QCM) : limiter la recherche à chapitres/0*.html rendait ses
     pistes invisibles au générateur.
+
+    En site miroir, les jumelles de site/en/ déclarent leurs propres pistes
+    (…-en.mp3) : on les parcourt après les pages françaises, sinon les capsules
+    anglaises n'existaient pour le générateur que dans les fiches.
     """
-    pages = [(int(os.path.basename(p)[:2]), p)
-             for p in sorted(glob.glob(os.path.join(SITE, "chapitres", "[0-9][0-9]-*.html")))]
-    for p in (sorted(glob.glob(os.path.join(SITE, "*.html")))
-              + sorted(glob.glob(os.path.join(SITE, "QCM", "*.html")))):
-        if "RDCX.voice(" in io.open(p, encoding="utf-8").read():
-            pages.append((0, p))
+    pages = []
+    racines = [SITE] + ([os.path.join(SITE, "en")] if os.path.isdir(os.path.join(SITE, "en")) else [])
+    for racine in racines:
+        pages += [(int(os.path.basename(p)[:2]), p)
+                  for p in sorted(glob.glob(os.path.join(racine, "chapitres", "[0-9][0-9]-*.html")))]
+    for racine in racines:
+        for p in (sorted(glob.glob(os.path.join(racine, "*.html")))
+                  + sorted(glob.glob(os.path.join(racine, "QCM", "*.html")))):
+            if "RDCX.voice(" in io.open(p, encoding="utf-8").read():
+                pages.append((0, p))
     return pages
 
 

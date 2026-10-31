@@ -142,6 +142,13 @@
   (function () {
     var nav = document.querySelector('.chapter-nav');
     if (!nav) return;
+    /* Les fiches de synthèse par chapitre n'existent que si le menu les annonce
+       (bloc « polycopies » de cours.json) : sans elles, la sonde HEAD ne faisait
+       qu'ajouter un 404 par chapitre dans la console. */
+    var avecFiches = window.COURSE && (window.COURSE.resources || []).some(function (r) {
+      return r.href === 'polycopies.html';
+    });
+    if (!avecFiches) return;
       /* Le polycopie existe par langue : « chapitre-2-polycopie.fr.pdf ». Sans
          le suffixe, le fichier n'etait jamais trouve et le bouton n'apparaissait
          pas — un defaut silencieux, puisqu'un bouton absent ne se remarque pas. */

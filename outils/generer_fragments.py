@@ -276,6 +276,13 @@ def main():
             continue
         rel = os.path.relpath(chemin, SITE).replace("\\", "/")
         n += len(MARQUEUR.findall(t))
+        # Les fragments s'écrivent en fins de ligne Unix ; sous Windows (core.autocrlf), la page est extraite en
+        # CRLF. Comparé tel quel, un fragment de plusieurs lignes ne semblait jamais à jour — --essai échouait sur
+        # ce poste seulement —, et l'écrire mêlait les deux fins de ligne dans la page. On compare en LF, et la page
+        # garde les siennes.
+        crlf = "\r\n" in t
+        if crlf:
+            t = t.replace("\r\n", "\n")
         neuf = regenerer(t, ref, nums, manques, rel, serie, livret)
         if neuf == t:
             a_jour += 1
@@ -283,7 +290,7 @@ def main():
         changees.append(rel)
         if not args.essai:
             with io.open(chemin, "w", encoding="utf-8", newline="") as f:
-                f.write(neuf)
+                f.write(neuf.replace("\n", "\r\n") if crlf else neuf)
     for rel in changees:
         print("  %s : %s" % (rel, "à mettre à jour" if args.essai else "fragments réécrits"))
     for m in manques:

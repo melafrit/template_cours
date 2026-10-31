@@ -58,7 +58,8 @@ def capsules_de_la_fiche():
         sys.exit("Aucune fiche de capsules dans docs/prompts/ (Capsules*.md).")
     t = "\n---\n".join(io.open(f, encoding="utf-8").read() for f in fiches)
     out = {}
-    blocs = re.split(r"\n---\n", t)
+    # Une capsule par bloc : les fiches les séparent par « --- » ou les ouvrent par un titre « ## ».
+    blocs = re.split(r"\n---\n|\n(?=## )", t)
     for b in blocs:
         m = re.search(r"\*\*Nom exact du fichier :\*\*\s*`([^`]+)`", b)
         if not m:
@@ -73,8 +74,12 @@ def capsules_de_la_fiche():
         if not tr:
             print("  /!\\ %s : pas de transcription dans la fiche" % nom)
             continue
-        d = re.search(r"Durée visée :\*\*\s*≈\s*(\d+)\s*s", b)
-        secondes = int(d.group(1)) if d else 0
+        # « ≈ 60 s », « ≈ 1 min », « ≈ 1 min 10 »
+        d = re.search(r"Durée visée :\*\*\s*≈\s*(?:(\d+)\s*min(?:\s*(\d+))?|(\d+)\s*s)", b)
+        if d and d.group(1):
+            secondes = int(d.group(1)) * 60 + int(d.group(2) or 0)
+        else:
+            secondes = int(d.group(3)) if d else 0
         out[(n.group(1), n.group(2))] = {
             "fichier": nom,
             "transcription": " ".join(x.strip() for x in tr.group(1).strip().split("\n\n")),
@@ -83,16 +88,18 @@ def capsules_de_la_fiche():
     return out
 
 
-def injecter(page, chap, caps, essai):
-    """Écrit src, durée et transcription dans le bloc TEXTES de la page."""
+def injecter(page, chap, caps, essai, langues=("fr", "en"), prefixe="../"):
+    """Écrit src, durée et transcription dans le bloc TEXTES de la page, pour ses langues : les deux en modèle
+    data-tr ; en site miroir, le français dans la page de chapitres/, l'anglais dans sa jumelle de en/chapitres/
+    (prefixe « ../../ »)."""
     t = io.open(page, encoding="utf-8").read()
     avant = t
 
-    for langue in ("fr", "en"):
+    for langue in langues:
         c = caps.get((chap, langue))
         if not c:
             continue
-        rel = "../assets/media/voix/" + c["fichier"]
+        rel = prefixe + "assets/media/voix/" + c["fichier"]
 
         # capsuleSrc : on l'ajoute s'il manque, on le met à jour sinon
         bloc = re.search(r"\n    %s: \{(.*?)\n    \}" % langue, t, re.S)
@@ -114,7 +121,7 @@ def injecter(page, chap, caps, essai):
     # l'appel RDCX.voice doit lire la source de la langue active
     t = re.sub(r"src: '\.\./assets/media/voix/chapitre-\d+-capsule[^']*'",
                "src: X.capsuleSrc", t)
-    d = caps.get((chap, "fr"), {}).get("duree")
+    d = caps.get((chap, langues[0]), {}).get("duree")
     if d:
         t = re.sub(r"(RDCX\.voice\('capsule-\d+', \{[^}]*?duree: )'[^']*'",
                    r"\g<1>'%s'" % d, t, flags=re.S)
@@ -148,11 +155,18 @@ def main():
         if not any(k[0] == chap for k in caps):
             continue
         page = os.path.join(SITE, "chapitres", f)
-        if injecter(page, chap, caps, args.essai):
-            touchees += 1
-            print("  %-28s mis à jour" % f)
-        else:
-            print("  %-28s déjà à jour" % f)
+        jumelle = os.path.join(SITE, "en", "chapitres", f)
+        # Site miroir : la jumelle anglaise porte la capsule anglaise ; sans jumelle, la page porte les deux.
+        cibles = [(page, f, ("fr",), "../"), (jumelle, "en/" + f, ("en",), "../../")] \
+            if os.path.exists(jumelle) else [(page, f, ("fr", "en"), "../")]
+        for chemin, nom, langues, prefixe in cibles:
+            if not any((chap, lg) in caps for lg in langues):
+                continue
+            if injecter(chemin, chap, caps, args.essai, langues, prefixe):
+                touchees += 1
+                print("  %-31s mis à jour" % nom)
+            else:
+                print("  %-31s déjà à jour" % nom)
 
     if args.essai:
         print("\n  Simulation : rien n'a été écrit.")

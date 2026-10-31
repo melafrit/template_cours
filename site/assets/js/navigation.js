@@ -10,7 +10,16 @@
   var COURSE = window.COURSE || { chapters: [], resources: [] };
   var path = window.location.pathname;
   var inChapters = /\/chapitres\//.test(path);
-  var base = inChapters ? '../' : './';
+  /* Le chemin vers la racine de la langue de la page : un cran par dossier, compté depuis la racine du site que
+     publie i18n.js (TPL_RACINE). Déduit du seul « /chapitres/ », il valait « ./ » dans QCM/ comme dans
+     QCM/correction/ : le menu de ces pages menait à QCM/chapitres/…, qui n'existe pas. Une page anglaise du site
+     miroir compte depuis en/, la racine de sa langue. Sans TPL_RACINE, l'ancienne règle. */
+  var base = (function () {
+    var racine = window.TPL_RACINE || '', ici = window.location.href.split(/[?#]/)[0];
+    if (!racine || ici.indexOf(racine) !== 0) return inChapters ? '../' : './';
+    var crans = (ici.slice(racine.length).replace(/^en\//, '').match(/\//g) || []).length;
+    return crans ? new Array(crans + 1).join('../') : './';
+  })();
   var currentFile = path.split('/').pop() || 'index.html';
   var totalCh = COURSE.chapters.length;
   var MOI = (document.currentScript && document.currentScript.src) || '';

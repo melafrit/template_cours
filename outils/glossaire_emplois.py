@@ -17,10 +17,13 @@ UN EMPLOI : une forme du terme entre deux limites de mot — son intitulé sans 
 LES LANGUES : le français sur les pages françaises et les blocs data-tr="fr", l'anglais sur les jumelles de en/ et
 les blocs data-tr="en". Les chemins partent de la racine de la langue : la page du glossaire de chaque langue y
 mène directement.
-NE COMPTENT PAS : les pages d'EXCLUES — le glossaire lui-même, les pages qui donnent des réponses — et les zones
-protégées de deploiement/destination.json. Repris, en générique, du cours d'architecture logicielle.
+NE COMPTENT PAS : les pages d'EXCLUES — le glossaire lui-même, les pages qui donnent des réponses —, les zones
+protégées de deploiement/destination.json et les pages que le déployeur ne publie pas (sa liste « exclure ») : en
+ligne, « Où en parle-t-on ? » y mènerait à une page absente. Une page qui sort de la liste revient au glossaire à
+la génération suivante. Repris, en générique, du cours d'architecture logicielle.
 """
 import argparse
+import fnmatch
 import glob
 import io
 import json
@@ -260,7 +263,7 @@ def chapitres(site=SITE):
     """[(fichier, numéro, {fr, en})] d'après site/assets/js/course-data.js, dans l'ordre du cours."""
     src = io.open(os.path.join(site, "assets", "js", "course-data.js"), encoding="utf-8").read()
     return [(m.group(2), m.group(1), {"fr": m.group(3), "en": m.group(4)})
-            for m in re.finditer(r"num:\s*'([^']+)'[^}]*?file:\s*'([^']+)'[^}]*?title:\s*\{\s*fr:\s*\"([^\"]*)\","
+            for m in re.finditer(r"num:\s*['\"]([^'\"]+)['\"][^}]*?file:\s*['\"]([^'\"]+)['\"][^}]*?title:\s*\{\s*fr:\s*\"([^\"]*)\","
                                  r"\s*en:\s*\"([^\"]*)\"", src, flags=re.S)]
 
 
@@ -272,13 +275,30 @@ def zones_protegees():
     return tuple(str(z).strip("/") + "/" for z in d.get("zones_protegees") or [] if str(z).strip("/"))
 
 
+def exclus_du_deploiement():
+    """Les motifs « exclure » de deploiement/destination.json : les pages que le déployeur ne publie pas. Seul ce
+    fichier se lit — jamais config.json, qui garde les secrets."""
+    try:
+        d = json.load(io.open(os.path.join(RACINE, "deploiement", "destination.json"), encoding="utf-8"))
+    except (OSError, ValueError):
+        return ()
+    return tuple(str(m) for m in d.get("exclure") or [] if str(m).strip("/"))
+
+
+def non_publiee(chemin, motifs):
+    """Vrai pour un chemin (depuis site/, en/ compris) que le déployeur ne publie pas : la règle de
+    deploiement/deployer.py (exclu), sur la même liste."""
+    return any(fnmatch.fnmatch(chemin, m) or chemin.startswith(m.rstrip("*").rstrip("/") + "/") for m in motifs)
+
+
 def pages(site=SITE):
     """[(langue, chemin depuis la racine de la langue, fichier)] : chaque page, dans chacune de ses langues."""
     exclues = EXCLUES + zones_protegees()
+    motifs = exclus_du_deploiement()
     out = []
     for f in sorted(glob.glob(os.path.join(site, "**", "*.html"), recursive=True)):
         rel = os.path.relpath(f, site).replace("\\", "/")
-        if rel.startswith("assets/"):
+        if rel.startswith("assets/") or non_publiee(rel, motifs):
             continue
         t = io.open(f, encoding="utf-8").read()
         m = re.search(r'<html\b[^>]*\bdata-langues="([^"]*)"', t)

@@ -3,13 +3,21 @@
    Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
    Usage :
      new FlashcardDeck('id-conteneur', [
-       { front:'Question / notion', back:'Définition **avec gras**', ref:'art. 5' }, …
+       { front:{ fr:'Question / notion', en:'…' }, back:{ fr:'Définition **avec gras**', en:'…' }, ref:'art. 5' }, …
      ], 'cle-deck');   // cle-deck : pour mémoriser "su / à revoir" (localStorage)
+   Chaque texte est un objet { fr, en } (flashcards-data.js) ou une chaîne (cours d'une seule langue).
    ================================================================= */
 (function () {
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
   function rich(s) { // **gras** -> <strong>, le reste échappé
     return esc(s).split('**').map(function (seg, i) { return i % 2 ? '<strong>' + seg + '</strong>' : seg; }).join('');
+  }
+  // Le texte d'une carte dans la langue de la page : flashcards-data.js les écrit { fr, en }, et passés tels
+  // quels à rich(), ils s'affichaient « [object Object] ». Une chaîne seule reste lue telle quelle.
+  function L(v) {
+    if (!v || typeof v !== 'object') return v || '';
+    var lg = (window.TPLI18N && TPLI18N.lang && TPLI18N.lang()) || 'fr';
+    return v[lg] || v.fr || v.en || '';
   }
 
   function FlashcardDeck(containerId, cards, key) {
@@ -65,6 +73,13 @@
     this.el.querySelector('.fc-revoir').addEventListener('click', function () { self.mark(false); });
     this.el.querySelector('.fc-shuffle').addEventListener('click', function () { self.shuffle(); });
     this.el.querySelector('.fc-reset').addEventListener('click', function () { self.reset(); });
+    // Une page bilingue (blocs data-tr) change de langue sans se recharger : la carte affichée suit, sans
+    // perdre sa face.
+    document.addEventListener('tpl:langchange', function () {
+      var retournee = self.flipped;
+      self.render();
+      if (retournee) self.flip();
+    });
 
     this.render();
   };
@@ -75,10 +90,11 @@
     var c = this.current(); if (!c) return;
     this.flipped = false;
     this.card.classList.remove('is-flipped');
-    this.frontText.innerHTML = rich(c.front);
-    this.backText.innerHTML = rich(c.back);
-    this.refEl.innerHTML = c.ref ? rich(c.ref) : '';
-    this.refEl.style.display = c.ref ? '' : 'none';
+    var ref = L(c.ref);
+    this.frontText.innerHTML = rich(L(c.front));
+    this.backText.innerHTML = rich(L(c.back));
+    this.refEl.innerHTML = ref ? rich(ref) : '';
+    this.refEl.style.display = ref ? '' : 'none';
     var idx = this.order[this.pos];
     var state = this.known[idx] === true ? 'su' : (this.known[idx] === false ? 'revoir' : '');
     this.statusEl.textContent = 'Carte ' + (this.pos + 1) + ' / ' + this.cards.length

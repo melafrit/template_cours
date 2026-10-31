@@ -462,6 +462,31 @@ img { max-width: 100%; height: auto; }
   font-weight: 600;
 }
 
+/* Listes à puce posée (objectifs, « À retenir ») — en display:flex, chaque
+   fragment de texte inline devient un item de flex insécable. Sur mobile, le
+   <li> ne peut plus descendre sous la largeur cumulée de ses fragments et fait
+   déborder toute la page (mesuré : document à 398 px pour un viewport de
+   320 px sur le chapitre 2) ; sur grand écran, un début en gras devient une
+   colonne étroite à côté du reste de la phrase. La démonstration ne le montre
+   pas : chacun de ses <li> n'a qu'un enfant visible, son bloc data-tr ; un
+   cours en site miroir, si. On repasse le <li> en flux normal, à toutes les
+   largeurs, et on ancre la puce en absolu. */
+.chapter-objectives > ul,
+.takeaways-body > ul { grid-template-columns: minmax(0, 1fr); }
+.chapter-objectives > ul > li,
+.takeaways-body > ul > li {
+  display: block; position: relative; min-width: 0;
+  padding-left: var(--space-8);
+}
+.chapter-objectives > ul > li::before,
+.takeaways-body > ul > li::before {
+  position: absolute; left: 0; top: 0.15em; margin-top: 0;
+}
+/* Variante « objectifs cochables » (RDCX.progress) : le <li> n'a alors
+   qu'un seul enfant réel, le flex reste correct. */
+.chapter-objectives .rdcx-obj > li,
+.chapter-objectives.rdcx-obj > li { display: flex; padding-left: 0; }
+
 /* ----------------------------------------------------------------
    11. Conformité mobile (structure)
    Tout ce qui suit est encadré par des media queries : au-dessus de
@@ -499,27 +524,8 @@ img { max-width: 100%; height: auto; }
      c'est le seul endroit où la règle l'emporte à coup sûr sur le
      .a11y-toggle qui y est redéclaré. */
 
-  /* (a) Listes en display:flex — chaque fragment de texte inline y
-     devient un item de flex insécable ; le <li> ne peut alors plus
-     descendre sous la largeur cumulée de ses fragments et fait
-     déborder toute la page (mesuré : document à 398 px pour un
-     viewport de 320 px sur le chapitre 2). On repasse le <li> en flux
-     normal et on ancre la puce en absolu. */
-  .chapter-objectives > ul,
-  .takeaways-body > ul { grid-template-columns: minmax(0, 1fr); }
-  .chapter-objectives > ul > li,
-  .takeaways-body > ul > li {
-    display: block; position: relative; min-width: 0;
-    padding-left: var(--space-8);
-  }
-  .chapter-objectives > ul > li::before,
-  .takeaways-body > ul > li::before {
-    position: absolute; left: 0; top: 0.15em; margin-top: 0;
-  }
-  /* Variante « objectifs cochables » (RDCX.progress) : le <li> n'a
-     alors qu'un seul enfant réel, le flex reste correct. */
-  .chapter-objectives .rdcx-obj > li,
-  .chapter-objectives.rdcx-obj > li { display: flex; padding-left: 0; }
+  /* (a) Listes en display:flex : voir avant cette section, hors de toute
+     requête — le défaut vaut aussi sur grand écran. */
 
   /* (i) Menu latéral — width: 86% se résolvait contre un bloc plus
      large que l'écran ; on borne explicitement au viewport. */

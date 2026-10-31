@@ -58,7 +58,11 @@
 
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
   function popHtml(e) {
-    var d = e.def || ''; if (d.length > 180) d = d.slice(0, 178) + '…';
+    // def est bilingue ({ fr, en }) dans glossaire-data.js : lue comme une chaîne, la bulle affichait
+    // « [object Object] ». La langue de la page choisit ; une chaîne seule (cours d'une langue) reste lue.
+    var lg = (window.TPLI18N && TPLI18N.lang && TPLI18N.lang()) || 'fr';
+    var d = typeof e.def === 'string' ? e.def : ((e.def && (e.def[lg] || e.def.fr || e.def.en)) || '');
+    if (d.length > 180) d = d.slice(0, 178) + '…';
     return '<span class="gloss-pop" role="tooltip">'
       + '<span class="gloss-pop-fr">' + esc(e.fr) + '</span>'
       + (e.en ? '<span class="gloss-pop-en">' + esc(e.en) + '</span>' : '')

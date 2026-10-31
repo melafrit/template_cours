@@ -503,7 +503,11 @@
 
     function etape(auto) {
       var e = E[i] || {};
-      var choix = (e.choix || []).map(function (c, k) {
+      /* « choix » est le nom documenté, mais checkpoint et reveal appellent leurs propositions « options » :
+         un scénario écrit sur leur modèle s'affichait sans un seul bouton, et sans erreur — le chapitre vitrine
+         lui-même passait « options ». Les deux noms sont lus. */
+      var propositions = e.choix || e.options || [];
+      var choix = propositions.map(function (c, k) {
         return '<button type="button" class="rdcx-opt" data-k="' + k + '">'
           + '<span class="rdcx-opt-letter" aria-hidden="true">' + esc(LETTRES[k] || (k + 1)) + '</span>'
           + '<span class="rdcx-opt-txt">' + rich(c.t) + '</span></button>';
@@ -528,7 +532,7 @@
       each(opts, function (b) {
         b.addEventListener('click', function () {
           if (fait) return; fait = true;
-          var c = (e.choix || [])[parseInt(b.getAttribute('data-k'), 10)] || {};
+          var c = propositions[parseInt(b.getAttribute('data-k'), 10)] || {};
           each(opts, function (x) { x.disabled = true; if (x !== b) x.classList.add('is-pale'); });
           b.classList.add(c.bon ? 'is-correct' : 'is-wrong');
           cq.innerHTML = '<span class="rdcx-conseq-lbl">' + (c.bon ? '✅ ' : '⚠ ') + (cfg.libelleConsequence || T('scenario.consequence')) + '</span>'

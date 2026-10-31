@@ -55,6 +55,11 @@ mark { background: var(--accent-glow); color: var(--text-primary); padding: 1px 
 .callout-content h4 { font-size: var(--fs-base); margin-bottom: var(--space-2); }
 .callout-content p { margin: 0; color: var(--text-secondary); }
 .callout-content p + p { margin-top: var(--space-2); }
+/* .callout est une boîte flex : sans min-width: 0, son contenu ne rétrécit pas sous la largeur de son plus long
+   mot. Une adresse sans espace (github.com/owner/repo/releases.atom) imposait 425 px à un écran de 375 px : toute
+   la page défilait de côté. Le contenu rétrécit désormais, et un code trop long se coupe. */
+.callout-content { min-width: 0; }
+.callout-content code { overflow-wrap: anywhere; }
 .callout.info    { background: var(--info-bg);    border-color: color-mix(in srgb, var(--info) 30%, transparent); }
 .callout.tip     { background: var(--success-bg); border-color: color-mix(in srgb, var(--success) 30%, transparent); }
 .callout.warning { background: var(--warning-bg); border-color: color-mix(in srgb, var(--warning) 35%, transparent); }
