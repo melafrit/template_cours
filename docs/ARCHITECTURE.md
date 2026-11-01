@@ -49,6 +49,7 @@ site/
     │   ├── nav-sections.js     # DONNÉES : sous-sections (ancres) par chapitre
     │   ├── accessibility.js    # MOTEUR : panneau ♿ (taille texte, police DYS, skip-link)
     │   ├── media.js            # MOTEUR : chargement auto podcast/slides/infographie/polycopié
+    │   ├── media-data.js       # DONNÉES (générées) : les médias déposés, que media.js charge
     │   ├── podcasts.js         # MOTEUR : bande des diapositives et visionneuse de la page Podcasts
     │   ├── flashcards.js       # MOTEUR : FlashcardDeck (cartes de révision)
     │   ├── flashcards-data.js  # DONNÉES : cartes par chapitre
@@ -180,14 +181,16 @@ La transcription affichée est **générée** depuis la fiche de production par
 | **QCM/questions.js** | `window.QCM_QUESTIONS` | `{ meta:{…}, questions:[{ id, chapitre, difficulte, enonce:{fr,en}, propositions:[{fr,en}×4] }] }` | pages QCM |
 | **QCM/corrections.js** | `window.QCM_CORRECTIONS` | `{ corrections:[{ id, chapitre, difficulte, bonne_reponse_index, explication:{fr,en} }] }` | entrainement, correction, dashboard |
 | **playlist-data.js** ⚙️ | `window.RDC_PLAYLIST` | `{ "<num>": { titre, page, pistes:[{ type, titre, src, duree, present, langue }] } }` | playlist.js |
+| **media-data.js** ⚙️ | `window.TPL_MEDIAS` | `{ podcasts:[…], slides:[…], infographies:[…], polycopies:[…] }` — les fichiers de chapitre déposés, par dossier | media.js (il ne demande au serveur que ceux-là) |
 | **langues-data.js** ⚙️ | `window.TPL_LANGUES` | `["chapitres/01-x.html", …]` — les pages qui ont leur jumelle sous `en/` (vide hors site miroir) | langue.js, navigation.js, glossaire-tooltip.js |
 
 **⚙️ = fichier GÉNÉRÉ.** `langues-data.js` est produit par `outils/generer_langues.py`
 d'après les fichiers de `site/en/` ; `glossaire-emplois.js`, par
 `outils/glossaire_emplois.py` d'après les termes du glossaire et les pages ; `playlist-data.js`, par
 `outils/generer_playlist.py` d'après les pages et les fichiers audio réels ;
+`media-data.js`, par `outils/generer_medias.py` d'après les médias déposés ;
 `nav-sections.js`, par `outils/generer_nav_sections.py` d'après les `<h2 id>` des
-chapitres (`nouveau_cours.py` le lance à la création du cours). Les corriger à la
+chapitres (`nouveau_cours.py` lance ces deux derniers à la création du cours). Les corriger à la
 main donne l'illusion d'avoir résolu le problème jusqu'à la régénération
 suivante, qui écrase tout sans prévenir.
 
@@ -221,12 +224,13 @@ Les scripts sont chargés **sans `defer`/`async`**, en bas du `<body>`, donc dan
 <script src="../assets/js/nav-sections.js"></script>  <!-- 3. données : RDC_SECTIONS -->
 <script src="../assets/js/navigation.js"></script>    <!-- 4. lit COURSE + RDC_SECTIONS -->
 <script src="../assets/js/accessibility.js"></script> <!-- 5. panneau ♿ -->
-<script src="../assets/js/media.js"></script>         <!-- 6. médias du chapitre -->
-<script src="../assets/js/glossaire-data.js"></script><!-- 7. données : GLOSSARY -->
-<script src="../assets/js/glossaire-tooltip.js"></script><!-- 8. lit GLOSSARY -->
-<script src="../assets/js/flashcards.js"></script>    <!-- 9. expose FlashcardDeck -->
-<script src="../assets/js/flashcards-data.js"></script><!-- 10. données : RDC_FLASHCARDS -->
-<script src="../assets/js/animations.js"></script>    <!-- 11. effets visuels (dernier) -->
+<script src="../assets/js/media-data.js"></script>    <!-- 6. données : TPL_MEDIAS -->
+<script src="../assets/js/media.js"></script>         <!-- 7. médias du chapitre -->
+<script src="../assets/js/glossaire-data.js"></script><!-- 8. données : GLOSSARY -->
+<script src="../assets/js/glossaire-tooltip.js"></script><!-- 9. lit GLOSSARY -->
+<script src="../assets/js/flashcards.js"></script>    <!-- 10. expose FlashcardDeck -->
+<script src="../assets/js/flashcards-data.js"></script><!-- 11. données : RDC_FLASHCARDS -->
+<script src="../assets/js/animations.js"></script>    <!-- 12. effets visuels (dernier) -->
 <script>
   new FlashcardDeck('flash-ch1', (window.RDC_FLASHCARDS || {})['1'] || [], 'ch1');
 </script>
@@ -234,7 +238,7 @@ Les scripts sont chargés **sans `defer`/`async`**, en bas du `<body>`, donc dan
 
 **Règles d'ordre à respecter :**
 - `i18n.js` **toujours en premier**.
-- Chaque fichier `*-data.js` **avant** le moteur qui le consomme : `course-data.js` + `nav-sections.js` avant `navigation.js` ; `glossaire-data.js` avant `glossaire-tooltip.js`. (`flashcards-data.js` peut suivre `flashcards.js` car le deck est instancié plus bas, dans le `<script>` inline.)
+- Chaque fichier `*-data.js` **avant** le moteur qui le consomme : `course-data.js` + `nav-sections.js` avant `navigation.js` ; `media-data.js` avant `media.js` ; `glossaire-data.js` avant `glossaire-tooltip.js`. (`flashcards-data.js` peut suivre `flashcards.js` car le deck est instancié plus bas, dans le `<script>` inline.)
 - `animations.js` en dernier (purement décoratif).
 - Le **bloc inline** d'instanciation/configuration vient après tous les `src`.
 
@@ -277,7 +281,7 @@ Les scripts sont chargés **sans `defer`/`async`**, en bas du `<body>`, donc dan
 
 ### 4.2 Ajouter / charger des médias d'un chapitre (podcast, slides, infographie, polycopié)
 
-`media.js` fonctionne **par convention de nommage**. Aucun code à écrire : déposez le fichier au bon endroit, avec le bon nom (`<N>` = numéro du chapitre).
+`media.js` fonctionne **par convention de nommage**. Aucun code à écrire : déposez le fichier au bon endroit, avec le bon nom (`<N>` = numéro du chapitre), puis lancez `python3 outils/generer_medias.py`, qui tient la liste des médias présents (`media-data.js`). Un média absent de la liste n'est jamais demandé au serveur — et un média déposé sans régénérer la liste ne s'affiche pas.
 
 | Média | Emplacement et nom | Section HTML attendue dans le chapitre |
 |---|---|---|
@@ -287,9 +291,9 @@ Les scripts sont chargés **sans `defer`/`async`**, en bas du `<body>`, donc dan
 | Polycopié | `assets/polycopies/chapitre-<N>-polycopie.pdf` (+ `.docx`) | aucun — bouton injecté dans `.chapter-nav` |
 
 Détails utiles :
-- Le **modèle** `01-cadrage.html` contient déjà ces trois `<section>` avec un texte de remplacement (« déposez un fichier… »). Si le média existe, `media.js` remplace le placeholder ; sinon, le placeholder reste (aucune erreur visible).
+- Le **modèle** `01-cadrage.html` contient déjà ces trois `<section>` avec un texte de remplacement (« déposez un fichier… »). Si le média est dans la liste, `media.js` remplace le placeholder ; sinon, le placeholder reste, et rien n'est demandé (aucune erreur 404 en console).
 - Pour les **slides**, gardez `data-slides="[]"` : c'est le mode PDF géré par `media.js`. (Le mode « galerie d'images » d'`animations.js` ne s'active que si `data-slides` contient un tableau d'URL non vide — usage alternatif.)
-- **En `http(s)`**, `media.js` fait un `fetch HEAD` pour vérifier l'existence du fichier avant d'afficher. **En `file://`**, la vérification est impossible : l'aperçu est activé d'office (PDF/infographie). C'est pourquoi `preload='auto'` est utilisé pour l'audio (fichier entièrement *seekable* en local).
+- **Sans liste** (un cours qui n'a pas encore `media-data.js`), `media.js` sonde : **en `http(s)`**, un `fetch HEAD` vérifie l'existence du fichier avant d'afficher — chaque absent laisse alors une erreur 404 en console ; **en `file://`**, la vérification est impossible : l'aperçu est activé d'office (PDF/infographie). C'est pourquoi `preload='auto'` est utilisé pour l'audio (fichier entièrement *seekable* en local).
 - La **série de podcasts** (module 03, bloc `podcasts`) réutilise ces fichiers : l'épisode nommé `chapitre-<N>-podcast` joue, sur la page Podcasts, le MP3 que lit le chapitre ; ses diapositives et ses textes viennent de `outils/podcasts.py` et de `outils/generer_podcasts.py`, et l'encadré « Le podcast du chapitre » (fragment `podcast-N`) y mène depuis l'en-tête du chapitre.
 - Le **pop-out** du lecteur audio ouvre `assets/player.html` (à fournir si vous voulez cette fonction ; absent par défaut, le reste du lecteur fonctionne sans).
 
@@ -420,7 +424,7 @@ Pour **rebrander** : modifiez `--primary`, `--accent` et les `--bg-*`/`--text-*`
 ### Fonctionnement hors-ligne
 
 - Le site est **statique et sans build**. Tout l'état utilisateur (langue, thème, progression, réponses de QCM/flashcards, réglages d'accessibilité) vit dans **`localStorage`** ; aucun serveur n'est requis.
-- **Ouverture directe en `file://`** : prévue et gérée. `media.js` détecte le protocole : en `file://` il ne tente pas de `fetch HEAD` (qui échouerait) et active directement les aperçus ; le SHA-256 du QCM est une implémentation **autonome** (pas de `crypto.subtle`, qui est indisponible/instable hors contexte sécurisé).
+- **Ouverture directe en `file://`** : prévue et gérée. `media.js` ne charge que les médias de sa liste (`media-data.js`) ; sans liste, il détecte le protocole : en `file://` il ne tente pas de `fetch HEAD` (qui échouerait) et active directement les aperçus ; le SHA-256 du QCM est une implémentation **autonome** (pas de `crypto.subtle`, qui est indisponible/instable hors contexte sécurisé).
 - **Dépendances réseau résiduelles** (non bloquantes) :
   - **Google Fonts** (Sora, Source Serif 4, JetBrains Mono) via `<link>` dans chaque `<head>`, et **Atkinson Hyperlegible** chargée à la demande par `accessibility.js`. Sans réseau, le navigateur retombe sur les polices système (`system-ui`, Georgia…). Pour un **hors-ligne strict**, télécharger ces polices en local et remplacer les `<link>`/l'URL d'`accessibility.js`.
   - **xlsx.full.min.js** (CDN) uniquement sur `QCM/dashboard/` (export Excel formateur). Le reste du module QCM fonctionne sans.

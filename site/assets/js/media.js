@@ -3,9 +3,10 @@
    Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
 
    Déposez vos fichiers dans assets/media/{infographies,slides,podcasts}/
-   nommés  chapitre-<N>-<type>.<ext>  (ex. chapitre-3-podcast.mp3) :
-   ils s'affichent automatiquement sur la page du chapitre correspondant.
-   Si un fichier est absent, l'espace réservé est conservé (aucune erreur visible).
+   nommés  chapitre-<N>-<type>.<ext>  (ex. chapitre-3-podcast.mp3), puis
+   lancez  python3 outils/generer_medias.py  : ils s'affichent sur la page du
+   chapitre correspondant. Un fichier absent de la liste (media-data.js)
+   n'est pas demandé au serveur, et l'espace réservé est conservé.
    ================================================================= */
 (function () {
   var file = (location.pathname.split('/').pop() || '');
@@ -19,6 +20,12 @@
      diapositives, l'infographie, leurs fenêtres, le lecteur persistant — repose ses libellés sur « tpl:langchange ». */
   function t(cle, defaut) { return window.T ? T(cle) : defaut; }
   function duChapitre() { return ' — ' + t('media.chapitre', 'chapitre') + ' ' + N; }
+  /* Les médias déposés (media-data.js, écrit par outils/generer_medias.py) : on ne demande au serveur que ce qui est
+     là. Chaque média absent — le podcast sous ses quatre noms possibles, les diapositives, l'infographie, la fiche —
+     laissait une erreur 404 dans la console de chaque chapitre. Sans liste (un cours qui ne l'a pas encore), dispo()
+     répond « peut-être » et l'on sonde comme avant. */
+  var MEDIAS = window.TPL_MEDIAS || null;
+  function dispo(dossier, nom) { return !MEDIAS || (MEDIAS[dossier] || []).indexOf(nom) >= 0; }
 
   // --- Podcast : lecteur personnalisé (±10 s + progression) + mini-lecteur flottant + pop-out ---
     var pod = document.querySelector('.podcast-section');
@@ -44,11 +51,15 @@
         var barre = pod.querySelector('.podcast-player');
         if (barre) barre.innerHTML = '';
 
-        audioPod = document.createElement('audio');
-        audioPod.preload = 'auto';
         var lg = languePod();
         var noms = ['-podcast.' + lg + '.mp3', '-podcast.mp3',
-                    '-podcast.' + lg + '.m4a', '-podcast.m4a'];
+                    '-podcast.' + lg + '.m4a', '-podcast.m4a'].filter(function (suffixe) {
+          return dispo('podcasts', 'chapitre-' + N + suffixe);
+        });
+        // Aucun épisode déposé pour ce chapitre (dans cette langue) : le texte d'attente reste, rien n'est demandé.
+        if (!noms.length) { audioPod = null; return; }
+        audioPod = document.createElement('audio');
+        audioPod.preload = 'auto';
         noms.forEach(function (suffixe) {
           var s = document.createElement('source');
           s.src = base + 'podcasts/chapitre-' + N + suffixe;
@@ -73,7 +84,7 @@
 
   // --- Slides : PDF (généré par NotebookLM) + agrandissement en popup plein écran ---
   var sl = document.querySelector('.slides-section');
-  if (sl) {
+  if (sl && dispo('slides', 'chapitre-' + N + '-slides.pdf')) {
     var pdfUrl = base + 'slides/chapitre-' + N + '-slides.pdf';
     var vp = sl.querySelector('.slides-viewport');
     var ctrls = sl.querySelector('.slides-controls');
@@ -117,7 +128,10 @@
       document.addEventListener('tpl:langchange', libeller);
     };
 
-    if (location.protocol === 'http:' || location.protocol === 'https:') {
+    if (MEDIAS) {
+      // la liste des médias l'a vu : ni sonde, ni 404
+      enableSlides();
+    } else if (location.protocol === 'http:' || location.protocol === 'https:') {
       // site hébergé : on vérifie l'existence du PDF avant de l'afficher
       fetch(pdfUrl, { method: 'HEAD' }).then(function (r) { if (r.ok) enableSlides(); }).catch(function () {});
     } else {
@@ -128,7 +142,7 @@
 
   // --- Infographie : remplit la section dédiée si le PNG existe (clic -> popup plein écran) ---
   var infoVp = document.querySelector('.infographie-section .infographie-viewport');
-  if (infoVp) {
+  if (infoVp && dispo('infographies', 'chapitre-' + N + '-infographie.png')) {
     var infoUrl = base + 'infographies/chapitre-' + N + '-infographie.png';
     var openImg = buildImageModal();
     var img = document.createElement('img');
@@ -194,7 +208,12 @@
       }
 
       function tenter() {
-        if (location.protocol === 'http:' || location.protocol === 'https:') {
+        if (MEDIAS) {
+          // la liste des médias dit si la fiche de cette langue est là : ni sonde, ni 404
+          var b = nav.querySelector('.poly-btn');
+          if (dispo('polycopies', 'chapitre-' + N + '-polycopie.' + langue() + '.pdf')) poser();
+          else if (b) b.parentNode.removeChild(b);
+        } else if (location.protocol === 'http:' || location.protocol === 'https:') {
           fetch(chemin(), { method: 'HEAD' })
             .then(function (r) {
               var b = nav.querySelector('.poly-btn');

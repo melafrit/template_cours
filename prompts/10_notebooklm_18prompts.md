@@ -130,7 +130,9 @@ zéro, celui qui ouvre le nom de sa page (03-….html -> 3) ; c'est ce que lit m
                   (chapitre-N-podcast.en.mp3 pour l'anglais ; sans suffixe de
                   langue pour un cours monolingue ; .m4a accepté aussi)
 Conserve les sources/exports bruts hors du site, dans sources-notebooklm/chapitre-N/.
-Nomme tout en minuscules, sans espaces ni accents.
+Nomme tout en minuscules, sans espaces ni accents. Après le dépôt, lancer
+python3 outils/generer_medias.py : la page ne charge que les médias de sa liste
+(media-data.js), et un média déposé sans cette étape ne s'affiche pas.
 
 SORTIE ATTENDUE DE TA PART (Claude)
 Pour chaque chapitre, dans l'ordre :

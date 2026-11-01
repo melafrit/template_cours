@@ -36,6 +36,7 @@ import sys
 RACINE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(RACINE, "outils"))
 import podcasts as P  # noqa: E402
+import generer_medias  # noqa: E402
 
 for flux in (sys.stdout, sys.stderr):
     try:
@@ -366,9 +367,15 @@ def main():
         print("  puis : la page Podcasts et les encadrés, réécrits d'après ce qui sera publié")
     print("\noutils/generer_fragments.py%s :" % (" --essai" if args.essai else ""))
     print("\n".join("  " + l for l in sortie.splitlines()))
-    if not journal and not erreurs and not code:
-        print("\nRien à faire : les épisodes, les diaporamas, la page et les encadrés sont à jour.")
-    return 1 if erreurs or code or (args.essai and journal) else 0
+    # La liste des médias (media-data.js) : media.js ne demande au serveur que ce qu'elle contient ; sans elle à jour,
+    # le lecteur du chapitre ignorerait l'épisode qu'on vient de publier.
+    medias_a_jour, _nombres = generer_medias.generer(RACINE, args.essai)
+    print("\noutils/generer_medias.py%s : media-data.js %s" % (
+        " --essai" if args.essai else "",
+        "à jour" if medias_a_jour else ("à régénérer" if args.essai else "régénéré")))
+    if not journal and not erreurs and not code and medias_a_jour:
+        print("\nRien à faire : les épisodes, les diaporamas, la page, les encadrés et la liste des médias sont à jour.")
+    return 1 if erreurs or code or (args.essai and (journal or not medias_a_jour)) else 0
 
 
 if __name__ == "__main__":

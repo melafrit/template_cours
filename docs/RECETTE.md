@@ -196,9 +196,10 @@ Le cours créé embarque son propre lanceur. Ouvrez-le :
 - [ ] L'en-tête porte le **nom court** du cours et son pictogramme, le pied de
       page **sa** licence ; chaque chapitre a ses boutons « ← Précédent » et
       « Suivant → » vers les chapitres déclarés, titres compris.
-- [ ] Console vide sur un chapitre squelette (hors sondes 404 des médias à
-      produire) ; ni barre d'étapes ni sommaire dans la page, les sections
-      du chapitre en sous-entrées dans le menu de gauche.
+- [ ] Console vide sur un chapitre squelette, sans aucune erreur 404 : la
+      liste des médias (`media-data.js`) part vide, et `media.js` ne demande
+      rien ; ni barre d'étapes ni sommaire dans la page, les sections du
+      chapitre en sous-entrées dans le menu de gauche.
 
 **Toute trace du cours « concevoir un cours en ligne » dans `../mon-cours` est
 un défaut.** Y compris un titre d'onglet, une méta-donnée, un attribut, le nom

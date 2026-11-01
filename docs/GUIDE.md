@@ -276,6 +276,8 @@ Le pipeline se déroule en **quatre phases**. Vous pouvez itérer à l'intérieu
   - les **slides** PDF → `site/assets/media/slides/` (popup plein écran) ;
   - l'**infographie** → `site/assets/media/infographies/` (lightbox avec zoom).
 
+  Puis lancez `python3 outils/generer_medias.py` : la page ne charge que les médias de sa liste (`media-data.js`), et un média déposé sans cette étape ne s'affiche pas.
+
 ### `13_accessibilite_qa.md` — Accessibilité & contrôle qualité
 
 - **Quand :** à la toute fin, une fois toutes les pages, le QCM, les ateliers, le glossaire et les médias en place. À relancer après chaque correction majeure et juste avant publication.

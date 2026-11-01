@@ -236,6 +236,7 @@ prochaine régénération.
 | `site/assets/js/langues-data.js` | `outils/generer_langues.py` | les pages jumelles de `site/en/` (site miroir) |
 | le contenu entre `<!-- FRAGMENT:nom -->` et `<!-- /FRAGMENT:nom -->` | `outils/generer_fragments.py` | `outils/referentiel.py`, `course-data.js`, `outils/podcasts.py` (la série de podcasts), `outils/livret.py` et `site/livret/livret.json` (la page du polycopié) |
 | `site/assets/js/glossaire-emplois.js` | `outils/glossaire_emplois.py` | les termes de `glossaire-data.js` et les pages qui les emploient |
+| `site/assets/js/media-data.js` | `outils/generer_medias.py` | les médias déposés dans `site/assets/media/` et `site/assets/polycopies/` |
 | les MP3, PDF et diapositives de `site/assets/media/podcasts/` | `outils/generer_podcasts.py` | les épisodes bruts et les diaporamas déposés dans `Podcasts/` (jamais versionnés) |
 | le livret, Word et PDF, de `Polycopie/` | `outils/generer_polycopie.py` | les pages du site, `course-data.js`, `glossaire-data.js`, `outils/livret.py` |
 | `site/livret/` (PDF, vignette de la couverture, `livret.json`) | `outils/publier_polycopie.py` | le PDF de travail de `Polycopie/` (jamais publié) |
@@ -246,13 +247,17 @@ du référentiel ou des pages : un fragment peut tenir dans un titre que les aut
 lisent. `generer_playlist.py` indexe les pages et les fichiers audio réels : il
 passe après `synchroniser_capsules.py` et `generer_audio.py`.
 `generer_podcasts.py` passe après chaque dépôt dans `Podcasts/` : il relance
-`generer_fragments.py`, qui réécrit la page Podcasts et les encadrés.
+`generer_fragments.py`, qui réécrit la page Podcasts et les encadrés, puis
+`generer_medias.py`. Celui-ci se relance aussi après tout autre dépôt, retrait ou
+renommage d'un média (diapositives, infographie, fiche de synthèse) : `media.js`
+ne demande au serveur que les médias de sa liste, et un média qui n'y est pas
+reste caché.
 `generer_polycopie.py` passe après les retouches des pages et du glossaire, puis
 `publier_polycopie.py`, qui relance `generer_fragments.py` : la page du polycopié
 annonce le livret publié — ses pages, son poids, sa langue.
 `generer_nav_sections.py` se relance après tout ajout, retrait ou renommage de
 section, et `glossaire_emplois.py` après toute retouche d'une page —
-`nouveau_cours.py` les lance à la création du cours. En site miroir
+`nouveau_cours.py` les lance à la création du cours, avec `generer_medias.py`. En site miroir
 (`docs/I18N.md`, partie A) : `creer_jumelle.py` ou `data_tr_vers_miroir.py`, puis
 `generer_langues.py` et `liens_langues.py`, puis les autres générateurs, et
 `hreflang.py` **en dernier**.
@@ -301,7 +306,7 @@ entend du français — et la piste reçoit l'accent parisien des pistes frança
 
 ## 6. Vérifier
 
-Huit contrôles, à lancer souvent. Ils attrapent ce que l'œil ne voit pas.
+Neuf contrôles, à lancer souvent. Ils attrapent ce que l'œil ne voit pas.
 
 ```bash
 python3 outils/verifier_i18n.py       # clés dépareillées, blocs data-tr déséquilibrés
@@ -311,6 +316,7 @@ python3 outils/generer_nav_sections.py --essai  # le menu suit-il les <h2 id> de
 python3 outils/verifier_interdits.py  # aucun interdit du cours hors de sa place (outils/interdits.py)
 python3 outils/generer_fragments.py --essai  # chaque chiffre des pages suit le référentiel
 python3 outils/glossaire_emplois.py --essai  # « Où en parle-t-on ? » suit les pages
+python3 outils/generer_medias.py --essai     # la liste des médias suit les fichiers déposés
 python3 demarrer.py                   # le site, sans cache
 ```
 

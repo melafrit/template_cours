@@ -1343,6 +1343,14 @@ def main():
     _a_jour, nch, nsec = gns.generer(sortie)
     print("  nav-sections.js régénéré : %d chapitre(s), %d section(s)" % (nch, nsec))
 
+    # --- les médias : la liste de ceux que le cours a vraiment (ceux de la démonstration sont partis avec elle). Celle
+    #     de la démonstration ferait demander au serveur des fichiers absents — une erreur 404 par chapitre.
+    spec = importlib.util.spec_from_file_location("generer_medias", os.path.join(RACINE, "outils", "generer_medias.py"))
+    gm = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(gm)
+    _a_jour, nombres = gm.generer(sortie)
+    print("  media-data.js régénéré : %s" % ", ".join("%s %d" % (cle, n) for cle, n in nombres.items()))
+
     # --- les fragments : le référentiel du cours part vide (celui de la démonstration portait ses durées), et les
     #     pages reçoivent les valeurs du cours — son vrai nombre de chapitres, « … » pour une durée à renseigner.
     ecrire(os.path.join(sortie, "outils", "referentiel.py"), referentiel_vide())
