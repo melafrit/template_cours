@@ -135,15 +135,21 @@ def main():
     registre = qr.Registre(langue)
     doc, r, lues = composer(langue, chapitres, args.temoin, atelier, registre)
 
-    # Les adresses des QR codes : chacune répond 200 (en ligne), chaque ancre existe ; aucune correction protégée.
+    # Les adresses des QR codes : chacune répond 200 (en ligne), chaque ancre existe ; aucune correction protégée. Un
+    # site protégé (fiche, « site_protege ») répond 401 à la chaîne, qui ne s'authentifie jamais : ses adresses se
+    # vérifient dans le dépôt, les autres en ligne.
+    protege = bool(langue.L.get("site_protege"))
     en_ligne = bool(ADRESSE) and not args.hors_ligne
-    erreurs = registre.verifier(en_ligne=en_ligne)
+    erreurs = registre.verifier(en_ligne=en_ligne, protege=protege)
     erreurs += [f"{p['url']} : une correction protégée ne s'ouvre jamais depuis le livret" for p in registre.poses
                 if "/correction/" in p["url"]]
     print(f"QR codes : {len(registre.poses)} posés, {len({p['url'] for p in registre.poses})} adresses"
+          + (" ; le site, protégé, vérifié dans le dépôt" if protege else "")
           + (", vérifiées en ligne" if en_ligne else ", ancres vérifiées dans le site") + f" ; {len(erreurs)} erreur(s)")
     for e in erreurs:
         print("  ✗", e)
+    for a in registre.avertissements:
+        print("  ·", a)
     for a in (j for j in r.journal if j.get("genre") in ("schema absent", "image absente")):
         quoi = "schéma absent du site, non imprimé" if a["genre"] == "schema absent" else "image absente du site, " \
                                                                                         "non imprimée"
@@ -161,7 +167,8 @@ def main():
 
     # Les règles du livret, dans le texte du Word : aucune adresse imprimée hors des mentions, aucune réponse.
     reponses = [x for p in lues.values() for x in C.reponses_des_activites(p.activites)]
-    visibles = "\n".join(lecture.texte_visible(p) for p in lues.values())
+    visibles = "\n".join([lecture.texte_visible(p) for p in lues.values()]
+                         + [x for p in lues.values() for x in C.imprimes_des_activites(p.activites)])
     ecarts = C.regles(docx, reponses, autorises=(langue.url("").rstrip("/"),), visibles=visibles,
                       produits=langue.L.get("produits", ()))
     print(f"règles du livret : {len(ecarts)} écart(s)")

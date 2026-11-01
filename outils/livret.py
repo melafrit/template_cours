@@ -15,6 +15,17 @@ chapitres aussi. Le reste se décide avec l'auteur, une question à la fois (pro
   produits         les noms de produits qui ont la forme d'une adresse (« draw.io ») et restent écrits
   minuscules       les noms qui gardent leur minuscule initiale en vedette (glossaire, index, marge)
   temoin           les numéros des chapitres du témoin (generer_polycopie.py --temoin)
+  edition          la mention d'édition, dans les deux langues (« Deuxième édition ») : un livret qui remplace le
+                   précédent sous le même nom le dit ; la page Polycopié du site affiche la même ; à défaut,
+                   « Première édition »
+  site_texte       la phrase des mentions qui présente le site (à défaut, celle des libellés)
+  couleurs         la palette du site, si elle n'est pas le bleu nuit et le doré du gabarit : primaire, primaire_fonce,
+                   accent, accent_fonce (et, au besoin, encre, ardoise, filet, fond_primaire, fond_accent, fond_gris,
+                   fond_piege, brique), en hexadécimal ; vérifier le contraste sur blanc (polycopie.gabarit.contraste)
+  site_protege     True si tout le site demande des identifiants : les QR codes du site se vérifient alors dans le
+                   dépôt (la chaîne ne s'authentifie jamais), et les mentions disent où trouver ses identifiants
+  acces            où l'étudiant trouve ses identifiants (« repris dans le cahier de texte »), dans les deux
+                   langues — jamais les identifiants eux-mêmes ; à défaut, la phrase des libellés
 
 La démonstration : la présentation de l'auteur dit ce qu'elle doit devenir ; nouveau_cours.py la vide pour un cours
 créé, que l'auteur remplit avant le premier livret.

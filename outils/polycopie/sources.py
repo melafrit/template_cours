@@ -9,11 +9,16 @@ la fiche du livret (outils/livret.py). Une page bilingue en blocs data-tr se lit
 L'ADRESSE PUBLIQUE est l'« url » de deploiement/destination.json, comme pour outils/hreflang.py : un QR code porte
 toujours une adresse absolue de ce site. Sans elle (le gabarit lui-même, un cours pas encore en ligne), les QR codes
 portent l'adresse d'exemple EXEMPLE et la vérification en ligne n'a pas lieu : le livret le dit.
+
+CE QUI EST PUBLIÉ : le déployeur n'envoie que les fichiers de site/ suivis par Git, moins ceux de la clé « exclure »
+de deploiement/destination.json (CLAUDE.md, « La publication »). Un QR code ne doit mener qu'à eux : publie() le dit,
+exclu() signale une page tenue hors ligne (en chantier : en ligne, sa version précédente demeure, ou rien).
 """
 import io
 import json
 import os
 import re
+import subprocess
 import sys
 from urllib.parse import urljoin, urlsplit
 
@@ -36,18 +41,57 @@ CACHE = os.path.join(TRAVAIL, "_cache")                # images et QR codes reg�
 EXEMPLE = "https://example.org/cours/"                 # example.org : un domaine réservé aux exemples (RFC 2606)
 
 
+def destination():
+    """deploiement/destination.json (sans secret, versionné), ou un dictionnaire vide."""
+    try:
+        return json.load(io.open(os.path.join(RACINE, "deploiement", "destination.json"), encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+
+
 def adresse_publique():
     """L'adresse publique du cours, terminée par « / » (« url » de deploiement/destination.json), ou ""."""
-    try:
-        d = json.load(io.open(os.path.join(RACINE, "deploiement", "destination.json"), encoding="utf-8"))
-    except (OSError, ValueError):
-        return ""
-    url = str(d.get("url") or "").strip()
+    url = str(destination().get("url") or "").strip()
     return url.rstrip("/") + "/" if url else ""
 
 
 ADRESSE = adresse_publique()
 SITE = ADRESSE or EXEMPLE
+
+
+# ── ce que le déployeur publie ─────────────────────────────────────────────
+_SUIVIS = None
+
+
+def suivis():
+    """Les fichiers de site/ suivis par Git (chemins depuis site/), ou None si Git ne répond pas."""
+    global _SUIVIS
+    if _SUIVIS is None:
+        try:
+            r = subprocess.run(["git", "-C", RACINE, "ls-files", "-z", "--", "site"], capture_output=True,
+                               timeout=60)
+            _SUIVIS = {p[len("site/"):] for p in r.stdout.decode("utf-8", "replace").split("\0")
+                       if p.startswith("site/")} if r.returncode == 0 else False
+        except (OSError, subprocess.SubprocessError):
+            _SUIVIS = False
+    return _SUIVIS or None
+
+
+def publie(rel):
+    """Vrai si le fichier (chemin depuis site/) part avec le site : suivi par Git. None si Git ne répond pas."""
+    s = suivis()
+    return None if s is None else rel in s
+
+
+def exclu(rel):
+    """L'entrée de « exclure » (destination.json) qui tient ce fichier hors de la mise en ligne, ou None — la règle
+    même du déployeur (deploiement/deployer.py, exclu) : motif fnmatch, ou dossier."""
+    import fnmatch
+    for m in destination().get("exclure") or []:
+        m = str(m)
+        if fnmatch.fnmatch(rel, m) or rel.startswith(m.rstrip("*").rstrip("/") + "/"):
+            return m
+    return None
 
 
 # ── le cours (course-data.js) et la fiche du livret ────────────────────────
@@ -167,11 +211,22 @@ class Langue:
         return urljoin(self.url(page_rel), href)
 
     def locale(self, url):
-        """Le fichier local que désigne une adresse du site (None pour une adresse hors du site)."""
+        """Le fichier local que désigne une adresse du site (None pour une adresse hors du site) ; le dossier du
+        site, sa page d'accueil."""
         if not url.startswith(SITE):
             return None
         chemin = urlsplit(url).path[len(urlsplit(SITE).path):]
+        if chemin == "" or chemin.endswith("/"):
+            chemin += "index.html"
         return os.path.join(SITE_LOCAL, *chemin.split("/"))
+
+    @staticmethod
+    def rel_site(url):
+        """Le chemin depuis site/ que désigne une adresse du site (« en/chapitres/01-….html »), ou None."""
+        if not url.startswith(SITE):
+            return None
+        chemin = urlsplit(url).path[len(urlsplit(SITE).path):]
+        return chemin + "index.html" if (chemin == "" or chemin.endswith("/")) else chemin
 
     # ── le cours ───────────────────────────────────────────────────────────
     def chapitres(self):

@@ -71,6 +71,20 @@ def photographier(travaux):
     return len(travaux)
 
 
+def titre(url, delai=120):
+    """Le titre (<title>) de la page qu'ouvre Chrome sans interface à cette adresse, ou "" : pour un site qui refuse
+    les robots (403 à urllib) mais sert la page à un navigateur — la vérification se fait alors comme un étudiant
+    l'ouvrirait. Un profil temporaire, rien n'est gardé."""
+    with tempfile.TemporaryDirectory(prefix="polycopie-chrome-") as profil:
+        try:
+            r = subprocess.run([chrome()] + COMMUNS + [f"--user-data-dir={profil}", "--virtual-time-budget=10000",
+                                                       "--dump-dom", url], capture_output=True, timeout=delai)
+        except subprocess.TimeoutExpired:
+            return ""
+    m = re.search(r"<title[^>]*>(.*?)</title>", r.stdout.decode("utf-8", "replace"), re.S | re.I)
+    return re.sub(r"\s+", " ", m.group(1)).strip() if m else ""
+
+
 def composants(chemin_page, langue):
     """{identifiant : (sorte, configuration)} des composants que la page monte (voice, reveal, checkpoint, match,
     spotError, branch, hotspots), tels que la page les calcule dans la langue (fr ou en)."""

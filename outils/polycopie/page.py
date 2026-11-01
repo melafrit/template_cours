@@ -27,13 +27,21 @@ INVENTAIRE = os.path.join(SITE_LOCAL, DOSSIER, "livret.json")
 TEXTES = {
     "fr": dict(bouton="📘 Télécharger le polycopié", format="PDF · {pages} pages · {poids} · {langue}",
                langues={"fr": "en français", "en": "en anglais"}, alt="Couverture du polycopié{edition} : « {titre} »",
-               edition=" (édition anglaise)", a_venir="Le polycopié paraîtra ici.", premiere="Première édition",
+               edition=" (édition anglaise)", a_venir="Le polycopié paraîtra ici.",
                fichier="Polycopie", poids=lambda o: ("%.1f Mo" % (o / 1048576)).replace(".", ",")),
     "en": dict(bouton="📘 Download the course book", format="PDF · {pages} pages · {poids} · {langue}",
                langues={"fr": "in French", "en": "in English"}, alt="Cover of the course book{edition}: “{titre}”",
-               edition=" (French edition)", a_venir="The course book will appear here.", premiere="First edition",
+               edition=" (French edition)", a_venir="The course book will appear here.",
                fichier="Course-book", poids=lambda o: "%.1f MB" % (o / 1048576)),
 }
+
+
+def typo(texte, langue):
+    """Les espaces insécables du français, avant : ; ! ? » et après « : la page du site les veut comme le livret
+    (rendu.Rendu.typo)."""
+    if langue != "fr":
+        return texte
+    return re.sub(r" (?=[;:!?»])", "\u00a0", str(texte)).replace("« ", "«\u00a0")
 
 
 def esc(s):
@@ -94,18 +102,20 @@ def rendre(nom, langue, rel):
         largeur, hauteur = livret.get("taille", [480, 679])
         alt = t["alt"].format(edition=t["edition"] if autre else "", titre=livret.get("titre") or L["titre"])
         return (f'<figure class="poly-couverture"><img src="{racine}{livret["vignette"]}" width="{largeur}" '
-                f'height="{hauteur}" alt="{esc(alt)}"></figure>')
+                f'height="{hauteur}" alt="{esc(typo(alt, langue))}"></figure>')
     if sorte == "auteur":
         texte = re.sub(r"\s+", " ", str((Langue(langue).livret.get("presentation") or {}).get(langue, ""))).strip()
-        return f"<p>{esc(texte)}</p>" if texte else ""
+        return f"<p>{esc(typo(texte, langue))}</p>" if texte else ""
     # la fiche
-    morceaux = [f'<p class="poly-titre">{esc(L["titre"])}</p>']
+    morceaux = [f'<p class="poly-titre">{esc(typo(L["titre"], langue))}</p>']
     if L["sous_titre"]:
-        morceaux.append(f'<p class="poly-sous-titre">{esc(L["sous_titre"])}</p>')
-    ligne = " · ".join(x for x in (L["auteur"], L["pied_couverture"], t["premiere"]) if x)
-    morceaux.append(f'<p class="poly-auteur">{esc(ligne)}</p>')
+        morceaux.append(f'<p class="poly-sous-titre">{esc(typo(L["sous_titre"], langue))}</p>')
+    # La mention d'édition est celle du livret (fiche, ou « Première édition » par défaut) : la page et le papier disent
+    # la même chose.
+    ligne = " · ".join(x for x in (L["auteur"], L["pied_couverture"], L["mentions"]["edition"]) if x)
+    morceaux.append(f'<p class="poly-auteur">{esc(typo(ligne, langue))}</p>')
     if not livret:
-        morceaux.append(f'<p class="poly-format">{esc(t["a_venir"])}</p>')
+        morceaux.append(f'<p class="poly-format">{esc(typo(t["a_venir"], langue))}</p>')
         return "".join(morceaux)
     marque = ' hreflang="fr"' if autre else ""
     fmt = t["format"].format(pages=livret["pages"], poids=t["poids"](livret["octets"]),

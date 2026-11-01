@@ -11,7 +11,8 @@ DUREES     minutes de lecture de chaque chapitre, par numéro (celui de course-d
            duree-totale (« 30 min », « 1 h 20 »).
 VALEURS    les chiffres et noms du cas : fragment val-<clé>. Une valeur est un nombre (12000 → « 12 000 » en
            français, « 12,000 » en anglais), un couple (99.9, "%") → « 99,9 % » / « 99.9% », un texte, ou un dict
-           {"fr": …, "en": …}.
+           {"fr": …, "en": …}. Un entier de 0 à 99 s'écrit aussi en lettres, d'après la même valeur :
+           val-<clé>-lettres (« trois fois plus » et « ×3 » ne peuvent plus diverger).
 FRAGMENTS  les fragments composés (tableau, liste) : nom → fonction(langue) qui rend le HTML.
 verifier   les contrôles de cohérence du cas, lancés avant toute écriture : une liste de messages, vide si tout va.
 

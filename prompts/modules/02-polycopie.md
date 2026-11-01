@@ -48,7 +48,7 @@ recopie depuis le gabarit les fichiers du tableau et ajoute l'entrée du menu da
 |---|---|
 | `outils/generer_polycopie.py` | compose le livret Word, puis le PDF par Word, dans `Polycopie/` (jamais publié) |
 | `outils/polycopie/` | le paquet : sources, libelles, navigateur, lecture, gabarit, ooxml, pictos, images, qr, rendu, pages, word, controles, page |
-| `outils/livret.py` | la fiche du livret : ce que le site ne dit pas — pied de couverture, catégorie, année du copyright, **présentation de l'auteur** (le livret refuse de s'écrire sans elle), cas fictif, adresses à nommer, noms gardant leur minuscule, chapitres du témoin |
+| `outils/livret.py` | la fiche du livret : ce que le site ne dit pas — pied de couverture, catégorie, année du copyright, **présentation de l'auteur** (le livret refuse de s'écrire sans elle), cas fictif, adresses à nommer, noms gardant leur minuscule, chapitres du témoin ; mention d'édition (« Deuxième édition »), palette du site si elle n'est pas celle du gabarit, site protégé (QR codes vérifiés dans le dépôt, mentions qui disent où trouver ses identifiants) |
 | `outils/publier_polycopie.py` | contrôle le PDF, le publie dans `site/livret/` avec la vignette de sa couverture et `livret.json`, puis réécrit la page |
 | `site/polycopie.html` | la page : fragments `livret-couverture`, `livret-fiche`, `livret-auteur`, écrits par `outils/generer_fragments.py` |
 | `site/assets/js/interactions.js` | l'enregistreur : chaque composant RDCX garde sa configuration ; l'adresse `?polycopie=fr` (ou `en`) la dépose dans la page, que Chrome sans interface lit |

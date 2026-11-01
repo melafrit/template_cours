@@ -21,6 +21,7 @@ Fragments connus :
   duree-N               la durée de lecture du chapitre N     ← referentiel.DUREES (« 30 min », « 1 h 20 »)
   duree-totale          la somme des durées des chapitres     ← referentiel.DUREES
   val-<clé>             un chiffre ou un nom du cas           ← referentiel.VALEURS
+  val-<clé>-lettres     ce chiffre, en lettres (« trois »)    ← referentiel.VALEURS (un entier de 0 à 99)
   <nom>                 un fragment composé                   ← referentiel.FRAGMENTS
   podcasts              la liste des épisodes de podcasts.html ← outils/podcasts.py (module 03)
   podcasts-etat         la ligne d'état de son en-tête         ← outils/podcasts.py
@@ -190,6 +191,14 @@ def rendre(nom, langue, ref, nums, page="", serie=None, livret=None):
     if nom.startswith("val-"):
         cle = nom[len("val-"):]
         valeurs = getattr(ref, "VALEURS", {}) or {}
+        base = cle[:-len("-lettres")] if cle.endswith("-lettres") else None
+        if cle not in valeurs and base in valeurs:
+            # Un chiffre que la phrase écrit en lettres (« trois fois plus ») vient de la même valeur que ses emplois en
+            # chiffres (« ×3 ») : deux valeurs pour un même chiffre, et la première retouche n'en change qu'une.
+            n = valeurs[base]
+            if isinstance(n, bool) or not isinstance(n, int) or not 0 <= n < 100:
+                raise Manque("VALEURS[%r] = %r ne s'écrit pas en lettres (un entier de 0 à 99)" % (base, n))
+            return en_lettres(n, langue)
         if cle not in valeurs:
             raise Manque("VALEURS[%r] manque" % cle)
         return valeur(valeurs[cle], langue)

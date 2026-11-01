@@ -9,10 +9,10 @@ index) prennent toute la largeur : marges de 2,2 cm des deux côtés.
 LES CARACTÈRES (installés sur le poste) : le texte en Cambria 10,5 pt, interligne 1,2, justifié et coupé ; les
 titres en Segoe UI Semibold ; la marge et les légendes en Segoe UI 7 à 8 pt ; le code en Consolas 9 pt.
 
-LES COULEURS, celles du site : le bleu nuit (primaire) et le doré (accent), des fonds très clairs. Rien ne se lit à
-la seule couleur : un encadré se reconnaît à son pictogramme, à son libellé et à son filet, même imprimé en noir et
-blanc. Le doré (ACCENT) ne sert qu'aux numéros et aux libellés en gros caractères ; le petit texte doré prend
-ACCENT_FONCE (contraste de 6 sur blanc).
+LES COULEURS, celles du site : le primaire et l'accent de sa palette (la fiche du livret, « couleurs » ; à défaut, le
+bleu nuit et le doré du gabarit), des fonds très clairs. Rien ne se lit à la seule couleur : un encadré se reconnaît à
+son pictogramme, à son libellé et à son filet, même imprimé en noir et blanc. L'accent (ACCENT) ne sert qu'aux
+numéros et aux libellés en gros caractères ; le petit texte prend ACCENT_FONCE (contraste de 6 sur blanc).
 
 LES EN-TÊTES : le titre du livre sur les pages paires, « Chapitre n · titre » sur les pages impaires (deux champs
 STYLEREF, sur les styles « Poly Numéro de chapitre » et « Poly Titre de chapitre »), filet fin ; le numéro de page au
@@ -43,6 +43,8 @@ MARGE_BOITE = 3.6                             # largeur d'une zone de la marge (
 QR = 2.2                                      # côté d'un QR code de la marge
 
 # ── les couleurs ───────────────────────────────────────────────────────────
+# Celles du gabarit (bleu nuit et doré), que remplace la charte du cours quand sa fiche en donne une
+# (outils/livret.py, « couleurs » : la palette du site). Les contrastes sur blanc se vérifient avec contraste().
 PRIMAIRE = "1B3A5B"
 PRIMAIRE_FONCE = "0E2238"
 ACCENT = "9C7A22"
@@ -56,6 +58,30 @@ FOND_GRIS = "F3F5F8"
 FOND_PIEGE = "FAEDEA"
 BRIQUE = "A93E2C"
 BLANC = "FFFFFF"
+
+
+def _charte():
+    """La palette de la fiche du livret, posée sur les constantes ci-dessus (une couleur absente garde la sienne)."""
+    from .sources import fiche_livret
+    noms = dict(primaire="PRIMAIRE", primaire_fonce="PRIMAIRE_FONCE", accent="ACCENT", accent_fonce="ACCENT_FONCE",
+                encre="ENCRE", ardoise="ARDOISE", filet="FILET", fond_primaire="FOND_PRIMAIRE",
+                fond_accent="FOND_ACCENT", fond_gris="FOND_GRIS", fond_piege="FOND_PIEGE", brique="BRIQUE")
+    for cle, valeur in (fiche_livret().get("couleurs") or {}).items():
+        if cle in noms and valeur:
+            globals()[noms[cle]] = str(valeur).lstrip("#").upper()
+
+
+_charte()
+
+
+def contraste(a, b=BLANC):
+    """Le rapport de contraste WCAG de deux couleurs (« 4A2352 », « FFFFFF »)."""
+    def lum(h):
+        c = [int(h[k:k + 2], 16) / 255 for k in (0, 2, 4)]
+        c = [x / 12.92 if x <= 0.03928 else ((x + 0.055) / 1.055) ** 2.4 for x in c]
+        return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
+    l1, l2 = sorted((lum(a), lum(b)), reverse=True)
+    return (l1 + 0.05) / (l2 + 0.05)
 
 # ── les polices ────────────────────────────────────────────────────────────
 TEXTE_POLICE = "Cambria"
@@ -136,9 +162,11 @@ STYLES = [
     ("Poly Glossaire définition", "PolyGlossaireDefinition", TEXTE_POLICE, 9, ENCRE, False, False, 0, 4, 1.12,
      "left", None, False, {}),
     # Les styles que Word reconnaît par leur nom : la table des matières et l'index.
-    ("toc 1", "TOC1", TITRE, 10, PRIMAIRE, False, False, 8, 2, 1.0, "left", None, True,
+    # La table des matières, serrée juste assez pour tenir sur une page quand le livret a six parties et une
+    # trentaine de sections.
+    ("toc 1", "TOC1", TITRE, 10, PRIMAIRE, False, False, 6, 1.5, 1.0, "left", None, True,
      {"coupure": False, "tab": True}),
-    ("toc 2", "TOC2", TEXTE_POLICE, 10, ENCRE, False, False, 0, 2, 1.0, "left", None, False,
+    ("toc 2", "TOC2", TEXTE_POLICE, 10, ENCRE, False, False, 0, 1, 1.0, "left", None, False,
      {"coupure": False, "tab": True, "retrait": 0.55}),
     ("index 1", "Index1", TEXTE_POLICE, 9, ENCRE, False, False, 0, 1, 1.0, "left", None, False,
      {"coupure": False, "suspendu": 0.4}),

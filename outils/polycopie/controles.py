@@ -77,8 +77,33 @@ def regles(chemin, reponses=(), autorises=(), visibles="", produits=()):
     return erreurs
 
 
+def imprimes_des_activites(activites):
+    """Ce que la version papier des activités imprime (rendu.Rendu.activite) : questions, propositions, situations,
+    choix, colonnes d'une association, passages d'un repérage, consignes, indices. Une réponse qui commence par la
+    proposition qu'elle valide n'est pas imprimée pour autant : ces textes s'ajoutent à ceux que les pages montrent
+    (controles.regles, visibles). D'un cas à embranchements, la première étape seule (rendu.etapes_imprimees)."""
+    from .rendu import etapes_imprimees
+    out = []
+    for genre, d in activites.values():
+        out.extend(str(d.get(k, "")) for k in ("titre", "consigne", "intro", "question", "indice"))
+        out.extend(str(o) for o in d.get("options") or [])
+        for q in d.get("questions", []) or []:
+            out.append(str(q.get("q", "")))
+            out.extend(str(o) for o in q.get("options") or [])
+        for p in d.get("paires", []) or []:
+            out.extend([str(p.get("g", "")), str(p.get("d", ""))])
+        out.extend(str(f.get("t", "")) for f in d.get("fragments", []) or [])
+        for e in etapes_imprimees(d):
+            out.extend([str(e.get("situation", "")), str(e.get("question", ""))])
+            out.extend(str(o.get("t", "")) for o in (e.get("options") or e.get("choix") or []))
+    return [re.sub(r"\*\*", "", x) for x in out if x]
+
+
 def reponses_des_activites(activites):
-    """Les textes qui donnent une réponse, dans les données des composants d'une page."""
+    """Les textes qui donnent une réponse, dans les données des composants d'une page — et la situation des étapes
+    d'un scénario que le livret n'imprime pas (rendu.etapes_imprimees) : elle peut dire la réponse de l'étape d'avant
+    (« La question, reformulée… »)."""
+    from .rendu import etapes_imprimees
     out = []
     for genre, d in activites.values():
         if genre == "checkpoint":
@@ -92,6 +117,7 @@ def reponses_des_activites(activites):
         elif genre == "branch":
             for e in d.get("etapes", []):
                 out.extend(o.get("consequence", "") for o in (e.get("options") or e.get("choix") or []))
+            out.extend(e.get("situation", "") for e in (d.get("etapes") or [])[len(etapes_imprimees(d)):])
     return [re.sub(r"\*\*", "", x) for x in out if x]
 
 

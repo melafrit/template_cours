@@ -28,9 +28,10 @@ LES ENCADRÉS sont des tableaux d'une cellule, distincts même en noir et blanc 
   Lire ce schéma    filet bleu nuit à gauche, l'œil.
 
 LES RÉPONSES ne s'impriment jamais : d'un point de contrôle, les questions et leurs propositions ; d'une association,
-les deux colonnes, la droite mélangée ; d'un repérage d'erreurs, les passages et des cases vides ; d'une prédiction,
-la question et des lignes pour écrire (ou ses propositions) ; d'un cas à embranchements, la situation et les choix.
-Le reste est en ligne, derrière le QR code.
+les deux colonnes, mélangées toutes deux (à gauche, aucun élément n'est imprimé sous le numéro que porte son libellé de
+droite : ordres_association) ; d'un repérage d'erreurs, les passages et des cases vides ; d'une prédiction, la question
+et des lignes pour écrire (ou ses propositions) ; d'un cas à embranchements, la situation et les choix de sa première
+étape seule, les suivantes se jouant en ligne (etapes_imprimees). Le reste est en ligne, derrière le QR code.
 
 L'INDEX. Chaque terme du glossaire que le texte emploie reçoit un champ XE, une fois par section (les formes et les
 exclusions de outils/glossaire_emplois.py, la règle de « Où en parle-t-on ? ») ; la page où la marge le définit est
@@ -55,7 +56,7 @@ from . import lecture as H
 from . import ooxml as X
 from .sources import GE, SITE_LOCAL
 
-NBSP = " "
+NBSP = "\u00a0"                 # l'espace insécable (écrite par son échappement : un éditeur la perdrait)
 CASE = "☐"                       # ☐, en Segoe UI Symbol
 SYMBOLE = "Segoe UI Symbol"
 TELECHARGEABLES = (".pdf", ".docx", ".zip", ".xlsx", ".pptx")
@@ -259,11 +260,17 @@ class Rendu:
         # Les guillemets droits deviennent typographiques : ouvrant en début de mot, fermant ailleurs.
         t = re.sub(r'(^|[\s(\[—–-])"', r"\1“", t).replace('"', "”")
         t = re.sub(r"§ (?=\d)", "§" + NBSP, t)
+        # Un numéro reste avec ce qu'il numérote (« Jour 1 », « Day 1 », « Chapitre 3 », « Section 2 », « p. 12 »).
+        t = re.sub(r"\b(Jour|jour|Day|day|Chapitre|chapitre|Chapter|chapter|Section|section|Schéma|p\.) (?=\d)",
+                   r"\1" + NBSP, t)
         if self.langue.code == "fr":
             t = re.sub(r" (?=[;:!?»])", NBSP, t)
             t = t.replace("« ", "«" + NBSP)
             t = re.sub(r"(?<=\d) (?=\d{3}\b)", NBSP, t)
             t = re.sub(r" (?=—[,.;:)])", NBSP, t)
+            # Les heures et les unités ne se coupent pas : « 12 h 30 », « 15 min », « 99,5 % », « 60 Go ».
+            t = re.sub(r"(?<=\d) (?=(?:h|min|s|Go|Mo|Ko|To|mots)\b|%)", NBSP, t)
+            t = re.sub(r"(?<=\d[ \u00a0]h) (?=\d)", NBSP, t)
         return t
 
     def signet(self, paragraphe, ident, nom=None):
@@ -656,7 +663,10 @@ class Rendu:
         elif self.corps(cont):
             ancre_tableau = self.nouveau_p(cont, "Poly Ancre")
         a_poser = []                       # les QR codes des liens lus dans les cellules : sur l'ancre du tableau
-        t = cont.add_table(rows=len(lignes), cols=ncol)
+        # Dans un encadré, un tableau qui ouvre la cellule ne garde pas au-dessus de lui le paragraphe vide de la
+        # cellule neuve (tableau_cellule) : sinon une ligne blanche sépare le libellé de l'encadré de son tableau.
+        t = (cont.add_table(rows=len(lignes), cols=ncol) if self.corps(cont)
+             else self.tableau_cellule(cont, len(lignes), ncol))
         X.tableau_sans_bordures(t)
         X.tableau_largeurs(t, largeurs)
         fin = len(lignes) - 1
@@ -861,8 +871,8 @@ class Rendu:
             self.consigne(bx.entete, papier(d.get("consigne", ""), P, P["match"]))
             cell = bx.ligne()
             paires = d.get("paires", [])
-            droite = [p.get("d", "") for p in paires]
-            random.Random(b.ident).shuffle(droite)          # mélangée : l'ordre ne souffle rien
+            # Les deux colonnes mélangées : l'ordre ne souffle rien (ordres_association).
+            gauche, droite = ordres_association(b.ident, [p.get("d", "") for p in paires])
             largeur = self.largeur[-1]
             tg = self.tableau_cellule(cell, 1 + len(paires), 2)
             X.tableau_sans_bordures(tg)
@@ -871,7 +881,8 @@ class Rendu:
                 c = tg.rows[0].cells[j]
                 X.bordures_cellule(c, bottom=X.filet(sz=6, color=G.PRIMAIRE))
                 self.nouveau_p(c, "Poly Cellule d'en-tête").add_run(self.typo(titre))
-            for i, p in enumerate(paires, 1):
+            for i, k in enumerate(gauche, 1):
+                p = paires[k]
                 for j, texte in enumerate((f"{i}.  " + p.get("g", ""), "ABCDEFGHIJ"[i - 1] + ".  " + droite[i - 1])):
                     c = tg.rows[i].cells[j]
                     X.bordures_cellule(c, bottom=X.filet(sz=4, color=G.FILET))
@@ -908,15 +919,18 @@ class Rendu:
             bx = self.boite("activite", cont)
             self.signer(b.ident)
             self.etiquette(bx.entete, "activite", E["activite"], titre=d.get("titre"))
-            self.consigne(bx.entete, P["branch"])
+            etapes, imprimees = d.get("etapes", []), etapes_imprimees(d)
+            # Les étapes suivantes se jouent en ligne (etapes_imprimees) : la consigne dit combien il y en a.
+            self.consigne(bx.entete, P["branch"] if len(imprimees) == len(etapes)
+                          else P["branch_suite"].format(n=len(etapes)))
             if d.get("intro"):
                 self.ecrire(self.nouveau_p(bx.entete, "Poly Encadré"), markdown(d["intro"]), indexer=False,
                             liens=False)
-            for k, etape in enumerate(d.get("etapes", []), 1):
+            for k, etape in enumerate(imprimees, 1):
                 cell = bx.ligne(insecable=True)
                 ps = self.nouveau_p(cell, "Poly Encadré")
                 ps.paragraph_format.space_before = Pt(4)
-                if len(d.get("etapes", [])) > 1:
+                if len(imprimees) > 1:
                     self.numero(ps, k)
                 self.ecrire(ps, markdown((etape.get("situation", "") + " " + etape.get("question", "")).strip()),
                             indexer=False, liens=False)
@@ -1155,6 +1169,72 @@ def markdown(texte):
         if morceau:
             out.append(H.Seg(morceau, gras=bool(k % 2)))
     return H.replier(out)
+
+
+def ordres_association(ident, donnees_droite, essais=200):
+    """L'ordre imprimé des deux colonnes d'une association, reproductible (graines tirées de l'identifiant de
+    l'activité) : (gauche, droite), gauche étant les rangs des paires dans les données, droite les textes de droite.
+
+    La droite est mélangée (d'abord comme avant, graine : l'identifiant). La gauche aussi, et aucun de ses éléments
+    n'est imprimé sous le numéro que porte le libellé de droite qui lui répond (« C3 · … », « Section 2 · … »,
+    « 5 · … » : rang_affiche) — imprimé « 3. » en face de « C3 », le numéro donnerait la réponse. Ce numéro n'est pas
+    le rang des données : une page peut mélanger ses paires, pour que la colonne de gauche du site, qui suit les
+    données, ne souffle rien non plus. Sans libellé numéroté, aucun élément ne garde son rang des données. La clé des
+    réponses ne se devine pas non plus : une réponse au plus sur la diagonale (« 1-A », « 2-B »), aucune suite
+    régulière (« 1-D 2-C 3-B 4-A », « 1-E 2-F 3-A… »), jamais trois lettres qui se suivent (« 3-A 4-B 5-C »). Si aucune
+    gauche ne convient à une droite (quatre paires laissent peu de choix), une autre droite est tirée."""
+    n = len(donnees_droite)
+    if n < 2:
+        return list(range(n)), list(donnees_droite)
+    rangs = [rang_affiche(d) for d in donnees_droite]
+    numerotee = any(r is not None for r in rangs)
+
+    def a_sa_place(i, k):
+        # Le n° i + 1 imprimé à gauche, en face du libellé qui porte ce numéro ; sans libellé numéroté, l'élément k
+        # des données à son propre rang.
+        return rangs[k] == i + 1 if numerotee else k == i
+
+    def regulier(l):
+        return len({(b - a) % n for a, b in zip(l, l[1:])}) == 1
+
+    def suite3(l):
+        return any(abs(l[i + 1] - l[i]) == 1 and l[i + 2] - l[i + 1] == l[i + 1] - l[i] for i in range(n - 2))
+
+    repli = None
+    for u in range(essais):
+        droite = list(donnees_droite)
+        random.Random(ident if u == 0 else f"{ident}|droite|{u}").shuffle(droite)
+        for t in range(essais):
+            gauche = list(range(n))
+            random.Random(f"{ident}|gauche|{t}").shuffle(gauche)
+            if any(a_sa_place(i, k) for i, k in enumerate(gauche)):
+                continue
+            repli = repli or (gauche, droite)
+            lettres = [droite.index(donnees_droite[k]) for k in gauche]
+            if n >= 3 and (sum(1 for i, x in enumerate(lettres) if x == i) > 1 or regulier(lettres)
+                           or suite3(lettres)):
+                continue
+            return gauche, droite
+    return repli or (list(range(n)), list(donnees_droite))
+
+
+def etapes_imprimees(donnees):
+    """Les étapes d'un cas à embranchements que le livret imprime : la première seule. Sur le site, une étape ne
+    paraît qu'une fois la précédente jouée, et sa situation s'écrit pour qui a déjà choisi et lu la conséquence : elle
+    peut dire la bonne réponse de l'étape d'avant (« La question, reformulée… », quand reformuler était la bonne
+    réponse). Imprimées ensemble, les étapes la souffleraient, et aucune règle ne sait dire laquelle le fait : la suite
+    se joue en ligne, derrière le QR code de l'activité, dans l'ordre du site (la consigne « branch_suite » le dit)."""
+    return list((donnees or {}).get("etapes") or [])[:1]
+
+
+RANG_AFFICHE = re.compile(r"\s*(?:[^\W\d_]+\s*)?(\d+)\s*·")
+
+
+def rang_affiche(libelle):
+    """Le numéro qu'un libellé de droite porte en tête (« C3 · … » → 3, « Section 2 · … » → 2, « 5 · … » → 5), ou
+    None (« Annexe · … », « Une tendance »)."""
+    m = RANG_AFFICHE.match(libelle or "")
+    return int(m.group(1)) if m else None
 
 
 def papier(consigne, P, tete):

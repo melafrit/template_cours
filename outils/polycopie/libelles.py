@@ -8,7 +8,8 @@ garde le libellé de sa page.
 
 Ce qui change d'un cours à l'autre n'est PAS ici, mais dans sa fiche, outils/livret.py : le titre et le sous-titre
 (ceux du cours, par défaut), le pied de la couverture, l'année du copyright, la présentation de l'auteur, la clause
-d'un cas fictif, les adresses à nommer. L(langue) assemble les deux.
+d'un cas fictif, les adresses à nommer, la mention d'édition, le site protégé. L(langue) assemble les deux. Le texte
+« acces » (mentions) ne sert qu'à un site protégé : il dit où trouver ses identifiants, jamais les identifiants.
 
 Règles d'écriture : vouvoiement (« you ») ; aucune date hors du copyright ; aucune adresse imprimée sous un QR code ;
 les libellés d'encadré s'écrivent en capitales dans le texte même (« À RETENIR ») : la mise en capitales par Word
@@ -33,6 +34,10 @@ LIBELLES = {
             marques="Les marques et les noms de produits cités appartiennent à leurs propriétaires respectifs.",
             site_titre="Le cours en ligne",
             site_texte="Les capsules audio, les activités corrigées sur-le-champ, les flashcards et le QCM :",
+            # Un site entièrement protégé (livret.py, « site_protege ») : où l'étudiant trouve ses identifiants, jamais
+            # les identifiants eux-mêmes ; la fiche peut préciser l'endroit (« acces »).
+            acces=("Le site est réservé aux étudiants du module : il vous demande les identifiants que votre "
+                   "formateur vous a donnés."),
         ),
         a_propos="À propos de l'auteur",
         mode_emploi=dict(
@@ -131,6 +136,8 @@ LIBELLES = {
             reveal_choix="Choisissez votre réponse, puis comparez-la avec celle du site.",
             match="Associez chaque élément de gauche à une lettre de droite.",
             branch="Pour chaque situation, choisissez ce que vous feriez ; la suite se lit en ligne.",
+            branch_suite=("Choisissez ce que vous feriez : c'est l'étape 1 sur {n}. La suite du scénario se joue en "
+                          "ligne : chaque étape s'ouvre après votre réponse à la précédente."),
             erreurs="Cochez les passages qui contiennent une erreur ; la correction est en ligne.",
             indice="Indice",
             clic=("clique", "cliquez", "glissez", "faites glisser", "survolez", "touchez"),
@@ -138,7 +145,7 @@ LIBELLES = {
         schema="Schéma",
         tableau="Tableau",
         illustration="Illustration",
-        renvoi_page="p. {n}",                 # « (p. 12) » : un renvoi à une autre partie du livret
+        renvoi_page="p.\u00a0{n}",            # « (p. 12) » : un renvoi à une autre partie du livret, insécable
     ),
 
     # L'anglais : anglais américain, titres en Title Case. Le polycopié s'y nomme « course book ».
@@ -158,6 +165,8 @@ LIBELLES = {
                      "owners."),
             site_titre="The online course",
             site_texte="Audio capsules, activities with instant feedback, flashcards, and the quiz:",
+            acces=("The site is reserved for students in the module: it asks for the login details your instructor "
+                   "gave you."),
         ),
         a_propos="About the Author",
         mode_emploi=dict(
@@ -234,7 +243,7 @@ LIBELLES = {
             activite="ACTIVITY",
             controle="CHECKPOINT",
             plus_loin="GOING FURTHER",
-            lecture="READING THIS DIAGRAM, ELEMENT BY ELEMENT",
+            lecture="READ THIS DIAGRAM, ELEMENT BY ELEMENT",       # le libellé des pages anglaises du site
             situation="BEFORE YOU READ",
             erreurs="SPOT THE ERRORS",
             objectifs="CHAPTER OBJECTIVES",
@@ -245,6 +254,8 @@ LIBELLES = {
             reveal_choix="Choose your answer, then compare it with the one on the site.",
             match="Match each item on the left with a letter on the right.",
             branch="For each situation, choose what you would do; what happens next is online.",
+            branch_suite=("Choose what you would do: this is step 1 of {n}. The rest of the scenario is played online: "
+                          "each step opens after your answer to the previous one."),
             erreurs="Check the passages that contain an error; the correction is online.",
             indice="Hint",
             clic=("click", "drag", "hover", "tap"),
@@ -252,7 +263,7 @@ LIBELLES = {
         schema="Diagram",
         tableau="Table",
         illustration="Illustration",
-        renvoi_page="p. {n}",
+        renvoi_page="p.\u00a0{n}",
     ),
 }
 
@@ -280,7 +291,11 @@ def L(langue, cours=None, livret=None):
     out["annee"] = livret.get("annee", "")
     out["mentions"]["copyright"] = out["mentions"]["copyright"].format(annee=out["annee"], auteur=out["auteur"])
     out["mentions"]["fiction"] = choix(livret.get("fiction"))
+    out["mentions"]["site_texte"] = choix(livret.get("site_texte"), out["mentions"]["site_texte"])
+    out["mentions"]["edition"] = choix(livret.get("edition"), out["mentions"]["edition"])
+    out["mentions"]["acces"] = choix(livret.get("acces"), out["mentions"]["acces"])
     out["adresses"] = (livret.get("adresses") or {}).get(langue, {})
     out["produits"] = tuple(livret.get("produits") or ())
     out["minuscules"] = tuple(livret.get("minuscules") or ())
+    out["site_protege"] = bool(livret.get("site_protege"))
     return out

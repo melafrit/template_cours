@@ -7,8 +7,16 @@ chaque adresse doit répondre 200, et son ancre (#…) exister dans la page (glo
 calcule, g-…). Sans adresse publique du cours (sources.ADRESSE vide), la vérification en ligne n'a pas lieu ; les
 ancres, elles, se vérifient toujours dans les fichiers du site.
 
+UN SITE PROTÉGÉ (fiche du livret, « site_protege ») répond 401 à qui n'a pas d'identifiants, et la chaîne ne
+s'authentifie jamais : une adresse du site se vérifie dans le dépôt — le fichier existe, part avec le site (suivi par
+Git), n'est ni la correction ni un dossier de travail, et son ancre existe dans la page. Une page que
+destination.json tient hors ligne (« exclure ») est signalée, sans bloquer : en ligne, sa version précédente demeure.
+Une adresse hors du site doit répondre 200 en ligne ; un site qui refuse les robots (403…) est ouvert par Chrome sans
+interface, comme un étudiant l'ouvrirait.
+
 Taille : environ 2,2 cm dans la marge ; le PNG compte environ 600 points par pouce à cette taille, un module entier de
-pixels par module du code (aucun flou à l'impression). Couleur : bleu nuit très foncé sur blanc (contraste > 15).
+pixels par module du code (aucun flou à l'impression). Couleur : la plus foncée de la charte (gabarit.PRIMAIRE_FONCE)
+sur blanc (contraste > 15).
 """
 import concurrent.futures
 import hashlib
@@ -20,7 +28,15 @@ import urllib.request
 import segno
 
 from . import gabarit as G
-from .sources import CACHE, SITE
+from .sources import CACHE, SITE, exclu, publie
+
+# Les réponses d'un site qui refuse les robots, et les titres d'une page d'erreur ou de refus.
+REFUS_ROBOTS = (401, 403, 406, 429, 503)
+PAGE_ERREUR = re.compile(r"access denied|forbidden|not found|page introuvable|erreur|error|attention required|"
+                         r"just a moment|un instant|captcha|\b40\d\b|\b50\d\b", re.I)
+# Ce qu'une adresse du site ne vise jamais : la correction protégée, les dossiers de travail (jamais en ligne).
+JAMAIS = ("correction/", "QCM/correction/", "en/correction/", "en/QCM/correction/", "docs/", "outils/",
+          "Polycopie/", "deploiement/")
 
 FONCE = "#" + G.PRIMAIRE_FONCE
 DPI = 600
@@ -37,6 +53,7 @@ class Registre:
         os.makedirs(self.dossier, exist_ok=True)
         self.poses = []            # dict(url, etiquette, texte, place, png)
         self.statuts = {}
+        self.avertissements = []   # ce qui se signale sans bloquer (une page tenue hors ligne, un site sans robots)
 
     def fabriquer(self, url, taille_cm=2.2, bordure=0):
         """Le PNG du QR code d'une adresse (gardé en cache) ; rend son chemin."""
@@ -57,16 +74,53 @@ class Registre:
         return png
 
     # ── la vérification ────────────────────────────────────────────────────
-    def verifier(self, en_ligne=True):
-        """Vérifie chaque adresse posée : la réponse du serveur (200) et l'ancre. Rend la liste des erreurs."""
+    def verifier(self, en_ligne=True, protege=False):
+        """Vérifie chaque adresse posée : la réponse du serveur (200) et l'ancre ; sur un site protégé, les adresses
+        du site dans le dépôt (voir l'en-tête du module). Rend la liste des erreurs ; les signalements, qui ne
+        bloquent pas, vont dans self.avertissements."""
         urls = sorted({p["url"] for p in self.poses})
-        erreurs = []
-        if en_ligne:
+        erreurs, self.avertissements = [], []
+        du_site = [u for u in urls if u.startswith(SITE)]
+        externes = [u for u in urls if not u.startswith(SITE)]
+        if protege:
+            for url in du_site:
+                rel = self.langue.rel_site(url)
+                fichier = self.langue.locale(url)
+                if any(rel.startswith(j) for j in JAMAIS):
+                    erreurs.append(f"{url} : le livret ne mène jamais là ({rel.split('/')[0]}/)")
+                elif not fichier or not os.path.isfile(fichier):
+                    erreurs.append(f"{url} : fichier absent du dépôt")
+                elif publie(rel) is False:
+                    erreurs.append(f"{url} : fichier non suivi par Git, que le déployeur n'envoie pas")
+                else:
+                    x = exclu(rel)
+                    if x:
+                        self.avertissements.append(f"{url} : tenu hors ligne par destination.json (« {x} ») — en "
+                                                   "ligne, sa version précédente demeure, s'il y en a une")
+                    self.statuts[url] = "site protégé : vérifié dans le dépôt"
+            a_tester = externes
+        else:
+            a_tester = urls
+        if en_ligne and a_tester:
+            refus = []
             with concurrent.futures.ThreadPoolExecutor(max_workers=8) as pool:
-                for url, statut in zip(urls, pool.map(statut_http, urls)):
-                    if statut != 200:
+                for url, statut in zip(a_tester, pool.map(statut_http, a_tester)):
+                    if statut in REFUS_ROBOTS and not url.startswith(SITE):
+                        refus.append((url, statut))
+                    elif statut != 200:
                         erreurs.append(f"{url} : réponse {statut}")
                     self.statuts[url] = statut
+            # Un site qui refuse les robots (403…) : la page s'ouvre-t-elle dans un navigateur ? Chrome sans
+            # interface, une adresse après l'autre (un seul navigateur piloté à la fois).
+            from . import navigateur
+            for url, statut in refus:
+                titre = navigateur.titre(url)
+                if titre and not PAGE_ERREUR.search(titre):
+                    self.statuts[url] = f"{statut} aux robots ; ouverte par Chrome sans interface : « {titre} »"
+                    self.avertissements.append(f"{url} : {self.statuts[url]}")
+                else:
+                    erreurs.append(f"{url} : réponse {statut}, et Chrome sans interface "
+                                   + (f"ouvre « {titre} »" if titre else "n'ouvre rien"))
         for url in urls:
             probleme = ancre_absente(url, self.langue)
             if probleme:

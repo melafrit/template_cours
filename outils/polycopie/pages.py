@@ -30,7 +30,7 @@ from . import ooxml as X
 from .rendu import signet_nom, vedette
 from .sources import presentation_auteur
 
-NBSP = " "
+NBSP = "\u00a0"                 # l'espace insécable (écrite par son échappement)
 
 
 def _run(par, texte, police=None, taille=None, couleur=None, gras=False, italique=False, interlettre=None,
@@ -144,8 +144,11 @@ def mentions(r):
     if M.get("fiction"):
         bloc(M["fiction"])
     bloc(M["marques"], apres=16)
-    # Le site du cours : son adresse (la seule imprimée du livret) et son QR code.
+    # Le site du cours : son adresse (la seule imprimée du livret) et son QR code ; sur un site protégé, où trouver
+    # ses identifiants — jamais les identifiants eux-mêmes.
     url = r.langue.url("")
+    if r.L.get("site_protege") and M.get("acces"):
+        bloc(M["acces"], apres=8)
     png = r.registre.poser(url, M["site_titre"], "", "mentions", taille_cm=2.0)
     tq = cell.add_table(rows=1, cols=2)
     X.tableau_sans_bordures(tq)
