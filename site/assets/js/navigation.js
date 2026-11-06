@@ -166,10 +166,28 @@
   if (stoggle && sidebar) {
     var overlay = document.querySelector('.sidebar-overlay');
     if (!overlay) { overlay = document.createElement('div'); overlay.className = 'sidebar-overlay'; document.body.appendChild(overlay); }
-    var close = function () { sidebar.classList.remove('open'); overlay.classList.remove('show'); };
-    stoggle.addEventListener('click', function () { sidebar.classList.toggle('open'); overlay.classList.toggle('show'); });
+    // Le bouton dit à un lecteur d'écran s'il ouvre ou ferme la colonne. Sur grand écran elle reste visible
+    // (« true ») ; sur téléphone — même seuil que main.css — elle n'est dépliée que quand elle porte .open.
+    // aria-controls la désigne : on lui donne un id au besoin plutôt que de toucher chacune des pages.
+    var mobile = window.matchMedia('(max-width: 768px)');
+    if (!sidebar.id) { sidebar.id = 'sidebar-nav'; }
+    stoggle.setAttribute('aria-controls', sidebar.id);
+    var syncToggle = function () {
+      stoggle.setAttribute('aria-expanded', (!mobile.matches || sidebar.classList.contains('open')) ? 'true' : 'false');
+    };
+    var close = function () { sidebar.classList.remove('open'); overlay.classList.remove('show'); syncToggle(); };
+    stoggle.addEventListener('click', function () { sidebar.classList.toggle('open'); overlay.classList.toggle('show'); syncToggle(); });
     overlay.addEventListener('click', close);
-    sidebar.addEventListener('click', function (e) { if (e.target.closest('a') && window.innerWidth <= 768) close(); });
+    sidebar.addEventListener('click', function (e) { if (e.target.closest('a') && mobile.matches) close(); });
+    // Au clavier, Échap referme la colonne ouverte et rend le focus au bouton : sinon il faut la traverser en
+    // entier pour en sortir (sans effet sur grand écran, où elle reste ouverte).
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && mobile.matches && sidebar.classList.contains('open')) { close(); stoggle.focus(); }
+    });
+    // La largeur peut changer (rotation, redimensionnement) : l'attribut suit le seuil.
+    if (mobile.addEventListener) mobile.addEventListener('change', syncToggle);
+    else if (mobile.addListener) mobile.addListener(syncToggle);   // anciens navigateurs
+    syncToggle();
   }
 
   // -- Barre de progression de lecture --

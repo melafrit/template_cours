@@ -142,11 +142,12 @@ def nombre(x, langue):
 
 
 def duree(minutes, langue):
-    """30 → « 30 min » ; 80 → « 1 h 20 » ; 120 → « 2 h »."""
+    """30 → « 30 min » ; 80 → « 1 h 20 » ; 120 → « 2 h ». L'espace entre le nombre et l'unité, et avant les
+    minutes, est insécable : un en-tête de chapitre étroit coupait « 7 / min »."""
     if minutes < 60:
-        return "%d min" % minutes
+        return "%d%smin" % (minutes, INSECABLE)
     h, m = divmod(minutes, 60)
-    return "%d h" % h + (" %02d" % m if m else "")
+    return "%d%sh" % (h, INSECABLE) + ("%s%02d" % (INSECABLE, m) if m else "")
 
 
 def valeur(v, langue):
