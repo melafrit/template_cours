@@ -9,6 +9,125 @@
 
 ---
 
+## 31 octobre et 1er novembre 2026 — les corrections des cours de veille et d'avant-projet
+
+Le but : reprendre dans le gabarit, en générique, ce que deux cours créés depuis lui ont corrigé en production — le
+cours de veille technologique (`C:\projets\Cours\Cours_CDWFS_ASRC_Veille_Techno`) et le cours d'étude d'avant-projet
+(`C:\projets\Cours\Cours_EADL_ERIS_Etude_Avant_Projet`), lus sans être modifiés. **Décision de l'auteur** : les
+corrections génériques en quatre lots, un commit par lot après son accord ; les nouveautés des cours au registre, à
+décider. À sa demande, un correctif s'y est ajouté : les erreurs 404 de la console. Cinq commits, puis celui de ce
+journal ; aucune mise en ligne (le gabarit ne se déploie jamais).
+
+### 1. Les défauts avérés — `9141009`, 31 octobre
+
+- **Les scénarios à embranchements des chapitres 1 et 3 n'avaient aucun bouton** : ils passaient `options`, alors que
+  `RDCX.branch` lit `choix`. Le moteur accepte les deux, les chapitres passent `choix` — le chapitre 1 devient
+  `_modele.html` dans chaque cours créé, et c'est de lui qu'on copie.
+- **« [object Object] »** : l'info-bulle et les flashcards lisaient comme une chaîne une définition `{ fr, en }` ; la
+  carte retournée suit maintenant la bascule de langue.
+- `navigation.js` compte la racine du site depuis `TPL_RACINE` : le menu d'une page rangée plus bas (`QCM/`) menait à
+  côté. Défaut latent dans le gabarit, dont aucune page de QCM n'a de menu.
+- Les listes d'objectifs et « À retenir » sont en flux normal à toutes les largeurs (la règle ne valait que sous
+  768 px) ; un encadré qui cite une longue adresse ne déborde plus.
+- `media.js` ne cherche plus les fiches d'un cours qui n'a pas le bloc « polycopies ».
+- Les outils corrigés par le cours de veille, en générique : `synchroniser_capsules.py` (toutes les capsules d'une
+  fiche sans séparateurs `---`, la durée « ≈ 1 min 10 », la jumelle du site miroir), `glossaire_emplois.py` (plus de
+  renvoi vers une page exclue de la mise en ligne), `generer_audio.py` (les pistes des jumelles de `site/en/`, que le
+  générateur ne parcourait pas).
+- `generer_fragments.py` : sous Windows, une page en fins de ligne CRLF passait toujours pour « à mettre à jour », et
+  la réécrire aurait mêlé les deux fins de ligne.
+
+### 2. Les libellés écrits en dur — `150f25d`, 31 octobre
+
+- `interactions.js` : une quarantaine de libellés français écrits en dur (compteurs accordés au nombre, bilans,
+  en-tête replié, schéma à déposer, reprise de lecture), plus quatre que le cours avait laissés, passent par
+  `ui-labels.js`. De même les derniers de `flashcards.js`, `accessibility.js` (« Aller au contenu ») et `playlist.js`.
+- `media.js` : le lecteur de podcast, les diapositives, l'infographie, leurs fenêtres et le lecteur persistant ; ce
+  qui ne se reconstruit pas suit la bascule de langue. Le défaut du registre sur ces fenêtres est réglé.
+- Une capsule absente annonce « bientôt disponible » et ne promet sa transcription que si la page en donne une (le
+  cours d'avant-projet) ; le nom du fichier attendu passe en infobulle.
+- `ui-labels.js` : 68 clés de plus dans chaque langue, 182 en tout, appariées.
+
+### 3. L'info-bulle du glossaire — `518df86`, 31 octobre
+
+Les mécanismes du cours d'architecture logicielle, tels que le cours de veille les a repris :
+
+- Sur ordinateur, la bulle se pose en position fixe sous son mot (au-dessus faute de place) et reste dans la
+  fenêtre ; Échap l'écarte (WCAG 1.4.13). Sur téléphone et tablette, un bandeau au bas de l'écran, avec sa croix.
+- En site miroir, une page `en/` cherche les termes par leur forme anglaise.
+- Un mot du glossaire employé dans un autre sens porte la classe `hors-glossaire` : l'info-bulle et « Où en
+  parle-t-on ? » le sautent.
+
+Complété pour le gabarit : les `exclus` d'une entrée valent aussi sur les pages françaises (défaut resté ouvert dans
+le cours) ; sur une page `data-tr`, un terme identique dans les deux langues ne prend plus sa bulle dans le bloc
+masqué ; la recette du glossaire d'`ARCHITECTURE.md`, périmée, est réécrite.
+
+### 4. Les erreurs 404 de la console — `0732822`, 1er novembre
+
+L'auteur en a demandé la cause et le remède. `media.js` demandait au serveur chaque média possible d'un chapitre — le
+podcast sous ses quatre noms, les diapositives, l'infographie, la fiche — et chaque absent laissait une erreur 404.
+`outils/generer_medias.py` (nouveau) écrit `site/assets/js/media-data.js`, la liste des médias réellement déposés ;
+`media.js` ne demande que ce qu'elle contient (sans elle, il sonde comme avant). `nouveau_cours.py` et
+`generer_podcasts.py` la régénèrent, son `--essai` devient le neuvième contrôle du § 6 de `CLAUDE.md`. Le défaut du
+registre sur les sondes de `media.js` est réglé.
+
+### 5. Le polycopié — `9125f33`, 1er novembre
+
+- **Le livret n'avait aucune espace insécable** : `NBSP` valait une espace ordinaire dans `rendu.py` et `pages.py`,
+  le caractère U+00A0 s'étant perdu en route. Il s'écrit désormais par son échappement ; la typographie s'étend aux
+  numéros, aux heures et aux unités, et à la page « 📘 Polycopié » du site.
+- **Rien ne souffle une réponse sur le papier** (décision D41 du cours de veille) : une association mélange ses deux
+  colonnes, sa clé ne se devine plus ; un scénario n'imprime que sa première étape ; les contrôles du livret suivent.
+- La fiche du livret (`outils/livret.py`) reçoit la mention d'édition, la palette et le **site protégé** : ses QR
+  codes se vérifient alors dans le dépôt, sans s'authentifier, et le livret dit où trouver ses accès ; un site qui
+  refuse les robots s'ouvre par Chrome sans interface.
+- Un tableau en tête d'encadré, sans ligne blanche au-dessus ; une table des matières resserrée ; le fragment
+  `val-<clé>-lettres`, un chiffre du référentiel écrit en lettres.
+
+### Comment ce travail a été vérifié
+
+- Les contrôles du § 6 (huit, puis neuf), verts à chaque lot ; `node --check` des scripts et `py_compile` des
+  modules modifiés ; fins de ligne gardées, aucun octet NUL.
+- Au navigateur, les lots 1 à 3 et le correctif des 404 : en français et en anglais, à 1280 et 375 px, en clair et en
+  sombre ; la console vide sur les trois chapitres, revérifiée dans des onglets neufs.
+- Un cours créé par `nouveau_cours.py` dans un dossier temporaire, supprimé ensuite : sa liste des médias part vide,
+  le scénario de `_modele.html` a ses trois boutons ; la console des chapitres est vide, sauf celle de
+  `_modele.html`, où manque le schéma de la démonstration (au registre).
+- Le livret : vingt-trois tests du lot 4 ; deux témoins comparés, avant et après — même texte, 216 espaces insécables
+  au lieu de zéro, seul l'ordre des associations change ; un PDF témoin complet par Word : 15 pages, 0 écart,
+  16 QR codes relus et cliquables.
+
+### Pièges appris
+
+- **Une espace insécable s'écrit par son échappement** (`"\u00a0"`), jamais en caractère : un éditeur, un copier-coller
+  ou un outil de reprise la change en espace ordinaire sans que rien ne se voie.
+- **Un script de correctif s'arrête sans rien écrire quand son ancre manque** : celle de `ui-labels.js` contenait une
+  insécable, invisible à l'écran ; le script l'a dit au lieu d'écrire à côté.
+- **Sous Windows, le dépôt est en CRLF** (`core.autocrlf`), les cours en LF : comparer avec
+  `diff --strip-trailing-cr`, et qu'un générateur qui réécrit une page garde ses fins de ligne.
+- **Une liste générée se périme** : `media-data.js`, comme `nav-sections.js`, a son `--essai` au § 6.
+- **Le volet du navigateur intégré, masqué, ne défile pas et n'a pas le focus** : ce qui en dépend se vérifie
+  autrement (un élément placé à des coordonnées choisies, un navigateur sans interface).
+- **Un correctif copié d'un cours se relit ligne à ligne** : le cours de veille avait laissé quatre libellés en dur et
+  n'appliquait pas `exclus.fr` ; le gabarit les a réglés au passage.
+
+### Ce qui n'a pas été repris
+
+Les nouveautés des deux cours — bloc « filières », illustrations, bouton « Copier », indice de longueur dans les
+chapitres, page du glossaire, et pour le livret un glossaire réduit, des encadrés et des pages de notes… — sont au
+registre, à décider avec l'auteur. Les exclusions plancher du déployeur du cours d'avant-projet sont sans objet dans
+le gabarit.
+
+---
+
+## 26 octobre 2026 — un commit venu du cours de veille
+
+- `d80a2ed` — fait depuis la session du cours de veille, avec l'accord de l'auteur : les chapitres n'ont plus ni
+  barre d'étapes ni sommaire dans la page, leurs sections passent dans le menu de gauche, comme dans le cours
+  d'architecture logicielle (`prompts/03_chapitre.md`, `GUIDE.md`, `RECETTE.md`, les trois chapitres).
+
+---
+
 ## 25 et 26 octobre 2026 — le gabarit remis à niveau sur les cours de production
 
 Le but : que le gabarit fournisse tout ce que le cours d'architecture logicielle
