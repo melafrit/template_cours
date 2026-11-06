@@ -213,6 +213,8 @@ Pour **chaque** chapitre :
       « Pour approfondir » compris (fichier et ancre)
 - [ ] `python3 outils/verifier_interdits.py` ne trouve aucun interdit hors de sa
       place — sujet du TP, chiffres d'une épreuve (`outils/interdits.py`)
+- [ ] `python3 outils/verifier_tirets.py` ne trouve aucun tiret cadratin dans ce
+      qui se publie (pages, scripts, libellés) ; les autres marques se relisent
 - [ ] `python3 outils/generer_fragments.py --essai` n'a rien à faire — chaque
       chiffre des pages suit le référentiel (`outils/referentiel.py`), aucune
       valeur ne manque

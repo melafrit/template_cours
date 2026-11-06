@@ -9,6 +9,64 @@
 
 ---
 
+## 6 novembre 2026 : les exigences nées dans le cours d'étude d'avant-projet
+
+Le but : reprendre dans le gabarit les exigences que l'auteur a formulées en produisant le cours d'étude
+d'avant-projet (`C:\projets\Cours\Cours_EADL_ERIS_Etude_Avant_Projet`), lu sans être modifié, pour les prochains
+cours. **Décision de l'auteur** : les règles d'abord, dans ce lot ; la chaîne du polycopié, le gabarit sans tirets et
+les nouveaux blocs ensuite, au registre.
+
+### Ce qui change
+
+- `CLAUDE.md`, § 2. « Le contenu » : ni tirets cadratins ni marques de texte généré (demande de l'auteur du
+  3 novembre), avec les conventions des titres. « L'audio » : un texte enregistré ne change pas sans réenregistrer sa
+  piste, sauf la ponctuation de sa transcription (décision du 5 novembre) ; le nom d'une piste est fixé avant son
+  enregistrement ; quota épuisé, les enregistrements attendent en tête du registre. « Les secrets » : les banques
+  d'une épreuve notée. « La publication » : la liste de l'essai à blanc comparée à git ; `--purge` jamais sans
+  accord. Au § 6, dix contrôles.
+- `outils/verifier_tirets.py` (nouveau) : le tiret cadratin et le « – » entre espaces dans ce que l'apprenant lit
+  (texte des pages, chaînes des scripts, `content:` des styles), sans les commentaires ni les messages de console ;
+  code 1 s'il en reste. Contre-épreuve sur le cours d'avant-projet : il retrouve exactement les 73 et 60 tirets de
+  ses banques de QCM, et aucun dans ses chapitres.
+- `prompts/PROMPT-Cours-parametrable.md` : la règle 11 et le contrôle avant mise en ligne. `docs/CHECKLIST.md` : la
+  case du contrôle.
+
+### Ce qui reste
+
+Le gabarit n'est pas encore sans tirets : 375 dans 28 fichiers de `site/`, où le contrôle est rouge, environ 440 dans
+`prompts/` et 29 dans `CLAUDE.md`. Au registre, avec la chaîne du polycopié, les outils et les nouveaux blocs.
+
+### Pièges appris
+
+- **Une expression régulière qui contient un guillemet trompe un lexeur naïf** : il croit ouvrir une chaîne et
+  avale le code jusqu'au guillemet suivant. Le contrôle reconnaît la barre oblique qui ouvre une expression (après un
+  opérateur, une parenthèse ou un mot comme `return`).
+- **Un message de console n'est pas lu par l'apprenant** : ses chaînes ne comptent pas.
+
+---
+
+## 6 novembre 2026 — le menu au clavier et les durées insécables (lot 6)
+
+Deux corrections génériques de plus, reprises du cours de veille technologique et transmises par sa session, dans un
+seul commit après accord de l'auteur. Rien n'est poussé sans son accord (dépôt public).
+
+- `6e6179c` — `navigation.js` : le bouton `.sidebar-toggle` du menu latéral porte `aria-expanded` (vrai sur grand
+  écran, où la colonne reste visible ; sur téléphone, vrai seulement quand elle porte `.open`), tenu à jour au clic,
+  à la fermeture (voile, clic sur un lien) et au `change` du media query `(max-width: 768px)` ; `aria-controls`
+  désigne la colonne, à qui un id `sidebar-nav` est donné au chargement plutôt que d'éditer les douze pages ; Échap
+  referme le menu ouvert sur téléphone et rend le focus au bouton. Cours de veille, `1277986`.
+  `generer_fragments.py`, `duree()` : l'espace entre le nombre et l'unité, et avant les minutes, devient insécable
+  (« 30 min » et « 1 h 20 » se coupaient dans un en-tête de chapitre étroit) ; les quatre pages à durée régénérées.
+  Cours de veille, `165f574`.
+
+Vérifié : les huit contrôles lançables du § 6 verts ; `node --check` et `py_compile` ; les durées contrôlées octet
+par octet (« 1 h 20 », « 25 min »). Au navigateur (serveur local, un chapitre) : à 1280 px
+`aria-expanded` vaut « true » et la console est vide ; à 375 px l'ouverture le passe à « true », Échap le repasse à
+« false », ferme le menu et **rend le focus au bouton** ; thème sombre lisible. L'accord du bilan d'un QCM, relayé le
+même jour, ne demandait rien — le gabarit n'a pas ce moteur et ne pose aucun mot pluriel après un nombre.
+
+---
+
 ## 31 octobre et 1er novembre 2026 — les corrections des cours de veille et d'avant-projet
 
 Le but : reprendre dans le gabarit, en générique, ce que deux cours créés depuis lui ont corrigé en production — le

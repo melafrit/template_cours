@@ -278,6 +278,8 @@ journal. Celles qui reviennent à chaque étape :
 10. Journal à chaque étape : docs/02-Etat-d-avancement.md ; chaque choix structurant en
     décision Dnn (question, retenu, pourquoi) dans docs/01-Decisions-de-conception.md ;
     ce que l'auteur garde pour plus tard dans TODO.md.
+11. Ni tirets cadratins ni marques de texte généré, en français comme en anglais, titres
+    compris (CLAUDE.md, § 2, « Le contenu ») : outils/verifier_tirets.py sans écart.
 
 # ÉTAPE ZÉRO — PARTIR DU TEMPLATE
 
@@ -400,7 +402,7 @@ Référentiel cohérent, generer_fragments.py --essai sans écart · verifier_i1
 verifier_contraste, verifier_liens (renvois compris)
 sans écart · generer_nav_sections.py --essai : menu à jour · node --check · aucun octet
 NUL · captures clair/sombre, chaque filière, 1280 et 375 px, console vide ·
-verifier_interdits.py sans écart · contrôles propres à chaque module actif · deployer.py
+verifier_interdits.py et verifier_tirets.py sans écart · contrôles propres à chaque module actif · deployer.py
 --essai : destination attendue, garde-fou passé, aucun fichier hors de site/.
 
 # DÉFINITION DE « TERMINÉ »

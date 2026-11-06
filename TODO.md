@@ -17,10 +17,21 @@
 | Outils repris du cours d'architecture logicielle | ✅ **tous** : site miroir, interdits, référentiel et fragments, « Où en parle-t-on ? », page Podcasts, polycopié |
 | Corrections des cours de veille et d'avant-projet | ✅ les corrections génériques, en quatre lots et un correctif (31 octobre et 1er novembre) ; leurs nouveautés attendent la décision de l'auteur (ci-dessous) |
 | `nouveau_cours.py` | ✅ blocs `podcasts` et `livret` inactifs par défaut (`livret` demande `glossaire`) ; chaque page d'un cours créé garde son sous-titre ; la liste des médias repart vide |
-| Contrôles | ✅ neuf (`CLAUDE.md` § 6, dont `generer_medias.py --essai`, ajouté le 1er novembre), plus ceux du site miroir, de la série de podcasts et du polycopié — verts au 1er novembre |
+| Contrôles | ✅ dix (`CLAUDE.md` § 6) : les neuf lançables verts ; le dixième, `verifier_tirets.py` (ajouté le 6 novembre), rouge sur le gabarit lui-même — le lot « gabarit sans tirets » reste à faire. Plus ceux du site miroir, de la série de podcasts et du polycopié |
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 6 novembre : les exigences nées dans le cours d'étude d'avant-projet (lot « règles »)
+> Au § 2 de `CLAUDE.md` : ni tirets cadratins ni marques de texte généré (« Le contenu ») ; un texte enregistré ne
+> change pas sans réenregistrer sa piste, sauf la ponctuation de sa transcription, le nom d'une piste fixé avant son
+> enregistrement, le quota épuisé au registre (« L'audio ») ; les banques d'une épreuve traitées comme des secrets
+> (« Les secrets ») ; la liste de l'essai à blanc comparée à git, `--purge` jamais sans accord (« La publication »).
+> Le dixième contrôle, `outils/verifier_tirets.py`, au § 6, à la checklist et au tronc du prompt. Détail :
+> `JOURNAL.md`, section du 6 novembre.
+> ### 🆕 6 novembre — le menu au clavier et les durées insécables (lot 6)
+> Deux corrections génériques de plus, reprises du cours de veille : le menu latéral s'annonce (`aria-expanded`,
+> `aria-controls`) et se ferme au clavier (Échap rend le focus au bouton) ; les durées des fragments passent en
+> espaces insécables (`6e6179c`). Détail : `JOURNAL.md`, section du 6 novembre.
 > ### 🆕 31 octobre et 1er novembre — les corrections des cours de veille et d'avant-projet
 > Ce que deux cours créés depuis le gabarit ont corrigé en production, repris en générique, un lot par commit : les
 > scénarios sans boutons, « [object Object] », le menu d'une page de QCM, les listes à puce (`9141009`) ; les
@@ -41,6 +52,11 @@
 > § 1 à 5.
 
 ## 🛠️ Ouvert — dans le gabarit
+
+**Le gabarit sans tirets** (lot à décider avec l'auteur ; un témoin d'abord) : `outils/verifier_tirets.py` est
+rouge sur le gabarit lui-même, avec 375 tirets dans 28 fichiers de `site/` (démonstration, `ui-labels.js`, QCM et sa
+correction). Hors de son champ, mais à reprendre aussi : environ 440 tirets dans `prompts/`, qui écrivent chaque
+cours, et 29 dans `CLAUDE.md`.
 
 Les deux défauts de `media.js` relevés le 26 octobre sont réglés : les fenêtres des diapositives et de l'infographie
 parlent la langue de la page (`150f25d`), et `media.js` ne demande plus que les médias déposés (`0732822`).
@@ -66,20 +82,14 @@ Relevés le 1er novembre :
   Glossary », « Sommaire du cours — Course contents ») : `nouveau_cours.py` ne doit garder que la langue du cours
   (relevé le 26 octobre).
 
-Relayés par le cours de veille (3 novembre), vérifiés sur place le 6 novembre — chacun un petit lot, à proposer avant
-de corriger :
+Relayés par le cours de veille (3 novembre), vérifiés sur place le 6 novembre. Les deux premiers sont faits (lot 6,
+`6e6179c`) ; les trois autres restent à proposer avant de corriger :
 
-- **Le menu latéral ne s'annonce pas et ne se ferme pas au clavier** (`navigation.js`, l. 164) : le bouton
-  `.sidebar-toggle` n'a ni `aria-expanded` ni `aria-controls`, et aucune touche Échap ne referme le menu ouvert sur
-  téléphone. Poser `aria-expanded` selon `matchMedia('(max-width: 768px)')` (vrai sur grand écran, où la colonne
-  reste visible ; sur téléphone, vrai seulement quand elle a `.open`), le tenir à jour au clic, à la fermeture
-  (voile, clic sur un lien) et au `change` du media query ; `aria-controls` si la colonne a un id ; Échap referme et
-  rend le focus au bouton. À vérifier au navigateur avec de vraies frappes (un `.click()` déclenche aussi un bouton
-  caché et fausse l'essai). Cours de veille, `1277986`.
-- **Les durées des fragments ont des espaces ordinaires** (`generer_fragments.py`, `duree()`, l. 144) : « 30 min » et
-  « 1 h 20 » se coupent dans un en-tête de chapitre étroit, alors que `INSECABLE` (l. 67, U+00A0) est déjà là. Le
-  mettre entre le nombre et l'unité et avant les minutes (`"%d%smin"`, `"%d%sh"` + minutes), puis régénérer les
-  fragments et lancer leurs contrôles. Cours de veille, `165f574`.
+- ✅ **Le menu latéral s'annonce et se ferme au clavier** (`navigation.js`) : `aria-expanded` (vrai sur grand écran,
+  sur téléphone seulement quand la colonne est ouverte), `aria-controls`, et Échap qui referme et rend le focus au
+  bouton — fait au lot 6, vérifié au navigateur. Cours de veille, `1277986`.
+- ✅ **Les durées des fragments sont insécables** (`generer_fragments.py`, `duree()`) : l'insécable entre le nombre
+  et l'unité et avant les minutes — fait au lot 6. Cours de veille, `165f574`.
 - **Le livret coupe les dates « AAAA-MM-JJ »** : le modèle de date porte des traits d'union insécables, et dans une
   colonne étroite Word coupait au milieu (« AAAA-MM-J », puis « J »). Rendre ordinaires les tirets de ce seul modèle
   dans le livret (`polycopie/rendu.py` : `MODELE_DATE`, `TIRET_INSECABLE`) et comparer les deux tirets à l'identique
@@ -158,6 +168,22 @@ Pour le polycopié (la fiche du cours de veille, `outils/livret.py`, en montre l
   les flashcards ;
 - les interdits du cours contrôlés dans le texte du livret (`controles.regles`, ses `motifs`) — le module 02 promet
   déjà ce contrôle —, et des contrôles du PDF.
+
+Relevés le 6 novembre dans le cours d'étude d'avant-projet, après le lot « règles » (`JOURNAL.md`) :
+
+- **La chaîne du polycopié** : une capsule pas encore enregistrée a son QR code à l'adresse prévue de sa piste,
+  vérifiée contre sa fiche, sans durée, et le contrôle compte les « capsules à venir » (la décision D56 du cours ; le
+  gabarit imprime aujourd'hui l'adresse sans vérification, avec la durée estimée) ; le découpage des titres
+  « Libellé : sujet » (`rendu.py` coupe sur le tiret cadratin, qui disparaît avec la règle) ; les capitales écrites
+  dans le texte (`pages.py`, `capitales=True` : Word ôte les accents des majuscules) ; des puces rondes au second
+  niveau (« – » dans `gabarit.py`) ; les libellés du livret sans tirets.
+- **Les outils** : le report des transcriptions par la ponctuation seule, qui refuse si un mot change ; la liste de
+  l'essai à blanc reconstituée depuis git ; le relevé des tirets des banques du QCM, remis à l'auteur.
+- **L'évaluation** : des banques d'entraînement distinctes de celles de l'épreuve, comparées automatiquement (le
+  module 05 tire aujourd'hui le QCM papier de la banque publiée du site).
+- **Les blocs** : la correction protégée par filière, avec une capsule par partie ; la bibliographie publiée et
+  vérifiée ; la Boîte à outils (fiches méthode, quiz, modèles, capsules) ; les modèles pas à pas (captures annotées) ;
+  la méthode des séries par lots (témoin, lots confiés à des agents, intégration, recette, mise en ligne).
 
 Non repris :
 

@@ -93,6 +93,11 @@ défaut de l'outil.
   `.gitignore` du cours les exclut. Ils ne vont jamais dans Git.
 - Ne jamais s'authentifier soi-même sur le site en ligne avec des identifiants :
   l'auteur teste dans son navigateur.
+- **Les banques d'une épreuve notée** qui ne se publient pas (QCM papier,
+  sujets) se traitent comme des secrets : jamais ouvertes, affichées ni citées,
+  exclues des recherches par le `.rgignore` dès leur création ; les outils s'en
+  servent sans les montrer. Quand l'entraînement publié a ses propres banques,
+  un contrôle vérifie qu'aucune question de l'épreuve n'y passe.
 
 ### Le contenu
 
@@ -110,6 +115,20 @@ défaut de l'outil.
   partout où le cours se publie, scripts des capsules compris.
 - Typographie française : espace insécable avant `: ; ? !` et à l'intérieur des
   guillemets `« »`.
+- **Ni tirets cadratins ni marques de texte généré** (demande de l'auteur du
+  3 novembre 2026 : « Je ne veux plus voir les tirets cadratins et les autres
+  caractéristiques de textes générés par IA »), en français comme en anglais,
+  titres et libellés compris, et dans les messages à l'auteur. Une incise passe
+  entre virgules ou entre parenthèses, ou devient une phrase. Un titre prend le
+  deux-points, le point médian ou les parenthèses : « Chapitre 1 · Bienvenue »,
+  « Atelier : adapter la grille », « Revue en binôme (5 min) », « 9 h 00 à
+  10 h 30 » ; en anglais, « Chapter 1 · Welcome », « Workshop: adapting the
+  grid », « 9:00 to 10:30 ». Le signe moins reste. Les autres marques sont
+  proscrites aussi : un seul deux-points par phrase, ni phrases-chocs sans
+  verbe, ni questions rhétoriques en cascade, ni antithèses réflexes (« ce
+  n'est pas X, c'est Y »), ni triades par habitude, ni mots gonflés
+  (« crucial », « véritable », « au cœur de » ; *delve*, *leverage*).
+  `outils/verifier_tirets.py` compte les tirets ; le reste se relit.
 - **Une faute de français** relevée en chemin n'est jamais corrigée en
   silence : elle est proposée à l'auteur, puis corrigée dans un commit séparé —
   et dans l'autre langue si la même erreur s'y trouve.
@@ -139,6 +158,18 @@ défaut de l'outil.
   « speaking slowly » dans ses balises.
 - **Un témoin d'abord**, écouté par l'auteur ; la série ensuite. Voir
   `prompts/14_capsules_audio.md`.
+- **Un texte enregistré ne change jamais sans réenregistrer sa piste** : un
+  écart entre une piste et sa page se note au registre (`TODO.md`) jusqu'au
+  réenregistrement. Seule exception, décidée par l'auteur le 5 novembre 2026 :
+  la ponctuation de la transcription affichée, corrigée dans la fiche de la
+  capsule puis reportée dans la page ; les mots restent ceux de la piste.
+- **Le nom d'une piste est fixé avant son enregistrement** : celui de sa fiche
+  (« Nom exact du fichier »), que la page appelle déjà et que le livret a pu
+  imprimer en QR code. La piste se dépose sous ce nom, dans le dossier prévu,
+  sans jamais être renommée ni déplacée ; ses adresses se testent une fois
+  déposée.
+- **Quand le quota d'ElevenLabs est épuisé**, les enregistrements en attente
+  vont en tête du registre, et « ce qui reste à faire » les rappelle en premier.
 
 ### Les outils externes
 
@@ -166,6 +197,12 @@ défaut de l'outil.
 - Toute mise en ligne commence par un **essai à blanc** (`--essai`). La sortie
   du déployeur ne montre ni l'hôte, ni le port, ni le répertoire distant ; une
   commande qui en afficherait se filtre avant d'arriver à l'écran.
+- La liste de l'essai à blanc **se compare à celle de git** (les fichiers
+  suivis qui ont changé depuis la dernière mise en ligne) avant de demander
+  l'accord ; après l'envoi, un nouvel essai ne trouve plus rien à envoyer.
+- **Aucune suppression en ligne** sans l'accord explicite de l'auteur :
+  `--purge`, qui retire du serveur les fichiers absents du dépôt, ne se lance
+  jamais d'office.
 - Après la mise en ligne, **le site se contrôle en ligne** : les pages
   publiques répondent 200, les zones protégées 401 — sans s'authentifier.
 
@@ -306,7 +343,7 @@ entend du français — et la piste reçoit l'accent parisien des pistes frança
 
 ## 6. Vérifier
 
-Neuf contrôles, à lancer souvent. Ils attrapent ce que l'œil ne voit pas.
+Dix contrôles, à lancer souvent. Ils attrapent ce que l'œil ne voit pas.
 
 ```bash
 python3 outils/verifier_i18n.py       # clés dépareillées, blocs data-tr déséquilibrés
@@ -314,6 +351,7 @@ python3 outils/verifier_contraste.py  # palettes lisibles en clair ET en sombre
 python3 outils/verifier_liens.py      # href, src et renvois « Pour approfondir » qui ne mènent nulle part
 python3 outils/generer_nav_sections.py --essai  # le menu suit-il les <h2 id> des chapitres ?
 python3 outils/verifier_interdits.py  # aucun interdit du cours hors de sa place (outils/interdits.py)
+python3 outils/verifier_tirets.py     # ni tiret cadratin ni « – » entre espaces dans ce qui se publie
 python3 outils/generer_fragments.py --essai  # chaque chiffre des pages suit le référentiel
 python3 outils/glossaire_emplois.py --essai  # « Où en parle-t-on ? » suit les pages
 python3 outils/generer_medias.py --essai     # la liste des médias suit les fichiers déposés
