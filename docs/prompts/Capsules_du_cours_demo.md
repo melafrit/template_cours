@@ -76,7 +76,7 @@ Tous dans `site/assets/media/voix/`.
 **📄 Transcription affichée sur la page**
 
 ```
-Bienvenue dans le chapitre vitrine. Il fait deux choses à la fois : il enseigne quelque chose de réel — les trois décisions qu'il faut prendre avant d'écrire un cours — et il exerce tous les composants du moteur, pour que vous les voyiez fonctionner. Ces trois décisions sont : pour qui, pour quoi faire, et autour de quoi. Elles se prennent dans cet ordre, parce que chacune restreint le champ de la suivante. Et la tentation est toujours la même : ouvrir un traitement de texte et commencer par le début. On produit alors ce qu'on sait, pas ce dont l'apprenant a besoin. Prenez ce chapitre comme un modèle à recopier, autant que comme un chapitre à lire.
+Bienvenue dans le chapitre vitrine. Il fait deux choses à la fois : il enseigne quelque chose de réel (les trois décisions qu'il faut prendre avant d'écrire un cours) et il exerce tous les composants du moteur, pour que vous les voyiez fonctionner. Ces trois décisions sont : pour qui, pour quoi faire, et autour de quoi. Elles se prennent dans cet ordre, parce que chacune restreint le champ de la suivante. Et la tentation est toujours la même : ouvrir un traitement de texte et commencer par le début. On produit alors ce qu'on sait, pas ce dont l'apprenant a besoin. Prenez ce chapitre comme un modèle à recopier, autant que comme un chapitre à lire.
 ```
 
 ---
@@ -108,7 +108,7 @@ Bienvenue dans le chapitre vitrine. Il fait deux choses à la fois : il enseigne
 **📄 Transcription affichée sur la page**
 
 ```
-Welcome to the showcase chapter. It does two things at once: it teaches something real — the three decisions to make before writing a course — and it exercises every component of the engine, so you can see them working. Those three decisions are: for whom, to do what, and around what. They come in that order, because each one narrows the field of the next. And the temptation is always the same: open a document and start at the beginning. You then produce what you know, not what the learner needs. Treat this chapter as a model to copy, as much as a chapter to read.
+Welcome to the showcase chapter. It does two things at once: it teaches something real (the three decisions to make before writing a course) and it exercises every component of the engine, so you can see them working. Those three decisions are: for whom, to do what, and around what. They come in that order, because each one narrows the field of the next. And the temptation is always the same: open a document and start at the beginning. You then produce what you know, not what the learner needs. Treat this chapter as a model to copy, as much as a chapter to read.
 ```
 
 ---

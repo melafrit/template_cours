@@ -76,7 +76,7 @@ EPISODES = [
 
 LIBELLES = {
     "fr": dict(
-        episode="Épisode {n}", lecteur="Épisode {n} — {titre}",
+        episode="Épisode {n}", lecteur="Épisode {n} : {titre}",
         couvre="Ce que couvre l'épisode", retenir="À retenir", lire_avec="À lire avec l'épisode :",
         a_venir="Épisode à venir", voix_auteur="voix clonée de l'auteur",
         telecharger_mp3="Télécharger l'épisode (MP3, {poids})", telecharger_pdf="Télécharger le diaporama (PDF)",
@@ -93,7 +93,7 @@ LIBELLES = {
                       "et, pour {liste}, avec la voix clonée de l'auteur (ElevenLabs).",
         un_episode="l'épisode {n}", des_episodes="les épisodes {liste}", et="et"),
     "en": dict(
-        episode="Episode {n}", lecteur="Episode {n} — {titre}",
+        episode="Episode {n}", lecteur="Episode {n}: {titre}",
         couvre="What the episode covers", retenir="Key takeaways", lire_avec="Read with the episode:",
         a_venir="Episode coming soon", voix_auteur="the author's cloned voice",
         telecharger_mp3="Download the episode (MP3, {poids})", telecharger_pdf="Download the slides (PDF)",

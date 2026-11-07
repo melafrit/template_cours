@@ -331,7 +331,7 @@ def calculer(site=SITE):
         d.feed(io.open(chemin, encoding="utf-8").read())
         if rel in titres:
             n, t = titres[rel]
-            libelle = ("Chapter %s — %s" if lg == "en" else "Chapitre %s — %s") % (n, t.get(lg) or t["fr"])
+            libelle = ("Chapter %s: %s" if lg == "en" else "Chapitre %s : %s") % (n, t.get(lg) or t["fr"])
         else:
             libelle = d.h1 or rel
         for ancre_endroit, section, morceaux in d.endroits:

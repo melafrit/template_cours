@@ -15,7 +15,7 @@ window.RDC_PLAYLIST = {
   "pistes": [
    {
     "type": "podcast",
-    "titre": "Podcast — Cadrer avant de produire",
+    "titre": "Podcast : Cadrer avant de produire",
     "src": "assets/media/podcasts/chapitre-1-podcast.fr.mp3",
     "duree": "1:53",
     "present": true,
@@ -23,7 +23,7 @@ window.RDC_PLAYLIST = {
    },
    {
     "type": "podcast",
-    "titre": "Podcast — Cadrer avant de produire",
+    "titre": "Podcast : Cadrer avant de produire",
     "src": "assets/media/podcasts/chapitre-1-podcast.en.mp3",
     "duree": "1:49",
     "present": true,
