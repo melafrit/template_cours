@@ -85,7 +85,7 @@ def couverture(r):
     ancre = r.nouveau_p(doc, "Poly Ancre")
     ancre.paragraph_format.space_before = Pt(0)
     ancre._p.append(X.xml(X.image_page_xml(r.rid(r.imprimable(art, G.PAGE_L)), G.PAGE_L, 13.5, 0, 0, r.ids(),
-                                           L["alt"]["garde"], L["titre"] + " — " + L["sous_titre"])))
+                                           L["alt"]["garde"], L["titre"] + " · " + L["sous_titre"])))
     t = _pleine_page(r, [11.55, 6.6, 3.9, 2.6], G.REFERENCE)
     c_titre, c_auteur, c_pied = t.rows[1].cells[0], t.rows[2].cells[0], t.rows[3].cells[0]
     p = r.nouveau_p(c_titre, "Poly Titre sans plan")
@@ -262,7 +262,7 @@ def table_des_matieres(r):
     tp.add_run(r.typo(L["toc"]))
     _filet_accent(r, doc, 3.0, avant=2, apres=16)
     p = r.nouveau_p(doc, "Normal")
-    X.ajouter_champ(p, 'TOC \\o "2-2" \\u \\f \\l "1-2" \\h \\z', L["toc"] + " — " + L["maj_champs"])
+    X.ajouter_champ(p, 'TOC \\o "2-2" \\u \\f \\l "1-2" \\h \\z', L["toc"] + " (" + L["maj_champs"] + ")")
 
 
 # ── l'ouverture d'un chapitre ──────────────────────────────────────────────
@@ -280,7 +280,8 @@ def ouverture(r, page, n):
     esp = r.nouveau_p(doc, "Poly Espace")
     esp.paragraph_format.space_after = Pt(46)
     pn = r.nouveau_p(doc, "Poly Numéro de chapitre")
-    _run(pn, L["chapitre"].format(n="").strip() + " ", G.TITRE, 11, G.ACCENT, interlettre=2.2, capitales=True)
+    # En capitales dans le texte même (pas la casse de Word, qui ôterait l'accent d'un libellé comme « LES MODÈLES »).
+    _run(pn, L["chapitre"].format(n="").strip().upper() + " ", G.TITRE, 11, G.ACCENT, interlettre=2.2)
     _run(pn, str(n), G.LEGER, 64, G.PRIMAIRE)
     pn.paragraph_format.line_spacing = Pt(70)
     pt = r.nouveau_p(doc, "Poly Titre de chapitre")
@@ -337,7 +338,7 @@ def ouverture(r, page, n):
         elif ident == page.retenir:
             _run(pe, r.typo(titre), G.TITRE, couleur=G.PRIMAIRE)
         else:
-            _run(pe, "–", G.TITRE, couleur=G.ACCENT)
+            _run(pe, "•", G.TITRE, couleur=G.ACCENT)
             pe.add_run(NBSP + NBSP + r.typo(titre))
         pe.add_run("\t")
         X.ajouter_champ(pe, f"PAGEREF {signet_nom(ident)} \\h", "?", X.rpr_xml(police=G.TITRE, couleur=G.PRIMAIRE))
@@ -420,4 +421,4 @@ def index(r):
     pi.paragraph_format.space_after = Pt(10)
     _run(pi, r.typo(I["intro"]), G.SANS, 8.5, G.ARDOISE, italique=True)
     p = r.nouveau_p(doc, "Normal")
-    X.ajouter_champ(p, f'INDEX \\c "3" \\z "{r.L["lcid"]}" \\h "A"', I["titre"] + " — " + r.L["maj_champs"])
+    X.ajouter_champ(p, f'INDEX \\c "3" \\z "{r.L["lcid"]}" \\h "A"', I["titre"] + " (" + r.L["maj_champs"] + ")")

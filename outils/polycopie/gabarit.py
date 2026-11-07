@@ -250,7 +250,7 @@ class Numerotation:
     def __init__(self, doc):
         self.doc = doc
         self.racine = doc.part.numbering_part.element
-        self._abstrait(self.PUCE, [("bullet", "•", PRIMAIRE, TEXTE_POLICE), ("bullet", "–", PRIMAIRE, TEXTE_POLICE),
+        self._abstrait(self.PUCE, [("bullet", "•", PRIMAIRE, TEXTE_POLICE), ("bullet", "◦", PRIMAIRE, TEXTE_POLICE),
                                    ("bullet", "·", PRIMAIRE, TEXTE_POLICE)])
         self._abstrait(self.NUMERO, [("decimal", "%1.", PRIMAIRE, TITRE), ("lowerLetter", "%2)", PRIMAIRE, TITRE),
                                      ("lowerRoman", "%3.", PRIMAIRE, TITRE)])

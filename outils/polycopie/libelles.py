@@ -24,10 +24,10 @@ LIBELLES = {
         sujet_temoin="Témoin de mise en page du polycopié",
         sujet="Polycopié du cours",
         maj_champs="mettre à jour les champs",
-        alt=dict(garde="Page de garde", picto="Pictogramme", qr="QR code — {legende} : {url}"),
+        alt=dict(garde="Page de garde", picto="Pictogramme", qr="QR code : {legende}, {url}"),
         mentions=dict(
             edition="Première édition",
-            copyright="© {annee} {auteur} — Tous droits réservés.",
+            copyright="© {annee} {auteur}. Tous droits réservés.",
             usage=("L'usage personnel et pédagogique de ce polycopié par les étudiants est autorisé. Toute autre "
                    "reproduction ou diffusion, intégrale ou partielle, par quelque procédé que ce soit, est soumise "
                    "à l'accord écrit de l'auteur."),
@@ -47,8 +47,8 @@ LIBELLES = {
                    "s'arrête : écouter, manipuler, s'entraîner."),
             renvois="Quand le texte renvoie à une autre partie du livret, il en donne la page : « (p. 12) ».",
             marge_titre="La marge est à vous",
-            marge=("La grande marge extérieure sert à deux choses : vos notes — questions, reformulations, "
-                   "croquis — et les QR codes. Chacun ouvre, au bon endroit, la ressource en ligne qui prolonge le "
+            marge=("La grande marge extérieure sert à deux choses : vos notes (questions, reformulations, "
+                   "croquis) et les QR codes. Chacun ouvre, au bon endroit, la ressource en ligne qui prolonge le "
                    "paragraphe voisin. Visez-le avec l'appareil photo de votre téléphone ; à l'écran, cliquez le QR "
                    "code ou sa légende."),
             qr=[("casque", "ÉCOUTER", "la capsule audio de la section : l'essentiel, raconté en une à deux minutes."),
@@ -154,10 +154,10 @@ LIBELLES = {
         sujet_temoin="Layout sample of the course book",
         sujet="Course book",
         maj_champs="update the fields",
-        alt=dict(garde="Cover", picto="Icon", qr="QR code — {legende}: {url}"),
+        alt=dict(garde="Cover", picto="Icon", qr="QR code: {legende}, {url}"),
         mentions=dict(
             edition="First edition",
-            copyright="© {annee} {auteur} — All rights reserved.",
+            copyright="© {annee} {auteur}. All rights reserved.",
             usage=("Students may use this course book for personal and educational purposes. Any other reproduction "
                    "or distribution, in whole or in part, in any form or by any means, requires the prior written "
                    "permission of the author."),
@@ -176,7 +176,7 @@ LIBELLES = {
                    "up where paper leaves off, so you can listen, experiment, and practice."),
             renvois="When the text refers to another part of the book, it gives its page, like this: (p. 12).",
             marge_titre="The margin is yours",
-            marge=("The wide outer margin has two uses: your notes — questions, rephrasings, sketches — and the QR "
+            marge=("The wide outer margin has two uses: your notes (questions, rephrasings, sketches) and the QR "
                    "codes. Each code opens, at the right spot, the online resource that extends the paragraph next "
                    "to it: just point your phone’s camera at it. On screen, click the code or its caption."),
             qr=[("casque", "LISTEN", "the section’s audio capsule: the essentials, told in one to two minutes."),

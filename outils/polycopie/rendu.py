@@ -42,6 +42,7 @@ champ PAGEREF vers le signet de sa cible (Rendu.cibles) ; chaque signet visé do
 AUCUNE ADRESSE ne s'imprime : un lien dont le texte est une adresse prend le nom que lui donne la fiche du livret
 (« adresses » de outils/livret.py) et son QR code va dans la marge ; un code qui porte une adresse se copie en ligne.
 """
+import glob
 import os
 import random
 import re
@@ -54,7 +55,7 @@ from docx.shared import Cm, Pt, RGBColor
 from . import gabarit as G
 from . import lecture as H
 from . import ooxml as X
-from .sources import GE, SITE_LOCAL
+from .sources import GE, RACINE, SITE, SITE_LOCAL
 
 NBSP = "\u00a0"                 # l'espace insécable (écrite par son échappement : un éditeur la perdrait)
 CASE = "☐"                       # ☐, en Segoe UI Symbol
@@ -828,7 +829,7 @@ class Rendu:
             bx = self.boite("controle", cont)
             self.signer(b.ident)
             titre = d.get("titre", "")
-            libelle, _, sujet = titre.partition(" — ")
+            libelle, sujet = couper_titre(titre)
             self.etiquette(bx.entete, "controle", libelle or E["controle"],
                            titre=(sujet[:1].upper() + sujet[1:]) or None)
             self.consigne(bx.entete, P["controle"])
@@ -1029,7 +1030,19 @@ class Rendu:
         if cible is None or not d.get("src"):
             return None
         url = self.langue.resoudre(d.get("src", ""), self.page.rel) if self.page else d["src"]
-        etiquette = M["ecouter"] + (" · " + duree(d.get("duree", ""), M) if d.get("duree") else "")
+        local = self.langue.locale(url)
+        a_venir = not local or not os.path.exists(local)
+        if a_venir:
+            # Une capsule écrite mais pas encore enregistrée : son QR code s'imprime dès maintenant, à l'adresse où sa
+            # piste sera déposée, si c'est bien la bonne (capsule_prevue), et sans durée — celle de la page n'est
+            # qu'estimée. L'adresse se teste après l'enregistrement : generer_polycopie.py --essai dit alors
+            # « capsules à venir : 0 ». Sinon, pas de QR code vers un fichier qui n'existe pas.
+            if not capsule_prevue(url, self.langue.code):
+                self.journal.append(dict(genre="capsule absente", url=url, lieu=self.lieu()))
+                return None
+            self.registre.a_venir.add(url)
+            self.journal.append(dict(genre="capsule à venir", url=url, lieu=self.lieu()))
+        etiquette = M["ecouter"] + (" · " + duree(d.get("duree", ""), M) if d.get("duree") and not a_venir else "")
         return self.marge(cible, url, etiquette, d.get("titre", ""), "casque")
 
     def revision(self, b):
@@ -1127,13 +1140,53 @@ class Boite:
 
 
 # ── utilitaires ────────────────────────────────────────────────────────────
+# Le séparateur entre le libellé d'un titre du site et son sujet : « Point de contrôle : écouter », « Checkpoint:
+# listening » depuis la réécriture sans tirets ; « Point de contrôle — écouter » avant elle. En français, une espace
+# insécable (fine ou non) peut précéder le deux-points ; un deux-points suivi d'un chiffre (« 9:00 ») n'en est pas un.
+SEPARATEUR_TITRE = re.compile(r"\s+—\s+|(?<=[\w).»”’])\s*:\s+")
+
+
+def couper_titre(titre):
+    """(libellé, sujet) d'un titre « Libellé : sujet » ; (titre, "") s'il n'a pas de séparateur."""
+    t = (titre or "").strip()
+    m = SEPARATEUR_TITRE.search(t)
+    return (t[:m.start()].strip(), t[m.end():].strip()) if m else (t, "")
+
+
 def court(titre, limite=34):
-    """Une légende de QR code courte : le titre, ou sa partie avant le tiret, ou rien (l'encadré voisin le porte)."""
+    """Une légende de QR code courte : le titre, ou son libellé (couper_titre), ou rien (l'encadré voisin le porte)."""
     t = (titre or "").strip()
     if len(t) <= limite:
         return t
-    tete = t.split(" — ")[0].strip()
+    tete = couper_titre(t)[0]
     return tete if len(tete) <= limite else ""
+
+
+_NOMS_SCRIPTS = None
+
+
+def noms_des_scripts():
+    """Les noms des pistes qui ont un script dans les fiches de production (docs/prompts/*.md) : tout nom de fichier
+    .mp3 cité entre apostrophes inverses. La langue est dans le suffixe (chapitre-<N>-capsule-<langue>.mp3, § 5 de
+    CLAUDE.md), les deux langues dans la même fiche."""
+    global _NOMS_SCRIPTS
+    if _NOMS_SCRIPTS is None:
+        noms = set()
+        for f in glob.glob(os.path.join(RACINE, "docs", "prompts", "*.md")):
+            with open(f, encoding="utf-8") as fh:
+                noms.update(re.findall(r"`([\w.-]+\.mp3)`", fh.read()))
+        _NOMS_SCRIPTS = noms
+    return _NOMS_SCRIPTS
+
+
+def capsule_prevue(url, code):
+    """Vrai si l'adresse d'une capsule sans piste est bien celle où generer_audio.py déposera la sienne :
+    assets/media/voix/chapitre-<N>-capsule-<langue>.mp3 (la langue dans le suffixe, § 5), et ce nom a un script dans
+    les fiches de production. Sinon la capsule n'a pas de QR code (« capsule absente »)."""
+    nom = (url or "").rsplit("/", 1)[-1]
+    m = re.fullmatch(r"chapitre-\d+-capsule-(fr|en)\.mp3", nom)
+    return (bool(m) and m.group(1) == code and url.startswith(SITE)
+            and "/assets/media/voix/" in url and nom in noms_des_scripts())
 
 
 def signet_nom(ident):

@@ -54,6 +54,7 @@ class Registre:
         self.poses = []            # dict(url, etiquette, texte, place, png)
         self.statuts = {}
         self.avertissements = []   # ce qui se signale sans bloquer (une page tenue hors ligne, un site sans robots)
+        self.a_venir = set()       # adresses des capsules sans piste, prévues (rendu.capsule_prevue)
 
     def fabriquer(self, url, taille_cm=2.2, bordure=0):
         """Le PNG du QR code d'une adresse (gardé en cache) ; rend son chemin."""
@@ -80,6 +81,13 @@ class Registre:
         bloquent pas, vont dans self.avertissements."""
         urls = sorted({p["url"] for p in self.poses})
         erreurs, self.avertissements = [], []
+        # Les capsules à venir (rendu.capsule_prevue) : l'adresse prévue d'une piste pas encore enregistrée. Son
+        # fichier n'existe pas encore, elle ne se vérifie donc pas ici ; elle se teste après l'enregistrement
+        # (generer_polycopie.py --essai : « capsules à venir : 0 »). Le verifier ne tait qu'une adresse prévue,
+        # jamais un autre fichier absent.
+        for url in (u for u in urls if u in self.a_venir):
+            self.statuts[url] = "capsule à venir : adresse prévue, à tester après l'enregistrement"
+        urls = [u for u in urls if u not in self.a_venir]
         du_site = [u for u in urls if u.startswith(SITE)]
         externes = [u for u in urls if not u.startswith(SITE)]
         if protege:

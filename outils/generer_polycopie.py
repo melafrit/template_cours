@@ -150,6 +150,13 @@ def main():
         print("  ✗", e)
     for a in registre.avertissements:
         print("  ·", a)
+    # Les capsules sans piste, au QR code imprimé à leur adresse prévue (vérifiée contre la fiche de production) : la
+    # liste tombe à 0 quand toutes les pistes sont déposées ; c'est le test de ces adresses, après l'enregistrement.
+    a_venir = sorted(u for u in registre.a_venir if not os.path.isfile(langue.locale(u) or ""))
+    print(f"capsules à venir : {len(a_venir)} (QR code à l'adresse prévue de la piste, à tester après "
+          "l'enregistrement)")
+    for u in a_venir:
+        print("  ·", u.rsplit("/", 1)[-1])
     for a in (j for j in r.journal if j.get("genre") in ("schema absent", "image absente")):
         quoi = "schéma absent du site, non imprimé" if a["genre"] == "schema absent" else "image absente du site, " \
                                                                                         "non imprimée"
