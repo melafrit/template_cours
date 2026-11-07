@@ -9,6 +9,54 @@
 
 ---
 
+## 7 novembre 2026 — le gabarit sans tirets : le témoin (chapitre 1) et le plan de la série
+
+Deuxième étape des exigences du cours d'avant-projet (D55), après le polycopié : réécrire sans tiret cadratin tout ce
+que l'apprenant lit (`site/`, puis `CLAUDE.md` et `prompts/`). Un témoin d'abord, validé par l'auteur, puis une série
+par lots ; à la fin, `outils/verifier_tirets.py` vert sur `site/`.
+
+### Le témoin (`ea1cc23`)
+
+Le chapitre vitrine (`site/chapitres/01-cadrage.html`, recopié en `_modele.html` dans chaque cours), de 47 tirets à 0.
+Les choix de style, validés par l'auteur (règles D55) :
+
+- une incise d'aparté passe entre virgules ou en parenthèses, une incise explicative prend un deux-points ; un titre
+  de contrôle ou de figure prend un deux-points (que `couper_titre` lit) ; un renvoi « Source — Titre » prend le point
+  médian « · » ; le compteur de slides « — / — » devient « · / · » ; une ligne de pied « Titre — Auteur » prend
+  le « · ».
+- Deux sources corrigées, qui nettoient tous les chapitres d'un coup : la légende de podcast « Épisode N — Titre »
+  (`outils/podcasts.py`) et le libellé « Où en parle-t-on ? » « Chapitre N — Titre » (`outils/glossaire_emplois.py`)
+  prennent le deux-points ; `glossaire-emplois.js`, `playlist-data.js` et les fragments régénérés.
+- La transcription de la capsule (audio déjà enregistré) ne change que de ponctuation (le tiret-incise devient des
+  parenthèses), dans sa fiche ; le script enregistré reste la référence (règle audio du § 2).
+
+Le total `site/` tombe de 375 à 290.
+
+### Un correctif trouvé en chemin (`55d362a`)
+
+`outils/synchroniser_capsules.py` écrivait toujours en LF, convertissant une page CRLF sous Windows. Il garde
+désormais les fins de ligne de la page, comme `generer_fragments` depuis le lot 1 (testé : CRLF reste CRLF, LF reste
+LF).
+
+### Ce qui a été vérifié
+
+`01-cadrage.html` à 0 tiret (`verifier_tirets`), console vide, FR et EN au navigateur ; les huit contrôles du § 6
+verts ; le sens et les nombres inchangés.
+
+### Piège appris
+
+- **Dé-tirer une page ne suffit pas à vider son rendu** : les moteurs partagés (`ui-labels.js`, `interactions.js`)
+  injectent leur propre chrome (« Before reading — … », le séparateur « — texte » des points de schéma). La série
+  doit inclure les moteurs et les données partagées, pas seulement les pages.
+
+### La série, à faire
+
+Les 290 tirets de `site/` en cinq lots (moteurs partagés ; chapitres ; pages de ressources ; QCM, avec la mise en
+garde sur la signature SHA-256 des banques ; données), puis `CLAUDE.md` et `prompts/` (hors `verifier_tirets`). Détail
+des lots : `TODO.md`, « Le gabarit sans tirets ».
+
+---
+
 ## 7 novembre 2026 — la chaîne du polycopié : le chrome sans tirets, les capsules à venir (lot fc09f26)
 
 Repris en générique du cours d'étude d'avant-projet (son commit `fc09f26`, décisions D55 et D56), choix de l'auteur

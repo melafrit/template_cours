@@ -21,6 +21,12 @@
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 7 novembre — le gabarit sans tirets : le témoin (chapitre 1) et le plan de la série
+> Le chapitre vitrine (`01-cadrage.html`, recopié en `_modele.html`) réécrit sans tiret cadratin, de 47 à 0 ; style
+> validé par l'auteur (incise → virgule / parenthèses / deux-points ; renvoi « Source — Titre » → « · » ; titres de
+> contrôle → deux-points). Deux sources corrigées nettoient tous les chapitres (podcast, « Où en parle-t-on ? ») : le
+> total `site/` tombe de 375 à 290. Correctif au passage : `synchroniser_capsules` garde les fins de ligne. `ea1cc23`,
+> `55d362a`. Le reste de la série : voir « Le gabarit sans tirets ». Détail : `JOURNAL.md`, section du 7 novembre.
 > ### 🆕 7 novembre — la chaîne du polycopié sans tirets du chrome, les capsules à venir (lot fc09f26)
 > Repris en générique du cours d'avant-projet (`fc09f26`, D55/D56) : le chrome du livret sans tirets (puces « ◦ » et
 > « • », `couper_titre` « Libellé : sujet », mentions, copyright, marge, TOC, index, couverture, capitales qui
@@ -59,11 +65,25 @@
 
 ## 🛠️ Ouvert — dans le gabarit
 
-**Le gabarit sans tirets** (lot à décider avec l'auteur ; un témoin d'abord) : `outils/verifier_tirets.py` est
-rouge sur le gabarit lui-même, avec 375 tirets dans 28 fichiers de `site/` (démonstration, `ui-labels.js`, QCM et sa
-correction). Hors de son champ, mais à reprendre aussi : environ 440 tirets dans `prompts/`, qui écrivent chaque
-cours, et 29 dans `CLAUDE.md`. S'y ajoute le chrome du livret que `fc09f26` ne touchait pas : la légende de podcast
-« Épisode N — Titre » (`outils/podcasts.py`) et les puces de schéma « titre — texte » (`outils/polycopie/rendu.py`).
+**Le gabarit sans tirets** (D55, en cours) : réécrire sans tiret cadratin tout ce que l'apprenant lit. Le témoin
+(chapitre 1, `ea1cc23`) est fait et son style validé ; `outils/verifier_tirets.py` reste rouge, **290 tirets dans
+25 fichiers de `site/`**. La suite, en cinq lots (style du témoin, régénération des fichiers générés, `verifier_tirets`
+à 0 par lot) :
+
+- **S1 — les moteurs partagés** : `ui-labels.js` (26), `interactions.js` (6), `podcasts.js` (6), `media.js` (2),
+  `quiz.js` (1). Priorité : leur chrome s'injecte dans toutes les pages (« Before reading — … », le séparateur
+  « titre — texte » des points de schéma). S'y rattache, pour le livret, `outils/polycopie/rendu.py` (ligne 977, le
+  même séparateur de points de schéma).
+- **S2 — les chapitres** : `02-structurer.html` (37), `03-multimedia.html` (37), sur le modèle du témoin.
+- **S3 — les pages de ressources** : `atelier` (40), `activites` (15), `about` (10), `polycopie` (10), `cours` (9),
+  `index` (6), `glossaire` (5), `polycopies` (5), `podcasts` (4).
+- **S4 — le QCM** : `QCM/index` (17), `corrections.js` (13), `dashboard` (11), `correction` (11), `entrainement` (7),
+  `questions.js` (4), `qcm-core.js` (2). ⚠️ La signature SHA-256 des banques : toucher au texte d'une question change
+  le CSV signé (skill `cours-qcm-cbm`) — à traiter avec soin.
+- **S5 — les données** : `course-data.js` (2), `flashcards-data.js` (4).
+
+Puis, hors du champ de `verifier_tirets.py` (il ne lit que `site/`, html/js/css) : `CLAUDE.md` (30) et `prompts/`
+(~440, des `.md`), ce que lisent les futurs cours.
 
 Les deux défauts de `media.js` relevés le 26 octobre sont réglés : les fenêtres des diapositives et de l'infographie
 parlent la langue de la page (`150f25d`), et `media.js` ne demande plus que les médias déposés (`0732822`).
