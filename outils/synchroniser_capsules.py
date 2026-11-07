@@ -92,7 +92,9 @@ def injecter(page, chap, caps, essai, langues=("fr", "en"), prefixe="../"):
     """Écrit src, durée et transcription dans le bloc TEXTES de la page, pour ses langues : les deux en modèle
     data-tr ; en site miroir, le français dans la page de chapitres/, l'anglais dans sa jumelle de en/chapitres/
     (prefixe « ../../ »)."""
-    t = io.open(page, encoding="utf-8").read()
+    brut = io.open(page, "rb").read()
+    nl = "\r\n" if b"\r\n" in brut else "\n"   # on garde les fins de ligne de la page (CRLF sous Windows)
+    t = brut.decode("utf-8").replace("\r\n", "\n")
     avant = t
 
     for langue in langues:
@@ -129,7 +131,7 @@ def injecter(page, chap, caps, essai, langues=("fr", "en"), prefixe="../"):
     if t == avant:
         return False
     if not essai:
-        io.open(page, "w", encoding="utf-8", newline="\n").write(t)
+        io.open(page, "w", encoding="utf-8", newline=nl).write(t)
     return True
 
 
