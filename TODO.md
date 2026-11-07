@@ -21,6 +21,12 @@
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 7 novembre — la chaîne du polycopié sans tirets du chrome, les capsules à venir (lot fc09f26)
+> Repris en générique du cours d'avant-projet (`fc09f26`, D55/D56) : le chrome du livret sans tirets (puces « ◦ » et
+> « • », `couper_titre` « Libellé : sujet », mentions, copyright, marge, TOC, index, couverture, capitales qui
+> gardent l'accent) et les capsules à venir (QR code à l'adresse prévue, sans durée ; « capsules à venir : N »).
+> Témoin avant/après : 17 → 12 tirets, les 5 du chrome `fc09f26` retirés. `9fc7dbc`. Détail : `JOURNAL.md`, section
+> du 7 novembre.
 > ### 🆕 6 novembre : les exigences nées dans le cours d'étude d'avant-projet (lot « règles »)
 > Au § 2 de `CLAUDE.md` : ni tirets cadratins ni marques de texte généré (« Le contenu ») ; un texte enregistré ne
 > change pas sans réenregistrer sa piste, sauf la ponctuation de sa transcription, le nom d'une piste fixé avant son
@@ -56,7 +62,8 @@
 **Le gabarit sans tirets** (lot à décider avec l'auteur ; un témoin d'abord) : `outils/verifier_tirets.py` est
 rouge sur le gabarit lui-même, avec 375 tirets dans 28 fichiers de `site/` (démonstration, `ui-labels.js`, QCM et sa
 correction). Hors de son champ, mais à reprendre aussi : environ 440 tirets dans `prompts/`, qui écrivent chaque
-cours, et 29 dans `CLAUDE.md`.
+cours, et 29 dans `CLAUDE.md`. S'y ajoute le chrome du livret que `fc09f26` ne touchait pas : la légende de podcast
+« Épisode N — Titre » (`outils/podcasts.py`) et les puces de schéma « titre — texte » (`outils/polycopie/rendu.py`).
 
 Les deux défauts de `media.js` relevés le 26 octobre sont réglés : les fenêtres des diapositives et de l'infographie
 parlent la langue de la page (`150f25d`), et `media.js` ne demande plus que les médias déposés (`0732822`).
@@ -171,12 +178,10 @@ Pour le polycopié (la fiche du cours de veille, `outils/livret.py`, en montre l
 
 Relevés le 6 novembre dans le cours d'étude d'avant-projet, après le lot « règles » (`JOURNAL.md`) :
 
-- **La chaîne du polycopié** : une capsule pas encore enregistrée a son QR code à l'adresse prévue de sa piste,
-  vérifiée contre sa fiche, sans durée, et le contrôle compte les « capsules à venir » (la décision D56 du cours ; le
-  gabarit imprime aujourd'hui l'adresse sans vérification, avec la durée estimée) ; le découpage des titres
-  « Libellé : sujet » (`rendu.py` coupe sur le tiret cadratin, qui disparaît avec la règle) ; les capitales écrites
-  dans le texte (`pages.py`, `capitales=True` : Word ôte les accents des majuscules) ; des puces rondes au second
-  niveau (« – » dans `gabarit.py`) ; les libellés du livret sans tirets.
+- ✅ **La chaîne du polycopié** — fait au lot `9fc7dbc` (7 novembre, cf. `JOURNAL.md`) : les capsules à venir (D56),
+  `couper_titre` « Libellé : sujet », les capitales qui gardent l'accent, les puces « ◦ » au second niveau, et les
+  libellés du livret (mentions, copyright, marge, TOC, index, couverture) sans tirets. Restent, au lot « gabarit sans
+  tirets », le chrome que `fc09f26` ne touchait pas (légende de podcast, puces de schéma) et le corps des pages.
 - **Les outils** : le report des transcriptions par la ponctuation seule, qui refuse si un mot change ; la liste de
   l'essai à blanc reconstituée depuis git ; le relevé des tirets des banques du QCM, remis à l'auteur.
 - **L'évaluation** : des banques d'entraînement distinctes de celles de l'épreuve, comparées automatiquement (le

@@ -9,6 +9,47 @@
 
 ---
 
+## 7 novembre 2026 — la chaîne du polycopié : le chrome sans tirets, les capsules à venir (lot fc09f26)
+
+Repris en générique du cours d'étude d'avant-projet (son commit `fc09f26`, décisions D55 et D56), choix de l'auteur
+« tout fc09f26 en un lot » ; un seul commit après accord, un témoin avant/après.
+
+- `9fc7dbc` — le chrome du livret sans tirets : la puce de 2e niveau « – » devient « ◦ » (`gabarit.py`) et la puce
+  d'objectif « – » devient « • » (`pages.py`) ; `couper_titre()` lit « Libellé : sujet » là où le code coupait sur le
+  tiret cadratin (`rendu.py`), et accepte l'espace insécable — fine ou non — avant le deux-points du français, ainsi
+  que « Checkpoint: listening », sans couper « 9:00 » ; mentions, copyright et texte de la marge sans tirets
+  (`libelles.py`, dans les deux langues) ; la table des matières et l'index en « (mettre à jour les champs) », la
+  couverture en « titre · sous-titre » (`pages.py`) ; le surtitre des ouvertures en capitales dans le texte même
+  (`.upper()` au lieu de la casse de Word, qui ôte l'accent de « LES MODÈLES »).
+- Les capsules à venir (D56) : une capsule écrite mais pas encore enregistrée imprime son QR code à l'adresse où sa
+  piste sera déposée (vérifiée contre sa fiche de production `docs/prompts/`, convention
+  `chapitre-<N>-capsule-<langue>.mp3`), sans durée — celle de la page n'est qu'estimée ; `generer_polycopie.py
+  --essai` compte « capsules à venir : N », qui tombe à 0 quand toutes les pistes sont là. `rendu.py`, `qr.py`,
+  `generer_polycopie.py`.
+- Écarté, propre au cours : `www.peoplecert.org` (sa bibliographie) et les composants de `lecture.py`, que le gabarit
+  n'a pas.
+
+### Comment ce lot a été vérifié
+
+Un témoin du livret (chapitre 1) composé avant et après, sans Word (`--temoin --sans-pdf --hors-ligne`), et ses
+tirets comptés dans le texte du Word : 17 avant, 12 après ; les 5 retirés sont exactement le chrome de `fc09f26`
+(copyright, marge, table des matières, index), et la puce de niveau 2 passe bien à « ◦ ». Douze tests unitaires
+(`couper_titre` et `capsule_prevue`), « capsules à venir : 0 » (les pistes de la démo existent), « règles du livret :
+0 écart », les huit contrôles du § 6 verts.
+
+### Ce qui reste
+
+Les 12 tirets encore dans le témoin ne sont pas de ce lot : 7 viennent du corps des pages de démo, et 5 d'un chrome
+que `fc09f26` ne touche pas — la légende de podcast « Épisode N — Titre » (`outils/podcasts.py`, hors
+`outils/polycopie/`) et les puces de schéma « titre — texte » (`rendu.py`). Tout cela au lot « gabarit sans tirets ».
+
+### Piège appris
+
+- **Le corps du livret reprend le texte des pages** : tant que les pages gardent leurs tirets, le livret aussi. Un
+  lot « livret sans tirets » n'enlève que le chrome du générateur ; le reste suit la réécriture du site.
+
+---
+
 ## 6 novembre 2026 : les exigences nées dans le cours d'étude d'avant-projet
 
 Le but : reprendre dans le gabarit les exigences que l'auteur a formulées en produisant le cours d'étude
