@@ -21,6 +21,10 @@
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 21 novembre · le prompt 15 sans tiret, `--ecraser` prudent
+> Le prompt 15 ne prescrit plus le tiret cadratin pour une incise (virgules ou parenthèses ; renvois « § 3 · Titre »),
+> et `nouveau_cours.py --ecraser` garde en place les fichiers locaux d'un cours (secrets, carnets d'envoi,
+> destination, quarantaine), qu'il supprimait. `a1a6a45`, `ad2c4a7`. Détail : `JOURNAL.md`, section du 21 novembre.
 > ### 🆕 21 novembre · deux correctifs repris du cours de veille EADL
 > Le texte posé sur les fonds primaires reste lisible en thème sombre (`--on-primary`, `--primary-hover` ; vérificateur
 > de contraste qui suit les `var()`), et le cahier de texte se produit sans identifiants (`--sans-acces --site
@@ -87,7 +91,8 @@
 - **S5 — les données** : `course-data.js` (2), `flashcards-data.js` (4).
 
 Puis, hors du champ de `verifier_tirets.py` (il ne lit que `site/`, html/js/css) : `CLAUDE.md` (30) et `prompts/`
-(~440, des `.md`), ce que lisent les futurs cours.
+(~440, des `.md`), ce que lisent les futurs cours. `prompts/15_explications_quiz.md` est déjà fait (21 novembre,
+`a1a6a45`) : sa règle prescrivait le tiret.
 
 Les deux défauts de `media.js` relevés le 26 octobre sont réglés : les fenêtres des diapositives et de l'infographie
 parlent la langue de la page (`150f25d`), et `media.js` ne demande plus que les médias déposés (`0732822`).

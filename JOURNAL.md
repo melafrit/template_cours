@@ -9,6 +9,35 @@
 
 ---
 
+## 21 novembre 2026 · deux défauts relevés par le cours de veille EADL
+
+### Le prompt 15 ne prescrit plus le tiret cadratin (`a1a6a45`)
+
+Sa règle typographique demandait « tiret cadratin pour une incise », contraire à l'exigence du 3 novembre 2026
+(`CLAUDE.md`, « Le contenu ») : une incise passe maintenant entre virgules ou entre parenthèses. Ses exemples, que le
+contenu généré imiterait, suivent le style validé au témoin (D55) : renvoi « § 3 · Le couplage » et « Auteur · titre »,
+titre au deux-points, incise entre parenthèses. Plus aucun tiret dans le fichier ; c'est le premier fichier de
+`prompts/` traité, avant le lot prévu par la série « Le gabarit sans tirets ».
+
+### `--ecraser` garde les fichiers locaux du cours (`ad2c4a7`, décision de l'auteur)
+
+Sur un dossier existant, `nouveau_cours.py --ecraser` supprimait en entier chaque dossier recopié, puis recopiait le
+gabarit sans ses fichiers locaux : secrets, carnets d'envoi, destination, quarantaine des prises, cahiers de texte et
+réglages locaux disparaissaient sans être remplacés (le cours de veille EADL y a perdu `deploiement/known_hosts`). La
+liste `LOCAUX`, qui sert aussi aux exclusions de la copie, dit ce qui appartient au cours : ces fichiers passent le
+temps de la copie dans un abri caché de la sortie elle-même, puis reviennent à leur chemin, nommés sans être ouverts ;
+`--essai` les liste. Le reste du dossier est bien remplacé.
+
+### Ce qui a été vérifié
+
+- Sur un cours d'essai créé hors du gabarit (secrets réels exclus de l'essai, fichiers locaux factices) : sans
+  `--ecraser`, la création refuse le dossier non vide ; `--ecraser --essai` liste les sept fichiers locaux ;
+  `--ecraser` les garde intacts, supprime un fichier ajouté au cours sous `site/`, et ne laisse aucun abri. Le cours
+  d'essai a été supprimé.
+- Le prompt 15 : aucun tiret cadratin ni tiret moyen.
+
+---
+
 ## 21 novembre 2026 · deux correctifs repris du cours de veille EADL
 
 Nés le 20 novembre dans le cours « Veille technologique et innovation » (EADL), reportés à la demande de l'auteur.
