@@ -34,12 +34,12 @@ par un témoin.
 Les lots, dans l'ordre validé :
 
 - [ ] **1. Fondations** : polices locales ✅ (`a28b685`) ; la démo passée au site miroir ✅ (`59474ee`, `a008dac`)
-  et le générateur qui la suit ✅ (`3f50098`), avancés du lot 4 sur décision de l'auteur ; outils du miroir à N
-  langues et écriture de droite à gauche, avec un témoin arabe (le chapitre 1) ; bascule de filière ; paramètres
-  filières et langues dans `cours.json` et `nouveau_cours.py`. Relevés en
-  chemin, à traiter dans ce lot : les libellés du panneau ♿, écrits en dur en français dans `accessibility.js` (une
-  page anglaise affiche un panneau français) ; `xlsx.full.min.js`, que le tableau de bord du QCM charge d'un CDN,
-  contre le § 7 (l'héberger demande l'accord de l'auteur pour le téléchargement).
+  et le générateur qui la suit ✅ (`3f50098`), avancés du lot 4 sur décision de l'auteur ; le socle à plusieurs
+  langues ✅ (`3d941a7` : le groupe « FR · EN · عربي », la liste `TPL_MIROIR`, le panneau ♿ traduit) ; restent
+  l'écriture de droite à gauche, un témoin arabe (le chapitre 1), les outils Python à N langues, la bascule de
+  filière, et les paramètres filières et langues dans `cours.json` et `nouveau_cours.py`. Relevé en chemin, à
+  traiter dans ce lot : `xlsx.full.min.js`, que le tableau de bord du QCM charge d'un CDN, contre le § 7
+  (l'héberger demande l'accord de l'auteur pour le téléchargement).
 - [ ] **2. Bloc école** : `seances.py`, cahier de texte Yparéo, classeur d'import Livrables, fragments Programme et
   Échéances.
 - [ ] **3. Page d'accueil**, avec les fiches de ses capsules de section.
@@ -72,6 +72,10 @@ Les lots, dans l'ordre validé :
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 21 novembre · lot 1, le socle à plusieurs langues
+> Le site miroir connaît trois langues : la liste `TPL_MIROIR` (la langue racine, puis les pages de chaque
+> dossier de langue), le groupe « FR · EN · عربي » de l'en-tête (décisions de l'auteur), `dir="rtl"` pour l'arabe,
+> et le panneau ♿ enfin traduit. `3d941a7`. Détail : `JOURNAL.md`, section du 21 novembre.
 > ### 🆕 21 novembre · lot 1, la démo en site miroir, et le générateur qui la suit
 > Décisions de l'auteur : convertir la démo avant le témoin arabe, et un générateur qui ne crée plus que des cours
 > en site miroir. Les 16 pages ont leur jumelle anglaise sous `en/` (0 écart de parité, titres et descriptions

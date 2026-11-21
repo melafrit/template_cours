@@ -9,6 +9,41 @@
 
 ---
 
+## 21 novembre 2026 · lot 1, le socle à plusieurs langues (`3d941a7`)
+
+Le site miroir ne connaissait que le français à la racine et l'anglais sous `en/`. **Décisions de l'auteur** : un
+groupe de langues côte à côte dans l'en-tête, la langue lue mise en évidence, plutôt qu'un menu ou un bouton qui
+passe à la suivante ; et « عربي » pour l'arabe, le nom de la langue dans sa propre écriture.
+
+- `langues-data.js` devient `window.TPL_MIROIR` : la langue racine (celle de l'accueil), puis, pour chaque autre
+  langue, les pages qui y ont leur jumelle. `generer_langues.py` la déduit des dossiers de langue de `site/`.
+- `langue.js` pose le groupe. Une langue n'y figure que si la page y existe, et le groupe n'apparaît qu'à partir de
+  deux langues ; chaque libellé est écrit dans sa langue, la langue lue est cerclée et inerte. La reprise du
+  paragraphe lu ne change pas, et l'accueil se rouvre dans la dernière langue choisie, quelle qu'elle soit.
+- `i18n.js` connaît l'arabe et pose `dir` sur la page (`rtl` pour l'arabe). Les blocs `data-tr`, eux, restent
+  français et anglais.
+- `navigation.js`, `glossaire-tooltip.js` et `podcasts.js` suivent la langue de la page : le menu d'une jumelle
+  marque une page restée dans la langue racine, une bulle de glossaire cherche les termes dans la langue de la
+  page.
+- Le panneau ♿ prend ses libellés dans `ui-labels.js`. Écrits en dur, ils restaient en français sur une page
+  anglaise (relevé le matin même, à la vérification des polices).
+- Les outils qui lisent la liste suivent (`creer_jumelle.py`, `data_tr_vers_miroir.py`, `hreflang.py`), ainsi que
+  `docs/I18N.md`, `docs/ARCHITECTURE.md` et le § 4 de `CLAUDE.md`.
+
+### Ce qui a été vérifié
+
+Au navigateur, le groupe « FR · EN » s'affiche sur le chapitre 1 ; EN rouvre la jumelle sur le même paragraphe, à la
+même hauteur ; le panneau ♿ et le glossaire parlent anglais sur la page anglaise ; l'accueil s'ouvre dans la langue
+choisie ; à 375 px en sombre, l'en-tête tient sans débordement ; la console reste vide. Les contrôles sont verts
+(`verifier_tirets.py` à 91, lot S4), et un cours généré part avec une liste vide et aucun lien mort.
+
+### Ce qui reste pour l'arabe
+
+L'arabe n'entre dans le groupe qu'avec sa première page. Viennent ensuite la mise en page de droite à gauche, le
+témoin (le chapitre 1 en arabe), puis les outils Python à N langues (jumelles, parité, liens, `hreflang`, menu).
+
+---
+
 ## 21 novembre 2026 · lot 1, la démo en site miroir et le générateur qui la suit (`59474ee`, `a008dac`, `3f50098`)
 
 ### Deux décisions de l'auteur
