@@ -7,7 +7,8 @@
 
     python3 nouveau_cours.py --essai      # dit ce qu'il ferait, sans rien écrire
     python3 nouveau_cours.py --config autre.json --sortie ../ailleurs
-    python3 nouveau_cours.py --ecraser    # accepte un dossier de sortie non vide
+    python3 nouveau_cours.py --ecraser    # accepte un dossier de sortie non vide, dont il garde
+                                          # les fichiers locaux (secrets, carnets, destination)
 
 CE QUE FAIT CE SCRIPT — et ce qu'il ne fait pas.
 
@@ -28,6 +29,7 @@ appelés pour de vrai, avec le motif bilingue à recopier.
 
 import argparse
 import datetime
+import fnmatch
 import importlib.util
 import io
 import glob
@@ -37,6 +39,7 @@ import re
 import shutil
 import subprocess
 import sys
+import tempfile
 
 RACINE = os.path.dirname(os.path.abspath(__file__))
 CONFIG_DEFAUT = os.path.join(RACINE, "cours.json")
@@ -63,10 +66,11 @@ COPIER = ["site", "outils", "prompts", "docs", ".claude", "deploiement", "tools"
 # Jamais recopié avec l'arborescence : secrets, carnets d'envoi, sorties
 # régénérables, réglages locaux. Les deux secrets utiles à un nouveau cours
 # suivent à part, octet pour octet et sans être ouverts (SECRETS_LOCAUX).
-NE_PAS_COPIER = shutil.ignore_patterns(
-    "__pycache__", "*.pyc", "_tmp*", "elevenlabs.json", "*.config.json", "config.json",
-    "manifeste.json", "manifeste.json.tmp", "known_hosts", "destination.json", "quarantaine",
-    "acces.json", "acces-zones.json", "Cahier_de_texte*.docx", "out", "settings.local.json")
+REGENERABLES = ("__pycache__", "*.pyc", "_tmp*", "out", "manifeste.json.tmp")
+# Ce qui appartient au cours et que le template ne fournit jamais : --ecraser le laisse en place (garder_locaux).
+LOCAUX = ("elevenlabs.json", "*.config.json", "config.json", "manifeste.json", "known_hosts", "destination.json",
+          "quarantaine", "acces.json", "acces-zones.json", "Cahier_de_texte*.docx", "settings.local.json")
+NE_PAS_COPIER = shutil.ignore_patterns(*(REGENERABLES + LOCAUX))
 
 # Les secrets qui servent à tous les cours de l'auteur — la clé ElevenLabs et sa
 # voix, les accès à l'hébergement — se recopient tels quels dans le nouveau
@@ -687,6 +691,45 @@ def purger_demo(sortie, c):
     return retires, remplaces
 
 
+def fichiers_locaux(sortie):
+    """Les fichiers et dossiers propres au cours (LOCAUX) sous les dossiers que la création recopie, en chemins
+    relatifs à la sortie. Ils ne sont jamais ouverts : seuls leurs noms servent."""
+    trouves = []
+    for nom in COPIER:
+        racine = os.path.join(sortie, nom)
+        if not os.path.isdir(racine):
+            continue
+        for dossier, sous, fichiers in os.walk(racine):
+            for n in list(sous) + fichiers:
+                if any(fnmatch.fnmatch(n, m) for m in LOCAUX):
+                    trouves.append(os.path.relpath(os.path.join(dossier, n), sortie).replace(os.sep, "/"))
+            sous[:] = [s for s in sous if not any(fnmatch.fnmatch(s, m) for m in LOCAUX)]
+    return sorted(trouves)
+
+
+def garder_locaux(sortie, nom, recopier):
+    """--ecraser : remplace le dossier « nom » de la sortie par celui du template (recopier()), mais laisse en place
+    ses fichiers locaux. Ils passent le temps de la copie dans un abri caché de la sortie elle-même (même disque,
+    aucune copie hors du cours), puis reviennent à leur chemin. [chemins gardés]"""
+    gardes = [r for r in fichiers_locaux(sortie) if r.split("/")[0] == nom]
+    abri = tempfile.mkdtemp(prefix=".ecraser-", dir=sortie) if gardes else None
+    for rel in gardes:
+        cible = os.path.join(abri, rel.replace("/", os.sep))
+        os.makedirs(os.path.dirname(cible), exist_ok=True)
+        shutil.move(os.path.join(sortie, rel.replace("/", os.sep)), cible)
+    try:
+        shutil.rmtree(os.path.join(sortie, nom))
+        recopier()
+    finally:
+        for rel in gardes:
+            dst = os.path.join(sortie, rel.replace("/", os.sep))
+            os.makedirs(os.path.dirname(dst), exist_ok=True)
+            shutil.move(os.path.join(abri, rel.replace("/", os.sep)), dst)
+        if abri:
+            shutil.rmtree(abri)
+    return gardes
+
+
 def copier_secrets(sortie, c, essai=False):
     """Recopie en local les secrets communs à tous les cours, sans les ouvrir.
 
@@ -1162,7 +1205,8 @@ def main():
     ap.add_argument("--config", default=CONFIG_DEFAUT)
     ap.add_argument("--sortie", help="remplace le champ « sortie » de la configuration")
     ap.add_argument("--essai", action="store_true", help="n'écrit rien, dit ce qu'il ferait")
-    ap.add_argument("--ecraser", action="store_true", help="accepte un dossier non vide")
+    ap.add_argument("--ecraser", action="store_true",
+                    help="accepte un dossier non vide ; ses fichiers locaux (LOCAUX) restent en place")
     ap.add_argument("--avec-demo", action="store_true",
                     help="conserve les medias et le contenu du cours de demonstration")
     args = ap.parse_args()
@@ -1200,6 +1244,12 @@ def main():
                  "  Relancez avec --ecraser si c'est voulu." % sortie)
 
     if args.essai:
+        if args.ecraser and os.path.isdir(sortie):
+            locaux = fichiers_locaux(sortie)
+            print("\n  --ecraser garderait en place %d fichier(s) local(aux) du cours%s"
+                  % (len(locaux), " :" if locaux else "."))
+            for rel in locaux:
+                print("      %s" % rel)
         print("\n  Secrets locaux :")
         for rel, quoi in copier_secrets(sortie, c, essai=True):
             print("      %-26s %s" % (rel, quoi))
@@ -1210,6 +1260,7 @@ def main():
     if not os.path.isdir(sortie):
         os.makedirs(sortie)
 
+    gardes = []
     for nom in COPIER:
         src = os.path.join(RACINE, nom)
         if not os.path.exists(src):
@@ -1217,11 +1268,16 @@ def main():
         dst = os.path.join(sortie, nom)
         if os.path.isdir(src):
             if os.path.isdir(dst):
-                shutil.rmtree(dst)
-            shutil.copytree(src, dst, ignore=NE_PAS_COPIER)
+                # --ecraser : les secrets, carnets d'envoi et réglages du cours ne viennent pas du template ;
+                # supprimés avec leur dossier, ils seraient perdus (deploiement/known_hosts l'a été).
+                gardes += garder_locaux(sortie, nom, lambda: shutil.copytree(src, dst, ignore=NE_PAS_COPIER))
+            else:
+                shutil.copytree(src, dst, ignore=NE_PAS_COPIER)
         else:
             shutil.copy2(src, dst)
     print("  arborescence copiée (%d entrées)" % len(COPIER))
+    if gardes:
+        print("  fichiers locaux du cours gardés en place (non ouverts) : %s" % ", ".join(gardes))
 
     # --- le contrat de travail du cours, lu par Claude à chaque ouverture
     ecrire(os.path.join(sortie, "CLAUDE.md"), contrat_du_cours(c))
