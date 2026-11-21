@@ -35,23 +35,31 @@ Les lots, dans l'ordre validé :
 
 - [ ] **1. Fondations** : polices locales ✅ (`a28b685`) ; la démo passée au site miroir ✅ (`59474ee`, `a008dac`)
   et le générateur qui la suit ✅ (`3f50098`), avancés du lot 4 sur décision de l'auteur ; le socle à plusieurs
-  langues ✅ (`3d941a7` : le groupe « FR · EN · عربي », la liste `TPL_MIROIR`, le panneau ♿ traduit) ; restent
-  l'écriture de droite à gauche, un témoin arabe (le chapitre 1), les outils Python à N langues, la bascule de
-  filière, et les paramètres filières et langues dans `cours.json` et `nouveau_cours.py`. Relevé en chemin, à
+  langues ✅ (`3d941a7` : le groupe « FR · EN · عربي », la liste `TPL_MIROIR`, le panneau ♿ traduit) ; la mise
+  en page de droite à gauche et les outils à plusieurs langues ✅ (`737e23b`) ; le témoin arabe, le chapitre 1 ✅
+  (`d301d41`, lexique `docs/LEXIQUE-ar.md`). Restent : les outils qui ignorent encore l'arabe
+  (`hreflang.py`, `generer_playlist.py`, `synchroniser_capsules.py`), la bascule de filière, et les paramètres
+  filières et langues dans `cours.json` et `nouveau_cours.py` (l'arabe comme langue d'un cours, puis comme
+  racine). Relevé en chemin, à
   traiter dans ce lot : `xlsx.full.min.js`, que le tableau de bord du QCM charge d'un CDN, contre le § 7
   (l'héberger demande l'accord de l'auteur pour le téléchargement).
 - [ ] **2. Bloc école** : `seances.py`, cahier de texte Yparéo, classeur d'import Livrables, fragments Programme et
   Échéances.
 - [ ] **3. Page d'accueil**, avec les fiches de ses capsules de section.
-- [ ] **4. Démo en trois langues** : le passage au site miroir est fait (avancé au lot 1, `59474ee`) ; restent la
-  traduction arabe, à faire relire, et les fiches des capsules de section des chapitres.
-- [ ] **5. Codex** : le kit, puis les illustrations des cartes de chapitre et de l'accueil.
+- [ ] **4. Démo en trois langues** : le passage au site miroir est fait (avancé au lot 1, `59474ee`), et le
+  chapitre 1 est en arabe (le témoin, `d301d41`). Restent : la relecture de ce témoin par un lecteur
+  arabophone ; les quinze autres pages en arabe ; la transcription arabe de la capsule 1, écrite dans la page, à
+  reporter dans la fiche des capsules quand `synchroniser_capsules.py` saura l'arabe ; les fiches des capsules
+  de section des chapitres.
+- [ ] **5. Codex** : le kit, puis les illustrations des cartes de chapitre et de l'accueil ; le schéma arabe du
+  chapitre 1 (`chapitre-1-schema-1-trois-decisions.ar.webp`, la première décision à droite, comme ses points).
 - [ ] **6. Apports** : correction des QCM et garde-fous, Boîte à outils, Modèles pas à pas, bibliographie, petits
   moteurs.
 - [ ] **7. Prompts** : tronc, modules, bibliothèque. Les prompts 01, 03, 05 et 13 décrivent encore la bascule 🌐
   des blocs `data-tr` comme celle de la démo.
 - [ ] **8. Générateur de prompt.**
-- [ ] **9. Enregistrement audio** : `verifier_elevenlabs.py` d'abord, témoins, séries, quota suivi au registre.
+- [ ] **9. Enregistrement audio** : `verifier_elevenlabs.py` d'abord, témoins, séries, quota suivi au registre ;
+  la capsule arabe du chapitre 1 (`chapitre-1-capsule-ar.mp3`, nom déjà appelé par la page).
 - [ ] **10. Polycopié** : six livrets, témoin d'abord.
 - [ ] **11. Documentation** et son contrôle. `GUIDE.md`, `CHECKLIST.md`, `ARCHITECTURE.md` et le skill bilingue
   décrivent encore la bascule 🌐 comme celle de la démo.
@@ -72,6 +80,11 @@ Les lots, dans l'ordre validé :
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 21 novembre · lot 1, le témoin arabe et la mise en page de droite à gauche
+> Le chapitre 1 existe en arabe, page retournée, interface et glossaire en arabe, d'après le lexique arrêté par
+> l'auteur (`docs/LEXIQUE-ar.md`). La feuille de style suit le sens de lecture, sans rien changer au français ;
+> les outils savent l'arabe ; une capsule ou un schéma attendu ne provoque plus d'erreur 404. `737e23b`,
+> `d301d41`. Détail : `JOURNAL.md`, section du 21 novembre.
 > ### 🆕 21 novembre · lot 1, le socle à plusieurs langues
 > Le site miroir connaît trois langues : la liste `TPL_MIROIR` (la langue racine, puis les pages de chaque
 > dossier de langue), le groupe « FR · EN · عربي » de l'en-tête (décisions de l'auteur), `dir="rtl"` pour l'arabe,
@@ -229,10 +242,6 @@ moteur, et son propre bilan (`qcm-core.js`, `entrainement.html`, dashboard) ne p
 
 Plus mineurs :
 
-- Dans un cours créé, `chapitres/_modele.html` demande le schéma de la démonstration
-  (`chapitre-1-schema-1-trois-decisions.fr.webp`), retiré avec `site/assets/media/schemas/` : le composant affiche
-  « image attendue », comme voulu, mais la console garde une erreur 404. Garder les images de la vitrine, ou faire
-  passer les schémas par la liste des médias (`media-data.js`).
 - `deploiement/destination.exemple.json` donne pour adresse d'exemple `https://exemple.org/…`, un domaine qui
   n'est pas réservé : passer à `example.org`, comme le livret.
 

@@ -9,6 +9,68 @@
 
 ---
 
+## 21 novembre 2026 · lot 1, le témoin arabe et la mise en page de droite à gauche (`737e23b`, `d301d41`)
+
+### Les décisions de l'auteur
+
+- **Les chiffres occidentaux** (1, 2, 3) dans les pages arabes : les numéros restent les mêmes d'une langue à
+  l'autre.
+- **Traduire la fonction, pas les mots.** À la question des termes techniques, l'auteur a répondu par l'exemple :
+  « projet fil rouge », utilisé pour illustrer les notions du cours, se dit « المشروع التطبيقي ». Le calque que je
+  proposais (« الخيط الناظم ») est écarté. Un lexique a été proposé terme par terme, avant toute traduction.
+- **Les variantes du Maghreb** quand deux usages existent : « المطبوعة », « المكتسبات القبلية »,
+  « الهدف البيداغوجي », « التقويم الإجمالي ».
+- **Le terme français entre parenthèses** à sa première apparition dans une page, pour les notions du glossaire.
+
+Le tout est consigné dans `docs/LEXIQUE-ar.md`, qui part dans chaque cours.
+
+### La mise en page et les outils (`737e23b`)
+
+- Les 114 déclarations qui nommaient la gauche ou la droite deviennent des propriétés logiques, égales aux
+  anciennes en français et en anglais. Restent physiques les points d'un schéma (des coordonnées dans l'image), les
+  boutons « défiler à gauche / à droite » et les centrages.
+- Un bloc pour l'arabe : Noto Naskh et Noto Sans Arabic après les polices latines, qui gardent les mots en lettres
+  latines ; un interligne plus ample ; ni lettres espacées ni italique ; le code de gauche à droite ; les
+  translations du menu mobile et de la liste de lecture retournées.
+- Une capsule ou un schéma attendu ne se demande plus au serveur : la liste des médias connaît `voix/` et
+  `schemas/`. Le registre relevait cette erreur 404 sur `_modele.html` dans les cours créés.
+- Les outils savent l'arabe : jumelles (`creer_jumelle.py --langue ar`), liens, parité (avec un contrôle des blocs
+  restés sans lettre arabe), menu, fragments (« 30 د »), encadré du podcast, « Où en parle-t-on ? ».
+- « Question » et les libellés de `quiz.js` étaient écrits en dur : ils passent par `ui-labels.js`, qui reçoit la
+  table arabe (191 clés).
+
+### Le témoin (`d301d41`)
+
+Le chapitre 1 en arabe, préparé par l'outil puis traduit bloc pour bloc : 28 blocs, 0 écart de parité. S'y
+ajoutent le contenu des composants, les titres du cours, les termes du glossaire, les cartes de révision et
+l'épisode 1 du podcast. Le lien « Pour approfondir » mène à la page arabe de Wikipédia sur la taxonomie de Bloom,
+« تصنيف بلوم لأهداف التعلم », ouverte et vérifiée (le titre court, « تصنيف بلوم », n'est qu'une redirection cassée).
+
+### Ce qui a été vérifié
+
+Au navigateur, à 1280 et 375 px, en clair et en sombre : la page arabe retournée (menu, puces, bordures,
+pagination, menu mobile, panneau ♿), l'interface et les bulles du glossaire en arabe, la lecture adaptée avec une
+police arabe lisible, le groupe « FR · EN · عربي » sur les trois versions du chapitre, la console vide. Le français
+et l'anglais sont inchangés, mesures prises sur sept pages. Les contrôles sont verts (`verifier_tirets.py` à 91,
+lot S4).
+
+### Choix pris en chemin, à revoir si l'auteur le souhaite
+
+Sur téléphone, la pastille du logo laisse sa place au groupe de langues : avec trois langues, l'en-tête d'un
+chapitre dépassait de près de 100 px à 375 px, et le logo passait sous le bouton ♿. Le menu ☰ mène aussi à
+l'accueil, et les boutons gardent leurs 44 px.
+
+### Pièges appris
+
+- **L'espacement des lettres délie l'arabe** : les titres et les étiquettes en capitales espacées doivent revenir à
+  un espacement normal sur une page arabe.
+- **Les chevrons ‹ › sont des caractères miroirs**, que le navigateur retourne de lui-même ; les flèches → ← ne le
+  sont pas, et s'inversent à la main dans les libellés arabes.
+- **Une police à chasse fixe sans arabe** laisse le navigateur choisir une police système qui espace mal les
+  lettres : la pile à chasse fixe des pages arabes passe par Noto Sans Arabic.
+
+---
+
 ## 21 novembre 2026 · lot 1, le socle à plusieurs langues (`3d941a7`)
 
 Le site miroir ne connaissait que le français à la racine et l'anglais sous `en/`. **Décisions de l'auteur** : un
