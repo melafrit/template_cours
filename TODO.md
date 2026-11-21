@@ -56,8 +56,8 @@ Les lots, dans l'ordre validé :
   bandeau contrôlées, accueil des cours créés). Restent : la fiche des capsules de l'accueil, témoin d'abord
   (neuf noms de pistes déjà fixés) ; leur place dans la liste de lecture (`generer_playlist.py` n'indexe que
   les chapitres) ; l'accueil arabe (lot 4) ; les illustrations des cartes (lot 5) ; les boutons des épreuves et
-  la pastille « diplôme, bloc et module » (lot 2). Relevés en chemin : « police lecture adaptée », dans une
-  carte de « Ce que démontre ce site » (français et anglais), une faute à proposer à l'auteur ; l'espace
+  la pastille « diplôme, bloc et module » (lot 2). Relevés en chemin (la faute « police lecture adaptée » est corrigée,
+  sur décision de l'auteur) : l'espace
   insécable devant « : », posée sur l'accueil et absente des autres pages ; le lien de l'auteur, en pied de
   chaque page, qui mène à « # » ; le texte d'exemple de `public.parcours` (`cours.exemple.json`), qui porte un
   tiret cadratin, et son commentaire, qui le dit affiché sur l'accueil alors qu'aucune page ne l'affiche.

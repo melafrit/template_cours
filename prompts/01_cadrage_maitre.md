@@ -121,7 +121,7 @@ Présente-moi, de façon synthétique, ce que le template sait faire, pour que j
 - Flashcards de révision par chapitre (recto/verso, « su / à revoir », localStorage).
 - Glossaire bilingue avec termes AUTO-SURLIGNÉS dans le texte et info-bulle au survol
   (définition + exemple, FR/EN), reliés à la page glossaire.
-- Accessibilité : panneau de réglages persistant (A+/A−, police lecture adaptée, lien
+- Accessibilité : panneau de réglages persistant (A+/A−, police de lecture adaptée, lien
   « aller au contenu », prefers-reduced-motion).
 - Activités interactives flexibles (patrons réutilisables, à choisir selon le sujet).
 - Polycopiés de synthèse par chapitre en DOCX + PDF.
