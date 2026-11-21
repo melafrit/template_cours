@@ -228,8 +228,8 @@ Pour **chaque** chapitre :
 - [ ] Le site tourne : `python3 demarrer.py`, sans erreur en console
 - [ ] Aucun média référencé n'est manquant (les composants affichent leur état,
       ce qui est différent d'un lien mort)
-- [ ] La bascule 🌐 traduit **tout** : contenu, barre d'étapes, en-tête pliable,
-      capsule audio, schéma, polycopié — puis revient
+- [ ] La bascule 🌐 traduit **tout** : contenu, barre d'étapes, capsule audio,
+      schéma, polycopié — puis revient
 
 > ⚠️ Si un changement JavaScript ne semble pas prendre, **changez de port**
 > plutôt que de recharger : certains navigateurs gardent le script en cache

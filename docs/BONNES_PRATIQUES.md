@@ -131,7 +131,7 @@ Trois catégories, et la troisième est la plus traître :
 1. Les libellés construits à chaque rendu : ils suivent si le moteur se
    redessine sur `tpl:langchange`.
 2. Les libellés écrits **une seule fois** à la construction — « Tout
-   afficher », « Précédent », le titre d'un en-tête pliable. Ils restent dans la
+   afficher », « Précédent ». Ils restent dans la
    langue du chargement. Il faut les repeindre explicitement.
 3. Les **attributs** : `aria-label`, `title`, `alt`, `placeholder`. Ils ne se
    voient pas à l'écran, donc leur oubli ne se remarque jamais — sauf par qui

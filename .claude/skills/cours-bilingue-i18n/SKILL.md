@@ -110,7 +110,7 @@ rien ne le signalera. `outils/verifier_i18n.py` contrôle la parité des clés e
 les clés appelées sans être définies.
 
 Attention au cas discret : un libellé écrit **une seule fois** au montage — le
-bouton « Tout afficher », le titre d'un en-tête pliable — reste dans la langue
+bouton « Tout afficher » — reste dans la langue
 du chargement même si le moteur écoute `tpl:langchange`. Il faut le repeindre
 explicitement dans la fonction de rendu. Aucun vérificateur ne l'attrape : cela
 se voit en basculant la langue et en regardant.

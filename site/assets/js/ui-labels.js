@@ -162,14 +162,8 @@ window.UI_LABELS = {
     'scenario.bilan': 'Bilan',
     'scenario.sansRisque': 'sans risque',
 
-    /* ---- sommaire et en-tête pliable ---- */
+    /* ---- sommaire ---- */
     'sommaire.titre': 'Sommaire',
-    'entete.replier': 'Objectifs et ressources du chapitre',
-    'entete.objectifs': 'Objectifs',
-    'entete.podcast': 'Podcast',
-    'entete.slides': 'Slides',
-    'entete.infographie': 'Infographie',
-    'entete.capsule': "Capsule d'ouverture",
 
     /* ---- glossaire ---- */
     'glossaire.voir': '→ Voir au glossaire',
@@ -378,14 +372,8 @@ window.UI_LABELS = {
     'scenario.bilan': 'Summary',
     'scenario.sansRisque': 'risk-free',
 
-    /* ---- contents and collapsible header ---- */
+    /* ---- contents ---- */
     'sommaire.titre': 'Contents',
-    'entete.replier': 'Chapter objectives and resources',
-    'entete.objectifs': 'Objectives',
-    'entete.podcast': 'Podcast',
-    'entete.slides': 'Slides',
-    'entete.infographie': 'Infographic',
-    'entete.capsule': 'Opening capsule',
 
     /* ---- glossary ---- */
     'glossaire.voir': '→ See in the glossary',
