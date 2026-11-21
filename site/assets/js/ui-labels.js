@@ -206,6 +206,10 @@ window.UI_LABELS = {
     'a11y.dysAide': 'Police « Atkinson Hyperlegible » + espacement renforcé.',
     'a11y.reinitialiser': '↺ Réinitialiser',
     'langue.groupe': 'Langue de la page',
+    'filiere.groupe': 'Votre filière',
+    'filiere.question': 'Quelle est votre filière ?',
+    'filiere.explication': "Le cours est commun, mais certains exemples changent selon votre filière. Tant que "
+      + "vous n'avez pas choisi, les deux versions s'affichent.",
 
     /* ---- médias ---- */
     'media.slidesPleinEcran': 'Agrandir les slides en plein écran',
@@ -430,6 +434,10 @@ window.UI_LABELS = {
     'a11y.dysAide': '“Atkinson Hyperlegible” font + wider spacing.',
     'a11y.reinitialiser': '↺ Reset',
     'langue.groupe': 'Page language',
+    'filiere.groupe': 'Your program',
+    'filiere.question': 'Which program are you in?',
+    'filiere.explication': 'The course is shared, but some examples change with your program. Until you choose, '
+      + 'both versions are shown.',
 
     /* ---- media ---- */
     'media.slidesPleinEcran': 'Open the slides full screen',
@@ -657,6 +665,10 @@ window.UI_LABELS = {
     'a11y.dysAide': 'خطّ أوضح وتباعد أكبر بين الأسطر والكلمات.',
     'a11y.reinitialiser': '↺ إعادة الضبط',
     'langue.groupe': 'لغة الصفحة',
+    'filiere.groupe': 'تخصّصكم',
+    'filiere.question': 'ما تخصّصكم؟',
+    'filiere.explication': 'المقرّر مشترك، لكنّ بعض الأمثلة تتغيّر حسب تخصّصكم. وما دمتم لم تختاروا، تُعرض '
+      + 'النسختان معًا.',
 
     /* ---- médias ---- */
     'media.slidesPleinEcran': 'عرض الشرائح بملء الشاشة',

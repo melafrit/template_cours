@@ -273,6 +273,7 @@ prochaine régénération.
 | `site/assets/js/langues-data.js` | `outils/generer_langues.py` | les dossiers de langue de `site/` (`en/`, `ar/`…), en site miroir |
 | le contenu entre `<!-- FRAGMENT:nom -->` et `<!-- /FRAGMENT:nom -->` | `outils/generer_fragments.py` | `outils/referentiel.py`, `course-data.js`, `outils/podcasts.py` (la série de podcasts), `outils/livret.py` et `site/livret/livret.json` (la page du polycopié) |
 | `site/assets/js/glossaire-emplois.js` | `outils/glossaire_emplois.py` | les termes de `glossaire-data.js` et les pages qui les emploient |
+| `site/assets/css/filieres.css` | `outils/generer_filieres.py` | les filières de `course-data.js` (`COURSE.filieres`) |
 | `site/assets/js/media-data.js` | `outils/generer_medias.py` | les médias déposés dans `site/assets/media/` et `site/assets/polycopies/` |
 | les MP3, PDF et diapositives de `site/assets/media/podcasts/` | `outils/generer_podcasts.py` | les épisodes bruts et les diaporamas déposés dans `Podcasts/` (jamais versionnés) |
 | le livret, Word et PDF, de `Polycopie/` | `outils/generer_polycopie.py` | les pages du site, `course-data.js`, `glossaire-data.js`, `outils/livret.py` |
@@ -356,6 +357,7 @@ python3 outils/verifier_tirets.py     # ni tiret cadratin ni « – » entre esp
 python3 outils/generer_fragments.py --essai  # chaque chiffre des pages suit le référentiel
 python3 outils/glossaire_emplois.py --essai  # « Où en parle-t-on ? » suit les pages
 python3 outils/generer_medias.py --essai     # la liste des médias suit les fichiers déposés
+python3 outils/generer_filieres.py --essai   # filieres.css suit les filières de course-data.js
 python3 demarrer.py                   # le site, sans cache
 ```
 

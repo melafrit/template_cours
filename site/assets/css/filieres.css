@@ -1,0 +1,39 @@
+/* =================================================================
+   filieres.css — Le contenu propre à une filière (classes only-<id>)
+   FICHIER GÉNÉRÉ par outils/generer_filieres.py, d'après les filières de
+   site/assets/js/course-data.js : ne pas le modifier à la main. Une
+   filière choisie (html[data-filiere]) masque le contenu des autres ;
+   sans choix, chaque version s'affiche, étiquetée et bordée de la couleur
+   de sa filière (le --primary de sa palette, palettes.css).
+   ================================================================= */
+/* Une filière choisie : le contenu des autres disparaît. Un sélecteur par ligne. */
+html[data-filiere="eadl"] .only-eris,
+html[data-filiere="eris"] .only-eadl { display: none !important; }
+
+/* Le sigle et la couleur de chaque filière : ceux de l'étiquette, sans filière choisie. */
+.only-eadl { --f-etiquette: "EADL"; --f-couleur: #14503f; }
+.only-eris { --f-etiquette: "ERIS"; --f-couleur: #4a2352; }
+html[data-theme="dark"] .only-eadl { --f-couleur: #43a184; }
+html[data-theme="dark"] .only-eris { --f-couleur: #a978b5; }
+
+/* Sans filière choisie, chaque bloc propre à une filière s'affiche étiqueté : la vue du formateur. */
+html:not([data-filiere]) div.only-eadl,
+html:not([data-filiere]) section.only-eadl,
+html:not([data-filiere]) aside.only-eadl,
+html:not([data-filiere]) div.only-eris,
+html:not([data-filiere]) section.only-eris,
+html:not([data-filiere]) aside.only-eris {
+  position: relative; border-inline-start: 4px solid var(--f-couleur);
+  padding-inline-start: var(--space-4); margin-top: var(--space-6);
+}
+html:not([data-filiere]) div.only-eadl::before,
+html:not([data-filiere]) section.only-eadl::before,
+html:not([data-filiere]) aside.only-eadl::before,
+html:not([data-filiere]) div.only-eris::before,
+html:not([data-filiere]) section.only-eris::before,
+html:not([data-filiere]) aside.only-eris::before {
+  content: var(--f-etiquette); position: absolute; top: -1.4em; inset-inline-start: 0;
+  font-family: var(--font-display); font-size: var(--fs-xs); font-weight: 700;
+  color: var(--f-couleur); background: var(--bg-card); border: 1px solid var(--f-couleur);
+  padding: 0 8px; border-radius: var(--radius-sm); line-height: 1.6;
+}

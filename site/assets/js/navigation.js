@@ -244,15 +244,19 @@
      chargée, puis le groupe « FR · EN · عربي ». Une page bilingue (blocs
      data-tr) garde son bouton 🌐, posé par i18n.js. Une jumelle qui reçoit la
      liste ici redessine son menu, désormais exact. */
+  var dossierJs = MOI.replace(/navigation\.js(?:[?#].*)?$/, '');
+  function charger(nom, puis) {
+    var s = document.createElement('script');
+    s.src = dossierJs + nom;
+    if (puis) s.onload = puis;
+    document.body.appendChild(s);
+  }
   if (MONO && MOI) {
-    var dossier = MOI.replace(/navigation\.js(?:[?#].*)?$/, '');
-    var charger = function (nom, puis) {
-      var s = document.createElement('script');
-      s.src = dossier + nom;
-      if (puis) s.onload = puis;
-      document.body.appendChild(s);
-    };
     if (window.TPL_MIROIR) charger('langue.js');
     else charger('langues-data.js', function () { if (JUMELLE) renderTree(); charger('langue.js'); });
   }
+
+  /* -- La bascule de filière (filiere.js), pour un cours commun à deux filières au moins (COURSE.filieres). Le HTML
+     des pages n'a pas à changer : seul le script de tête pose la filière mémorisée avant l'affichage. */
+  if (MOI && (COURSE.filieres || []).length > 1) charger('filiere.js');
 })();

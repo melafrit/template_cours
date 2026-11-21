@@ -9,11 +9,13 @@
 <title>الفصل 1: تأطير المقرّر</title>
 <meta name="description" content="الفصل 1 من المقرّر التجريبي: تأطير المقرّر (الفئة المستهدفة، الأهداف، المشروع التطبيقي). فصل نموذجي يستعمل جميع مكوّنات المحرّك.">
 <meta name="author" content="Mohamed EL AFRIT">
+<script>/* La filière mémorisée, posée avant l'affichage : voir assets/js/filiere.js */(function(){try{var d=document.documentElement,s=localStorage,p=location.pathname,b='',v='',q=new URLSearchParams(location.search).get('filiere');for(var i=0;i<s.length;i++){var k=s.key(i);if(k&&k.indexOf('tpl-filiere|')===0&&p.indexOf(k.slice(12))===0&&k.length-12>b.length){b=k.slice(12);v=s.getItem(k)||'';}}var c=v.split('|'),f=q||c[0];if(f&&/^[a-z0-9-]+$/.test(f)){d.setAttribute('data-filiere',f);if(c[1]&&f===c[0]){d.setAttribute('data-accent-cours',d.getAttribute('data-accent')||'');d.setAttribute('data-accent',c[1]);}}}catch(e){}})();</script>
 <link rel="stylesheet" href="../../assets/css/fonts.css">
 <link rel="stylesheet" href="../../assets/css/main.css">
 <link rel="stylesheet" href="../../assets/css/palettes.css">
 <link rel="stylesheet" href="../../assets/css/components.css">
 <link rel="stylesheet" href="../../assets/css/interactions.css">
+<link rel="stylesheet" href="../../assets/css/filieres.css">
 </head>
 <body>
 
@@ -146,6 +148,14 @@
       <p>
         <span>المشروع التطبيقي حالةٌ أو مشروعٌ أو سيناريو يرافق المقرّر كلّه. وهو يُجيب مسبقًا عن السؤال الذي يطرحه المتعلّم في كلّ فصل: «بِمَ سيفيدني هذا؟». ولهذا المقرّر التجريبي مشروعه التطبيقي، فأنتم تبنون مقرّرًا وأنتم تقرؤون مقرّرًا يشرح كيف يُبنى.</span>
       </p>
+
+      <!-- Le témoin de la bascule de filière : un exemple propre à chaque filière (filiere.js, filieres.css). -->
+      <div class="exemple-filiere only-eadl">
+        <p><span><strong>في EADL</strong>، يمكن أن يكون المشروع التطبيقي تطبيقًا يصمّمه المتعلّمون من فصل إلى آخر: كلّ مفهوم من مفاهيم معمارية البرمجيات يُطبَّق فيه على قرار حقيقي.</span></p>
+      </div>
+      <div class="exemple-filiere only-eris">
+        <p><span><strong>في ERIS</strong>، يمكن أن يكون المشروع التطبيقي البنيةَ التحتية لمؤسسة افتراضية يؤمّنها المتعلّمون من فصل إلى آخر: كلّ مفهوم يُطبَّق فيه على جهاز أو على قاعدة.</span></p>
+      </div>
 
       <div id="spot-1-1"></div>
     </section>

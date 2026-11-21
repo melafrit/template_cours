@@ -1222,6 +1222,11 @@ def squelette_chapitre(c, ch, modele):
     f = t.index("  function textes()", d)
     t = t[:d] + textes_vides(c) + "\n" + t[f:]
 
+    # Les exemples propres à une filière (le témoin de la bascule, classes only-<id>) : un squelette n'en garde pas, le
+    # cours déclarera ses propres filières. _modele.html, lui, les garde comme exemple.
+    t = re.sub(r"\n[ \t]*<!-- Le témoin de la bascule de filière[^\n]*-->", "", t)
+    t = re.sub(r'\n[ \t]*<div class="exemple-filiere only-[a-z0-9-]+">.*?</div>', "", t, flags=re.S)
+
     # la prose des sections
     t = vider_prose(t, lg)
 
@@ -1479,6 +1484,12 @@ def main():
     spec.loader.exec_module(gns)
     _a_jour, nch, nsec = gns.generer(sortie)
     print("  nav-sections.js régénéré : %d chapitre(s), %d section(s)" % (nch, nsec))
+
+    # --- les filières : filieres.css suit celles de course-data.js (aucune à la création, tant que cours.json ne les
+    #     déclare pas) ; celui de la démonstration masquait ses filières EADL et ERIS.
+    r = subprocess.run([sys.executable, os.path.join(sortie, "outils", "generer_filieres.py")],
+                       capture_output=True, text=True, encoding="utf-8")
+    print("  %s" % ((r.stdout.strip().splitlines() or ["filieres.css : non écrit"])[-1]))
 
     # --- les médias : la liste de ceux que le cours a vraiment (ceux de la démonstration sont partis avec elle). Celle
     #     de la démonstration ferait demander au serveur des fichiers absents — une erreur 404 par chapitre.

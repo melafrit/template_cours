@@ -71,6 +71,8 @@ pages trouble l'étudiant, qui ne peut pas savoir qu'il s'agit de la même notio
 | feedback | التغذية الراجعة |
 | séquence d'apprentissage | الوحدة التعلّمية |
 | compétence | الكفاءة |
+| filière (d'un cours commun) | التخصّص |
+| architecture logicielle | معمارية البرمجيات |
 
 ## L'interface
 

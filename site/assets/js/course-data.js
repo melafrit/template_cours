@@ -11,6 +11,22 @@ window.COURSE = {
     ar: "مقرّر تجريبي يعلّم كيف يُصنع مقرّر إلكتروني فعّال، مستعملًا الوظائف نفسها التي يعرضها."
   },
   author: "Mohamed EL AFRIT",
+  /* Les filières d'un cours commun (décision de l'auteur du 21 novembre 2026) : la bascule de filiere.js et le
+     masquage du contenu propre à chacune (classes only-<id>, filieres.css généré par outils/generer_filieres.py).
+     Une seule filière, ou aucune : pas de bascule. palette : celle de palettes.css que prend l'accent quand la
+     filière est choisie. Intitulés et numéros RNCP : ceux du cours EADL. */
+  filieres: [
+    { id: 'eadl', code: 'EADL', palette: 'emeraude', rncp: '39765',
+      nom: { fr: "Expert en Architecture et Développement Logiciel", en: "Expert in Software Architecture and Development",
+             ar: "خبير في معمارية البرمجيات وتطويرها" },
+      court: { fr: "Architecture et développement logiciel", en: "Software architecture and development",
+               ar: "معمارية البرمجيات وتطويرها" } },
+    { id: 'eris', code: 'ERIS', palette: 'prune', rncp: '39781',
+      nom: { fr: "Expert Réseaux, Infrastructures et Sécurité", en: "Expert in Networks, Infrastructure and Security",
+             ar: "خبير في الشبكات والبنى التحتية والأمن" },
+      court: { fr: "Réseaux, infrastructures, sécurité", en: "Networks, infrastructure, security",
+               ar: "الشبكات والبنى التحتية والأمن" } }
+  ],
   license: { fr: "Code MIT · Contenu CC BY 4.0", en: "Code MIT · Content CC BY 4.0", ar: "الشيفرة MIT · المحتوى CC BY 4.0" },
   chapters: [
     { num: '1', ico: '🎯', file: '01-cadrage.html',

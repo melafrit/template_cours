@@ -12,7 +12,7 @@ window.GLOSSARY_EMPLOIS = {
   "g-fil-rouge": [
    {
     "a": "ch1-s4",
-    "n": 2,
+    "n": 4,
     "p": "chapitres/01-cadrage.html",
     "page": "الفصل 1: تأطير المقرّر",
     "section": "4. المشروع التطبيقي"
@@ -151,7 +151,7 @@ window.GLOSSARY_EMPLOIS = {
    },
    {
     "a": "ch1-s4",
-    "n": 2,
+    "n": 4,
     "p": "chapitres/01-cadrage.html",
     "page": "Chapter 1: Scoping your course",
     "section": "4. The through-line"
@@ -381,7 +381,7 @@ window.GLOSSARY_EMPLOIS = {
    },
    {
     "a": "ch1-s4",
-    "n": 2,
+    "n": 4,
     "p": "chapitres/01-cadrage.html",
     "page": "Chapitre 1 : Cadrer son cours",
     "section": "4. Le fil rouge"

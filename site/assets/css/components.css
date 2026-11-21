@@ -995,6 +995,57 @@ html[data-lang="en"] [data-tr="fr"] { display: none !important; }
 @media (max-width: 400px) {
   .site-header { padding-inline: var(--space-2); }
 }
+
+/* La bascule de filière (filiere.js) : le dessin du groupe de langues, la filière choisie cerclée de l'accent, qui
+   prend alors la palette de la filière. Sous 480 px, la bascule passe en tête du menu ☰ (.filiere-menu) : l'en-tête
+   d'un chapitre est déjà plein. Le bandeau « Quelle est votre filière ? » reste dans la page tant qu'aucune n'est
+   choisie. Les règles propres aux filières du cours (masquage, étiquettes) sont dans filieres.css, généré. */
+.filiere-choix {
+  display: inline-flex; align-items: center; gap: 2px; height: 40px; padding: 3px;
+  border: 1px solid var(--border); border-radius: var(--radius-full);
+}
+.filiere-choix button, .filiere-menu button {
+  height: 32px; padding: 0 10px; border: 0; border-radius: var(--radius-full); background: transparent;
+  color: var(--text-secondary); font-family: var(--font-display); font-weight: 700; font-size: var(--fs-sm);
+  cursor: pointer;
+}
+.filiere-choix button:hover, .filiere-menu button:hover { color: var(--text-primary); background: var(--bg-card-alt); }
+.filiere-choix button[aria-pressed="true"], .filiere-menu button[aria-pressed="true"] {
+  color: var(--text-primary); background: var(--bg-card-alt); box-shadow: inset 0 0 0 1px var(--accent);
+}
+.filiere-choix button:focus-visible, .filiere-menu button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.filiere-menu { display: none; padding: var(--space-3) var(--space-3) var(--space-2); border-bottom: 1px solid var(--border); }
+.filiere-menu-titre {
+  font-family: var(--font-display); font-size: var(--fs-xs); font-weight: 700; color: var(--text-muted);
+  margin-bottom: var(--space-2);
+}
+.filiere-menu-choix { display: flex; gap: var(--space-2); }
+.filiere-menu-choix button { border: 1px solid var(--border); }
+@media (max-width: 480px) {
+  .site-header .filiere-choix { display: none; }
+  .filiere-menu { display: block; }
+}
+.bandeau-filiere {
+  margin: var(--space-6) 0; padding: var(--space-5) var(--space-6); border-radius: var(--radius-lg);
+  background: var(--bg-card); border: 1px solid var(--border); box-shadow: var(--shadow-sm);
+  display: flex; gap: var(--space-5); align-items: center; flex-wrap: wrap;
+}
+.bandeau-filiere[hidden] { display: none; }
+.bandeau-filiere-texte { flex: 1 1 280px; color: var(--text-secondary); line-height: 1.55; }
+.bandeau-filiere-texte strong {
+  display: block; color: var(--text-primary); font-family: var(--font-display); font-size: var(--fs-lg);
+  margin-bottom: var(--space-1);
+}
+.bandeau-filiere-choix { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+.bandeau-filiere-choix button {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg); border: 2px solid var(--primary); background: transparent; color: var(--primary);
+  font-family: var(--font-display); text-align: start; cursor: pointer;
+}
+.bandeau-filiere-choix button:hover { background: var(--primary); color: var(--bg-card); }
+.bandeau-filiere-choix button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.bandeau-filiere-choix button span { font-weight: 800; font-size: var(--fs-lg); }
+.bandeau-filiere-choix button small { font-size: var(--fs-xs); opacity: .85; }
 .nav-langue,
 .main-content a[hreflang="fr"]::after {
   display: inline-block; margin-inline-start: 6px; padding: 0 5px; border-radius: var(--radius-sm);
