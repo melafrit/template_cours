@@ -33,24 +33,28 @@ par un témoin.
 
 Les lots, dans l'ordre validé :
 
-- [ ] **1. Fondations** : polices locales ✅ (`a28b685`) ; outils du miroir à N langues et écriture de droite à
-  gauche ; bascule de filière ; paramètres filières et langues dans `cours.json` et `nouveau_cours.py`. Relevés en
+- [ ] **1. Fondations** : polices locales ✅ (`a28b685`) ; la démo passée au site miroir ✅ (`59474ee`, `a008dac`)
+  et le générateur qui la suit ✅ (`3f50098`), avancés du lot 4 sur décision de l'auteur ; outils du miroir à N
+  langues et écriture de droite à gauche, avec un témoin arabe (le chapitre 1) ; bascule de filière ; paramètres
+  filières et langues dans `cours.json` et `nouveau_cours.py`. Relevés en
   chemin, à traiter dans ce lot : les libellés du panneau ♿, écrits en dur en français dans `accessibility.js` (une
   page anglaise affiche un panneau français) ; `xlsx.full.min.js`, que le tableau de bord du QCM charge d'un CDN,
   contre le § 7 (l'héberger demande l'accord de l'auteur pour le téléchargement).
 - [ ] **2. Bloc école** : `seances.py`, cahier de texte Yparéo, classeur d'import Livrables, fragments Programme et
   Échéances.
 - [ ] **3. Page d'accueil**, avec les fiches de ses capsules de section.
-- [ ] **4. Démo en trois langues** : du `data-tr` au site miroir, traduction arabe à faire relire, fiches des capsules
-  de section des chapitres.
+- [ ] **4. Démo en trois langues** : le passage au site miroir est fait (avancé au lot 1, `59474ee`) ; restent la
+  traduction arabe, à faire relire, et les fiches des capsules de section des chapitres.
 - [ ] **5. Codex** : le kit, puis les illustrations des cartes de chapitre et de l'accueil.
 - [ ] **6. Apports** : correction des QCM et garde-fous, Boîte à outils, Modèles pas à pas, bibliographie, petits
   moteurs.
-- [ ] **7. Prompts** : tronc, modules, bibliothèque.
+- [ ] **7. Prompts** : tronc, modules, bibliothèque. Les prompts 01, 03, 05 et 13 décrivent encore la bascule 🌐
+  des blocs `data-tr` comme celle de la démo.
 - [ ] **8. Générateur de prompt.**
 - [ ] **9. Enregistrement audio** : `verifier_elevenlabs.py` d'abord, témoins, séries, quota suivi au registre.
 - [ ] **10. Polycopié** : six livrets, témoin d'abord.
-- [ ] **11. Documentation** et son contrôle.
+- [ ] **11. Documentation** et son contrôle. `GUIDE.md`, `CHECKLIST.md`, `ARCHITECTURE.md` et le skill bilingue
+  décrivent encore la bascule 🌐 comme celle de la démo.
 - [ ] **12. Mise en ligne** de la démo : répertoire distant à demander, `destination.json` gardé local (le dépôt est
   public), essai à blanc, accord.
 
@@ -58,9 +62,9 @@ Les lots, dans l'ordre validé :
 
 | Élément | État |
 |---|---|
-| Site de démonstration | ✅ trois chapitres en blocs `data-tr` (le modèle de secours), sept composants RDCX, QCM, glossaire, flashcards, activités, atelier |
+| Site de démonstration | ✅ trois chapitres en site miroir depuis le 21 novembre (le français à la racine, l'anglais sous `en/`), sept composants RDCX, QCM, glossaire, flashcards, activités, atelier |
 | Méthode | ✅ prompt paramétrable : un tronc et neuf modules (`prompts/modules/`) ; exigences de l'auteur au § 2 de `CLAUDE.md` |
-| Bilingue | ✅ site miroir `en/` par défaut (décision du 25 octobre), outillé ; `data-tr` en secours ; les libellés écrits en dur relevés par les cours passent par `ui-labels.js` (183 clés) |
+| Bilingue | ✅ site miroir `en/` (décision du 25 octobre), outillé, seul modèle que crée `nouveau_cours.py` depuis le 21 novembre ; `data-tr` décrit pour les cours qui l'ont déjà ; les libellés écrits en dur relevés par les cours passent par `ui-labels.js` (183 clés) |
 | Outils repris du cours d'architecture logicielle | ✅ **tous** : site miroir, interdits, référentiel et fragments, « Où en parle-t-on ? », page Podcasts, polycopié |
 | Corrections des cours de veille et d'avant-projet | ✅ les corrections génériques, en quatre lots et un correctif (31 octobre et 1er novembre) ; leurs nouveautés attendent la décision de l'auteur (ci-dessous) |
 | `nouveau_cours.py` | ✅ blocs `podcasts` et `livret` inactifs par défaut (`livret` demande `glossaire`) ; chaque page d'un cours créé garde son sous-titre ; la liste des médias repart vide |
@@ -68,6 +72,12 @@ Les lots, dans l'ordre validé :
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 21 novembre · lot 1, la démo en site miroir, et le générateur qui la suit
+> Décisions de l'auteur : convertir la démo avant le témoin arabe, et un générateur qui ne crée plus que des cours
+> en site miroir. Les 16 pages ont leur jumelle anglaise sous `en/` (0 écart de parité, titres et descriptions
+> traduits) ; `nouveau_cours.py` fait naître chaque page dans la langue racine, et corrige quatre défauts plus
+> anciens (les squelettes s'annonçaient « Chapitre 1 : Cadrer son cours »). `59474ee`, `a008dac`, `3f50098`.
+> Détail : `JOURNAL.md`, section du 21 novembre.
 > ### 🆕 21 novembre · lot 1, les polices hébergées avec le site
 > Les pages ne chargent plus rien de Google : 16 fichiers woff2 et leurs six licences OFL dans `site/assets/fonts/`,
 > déclarés dans `fonts.css`, dont deux polices arabes pour la suite du lot. `demarrer.py` sert les woff2 et les WebP
@@ -142,8 +152,9 @@ Les lots, dans l'ordre validé :
 ## 🛠️ Ouvert — dans le gabarit
 
 **Le gabarit sans tirets** (D55, en cours) : réécrire sans tiret cadratin tout ce que l'apprenant lit. Le témoin
-(chapitre 1, `ea1cc23`) est fait et son style validé ; `outils/verifier_tirets.py` reste rouge, **69 tirets dans
-8 fichiers de `site/`** (après les lots S1 à S3, le 21 novembre). La suite, en cinq lots (style du témoin, régénération des fichiers générés, `verifier_tirets`
+(chapitre 1, `ea1cc23`) est fait et son style validé ; `outils/verifier_tirets.py` reste rouge, **97 tirets dans
+12 fichiers de `site/`** (69 après les lots S1 à S3 ; la conversion de la démo au site miroir, le 21 novembre, a
+dédoublé les pages du QCM et leurs dictionnaires). La suite, en cinq lots (style du témoin, régénération des fichiers générés, `verifier_tirets`
 à 0 par lot) :
 
 - ✅ **S1 · les moteurs partagés** (fait le 21 novembre, `e8ea658`) : `ui-labels.js` (26), `interactions.js` (6), `podcasts.js` (6), `media.js` (2),
@@ -155,7 +166,9 @@ Les lots, dans l'ordre validé :
   `index` (6), `glossaire` (5), `polycopies` (5), `podcasts` (4).
 - **S4 — le QCM** : `QCM/index` (17), `corrections.js` (13), `dashboard` (11), `correction` (11), `entrainement` (7),
   `questions.js` (4), `qcm-core.js` (2). ⚠️ La signature SHA-256 des banques : toucher au texte d'une question change
-  le CSV signé (skill `cours-qcm-cbm`) — à traiter avec soin.
+  le CSV signé (skill `cours-qcm-cbm`), à traiter avec soin. Depuis le 21 novembre, les quatre pages du QCM ont
+  leur jumelle sous `en/`, aux mêmes tirets ; le squelette du QCM qu'écrit `nouveau_cours.py` en a aussi
+  (« QCM — … »).
 - **S5 · les données** : `course-data.js` fait au lot S3 (`617017d`) ; reste `flashcards-data.js` (4).
 
 Puis, hors du champ de `verifier_tirets.py` (il ne lit que `site/`, html/js/css) : `CLAUDE.md` (30) et `prompts/`
@@ -240,7 +253,8 @@ Pour le site :
 - **Les illustrations** : un emplacement réservé tant que l'image n'est pas produite (`.illu`, « Illustration à
   venir », cours de veille) ; des cartes de chapitre illustrées (cours d'avant-projet).
 - **Un bouton « Copier »** sous les prompts donnés à l'apprenant (`copier.js`, cours de veille).
-- **`generer_playlist.py --essai`**, et des titres sans `&nbsp;` dans la liste de lecture.
+- **`generer_playlist.py --essai`**, et des titres sans `&nbsp;` dans la liste de lecture. Constaté le 21 novembre :
+  appelé avec `--essai`, l'outil réécrit sa liste, faute de connaître l'option.
 - **La page du glossaire** du cours de veille (`glossaire-page.js`, `glossaire.css`) et ses sections dans le menu de
   gauche (`data-menu-sections`).
 - **Les durées de lecture calculées** (D54, `165f574`) : `outils/durees_lecture.py` compte les mots des

@@ -9,6 +9,73 @@
 
 ---
 
+## 21 novembre 2026 · lot 1, la démo en site miroir et le générateur qui la suit (`59474ee`, `a008dac`, `3f50098`)
+
+### Deux décisions de l'auteur
+
+- **Le témoin arabe se fera sur la démo convertie.** Le site miroir à N langues demande des pages miroir, et les 16
+  pages de la démo étaient en blocs `data-tr`. La conversion, prévue au lot 4, est avancée ; l'accueil du lot 3 se
+  bâtira directement dans le modèle final.
+- **`nouveau_cours.py` ne crée plus que des cours en site miroir.** Les blocs `data-tr` restent décrits et outillés
+  pour les cours qui les ont déjà (UML · C4 · BPMN · EPC). Garder leur création aurait demandé de refondre chaque page
+  avec sa jumelle, et l'arabe n'y serait pas entré.
+
+### La conversion (`59474ee`, `a008dac`)
+
+`data_tr_vers_miroir.py` et `creer_jumelle.py` refusaient de tourner dans le gabarit : le verrou est levé. L'outil
+composait le titre d'un chapitre avec un tiret cadratin, il prend maintenant le deux-points. Les 16 pages sont
+devenues 16 pages françaises et 16 jumelles anglaises, sans aucun écart de parité. Les titres d'onglet et les
+descriptions restés en français dans les jumelles sont traduits d'après une table validée par l'auteur ; la
+description du sommaire annonçait « 5 chapitres » pour trois, ce que corrige un commit à part (`a008dac`). Au
+navigateur, le bouton EN du chapitre 1 ouvre la jumelle sur le paragraphe lu, à la même hauteur, et le bouton FR y
+ramène.
+
+### Le générateur (`3f50098`)
+
+Généré depuis la démo convertie, un cours recevait les 16 jumelles anglaises de la démo, déclarées en français, et
+gardait des textes de la démo : le générateur cherchait des blocs bilingues qui n'existent plus. Il fait maintenant
+naître chaque page dans la langue racine, la première de « langues ». Un cours anglais part des jumelles anglaises,
+remontées à la racine par `miroir.remonter()`, l'inverse de `reloger()` (aller-retour exact sur les 16 pages). Aucune
+jumelle n'est recopiée, la liste des pages traduites part vide, et les autres langues viennent ensuite avec
+`creer_jumelle.py`.
+
+Le même cours d'essai, généré depuis le commit d'avant la conversion, a montré quatre défauts plus anciens, corrigés
+du même coup :
+
+- les trois squelettes s'annonçaient « Chapitre 1 : Cadrer son cours / Scoping your course », parce que le titre était
+  cherché mot pour mot et que le témoin sans tirets (`ea1cc23`, 7 novembre) l'avait changé ;
+- le sous-titre du sommaire gardait une phrase de la démo (« vous saurez concevoir un cours en ligne ») ;
+- le badge « Chapitre vitrine » restait sur les squelettes ;
+- l'en-tête « Objectifs du chapitre » devenait un repère de paragraphe.
+
+### Ce qui a été vérifié
+
+La recette du § 3 a tourné sur trois cours d'essai, générés depuis une copie du gabarit sans secrets (les seuls
+fichiers suivis ou non ignorés) : un cours français, un cours anglais, un cours français et anglais. On n'y trouve
+aucune trace de la démo ni aucun lien mort ; chaque page est dans la langue racine, sans dossier `en/`, `CLAUDE.md` n'a
+aucun passage du gabarit et le déployeur est conforme ; au navigateur, le cours français s'affiche sans erreur ni 404.
+La recette suit le changement : sortie attendue, contrôle des dossiers de langue, et un § 3 bis qui teste désormais un
+cours anglais.
+
+### Relevé en chemin
+
+- `verifier_tirets.py` passe de 69 à 97, parce que les pages du QCM existent en deux langues avec leurs dictionnaires.
+  Le squelette du QCM qu'écrit le générateur a aussi ses tirets. Ils reviennent au lot S4.
+- `generer_playlist.py` n'a pas d'option `--essai` : appelé ainsi, il réécrit sa liste (contenu identique ici, la
+  copie du dépôt a été remise telle quelle).
+- Plusieurs prompts et guides décrivent encore la bascule 🌐 comme celle de la démo ; ils seront revus aux lots 7 et
+  11.
+
+### Pièges appris
+
+- **Un texte cherché mot pour mot cesse d'être trouvé sans bruit** quand on le réécrit ailleurs : le titre du chapitre
+  vitrine a changé le 7 novembre, et les squelettes ont gardé l'ancien pendant deux semaines. Le générateur remplace
+  désormais la balise entière, et la recette du § 3 se repasse après toute retouche du chapitre vitrine.
+- **Une recherche qui inclut les `.json` doit exclure les secrets nommément** (`CLAUDE.md`, § 2) : une commande qui
+  l'oubliait a été refusée, à raison.
+
+---
+
 ## 21 novembre 2026 · lot 1, les polices hébergées avec le site (`a28b685`)
 
 Première partie du lot 1 du grand chantier, après l'accord de l'auteur pour le téléchargement (22 fichiers, leur
