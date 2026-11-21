@@ -47,7 +47,9 @@ Les lots, dans l'ordre validé :
   ce lot : `xlsx.full.min.js`, que le tableau de bord du QCM charge d'un CDN, contre le § 7 (l'héberger
   demande l'accord de l'auteur pour le téléchargement) ; la validation de `nouveau_cours.py`, qui exige les
   titres en français même d'un cours de racine anglaise (`titre.fr`, `sous_titre.fr`, titres des
-  chapitres).
+  chapitres) ; les liens hreflang, que `hreflang.py` poserait dans 32 pages maintenant que l'adresse de la démo
+  est connue sur ce poste : avant, qu'il sache l'arabe, et que `nouveau_cours.py` efface ses blocs (sinon un cours
+  créé hériterait des liens de la démo). D'ici là, `hreflang.py --essai` signale ces 32 pages sur ce poste.
 - [ ] **2. Bloc école** : `seances.py`, cahier de texte Yparéo, classeur d'import Livrables, fragments Programme et
   Échéances ; pour l'accueil, les boutons des épreuves de chaque filière (`BOUTONS` de `outils/accueil.py`), la
   pastille « diplôme, bloc et module », et un cours créé qui reçoit ses boutons de `cours.json`.
@@ -83,8 +85,11 @@ Les lots, dans l'ordre validé :
 - [ ] **10. Polycopié** : six livrets, témoin d'abord.
 - [ ] **11. Documentation** et son contrôle. `GUIDE.md`, `CHECKLIST.md`, `ARCHITECTURE.md` et le skill bilingue
   décrivent encore la bascule 🌐 comme celle de la démo.
-- [ ] **12. Mise en ligne** de la démo : répertoire distant à demander, `destination.json` gardé local (le dépôt est
-  public), essai à blanc, accord.
+- [ ] **12. Mise en ligne** de la démo : la première ✅ le 22 novembre, à la demande de l'auteur, sur
+  `https://mohamedelafrit.com/teaching/cours_demo/` (120 fichiers, sans purge ; `destination.json` gardé local,
+  exclu par `.git/info/exclude` ; essai à blanc comparé à Git ; 19 adresses à 200 et console vide en ligne).
+  Restent : un nouvel envoi après chaque lot (essai à blanc, accord) ; les liens hreflang (lot 1) ; la question des
+  zones protégées, puisque le corrigé du QCM et le tableau de bord sont en accès libre, comme sur GitHub.
 
 ## 📍 Où en est le gabarit (1er novembre)
 
@@ -100,6 +105,10 @@ Les lots, dans l'ordre validé :
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 22 novembre · la démo en ligne
+> Sur `https://mohamedelafrit.com/teaching/cours_demo/`, à la demande de l'auteur : essai à blanc d'abord,
+> 120 fichiers envoyés sans purge, contrôlés en ligne. En chemin, un mot de passe cité en exemple dans un
+> commentaire du générateur de cahier de texte, public depuis août, remplacé par un exemple neutre (`0ac89d7`).
 > ### 🆕 21 novembre · lot 3 terminé, les capsules anglaises de l'accueil
 > Les neuf capsules traduites des textes français validés, témoin d'abord, dans les formulations anglaises
 > de la démonstration, et reportées dans `en/index.html`. Le lot 3 est fermé ; ce qui en dépend passe aux

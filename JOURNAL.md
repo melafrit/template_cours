@@ -9,6 +9,43 @@
 
 ---
 
+## 22 novembre 2026 · la démo en ligne, et un mot de passe retiré d'un commentaire (`0ac89d7`)
+
+### Les décisions de l'auteur
+
+- **La mise en ligne tout de suite**, essai à blanc d'abord, plutôt qu'à la fin du chantier (lot 12).
+- **Le dossier distant** : celui qui répond à `https://mohamedelafrit.com/teaching/cours_demo/`, donné par
+  l'auteur. `deploiement/destination.json` reste local (exclu par `.git/info/exclude`) : le dépôt est public.
+- **L'envoi sans les liens hreflang** : posés dans le gabarit, ils passeraient dans chaque cours créé.
+- **Le mot de passe** cité en exemple dans un commentaire n'est plus en service, ou était fictif : remplacé par un
+  exemple neutre.
+
+### Le travail
+
+- L'essai à blanc : connexion SFTP, dossier distant à créer, aucun carnet sur le serveur, 120 fichiers, soit
+  exactement les fichiers de `site/` suivis par Git (premier envoi).
+- L'envoi : 120 fichiers, 12 Mo, sans `--purge`.
+- `docs/generate_cahier_de_texte.py` : l'exemple du commentaire de la ligne 139, relevé par l'analyse du bloc école,
+  public depuis `63be61c` (28 août 2026). L'historique de Git le garde ; seul le fait qu'il ne serve plus le rend
+  inoffensif.
+
+### Ce qui a été vérifié
+
+En ligne, sans s'authentifier : 19 adresses à 200 (accueil, pages anglaises, chapitre 1 arabe, QCM, styles,
+scripts, polices, polycopié) ; au navigateur, l'accueil en ligne sans erreur ni ressource manquante ; un nouvel essai
+à blanc : « 120 inchangés, 0 à envoyer ».
+
+### Ce qui n'est pas fait
+
+Les liens hreflang (lot 1) ; aucune zone protégée : le corrigé du QCM et le tableau de bord sont en accès libre.
+
+### Pièges appris
+
+- **Un masquage qui ne connaît que les guillemets droits** laisse passer une chaîne entre guillemets français : la
+  vérification d'un secret se fait sans l'afficher du tout (sa longueur, le commit qui l'a introduite).
+
+---
+
 ## 21 novembre 2026 · lot 3 terminé, les capsules anglaises de l'accueil (`0d3d1df`)
 
 ### Les décisions de l'auteur
