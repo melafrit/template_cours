@@ -271,7 +271,7 @@ prochaine régénération.
 | `site/assets/js/playlist-data.js` | `outils/generer_playlist.py` | les pages et les fichiers audio |
 | `site/assets/js/nav-sections.js` | `outils/generer_nav_sections.py` | les titres `<h2 id>` des chapitres (l'anglais, de leurs jumelles en site miroir) |
 | `site/assets/js/langues-data.js` | `outils/generer_langues.py` | les dossiers de langue de `site/` (`en/`, `ar/`…), en site miroir |
-| le contenu entre `<!-- FRAGMENT:nom -->` et `<!-- /FRAGMENT:nom -->` | `outils/generer_fragments.py` | `outils/referentiel.py`, `course-data.js`, `outils/podcasts.py` (la série de podcasts), `outils/livret.py` et `site/livret/livret.json` (la page du polycopié) |
+| le contenu entre `<!-- FRAGMENT:nom -->` et `<!-- /FRAGMENT:nom -->` | `outils/generer_fragments.py` | `outils/referentiel.py`, `course-data.js`, `outils/podcasts.py` (la série de podcasts), `outils/livret.py` et `site/livret/livret.json` (la page du polycopié), `outils/accueil.py` (les boutons et les cartes de chapitre de l'accueil) |
 | `site/assets/js/glossaire-emplois.js` | `outils/glossaire_emplois.py` | les termes de `glossaire-data.js` et les pages qui les emploient |
 | `site/assets/css/filieres.css` | `outils/generer_filieres.py` | les filières de `course-data.js` (`COURSE.filieres`) |
 | `site/assets/js/media-data.js` | `outils/generer_medias.py` | les médias déposés dans `site/assets/media/` et `site/assets/polycopies/` |
@@ -349,7 +349,7 @@ Dix contrôles, à lancer souvent. Ils attrapent ce que l'œil ne voit pas.
 
 ```bash
 python3 outils/verifier_i18n.py       # clés dépareillées, blocs data-tr déséquilibrés
-python3 outils/verifier_contraste.py  # palettes lisibles en clair ET en sombre
+python3 outils/verifier_contraste.py  # palettes lisibles en clair ET en sombre, bandeau de l'accueil compris
 python3 outils/verifier_liens.py      # href, src et renvois « Pour approfondir » qui ne mènent nulle part
 python3 outils/generer_nav_sections.py --essai  # le menu suit-il les <h2 id> des chapitres ?
 python3 outils/verifier_interdits.py  # aucun interdit du cours hors de sa place (outils/interdits.py)

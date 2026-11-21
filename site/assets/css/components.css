@@ -1270,7 +1270,7 @@ html.pod-v-ouverte { overflow: hidden; }
 [data-theme="dark"] .bareme-table th,
 [data-theme="dark"] .schedule thead th,
 [data-theme="dark"] .logo-icon { background: var(--primary-dark); }
-[data-theme="dark"] .landing-header { background: linear-gradient(135deg, var(--primary-dark) 0%, #1d4a73 100%); }
+/* Le bandeau de l'accueil n'en a plus besoin : ses --hero-* (palettes.css) ne changent pas avec le thème. */
 
 /* =========================================================
    L'arabe (site miroir, ar/) : de droite à gauche
@@ -1308,4 +1308,131 @@ html[lang="ar"] pre { direction: ltr; text-align: left; }
 @media (max-width: 768px) {
   [dir="rtl"] .sidebar { transform: translateX(100%); }
   [dir="rtl"] .sidebar.open { transform: translateX(0); }
+}
+
+/* =========================================================
+   La page d'accueil (lot 3, 21 novembre 2026)
+   Le modèle des cours d'architecture logicielle et d'étude d'avant-projet :
+   un bandeau sombre (pastille, titre, accroche, boutons, quatre cartes),
+   les capsules d'accueil, des sections numérotées ouvertes chacune par sa
+   capsule, les cartes illustrées des chapitres, un bouton flottant. Les
+   couleurs du bandeau sont les --hero-* de palettes.css : l'accent d'une
+   filière, pensé pour un fond clair, devenait illisible sur le bandeau
+   sombre de l'accueil d'avant-projet (1,56 pour 1 sur ses étiquettes).
+   ========================================================= */
+
+/* Le menu ☰ s'ouvre par-dessus le bandeau, à toutes les largeurs : la bascule
+   de filière y vit sur téléphone. Fermé, il sort aussi du parcours au clavier. */
+.page-accueil .sidebar {
+  transform: translateX(-100%); width: min(86vw, 21.25rem); box-shadow: var(--shadow-lg);
+  visibility: hidden;
+  transition: transform var(--duration-normal) var(--ease-out), visibility 0s linear var(--duration-normal);
+}
+.page-accueil .sidebar.open {
+  transform: translateX(0); visibility: visible;
+  transition: transform var(--duration-normal) var(--ease-out), visibility 0s;
+}
+[dir="rtl"] .page-accueil .sidebar { transform: translateX(100%); }
+[dir="rtl"] .page-accueil .sidebar.open { transform: translateX(0); }
+.page-accueil .sidebar-overlay.show {
+  position: fixed; inset: 0; top: var(--header-height); background: rgba(0, 0, 0, 0.4); z-index: 85;
+}
+
+/* Le bandeau : la pastille est un paragraphe, le halo et la trame suivent le sens de lecture. */
+.landing-header .eyebrow { margin: 0; }
+[dir="rtl"] .landing-header::before {
+  background: radial-gradient(circle at 12% 12%, var(--accent-glow), transparent 42%),
+              radial-gradient(circle at 90% 90%, rgba(255,255,255,0.06), transparent 40%);
+}
+[dir="rtl"] .landing-header::after {
+  -webkit-mask-image: linear-gradient(to right, #000, transparent); mask-image: linear-gradient(to right, #000, transparent);
+}
+
+/* Les boutons du bandeau (fragment accueil-boutons, outils/accueil.py) : « Commencer », puis des boutons blancs qui
+   tranchent sur le bandeau, quel que soit le thème. */
+.landing-actions { display: flex; flex-wrap: wrap; gap: var(--space-4); align-items: stretch; margin-top: var(--space-8); }
+.landing-actions .header-cta { min-height: 64px; }
+.landing-header .header-cta:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+.cta-externe {
+  background: #fff; color: var(--hero-1); border: 2px solid #fff;
+  padding: var(--space-3) var(--space-6); text-align: start;
+}
+.cta-externe:hover, .cta-externe:focus-visible { background: #fff; color: var(--hero-1); box-shadow: 0 12px 30px rgba(0, 0, 0, .30); }
+.cta-ico { font-size: 1.7rem; line-height: 1; }
+.cta-textes { display: flex; flex-direction: column; line-height: 1.2; }
+.cta-titre { font-weight: 800; font-size: var(--fs-base); }
+.cta-url { font-family: var(--font-mono); font-size: var(--fs-xs); font-weight: 600; color: var(--hero-2); margin-top: 3px; white-space: nowrap; }
+/* Le cercle d'accent : le bouton qui sert le plus, le dépôt à chaque échéance. */
+.cta-phare { box-shadow: 0 0 0 4px color-mix(in srgb, var(--hero-accent) 70%, transparent), var(--shadow-md); }
+.cta-phare:hover, .cta-phare:focus-visible { box-shadow: 0 0 0 4px var(--hero-accent), 0 12px 30px rgba(0, 0, 0, .30); }
+@media (max-width: 600px) {
+  .landing-actions { flex-direction: column; gap: var(--space-3); margin-top: var(--space-6); }
+  .landing-actions .header-cta { justify-content: center; min-height: 56px; }
+}
+
+/* Le bandeau « Quelle est votre filière ? », que filiere.js pose sous le bandeau de l'accueil. */
+.page-accueil .bandeau-filiere {
+  width: min(calc(1180px - 2 * var(--space-8)), calc(100% - 2 * var(--space-5)));
+  margin: var(--space-8) auto 0; box-sizing: border-box;
+}
+
+/* Les capsules d'accueil, remontées contre le bandeau : c'est la première chose que voit un étudiant qui arrive. */
+.accueil-voix { display: grid; gap: var(--space-4); max-width: 900px; padding-top: var(--space-10); padding-bottom: 0; }
+/* Sans filière choisie, seule la capsule commune s'affiche (décision de l'auteur pour le cours d'avant-projet, du
+   18 octobre 2026) : les capsules de filière attendent le choix. */
+html:not([data-filiere]) .voix-filiere { display: none; }
+/* La capsule qui ouvre une section */
+.section-voix { max-width: 900px; margin: 0 0 var(--space-6); }
+
+/* Les cartes des chapitres (fragment cartes-chapitres) : l'illustration du chapitre, déposée par Codex (lot 5) ;
+   tant qu'elle manque, un aplat à la couleur de l'accent et l'emoji du chapitre. */
+/* auto-fit et non auto-fill : trois chapitres occupent toute la largeur, sans colonne vide au bout. */
+.cartes-chapitres { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-5); margin: var(--space-6) 0 0; }
+.carte-chapitre {
+  display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: var(--radius-lg);
+  overflow: hidden; background: var(--bg-card); color: var(--text-primary); text-decoration: none; box-shadow: var(--shadow-sm);
+  transition: transform var(--duration-fast), box-shadow var(--duration-fast), border-color var(--duration-fast);
+}
+.carte-chapitre:hover, .carte-chapitre:focus-visible {
+  transform: translateY(-2px); border-color: var(--accent); box-shadow: 0 8px 22px var(--accent-glow); color: var(--text-primary);
+}
+.carte-chapitre .cch-image {
+  position: relative; display: block; aspect-ratio: 16 / 7; overflow: hidden;
+  background: linear-gradient(135deg, var(--accent-glow), color-mix(in srgb, var(--accent) 22%, var(--bg-card)));
+}
+.carte-chapitre .cch-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.carte-chapitre .cch-emoji { position: absolute; inset: 0; display: none; align-items: center; justify-content: center; font-size: 2.4rem; }
+.carte-chapitre .cch-image.absente .cch-emoji { display: flex; }
+.carte-chapitre .cch-texte { display: flex; flex-direction: column; gap: 4px; padding: var(--space-4) var(--space-5) var(--space-5); }
+.carte-chapitre .cch-num { font-family: var(--font-mono); font-size: var(--fs-xs); font-weight: 600; color: var(--accent-dark); letter-spacing: .02em; }
+.carte-chapitre .cch-titre { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-lg); }
+.carte-chapitre .cch-resume { font-size: var(--fs-sm); color: var(--text-secondary); line-height: 1.5; }
+html[data-theme="dark"] .carte-chapitre .cch-num { color: var(--accent-light); }
+
+/* Les sections de l'accueil */
+.liste-livrables { display: grid; gap: var(--space-3); margin: var(--space-6) 0; padding-inline-start: var(--space-6); }
+.liste-livrables li { color: var(--text-secondary); }
+.liste-livrables strong { color: var(--text-primary); }
+.eval-item h3 { font-size: var(--fs-lg); margin-bottom: var(--space-2); }
+.tip h3 { color: #fff; margin: var(--space-2) 0; font-size: var(--fs-lg); }
+
+/* Le polycopié et les podcasts, côte à côte, dans la section sombre « Avant de commencer ». */
+.accueil-supports { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-5); margin-top: var(--space-10); }
+.support-carte {
+  display: flex; gap: var(--space-4); align-items: flex-start; padding: var(--space-6); border-radius: var(--radius-lg);
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); color: #fff; text-decoration: none;
+  transition: background var(--duration-fast), transform var(--duration-fast);
+}
+.support-carte:hover, .support-carte:focus-visible { background: rgba(255,255,255,0.14); transform: translateY(-2px); color: #fff; }
+.support-carte:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+.support-ico { font-size: 2rem; line-height: 1; }
+.support-carte strong { display: block; font-family: var(--font-display); font-size: var(--fs-lg); color: #fff; margin-bottom: var(--space-1); }
+.support-carte .support-texte { color: rgba(255,255,255,0.82); font-size: var(--fs-sm); }
+
+/* Le bouton flottant attend, sur téléphone, que « Commencer le chapitre 1 » quitte l'écran (navigation.js) : il
+   recouvrait les boutons du bandeau à 375 px sur l'accueil d'architecture. */
+.fab-cours:focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; }
+.fab-cours { transition: transform var(--duration-fast) var(--ease-spring), opacity var(--duration-normal), visibility var(--duration-normal); }
+@media (max-width: 768px) {
+  .fab-cours.fab-en-attente { opacity: 0; visibility: hidden; pointer-events: none; }
 }

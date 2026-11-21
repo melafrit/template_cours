@@ -19,12 +19,13 @@
    CE QU'IL NE FAUT PAS FAIRE
    N'inventez pas une palette en modifiant ces valeurs au hasard : chaque
    couple a été vérifié en contraste sur fond clair ET sur fond sombre.
-   Pour en ajouter une, dupliquez un bloc complet — les huit variables,
-   dans les deux thèmes — puis relancez la vérification :
+   Pour en ajouter une, dupliquez un bloc complet (les huit variables,
+   dans les deux thèmes, et les quatre --hero-* du bandeau de l'accueil,
+   dans le bloc clair seulement), puis relancez la vérification :
 
        python3 outils/verifier_contraste.py
 
-   Charger ce fichier APRÈS main.css : il n'écrase que les huit variables
+   Charger ce fichier APRÈS main.css : il n'écrase que les variables
    d'identité, tout le reste vient de la charte commune.
    ================================================================= */
 
@@ -42,6 +43,11 @@ html[data-accent="marine"] {
   --accent-light: #d9bd72;
   --accent-dark: #8c722e;     /* sert de texte sur fond clair : 4,60:1 */
   --accent-glow: rgba(175, 143, 60, 0.16);
+  /* Le bandeau de l'accueil, toujours sombre : mêmes valeurs dans les deux thèmes. */
+  --hero-1: #0e2238;
+  --hero-2: #142e4a;
+  --hero-3: #15324f;
+  --hero-accent: #e7d398;
 }
 [data-theme="dark"],
 html[data-accent="marine"][data-theme="dark"] {
@@ -68,6 +74,11 @@ html[data-accent="emeraude"] {
   --accent-light: #d19056;
   --accent-dark: #8e5628;
   --accent-glow: rgba(181, 113, 58, 0.16);
+  /* Le bandeau de l'accueil, toujours sombre : mêmes valeurs dans les deux thèmes. */
+  --hero-1: #0b3227;
+  --hero-2: #104133;
+  --hero-3: #15324f;
+  --hero-accent: #e6b68b;
 }
 html[data-accent="emeraude"][data-theme="dark"] {
   --primary: #43a184;
@@ -93,6 +104,11 @@ html[data-accent="prune"] {
   --accent-light: #c88d9a;
   --accent-dark: #8a4f5d;
   --accent-glow: rgba(176, 106, 122, 0.16);
+  /* Le bandeau de l'accueil, toujours sombre : mêmes valeurs dans les deux thèmes. */
+  --hero-1: #2e1434;
+  --hero-2: #3c1c43;
+  --hero-3: #15324f;
+  --hero-accent: #dcaeb8;
 }
 html[data-accent="prune"][data-theme="dark"] {
   --primary: #a978b5;
@@ -118,6 +134,11 @@ html[data-accent="ardoise"] {
   --accent-light: #d98551;
   --accent-dark: #96491f;
   --accent-glow: rgba(192, 95, 44, 0.16);
+  /* Le bandeau de l'accueil, toujours sombre : mêmes valeurs dans les deux thèmes. */
+  --hero-1: #1e2b38;
+  --hero-2: #28394a;
+  --hero-3: #15324f;
+  --hero-accent: #efb08e;
 }
 html[data-accent="ardoise"][data-theme="dark"] {
   --primary: #7d9bba;
@@ -143,6 +164,11 @@ html[data-accent="bordeaux"] {
   --accent-light: #c4a065;
   --accent-dark: #85662c;
   --accent-glow: rgba(168, 130, 63, 0.16);
+  /* Le bandeau de l'accueil, toujours sombre : mêmes valeurs dans les deux thèmes. */
+  --hero-1: #3a1219;
+  --hero-2: #4b1822;
+  --hero-3: #15324f;
+  --hero-accent: #d8bb8b;
 }
 html[data-accent="bordeaux"][data-theme="dark"] {
   --primary: #c5727f;         /* +1 point de luminosité : 4,46:1 passait sous le seuil */

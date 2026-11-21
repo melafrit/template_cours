@@ -24,7 +24,9 @@ pour un cours créé.
 # Le cours de démonstration : trois chapitres, de 30, 25 et 25 minutes.
 DUREES = {"1": 30, "2": 25, "3": 25}
 
-VALEURS = {}
+# Le nombre de livrables de l'atelier fil rouge : l'accueil l'annonce, l'atelier les détaille (val-livrables,
+# val-livrables-lettres).
+VALEURS = {"livrables": 5}
 
 FRAGMENTS = {}
 

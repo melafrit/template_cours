@@ -7,7 +7,7 @@
 <link rel="icon" href="favicon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <title>Concevoir un cours en ligne</title>
-<meta name="description" content="Cours-démo bilingue : concevoir un cours en ligne efficace. Template de site de cours réutilisable · Mohamed EL AFRIT.">
+<meta name="description" content="Cours-démo : concevoir un cours en ligne efficace. Template de site de cours réutilisable · Mohamed EL AFRIT.">
 <meta name="author" content="Mohamed EL AFRIT">
 <script>/* La filière mémorisée, posée avant l'affichage : voir assets/js/filiere.js */(function(){try{var d=document.documentElement,s=localStorage,p=location.pathname,b='',v='',q=new URLSearchParams(location.search).get('filiere');for(var i=0;i<s.length;i++){var k=s.key(i);if(k&&k.indexOf('tpl-filiere|')===0&&p.indexOf(k.slice(12))===0&&k.length-12>b.length){b=k.slice(12);v=s.getItem(k)||'';}}var c=v.split('|'),f=q||c[0];if(f&&/^[a-z0-9-]+$/.test(f)){d.setAttribute('data-filiere',f);if(c[1]&&f===c[0]){d.setAttribute('data-accent-cours',d.getAttribute('data-accent')||'');d.setAttribute('data-accent',c[1]);}}}catch(e){}})();</script>
 <link rel="stylesheet" href="assets/css/fonts.css">
@@ -17,7 +17,9 @@
 <link rel="stylesheet" href="assets/css/interactions.css">
 <link rel="stylesheet" href="assets/css/filieres.css">
 </head>
-<body>
+
+<body class="page-accueil">
+<a class="skip-link" href="#contenu">Aller au contenu</a>
 
 <header class="site-header">
   <div class="header-left">
@@ -26,6 +28,7 @@
       <span>Concevoir un cours</span></a>
   </div>
   <div class="header-right">
+    <a href="cours.html" class="chapter-nav-btn"><span aria-hidden="true">🗂️</span> <span>Sommaire</span></a>
     <button class="theme-toggle" aria-label="Thème">🌙</button>
   </div>
 </header>
@@ -35,67 +38,195 @@
   <div class="sidebar-content"><ul class="nav-tree" id="nav-tree"></ul></div>
 </aside>
 
-<div class="main-wrapper">
-  <main class="main-content">
+<main id="contenu" class="accueil">
 
-    <div class="chapter-header">
-      <div class="chapter-meta">
-        <span class="chapter-badge">🎓 <span>Cours-démo</span></span>
+  <!-- Le bandeau. Sa pastille, son titre et son accroche sont la prose de la page ; ses boutons et ses chiffres
+       viennent des données, par fragments (outils/accueil.py, outils/referentiel.py, course-data.js). -->
+  <section class="landing-header" id="presentation" aria-labelledby="titre-accueil">
+    <div class="landing-inner">
+      <p class="eyebrow"><span class="dot" aria-hidden="true"></span><span>Cours-démo du gabarit · filières EADL et ERIS</span></p>
+      <h1 id="titre-accueil">Concevoir un cours <em>en ligne</em></h1>
+      <p class="subtitle">Ce cours-démo vous apprend à fabriquer un cours en ligne de qualité, pendant qu'il démontre, page après page, les fonctionnalités du gabarit. Son fil rouge, c'est votre propre cours : vous le construisez dans l'atelier, chapitre après chapitre.</p>
+      <!-- FRAGMENT:accueil-boutons -->
+      <div class="landing-actions">
+        <a class="header-cta" data-chapitre="1" href="chapitres/01-cadrage.html"><span aria-hidden="true">🚀</span> <span>Commencer le chapitre 1</span> <span aria-hidden="true">→</span></a>
+        <a class="header-cta cta-externe cta-phare" href="https://livrables.elafrit.com/" target="_blank" rel="noopener noreferrer"><span class="cta-ico" aria-hidden="true">📥</span><span class="cta-textes"><span class="cta-titre">Déposer mes livrables</span><span class="cta-url">livrables.elafrit.com <span aria-hidden="true">↗</span></span></span><span class="sr-only"> (nouvel onglet)</span></a>
+        <a class="header-cta cta-externe" href="QCM/index.html"><span class="cta-ico" aria-hidden="true">📝</span><span class="cta-textes"><span class="cta-titre">QCM d'évaluation</span><span class="cta-url">noté, à degré de certitude</span></span></a>
       </div>
-      <h1 class="chapter-title">
-        <span>Concevoir un cours en ligne efficace</span>
-      </h1>
-      <p class="chapter-subtitle">
-        <span>Ce cours-démo vous apprend à fabriquer un cours en ligne de qualité, pendant qu'il démontre, page après page, toutes les fonctionnalités du template : navigation, lecteurs audio, slides, infographies, QCM noté, flashcards, glossaire interactif, accessibilité… et la <strong>bascule de langue</strong> (cliquez le bouton 🌐 en haut).</span>
-      </p>
-    </div>
-
-    <div class="callout tip">
-      <div class="callout-icon">🚀</div>
-      <div class="callout-content">
-        <h4><span>Par où commencer ?</span></h4>
-        <p>
-          <span>Ouvrez le <strong>chapitre 1</strong> pour découvrir le parcours, ou explorez les ressources (glossaire, activités, QCM) depuis le menu de gauche. Essayez aussi le <strong>thème sombre</strong> 🌙 et le panneau d'<strong>accessibilité</strong> ♿.</span>
-        </p>
-        <p style="margin-top:.75rem">
-          <a class="btn btn-primary" data-chapitre="1" href="chapitres/01-cadrage.html"><span>Commencer le chapitre 1 →</span></a>
-        </p>
+      <!-- /FRAGMENT:accueil-boutons -->
+      <div class="info-grid">
+        <div class="info-card"><div class="label">Durée</div><div class="value"><!-- FRAGMENT:duree-totale -->1 h 20<!-- /FRAGMENT:duree-totale --></div><div class="meta">La lecture des <!-- FRAGMENT:nb-chapitres-lettres -->trois<!-- /FRAGMENT:nb-chapitres-lettres --> chapitres, sans l'atelier</div></div>
+        <div class="info-card"><div class="label">Évaluation</div><div class="value">QCM noté</div><div class="meta">Notation par degré de certitude, correction et tableau de bord</div></div>
+        <div class="info-card"><div class="label">Ce que vous produisez</div><div class="value"><!-- FRAGMENT:val-livrables -->5<!-- /FRAGMENT:val-livrables --> livrables</div><div class="meta">Le squelette complet d'un cours prêt à diffuser</div></div>
+        <div class="info-card"><div class="label">Fil rouge</div><div class="value">Votre propre cours</div><div class="meta">Construit dans l'atelier, chapitre après chapitre</div></div>
       </div>
     </div>
+  </section>
 
-    <section class="content-section">
-      <h2><span>Ce que démontre ce site</span></h2>
-      <div class="concept-grid">
-        <div class="concept-card"><div class="concept-card-header"><span class="concept-card-emoji">🌍</span><span class="concept-card-title"><span>Bilingue partout</span></span></div>
-          <p><span>Une bascule FR/EN agit sur tout le site : pages, navigation, QCM, glossaire.</span></p></div>
-        <div class="concept-card"><div class="concept-card-header"><span class="concept-card-emoji">🎧</span><span class="concept-card-title"><span>Médias par chapitre</span></span></div>
-          <p><span>Podcast (lecteur dédié), slides en PDF, infographie en lightbox.</span></p></div>
-        <div class="concept-card"><div class="concept-card-header"><span class="concept-card-emoji">📝</span><span class="concept-card-title"><span>QCM noté (CBM)</span></span></div>
-          <p><span>Notation par degré de certitude, correction et tableau de bord.</span></p></div>
-        <div class="concept-card"><div class="concept-card-header"><span class="concept-card-emoji">📖</span><span class="concept-card-title"><span>Glossaire interactif</span></span></div>
-          <p><span>Termes surlignés dans le texte, info-bulle au survol (définition + exemple).</span></p></div>
-        <div class="concept-card"><div class="concept-card-header"><span class="concept-card-emoji">♿</span><span class="concept-card-title"><span>Accessibilité</span></span></div>
-          <p><span>Taille du texte, police lecture adaptée, mouvement réduit.</span></p></div>
-        <div class="concept-card"><div class="concept-card-header"><span class="concept-card-emoji">🧩</span><span class="concept-card-title"><span>Activités interactives</span></span></div>
-          <p><span>Flashcards et patrons réutilisables, à adapter au sujet.</span></p></div>
+  <!-- Les capsules d'accueil : la commune, puis celle de chaque filière, qui attend le choix de la filière. -->
+  <section class="landing-section accueil-voix" id="bienvenue" aria-label="Capsules d'accueil">
+    <div id="voix-bienvenue"></div>
+    <div class="voix-filiere only-eadl"><div id="voix-bienvenue-eadl"></div></div>
+    <div class="voix-filiere only-eris"><div id="voix-bienvenue-eris"></div></div>
+  </section>
+
+  <section class="landing-section" id="parcours" aria-labelledby="titre-parcours">
+    <div class="section-title"><span class="num">01</span><h2 id="titre-parcours">Le parcours</h2><span class="line" aria-hidden="true"></span></div>
+    <div class="section-voix" id="voix-section-1"></div>
+    <p class="lead">Cadrer, structurer, puis créer les ressources : les chapitres suivent l'ordre dans lequel un cours se conçoit.</p>
+    <!-- FRAGMENT:cartes-chapitres -->
+      <nav class="cartes-chapitres" aria-label="Les chapitres du cours">
+        <a class="carte-chapitre" href="chapitres/01-cadrage.html">
+          <span class="cch-image absente" aria-hidden="true"><span class="cch-emoji">🎯</span></span>
+          <span class="cch-texte"><span class="cch-num">Chapitre 1 · 30 min</span><span class="cch-titre">Cadrer son cours</span><span class="cch-resume">Un cours mal cadré se répare mal : on s'en aperçoit à la troisième séance, quand il est trop tard pour tout reprendre. Ce chapitre pose les trois décisions à prendre avant d'écrire la première ligne. Il sert aussi de vitrine : chaque composant du moteur y est exercé au moins une fois.</span></span>
+        </a>
+        <a class="carte-chapitre" href="chapitres/02-structurer.html">
+          <span class="cch-image absente" aria-hidden="true"><span class="cch-emoji">🧱</span></span>
+          <span class="cch-texte"><span class="cch-num">Chapitre 2 · 25 min</span><span class="cch-titre">Structurer le contenu</span><span class="cch-resume">Le cadrage a dit pour qui et pour quoi faire. Reste à décider dans quel ordre, et par quels morceaux. C'est là que se joue la différence entre un cours qu'on finit et un cours qu'on abandonne au troisième chapitre.</span></span>
+        </a>
+        <a class="carte-chapitre" href="chapitres/03-multimedia.html">
+          <span class="cch-image absente" aria-hidden="true"><span class="cch-emoji">🎬</span></span>
+          <span class="cch-texte"><span class="cch-num">Chapitre 3 · 25 min</span><span class="cch-titre">Créer les ressources</span><span class="cch-resume">Texte, audio, schéma : trois formats, trois intentions différentes. Les confondre coûte cher : en temps de production, et en attention perdue. Ce chapitre dit lequel choisir, et pourquoi le doublon est presque toujours une erreur.</span></span>
+        </a>
+      </nav>
+      <!-- /FRAGMENT:cartes-chapitres -->
+  </section>
+
+  <section class="landing-section" id="fil-rouge" aria-labelledby="titre-fil-rouge">
+    <div class="section-title"><span class="num">02</span><h2 id="titre-fil-rouge">Le fil rouge</h2><span class="line" aria-hidden="true"></span></div>
+    <div class="section-voix" id="voix-section-2"></div>
+    <p class="lead">Un fil rouge est un cas, un projet ou un scénario qui traverse tout le cours. Celui de ce cours-démo, c'est le vôtre : vous construisez un cours en lisant un cours qui explique comment en construire un.</p>
+    <!-- Un exemple propre à chaque filière : le témoin du chapitre 1, tel que l'auteur l'a validé. -->
+    <div class="exemple-filiere only-eadl">
+      <p><strong>En EADL</strong>, le fil rouge peut être une application que les apprenants conçoivent de chapitre en chapitre : chaque notion d'architecture s'y applique à une décision réelle.</p>
+    </div>
+    <div class="exemple-filiere only-eris">
+      <p><strong>En ERIS</strong>, le fil rouge peut être l'infrastructure d'une entreprise fictive, que les apprenants sécurisent de chapitre en chapitre : chaque notion s'y applique à un équipement ou à une règle.</p>
+    </div>
+    <p class="mt-8"><a class="btn btn-primary" href="atelier.html">Ouvrir l'atelier fil rouge <span aria-hidden="true">→</span></a></p>
+  </section>
+
+  <section class="landing-section" id="livrables" aria-labelledby="titre-livrables">
+    <div class="section-title"><span class="num">03</span><h2 id="titre-livrables">Ce que vous produisez</h2><span class="line" aria-hidden="true"></span></div>
+    <div class="section-voix" id="voix-section-3"></div>
+    <p class="lead">À la fin de l'atelier, vous remettez <!-- FRAGMENT:val-livrables-lettres -->cinq<!-- /FRAGMENT:val-livrables-lettres --> livrables. Pris ensemble, ils forment le squelette complet d'un cours prêt à diffuser.</p>
+    <ol class="liste-livrables">
+      <li><strong>Une fiche de cadrage</strong> : le public cible, les prérequis, les objectifs mesurables, le fil rouge.</li>
+      <li><strong>Un plan</strong> : les modules et les séquences du cours, avec leur durée estimée.</li>
+      <li><strong>Un chapitre entièrement rédigé</strong>, illustré, avec une accroche et un « à retenir ».</li>
+      <li><strong>Un QCM</strong>, avec la bonne réponse et une justification courte pour chaque question.</li>
+      <li><strong>Un glossaire</strong> : une définition claire et, si possible, un exemple pour chaque terme.</li>
+    </ol>
+    <p><a href="atelier.html">Le détail des livrables et leurs critères de réussite, dans l'atelier <span aria-hidden="true">→</span></a></p>
+  </section>
+
+  <section class="landing-section" id="evaluation" aria-labelledby="titre-evaluation">
+    <div class="section-title"><span class="num">04</span><h2 id="titre-evaluation">L'évaluation</h2><span class="line" aria-hidden="true"></span></div>
+    <div class="section-voix" id="voix-section-4"></div>
+    <div class="evaluation">
+      <div class="eval-item"><span class="ico" aria-hidden="true">📝</span><div><h3>Le QCM noté</h3><p>Pour chaque question, vous choisissez une réponse et votre degré de certitude. La correction est expliquée, question par question.</p></div></div>
+      <div class="eval-item"><span class="ico" aria-hidden="true">✅</span><div><h3>Les points de contrôle</h3><p>Dans les chapitres, des questions vérifient votre lecture et expliquent chaque réponse.</p></div></div>
+      <div class="eval-item"><span class="ico" aria-hidden="true">🃏</span><div><h3>Les flashcards</h3><p>À la fin de chaque chapitre, des cartes de révision reprennent l'essentiel.</p></div></div>
+    </div>
+  </section>
+
+  <!-- Démonstration du gabarit : nouveau_cours.py retire cette section d'un cours créé. -->
+  <section class="landing-section" id="demonstration" aria-labelledby="titre-demonstration">
+    <div class="section-title"><span class="num">05</span><h2 id="titre-demonstration">Ce que démontre ce site</h2><span class="line" aria-hidden="true"></span></div>
+    <div class="section-voix" id="voix-section-5"></div>
+    <div class="concept-grid">
+      <div class="concept-card"><div class="concept-card-header"><span class="concept-card-emoji" aria-hidden="true">🌍</span><span class="concept-card-title">Trois langues</span></div>
+        <p>Le français et l'anglais sur tout le site, l'arabe sur le chapitre 1, de droite à gauche. Changer de langue garde la position de lecture.</p></div>
+      <div class="concept-card"><div class="concept-card-header"><span class="concept-card-emoji" aria-hidden="true">🎓</span><span class="concept-card-title">Deux filières</span></div>
+        <p>Un cours commun à EADL et ERIS : choisissez votre filière, et les exemples propres à l'autre s'effacent.</p></div>
+      <div class="concept-card"><div class="concept-card-header"><span class="concept-card-emoji" aria-hidden="true">🎧</span><span class="concept-card-title">Médias par chapitre</span></div>
+        <p>Une capsule audio en tête de chapitre, avec sa transcription, des schémas interactifs et un lecteur de podcasts.</p></div>
+      <div class="concept-card"><div class="concept-card-header"><span class="concept-card-emoji" aria-hidden="true">📝</span><span class="concept-card-title">QCM noté (CBM)</span></div>
+        <p>Notation par degré de certitude, correction et tableau de bord.</p></div>
+      <div class="concept-card"><div class="concept-card-header"><span class="concept-card-emoji" aria-hidden="true">📖</span><span class="concept-card-title">Glossaire interactif</span></div>
+        <p>Termes surlignés dans le texte, info-bulle au survol, avec une définition et un exemple.</p></div>
+      <div class="concept-card"><div class="concept-card-header"><span class="concept-card-emoji" aria-hidden="true">♿</span><span class="concept-card-title">Accessibilité</span></div>
+        <p>Taille du texte, police lecture adaptée, mouvement réduit.</p></div>
+      <div class="concept-card"><div class="concept-card-header"><span class="concept-card-emoji" aria-hidden="true">🧩</span><span class="concept-card-title">Activités interactives</span></div>
+        <p>Flashcards et patrons réutilisables, à adapter au sujet.</p></div>
+    </div>
+  </section>
+
+  <section class="conseils" id="avant-de-commencer" aria-labelledby="titre-conseils">
+    <div class="landing-section conseils-inner">
+      <div class="section-title"><span class="num">06</span><h2 id="titre-conseils">Avant de commencer</h2><span class="line" aria-hidden="true"></span></div>
+      <div class="section-voix" id="voix-section-6"></div>
+      <div class="tips-grid">
+        <div class="tip"><div class="tip-num">01</div><h3>Commencez par le chapitre 1</h3><p>Il pose les trois décisions à prendre avant d'écrire, et sert de vitrine : chaque composant y est exercé.</p></div>
+        <div class="tip"><div class="tip-num">02</div><h3>Ouvrez l'atelier en parallèle</h3><p>Chaque chapitre du cours-démo nourrit directement un livrable de votre projet.</p></div>
+        <div class="tip"><div class="tip-num">03</div><h3>Réglez l'affichage</h3><p>Le thème sombre, la taille du texte et la police se règlent en haut de page, dans le panneau d'accessibilité.</p></div>
+        <div class="tip"><div class="tip-num">04</div><h3>Révisez avant le QCM</h3><p>Les flashcards de chaque chapitre reprennent l'essentiel.</p></div>
       </div>
-    </section>
+      <div class="accueil-supports">
+        <a class="support-carte" href="polycopie.html"><span class="support-ico" aria-hidden="true">📘</span><span><strong>Le polycopié</strong><span class="support-texte">Tout le cours en un seul livret, à lire hors ligne ; ses QR codes vous ramènent au bon endroit du site.</span></span></a>
+        <a class="support-carte" href="podcasts.html"><span class="support-ico" aria-hidden="true">🎙️</span><span><strong>Les podcasts</strong><span class="support-texte">Des épisodes pour découvrir un chapitre avant de le lire, ou le réviser loin de l'écran.</span></span></a>
+      </div>
+    </div>
+  </section>
 
-  </main>
-</div>
+</main>
 
 <footer class="site-footer">
-  <p><span>Cours-démo « Concevoir un cours en ligne » · Auteur : </span><a href="#">Mohamed EL AFRIT</a></p>
+  <p><span>Cours-démo « Concevoir un cours en ligne » · Auteur : </span><a href="#">Mohamed EL AFRIT</a></p>
   <p class="license"><span class="cc-badges">MIT · CC BY 4.0</span>
     <span> Code sous licence MIT, contenu sous licence Creative Commons BY 4.0.</span>
      · <a href="about.html"><span>À propos du template</span></a></p>
 </footer>
 
+<a class="fab-cours" data-chapitre="1" href="chapitres/01-cadrage.html"><span aria-hidden="true">🚀</span> <span>Chapitre 1</span> <span aria-hidden="true">→</span></a>
+
 <script src="assets/js/i18n.js"></script>
 <script src="assets/js/ui-labels.js"></script>
 <script src="assets/js/course-data.js"></script>
+<script src="assets/js/nav-sections.js"></script>
 <script src="assets/js/navigation.js"></script>
 <script src="assets/js/accessibility.js"></script>
+<script src="assets/js/media-data.js"></script>
+<script src="assets/js/media.js"></script>
 <script src="assets/js/animations.js"></script>
+<script src="assets/js/interactions.js"></script>
+<script src="assets/js/playlist-data.js"></script>
+<script src="assets/js/playlist.js"></script>
+<script>
+/* =================================================================
+   Les capsules de l'accueil : la capsule d'accueil, celle de chaque
+   filière (affichée une fois la filière choisie), puis une en tête de
+   chaque section. Le nom de chaque piste est fixé ici avant son
+   enregistrement (CLAUDE.md, § 2) : elle se déposera sous ce nom dans
+   assets/media/voix/. Tant qu'elle manque, le lecteur l'annonce
+   « bientôt disponible ». Transcriptions : la fiche des capsules de
+   l'accueil, quand elle sera écrite.
+   ================================================================= */
+(function () {
+  'use strict';
+  var V = 'assets/media/voix/';
+  var CAPSULES = [
+    { id: 'voix-bienvenue', src: V + 'accueil-capsule-fr.mp3', titre: "Bienvenue dans le cours-démo" },
+    { id: 'voix-bienvenue-eadl', src: V + 'accueil-capsule-eadl-fr.mp3', titre: "En EADL : votre fil rouge" },
+    { id: 'voix-bienvenue-eris', src: V + 'accueil-capsule-eris-fr.mp3', titre: "En ERIS : votre fil rouge" },
+    { id: 'voix-section-1', src: V + 'accueil-section-1-capsule-fr.mp3', titre: "Le parcours" },
+    { id: 'voix-section-2', src: V + 'accueil-section-2-capsule-fr.mp3', titre: "Le fil rouge" },
+    { id: 'voix-section-3', src: V + 'accueil-section-3-capsule-fr.mp3', titre: "Ce que vous produisez" },
+    { id: 'voix-section-4', src: V + 'accueil-section-4-capsule-fr.mp3', titre: "L'évaluation" },
+    { id: 'voix-section-5', src: V + 'accueil-section-5-capsule-fr.mp3', titre: "Ce que démontre ce site" },
+    { id: 'voix-section-6', src: V + 'accueil-section-6-capsule-fr.mp3', titre: "Avant de commencer" }
+  ];
+  function monter() {
+    CAPSULES.forEach(function (c) {
+      var el = document.getElementById(c.id);
+      if (!el) return;
+      el.innerHTML = '';
+      RDCX.voice(c.id, { src: c.src, titre: c.titre, duree: c.duree || '', transcription: c.transcription || '' });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', monter);
+  else monter();
+})();
+</script>
 </body>
 </html>

@@ -68,6 +68,7 @@ Pour **chaque** chapitre :
 - [ ] Aucune date fixe ; aucun texte ni figure recopié d'un ouvrage ; rien du sujet du TP
 - [ ] Liens externes dans un nouvel onglet (`rel="noopener noreferrer"`), adresses ouvertes avant ajout
 - [ ] Typographie : espaces insécables avant `: ; ? !` et dans `« »`
+- [ ] L'accueil rédigé : la pastille, le titre (son mot coloré entre `<em>`), l'accroche, les quatre cartes, une phrase par section ; ses boutons déclarés dans `outils/accueil.py` ; ses capsules dans leur fiche
 
 > ✅ **Jalon :** tous les chapitres rédigés ET relus. La relecture est bloquante : pas de chapitre « brouillon » en production.
 

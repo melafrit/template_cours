@@ -100,11 +100,18 @@ window.GLOSSARY_EMPLOIS = {
     "section": ""
    },
    {
-    "a": "",
-    "n": 3,
+    "a": "titre-demonstration",
+    "n": 1,
     "p": "index.html",
-    "page": "Designing an effective online course",
-    "section": ""
+    "page": "Designing an online course",
+    "section": "What this site demonstrates"
+   },
+   {
+    "a": "titre-conseils",
+    "n": 1,
+    "p": "index.html",
+    "page": "Designing an online course",
+    "section": "Before you start"
    }
   ],
   "g-accroche": [
@@ -114,6 +121,13 @@ window.GLOSSARY_EMPLOIS = {
     "p": "atelier.html",
     "page": "Design your own online course",
     "section": ""
+   },
+   {
+    "a": "titre-livrables",
+    "n": 1,
+    "p": "index.html",
+    "page": "Designing an online course",
+    "section": "What you produce"
    }
   ],
   "g-evaluation-formative": [
@@ -183,6 +197,27 @@ window.GLOSSARY_EMPLOIS = {
     "p": "cours.html",
     "page": "Course contents",
     "section": ""
+   },
+   {
+    "a": "",
+    "n": 2,
+    "p": "index.html",
+    "page": "Designing an online course",
+    "section": ""
+   },
+   {
+    "a": "titre-fil-rouge",
+    "n": 5,
+    "p": "index.html",
+    "page": "Designing an online course",
+    "section": "The through-line"
+   },
+   {
+    "a": "titre-livrables",
+    "n": 1,
+    "p": "index.html",
+    "page": "Designing an online course",
+    "section": "What you produce"
    }
   ],
   "g-flashcard": [
@@ -194,11 +229,25 @@ window.GLOSSARY_EMPLOIS = {
     "section": ""
    },
    {
-    "a": "",
-    "n": 2,
+    "a": "titre-evaluation",
+    "n": 1,
     "p": "index.html",
-    "page": "Designing an effective online course",
-    "section": ""
+    "page": "Designing an online course",
+    "section": "Assessment"
+   },
+   {
+    "a": "titre-demonstration",
+    "n": 1,
+    "p": "index.html",
+    "page": "Designing an online course",
+    "section": "What this site demonstrates"
+   },
+   {
+    "a": "titre-conseils",
+    "n": 1,
+    "p": "index.html",
+    "page": "Designing an online course",
+    "section": "Before you start"
    }
   ],
   "g-objectif-pedagogique": [
@@ -259,6 +308,13 @@ window.GLOSSARY_EMPLOIS = {
     "p": "atelier.html",
     "page": "Design your own online course",
     "section": ""
+   },
+   {
+    "a": "titre-livrables",
+    "n": 1,
+    "p": "index.html",
+    "page": "Designing an online course",
+    "section": "What you produce"
    }
   ],
   "g-public-cible": [
@@ -275,6 +331,13 @@ window.GLOSSARY_EMPLOIS = {
     "p": "atelier.html",
     "page": "Design your own online course",
     "section": ""
+   },
+   {
+    "a": "titre-livrables",
+    "n": 1,
+    "p": "index.html",
+    "page": "Designing an online course",
+    "section": "What you produce"
    }
   ],
   "g-syllabus": [
@@ -332,11 +395,18 @@ window.GLOSSARY_EMPLOIS = {
     "section": ""
    },
    {
-    "a": "",
-    "n": 3,
+    "a": "titre-demonstration",
+    "n": 1,
     "p": "index.html",
-    "page": "Concevoir un cours en ligne efficace",
-    "section": ""
+    "page": "Concevoir un cours en ligne",
+    "section": "Ce que démontre ce site"
+   },
+   {
+    "a": "titre-conseils",
+    "n": 1,
+    "p": "index.html",
+    "page": "Concevoir un cours en ligne",
+    "section": "Avant de commencer"
    }
   ],
   "g-accroche": [
@@ -346,6 +416,13 @@ window.GLOSSARY_EMPLOIS = {
     "p": "atelier.html",
     "page": "Concevez votre propre cours en ligne",
     "section": ""
+   },
+   {
+    "a": "titre-livrables",
+    "n": 1,
+    "p": "index.html",
+    "page": "Concevoir un cours en ligne",
+    "section": "Ce que vous produisez"
    }
   ],
   "g-evaluation-formative": [
@@ -413,6 +490,27 @@ window.GLOSSARY_EMPLOIS = {
     "p": "cours.html",
     "page": "Sommaire du cours",
     "section": ""
+   },
+   {
+    "a": "",
+    "n": 2,
+    "p": "index.html",
+    "page": "Concevoir un cours en ligne",
+    "section": ""
+   },
+   {
+    "a": "titre-fil-rouge",
+    "n": 5,
+    "p": "index.html",
+    "page": "Concevoir un cours en ligne",
+    "section": "Le fil rouge"
+   },
+   {
+    "a": "titre-livrables",
+    "n": 1,
+    "p": "index.html",
+    "page": "Concevoir un cours en ligne",
+    "section": "Ce que vous produisez"
    }
   ],
   "g-flashcard": [
@@ -424,11 +522,25 @@ window.GLOSSARY_EMPLOIS = {
     "section": ""
    },
    {
-    "a": "",
-    "n": 2,
+    "a": "titre-evaluation",
+    "n": 1,
     "p": "index.html",
-    "page": "Concevoir un cours en ligne efficace",
-    "section": ""
+    "page": "Concevoir un cours en ligne",
+    "section": "L'évaluation"
+   },
+   {
+    "a": "titre-demonstration",
+    "n": 1,
+    "p": "index.html",
+    "page": "Concevoir un cours en ligne",
+    "section": "Ce que démontre ce site"
+   },
+   {
+    "a": "titre-conseils",
+    "n": 1,
+    "p": "index.html",
+    "page": "Concevoir un cours en ligne",
+    "section": "Avant de commencer"
    }
   ],
   "g-micro-apprentissage": [
@@ -498,6 +610,13 @@ window.GLOSSARY_EMPLOIS = {
     "p": "atelier.html",
     "page": "Concevez votre propre cours en ligne",
     "section": ""
+   },
+   {
+    "a": "titre-livrables",
+    "n": 1,
+    "p": "index.html",
+    "page": "Concevoir un cours en ligne",
+    "section": "Ce que vous produisez"
    }
   ],
   "g-public-cible": [
@@ -521,6 +640,13 @@ window.GLOSSARY_EMPLOIS = {
     "p": "atelier.html",
     "page": "Concevez votre propre cours en ligne",
     "section": ""
+   },
+   {
+    "a": "titre-livrables",
+    "n": 1,
+    "p": "index.html",
+    "page": "Concevoir un cours en ligne",
+    "section": "Ce que vous produisez"
    }
   ],
   "g-qcm": [
@@ -540,10 +666,38 @@ window.GLOSSARY_EMPLOIS = {
    },
    {
     "a": "",
-    "n": 4,
+    "n": 2,
     "p": "index.html",
-    "page": "Concevoir un cours en ligne efficace",
+    "page": "Concevoir un cours en ligne",
     "section": ""
+   },
+   {
+    "a": "titre-livrables",
+    "n": 1,
+    "p": "index.html",
+    "page": "Concevoir un cours en ligne",
+    "section": "Ce que vous produisez"
+   },
+   {
+    "a": "titre-evaluation",
+    "n": 1,
+    "p": "index.html",
+    "page": "Concevoir un cours en ligne",
+    "section": "L'évaluation"
+   },
+   {
+    "a": "titre-demonstration",
+    "n": 1,
+    "p": "index.html",
+    "page": "Concevoir un cours en ligne",
+    "section": "Ce que démontre ce site"
+   },
+   {
+    "a": "titre-conseils",
+    "n": 1,
+    "p": "index.html",
+    "page": "Concevoir un cours en ligne",
+    "section": "Avant de commencer"
    }
   ],
   "g-syllabus": [

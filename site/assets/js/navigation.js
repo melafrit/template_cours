@@ -152,6 +152,22 @@
     else a.style.display = 'none';
   });
 
+  /* Le bouton flottant de l'accueil attend que « Commencer le chapitre 1 » quitte l'écran : sur téléphone, il
+     recouvrait les boutons du bandeau (mesuré à 375 px sur le cours d'architecture). Un observateur plutôt qu'une
+     animation liée au défilement : celle du cours d'avant-projet tombait sous « mouvement réduit ». */
+  var fab = document.querySelector('.fab-cours');
+  var depart = document.querySelector('.landing-actions .header-cta');
+  if (fab && depart && 'IntersectionObserver' in window) {
+    // L'état de départ, lu tout de suite : l'observateur ne répond qu'après le premier affichage, et le bouton aurait
+    // eu le temps d'apparaître une image.
+    var r = depart.getBoundingClientRect();
+    fab.classList.toggle('fab-en-attente', r.bottom > 0 && r.top < window.innerHeight);
+    new IntersectionObserver(function (entrees) {
+      // Plusieurs états peuvent arriver groupés (le premier rendu, puis la mise en page finale) : le dernier compte.
+      fab.classList.toggle('fab-en-attente', entrees[entrees.length - 1].isIntersecting);
+    }).observe(depart);
+  }
+
   // -- Thème clair/sombre --
   var THEME_KEY = 'tpl-theme';
   var root = document.documentElement;
@@ -182,19 +198,21 @@
     // (« true ») ; sur téléphone — même seuil que main.css — elle n'est dépliée que quand elle porte .open.
     // aria-controls la désigne : on lui donne un id au besoin plutôt que de toucher chacune des pages.
     var mobile = window.matchMedia('(max-width: 768px)');
+    // Sur l'accueil, la colonne s'ouvre par-dessus le bandeau à toutes les largeurs, comme sur téléphone.
+    var replie = function () { return mobile.matches || document.body.classList.contains('page-accueil'); };
     if (!sidebar.id) { sidebar.id = 'sidebar-nav'; }
     stoggle.setAttribute('aria-controls', sidebar.id);
     var syncToggle = function () {
-      stoggle.setAttribute('aria-expanded', (!mobile.matches || sidebar.classList.contains('open')) ? 'true' : 'false');
+      stoggle.setAttribute('aria-expanded', (!replie() || sidebar.classList.contains('open')) ? 'true' : 'false');
     };
     var close = function () { sidebar.classList.remove('open'); overlay.classList.remove('show'); syncToggle(); };
     stoggle.addEventListener('click', function () { sidebar.classList.toggle('open'); overlay.classList.toggle('show'); syncToggle(); });
     overlay.addEventListener('click', close);
-    sidebar.addEventListener('click', function (e) { if (e.target.closest('a') && mobile.matches) close(); });
+    sidebar.addEventListener('click', function (e) { if (e.target.closest('a') && replie()) close(); });
     // Au clavier, Échap referme la colonne ouverte et rend le focus au bouton : sinon il faut la traverser en
     // entier pour en sortir (sans effet sur grand écran, où elle reste ouverte).
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && mobile.matches && sidebar.classList.contains('open')) { close(); stoggle.focus(); }
+      if (e.key === 'Escape' && replie() && sidebar.classList.contains('open')) { close(); stoggle.focus(); }
     });
     // La largeur peut changer (rotation, redimensionnement) : l'attribut suit le seuil.
     if (mobile.addEventListener) mobile.addEventListener('change', syncToggle);

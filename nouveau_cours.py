@@ -343,7 +343,6 @@ def renommer_identite(sortie, c):
     ]
 
     desc = ("%s. %s" % (titre, st)).strip().strip(".") + "."
-    accueil = os.path.normcase(os.path.abspath(os.path.join(sortie, "site", "index.html")))
     touchees = 0
     for f in sorted(glob.glob(os.path.join(sortie, "site", "**", "*.html"),
                               recursive=True)):
@@ -358,11 +357,8 @@ def renommer_identite(sortie, c):
         s = re.sub(r'<meta name="author" content="[^"]*">',
                    lambda m: '<meta name="author" content="%s">' % att(auteur), s)
 
-        # Le sous-titre de l'accueil : de la prose propre a la demonstration. Les autres pages gardent le leur —
-        # appliqué partout, il remplaçait celui du sommaire (et son fragment), des chapitres et des ressources ;
+        # Le sous-titre de l'accueil s'écrit dans son bandeau (accueil_squelette). Les autres pages gardent le leur :
         # les squelettes, les pages vidées et le glossaire reçoivent le leur (squelette_chapitre, purger_demo).
-        if st and os.path.normcase(os.path.abspath(f)) == accueil:
-            s = sous_titre(s, h(st))
 
         # L'en-tête : nom court et pictogramme du cours, à la place de ceux de la démonstration, dans sa langue.
         s = re.sub(r'(class="site-logo">.*?)<span>(?:Concevoir un cours|Design a course)</span>',
@@ -422,15 +418,64 @@ PAGES_DEMO = [
             "template (site/activites.html)."}),
 ]
 
-SECTION_ACCUEIL = """<section class="content-section">
-      <h2>%s</h2>
-      <p>%s</p>
-    </section>"""
-TEXTE_ACCUEIL = {
-    "fr": ("Ce que vous saurez faire",
-           "À rédiger : trois à cinq objectifs du cours, chacun avec un verbe d'action observable."),
-    "en": ("What you will be able to do",
-           "To be written: three to five course objectives, each with an observable action verb."),
+# L'accueil d'un cours créé (lot 3, 21 novembre 2026) : la structure de l'accueil de la démonstration, validé par
+# l'auteur, et des consignes « À rédiger » à la place de sa prose. Les chiffres, les boutons et les cartes des chapitres
+# viennent des fragments (referentiel.py, outils/accueil.py, course-data.js) ; « Ce que démontre ce site », propre à la
+# démonstration, n'y est pas. Une section ajoutée à l'accueil de la démonstration s'ajoute ici aussi.
+ACCUEIL = {
+    "fr": {
+        "aller": "Aller au contenu", "sommaire": "Sommaire", "voix": "Capsules d'accueil",
+        "pastille": "À rédiger : diplôme, bloc et module",
+        "cartes": [("Durée", "<!-- FRAGMENT:duree-totale -->…<!-- /FRAGMENT:duree-totale -->",
+                    "La lecture des <!-- FRAGMENT:nb-chapitres-lettres -->…<!-- /FRAGMENT:nb-chapitres-lettres -->"
+                    " chapitres"),
+                   ("Épreuve préparée", "À rédiger", "Les compétences et les critères visés"),
+                   ("Ce que vous produisez", "À rédiger", "Les livrables, et où les déposer"),
+                   ("Fil rouge", "À rédiger", "Le cas qui traverse tout le cours")],
+        "sections": [("parcours", "Le parcours",
+                      "À rédiger : une phrase qui présente l'enchaînement des chapitres."),
+                     ("fil-rouge", "Le fil rouge",
+                      "À rédiger : le cas, le projet ou le scénario qui traverse tout le cours."),
+                     ("livrables", "Ce que vous produisez",
+                      "À rédiger : les livrables du cours, leurs échéances et où les déposer."),
+                     ("evaluation", "L'évaluation",
+                      "À rédiger : comment l'apprenant est évalué (épreuve, QCM, critères).")],
+        "conseils": ("avant-de-commencer", "Avant de commencer",
+                     "À rédiger : trois ou quatre conseils pour bien commencer le cours."),
+        "exemple": "<strong>En %s</strong>, à rédiger : l'exemple propre à cette filière.",
+        "polycopie": ("Le polycopié", "Tout le cours en un seul livret, à lire hors ligne ; ses QR codes vous "
+                                      "ramènent au bon endroit du site."),
+        "podcasts": ("Les podcasts", "Des épisodes pour découvrir un chapitre avant de le lire, ou le réviser loin "
+                                     "de l'écran."),
+        "flottant": "Chapitre 1", "bienvenue": "Bienvenue dans le cours", "filiere": "En %s",
+        "pied": "Cours « %s » · Auteur : ",
+    },
+    "en": {
+        "aller": "Skip to content", "sommaire": "Contents", "voix": "Welcome audio",
+        "pastille": "To be written: degree, block and module",
+        "cartes": [("Duration", "<!-- FRAGMENT:duree-totale -->…<!-- /FRAGMENT:duree-totale -->",
+                    "Reading time for the <!-- FRAGMENT:nb-chapitres-lettres -->…<!-- /FRAGMENT:nb-chapitres-lettres -->"
+                    " chapters"),
+                   ("Assessment prepared", "To be written", "The competences and criteria covered"),
+                   ("What you produce", "To be written", "The deliverables, and where to submit them"),
+                   ("Through-line", "To be written", "The case that runs across the whole course")],
+        "sections": [("parcours", "The path", "To be written: one sentence presenting how the chapters follow on."),
+                     ("fil-rouge", "The through-line",
+                      "To be written: the case, project or scenario that runs across the whole course."),
+                     ("livrables", "What you produce",
+                      "To be written: the course deliverables, their deadlines and where to submit them."),
+                     ("evaluation", "Assessment",
+                      "To be written: how the learner is assessed (exam, quiz, criteria).")],
+        "conseils": ("avant-de-commencer", "Before you start",
+                     "To be written: three or four tips to start the course well."),
+        "exemple": "<strong>In %s</strong>, to be written: the example specific to this program.",
+        "polycopie": ("The course book", "The whole course in a single book, to read offline; its QR codes take you "
+                                         "back to the right spot on the website."),
+        "podcasts": ("The podcasts", "Episodes to discover a chapter before reading it, or to revise it away from "
+                                     "the screen."),
+        "flottant": "Chapter 1", "bienvenue": "Welcome to the course", "filiere": "In %s",
+        "pied": "Course \"%s\" · Author: ",
+    },
 }
 
 SOUS_TITRE_PAGE = {"fr": "À rédiger : une phrase qui présente cette page.",
@@ -490,6 +535,214 @@ NAV = {
     "qcm": {"fr": "QCM d'évaluation", "en": "Assessment quiz"},
     "cours": {"fr": "Sommaire du cours", "en": "Course contents"},
 }
+
+
+def typo_fr(t):
+    """L'espace insécable du français, sur un balisage sans script : avant : ; ? ! et dans « »."""
+    t = re.sub(r" ([:;?!])", "\u00a0\\1", t)
+    return t.replace("« ", "«\u00a0").replace(" »", "\u00a0»")
+
+
+def accueil_squelette(c, demo):
+    """L'accueil d'un cours créé, dans sa langue racine : la structure de celui de la démonstration (demo, son texte,
+    dont il reprend le script de tête de la filière), sa prose remplacée par des consignes."""
+    lg = racine(c)
+    A = ACCUEIL[lg]
+    titre, st = texte(c["titre"], lg), texte(c.get("sous_titre"), lg)
+    filieres = c.get("filieres") or []
+    multi = len(filieres) > 1
+    tete = re.search(r"<script>/\* La filière mémorisée.*?</script>", demo, re.S)
+    premier = c["chapitres"][0]["fichier"]
+
+    cartes = "\n".join('        <div class="info-card"><div class="label">%s</div><div class="value">%s</div>'
+                       '<div class="meta">%s</div></div>' % carte for carte in A["cartes"])
+    voix = ['    <div id="voix-bienvenue"></div>']
+    capsules = [("voix-bienvenue", "accueil-capsule-%s.mp3" % lg, A["bienvenue"])]
+    for f in (filieres if multi else []):
+        voix.append('    <div class="voix-filiere only-%s"><div id="voix-bienvenue-%s"></div></div>' % (f["id"], f["id"]))
+        capsules.append(("voix-bienvenue-%s" % f["id"], "accueil-capsule-%s-%s.mp3" % (f["id"], lg),
+                         A["filiere"] % f["code"]))
+
+    sections = []
+    for n, (ident, nom, consigne) in enumerate(A["sections"], 1):
+        bloc = ['  <section class="landing-section" id="%s" aria-labelledby="titre-%s">' % (ident, ident),
+                '    <div class="section-title"><span class="num">%02d</span><h2 id="titre-%s">%s</h2>'
+                '<span class="line" aria-hidden="true"></span></div>' % (n, ident, h(nom)),
+                '    <div class="section-voix" id="voix-section-%d"></div>' % n,
+                '    <p class="lead">%s</p>' % h(consigne)]
+        if ident == "parcours":
+            bloc.append("    <!-- FRAGMENT:cartes-chapitres --><!-- /FRAGMENT:cartes-chapitres -->")
+        if ident == "fil-rouge" and multi:
+            bloc += ['    <div class="exemple-filiere only-%s"><p>%s</p></div>' % (f["id"], A["exemple"] % h(f["code"]))
+                     for f in filieres]
+        bloc.append("  </section>")
+        sections.append("\n".join(bloc))
+        capsules.append(("voix-section-%d" % n, "accueil-section-%d-capsule-%s.mp3" % (n, lg), nom))
+
+    n = len(A["sections"]) + 1
+    ident, nom, consigne = A["conseils"]
+    supports = []
+    for cle, page, ico in (("livret", "polycopie.html", "📘"), ("podcasts", "podcasts.html", "🎙️")):
+        if bloc_actif(c, cle):
+            nom_s, texte_s = A["polycopie" if cle == "livret" else "podcasts"]
+            supports.append('        <a class="support-carte" href="%s"><span class="support-ico" aria-hidden="true">%s'
+                            '</span><span><strong>%s</strong><span class="support-texte">%s</span></span></a>'
+                            % (page, ico, h(nom_s), h(texte_s)))
+    conseils = ['  <section class="conseils" id="%s" aria-labelledby="titre-%s">' % (ident, ident),
+                '    <div class="landing-section conseils-inner">',
+                '      <div class="section-title"><span class="num">%02d</span><h2 id="titre-%s">%s</h2>'
+                '<span class="line" aria-hidden="true"></span></div>' % (n, ident, h(nom)),
+                '      <div class="section-voix" id="voix-section-%d"></div>' % n,
+                '      <p class="lead">%s</p>' % h(consigne)]
+    if supports:
+        conseils += ['      <div class="accueil-supports">'] + supports + ['      </div>']
+    conseils += ["    </div>", "  </section>"]
+    capsules.append(("voix-section-%d" % n, "accueil-section-%d-capsule-%s.mp3" % (n, lg), nom))
+
+    corps = """<body class="page-accueil">
+<a class="skip-link" href="#contenu">%(aller)s</a>
+
+<header class="site-header">
+  <div class="header-left">
+    <button class="sidebar-toggle" aria-label="Menu">☰</button>
+    <a href="index.html" class="site-logo"><span class="logo-icon">C<span class="acc">e</span></span>
+      <span>%(court_demo)s</span></a>
+  </div>
+  <div class="header-right">
+    <a href="cours.html" class="chapter-nav-btn"><span aria-hidden="true">🗂️</span> <span>%(sommaire)s</span></a>
+    <button class="theme-toggle" aria-label="Thème">🌙</button>
+  </div>
+</header>
+
+<aside class="sidebar">
+  <div class="sidebar-progress"><div class="sidebar-progress-bar"></div></div>
+  <div class="sidebar-content"><ul class="nav-tree" id="nav-tree"></ul></div>
+</aside>
+
+<main id="contenu" class="accueil">
+
+  <!-- Le bandeau. Pour colorer un mot du titre, entourez-le de <em>. Les boutons viennent de outils/accueil.py,
+       les chiffres du référentiel (outils/referentiel.py). -->
+  <section class="landing-header" id="presentation" aria-labelledby="titre-accueil">
+    <div class="landing-inner">
+      <p class="eyebrow"><span class="dot" aria-hidden="true"></span><span>%(pastille)s</span></p>
+      <h1 id="titre-accueil">%(titre)s</h1>
+      <p class="subtitle">%(st)s</p>
+      <!-- FRAGMENT:accueil-boutons --><!-- /FRAGMENT:accueil-boutons -->
+      <div class="info-grid">
+%(cartes)s
+      </div>
+    </div>
+  </section>
+
+  <section class="landing-section accueil-voix" id="bienvenue" aria-label="%(voix)s">
+%(voix_html)s
+  </section>
+
+%(sections)s
+
+%(conseils)s
+
+</main>
+
+<footer class="site-footer">
+  <p><span>%(pied)s</span><a href="#">%(auteur)s</a></p>
+  <p class="license"><span class="cc-badges">%(licence)s</span></p>
+</footer>
+
+<a class="fab-cours" data-chapitre="1" href="chapitres/%(premier)s"><span aria-hidden="true">🚀</span> <span>%(flottant)s</span> <span aria-hidden="true">→</span></a>
+""" % {"aller": A["aller"], "sommaire": A["sommaire"], "voix": A["voix"], "pastille": h(A["pastille"]),
+           "court_demo": "Concevoir un cours" if lg == "fr" else "Design a course", "titre": h(titre), "st": h(st),
+           "cartes": cartes, "voix_html": "\n".join(voix), "sections": "\n\n".join(sections),
+           "conseils": "\n".join(conseils), "pied": A["pied"] % h(titre), "auteur": h(c["auteur"]),
+           "licence": h(texte(c.get("licence"), lg).strip() or "MIT · CC BY 4.0"), "premier": premier,
+           "flottant": A["flottant"]}
+    if lg == "fr":
+        corps = typo_fr(corps)
+
+    tete_html = """<!DOCTYPE html>
+<html lang="%(lg)s" data-lang="%(lg)s" data-langues="%(lg)s" data-accent="%(palette)s">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>%(titre)s</title>
+<meta name="description" content="%(titre)s">
+<meta name="author" content="%(auteur)s">
+%(tete)s
+<link rel="stylesheet" href="assets/css/fonts.css">
+<link rel="stylesheet" href="assets/css/main.css">
+<link rel="stylesheet" href="assets/css/palettes.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/interactions.css">
+<link rel="stylesheet" href="assets/css/filieres.css">
+</head>
+
+""" % {"lg": lg, "palette": c["palette"], "titre": h(titre), "auteur": att(c["auteur"]),
+       "tete": tete.group(0) if tete else ""}
+
+    liste = ",\n".join("    { id: '%s', src: V + '%s', titre: %s }" % (i, nom, json.dumps(t, ensure_ascii=False))
+                       for i, nom, t in capsules)
+    scripts = """
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/ui-labels.js"></script>
+<script src="assets/js/course-data.js"></script>
+<script src="assets/js/nav-sections.js"></script>
+<script src="assets/js/navigation.js"></script>
+<script src="assets/js/accessibility.js"></script>
+<script src="assets/js/media-data.js"></script>
+<script src="assets/js/media.js"></script>
+<script src="assets/js/animations.js"></script>
+<script src="assets/js/interactions.js"></script>
+<script src="assets/js/playlist-data.js"></script>
+<script src="assets/js/playlist.js"></script>
+<script>
+/* Les capsules de l'accueil : celle d'accueil, celle de chaque filière, puis une en tête de chaque section. Chaque
+   piste se dépose sous ce nom dans assets/media/voix/ ; tant qu'elle manque, le lecteur l'annonce « bientôt
+   disponible ». Les textes : la fiche des capsules de l'accueil (prompts/14_capsules_audio.md). */
+(function () {
+  'use strict';
+  var V = 'assets/media/voix/';
+  var CAPSULES = [
+%s
+  ];
+  function monter() {
+    CAPSULES.forEach(function (c) {
+      var el = document.getElementById(c.id);
+      if (!el) return;
+      el.innerHTML = '';
+      RDCX.voice(c.id, { src: c.src, titre: c.titre, duree: c.duree || '', transcription: c.transcription || '' });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', monter);
+  else monter();
+})();
+</script>
+</body>
+</html>
+""" % liste
+    return tete_html + corps + scripts
+
+
+# Les boutons de l'accueil de la démonstration (le dépôt sur Livrables, son QCM) ne valent pas pour un cours créé : il
+# n'a que « Commencer le chapitre 1 » tant que son auteur n'en déclare pas (le bloc école les écrira, lot 2).
+BOUTONS_VIDES = ("# À remplir : le dépôt sur Livrables, les épreuves de chaque filière… (le bloc école les écrira).\n"
+                 "# Tant que la liste est vide, le bandeau n'a que « Commencer le chapitre 1 ».\n"
+                 "BOUTONS = []\n")
+
+
+def vider_boutons_accueil(sortie):
+    """BOUTONS = [] dans outils/accueil.py du cours ; vrai si le fichier a changé."""
+    p = os.path.join(sortie, "outils", "accueil.py")
+    if not os.path.isfile(p):
+        return False
+    t = io.open(p, encoding="utf-8").read()
+    neuf = re.sub(r"^BOUTONS = \[\n.*?^\]\n", lambda m: BOUTONS_VIDES, t, count=1, flags=re.S | re.M)
+    if neuf != t:
+        ecrire(p, neuf)
+    return neuf != t
 
 
 def recoudre_liens(sortie, c):
@@ -711,16 +964,14 @@ def purger_demo(sortie, c):
         os.remove(fiche)
         retires += 1
 
-    # l'accueil presentait les fonctionnalites du template, pas le cours
+    # l'accueil : la structure de celui de la démonstration, sans sa prose ni « Ce que démontre ce site » ; ses
+    # boutons (outils/accueil.py) repartent vides
     acc = os.path.join(sortie, "site", "index.html")
     if os.path.isfile(acc):
-        s = io.open(acc, encoding="utf-8").read()
-        neuf = re.sub(r'<section class="content-section">\s*<h2><span>(?:Ce que démontre ce site'
-                      r'|What this site demonstrates)</span></h2>.*?</section>',
-                      lambda m: SECTION_ACCUEIL % TEXTE_ACCUEIL[lg], s, count=1, flags=re.S)
-        if neuf != s:
-            ecrire(acc, neuf)
-            remplaces += 1
+        ecrire(acc, accueil_squelette(c, io.open(acc, encoding="utf-8").read()))
+        remplaces += 1
+    if vider_boutons_accueil(sortie):
+        remplaces += 1
 
     # l'atelier et les activites de la demonstration
     for rel, titre, consigne in PAGES_DEMO:

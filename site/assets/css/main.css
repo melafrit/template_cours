@@ -208,8 +208,9 @@ img { max-width: 100%; height: auto; }
 .header-left, .header-right { display: flex; align-items: center; gap: var(--space-4); }
 
 .site-logo { display: flex; align-items: center; gap: var(--space-3); font-family: var(--font-display); font-weight: 700; font-size: var(--fs-lg); color: var(--text-primary); }
+/* En flex et non en grille : une grille empilait les deux lettres du monogramme (« C » au-dessus de « e »). */
 .logo-icon {
-  display: grid; place-items: center; width: 38px; height: 38px; border-radius: var(--radius-md);
+  display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: var(--radius-md);
   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
   color: #fff; font-weight: 800; font-size: var(--fs-lg); box-shadow: var(--shadow-sm);
   border: 1px solid var(--accent);
@@ -304,7 +305,8 @@ img { max-width: 100%; height: auto; }
    ---------------------------------------------------------------- */
 .landing-header {
   position: relative; overflow: hidden; color: #fff;
-  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 55%, #1d4a73 100%);
+  /* Les --hero-* de palettes.css : toujours sombres, dans les deux thèmes, contrôlés par verifier_contraste.py. */
+  background: linear-gradient(135deg, var(--hero-1) 0%, var(--hero-2) 55%, var(--hero-3) 100%);
   padding: calc(var(--header-height) + var(--space-16)) var(--space-8) var(--space-16);
 }
 .landing-header::before {
@@ -324,25 +326,25 @@ img { max-width: 100%; height: auto; }
   background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.18); border-radius: var(--radius-full);
   font-family: var(--font-display); font-size: var(--fs-xs); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;
 }
-.eyebrow .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-light); box-shadow: 0 0 0 4px rgba(217,189,114,0.25); animation: pulse 2s infinite; }
+.eyebrow .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--hero-accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--hero-accent) 25%, transparent); animation: pulse 2s infinite; }
 @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
 .landing-header h1 { font-size: var(--fs-5xl); font-weight: 800; margin: var(--space-6) 0 var(--space-4); letter-spacing: -0.02em; color:#fff; }
-.landing-header h1 em { font-style: normal; color: var(--accent-light); }
+.landing-header h1 em { font-style: normal; color: var(--hero-accent); }
 .landing-header .subtitle { font-size: var(--fs-xl); color: rgba(255,255,255,0.86); max-width: 720px; }
 
 .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--space-4); margin: var(--space-10) 0 var(--space-8); }
 .info-card { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.16); border-radius: var(--radius-lg); padding: var(--space-5); backdrop-filter: blur(6px); }
-.info-card .label { font-family: var(--font-display); font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: 0.07em; color: var(--accent-light); font-weight: 600; }
+.info-card .label { font-family: var(--font-display); font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: 0.07em; color: var(--hero-accent); font-weight: 600; }
 .info-card .value { font-family: var(--font-display); font-size: var(--fs-2xl); font-weight: 700; margin-top: var(--space-2); color:#fff; }
-.info-card .meta { font-size: var(--fs-sm); color: rgba(255,255,255,0.7); margin-top: var(--space-1); }
+.info-card .meta { font-size: var(--fs-sm); color: rgba(255,255,255,0.78); margin-top: var(--space-1); }
 
 .header-cta {
   display: inline-flex; align-items: center; gap: var(--space-3); padding: var(--space-4) var(--space-8);
-  background: var(--accent); color: var(--primary-dark); border-radius: var(--radius-full);
+  background: var(--hero-accent); color: var(--hero-1); border-radius: var(--radius-full);
   font-family: var(--font-display); font-weight: 700; font-size: var(--fs-base); box-shadow: var(--shadow-md);
   transition: transform var(--duration-fast) var(--ease-spring);
 }
-.header-cta:hover { transform: translateY(-2px); color: var(--primary-dark); background: var(--accent-light); }
+.header-cta:hover { transform: translateY(-2px); color: var(--hero-1); background: color-mix(in srgb, var(--hero-accent) 78%, #fff); }
 
 /* sections accueil */
 .landing-section { max-width: 1180px; margin: 0 auto; padding: var(--space-16) var(--space-8); }
@@ -375,12 +377,12 @@ img { max-width: 100%; height: auto; }
 .eval-item p { color: var(--text-secondary); font-size: var(--fs-sm); }
 
 /* Conseils (section sombre) */
-.conseils { background: linear-gradient(135deg, var(--primary-dark), #15324f); color: #fff; }
+.conseils { background: linear-gradient(135deg, var(--hero-1), var(--hero-3)); color: #fff; }
 .conseils .section-title h2 { color: #fff; }
-.conseils .section-title .num { color: var(--accent-light); }
+.conseils .section-title .num { color: var(--hero-accent); }
 .tips-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-5); }
 .tip { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: var(--radius-lg); padding: var(--space-6); }
-.tip-num { font-family: var(--font-mono); color: var(--accent-light); font-weight: 700; }
+.tip-num { font-family: var(--font-mono); color: var(--hero-accent); font-weight: 700; }
 .tip h4 { color: #fff; margin: var(--space-2) 0; }
 .tip p { color: rgba(255,255,255,0.78); font-size: var(--fs-sm); }
 
@@ -405,11 +407,12 @@ img { max-width: 100%; height: auto; }
 .fab-cours {
   position: fixed; bottom: var(--space-6); inset-inline-end: var(--space-6); z-index: 95;
   display: inline-flex; align-items: center; gap: var(--space-3); padding: var(--space-4) var(--space-6);
-  background: var(--accent); color: var(--primary-dark); border-radius: var(--radius-full);
+  background: var(--hero-accent); color: var(--hero-1); border-radius: var(--radius-full);
+  border: 1px solid color-mix(in srgb, var(--hero-1) 22%, transparent);
   font-family: var(--font-display); font-weight: 700; box-shadow: var(--shadow-lg);
   transition: transform var(--duration-fast) var(--ease-spring);
 }
-.fab-cours:hover { transform: translateY(-3px) scale(1.02); color: var(--primary-dark); }
+.fab-cours:hover { transform: translateY(-3px) scale(1.02); color: var(--hero-1); }
 
 /* ----------------------------------------------------------------
    9. Utilitaires

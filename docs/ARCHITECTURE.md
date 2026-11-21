@@ -10,7 +10,7 @@ Le site (`site/`) est **100 % statique** : HTML + CSS + JavaScript *vanilla*, au
 
 ```
 site/
-├── index.html                  # Accueil (présentation + vitrine des fonctionnalités)
+├── index.html                  # Accueil : bandeau, capsules, sections numérotées, cartes des chapitres
 ├── cours.html                  # Sommaire : grille des chapitres + ressources
 ├── glossaire.html              # Glossaire bilingue filtrable (rendu JS depuis GLOSSARY)
 ├── activites.html              # Démos des 3 patrons d'activités de tools.js
@@ -140,8 +140,12 @@ tout ce qui rend un chapitre interactif.
 
 **`palettes.css`** complète `main.css` : il ne redéfinit que les huit variables
 d'identité (`--primary*`, `--accent*`), en thème clair **et** sombre, pour
-chacune des cinq palettes. Il se charge **après** `main.css`, et la palette se
-choisit par `data-accent` sur `<html>`.
+chacune des cinq palettes, et les quatre couleurs du bandeau de l'accueil
+(`--hero-1` à `--hero-3`, le fond de son dégradé, et `--hero-accent`), les mêmes
+dans les deux thèmes : le bandeau reste sombre. `outils/verifier_contraste.py`
+mesure chaque texte du bandeau contre chaque arrêt du dégradé, voile des cartes
+compris. Il se charge **après** `main.css`, et la palette se choisit par
+`data-accent` sur `<html>`.
 
 #### Le contrat des composants RDCX
 
@@ -206,7 +210,14 @@ annoncent (MP3 mono à 64 kbit/s, PDF, diapositives WebP), à partir des dépôt
 `Podcasts/`, jamais versionnés. La page du polycopié aussi (fragments
 `livret-couverture`, `livret-fiche`, `livret-auteur`) : leur source est
 `outils/polycopie/page.py`, qui lit `outils/livret.py` et l'inventaire
-`site/livret/livret.json` qu'écrit `outils/publier_polycopie.py`.
+`site/livret/livret.json` qu'écrit `outils/publier_polycopie.py`. L'accueil enfin
+(fragments `accueil-boutons` et `cartes-chapitres`) : sa source est
+`outils/accueil.py`. Les boutons du bandeau y sont déclarés (`BOUTONS` : une
+adresse externe s'ouvre dans un nouvel onglet, annoncé aux lecteurs d'écran) ;
+chaque carte de chapitre prend son titre dans `course-data.js`, sa durée dans
+`DUREES`, son texte dans le sous-titre de la page du chapitre, et son
+illustration dans `assets/media/illustrations/chapitre-<N>-carte.webp` si elle
+est déposée (l'emoji du chapitre sinon).
 
 **Source unique de vérité.** `course-data.js` pilote l'arbre de navigation *partout*. `nav-sections.js` reflète les `<h2 id>` réels de chaque chapitre : relancer `outils/generer_nav_sections.py` après tout ajout, retrait ou renommage de section (`--essai` dit s'il est à jour, sans rien écrire). Les `id` de questions (`Q01`…) doivent **correspondre** entre `questions.js` et `corrections.js`.
 
@@ -243,7 +254,8 @@ Les scripts sont chargés **sans `defer`/`async`**, en bas du `<body>`, donc dan
 - Le **bloc inline** d'instanciation/configuration vient après tous les `src`.
 
 **Variantes selon la page :**
-- **index/cours/glossaire/activites/atelier/about** : pas de `media.js` ni de tooltip de glossaire (sauf glossaire qui charge `glossaire-data.js` pour son rendu propre). Ex. minimal (accueil) : `i18n → course-data → navigation → accessibility → animations`. (`nav-sections.js` est ajouté quand on veut le sous-menu pliable dans la sidebar.)
+- **index.html** (l'accueil) : `i18n → ui-labels → course-data → nav-sections → navigation → accessibility → media-data → media → animations → interactions → playlist-data → playlist`, puis le `<script>` inline de ses capsules (`RDCX.voice`). Son `<body class="page-accueil">` replie le menu ☰ à toutes les largeurs.
+- **cours/glossaire/activites/atelier/about** : pas de `media.js` ni de tooltip de glossaire (sauf glossaire qui charge `glossaire-data.js` pour son rendu propre). Ex. minimal : `i18n → course-data → navigation → accessibility → animations`. (`nav-sections.js` est ajouté quand on veut le sous-menu pliable dans la sidebar.)
 - **glossaire.html** : `… glossaire-data.js` puis un `<script>` inline qui rend la grille filtrable.
 - **activites.html** : `… tools.js` puis un `<script>` inline avec les 3 configs.
 - **QCM (index / entrainement)** : `i18n → nav-sections → navigation → accessibility → qcm-core.js → questions.js [→ corrections.js] → <script inline>`. `corrections.js` n'est chargé que là où il faut corriger (entraînement, correction, dashboard), pas dans le QCM « examen ».

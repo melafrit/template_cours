@@ -141,9 +141,9 @@ la sortie doit annoncer :**
     arborescence copiée (16 entrées)
     langues-data.js : aucune page traduite pour l'instant
     CLAUDE.md écrit : les exigences de l'auteur s'appliquent à ce cours
-    contenu de demonstration retire : 26 media(s), 10 fichier(s) remis a l'etat de squelette
+    contenu de demonstration retire : 26 media(s), 11 fichier(s) remis a l'etat de squelette
     14 page(s) renommee(s) au nom du cours
-    6 fichier(s) recousu(s) sur les chapitres declares
+    5 fichier(s) recousu(s) sur les chapitres declares
     cours.html : 3 carte(s) de chapitre regeneree(s)
     filieres.css : 2 filière(s), à jour
     deploiement/destination.json écrit (cours « … »)
@@ -151,10 +151,11 @@ la sortie doit annoncer :**
     deploiement/config.json    copié en local, ignoré par Git — contenu non affiché
 
 Les chiffres des recousages et des cartes suivent le nombre de chapitres
-déclarés : une carte par chapitre, et un recousage par chapitre plus les trois
-pages qui les citent (accueil, sommaire, chapitre vitrine). Les 26 médias et les
-10 squelettes (dont l'accueil, l'atelier et les activités, vidés de leur
-démonstration), eux, ne bougent pas.
+déclarés : une carte par chapitre, et un recousage par chapitre plus les deux
+pages qui les citent (sommaire, chapitre vitrine). L'accueil, lui, naît avec ses
+liens. Les 26 médias et les
+11 squelettes (dont l'accueil et ses boutons, l'atelier et les activités, vidés
+de leur démonstration), eux, ne bougent pas.
 La ligne de `filieres.css` suit les filières de `cours.json` : « à jour » avec
 celles du modèle (ce sont celles de la démonstration), « écrit » avec d'autres.
 Une seule filière, ou aucune, ne donne pas de bascule.
@@ -195,6 +196,11 @@ Le cours créé embarque son propre lanceur. Ouvrez-le :
       démonstration.
 - [ ] Les chapitres sont des squelettes, appels de composants en commentaire.
 - [ ] Le bouton « commencer » de l'accueil mène au premier chapitre déclaré.
+- [ ] L'accueil a la structure de celui de la démonstration (bandeau, capsules,
+      sections numérotées, cartes des chapitres, bouton flottant), le titre et le
+      sous-titre de `cours.json`, des consignes « À rédiger » à la place de la
+      prose, et ni « Ce que démontre ce site », ni « Déposer mes livrables » :
+      `outils/accueil.py` repart avec `BOUTONS = []`.
 - [ ] Les filières de `cours.json` (EADL et ERIS dans l'exemple) donnent la bascule
       de l'en-tête et le bandeau « Quelle est votre filière ? » ; une filière
       choisie prend sa palette. Avec `"filieres": []`, ni bascule ni bandeau.

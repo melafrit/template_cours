@@ -7,7 +7,7 @@
 <link rel="icon" href="../favicon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
 <title>Designing an online course</title>
-<meta name="description" content="Bilingual demo course: designing an effective online course. Reusable course-site template · Mohamed EL AFRIT.">
+<meta name="description" content="Demo course: designing an effective online course. Reusable course-site template · Mohamed EL AFRIT.">
 <meta name="author" content="Mohamed EL AFRIT">
 <script>/* La filière mémorisée, posée avant l'affichage : voir assets/js/filiere.js */(function(){try{var d=document.documentElement,s=localStorage,p=location.pathname,b='',v='',q=new URLSearchParams(location.search).get('filiere');for(var i=0;i<s.length;i++){var k=s.key(i);if(k&&k.indexOf('tpl-filiere|')===0&&p.indexOf(k.slice(12))===0&&k.length-12>b.length){b=k.slice(12);v=s.getItem(k)||'';}}var c=v.split('|'),f=q||c[0];if(f&&/^[a-z0-9-]+$/.test(f)){d.setAttribute('data-filiere',f);if(c[1]&&f===c[0]){d.setAttribute('data-accent-cours',d.getAttribute('data-accent')||'');d.setAttribute('data-accent',c[1]);}}}catch(e){}})();</script>
 <link rel="stylesheet" href="../assets/css/fonts.css">
@@ -17,7 +17,9 @@
 <link rel="stylesheet" href="../assets/css/interactions.css">
 <link rel="stylesheet" href="../assets/css/filieres.css">
 </head>
-<body>
+
+<body class="page-accueil">
+<a class="skip-link" href="#contenu">Skip to content</a>
 
 <header class="site-header">
   <div class="header-left">
@@ -26,6 +28,7 @@
       <span>Design a course</span></a>
   </div>
   <div class="header-right">
+    <a href="cours.html" class="chapter-nav-btn"><span aria-hidden="true">🗂️</span> <span>Contents</span></a>
     <button class="theme-toggle" aria-label="Thème">🌙</button>
   </div>
 </header>
@@ -35,54 +38,138 @@
   <div class="sidebar-content"><ul class="nav-tree" id="nav-tree"></ul></div>
 </aside>
 
-<div class="main-wrapper">
-  <main class="main-content">
+<main id="contenu" class="accueil">
 
-    <div class="chapter-header">
-      <div class="chapter-meta">
-        <span class="chapter-badge">🎓 <span>Demo course</span></span>
+  <!-- Le bandeau. Sa pastille, son titre et son accroche sont la prose de la page ; ses boutons et ses chiffres
+       viennent des données, par fragments (outils/accueil.py, outils/referentiel.py, course-data.js). -->
+  <section class="landing-header" id="presentation" aria-labelledby="titre-accueil">
+    <div class="landing-inner">
+      <p class="eyebrow"><span class="dot" aria-hidden="true"></span><span>Template demo course · EADL and ERIS programs</span></p>
+      <h1 id="titre-accueil">Designing an <em>online</em> course</h1>
+      <p class="subtitle">This demo course teaches you how to build a high-quality online course, while showcasing, page after page, the features of the template. Its through-line is your own course: you build it in the workshop, chapter after chapter.</p>
+      <!-- FRAGMENT:accueil-boutons -->
+      <div class="landing-actions">
+        <a class="header-cta" data-chapitre="1" href="chapitres/01-cadrage.html"><span aria-hidden="true">🚀</span> <span>Start chapter 1</span> <span aria-hidden="true">→</span></a>
+        <a class="header-cta cta-externe cta-phare" href="https://livrables.elafrit.com/" target="_blank" rel="noopener noreferrer"><span class="cta-ico" aria-hidden="true">📥</span><span class="cta-textes"><span class="cta-titre">Submit my deliverables</span><span class="cta-url">livrables.elafrit.com <span aria-hidden="true">↗</span></span></span><span class="sr-only"> (opens in a new tab)</span></a>
+        <a class="header-cta cta-externe" href="QCM/index.html"><span class="cta-ico" aria-hidden="true">📝</span><span class="cta-textes"><span class="cta-titre">Assessment quiz</span><span class="cta-url">graded, certainty-based</span></span></a>
       </div>
-      <h1 class="chapter-title">
-        <span>Designing an effective online course</span>
-      </h1>
-      <p class="chapter-subtitle">
-        <span>This demo course teaches you how to build a high-quality online course, while showcasing, page after page, every feature of the template: navigation, audio players, slides, infographics, graded quiz, flashcards, interactive glossary, accessibility… and the <strong>language switch</strong> (click the 🌐 button at the top).</span>
-      </p>
-    </div>
-
-    <div class="callout tip">
-      <div class="callout-icon">🚀</div>
-      <div class="callout-content">
-        <h4><span>Where to start?</span></h4>
-        <p>
-          <span>Open <strong>Chapter 1</strong> to begin, or explore the resources (glossary, activities, quiz) from the left menu. Try the <strong>dark theme</strong> 🌙 and the <strong>accessibility</strong> panel ♿ too.</span>
-        </p>
-        <p style="margin-top:.75rem">
-          <a class="btn btn-primary" data-chapitre="1" href="chapitres/01-cadrage.html"><span>Start chapter 1 →</span></a>
-        </p>
+      <!-- /FRAGMENT:accueil-boutons -->
+      <div class="info-grid">
+        <div class="info-card"><div class="label">Duration</div><div class="value"><!-- FRAGMENT:duree-totale -->1 h 20<!-- /FRAGMENT:duree-totale --></div><div class="meta">Reading time for the <!-- FRAGMENT:nb-chapitres-lettres -->three<!-- /FRAGMENT:nb-chapitres-lettres --> chapters, workshop not included</div></div>
+        <div class="info-card"><div class="label">Assessment</div><div class="value">Graded quiz</div><div class="meta">Certainty-based marking, correction and dashboard</div></div>
+        <div class="info-card"><div class="label">What you produce</div><div class="value"><!-- FRAGMENT:val-livrables -->5<!-- /FRAGMENT:val-livrables --> deliverables</div><div class="meta">The complete skeleton of a course ready to deliver</div></div>
+        <div class="info-card"><div class="label">Through-line</div><div class="value">Your own course</div><div class="meta">Built in the workshop, chapter after chapter</div></div>
       </div>
     </div>
+  </section>
 
-    <section class="content-section">
-      <h2><span>What this site demonstrates</span></h2>
-      <div class="concept-grid">
-        <div class="concept-card"><div class="concept-card-header"><span class="concept-card-emoji">🌍</span><span class="concept-card-title"><span>Bilingual everywhere</span></span></div>
-          <p><span>An FR/EN switch acts on the whole site: pages, navigation, quiz, glossary.</span></p></div>
-        <div class="concept-card"><div class="concept-card-header"><span class="concept-card-emoji">🎧</span><span class="concept-card-title"><span>Per-chapter media</span></span></div>
-          <p><span>Podcast (custom player), PDF slides, infographic lightbox.</span></p></div>
-        <div class="concept-card"><div class="concept-card-header"><span class="concept-card-emoji">📝</span><span class="concept-card-title"><span>Graded quiz (CBM)</span></span></div>
-          <p><span>Certainty-based marking, correction and dashboard.</span></p></div>
-        <div class="concept-card"><div class="concept-card-header"><span class="concept-card-emoji">📖</span><span class="concept-card-title"><span>Interactive glossary</span></span></div>
-          <p><span>Terms highlighted in text, hover tooltip (definition + example).</span></p></div>
-        <div class="concept-card"><div class="concept-card-header"><span class="concept-card-emoji">♿</span><span class="concept-card-title"><span>Accessibility</span></span></div>
-          <p><span>Text size, reading-friendly font, reduced motion.</span></p></div>
-        <div class="concept-card"><div class="concept-card-header"><span class="concept-card-emoji">🧩</span><span class="concept-card-title"><span>Interactive activities</span></span></div>
-          <p><span>Flashcards and reusable patterns, adapt to your topic.</span></p></div>
+  <!-- Les capsules d'accueil : la commune, puis celle de chaque filière, qui attend le choix de la filière. -->
+  <section class="landing-section accueil-voix" id="bienvenue" aria-label="Welcome audio">
+    <div id="voix-bienvenue"></div>
+    <div class="voix-filiere only-eadl"><div id="voix-bienvenue-eadl"></div></div>
+    <div class="voix-filiere only-eris"><div id="voix-bienvenue-eris"></div></div>
+  </section>
+
+  <section class="landing-section" id="parcours" aria-labelledby="titre-parcours">
+    <div class="section-title"><span class="num">01</span><h2 id="titre-parcours">The path</h2><span class="line" aria-hidden="true"></span></div>
+    <div class="section-voix" id="voix-section-1"></div>
+    <p class="lead">Scoping, structuring, then creating the resources: the chapters follow the order in which a course is designed.</p>
+    <!-- FRAGMENT:cartes-chapitres -->
+      <nav class="cartes-chapitres" aria-label="The course chapters">
+        <a class="carte-chapitre" href="chapitres/01-cadrage.html">
+          <span class="cch-image absente" aria-hidden="true"><span class="cch-emoji">🎯</span></span>
+          <span class="cch-texte"><span class="cch-num">Chapter 1 · 30 min</span><span class="cch-titre">Scoping your course</span><span class="cch-resume">A badly scoped course is hard to repair: you notice on the third session, when it is too late to start over. This chapter sets out the three decisions to make before writing a single line. It also doubles as a showcase: every engine component is exercised here at least once.</span></span>
+        </a>
+        <a class="carte-chapitre" href="chapitres/02-structurer.html">
+          <span class="cch-image absente" aria-hidden="true"><span class="cch-emoji">🧱</span></span>
+          <span class="cch-texte"><span class="cch-num">Chapter 2 · 25 min</span><span class="cch-titre">Structuring the content</span><span class="cch-resume">Scoping settled for whom and to do what. What remains is deciding in which order, and in what pieces. This is where the difference is made between a course people finish and one they abandon at chapter three.</span></span>
+        </a>
+        <a class="carte-chapitre" href="chapitres/03-multimedia.html">
+          <span class="cch-image absente" aria-hidden="true"><span class="cch-emoji">🎬</span></span>
+          <span class="cch-texte"><span class="cch-num">Chapter 3 · 25 min</span><span class="cch-titre">Creating the resources</span><span class="cch-resume">Text, audio, diagram: three formats, three different intentions. Confusing them is expensive: in production time, and in lost attention. This chapter says which to choose, and why duplication is almost always a mistake.</span></span>
+        </a>
+      </nav>
+      <!-- /FRAGMENT:cartes-chapitres -->
+  </section>
+
+  <section class="landing-section" id="fil-rouge" aria-labelledby="titre-fil-rouge">
+    <div class="section-title"><span class="num">02</span><h2 id="titre-fil-rouge">The through-line</h2><span class="line" aria-hidden="true"></span></div>
+    <div class="section-voix" id="voix-section-2"></div>
+    <p class="lead">A through-line is a case, a project or a scenario that runs across the whole course. This demo course's through-line is yours: you build a course while reading a course about building one.</p>
+    <!-- Un exemple propre à chaque filière : le témoin du chapitre 1, tel que l'auteur l'a validé. -->
+    <div class="exemple-filiere only-eadl">
+      <p><strong>In EADL</strong>, the through-line can be an application that learners design chapter after chapter: every architecture notion applies to a real decision.</p>
+    </div>
+    <div class="exemple-filiere only-eris">
+      <p><strong>In ERIS</strong>, the through-line can be the infrastructure of a fictional company, which learners secure chapter after chapter: every notion applies to a device or a rule.</p>
+    </div>
+    <p class="mt-8"><a class="btn btn-primary" href="atelier.html">Open the capstone workshop <span aria-hidden="true">→</span></a></p>
+  </section>
+
+  <section class="landing-section" id="livrables" aria-labelledby="titre-livrables">
+    <div class="section-title"><span class="num">03</span><h2 id="titre-livrables">What you produce</h2><span class="line" aria-hidden="true"></span></div>
+    <div class="section-voix" id="voix-section-3"></div>
+    <p class="lead">By the end of the workshop, you submit <!-- FRAGMENT:val-livrables-lettres -->five<!-- /FRAGMENT:val-livrables-lettres --> deliverables. Together, they form the complete skeleton of a course ready to deliver.</p>
+    <ol class="liste-livrables">
+      <li><strong>A scoping sheet</strong>: the target audience, the prerequisites, the measurable objectives, the through-line.</li>
+      <li><strong>A plan</strong>: the modules and sequences of the course, with their estimated duration.</li>
+      <li><strong>One fully written chapter</strong>, illustrated, with a hook and a "key takeaways" box.</li>
+      <li><strong>A quiz</strong>, with the correct answer and a short justification for each question.</li>
+      <li><strong>A glossary</strong>: a clear definition and, where possible, an example for each term.</li>
+    </ol>
+    <p><a href="atelier.html">The deliverables in detail, with their success criteria, in the workshop <span aria-hidden="true">→</span></a></p>
+  </section>
+
+  <section class="landing-section" id="evaluation" aria-labelledby="titre-evaluation">
+    <div class="section-title"><span class="num">04</span><h2 id="titre-evaluation">Assessment</h2><span class="line" aria-hidden="true"></span></div>
+    <div class="section-voix" id="voix-section-4"></div>
+    <div class="evaluation">
+      <div class="eval-item"><span class="ico" aria-hidden="true">📝</span><div><h3>The graded quiz</h3><p>For each question, you choose an answer and your level of certainty. The correction is explained, question by question.</p></div></div>
+      <div class="eval-item"><span class="ico" aria-hidden="true">✅</span><div><h3>Checkpoints</h3><p>In the chapters, questions check your reading and explain each answer.</p></div></div>
+      <div class="eval-item"><span class="ico" aria-hidden="true">🃏</span><div><h3>Flashcards</h3><p>At the end of each chapter, review cards recap the essentials.</p></div></div>
+    </div>
+  </section>
+
+  <!-- Démonstration du gabarit : nouveau_cours.py retire cette section d'un cours créé. -->
+  <section class="landing-section" id="demonstration" aria-labelledby="titre-demonstration">
+    <div class="section-title"><span class="num">05</span><h2 id="titre-demonstration">What this site demonstrates</h2><span class="line" aria-hidden="true"></span></div>
+    <div class="section-voix" id="voix-section-5"></div>
+    <div class="concept-grid">
+      <div class="concept-card"><div class="concept-card-header"><span class="concept-card-emoji" aria-hidden="true">🌍</span><span class="concept-card-title">Three languages</span></div>
+        <p>French and English across the site, Arabic for chapter 1, right to left. Switching language keeps your reading position.</p></div>
+      <div class="concept-card"><div class="concept-card-header"><span class="concept-card-emoji" aria-hidden="true">🎓</span><span class="concept-card-title">Two programs</span></div>
+        <p>A course shared by EADL and ERIS: choose your program, and the examples specific to the other one fade away.</p></div>
+      <div class="concept-card"><div class="concept-card-header"><span class="concept-card-emoji" aria-hidden="true">🎧</span><span class="concept-card-title">Per-chapter media</span></div>
+        <p>An audio capsule at the top of each chapter, with its transcript, interactive diagrams and a podcast player.</p></div>
+      <div class="concept-card"><div class="concept-card-header"><span class="concept-card-emoji" aria-hidden="true">📝</span><span class="concept-card-title">Graded quiz (CBM)</span></div>
+        <p>Certainty-based marking, correction and dashboard.</p></div>
+      <div class="concept-card"><div class="concept-card-header"><span class="concept-card-emoji" aria-hidden="true">📖</span><span class="concept-card-title">Interactive glossary</span></div>
+        <p>Terms highlighted in the text, hover tooltip with a definition and an example.</p></div>
+      <div class="concept-card"><div class="concept-card-header"><span class="concept-card-emoji" aria-hidden="true">♿</span><span class="concept-card-title">Accessibility</span></div>
+        <p>Text size, reading-friendly font, reduced motion.</p></div>
+      <div class="concept-card"><div class="concept-card-header"><span class="concept-card-emoji" aria-hidden="true">🧩</span><span class="concept-card-title">Interactive activities</span></div>
+        <p>Flashcards and reusable patterns, adapt to your topic.</p></div>
+    </div>
+  </section>
+
+  <section class="conseils" id="avant-de-commencer" aria-labelledby="titre-conseils">
+    <div class="landing-section conseils-inner">
+      <div class="section-title"><span class="num">06</span><h2 id="titre-conseils">Before you start</h2><span class="line" aria-hidden="true"></span></div>
+      <div class="section-voix" id="voix-section-6"></div>
+      <div class="tips-grid">
+        <div class="tip"><div class="tip-num">01</div><h3>Start with chapter 1</h3><p>It sets out the three decisions to make before writing, and doubles as a showcase: every component is used in it.</p></div>
+        <div class="tip"><div class="tip-num">02</div><h3>Open the workshop alongside</h3><p>Each chapter of the demo course feeds directly into one deliverable of your project.</p></div>
+        <div class="tip"><div class="tip-num">03</div><h3>Adjust the display</h3><p>Dark theme, text size and font are set at the top of the page, in the accessibility panel.</p></div>
+        <div class="tip"><div class="tip-num">04</div><h3>Review before the quiz</h3><p>Each chapter's flashcards recap the essentials.</p></div>
       </div>
-    </section>
+      <div class="accueil-supports">
+        <a class="support-carte" href="polycopie.html"><span class="support-ico" aria-hidden="true">📘</span><span><strong>The course book</strong><span class="support-texte">The whole course in a single book, to read offline; its QR codes take you back to the right spot on the website.</span></span></a>
+        <a class="support-carte" href="podcasts.html"><span class="support-ico" aria-hidden="true">🎙️</span><span><strong>The podcasts</strong><span class="support-texte">Episodes to discover a chapter before reading it, or to revise it away from the screen.</span></span></a>
+      </div>
+    </div>
+  </section>
 
-  </main>
-</div>
+</main>
 
 <footer class="site-footer">
   <p><span>Demo course "Designing an online course" · Author: </span><a href="#">Mohamed EL AFRIT</a></p>
@@ -90,12 +177,56 @@
     <span> Code under MIT license, content under Creative Commons BY 4.0.</span> · <a href="about.html"><span>About the template</span></a></p>
 </footer>
 
+<a class="fab-cours" data-chapitre="1" href="chapitres/01-cadrage.html"><span aria-hidden="true">🚀</span> <span>Chapter 1</span> <span aria-hidden="true">→</span></a>
+
 <script src="../assets/js/i18n.js"></script>
 <script src="../assets/js/langues-data.js"></script>
 <script src="../assets/js/ui-labels.js"></script>
 <script src="../assets/js/course-data.js"></script>
+<script src="../assets/js/nav-sections.js"></script>
 <script src="../assets/js/navigation.js"></script>
 <script src="../assets/js/accessibility.js"></script>
+<script src="../assets/js/media-data.js"></script>
+<script src="../assets/js/media.js"></script>
 <script src="../assets/js/animations.js"></script>
+<script src="../assets/js/interactions.js"></script>
+<script src="../assets/js/playlist-data.js"></script>
+<script src="../assets/js/playlist.js"></script>
+<script>
+/* =================================================================
+   Les capsules de l'accueil : la capsule d'accueil, celle de chaque
+   filière (affichée une fois la filière choisie), puis une en tête de
+   chaque section. Le nom de chaque piste est fixé ici avant son
+   enregistrement (CLAUDE.md, § 2) : elle se déposera sous ce nom dans
+   assets/media/voix/. Tant qu'elle manque, le lecteur l'annonce
+   « bientôt disponible ». Transcriptions : la fiche des capsules de
+   l'accueil, quand elle sera écrite.
+   ================================================================= */
+(function () {
+  'use strict';
+  var V = '../assets/media/voix/';
+  var CAPSULES = [
+    { id: 'voix-bienvenue', src: V + 'accueil-capsule-en.mp3', titre: "Welcome to the demo course" },
+    { id: 'voix-bienvenue-eadl', src: V + 'accueil-capsule-eadl-en.mp3', titre: "In EADL: your through-line" },
+    { id: 'voix-bienvenue-eris', src: V + 'accueil-capsule-eris-en.mp3', titre: "In ERIS: your through-line" },
+    { id: 'voix-section-1', src: V + 'accueil-section-1-capsule-en.mp3', titre: "The path" },
+    { id: 'voix-section-2', src: V + 'accueil-section-2-capsule-en.mp3', titre: "The through-line" },
+    { id: 'voix-section-3', src: V + 'accueil-section-3-capsule-en.mp3', titre: "What you produce" },
+    { id: 'voix-section-4', src: V + 'accueil-section-4-capsule-en.mp3', titre: "Assessment" },
+    { id: 'voix-section-5', src: V + 'accueil-section-5-capsule-en.mp3', titre: "What this site demonstrates" },
+    { id: 'voix-section-6', src: V + 'accueil-section-6-capsule-en.mp3', titre: "Before you start" }
+  ];
+  function monter() {
+    CAPSULES.forEach(function (c) {
+      var el = document.getElementById(c.id);
+      if (!el) return;
+      el.innerHTML = '';
+      RDCX.voice(c.id, { src: c.src, titre: c.titre, duree: c.duree || '', transcription: c.transcription || '' });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', monter);
+  else monter();
+})();
+</script>
 </body>
 </html>
