@@ -21,6 +21,10 @@
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 21 novembre · le gabarit sans tirets, lot S3 : les pages de ressources
+> 104 tirets retirés des neuf pages de ressources, ponctuation seule ; le sous-titre du cours corrigé dans
+> `course-data.js`, d'où la page du polycopié le reprend. 175 → 69 dans `site/`. `617017d`. Détail : `JOURNAL.md`,
+> section du 21 novembre.
 > ### 🆕 21 novembre · le gabarit sans tirets, lot S2 : les chapitres 2 et 3
 > 74 tirets retirés de `02-structurer.html` et `03-multimedia.html` avec les choix du témoin ; les transcriptions des
 > capsules enregistrées ne changent que de ponctuation, dans la fiche. 249 → 175 dans `site/`. `14a944c`. Détail :
@@ -82,8 +86,8 @@
 ## 🛠️ Ouvert — dans le gabarit
 
 **Le gabarit sans tirets** (D55, en cours) : réécrire sans tiret cadratin tout ce que l'apprenant lit. Le témoin
-(chapitre 1, `ea1cc23`) est fait et son style validé ; `outils/verifier_tirets.py` reste rouge, **175 tirets dans
-18 fichiers de `site/`** (après les lots S1 et S2, le 21 novembre). La suite, en cinq lots (style du témoin, régénération des fichiers générés, `verifier_tirets`
+(chapitre 1, `ea1cc23`) est fait et son style validé ; `outils/verifier_tirets.py` reste rouge, **69 tirets dans
+8 fichiers de `site/`** (après les lots S1 à S3, le 21 novembre). La suite, en cinq lots (style du témoin, régénération des fichiers générés, `verifier_tirets`
 à 0 par lot) :
 
 - ✅ **S1 · les moteurs partagés** (fait le 21 novembre, `e8ea658`) : `ui-labels.js` (26), `interactions.js` (6), `podcasts.js` (6), `media.js` (2),
@@ -91,12 +95,12 @@
   « titre — texte » des points de schéma). S'y rattache, pour le livret, `outils/polycopie/rendu.py` (ligne 977, le
   même séparateur de points de schéma).
 - ✅ **S2 · les chapitres** (fait le 21 novembre, `14a944c`) : `02-structurer.html` (37), `03-multimedia.html` (37), sur le modèle du témoin.
-- **S3 — les pages de ressources** : `atelier` (40), `activites` (15), `about` (10), `polycopie` (10), `cours` (9),
+- ✅ **S3 · les pages de ressources** (fait le 21 novembre, `617017d`) : `atelier` (40), `activites` (15), `about` (10), `polycopie` (10), `cours` (9),
   `index` (6), `glossaire` (5), `polycopies` (5), `podcasts` (4).
 - **S4 — le QCM** : `QCM/index` (17), `corrections.js` (13), `dashboard` (11), `correction` (11), `entrainement` (7),
   `questions.js` (4), `qcm-core.js` (2). ⚠️ La signature SHA-256 des banques : toucher au texte d'une question change
   le CSV signé (skill `cours-qcm-cbm`) — à traiter avec soin.
-- **S5 — les données** : `course-data.js` (2), `flashcards-data.js` (4).
+- **S5 · les données** : `course-data.js` fait au lot S3 (`617017d`) ; reste `flashcards-data.js` (4).
 
 Puis, hors du champ de `verifier_tirets.py` (il ne lit que `site/`, html/js/css) : `CLAUDE.md` (30) et `prompts/`
 (~440, des `.md`), ce que lisent les futurs cours. `prompts/15_explications_quiz.md` est déjà fait (21 novembre,

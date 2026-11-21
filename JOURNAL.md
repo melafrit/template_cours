@@ -9,6 +9,30 @@
 
 ---
 
+## 21 novembre 2026 · le gabarit sans tirets, lot S3 : les pages de ressources (`617017d`)
+
+Les 104 tirets des neuf pages de ressources : `atelier` (40), `activites` (15), `about` (10), `polycopie` (10), `cours`
+(9), `index` (6), `glossaire` (5), `polycopies` (5) et `podcasts` (4). Ponctuation seule, avec les choix du témoin :
+deux-points pour un titre de section (« Checklist : mon chapitre est-il prêt à publier ? »), point médian pour un pied
+de page ou un « Source · Titre » (« Le code · MIT », « Chapitre 1 · Cadrer son cours »), parenthèses ou point-virgule
+pour une incise. Un titre d'onglet bilingue prend la barre oblique des chapitres (« Glossaire / Glossary »). Les mots des
+dix fichiers sont identiques, contrôle fait mot à mot. `verifier_tirets.py` passe de 175 à 69 tirets dans `site/`.
+Deux tableaux (l'atelier, puis les huit autres pages) ont été montrés à l'auteur avant application.
+
+Le sous-titre du cours, que la page du polycopié reprend dans un bloc généré, se corrige à sa source :
+`site/assets/js/course-data.js` (les deux tirets du lot S5) ; `generer_fragments.py` réécrit le bloc.
+
+### Ce qui a été vérifié
+
+- Les mots des dix fichiers, identiques ; `verifier_tirets.py` à 69 ; `generer_fragments` (le bloc du polycopié
+  réécrit), `generer_nav_sections`, `glossaire_emplois`, `generer_playlist` et `generer_medias` à jour ;
+  `verifier_i18n.py`, `verifier_liens.py` et `verifier_contraste.py` verts.
+- Au navigateur, les neuf pages en français et en anglais : aucun tiret visible (texte et attributs), titres d'onglet
+  à la barre oblique, console vide. Les libellés que les scripts ne montrent qu'à l'usage (verdicts de la checklist,
+  liste « Où en parle-t-on ? » du glossaire) sont relus dans le code, pas à l'écran.
+
+---
+
 ## 21 novembre 2026 · le gabarit sans tirets, lot S2 : les chapitres 2 et 3 (`14a944c`)
 
 Les 74 tirets de `02-structurer.html` et `03-multimedia.html` (37 chacun), avec les choix du témoin : deux-points pour
