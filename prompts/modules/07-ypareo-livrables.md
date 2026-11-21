@@ -20,7 +20,8 @@
 - [si `ypareo`] **Les cahiers de texte** (`docs/generate_cahier_de_texte.py`, un par
   format) : un bloc par séance, « CONTENU DE LA SÉANCE » et « TRAVAIL À FAIRE », en `.txt`
   et `.docx` ; une version « avec accès » (identifiants tirés de `docs/acces.json`) dans un
-  dossier ignoré par Git.
+  dossier ignoré par Git ; `--sans-acces --site ADRESSE` en donne une sans identifiants
+  (« communiqués par le formateur »), utile avant que `docs/acces.json` existe.
 - [si `livrables_app`] **Les classeurs d'import** de l'application Livrables
   (`import-application/`, au format de `ecosysteme.doc_import_app`).
 

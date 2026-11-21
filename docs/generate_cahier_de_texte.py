@@ -5,6 +5,8 @@ de scolarite (Ypareo ou autre).
 
     cp docs/acces.exemple.json docs/acces.json     # puis renseignez-le
     python3 docs/generate_cahier_de_texte.py
+    python3 docs/generate_cahier_de_texte.py --sans-acces --site https://exemple.org/mon-cours/
+        # sans docs/acces.json : identifiants « communiqués par le formateur »
 
 Produit docs/Cahier_de_texte.docx : une section par seance, separees par un
 saut de page. Chacune se copie d'un bloc, sans retouche.
@@ -16,9 +18,11 @@ Le document porte les identifiants du site de cours : ni lui ni
 docs/acces.json n'entrent dans le depot, le .gitignore les ecarte.
 """
 
+import argparse
 import io
 import json
 import os
+import re
 import sys
 
 from docx import Document
@@ -149,10 +153,13 @@ def bloc_acces(doc, acces):
     brut(p, acces["site"])
     p = doc.add_paragraph()
     p.paragraph_format.space_after = Pt(2)
-    brut(p, "Identifiant : ")
-    brut(p, acces["login"], bold=True)
-    brut(p, "   ·   Mot de passe : ")
-    brut(p, acces["motdepasse"], bold=True)
+    if acces.get("login") is None:          # --sans-acces : aucun identifiant dans le document
+        brut(p, "Identifiant et mot de passe : communiqués par le formateur.")
+    else:
+        brut(p, "Identifiant : ")
+        brut(p, acces["login"], bold=True)
+        brut(p, "   ·   Mot de passe : ")
+        brut(p, acces["motdepasse"], bold=True)
 
 
 # ---------------------------------------------------------------- document
@@ -203,19 +210,51 @@ def construire(acces):
     return SORTIE
 
 
+def site_public():
+    """L'adresse publique du site, quand le cours la tient déjà : la constante SITE du générateur du classeur
+    d'import de l'application Livrables (import-application/generer_import.py), s'il existe."""
+    chemin = os.path.join(RACINE, "import-application", "generer_import.py")
+    if not os.path.isfile(chemin):
+        return None
+    m = re.search(r'^SITE\s*=\s*"([^"]+)"', io.open(chemin, encoding="utf-8").read(), re.M)
+    return m.group(1) if m else None
+
+
 def main():
-    if not os.path.isfile(ACCES):
-        sys.exit("Fichier d'accès absent : %s\n"
-                 "    cp %s %s" % (ACCES, MODELE, ACCES))
-    with io.open(ACCES, encoding="utf-8") as f:
-        acces = json.load(f)
-    for cle in ("site", "login", "motdepasse", "qcm"):
-        if not str(acces.get(cle, "")).strip() or "a-remplir" in str(acces.get(cle)):
-            sys.exit("Fichier d'accès : « %s » n'est pas renseigné." % cle)
+    ap = argparse.ArgumentParser(description="Cahier de texte du cours, une séance par page.")
+    ap.add_argument("--sans-acces", action="store_true", dest="sans_acces",
+                    help="sans docs/acces.json : identifiants « communiqués par le formateur »")
+    ap.add_argument("--site", help="avec --sans-acces : l'adresse publique du site (par défaut, la constante "
+                                   "SITE de import-application/generer_import.py)")
+    ap.add_argument("--qcm", help="avec --sans-acces : l'adresse du QCM (par défaut, QCM/index.html du site)")
+    args = ap.parse_args()
+    if args.sans_acces:
+        # Le cahier se colle dans le logiciel de scolarité avant que docs/acces.json existe : les adresses
+        # sont publiques, les identifiants restent au formateur.
+        site = args.site or site_public()
+        if not site:
+            sys.exit("Adresse du site inconnue : python3 docs/generate_cahier_de_texte.py --sans-acces "
+                     "--site https://exemple.org/mon-cours/")
+        site = site if site.endswith("/") else site + "/"
+        acces = {"site": site, "login": None, "motdepasse": None, "qcm": args.qcm or site + "QCM/index.html"}
+    else:
+        if not os.path.isfile(ACCES):
+            sys.exit("Fichier d'accès absent : %s\n"
+                     "    cp %s %s\n"
+                     "ou, sans identifiants : python3 docs/generate_cahier_de_texte.py --sans-acces --site ADRESSE"
+                     % (ACCES, MODELE, ACCES))
+        with io.open(ACCES, encoding="utf-8") as f:
+            acces = json.load(f)
+        for cle in ("site", "login", "motdepasse", "qcm"):
+            if not str(acces.get(cle, "")).strip() or "a-remplir" in str(acces.get(cle)):
+                sys.exit("Fichier d'accès : « %s » n'est pas renseigné." % cle)
     chemin = construire(acces)
     print("  %s" % os.path.relpath(chemin, RACINE).replace(os.sep, "/"))
     print("  %d séances, une par page — à copier bloc par bloc dans votre logiciel de scolarité." % len(SEANCES))
-    print("  Ce document porte le mot de passe du site : il est exclu du dépôt.")
+    if args.sans_acces:
+        print("  Sans identifiants : la ligne dit qu'ils sont communiqués par le formateur.")
+    else:
+        print("  Ce document porte le mot de passe du site : il est exclu du dépôt.")
     return 0
 
 
