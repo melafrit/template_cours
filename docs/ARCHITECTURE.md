@@ -413,7 +413,7 @@ Variables principales (extraits réels) :
   --border: #233649;  /* … */
 }
 ```
-Pour **rebrander** : modifiez `--primary`, `--accent` et les `--bg-*`/`--text-*` dans **les deux** blocs. Pour changer les polices : modifiez `--font-display`/`--font-body` (et le `<link>` Google Fonts dans le `<head>` des pages, ou des polices locales pour le hors-ligne strict — voir §5).
+Pour **rebrander** : modifiez `--primary`, `--accent` et les `--bg-*`/`--text-*` dans **les deux** blocs. Pour changer les polices : modifiez `--font-display`/`--font-body`, déposez les fichiers woff2 de la nouvelle police dans `site/assets/fonts/` avec sa licence, et déclarez-les dans `site/assets/css/fonts.css` (voir §5).
 
 > **À ne pas redéfinir à la légère :** `--fs-scale` (piloté par le panneau ♿ : `html { font-size: calc(100% * var(--fs-scale,1)); }`) et la surcharge `html.a11y-dys` (police Atkinson Hyperlegible + interlignes). Ces deux mécanismes assurent l'accessibilité ; gardez-les fonctionnels.
 
@@ -425,8 +425,8 @@ Pour **rebrander** : modifiez `--primary`, `--accent` et les `--bg-*`/`--text-*`
 
 - Le site est **statique et sans build**. Tout l'état utilisateur (langue, thème, progression, réponses de QCM/flashcards, réglages d'accessibilité) vit dans **`localStorage`** ; aucun serveur n'est requis.
 - **Ouverture directe en `file://`** : prévue et gérée. `media.js` ne charge que les médias de sa liste (`media-data.js`) ; sans liste, il détecte le protocole : en `file://` il ne tente pas de `fetch HEAD` (qui échouerait) et active directement les aperçus ; le SHA-256 du QCM est une implémentation **autonome** (pas de `crypto.subtle`, qui est indisponible/instable hors contexte sécurisé).
-- **Dépendances réseau résiduelles** (non bloquantes) :
-  - **Google Fonts** (Sora, Source Serif 4, JetBrains Mono) via `<link>` dans chaque `<head>`, et **Atkinson Hyperlegible** chargée à la demande par `accessibility.js`. Sans réseau, le navigateur retombe sur les polices système (`system-ui`, Georgia…). Pour un **hors-ligne strict**, télécharger ces polices en local et remplacer les `<link>`/l'URL d'`accessibility.js`.
+- **Polices hébergées avec le site** : Sora (titres), Source Serif 4 (texte), JetBrains Mono (code), Atkinson Hyperlegible (lecture adaptée) et, pour l'arabe, Noto Naskh Arabic (texte) et Noto Sans Arabic (titres), en woff2 dans `site/assets/fonts/`, déclarées dans `site/assets/css/fonts.css`, que chaque page charge avant `main.css`. Le navigateur ne télécharge une police que si un texte de la page l'emploie, et seulement pour les caractères de sa plage (`unicode-range`) : Atkinson n'arrive qu'en mode lecture adaptée. `font-display: swap` affiche le texte aussitôt dans la police de repli, le temps que la police arrive. Toutes sont sous SIL Open Font License 1.1, jointe dans `site/assets/fonts/licences/` comme elle le demande.
+- **Dépendance réseau résiduelle** (non bloquante) :
   - **xlsx.full.min.js** (CDN) uniquement sur `QCM/dashboard/` (export Excel formateur). Le reste du module QCM fonctionne sans.
 - **Workflow QCM 100 % hors-ligne** : l'étudiant passe le QCM (`QCM/index.html`), télécharge un **CSV signé**, l'envoie au formateur ; la **correction** (`QCM/correction/`) et le **dashboard** (`QCM/dashboard/`) relisent ces CSV et **vérifient la signature** localement, sans aucun appel réseau (hormis le CDN xlsx du dashboard).
 

@@ -45,6 +45,11 @@ for flux in (sys.stdout, sys.stderr):
 class Handler(http.server.SimpleHTTPRequestHandler):
     """Sert la racine du dépôt, sans cache, et sans journaliser chaque fichier."""
 
+    # Sous Windows, Python ne connaît ni .woff2 ni .webp : il les servirait en application/octet-stream. Les
+    # navigateurs les affichent quand même, mais un serveur qui annonce le bon type évite de chercher un défaut ailleurs.
+    extensions_map = {**http.server.SimpleHTTPRequestHandler.extensions_map,
+                      ".woff2": "font/woff2", ".webp": "image/webp"}
+
     def __init__(self, *a, **kw):
         super().__init__(*a, directory=RACINE, **kw)
 

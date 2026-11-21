@@ -276,7 +276,7 @@ Pour **chaque** chapitre :
 - [ ] Licence du **contenu et des prompts** = CC BY 4.0, mention présente 🔴
 - [ ] Attribution à l'auteur (`{{AUTEUR}}`) visible (pied de page et/ou page dédiée)
 - [ ] Sources tierces créditées (textes, images, polices) ; droits d'usage vérifiés
-- [ ] Polices Google Fonts conformes à leurs licences
+- [ ] Chaque police de `site/assets/fonts/` accompagnée de sa licence (`licences/`), toute police ajoutée comprise
 - [ ] Mentions de licence reportées dans les exports (DOCX/PDF) le cas échéant
 
 ---

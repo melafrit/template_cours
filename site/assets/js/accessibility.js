@@ -4,8 +4,9 @@
 
    - Bouton ♿ dans l'en-tête -> petit panneau de réglages
    - Taille du texte (A- / A+) via mise à l'échelle de la racine (--fs-scale)
-   - Mode "lecture adaptée" (DYS) : police Atkinson Hyperlegible (chargée à la
-     demande) + interligne / espacement renforcés
+   - Mode "lecture adaptée" (DYS) : police Atkinson Hyperlegible (déclarée dans
+     fonts.css ; le navigateur ne la télécharge que dans ce mode) + interligne /
+     espacement renforcés
    - Lien d'évitement "Aller au contenu" (skip-link)
    - Réglages persistants (localStorage), motif identique au thème
    ================================================================= */
@@ -13,7 +14,6 @@
   var root = document.documentElement;
   var KEY = 'rdc-a11y';
   var SCALES = [0.9, 1.0, 1.1, 1.2, 1.3];
-  var ATKINSON = 'https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap';
 
   function load() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; } }
   function save(s) { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) {} }
@@ -22,17 +22,9 @@
   if (typeof state.scale !== 'number') state.scale = 1.0;
   if (typeof state.dys !== 'boolean') state.dys = false;
 
-  var atkinsonLoaded = false;
-  function ensureAtkinson() {
-    if (atkinsonLoaded || document.querySelector('link[data-atkinson]')) { atkinsonLoaded = true; return; }
-    var l = document.createElement('link');
-    l.rel = 'stylesheet'; l.href = ATKINSON; l.setAttribute('data-atkinson', '');
-    document.head.appendChild(l); atkinsonLoaded = true;
-  }
-
   function apply() {
     root.style.setProperty('--fs-scale', String(state.scale));
-    if (state.dys) { root.classList.add('a11y-dys'); ensureAtkinson(); }
+    if (state.dys) { root.classList.add('a11y-dys'); }
     else { root.classList.remove('a11y-dys'); }
   }
   apply(); // applique dès le chargement du script (limite le "flash")

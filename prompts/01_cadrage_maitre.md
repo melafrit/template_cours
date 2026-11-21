@@ -94,7 +94,7 @@ contexte) :
    quiz-classificateur à feedback, calculateur/simulateur, checklist à score, fiches-résumés).
    Propose celles qui collent au sujet.
 9. IDENTITÉ VISUELLE : palette de couleurs / ambiance (« sobre institutionnel » par défaut),
-   polices Google Fonts, logo éventuel.
+   polices (hébergées avec le site, jamais chargées d'un service en ligne), logo éventuel.
 10. RESSOURCES MULTIMÉDIA par chapitre attendues : podcast audio, slides PDF, infographie ?
     Intégration NotebookLM (fiche de cours + prompts infographie/slides/podcast) ?
 11. CONTRAINTES : accessibilité (RGAA / panneau de réglages : taille du texte, police
@@ -109,7 +109,7 @@ contredit les documents, signale-le avant de continuer.
 === RAPPEL DES FONCTIONNALITÉS DISPONIBLES DU TEMPLATE (pour m'aider à choisir) ===
 Présente-moi, de façon synthétique, ce que le template sait faire, pour que je sélectionne :
 - Site statique multi-pages HTML/CSS/JS vanilla, hors-ligne, thémable (variables CSS),
-  Google Fonts, design sobre institutionnel.
+  polices hébergées avec le site, design sobre institutionnel.
 - Bilingue FR/EN partout via bascule de langue (🌐) : pages, navigation, QCM, ateliers,
   glossaire.
 - Navigation latérale gauche avec sous-menu pliable des sections (ancres).
