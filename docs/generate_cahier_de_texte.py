@@ -136,7 +136,7 @@ def brut(par, texte, taille=10, bold=False):
     """Écrit le texte tel quel, sans interpréter les **.
 
     Indispensable pour le mot de passe : il contient lui-même des astérisques,
-    que le parseur de gras avalerait. « ISM**2023 » sortait « ISM2023 », et
+    que le parseur de gras avalerait. « exemple**42 » sortait « exemple42 », et
     personne n'aurait pu se connecter.
     """
     r = par.add_run(texte)
