@@ -145,6 +145,7 @@ la sortie doit annoncer :**
     14 page(s) renommee(s) au nom du cours
     6 fichier(s) recousu(s) sur les chapitres declares
     cours.html : 3 carte(s) de chapitre regeneree(s)
+    filieres.css : 2 filière(s), à jour
     deploiement/destination.json écrit (cours « … »)
     outils/elevenlabs.json     copié en local, ignoré par Git — contenu non affiché
     deploiement/config.json    copié en local, ignoré par Git — contenu non affiché
@@ -154,6 +155,9 @@ déclarés : une carte par chapitre, et un recousage par chapitre plus les trois
 pages qui les citent (accueil, sommaire, chapitre vitrine). Les 26 médias et les
 10 squelettes (dont l'accueil, l'atelier et les activités, vidés de leur
 démonstration), eux, ne bougent pas.
+La ligne de `filieres.css` suit les filières de `cours.json` : « à jour » avec
+celles du modèle (ce sont celles de la démonstration), « écrit » avec d'autres.
+Une seule filière, ou aucune, ne donne pas de bascule.
 Les deux dernières lignes disent « absent du template » si vos secrets n'y sont
 pas : c'est le cas d'un dépôt fraîchement cloné (§ 4).
 
@@ -191,6 +195,9 @@ Le cours créé embarque son propre lanceur. Ouvrez-le :
       démonstration.
 - [ ] Les chapitres sont des squelettes, appels de composants en commentaire.
 - [ ] Le bouton « commencer » de l'accueil mène au premier chapitre déclaré.
+- [ ] Les filières de `cours.json` (EADL et ERIS dans l'exemple) donnent la bascule
+      de l'en-tête et le bandeau « Quelle est votre filière ? » ; une filière
+      choisie prend sa palette. Avec `"filieres": []`, ni bascule ni bandeau.
 - [ ] Le QCM est réduit à deux questions génériques.
 - [ ] Le pied de page ne renvoie plus vers « À propos du template ».
 - [ ] **L'onglet du navigateur porte le titre de VOTRE cours**, sur chaque

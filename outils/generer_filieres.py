@@ -123,8 +123,8 @@ def main():
     if erreurs:
         print("filieres.css : NON écrit")
         return 1
-    print("filieres.css : %d filière(s) — %s" % (n, "à jour" if a_jour else ("PAS À JOUR — rien écrit" if args.essai
-                                                                          else "écrit")))
+    print("filieres.css : %d filière(s), %s" % (n, "à jour" if a_jour else ("PAS À JOUR (rien écrit)" if args.essai
+                                                                         else "écrit")))
     return 1 if (args.essai and not a_jour) else 0
 
 

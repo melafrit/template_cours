@@ -878,12 +878,37 @@ def valider(c):
                       % (", ".join(PALETTES), c.get("palette")))
 
     langues = c.get("langues") or []
-    if not langues or langues[0] not in RACINES:
+    if langues and langues[0] == "ar":
+        griefs.append("l'arabe ne peut pas encore être la langue racine : la démonstration n'a pas toutes ses pages en "
+                      "arabe (lot 4). Mettez-le après la racine : [\"fr\", \"ar\"].")
+    elif not langues or langues[0] not in RACINES:
         griefs.append("« langues » doit commencer par la langue racine du cours, %s : la démonstration n'existe "
                       "encore que dans ces langues." % " ou ".join("« %s »" % l for l in RACINES))
     for l in langues:
-        if l not in ("fr", "en"):
-            griefs.append("langue non gérée : %r (seuls fr et en le sont pour l'instant)" % l)
+        if l not in ("fr", "en", "ar"):
+            griefs.append("langue non gérée : %r (fr, en et ar le sont)" % l)
+
+    # Les filières d'un cours commun (décision de l'auteur du 21 novembre 2026) : une liste, vide ou d'une seule
+    # entrée pour un cours sans bascule. Chaque filière : id, code (le sigle affiché), palette, nom et court.
+    filieres = c.get("filieres") or []
+    if not isinstance(filieres, list):
+        griefs.append("« filieres » doit être une liste (vide pour un cours sans filière).")
+        filieres = []
+    vues = set()
+    for f in filieres:
+        f = f if isinstance(f, dict) else {}
+        ident = str(f.get("id", ""))
+        if not re.match(r"^[a-z0-9][a-z0-9-]*$", ident) or ident in vues:
+            griefs.append("filière %r : « id » doit être unique, en minuscules, chiffres et tirets." % ident)
+        vues.add(ident)
+        if not str(f.get("code", "")).strip():
+            griefs.append("filière %s : « code », le sigle affiché, est vide." % ident)
+        if f.get("palette") not in PALETTES:
+            griefs.append("filière %s : « palette » doit valoir l'une de %s (lu : %r)."
+                          % (ident, ", ".join(PALETTES), f.get("palette")))
+        for cle in ("nom", "court"):
+            if not str((f.get(cle) or {}).get(racine(c), "")).strip():
+                griefs.append("filière %s : « %s.%s » est vide." % (ident, cle, racine(c)))
     if len(set(langues)) != len(langues):
         griefs.append("« langues » nomme deux fois la même langue.")
 
@@ -933,15 +958,31 @@ def valider(c):
 
 
 # ---------------------------------------------------------------- écriture
+# Les libellés des ressources du menu, dans chaque langue (l'arabe d'après docs/LEXIQUE-ar.md).
+RESSOURCES = {
+    "polycopie.html": ("📘", "Polycopié", "Course book", "المطبوعة"),
+    "glossaire.html": ("📚", "Glossaire bilingue", "Bilingual glossary", "مسرد المصطلحات"),
+    "QCM/index.html": ("📝", "QCM d'évaluation", "Assessment quiz", "اختبار الاختيار من متعدّد"),
+    "polycopies.html": ("📄", "Fiches de synthèse", "Summary sheets", "البطاقات التلخيصية"),
+    "podcasts.html": ("🎙️", "Podcasts", "Podcasts", "البودكاست"),
+    "activites.html": ("🧩", "Activités interactives", "Interactive activities", "الأنشطة التفاعلية"),
+    "atelier.html": ("🧵", "Atelier fil rouge", "Capstone workshop", "ورشة المشروع التطبيقي"),
+}
+
+
 def course_data(c):
     """Le fichier de données du cours, source unique de la navigation."""
-    bi = "en" in (c.get("langues") or [])
+    langues = c.get("langues") or ["fr"]
 
     def paire(d, defaut=""):
+        """{ fr, en[, ar] } : l'anglais retombe sur le français si le cours ne l'a pas ; l'arabe ne s'écrit que si le
+        cours le déclare et que cours.json le donne."""
         fr = (d or {}).get("fr", defaut)
-        en = (d or {}).get("en", fr) if bi else fr
-        return '{ fr: %s, en: %s }' % (json.dumps(fr, ensure_ascii=False),
-                                       json.dumps(en, ensure_ascii=False))
+        en = (d or {}).get("en", fr) if "en" in langues else fr
+        texte = '{ fr: %s, en: %s' % (json.dumps(fr, ensure_ascii=False), json.dumps(en, ensure_ascii=False))
+        if "ar" in langues and (d or {}).get("ar"):
+            texte += ', ar: %s' % json.dumps(d["ar"], ensure_ascii=False)
+        return texte + ' }'
 
     lignes = [
         "/* =================================================================",
@@ -958,8 +999,21 @@ def course_data(c):
         "  subtitle: %s," % paire(c.get("sous_titre")),
         "  author: %s," % json.dumps(c["auteur"], ensure_ascii=False),
         "  license: %s," % paire(c.get("licence")),
-        "  chapters: [",
     ]
+    # Les filières : la bascule de filiere.js et le masquage de filieres.css (outils/generer_filieres.py), dès deux.
+    # Une seule s'écrit aussi, pour les pages qui la nomment : sans deux filières, ni bascule ni masquage.
+    filieres = c.get("filieres") or []
+    if filieres:
+        lignes.append("  filieres: [")
+        for f in filieres:
+            lignes.append("    { id: %s, code: %s, palette: %s%s,"
+                          % (json.dumps(f["id"]), json.dumps(f["code"], ensure_ascii=False), json.dumps(f["palette"]),
+                             ", rncp: %s" % json.dumps(str(f["rncp"])) if f.get("rncp") else ""))
+            lignes.append("      nom: %s," % paire(f.get("nom")))
+            lignes.append("      court: %s }," % paire(f.get("court")))
+        lignes[-1] = lignes[-1][:-1]
+        lignes.append("  ],")
+    lignes.append("  chapters: [")
     for ch in c["chapitres"]:
         lignes.append("    { num: %s, ico: %s, file: %s,"
                       % (json.dumps(str(ch.get("num", "")), ensure_ascii=False),
@@ -974,22 +1028,22 @@ def course_data(c):
     res = []
     b = c.get("blocs", {})
     if bloc_actif(c, "livret"):
-        res.append(("📘", "polycopie.html", "Polycopié", "Course book"))
+        res.append("polycopie.html")
     if b.get("glossaire", True):
-        res.append(("📚", "glossaire.html", "Glossaire bilingue", "Bilingual glossary"))
+        res.append("glossaire.html")
     if b.get("qcm", True):
-        res.append(("📝", "QCM/index.html", "QCM d'évaluation", "Assessment quiz"))
+        res.append("QCM/index.html")
     if b.get("polycopies", True):
-        res.append(("📄", "polycopies.html", "Fiches de synthèse", "Summary sheets"))
+        res.append("polycopies.html")
     if bloc_actif(c, "podcasts"):
-        res.append(("🎙️", "podcasts.html", "Podcasts", "Podcasts"))
+        res.append("podcasts.html")
     if b.get("activites", True):
-        res.append(("🧩", "activites.html", "Activités interactives", "Interactive activities"))
+        res.append("activites.html")
     if b.get("atelier", True):
-        res.append(("🧵", "atelier.html", "Atelier fil rouge", "Capstone workshop"))
-    for ico, href, fr, en in res:
-        lignes.append('    { ico: "%s", href: "%s", label: { fr: "%s", en: "%s" } },'
-                      % (ico, href, fr, en if bi else fr))
+        res.append("atelier.html")
+    for href in res:
+        ico, fr, en, ar = RESSOURCES[href]
+        lignes.append('    { ico: "%s", href: "%s", label: %s },' % (ico, href, paire({"fr": fr, "en": en, "ar": ar})))
     if lignes[-1].endswith(","):
         lignes[-1] = lignes[-1][:-1]
     lignes += ["  ]", "};", ""]
@@ -1300,6 +1354,10 @@ def main():
     print("  langues   : %s  (racine : %s%s)" % (", ".join(c["langues"]), langue,
                                                " ; les autres en pages jumelles, ensuite"
                                                if len(c["langues"]) > 1 else ""))
+    filieres = c.get("filieres") or []
+    print("  filières  : %s" % (" · ".join(f["code"] for f in filieres) + ("" if len(filieres) > 1
+                                                                          else "  (une seule : pas de bascule)")
+                                 if filieres else "aucune"))
     print("  chapitres : %d" % len(c["chapitres"]))
     for ch in c["chapitres"]:
         print("      %-3s %-28s %s" % (ch.get("num", "?"), ch["fichier"], ch["titre"]["fr"][:40]))
@@ -1485,8 +1543,8 @@ def main():
     _a_jour, nch, nsec = gns.generer(sortie)
     print("  nav-sections.js régénéré : %d chapitre(s), %d section(s)" % (nch, nsec))
 
-    # --- les filières : filieres.css suit celles de course-data.js (aucune à la création, tant que cours.json ne les
-    #     déclare pas) ; celui de la démonstration masquait ses filières EADL et ERIS.
+    # --- les filières : filieres.css suit celles que course_data() a écrites d'après cours.json (aucune règle sans
+    #     deux filières) ; celui de la démonstration masquait ses filières EADL et ERIS.
     r = subprocess.run([sys.executable, os.path.join(sortie, "outils", "generer_filieres.py")],
                        capture_output=True, text=True, encoding="utf-8")
     print("  %s" % ((r.stdout.strip().splitlines() or ["filieres.css : non écrit"])[-1]))
