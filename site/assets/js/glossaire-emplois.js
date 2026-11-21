@@ -8,6 +8,67 @@
    nombre d'emplois.
    ================================================================= */
 window.GLOSSARY_EMPLOIS = {
+ "ar": {
+  "g-fil-rouge": [
+   {
+    "a": "ch1-s4",
+    "n": 2,
+    "p": "chapitres/01-cadrage.html",
+    "page": "الفصل 1: تأطير المقرّر",
+    "section": "4. المشروع التطبيقي"
+   },
+   {
+    "a": "ch1-s7",
+    "n": 1,
+    "p": "chapitres/01-cadrage.html",
+    "page": "الفصل 1: تأطير المقرّر",
+    "section": "7. المراجعة"
+   }
+  ],
+  "g-objectif-pedagogique": [
+   {
+    "a": "ch1-s3",
+    "n": 1,
+    "p": "chapitres/01-cadrage.html",
+    "page": "الفصل 1: تأطير المقرّر",
+    "section": "3. أهداف يمكن التحقّق منها"
+   }
+  ],
+  "g-prerequis": [
+   {
+    "a": "ch1-s2",
+    "n": 1,
+    "p": "chapitres/01-cadrage.html",
+    "page": "الفصل 1: تأطير المقرّر",
+    "section": "2. من يتعلّم بالضبط؟"
+   }
+  ],
+  "g-public-cible": [
+   {
+    "a": "",
+    "n": 1,
+    "p": "chapitres/01-cadrage.html",
+    "page": "الفصل 1: تأطير المقرّر",
+    "section": ""
+   },
+   {
+    "a": "ch1-s7",
+    "n": 1,
+    "p": "chapitres/01-cadrage.html",
+    "page": "الفصل 1: تأطير المقرّر",
+    "section": "7. المراجعة"
+   }
+  ],
+  "g-syllabus": [
+   {
+    "a": "ch1-s2",
+    "n": 1,
+    "p": "chapitres/01-cadrage.html",
+    "page": "الفصل 1: تأطير المقرّر",
+    "section": "2. من يتعلّم بالضبط؟"
+   }
+  ]
+ },
  "en": {
   "g-accessibilite": [
    {

@@ -26,6 +26,9 @@ window.TPL_MIROIR = {
    "podcasts.html",
    "polycopie.html",
    "polycopies.html"
+  ],
+  "ar": [
+   "chapitres/01-cadrage.html"
   ]
  }
 };

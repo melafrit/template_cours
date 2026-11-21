@@ -5,18 +5,18 @@
    ================================================================= */
 window.RDC_FLASHCARDS = {
   "1": [
-    { front: { fr: "Qu'est-ce qu'un objectif pédagogique ?", en: "What is a learning objective?" },
-      back: { fr: "Ce que l'apprenant doit savoir **faire** à la fin, formulé avec un verbe d'action observable.", en: "What the learner must be able to **do** at the end, written with an observable action verb." }, ref: "" },
-    { front: { fr: "Pourquoi cadrer un cours avant de le produire ?", en: "Why scope a course before producing it?" },
-      back: { fr: "Pour **aligner** public, objectifs et contenu — et éviter de tout refaire ensuite.", en: "To **align** audience, objectives and content — and avoid reworking everything later." }, ref: "" },
-    { front: { fr: "Qu'est-ce qu'un fil rouge ?", en: "What is a through-line?" },
-      back: { fr: "Un **scénario ou projet continu** qui relie les chapitres et entretient la motivation.", en: "A **continuous scenario or project** that connects the chapters and sustains motivation." }, ref: "" },
-    { front: { fr: "Évaluation formative ou sommative ?", en: "Formative or summative assessment?" },
-      back: { fr: "**Formative** = feedback pendant l'apprentissage ; **sommative** = évaluation finale notée.", en: "**Formative** = feedback during learning; **summative** = graded final assessment." }, ref: "" },
-    { front: { fr: "Que fixe le public cible ?", en: "What does the target audience set?" },
-      back: { fr: "Le **niveau**, les **prérequis** et les **contraintes** qui orientent tout le cours.", en: "The **level**, **prerequisites** and **constraints** that drive the whole course." }, ref: "" },
-    { front: { fr: "Un bon objectif pédagogique est…", en: "A good learning objective is…" },
-      back: { fr: "**Mesurable et observable** (verbe d'action) — pas « comprendre » ni « connaître ».", en: "**Measurable and observable** (action verb) — not 'understand' or 'know'." }, ref: "" }
+    { front: { fr: "Qu'est-ce qu'un objectif pédagogique ?", en: "What is a learning objective?", ar: "ما الهدف البيداغوجي؟" },
+      back: { fr: "Ce que l'apprenant doit savoir **faire** à la fin, formulé avec un verbe d'action observable.", en: "What the learner must be able to **do** at the end, written with an observable action verb.", ar: "ما ينبغي أن يُحسن المتعلّم **فعله** في النهاية، مصوغًا بفعل إجرائي قابل للملاحظة." }, ref: "" },
+    { front: { fr: "Pourquoi cadrer un cours avant de le produire ?", en: "Why scope a course before producing it?", ar: "لماذا نؤطّر المقرّر قبل إنتاجه؟" },
+      back: { fr: "Pour **aligner** public, objectifs et contenu — et éviter de tout refaire ensuite.", en: "To **align** audience, objectives and content — and avoid reworking everything later.", ar: "لكي **نُوائم** بين الفئة المستهدفة والأهداف والمحتوى، ونتجنّب إعادة كلّ شيء لاحقًا." }, ref: "" },
+    { front: { fr: "Qu'est-ce qu'un fil rouge ?", en: "What is a through-line?", ar: "ما المشروع التطبيقي؟" },
+      back: { fr: "Un **scénario ou projet continu** qui relie les chapitres et entretient la motivation.", en: "A **continuous scenario or project** that connects the chapters and sustains motivation.", ar: "**سيناريو أو مشروع متواصل** يربط الفصول ويُبقي الدافعية حيّة." }, ref: "" },
+    { front: { fr: "Évaluation formative ou sommative ?", en: "Formative or summative assessment?", ar: "تقويم تكويني أم إجمالي؟" },
+      back: { fr: "**Formative** = feedback pendant l'apprentissage ; **sommative** = évaluation finale notée.", en: "**Formative** = feedback during learning; **summative** = graded final assessment.", ar: "**التكويني** تغذية راجعة أثناء التعلّم؛ **الإجمالي** تقييم ختامي منقَّط." }, ref: "" },
+    { front: { fr: "Que fixe le public cible ?", en: "What does the target audience set?", ar: "ماذا تحدّد الفئة المستهدفة؟" },
+      back: { fr: "Le **niveau**, les **prérequis** et les **contraintes** qui orientent tout le cours.", en: "The **level**, **prerequisites** and **constraints** that drive the whole course.", ar: "**المستوى** و**المكتسبات القبلية** و**القيود** التي توجّه المقرّر كلّه." }, ref: "" },
+    { front: { fr: "Un bon objectif pédagogique est…", en: "A good learning objective is…", ar: "الهدف البيداغوجي الجيّد هو…" },
+      back: { fr: "**Mesurable et observable** (verbe d'action) — pas « comprendre » ni « connaître ».", en: "**Measurable and observable** (action verb) — not 'understand' or 'know'.", ar: "**قابل للقياس وللملاحظة** (فعل إجرائي)، لا «الفهم» ولا «المعرفة»." }, ref: "" }
   ],
   "2": [
     { front: { fr: "Que contient un syllabus ?", en: "What does a syllabus contain?" },

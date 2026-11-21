@@ -8,49 +8,56 @@ window.RDC_SECTIONS = {
   {
    "t": {
     "fr": "1. Pourquoi cadrer avant de produire",
-    "en": "1. Why scope before producing"
+    "en": "1. Why scope before producing",
+    "ar": "1. لماذا نؤطّر قبل أن ننتج"
    },
    "id": "ch1-s1"
   },
   {
    "t": {
     "fr": "2. Qui apprend, exactement ?",
-    "en": "2. Who is learning, exactly?"
+    "en": "2. Who is learning, exactly?",
+    "ar": "2. من يتعلّم بالضبط؟"
    },
    "id": "ch1-s2"
   },
   {
    "t": {
     "fr": "3. Des objectifs qu'on peut vérifier",
-    "en": "3. Objectives you can verify"
+    "en": "3. Objectives you can verify",
+    "ar": "3. أهداف يمكن التحقّق منها"
    },
    "id": "ch1-s3"
   },
   {
    "t": {
     "fr": "4. Le fil rouge",
-    "en": "4. The through-line"
+    "en": "4. The through-line",
+    "ar": "4. المشروع التطبيقي"
    },
    "id": "ch1-s4"
   },
   {
    "t": {
     "fr": "5. Un arbitrage à faire",
-    "en": "5. A trade-off to settle"
+    "en": "5. A trade-off to settle",
+    "ar": "5. مفاضلة لا بدّ منها"
    },
    "id": "ch1-s5"
   },
   {
    "t": {
     "fr": "6. Le chapitre en un schéma",
-    "en": "6. The chapter in one diagram"
+    "en": "6. The chapter in one diagram",
+    "ar": "6. الفصل في مخطّط واحد"
    },
    "id": "ch1-s6"
   },
   {
    "t": {
     "fr": "7. Réviser",
-    "en": "7. Review"
+    "en": "7. Review",
+    "ar": "7. المراجعة"
    },
    "id": "ch1-s7"
   }
