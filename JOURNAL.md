@@ -9,6 +9,36 @@
 
 ---
 
+## 21 novembre 2026 · le gabarit sans tirets, lot S2 : les chapitres 2 et 3 (`14a944c`)
+
+Les 74 tirets de `02-structurer.html` et `03-multimedia.html` (37 chacun), avec les choix du témoin : deux-points pour
+un titre (onglet, podcast, point de contrôle, plan de l'exercice, légende de schéma), point médian pour un renvoi
+« Pour approfondir » et pour le pied de page, virgule, parenthèses ou deux-points pour une incise. Seule la
+ponctuation change : les mots des pages sont identiques, contrôle fait mot à mot. `verifier_tirets.py` passe de 249 à
+175 tirets dans `site/`, ces deux chapitres à 0. Le tableau des remplacements a été montré à l'auteur avant
+application.
+
+Quatre phrases appartiennent aux transcriptions des capsules enregistrées des chapitres 2 et 3 (FR et EN). Comme au
+témoin, seule leur ponctuation change, dans la fiche (`docs/prompts/Capsules_du_cours_demo.md`, blocs « Transcription
+affichée ») ; `synchroniser_capsules.py` les reporte dans les pages, les scripts enregistrés ne changent pas.
+
+### Piège rencontré
+
+Les renvois français portent des espaces insécables (après « § » et « Chapitre », avant « ? ») : un remplacement
+écrit avec des espaces ordinaires ne les trouve pas. Le script s'arrête avant d'écrire (un fichier n'est écrit que si
+toutes ses paires ont été trouvées), puis repart avec les bons caractères.
+
+### Ce qui a été vérifié
+
+- Les mots des deux pages et de la fiche, identiques avant et après ; `verifier_tirets.py` à 175 ;
+  `generer_fragments`, `generer_nav_sections`, `glossaire_emplois`, `generer_playlist` et `generer_medias` à jour ;
+  `verifier_i18n.py`, `verifier_liens.py` et `verifier_contraste.py` verts.
+- Au navigateur, les deux chapitres en français et en anglais : aucun tiret visible (texte et attributs), titre du
+  point de contrôle et légende du schéma au deux-points, console vide.
+- Pas fait : le livret du gabarit n'est pas régénéré.
+
+---
+
 ## 21 novembre 2026 · le gabarit sans tirets, lot S1 : les moteurs partagés (`e8ea658`)
 
 Les chaînes que l'apprenant lit dans les moteurs partagés, dont le chrome s'injecte dans toutes les pages :

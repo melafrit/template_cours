@@ -21,6 +21,10 @@
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 21 novembre · le gabarit sans tirets, lot S2 : les chapitres 2 et 3
+> 74 tirets retirés de `02-structurer.html` et `03-multimedia.html` avec les choix du témoin ; les transcriptions des
+> capsules enregistrées ne changent que de ponctuation, dans la fiche. 249 → 175 dans `site/`. `14a944c`. Détail :
+> `JOURNAL.md`, section du 21 novembre.
 > ### 🆕 21 novembre · le gabarit sans tirets, lot S1 : les moteurs partagés
 > `ui-labels.js`, `interactions.js`, `podcasts.js`, `media.js`, `quiz.js` et le séparateur des points de schéma du
 > livret, sans tiret : 290 → 249 dans `site/`. Les choix du cours de veille EADL (D36), validés par l'auteur sur le
@@ -78,15 +82,15 @@
 ## 🛠️ Ouvert — dans le gabarit
 
 **Le gabarit sans tirets** (D55, en cours) : réécrire sans tiret cadratin tout ce que l'apprenant lit. Le témoin
-(chapitre 1, `ea1cc23`) est fait et son style validé ; `outils/verifier_tirets.py` reste rouge, **249 tirets dans
-20 fichiers de `site/`** (après le lot S1, le 21 novembre). La suite, en cinq lots (style du témoin, régénération des fichiers générés, `verifier_tirets`
+(chapitre 1, `ea1cc23`) est fait et son style validé ; `outils/verifier_tirets.py` reste rouge, **175 tirets dans
+18 fichiers de `site/`** (après les lots S1 et S2, le 21 novembre). La suite, en cinq lots (style du témoin, régénération des fichiers générés, `verifier_tirets`
 à 0 par lot) :
 
 - ✅ **S1 · les moteurs partagés** (fait le 21 novembre, `e8ea658`) : `ui-labels.js` (26), `interactions.js` (6), `podcasts.js` (6), `media.js` (2),
   `quiz.js` (1). Priorité : leur chrome s'injecte dans toutes les pages (« Before reading — … », le séparateur
   « titre — texte » des points de schéma). S'y rattache, pour le livret, `outils/polycopie/rendu.py` (ligne 977, le
   même séparateur de points de schéma).
-- **S2 — les chapitres** : `02-structurer.html` (37), `03-multimedia.html` (37), sur le modèle du témoin.
+- ✅ **S2 · les chapitres** (fait le 21 novembre, `14a944c`) : `02-structurer.html` (37), `03-multimedia.html` (37), sur le modèle du témoin.
 - **S3 — les pages de ressources** : `atelier` (40), `activites` (15), `about` (10), `polycopie` (10), `cours` (9),
   `index` (6), `glossaire` (5), `polycopies` (5), `podcasts` (4).
 - **S4 — le QCM** : `QCM/index` (17), `corrections.js` (13), `dashboard` (11), `correction` (11), `entrainement` (7),
