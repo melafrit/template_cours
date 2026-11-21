@@ -38,17 +38,23 @@ Les lots, dans l'ordre validé :
   langues ✅ (`3d941a7` : le groupe « FR · EN · عربي », la liste `TPL_MIROIR`, le panneau ♿ traduit) ; la mise
   en page de droite à gauche et les outils à plusieurs langues ✅ (`737e23b`) ; le témoin arabe, le chapitre 1 ✅
   (`d301d41`, lexique `docs/LEXIQUE-ar.md`) ; la bascule de filière ✅ (`0f8a846` : `filiere.js` générique,
-  `filieres.css` généré, EADL en émeraude et ERIS en prune, le menu ☰ sur téléphone). Restent : les
-  paramètres filières et langues dans `cours.json` et `nouveau_cours.py` (les filières d'un cours, l'arabe
-  comme langue puis comme racine) ; les outils qui ignorent encore l'arabe (`hreflang.py`,
-  `generer_playlist.py`, `synchroniser_capsules.py`) ; la bascule sur les pages du QCM, qui ne chargent pas
-  les données du cours, et la liste de lecture par filière du cours EADL, si l'auteur les veut. Relevé en
-  chemin, à
-  traiter dans ce lot : `xlsx.full.min.js`, que le tableau de bord du QCM charge d'un CDN, contre le § 7
-  (l'héberger demande l'accord de l'auteur pour le téléchargement).
+  `filieres.css` généré, EADL en émeraude et ERIS en prune, le menu ☰ sur téléphone) ; les paramètres
+  filières et langues de `cours.json` ✅ (`f3cc344` : une, deux ou aucune filière, l'arabe après la langue
+  racine, le tout écrit dans le `course-data.js` du cours créé). Restent : l'arabe comme racine (lot 4) ;
+  les outils qui ignorent encore l'arabe (`hreflang.py`, `generer_playlist.py`,
+  `synchroniser_capsules.py`) ; la bascule sur les pages du QCM, qui ne chargent pas les données du cours,
+  et la liste de lecture par filière du cours EADL, si l'auteur les veut. Relevés en chemin, à traiter dans
+  ce lot : `xlsx.full.min.js`, que le tableau de bord du QCM charge d'un CDN, contre le § 7 (l'héberger
+  demande l'accord de l'auteur pour le téléchargement) ; la validation de `nouveau_cours.py`, qui exige les
+  titres en français même d'un cours de racine anglaise (`titre.fr`, `sous_titre.fr`, titres des
+  chapitres).
 - [ ] **2. Bloc école** : `seances.py`, cahier de texte Yparéo, classeur d'import Livrables, fragments Programme et
   Échéances.
-- [ ] **3. Page d'accueil**, avec les fiches de ses capsules de section.
+- [ ] **3. Page d'accueil**, avec les fiches de ses capsules de section. Redemandée par l'auteur le
+  21 novembre, avec un troisième modèle, le cours de veille technologique (`Cours_EADL_Veille_Techno`) :
+  traitée avant le bloc école, dont elle prévoit les liens (livrables, épreuves, programme). Relevé en
+  chemin : le texte d'exemple de `public.parcours` (`cours.exemple.json`), affiché sur l'accueil, porte un
+  tiret cadratin.
 - [ ] **4. Démo en trois langues** : le passage au site miroir est fait (avancé au lot 1, `59474ee`), et le
   chapitre 1 est en arabe (le témoin, `d301d41`). Restent : la relecture de ce témoin par un lecteur
   arabophone ; les quinze autres pages en arabe ; la transcription arabe de la capsule 1, écrite dans la page, à
@@ -78,11 +84,15 @@ Les lots, dans l'ordre validé :
 | Bilingue | ✅ site miroir `en/` (décision du 25 octobre), outillé, seul modèle que crée `nouveau_cours.py` depuis le 21 novembre ; `data-tr` décrit pour les cours qui l'ont déjà ; les libellés écrits en dur relevés par les cours passent par `ui-labels.js` (183 clés) |
 | Outils repris du cours d'architecture logicielle | ✅ **tous** : site miroir, interdits, référentiel et fragments, « Où en parle-t-on ? », page Podcasts, polycopié |
 | Corrections des cours de veille et d'avant-projet | ✅ les corrections génériques, en quatre lots et un correctif (31 octobre et 1er novembre) ; leurs nouveautés attendent la décision de l'auteur (ci-dessous) |
-| `nouveau_cours.py` | ✅ blocs `podcasts` et `livret` inactifs par défaut (`livret` demande `glossaire`) ; chaque page d'un cours créé garde son sous-titre ; la liste des médias repart vide |
+| `nouveau_cours.py` | ✅ blocs `podcasts` et `livret` inactifs par défaut (`livret` demande `glossaire`) ; chaque page d'un cours créé garde son sous-titre ; la liste des médias repart vide ; les filières et les langues de `cours.json` (21 novembre) |
 | Contrôles | ✅ dix (`CLAUDE.md` § 6) : les neuf lançables verts ; le dixième, `verifier_tirets.py` (ajouté le 6 novembre), rouge sur le gabarit lui-même — le lot « gabarit sans tirets » reste à faire. Plus ceux du site miroir, de la série de podcasts et du polycopié |
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 21 novembre · lot 1, les filières et les langues d'un cours
+> `cours.json` déclare les filières d'un cours (une, deux ou aucune) et ses langues (le français, l'anglais,
+> l'arabe après la langue racine) ; `nouveau_cours.py` les valide et les écrit dans le `course-data.js` du
+> cours créé, titres et libellés arabes compris. `f3cc344`. Détail : `JOURNAL.md`, section du 21 novembre.
 > ### 🆕 21 novembre · lot 1, la bascule de filière
 > Celle du cours EADL, rendue générique : les filières se déclarent dans `course-data.js`, `filiere.js` pose
 > la bascule (le menu ☰ sur téléphone) et le bandeau, `filieres.css` (généré) masque l'autre filière ; EADL en

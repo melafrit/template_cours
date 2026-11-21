@@ -9,6 +9,57 @@
 
 ---
 
+## 21 novembre 2026 · lot 1, les filières et les langues d'un cours (`f3cc344`)
+
+### Les décisions de l'auteur
+
+- **Les filières et les langues, deux paramètres du lancement** (décidé au cadrage) : un cours commun à deux
+  filières ou réservé à une seule ; une à trois langues parmi le français, l'anglais et l'arabe.
+- **Cette étape en dernière partie du lot 1**, choisie comme suite : le générateur de prompt (lot 8) en aura besoin.
+- **La page d'accueil, redemandée** en fin d'étape, avec un troisième modèle (le cours de veille technologique) :
+  elle passe avant le bloc école.
+
+### Le travail
+
+- `cours.json` a la clé `filieres` (identifiant, sigle, palette, numéro RNCP, nom et intitulé court par langue),
+  commentée dans `cours.exemple.json` avec EADL et ERIS ; `langues` accepte l'arabe après la langue racine.
+- `nouveau_cours.py` valide chaque filière (identifiant unique en minuscules, sigle, palette connue, nom et intitulé
+  court dans la langue racine) et refuse l'arabe comme racine tant que la démonstration n'a pas toutes ses pages en
+  arabe (lot 4), avec un seul motif.
+- Le `course-data.js` du cours créé reçoit ses filières, et une filière seule aussi : l'accueil pourra la nommer,
+  sans bascule. Les titres arabes de `cours.json` et les libellés arabes des ressources (ceux de la démonstration,
+  d'après le lexique) s'y écrivent quand le cours déclare l'arabe. `filieres.css` suit.
+- Le résumé du lancement nomme les filières. La ligne de sortie de `generer_filieres.py` perd son tiret cadratin.
+  La recette annonce la ligne de `filieres.css` et contrôle la bascule.
+
+### Ce qui a été vérifié
+
+Sur une copie du gabarit sans secret, trois cours générés : français, anglais et arabe à deux filières, français à
+une filière, anglais sans filière. Pour chacun, node lit `course-data.js` sans erreur, `filieres.css` est à jour, et
+il n'y a ni lien mort, ni dossier de langue, ni trace d'EADL ou d'ERIS hors des données. Quatre configurations
+fautives sont refusées avec leur motif (racine arabe, palette inconnue, identifiant en double, nom absent). Au
+navigateur, sur le cours d'essai, la bascule et le bandeau apparaissent ; ERIS choisi passe l'accent en prune, et le
+choix suit sur le chapitre squelette, sans erreur. Les contrôles du gabarit sont verts, sauf les 91 tirets du
+lot S4.
+
+### Ce qui n'est pas fait
+
+Les pages jumelles d'un cours ne naissent pas au lancement : elles viennent ensuite, avec `creer_jumelle.py`, en
+anglais comme en arabe. L'arabe comme racine attend le lot 4.
+
+### Relevé en chemin
+
+- Un cours de racine anglaise doit encore donner ses titres en français, que la validation exige : à corriger.
+- Le texte d'exemple de `public.parcours`, affiché sur l'accueil, porte un tiret cadratin : à traiter avec la page
+  d'accueil.
+
+### Pièges appris
+
+- **La sortie attendue dépend des données** : avec les filières du modèle, qui sont celles de la démonstration,
+  `filieres.css` est déjà « à jour » dans le cours créé ; il n'est « écrit » qu'avec d'autres filières.
+
+---
+
 ## 21 novembre 2026 · lot 1, la bascule de filière (`0f8a846`)
 
 ### Les décisions de l'auteur
