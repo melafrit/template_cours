@@ -9,6 +9,58 @@
 
 ---
 
+## 21 novembre 2026 · les objectifs toujours affichés, une seule copie du gabarit, le grand chantier cadré
+
+### Les objectifs toujours affichés (`7591b19`)
+
+**Demande de l'auteur** : les objectifs d'un chapitre restent toujours affichés. Le module « En-tête de chapitre
+pliable » d'`interactions.js` repliait par défaut les objectifs, le podcast, les slides et la capsule derrière le
+bandeau « Objectifs et ressources du chapitre ». Il est retiré, avec sa section d'`interactions.css`, ses six clés
+`entete.*` par langue dans `ui-labels.js`, l'attribut `data-hors-repli` des capsules des trois chapitres et cinq
+mentions de la documentation. Vérifié sur les trois chapitres, en français et en anglais, à 1280 et 375 px, en clair
+et en sombre ; console vide. Le cours de veille garde ce module, si un cours en a besoin un jour.
+
+### Une seule copie du gabarit (`95afe78`)
+
+Le dépôt avait deux copies de travail au même commit : `C:\projets\Cours\template_cours`, où tout le travail depuis
+le 26 octobre a été commité, et `C:\projets\template_cours`, qui ne recevait que des mises à jour mais gardait les
+secrets. **Décision de l'auteur** : une seule copie, `C:\projets\Cours\template_cours`. Les secrets y sont déplacés
+sans être ouverts (`outils/elevenlabs.json`, la version du 11 novembre, et `deploiement/config.json`), ignorés par
+git et cachés par `.rgignore`. Le prompt paramétrable désignait l'autre copie, et son chemin est corrigé. L'autre
+copie reste à supprimer par l'auteur.
+
+### Le cadrage du grand chantier
+
+**Demande de l'auteur** : une page d'accueil comme dans les cours, une documentation complète, des prompts optimisés,
+un générateur de prompt pour lancer un nouveau cours (audio, cahiers de texte, import Livrables, illustrations par
+Codex), un polycopié. Trois analyses en lecture seule des cours EADL/ERIS, CDWFS/ASRC et d'architecture logicielle
+(secrets, banques d'épreuve et correction protégée jamais ouverts ; les trois dépôts vérifiés intacts ensuite), puis
+treize questions, une à une. Les décisions de l'auteur et le plan en douze lots sont au registre (`TODO.md`, « Le
+grand chantier »). Les points saillants :
+
+- deux filières par défaut (EADL et ERIS, ou CDWFS et ASRC), ou une seule, au choix dans le prompt ;
+- trois langues possibles, dont l'arabe, en site miroir à N langues, et une démo qui les montre toutes ;
+- une capsule au début de chaque section, de l'accueil comme des chapitres ;
+- la source unique des séances pour Yparéo et Livrables ;
+- Codex lancé par Claude Code ;
+- un générateur local, jamais publié ;
+- six livrets.
+
+### Ce que l'analyse a relevé en plus
+
+- Les pages du gabarit chargent leurs polices depuis Google, contre le § 7 de `CLAUDE.md` : à corriger au lot 1.
+- Dans le gabarit public, un `deploiement/destination.json` serait suivi par git et publierait le chemin du serveur.
+  Il restera local.
+- La typographie : une espace ordinaire précède souvent le deux-points, qui peut alors commencer une ligne à 375 px
+  (chapitre 1). À proposer à l'auteur.
+
+### Piège appris
+
+- **Deux copies d'un même dépôt divergent en silence** : les secrets étaient dans l'une, le travail dans l'autre, et
+  le prompt désignait la première. Un gabarit n'a qu'une copie de travail.
+
+---
+
 ## 21 novembre 2026 · le gabarit sans tirets, lot S3 : les pages de ressources (`617017d`)
 
 Les 104 tirets des neuf pages de ressources : `atelier` (40), `activites` (15), `about` (10), `polycopie` (10), `cours`

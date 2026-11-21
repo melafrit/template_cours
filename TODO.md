@@ -7,6 +7,50 @@
 > journal ne partent dans un cours créé (`nouveau_cours.py` ne recopie de la racine que ce que liste `COPIER`) ; un
 > cours tient son propre `TODO.md`.
 
+## 🗺️ Le grand chantier · douze lots (cadré le 21 novembre)
+
+Demandé par l'auteur le 21 novembre 2026, d'après l'analyse des cours EADL/ERIS, CDWFS/ASRC et d'architecture
+logicielle ; cadré question par question (`JOURNAL.md`, section du 21 novembre). Chaque lot se termine par ses
+contrôles, l'accord pour commiter, puis l'accord séparé pour pousser ; l'audio, l'arabe et le polycopié commencent
+par un témoin.
+
+| Sujet | Décision de l'auteur |
+|---|---|
+| Page d'accueil | le modèle du cours d'architecture (bandeau, quatre cartes, capsule, sections numérotées, cartes Polycopié et Podcasts) et les cartes de chapitre illustrées d'EADL, adaptés aux filières |
+| Capsules | une au début de chaque section, de l'accueil et des chapitres, en plus des capsules d'accueil et d'ouverture ; par filière quand la section diffère ; une piste par langue |
+| Filières | un paramètre du prompt : deux (EADL et ERIS, ou CDWFS et ASRC) ou une seule, à préciser ; la bascule d'EADL (`filiere.js`, `filiere.css`) |
+| Langues | un paramètre du prompt : français, anglais, arabe, une à trois ; site miroir à N langues (`en/`, `ar/` de droite à gauche) ; le bouton FR · EN · AR garde la position de lecture |
+| Démo | deux filières (EADL et ERIS) et les trois langues |
+| École | `outils/seances.py`, source unique du cahier de texte Yparéo (avec ou sans accès), du classeur d'import Livrables (cinq feuilles, d'après `C:/projets/Livrables_App_Etudiants/docs/PROMPT-CLASSEUR-IA.md`) et des sections Livrables et Programme de l'accueil |
+| Codex | Claude Code vérifie `codex --version`, puis lance `codex exec` lui-même (dossier dédié, aucun commit côté Codex, conversion et contrôle ensuite) ; sans Codex, la procédure d'installation et de connexion, vérifiée en ligne, puis arrêt ; le kit d'illustration des cours |
+| Générateur | une page locale, jamais publiée, hors de `site/`, ouverte d'un double clic ; les valeurs habituelles dans un fichier local ignoré par git ; un prompt de lancement appuyé sur le tronc et les modules du gabarit, avec le dépôt GitHub, le répertoire et l'adresse de déploiement, et des commits au seul nom de l'auteur |
+| Prompts | le tronc refondu (pièges avec parade, décisions à ne pas redemander, critères d'acceptation, nouveaux paramètres) ; les modules langues, Codex et école ; les 16 prompts numérotés relus et rangés ; sans tirets cadratins |
+| Polycopié | six livrets (trois langues, deux filières), l'arabe de droite à gauche dans Word, un QR « Écouter » par section ; régénérés à la fin |
+| Documentation | un README refait, un guide par nouveauté, les modèles de journal de décisions et de CHANGELOG dans chaque cours créé, un contrôle des guides en retard |
+| Polices | hébergées dans le gabarit, dont une police arabe (défaut relevé : les pages chargent Google Fonts, contre le § 7) |
+| Apports | la correction des QCM expliquée et ses garde-fous (biais de longueur, aucune question de l'épreuve dans l'entraînement) ; Boîte à outils et Modèles pas à pas ; bibliographie vérifiée ; vitesse audio partagée et simulateurs verrouillés |
+| Mise en ligne | la démo sur `https://mohamedelafrit.com/teaching/cours_demo`, à la fin, après un essai à blanc |
+
+Les lots, dans l'ordre validé :
+
+- [ ] **1. Fondations** : polices locales ; outils du miroir à N langues et écriture de droite à gauche ; bascule de
+  filière ; paramètres filières et langues dans `cours.json` et `nouveau_cours.py`.
+- [ ] **2. Bloc école** : `seances.py`, cahier de texte Yparéo, classeur d'import Livrables, fragments Programme et
+  Échéances.
+- [ ] **3. Page d'accueil**, avec les fiches de ses capsules de section.
+- [ ] **4. Démo en trois langues** : du `data-tr` au site miroir, traduction arabe à faire relire, fiches des capsules
+  de section des chapitres.
+- [ ] **5. Codex** : le kit, puis les illustrations des cartes de chapitre et de l'accueil.
+- [ ] **6. Apports** : correction des QCM et garde-fous, Boîte à outils, Modèles pas à pas, bibliographie, petits
+  moteurs.
+- [ ] **7. Prompts** : tronc, modules, bibliothèque.
+- [ ] **8. Générateur de prompt.**
+- [ ] **9. Enregistrement audio** : `verifier_elevenlabs.py` d'abord, témoins, séries, quota suivi au registre.
+- [ ] **10. Polycopié** : six livrets, témoin d'abord.
+- [ ] **11. Documentation** et son contrôle.
+- [ ] **12. Mise en ligne** de la démo : répertoire distant à demander, `destination.json` gardé local (le dépôt est
+  public), essai à blanc, accord.
+
 ## 📍 Où en est le gabarit (1er novembre)
 
 | Élément | État |
@@ -21,6 +65,11 @@
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 21 novembre · les objectifs toujours affichés, une seule copie du gabarit, le grand chantier cadré
+> L'en-tête de chapitre pliable est retiré : les objectifs restent toujours affichés (`7591b19`). Le gabarit n'a
+> plus qu'une copie de travail, `C:\projets\Cours\template_cours`, où les secrets de l'autre copie sont rangés sans
+> être ouverts ; le chemin du prompt est corrigé (`95afe78`). Puis le cadrage, question par question, d'un chantier
+> en douze lots (ci-dessus). Détail : `JOURNAL.md`, section du 21 novembre.
 > ### 🆕 21 novembre · le gabarit sans tirets, lot S3 : les pages de ressources
 > 104 tirets retirés des neuf pages de ressources, ponctuation seule ; le sous-titre du cours corrigé dans
 > `course-data.js`, d'où la page du polycopié le reprend. 175 → 69 dans `site/`. `617017d`. Détail : `JOURNAL.md`,
@@ -167,6 +216,11 @@ Plus mineurs :
 
 ## 🧩 Candidats repris des cours, à décider avec l'auteur
 
+**Le 21 novembre, l'auteur a retenu dans le grand chantier** (ci-dessus) : les filières, les illustrations par Codex,
+l'école (séances, Yparéo, Livrables), la Boîte à outils, les Modèles pas à pas, la correction des QCM et ses
+garde-fous, la bibliographie, la vitesse audio partagée et les simulateurs verrouillés. Les autres candidats restent
+ci-dessous.
+
 Relevés le 31 octobre dans le cours de veille technologique (`C:\projets\Cours\Cours_CDWFS_ASRC_Veille_Techno`) et
 le cours d'étude d'avant-projet (`C:\projets\Cours\Cours_EADL_ERIS_Etude_Avant_Projet`). Ce sont des nouveautés, pas
 des défauts : chacune demande l'accord de l'auteur et, le plus souvent, un bloc de `nouveau_cours.py`.
@@ -263,12 +317,14 @@ anglais, rendue `<span lang="fr">` (`qcm/qcm_commun.py`).
 
 ## ❓ À décider avec l'auteur
 
-- L'ordre de la suite : les défauts ouverts du gabarit, les candidats des cours, la mise à niveau des cours
-  existants, ou un nouveau cours.
-- Une recette complète : un cours créé avec tous ses blocs, mené jusqu'au livret publié et à sa version en site
-  miroir, pour éprouver l'ensemble de bout en bout.
-- Une relecture d'ensemble de la documentation (README, modules, `CLAUDE.md`), qui a beaucoup changé depuis le
-  25 octobre.
+L'ordre de la suite, la recette complète et la relecture de la documentation sont tranchés par le grand chantier
+(lots 11 et 12). Restent :
+
+- le répertoire distant de la démo, au lot 12 (l'adresse publique est décidée) ;
+- la typographie française des pages : une espace ordinaire précède souvent le deux-points, qui peut alors commencer
+  une ligne à 375 px (relevé au chapitre 1) ; à proposer avant de corriger (§ 2) ;
+- à faire par l'auteur : supprimer la seconde copie `C:\projets\template_cours`, qui ne garde plus que deux anciens
+  fichiers ElevenLabs et un cache de polycopié.
 
 ## 📌 Conventions
 
