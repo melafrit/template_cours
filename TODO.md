@@ -21,6 +21,10 @@
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 21 novembre · le gabarit sans tirets, lot S1 : les moteurs partagés
+> `ui-labels.js`, `interactions.js`, `podcasts.js`, `media.js`, `quiz.js` et le séparateur des points de schéma du
+> livret, sans tiret : 290 → 249 dans `site/`. Les choix du cours de veille EADL (D36), validés par l'auteur sur le
+> tableau des remplacements. `e8ea658`. Détail : `JOURNAL.md`, section du 21 novembre.
 > ### 🆕 21 novembre · le prompt 15 sans tiret, `--ecraser` prudent
 > Le prompt 15 ne prescrit plus le tiret cadratin pour une incise (virgules ou parenthèses ; renvois « § 3 · Titre »),
 > et `nouveau_cours.py --ecraser` garde en place les fichiers locaux d'un cours (secrets, carnets d'envoi,
@@ -74,11 +78,11 @@
 ## 🛠️ Ouvert — dans le gabarit
 
 **Le gabarit sans tirets** (D55, en cours) : réécrire sans tiret cadratin tout ce que l'apprenant lit. Le témoin
-(chapitre 1, `ea1cc23`) est fait et son style validé ; `outils/verifier_tirets.py` reste rouge, **290 tirets dans
-25 fichiers de `site/`**. La suite, en cinq lots (style du témoin, régénération des fichiers générés, `verifier_tirets`
+(chapitre 1, `ea1cc23`) est fait et son style validé ; `outils/verifier_tirets.py` reste rouge, **249 tirets dans
+20 fichiers de `site/`** (après le lot S1, le 21 novembre). La suite, en cinq lots (style du témoin, régénération des fichiers générés, `verifier_tirets`
 à 0 par lot) :
 
-- **S1 — les moteurs partagés** : `ui-labels.js` (26), `interactions.js` (6), `podcasts.js` (6), `media.js` (2),
+- ✅ **S1 · les moteurs partagés** (fait le 21 novembre, `e8ea658`) : `ui-labels.js` (26), `interactions.js` (6), `podcasts.js` (6), `media.js` (2),
   `quiz.js` (1). Priorité : leur chrome s'injecte dans toutes les pages (« Before reading — … », le séparateur
   « titre — texte » des points de schéma). S'y rattache, pour le livret, `outils/polycopie/rendu.py` (ligne 977, le
   même séparateur de points de schéma).

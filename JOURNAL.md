@@ -9,6 +9,32 @@
 
 ---
 
+## 21 novembre 2026 · le gabarit sans tirets, lot S1 : les moteurs partagés (`e8ea658`)
+
+Les chaînes que l'apprenant lit dans les moteurs partagés, dont le chrome s'injecte dans toutes les pages :
+`ui-labels.js` (26), `interactions.js` (6), `podcasts.js` (6), `media.js` (2) et `quiz.js` (1), plus le séparateur des
+points de schéma du livret (`outils/polycopie/rendu.py`). `verifier_tirets.py` passe de 290 à 249 tirets dans `site/`,
+ces cinq moteurs à 0. Les commentaires du code ne changent pas.
+
+Pour les quatre moteurs que le cours de veille EADL partage avec le gabarit, ses choix déjà validés (D36 du cours) :
+une incise entre virgules (« Avant de lire, que pensez-vous ? »), un deux-points (« Lecture continue : toutes les
+étapes sont affichées. »), des parenthèses pour ce qui s'ajoute à un libellé (« (votre choix) », « (validée) »,
+« (chapitre maîtrisé) »), le point médian entre deux éléments (« Chapitre terminé · 5 / 6 », « Podcast · chapitre
+3 »). Pour `podcasts.js`, que le cours n'a pas, le point médian (« Diapositives · {e} »). Les points de schéma
+deviennent « Titre : texte », sur la page comme dans le livret (espace insécable avant le deux-points en français).
+Le tableau des 42 remplacements a été montré à l'auteur avant application.
+
+### Ce qui a été vérifié
+
+- `verifier_tirets.py` : 249 tirets dans 20 fichiers (les cinq moteurs à 0) ; `verifier_i18n.py`, `verifier_liens.py`
+  et `verifier_contraste.py` verts ; la syntaxe des cinq scripts (`node --check`) et de `rendu.py`.
+- Au navigateur, chapitre vitrine, en français et en anglais : aucun tiret visible (texte, titres, libellés pour
+  lecteurs d'écran, textes de saisie) ; le retour d'un point de contrôle affiche « (votre choix) » et « Non · la
+  bonne réponse est B » ; console vide.
+- Pas vérifié : le livret n'a pas été régénéré (une ligne changée dans `rendu.py`).
+
+---
+
 ## 21 novembre 2026 · deux défauts relevés par le cours de veille EADL
 
 ### Le prompt 15 ne prescrit plus le tiret cadratin (`a1a6a45`)
