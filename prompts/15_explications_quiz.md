@@ -1,6 +1,6 @@
-# Prompt — expliquer chaque proposition d'un quiz
+# Prompt : expliquer chaque proposition d'un quiz
 
-> **Quand l'utiliser** — Pour toute question à choix du cours : points de contrôle des
+> **Quand l'utiliser.** Pour toute question à choix du cours : points de contrôle des
 > chapitres (`RDCX.checkpoint`), mini-quiz de fiches, QCM d'entraînement. À lancer dès
 > qu'une question est écrite, ou en lot sur des questions existantes.
 
@@ -10,10 +10,10 @@
 
 Pour chaque question, l'étudiant doit lire :
 
-1. **pourquoi la bonne réponse est la bonne** — l'explication (`explication`) ;
-2. **pourquoi chacune des autres ne l'est pas** — une raison par proposition écartée
+1. **pourquoi la bonne réponse est la bonne** : l'explication (`explication`) ;
+2. **pourquoi chacune des autres ne l'est pas** : une raison par proposition écartée
    (`pourquoi`) ;
-3. **où approfondir** — deux à quatre renvois vers l'endroit exact du cours qui répond,
+3. **où approfondir** : deux à quatre renvois vers l'endroit exact du cours qui répond,
    ou vers une référence externe vérifiée (`approfondir`).
 
 **Pourquoi.** Une explication qui ne parle que de la bonne réponse laisse l'étudiant seul
@@ -26,9 +26,9 @@ renvoi vers « le chapitre 3 » ne sert à rien : il faut la section, le schéma
 { q: "Énoncé…", options: ["A…", "B…", "C…", "D…"], correct: 1,
   explication: "Pourquoi B est juste.",
   pourquoi: ["Pourquoi A ne convient pas.", "", "Pourquoi C…", "Pourquoi D…"],
-  approfondir: [["§ 3 — Le couplage", "#ch4-s3"],
-                ["Glossaire — couplage", "../glossaire.html"],
-                ["Martin Fowler — « Strangler Fig » (en anglais)", "https://martinfowler.com/bliki/StranglerFigApplication.html"]] }
+  approfondir: [["§ 3 · Le couplage", "#ch4-s3"],
+                ["Glossaire · couplage", "../glossaire.html"],
+                ["Martin Fowler · « Strangler Fig » (en anglais)", "https://martinfowler.com/bliki/StranglerFigApplication.html"]] }
 ```
 
 - `pourquoi` suit **l'ordre des propositions** ; la case de la bonne réponse reste **vide**.
@@ -52,7 +52,7 @@ l'explication existante, la page ou la fiche où elle se trouve).
 
 SOURCES : la page ou la fiche de la question, le chapitre qui enseigne la notion, et les
 documents de sources/. Tes explications doivent s'accorder avec elles et avec
-l'explication existante — ne jamais les contredire. Aucun fait, aucun chiffre nouveau :
+l'explication existante, sans jamais les contredire. Aucun fait, aucun chiffre nouveau :
 seulement ceux de la question ou du cours. Les interdits du cours s'appliquent :
 {{INTERDITS_DU_COURS}}.
 
@@ -62,16 +62,17 @@ POUR CHAQUE PROPOSITION ÉCARTÉE (« pourquoi ») :
   « C'est faux. » ; ne pas recopier la proposition mot pour mot en ouverture.
 - Le vocabulaire du cours ; clair pour un débutant ; au vouvoiement si besoin ; un exemple
   tiré du fil rouge quand il éclaire.
-- Typographie : guillemets « » ; jamais le guillemet droit " dans un texte ; tiret
-  cadratin — pour une incise ; espaces insécables avant : ; ? ! et dans « ».
+- Typographie : guillemets « » ; jamais le guillemet droit " dans un texte ; une incise
+  entre virgules ou entre parenthèses, jamais de tiret cadratin ni de tiret moyen entre
+  espaces ; espaces insécables avant : ; ? ! et dans « ».
 
-POUR LES RENVOIS (« approfondir ») — deux à quatre, choisis pour CETTE question :
+POUR LES RENVOIS (« approfondir »), deux à quatre, choisis pour CETTE question :
 1. D'abord l'endroit de la page qui répond, quand il existe (section, encadré, schéma).
 2. Puis l'endroit du cours où la notion s'enseigne : une section de chapitre
-   (« Chapitre 4, § 3 — Le couplage » → ../chapitres/04-….html#ch4-s3), un schéma, une
+   (« Chapitre 4, § 3 · Le couplage » → ../chapitres/04-….html#ch4-s3), un schéma, une
    fiche voisine, un simulateur, le glossaire.
 3. Au plus UNE référence externe par question, seulement parmi les adresses déjà
-   vérifiées de la bibliographie du cours ; libellé « Auteur — titre (en anglais) » si la
+   vérifiées de la bibliographie du cours ; libellé « Auteur · titre (en anglais) » si la
    ressource n'est pas en français. N'invente ni ne devine jamais une adresse.
 Seules les ancres qui existent réellement dans les pages sont permises : relève-les avant
 d'écrire (les id des h2, h3 et figures).
@@ -82,7 +83,7 @@ ancre qui existent (python3 outils/verifier_liens.py le contrôle) ; aucune adre
 externe nouvelle sans l'avoir ouverte.
 
 LIVRE : les données prêtes à coller, question par question, puis la liste des questions
-dont l'énoncé ou la réponse te paraît ambigu — signale-les, ne les modifie pas.
+dont l'énoncé ou la réponse te paraît ambigu. Signale-les, ne les modifie pas.
 ```
 
 ---
@@ -90,17 +91,18 @@ dont l'énoncé ou la réponse te paraît ambigu — signale-les, ne les modifie
 ## Exemple de ton
 
 Question : « Une équipe de trois développeurs doit livrer une première version en quatre
-mois. Quel style de départ est le plus raisonnable ? » — A microservices, un par
-fonction / **B monolithe modulaire** / C monolithe sans découpage interne / D un service
-par table de la base.
+mois. Quel style de départ est le plus raisonnable ? »
 
-- **A** — « Chaque service se déploie seul, possède sa base et dialogue par le réseau :
+Propositions : A microservices, un par fonction / **B monolithe modulaire** / C monolithe
+sans découpage interne / D un service par table de la base.
+
+- **A.** « Chaque service se déploie seul, possède sa base et dialogue par le réseau :
   pannes partielles, supervision distribuée, cohérence des données, un déploiement par
   service. À trois, les quatre mois y passeraient. »
-- **C** — « Le piège le plus tentant : même avantage de départ — un seul déploiement —,
+- **C.** « Le piège le plus tentant : même avantage de départ (un seul déploiement),
   mais sans frontières, tout finit par appeler tout. C'est la « grosse boule de boue », où
   la moindre modification casse un voisin. »
-- **D** — « C'est découper selon les données au lieu du métier : réserver une place
+- **D.** « C'est découper selon les données au lieu du métier : réserver une place
   toucherait la place, l'usager et le paiement, trois services qui s'appelleraient en
   chaîne à chaque requête. C'est le monolithe distribué. »
 
