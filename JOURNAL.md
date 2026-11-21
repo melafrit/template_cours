@@ -9,6 +9,39 @@
 
 ---
 
+## 21 novembre 2026 · deux correctifs repris du cours de veille EADL
+
+Nés le 20 novembre dans le cours « Veille technologique et innovation » (EADL), reportés à la demande de l'auteur.
+
+### Le texte posé sur les fonds primaires, en thème sombre (`8a7d0db`)
+
+En thème sombre, `--primary` s'éclaircit et le blanc posé dessus tombe sous 4,5 pour 1 (2,89 pour 1 en ardoise).
+Deux variables de `main.css`, `--on-primary` et `--primary-hover`, laissent le thème clair à l'identique et donnent en
+sombre la couleur inverse et un survol plus clair ; `components.css` s'en sert pour les boutons, les badges, le numéro
+du chapitre actif et le lecteur audio. Les dégradés vers `--primary` (en-têtes de tableau, logo, bandeau d'accueil)
+prennent en sombre un fond `--primary-dark`. `verifier_contraste.py` suit désormais les `var()`, ignore les
+commentaires et contrôle ces paires dans les cinq palettes. Les trois fichiers du gabarit étaient identiques à ceux du
+cours avant sa correction (D56 du cours) : le correctif s'applique tel quel, sans les feuilles du QCM propres au cours.
+
+### Le cahier de texte sans identifiants (`7710d98`)
+
+`python3 docs/generate_cahier_de_texte.py --sans-acces --site ADRESSE` produit le cahier avant que `docs/acces.json`
+existe : la ligne des accès dit « Identifiant et mot de passe : communiqués par le formateur. » L'adresse vient de
+`--site`, sinon de la constante `SITE` du classeur d'import (`import-application/generer_import.py`) quand le cours en
+a un ; celle du QCM, de `--qcm`, sinon `QCM/index.html` du site. Sans fichier d'accès, le message propose l'option.
+Adapté au gabarit : le cours lisait l'adresse dans son classeur d'import, que le gabarit n'a pas. Le module 07 le dit.
+
+### Ce qui a été vérifié
+
+- `verifier_contraste.py` : les cinq palettes conformes en clair et en sombre.
+- Au navigateur (chapitre vitrine et accueil) : thème clair inchangé, blanc sur `--primary` à 11,65 pour 1 ; en sombre,
+  `--on-primary` sur `--primary` à 5,37 pour 1, logo blanc sur `--primary-dark` à 6,90 pour 1 ; console vide.
+- Le cahier de texte, écrit hors du gabarit : refus clair sans adresse ; avec `--site`, la ligne « communiqués par le
+  formateur », aucun mot de passe, l'adresse complétée de sa barre finale ; adresse du QCM par défaut et explicite ;
+  sans fichier d'accès, le message propose l'option. `docs/acces.json` n'a jamais été ouvert.
+
+---
+
 ## 7 novembre 2026 — le gabarit sans tirets : le témoin (chapitre 1) et le plan de la série
 
 Deuxième étape des exigences du cours d'avant-projet (D55), après le polycopié : réécrire sans tiret cadratin tout ce

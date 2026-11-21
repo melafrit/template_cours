@@ -1,7 +1,7 @@
 # Registre des travaux — template_cours
 
 > Fichier de suivi du gabarit. **À lire en premier** à la reprise du travail ; « ce qui reste à faire » se répond à
-> partir de lui. Dernière mise à jour : **2026-11-06**
+> partir de lui. Dernière mise à jour : **2026-11-21**
 >
 > Ce qui a été fait, session par session et avec ses commits : [`JOURNAL.md`](JOURNAL.md). Ni ce registre ni le
 > journal ne partent dans un cours créé (`nouveau_cours.py` ne recopie de la racine que ce que liste `COPIER`) ; un
@@ -21,6 +21,10 @@
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 21 novembre · deux correctifs repris du cours de veille EADL
+> Le texte posé sur les fonds primaires reste lisible en thème sombre (`--on-primary`, `--primary-hover` ; vérificateur
+> de contraste qui suit les `var()`), et le cahier de texte se produit sans identifiants (`--sans-acces --site
+> ADRESSE`). `8a7d0db`, `7710d98`. Détail : `JOURNAL.md`, section du 21 novembre.
 > ### 🆕 7 novembre — le gabarit sans tirets : le témoin (chapitre 1) et le plan de la série
 > Le chapitre vitrine (`01-cadrage.html`, recopié en `_modele.html`) réécrit sans tiret cadratin, de 47 à 0 ; style
 > validé par l'auteur (incise → virgule / parenthèses / deux-points ; renvoi « Source — Titre » → « · » ; titres de
