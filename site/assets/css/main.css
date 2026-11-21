@@ -49,6 +49,8 @@
   --text-secondary: #3c4a5c;
   --text-muted: #6b7891;
   --text-inverse: #f5f7fa;
+  --on-primary: #fff;
+  --primary-hover: var(--primary-dark);
   --text-link: #2d5d8a;
   --text-code: #cdd9e8;
 
@@ -134,6 +136,8 @@
   --text-secondary: #aebbcc;
   --text-muted: #7c8aa0;
   --text-inverse: #0a1422;
+  --on-primary: var(--text-inverse);
+  --primary-hover: var(--primary-light);
   --text-link: #6699cc;
   --text-code: #cdd9e8;
 
@@ -225,7 +229,7 @@ img { max-width: 100%; height: auto; }
   font-family: var(--font-display); font-size: var(--fs-sm); font-weight: 500; color: var(--text-secondary);
   background: var(--bg-card); transition: all var(--duration-fast); white-space: nowrap;
 }
-.chapter-nav-btn:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+.chapter-nav-btn:hover { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
 .chapter-nav-btn.disabled { opacity: 0.4; pointer-events: none; }
 
 /* ----------------------------------------------------------------
@@ -263,7 +267,7 @@ img { max-width: 100%; height: auto; }
 .nav-link:hover { background: var(--bg-sidebar-hover); color: var(--primary); }
 .nav-link.active { background: var(--bg-card); color: var(--primary); border-left-color: var(--accent); font-weight: 600; box-shadow: var(--shadow-sm); }
 .nav-link .nav-num { display: grid; place-items: center; min-width: 26px; height: 26px; border-radius: var(--radius-sm); background: var(--primary-glow); color: var(--primary); font-size: var(--fs-xs); font-weight: 700; }
-.nav-link.active .nav-num { background: var(--primary); color: #fff; }
+.nav-link.active .nav-num { background: var(--primary); color: var(--on-primary); }
 .nav-link .nav-ico { font-size: var(--fs-base); }
 
 /* Sous-menu pliable des sections (navigation.js + nav-sections.js) */

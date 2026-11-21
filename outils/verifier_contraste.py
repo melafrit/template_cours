@@ -66,7 +66,10 @@ def bloc(texte, selecteur):
     if not m:
         return {}
     d = {}
-    for ligne in m.group(1).split(";"):
+    # Un commentaire glissé entre deux déclarations (« éclairci : … 3,74:1 ») faisait lire « /* éclairci » comme
+    # un nom de variable, et la déclaration qui le suivait disparaissait du contrôle.
+    corps = re.sub(r"/\*.*?\*/", "", m.group(1), flags=re.S)
+    for ligne in corps.split(";"):
         if ":" in ligne:
             k, v = ligne.split(":", 1)
             d[k.strip()] = v.strip()
@@ -99,6 +102,10 @@ EPREUVES = [
     ("titre en --primary sur la page",      "--primary",     "--bg-page",  4.5),
     ("titre en --primary sur une carte",    "--primary",     "--bg-card",  4.5),
     ("texte sur bouton --primary",          "--text-inverse", "--primary",  4.5),
+    ("texte --on-primary sur --primary",    "--on-primary",  "--primary",  4.5),
+    ("bouton survolé (--primary-hover)",    "--on-primary",  "--primary-hover", 4.5),
+    ("dégradé jusqu'à --primary-light",     "--on-primary",  "--primary-light", 4.5),
+    ("blanc sur --primary-dark (en-têtes)", "--blanc",       "--primary-dark", 4.5),
     ("--accent en texte large sur la page", "--accent",      "--bg-page",  3.0),
     ("--accent en bordure sur une carte",   "--accent",      "--bg-card",  3.0),
     ("--primary-light sur la page",         "--primary-light", "--bg-page", 3.0),
@@ -116,8 +123,15 @@ def main():
         print("\n%s" % nom)
         print("-" * len(nom))
         for theme, base in (("clair", clair), ("sombre", sombre)):
-            vars_ = dict(base)
+            vars_ = {"--blanc": "#ffffff"}
+            vars_.update(base)
             vars_.update(pals[nom][theme])
+            # Une variable peut en désigner une autre (--on-primary : var(--text-inverse)) : on la suit.
+            for _ in range(4):
+                for k, v in list(vars_.items()):
+                    r = re.fullmatch(r"var\((--[\w-]+)\)", v.strip())
+                    if r and r.group(1) in vars_:
+                        vars_[k] = vars_[r.group(1)]
             for libelle, avant, fond, seuil in EPREUVES:
                 a, f = vars_.get(avant), vars_.get(fond)
                 if not a or not f or not a.startswith("#") or not f.startswith("#"):
