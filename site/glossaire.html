@@ -6,8 +6,8 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<title>Glossaire — Glossary</title>
-<meta name="description" content="Glossaire bilingue FR/EN du cours-démo : termes clés de la conception de cours en ligne, avec définition et exemple. Template de site de cours — Mohamed EL AFRIT.">
+<title>Glossaire / Glossary</title>
+<meta name="description" content="Glossaire bilingue FR/EN du cours-démo : termes clés de la conception de cours en ligne, avec définition et exemple. Template de site de cours · Mohamed EL AFRIT.">
 <meta name="author" content="Mohamed EL AFRIT">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -84,7 +84,7 @@
 </div>
 
 <footer class="site-footer">
-  <p><span data-tr="fr">Cours-démo « Concevoir un cours en ligne » — </span><span data-tr="en">Demo course "Designing an online course" — </span><a href="#">Mohamed EL AFRIT</a></p>
+  <p><span data-tr="fr">Cours-démo « Concevoir un cours en ligne » · </span><span data-tr="en">Demo course "Designing an online course" · </span><a href="#">Mohamed EL AFRIT</a></p>
   <p class="license"><span class="cc-badges">MIT · CC BY 4.0</span> · <a href="about.html"><span data-tr="fr">À propos du template</span><span data-tr="en">About the template</span></a></p>
 </footer>
 
@@ -259,7 +259,7 @@
       html += '<details class="glossary-emplois"><summary>' + esc(ui().emplois) +
                 ' <span class="glossary-emplois-n">' + total + '</span></summary><ul>' +
                 lieux.map(function (x) {
-                  return '<li>' + lien(x.p + (x.a ? '#' + x.a : ''), x.page + ' — ' + (x.section || ui().haut)) +
+                  return '<li>' + lien(x.p + (x.a ? '#' + x.a : ''), x.page + ' · ' + (x.section || ui().haut)) +
                          (x.n > 1 ? ' <span class="glossary-emplois-fois">×' + x.n + '</span>' : '') + '</li>';
                 }).join('') +
               '</ul></details>';

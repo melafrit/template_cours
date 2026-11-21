@@ -6,8 +6,8 @@
 window.COURSE = {
   title: { fr: "Concevoir un cours en ligne", en: "Designing an online course" },
   subtitle: {
-    fr: "Un cours-démo qui enseigne comment fabriquer un cours en ligne efficace — en utilisant les fonctionnalités qu'il démontre.",
-    en: "A demo course that teaches how to build an effective online course — using the very features it showcases."
+    fr: "Un cours-démo qui enseigne comment fabriquer un cours en ligne efficace, en utilisant les fonctionnalités qu'il démontre.",
+    en: "A demo course that teaches how to build an effective online course, using the very features it showcases."
   },
   author: "Mohamed EL AFRIT",
   license: { fr: "Code MIT · Contenu CC BY 4.0", en: "Code MIT · Content CC BY 4.0" },

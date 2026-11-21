@@ -45,8 +45,8 @@
     </div>
     <h1 class="chapter-title"><span data-tr="fr">Fiches de synthèse</span><span data-tr="en">Summary sheets</span></h1>
     <p class="chapter-subtitle">
-      <span data-tr="fr">Une fiche par chapitre, à imprimer ou à annoter. Elles ne remplacent pas le cours en ligne — elles en fixent l'essentiel sur un support qu'on garde. Les activités, les capsules audio et les schémas interactifs n'y figurent pas<!-- livret:debut --> : le polycopié complet les reprend, sur papier, avec leurs QR codes<!-- livret:fin -->.</span>
-      <span data-tr="en">One sheet per chapter, to print or annotate. They do not replace the online course — they set down its essentials on something you keep. Activities, audio capsules and interactive diagrams are not included<!-- livret:debut -->: the full course book carries them, on paper, with their QR codes<!-- livret:fin -->.</span>
+      <span data-tr="fr">Une fiche par chapitre, à imprimer ou à annoter. Elles ne remplacent pas le cours en ligne ; elles en fixent l'essentiel sur un support qu'on garde. Les activités, les capsules audio et les schémas interactifs n'y figurent pas<!-- livret:debut --> : le polycopié complet les reprend, sur papier, avec leurs QR codes<!-- livret:fin -->.</span>
+      <span data-tr="en">One sheet per chapter, to print or annotate. They do not replace the online course; they set down its essentials on something you keep. Activities, audio capsules and interactive diagrams are not included<!-- livret:debut -->: the full course book carries them, on paper, with their QR codes<!-- livret:fin -->.</span>
     </p>
   </div>
 
@@ -78,7 +78,7 @@
 </div>
 
 <footer class="site-footer">
-  <p><span data-tr="fr">Cours-démo « Concevoir un cours en ligne » — </span><span data-tr="en">Demo course "Designing an online course" — </span><a href="#">Mohamed EL AFRIT</a></p>
+  <p><span data-tr="fr">Cours-démo « Concevoir un cours en ligne » · </span><span data-tr="en">Demo course "Designing an online course" · </span><a href="#">Mohamed EL AFRIT</a></p>
   <p class="license"><span class="cc-badges">MIT · CC BY 4.0</span> · <a href="about.html"><span data-tr="fr">À propos du template</span><span data-tr="en">About the template</span></a></p>
 </footer>
 
@@ -128,7 +128,7 @@
       + '  <div class="template-card-meta"></div>'
       + '</div>';
     el.querySelector('.template-card-title').textContent =
-      (lang() === 'fr' ? 'Chapitre ' : 'Chapter ') + ch.num + ' — ' + L(ch.title);
+      (lang() === 'fr' ? 'Chapitre ' : 'Chapter ') + ch.num + ' · ' + L(ch.title);
     var meta = el.querySelector('.template-card-meta');
 
     function proposer() {

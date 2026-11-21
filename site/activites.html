@@ -6,7 +6,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<title>Activités interactives — Interactive activities</title>
+<title>Activités interactives / Interactive activities</title>
 <meta name="description" content="Patrons d'activités interactives réutilisables : assistant de décision, checklist à score, quiz de classification. Bilingue.">
 <meta name="author" content="Mohamed EL AFRIT">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,8 +39,8 @@
       <div class="chapter-meta"><span class="chapter-badge">🧩 <span data-tr="fr">Ressource</span><span data-tr="en">Resource</span></span></div>
       <h1 class="chapter-title"><span data-tr="fr">Activités interactives</span><span data-tr="en">Interactive activities</span></h1>
       <p class="chapter-subtitle">
-        <span data-tr="fr">Trois <strong>patrons réutilisables</strong> à adapter à n'importe quel sujet : un assistant de décision, une checklist à score et un quiz de classification. Tout se pilote par des données <code>{ fr, en }</code> — voir <code>assets/js/tools.js</code>.</span>
-        <span data-tr="en">Three <strong>reusable patterns</strong> to adapt to any topic: a decision wizard, a scored checklist and a classification quiz. Everything is driven by <code>{ fr, en }</code> data — see <code>assets/js/tools.js</code>.</span>
+        <span data-tr="fr">Trois <strong>patrons réutilisables</strong> à adapter à n'importe quel sujet : un assistant de décision, une checklist à score et un quiz de classification. Tout se pilote par des données <code>{ fr, en }</code> (voir <code>assets/js/tools.js</code>).</span>
+        <span data-tr="en">Three <strong>reusable patterns</strong> to adapt to any topic: a decision wizard, a scored checklist and a classification quiz. Everything is driven by <code>{ fr, en }</code> data (see <code>assets/js/tools.js</code>).</span>
       </p>
     </div>
 
@@ -50,17 +50,17 @@
     </div>
 
     <section class="content-section">
-      <h2>🧭 <span data-tr="fr">Assistant de décision — quel format d'évaluation ?</span><span data-tr="en">Decision wizard — which assessment format?</span></h2>
+      <h2>🧭 <span data-tr="fr">Assistant de décision : quel format d'évaluation ?</span><span data-tr="en">Decision wizard: which assessment format?</span></h2>
       <div id="act-wizard"></div>
     </section>
 
     <section class="content-section">
-      <h2>☑️ <span data-tr="fr">Checklist — mon chapitre est-il prêt à publier ?</span><span data-tr="en">Checklist — is my chapter ready to publish?</span></h2>
+      <h2>☑️ <span data-tr="fr">Checklist : mon chapitre est-il prêt à publier ?</span><span data-tr="en">Checklist: is my chapter ready to publish?</span></h2>
       <div id="act-checklist"></div>
     </section>
 
     <section class="content-section">
-      <h2>🗂️ <span data-tr="fr">Quiz — cet objectif est-il bien formulé ?</span><span data-tr="en">Quiz — is this objective well written?</span></h2>
+      <h2>🗂️ <span data-tr="fr">Quiz : cet objectif est-il bien formulé ?</span><span data-tr="en">Quiz: is this objective well written?</span></h2>
       <div id="act-classifier"></div>
     </section>
 
@@ -68,7 +68,7 @@
 </div>
 
 <footer class="site-footer">
-  <p><span data-tr="fr">Cours-démo « Concevoir un cours en ligne » — </span><span data-tr="en">Demo course "Designing an online course" — </span><a href="#">Mohamed EL AFRIT</a></p>
+  <p><span data-tr="fr">Cours-démo « Concevoir un cours en ligne » · </span><span data-tr="en">Demo course "Designing an online course" · </span><a href="#">Mohamed EL AFRIT</a></p>
   <p class="license"><span class="cc-badges">MIT · CC BY 4.0</span> · <a href="about.html"><span data-tr="fr">À propos du template</span><span data-tr="en">About the template</span></a></p>
 </footer>
 
@@ -109,8 +109,8 @@ TPLActivities.checklist('act-checklist', {
     { fr: "Relu (orthographe + exactitude)", en: "Proofread (spelling + accuracy)" }
   ],
   verdicts: [
-    { min: 6, cls: 'rdc-tier-1', msg: { fr: "🟢 Prêt à publier — {n}/7.", en: "🟢 Ready to publish — {n}/7." } },
-    { min: 3, cls: '', msg: { fr: "🟠 Presque — complétez le reste ({n}/7).", en: "🟠 Almost — finish the rest ({n}/7)." } },
+    { min: 6, cls: 'rdc-tier-1', msg: { fr: "🟢 Prêt à publier ({n}/7).", en: "🟢 Ready to publish ({n}/7)." } },
+    { min: 3, cls: '', msg: { fr: "🟠 Presque : complétez le reste ({n}/7).", en: "🟠 Almost: finish the rest ({n}/7)." } },
     { min: 0, cls: '', msg: { fr: "⚪ Encore du travail ({n}/7).", en: "⚪ Still some work ({n}/7)." } }
   ]
 });
