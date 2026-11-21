@@ -283,8 +283,8 @@ journal. Celles qui reviennent à chaque étape :
 
 # ÉTAPE ZÉRO — PARTIR DU TEMPLATE
 
-1. Écris cours.json d'après les paramètres — langues ["fr", "en"] si le module bilingue
-   est actif en modèle « data-tr », ["fr"] sinon —, lance python3 nouveau_cours.py
+1. Écris cours.json d'après les paramètres (langues : la langue racine d'abord, puis celles
+   des jumelles à venir, par exemple ["fr", "en"]), lance python3 nouveau_cours.py
    --essai, montre le résultat, puis crée le cours (dossier à part, jamais dans le
    template). Vérifie dans la sortie : secrets recopiés et ignorés par Git, .rgignore
    présent, destination.json au nom de {{cours.slug}}, CLAUDE.md présent, menu des

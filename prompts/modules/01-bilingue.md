@@ -43,10 +43,10 @@ servent ensuite au livret anglais (module 02) et aux podcasts anglais (module 03
 
 **Le modèle retenu par l'auteur (25 octobre 2026) : le site miroir**, celui de ses deux cours
 bilingues, sur lequel reposent le livret anglais, la page Podcasts et les balises `hreflang`.
-**data-tr reste en secours**, pour un cours court écrit dans les deux langues dès le départ ;
-le choisir est une décision Dnn, prise au cadrage (phase 0). Le modèle fixe `langues` dans
-`cours.json` : `["fr"]` pour le miroir, l'anglais venant ensuite ; `["fr", "en"]` pour
-data-tr. Le détail des deux modèles : `docs/I18N.md`.
+**data-tr ne se crée plus** : depuis le 21 novembre 2026, la démonstration est un site miroir et
+`nouveau_cours.py` ne fabrique que ce modèle (décision de l'auteur) ; data-tr reste décrit pour
+les cours qui l'ont déjà. Dans `cours.json`, `langues` nomme la langue racine d'abord, puis
+celles des jumelles à venir (`["fr", "en"]`). Le détail des deux modèles : `docs/I18N.md`.
 
 ---
 

@@ -122,6 +122,35 @@ def bloc_actif(c, cle):
     return bool((c.get("blocs") or {}).get(cle, cle not in BLOCS_INACTIFS_PAR_DEFAUT))
 
 
+# Le générateur ne fabrique que des cours en site miroir (décision de l'auteur du 21 novembre 2026). Chaque page
+# naît dans la langue racine du cours, la première de « langues » ; les autres langues viennent ensuite, page par
+# page, en jumelles (outils/creer_jumelle.py), une fois la racine stable. La démonstration a ses pages françaises à
+# la racine et leurs jumelles anglaises sous en/ : un cours anglais part de celles-ci.
+RACINES = ("fr", "en")
+DOSSIERS_LANGUE = ("en", "ar")      # les jumelles de la démonstration : jamais recopiées dans un cours
+
+
+def racine(c):
+    """La langue racine du cours : la première de « langues »."""
+    return (c.get("langues") or ["fr"])[0]
+
+
+def texte(d, lg):
+    """Le texte de d ({fr, en, …}) dans la langue lg, à défaut en français."""
+    d = d or {}
+    return str(d.get(lg) or d.get("fr") or "")
+
+
+def att(s):
+    """Un texte utilisable dans un attribut HTML."""
+    return str(s).replace("&", "&amp;").replace('"', "&quot;").replace("<", "&lt;")
+
+
+def h(s):
+    """Un texte utilisable dans le corps d'une page."""
+    return str(s).replace("&", "&amp;").replace("<", "&lt;")
+
+
 # L'encadré « Le podcast du chapitre » du chapitre vitrine : il mène à l'épisode de la démonstration, qu'un cours créé
 # n'a pas. Le modèle et les squelettes gardent, à sa place, un repère si le cours a une série.
 ENCADRE_PODCAST = re.compile(r"[ \t]*<!-- L'encadré « Le podcast du chapitre »[^\n]*-->\n"
@@ -284,32 +313,21 @@ def renommer_identite(sortie, c):
     cela n'etait purge. Un cours de cybersecurite s'annoncait « Concevoir un
     cours en ligne » dans la barre d'onglets du navigateur.
     """
+    lg = racine(c)
     tfr = c["titre"]["fr"]
-    bi = "en" in (c.get("langues") or [])
-    ten = c["titre"].get("en", tfr) if bi else tfr
-    st = c.get("sous_titre") or {}
-    sfr = st.get("fr", "")
-    sen = st.get("en", sfr)
+    ten = c["titre"].get("en") or tfr
+    titre = texte(c["titre"], lg)
+    st = texte(c.get("sous_titre"), lg)
     auteur = c["auteur"]
-
-    def att(s):
-        """Un texte utilisable dans un attribut HTML."""
-        return s.replace("&", "&amp;").replace('"', "&quot;").replace("<", "&lt;")
 
     # Le nom court de l'en-tête et son pictogramme : « Concevoir un cours » et
     # « Ce » restaient en tête de chaque page d'un cours créé. Par défaut, la
-    # partie du titre qui précède « : », et ses deux premières lettres.
-    court = c.get("titre_court") or {}
-    cfr = str(court.get("fr") or tfr.split(" : ")[0]).strip()
-    cen = str(court.get("en") or (ten.split(": ")[0] if bi else cfr)).strip()
-    logo = str(c.get("logo") or re.sub(r"[\W_]", "", cfr)[:2] or "Co")
-    lic = c.get("licence") or {}
-    lfr = str(lic.get("fr", "")).strip()
-    len_ = str(lic.get("en", lfr)).strip()
-    marque = ('<span data-tr="fr">Concevoir un cours</span><span data-tr="en">Design a course</span>',
-              '<span data-tr="fr">%s</span><span data-tr="en">%s</span>' % (att(cfr), att(cen)))
+    # partie du titre qui précède le deux-points, et ses deux premières lettres.
+    court = str((c.get("titre_court") or {}).get(lg) or re.split(r"\s?:\s", titre)[0]).strip()
+    logo = str(c.get("logo") or re.sub(r"[\W_]", "", court)[:2] or "Co")
+    licence = texte(c.get("licence"), lg).strip()
     picto = ('<span class="logo-icon">C<span class="acc">e</span></span>',
-             '<span class="logo-icon">%s<span class="acc">%s</span></span>' % (att(logo[:1]), att(logo[1:2])))
+             '<span class="logo-icon">%s<span class="acc">%s</span></span>' % (h(logo[:1]), h(logo[1:2])))
 
     # Les variantes longues d'abord : « ... efficace » contient « ... » tout court.
     paires = [
@@ -324,7 +342,7 @@ def renommer_identite(sortie, c):
         ("Mohamed EL AFRIT", auteur),
     ]
 
-    desc_fr = ("%s. %s" % (tfr, sfr)).strip().strip(".") + "."
+    desc = ("%s. %s" % (titre, st)).strip().strip(".") + "."
     accueil = os.path.normcase(os.path.abspath(os.path.join(sortie, "site", "index.html")))
     touchees = 0
     for f in sorted(glob.glob(os.path.join(sortie, "site", "**", "*.html"),
@@ -336,27 +354,27 @@ def renommer_identite(sortie, c):
         # celle des autres pages parlait encore de la demonstration.
         if os.sep + "chapitres" + os.sep not in f:
             s = re.sub(r'<meta name="description" content="[^"]*">',
-                       '<meta name="description" content="%s">' % att(desc_fr), s)
+                       lambda m: '<meta name="description" content="%s">' % att(desc), s)
         s = re.sub(r'<meta name="author" content="[^"]*">',
-                   '<meta name="author" content="%s">' % att(auteur), s)
+                   lambda m: '<meta name="author" content="%s">' % att(auteur), s)
 
         # Le sous-titre de l'accueil : de la prose propre a la demonstration. Les autres pages gardent le leur —
         # appliqué partout, il remplaçait celui du sommaire (et son fragment), des chapitres et des ressources ;
         # les squelettes, les pages vidées et le glossaire reçoivent le leur (squelette_chapitre, purger_demo).
-        if sfr and os.path.normcase(os.path.abspath(f)) == accueil:
-            s = sous_titre(s, sfr, sen)
+        if st and os.path.normcase(os.path.abspath(f)) == accueil:
+            s = sous_titre(s, h(st))
 
-        # L'en-tête : nom court et pictogramme du cours.
-        s = s.replace(*marque).replace(*picto)
+        # L'en-tête : nom court et pictogramme du cours, à la place de ceux de la démonstration, dans sa langue.
+        s = re.sub(r'(class="site-logo">.*?)<span>(?:Concevoir un cours|Design a course)</span>',
+                   lambda m: '%s<span>%s</span>' % (m.group(1), h(court)), s, count=1, flags=re.S)
+        s = s.replace(*picto)
 
         # Le pied de page : la licence de cours.json, pas celle de la démonstration.
-        if lfr:
+        if licence:
             s = re.sub(r'<span class="cc-badges">[^<]*</span>',
-                       lambda m: '<span class="cc-badges"><span data-tr="fr">%s</span>'
-                                 '<span data-tr="en">%s</span></span>' % (att(lfr), att(len_)), s)
-            s = re.sub(r'\s*<span data-tr="fr"> Code sous licence MIT, contenu sous licence Creative '
-                       r'Commons BY 4\.0\.</span>\s*<span data-tr="en"> Code under MIT license, content '
-                       r'under Creative Commons BY 4\.0\.</span>', "", s)
+                       lambda m: '<span class="cc-badges">%s</span>' % h(licence), s)
+            s = re.sub(r'\s*<span> (?:Code sous licence MIT, contenu sous licence Creative Commons BY 4\.0\.'
+                       r'|Code under MIT license, content under Creative Commons BY 4\.0\.)</span>', "", s)
 
         for a, b in paires:
             s = s.replace(a, b)
@@ -380,53 +398,67 @@ def fin_div(t, debut):
 PAGE_A_REDIGER = """    <div class="callout warning">
       <div class="callout-icon">✏️</div>
       <div class="callout-content">
-        <h4><span data-tr="fr">Page à rédiger</span><span data-tr="en">Page to be written</span></h4>
-        <p><span data-tr="fr">%s</span><span data-tr="en">%s</span></p>
+        <h4>%s</h4>
+        <p>%s</p>
       </div>
     </div>"""
+TITRE_A_REDIGER = {"fr": "Page à rédiger", "en": "Page to be written"}
 
-# Les pages de démonstration vidées : (fichier, titre fr, titre en, consigne fr, consigne en)
+# Les pages de démonstration vidées : (fichier, titre, consigne), dans chaque langue racine possible.
 PAGES_DEMO = [
-    ("site/atelier.html", "Atelier fil rouge", "Capstone workshop",
-     "L'énoncé de l'atelier fil rouge, ses livrables et ses modèles téléchargeables "
-     "(prompts/11_atelier_templates.md). Le contenu de démonstration a été retiré ; "
-     "l'atelier complet reste consultable dans le template (site/atelier.html).",
-     "The capstone workshop brief, its deliverables and downloadable templates "
-     "(prompts/11_atelier_templates.md). The demo content has been removed; the full "
-     "workshop remains in the template (site/atelier.html)."),
-    ("site/activites.html", "Activités interactives", "Interactive activities",
-     "Les activités du cours (prompts/05_activites_interactives.md), construites avec les "
-     "patrons de assets/js/tools.js. Les exemples de démonstration ont été retirés ; ils "
-     "restent dans le template (site/activites.html).",
-     "The course activities (prompts/05_activites_interactives.md), built with the patterns "
-     "of assets/js/tools.js. The demo examples have been removed; they remain in the "
-     "template (site/activites.html)."),
+    ("site/atelier.html", {"fr": "Atelier fil rouge", "en": "Capstone workshop"},
+     {"fr": "L'énoncé de l'atelier fil rouge, ses livrables et ses modèles téléchargeables "
+            "(prompts/11_atelier_templates.md). Le contenu de démonstration a été retiré ; "
+            "l'atelier complet reste consultable dans le template (site/atelier.html).",
+      "en": "The capstone workshop brief, its deliverables and downloadable templates "
+            "(prompts/11_atelier_templates.md). The demo content has been removed; the full "
+            "workshop remains in the template (site/atelier.html)."}),
+    ("site/activites.html", {"fr": "Activités interactives", "en": "Interactive activities"},
+     {"fr": "Les activités du cours (prompts/05_activites_interactives.md), construites avec les "
+            "patrons de assets/js/tools.js. Les exemples de démonstration ont été retirés ; ils "
+            "restent dans le template (site/activites.html).",
+      "en": "The course activities (prompts/05_activites_interactives.md), built with the patterns "
+            "of assets/js/tools.js. The demo examples have been removed; they remain in the "
+            "template (site/activites.html)."}),
 ]
 
 SECTION_ACCUEIL = """<section class="content-section">
-      <h2><span data-tr="fr">Ce que vous saurez faire</span><span data-tr="en">What you will be able to do</span></h2>
-      <p><span data-tr="fr">À rédiger : trois à cinq objectifs du cours, chacun avec un verbe d'action observable.</span><span data-tr="en">To be written: three to five course objectives, each with an observable action verb.</span></p>
+      <h2>%s</h2>
+      <p>%s</p>
     </section>"""
+TEXTE_ACCUEIL = {
+    "fr": ("Ce que vous saurez faire",
+           "À rédiger : trois à cinq objectifs du cours, chacun avec un verbe d'action observable."),
+    "en": ("What you will be able to do",
+           "To be written: three to five course objectives, each with an observable action verb."),
+}
+
+SOUS_TITRE_PAGE = {"fr": "À rédiger : une phrase qui présente cette page.",
+                   "en": "To be written: one sentence introducing this page."}
+SOUS_TITRE_CHAPITRE = {"fr": "À rédiger : une ou deux phrases qui disent ce que ce chapitre permet de faire.",
+                       "en": "To be written: one or two sentences saying what this chapter enables."}
+SOUS_TITRE_GLOSSAIRE = {"fr": "Les termes clés du cours, avec leur équivalent dans l'autre langue, une définition et un "
+                              "exemple. Tapez un mot pour filtrer la liste.",
+                        "en": "The key terms of the course, with their equivalent in the other language, a definition "
+                              "and an example. Type a word to filter the list."}
+# Le sous-titre du sommaire racontait la démonstration (« vous saurez concevoir un cours en ligne ») : il garde le
+# nombre de chapitres, un fragment que generer_fragments.py écrit, et demande le reste.
+SOUS_TITRE_SOMMAIRE = {
+    "fr": "Le parcours se compose de <!-- FRAGMENT:nb-chapitres-lettres -->…<!-- /FRAGMENT:nb-chapitres-lettres --> "
+          "chapitres. À rédiger : ce que l'apprenant saura faire à la fin du cours.",
+    "en": "The path is made of <!-- FRAGMENT:nb-chapitres-lettres -->…<!-- /FRAGMENT:nb-chapitres-lettres --> "
+          "chapters. To be written: what the learner will be able to do by the end of the course.",
+}
 
 
-SOUS_TITRE_PAGE = ("À rédiger : une phrase qui présente cette page.",
-                   "To be written: one sentence introducing this page.")
-SOUS_TITRE_CHAPITRE = ("À rédiger : une ou deux phrases qui disent ce que ce chapitre permet de faire.",
-                       "To be written: one or two sentences saying what this chapter enables.")
-SOUS_TITRE_GLOSSAIRE = ("Les termes clés du cours, avec leur équivalent dans l'autre langue, une définition et un "
-                        "exemple. Tapez un mot pour filtrer la liste.",
-                        "The key terms of the course, with their equivalent in the other language, a definition and "
-                        "an example. Type a word to filter the list.")
+def sous_titre(t, texte_html):
+    """Le sous-titre de l'en-tête d'une page (<p class="chapter-subtitle">), remplacé par texte_html."""
+    return re.sub(r'(<p class="chapter-subtitle">).*?(</p>)',
+                  lambda m: '%s\n        <span>%s</span>\n      %s' % (m.group(1), texte_html, m.group(2)),
+                  t, count=1, flags=re.S)
 
 
-def sous_titre(t, fr, en):
-    """Le sous-titre de l'en-tête d'une page (<p class="chapter-subtitle">, blocs fr et en), remplacé par fr et en."""
-    return re.sub(r'(<p class="chapter-subtitle">\s*)<span data-tr="fr">.*?</span>\s*<span data-tr="en">.*?</span>',
-                  lambda m: '%s<span data-tr="fr">%s</span>\n      <span data-tr="en">%s</span>'
-                            % (m.group(1), fr, en), t, count=1, flags=re.S)
-
-
-def vider_page(chemin, titre_fr, titre_en, consigne_fr, consigne_en):
+def vider_page(chemin, titre, consigne, lg):
     """Garde l'en-tête d'une page de démonstration, remplace son contenu par un repère.
 
     L'atelier racontait « Concevez votre propre cours en ligne » et les activités
@@ -439,15 +471,25 @@ def vider_page(chemin, titre_fr, titre_en, consigne_fr, consigne_en):
     fm = s.find("</main>", fin) if fin > 0 else -1
     if fm < 0:
         return False
-    s = s[:fin] + "\n\n" + PAGE_A_REDIGER % (consigne_fr, consigne_en) + "\n\n  " + s[fm:]
+    s = s[:fin] + "\n\n" + PAGE_A_REDIGER % (TITRE_A_REDIGER[lg], h(consigne)) + "\n\n  " + s[fm:]
     s = re.sub(r'(<h1 class="chapter-title">).*?(</h1>)',
-               lambda x: '%s<span data-tr="fr">%s</span><span data-tr="en">%s</span>%s'
-                         % (x.group(1), titre_fr, titre_en, x.group(2)), s, count=1, flags=re.S)
-    s = sous_titre(s, *SOUS_TITRE_PAGE)
+               lambda x: '%s<span>%s</span>%s' % (x.group(1), h(titre), x.group(2)), s, count=1, flags=re.S)
+    s = sous_titre(s, SOUS_TITRE_PAGE[lg])
     # les appels de démonstration ne trouveraient plus leurs conteneurs
     s = re.sub(r'<script>\s*TPLActivities\..*?</script>\s*', "", s, flags=re.S)
     ecrire(chemin, s)
     return True
+
+
+# Les libellés de la navigation d'un chapitre, dans chaque langue racine possible.
+NAV = {
+    "sommaire": {"fr": "← Sommaire", "en": "← Contents"},
+    "precedent": {"fr": "← Précédent", "en": "← Previous"},
+    "suivant": {"fr": "Suivant →", "en": "Next →"},
+    "accueil": {"fr": "← Accueil", "en": "← Home"},
+    "qcm": {"fr": "QCM d'évaluation", "en": "Assessment quiz"},
+    "cours": {"fr": "Sommaire du cours", "en": "Course contents"},
+}
 
 
 def recoudre_liens(sortie, c):
@@ -457,6 +499,7 @@ def recoudre_liens(sortie, c):
     menaient encore aux chapitres de la demonstration : des liens morts sur les
     pages les plus visitees.
     """
+    lg = racine(c)
     chaps = c["chapitres"]
     premier = chaps[0]["fichier"]
     recousus = 0
@@ -479,14 +522,13 @@ def recoudre_liens(sortie, c):
     #     « Structurer le contenu ») et, faute de « \g<1> », un nom de fichier qui
     #     commence par un chiffre devenait un caractère octal : « \101-… » donnait
     #     « A-… », et le lien disparaissait sans qu'aucun vérificateur ne le voie.
-    bi = "en" in (c.get("langues") or [])
     qcm = os.path.isfile(os.path.join(sortie, "site", "QCM", "index.html"))
 
-    def h(x):
-        return str(x).replace("&", "&amp;").replace("<", "&lt;")
+    def un(cle):
+        return h(NAV[cle][lg])
 
-    def deux(fr, en):
-        return '<span data-tr="fr">%s</span><span data-tr="en">%s</span>' % (h(fr), h(en if bi else fr))
+    def titre(ch):
+        return h(texte(ch["titre"], lg))
 
     for i, ch in enumerate(chaps):
         p = os.path.join(sortie, "site", "chapitres", ch["fichier"])
@@ -497,29 +539,26 @@ def recoudre_liens(sortie, c):
         apres = chaps[i + 1] if i + 1 < len(chaps) else None
         prec = avant["fichier"] if avant else "../index.html"
         if apres:
-            suiv, titre_suiv = apres["fichier"], deux(apres["titre"]["fr"],
-                                                      apres["titre"].get("en") or apres["titre"]["fr"])
+            suiv, titre_suiv = apres["fichier"], titre(apres)
         elif qcm:
-            suiv, titre_suiv = "../QCM/index.html", deux("QCM d'évaluation", "Assessment quiz")
+            suiv, titre_suiv = "../QCM/index.html", un("qcm")
         else:
-            suiv, titre_suiv = "../cours.html", deux("Sommaire du cours", "Course contents")
+            suiv, titre_suiv = "../cours.html", un("cours")
         entete = ('<nav class="chapter-nav">\n'
-                  '      <a href="../cours.html" class="chapter-nav-btn">%s</a>\n' % deux("← Sommaire", "← Contents")
-                  + ('      <a href="%s" class="chapter-nav-btn">%s</a>\n' % (prec, deux("← Précédent", "← Previous"))
+                  '      <a href="../cours.html" class="chapter-nav-btn">%s</a>\n' % un("sommaire")
+                  + ('      <a href="%s" class="chapter-nav-btn">%s</a>\n' % (prec, un("precedent"))
                      if avant else "")
-                  + '      <a href="%s" class="chapter-nav-btn">%s</a>\n    </nav>' % (suiv, deux("Suivant →", "Next →")))
+                  + '      <a href="%s" class="chapter-nav-btn">%s</a>\n    </nav>' % (suiv, un("suivant")))
         pied = ('<nav class="chapter-pagination">\n'
                 '      <a href="%s" class="pagination-link prev">\n'
                 '        <span class="pagination-label">%s</span>\n' % (
-                    prec, deux("← Précédent", "← Previous") if avant else deux("← Accueil", "← Home"))
-                + ('        <span class="pagination-title">%s</span>\n'
-                   % deux(avant["titre"]["fr"], avant["titre"].get("en") or avant["titre"]["fr"])
-                   if avant else "")
+                    prec, un("precedent") if avant else un("accueil"))
+                + ('        <span class="pagination-title">%s</span>\n' % titre(avant) if avant else "")
                 + '      </a>\n'
                   '      <a href="%s" class="pagination-link next">\n'
                   '        <span class="pagination-label">%s</span>\n'
                   '        <span class="pagination-title">%s</span>\n'
-                  '      </a>\n    </nav>' % (suiv, deux("Suivant →", "Next →"), titre_suiv))
+                  '      </a>\n    </nav>' % (suiv, un("suivant"), titre_suiv))
         s = re.sub(r'<nav class="chapter-nav">.*?</nav>', lambda m: entete, s, count=1, flags=re.S)
         s = re.sub(r'<nav class="chapter-pagination">.*?</nav>', lambda m: pied, s, count=1, flags=re.S)
         ecrire(p, s)
@@ -536,12 +575,18 @@ def recoudre_liens(sortie, c):
     return recousus
 
 
+CARTE = {"texte": {"fr": "À rédiger : deux lignes qui disent ce que ce chapitre permet de faire.",
+                   "en": "To be written: two lines saying what this chapter enables."},
+         "bouton": {"fr": "Ouvrir le chapitre %s &rarr;", "en": "Open chapter %s &rarr;"}}
+
+
 def regenerer_sommaire(sortie, c):
     """Reecrit la grille de chapitres de cours.html depuis les chapitres declares.
 
     Ces cartes portent une prose propre a chaque chapitre : gardees telles
     quelles, un cours de droit aurait annonce « Cadrer son cours » et renvoye
-    vers une page inexistante.
+    vers une page inexistante. Le sous-titre de la page devient un repère : il
+    promettait qu'on saurait « concevoir un cours en ligne ».
     """
     F = os.path.join(sortie, "site", "cours.html")
     if not os.path.isfile(F):
@@ -552,32 +597,25 @@ def regenerer_sommaire(sortie, c):
     if not m:
         return 0
 
-    bi = "en" in (c.get("langues") or [])
+    lg = racine(c)
     cartes = []
     for ch in c["chapitres"]:
-        tfr = ch["titre"]["fr"]
-        ten = ch["titre"].get("en", tfr) if bi else tfr
+        num = h(ch.get("num", ""))
         cartes.append(
             '\n          <div class="concept-card">\n'
             '            <div class="concept-card-header">\n'
             '              <span class="concept-card-emoji">%s</span>\n'
-            '              <span class="concept-card-title">'
-            '<span data-tr="fr">%s · %s</span>'
-            '<span data-tr="en">%s · %s</span></span>\n'
+            '              <span class="concept-card-title">%s · %s</span>\n'
             '            </div>\n'
-            '            <p><span data-tr="fr">A rediger : deux lignes qui disent ce que '
-            'ce chapitre permet de faire.</span>'
-            '<span data-tr="en">To be written: two lines saying what this chapter '
-            'enables.</span></p>\n'
+            '            <p>%s</p>\n'
             '            <p style="margin-top:.75rem">'
-            '<a class="btn btn-primary" href="chapitres/%s">'
-            '<span data-tr="fr">Ouvrir le chapitre %s &rarr;</span>'
-            '<span data-tr="en">Open chapter %s &rarr;</span></a></p>\n'
+            '<a class="btn btn-primary" href="chapitres/%s">%s</a></p>\n'
             '          </div>\n'
-            % (ch.get("ico", "\U0001f4d8"), ch.get("num", ""), tfr,
-               ch.get("num", ""), ten, ch["fichier"], ch.get("num", ""), ch.get("num", "")))
+            % (ch.get("ico", "\U0001f4d8"), num, h(texte(ch["titre"], lg)), CARTE["texte"][lg],
+               ch["fichier"], CARTE["bouton"][lg] % num))
 
     t = t[:m.start(2)] + "".join(cartes) + t[m.end(2):]
+    t = sous_titre(t, SOUS_TITRE_SOMMAIRE[lg])
     ecrire(F, t)
     return len(cartes)
 
@@ -658,10 +696,11 @@ def purger_demo(sortie, c):
         remplaces += 1
 
     # le sous-titre du glossaire nommait la matière de la démonstration
+    lg = racine(c)
     glo = os.path.join(sortie, "site", "glossaire.html")
     if os.path.isfile(glo):
         s = io.open(glo, encoding="utf-8").read()
-        neuf = sous_titre(s, *SOUS_TITRE_GLOSSAIRE)
+        neuf = sous_titre(s, SOUS_TITRE_GLOSSAIRE[lg])
         if neuf != s:
             ecrire(glo, neuf)
             remplaces += 1
@@ -676,16 +715,17 @@ def purger_demo(sortie, c):
     acc = os.path.join(sortie, "site", "index.html")
     if os.path.isfile(acc):
         s = io.open(acc, encoding="utf-8").read()
-        neuf = re.sub(r'<section class="content-section">\s*<h2><span data-tr="fr">Ce que démontre ce site'
-                      r'</span>.*?</section>', lambda m: SECTION_ACCUEIL, s, count=1, flags=re.S)
+        neuf = re.sub(r'<section class="content-section">\s*<h2><span>(?:Ce que démontre ce site'
+                      r'|What this site demonstrates)</span></h2>.*?</section>',
+                      lambda m: SECTION_ACCUEIL % TEXTE_ACCUEIL[lg], s, count=1, flags=re.S)
         if neuf != s:
             ecrire(acc, neuf)
             remplaces += 1
 
     # l'atelier et les activites de la demonstration
-    for rel, tfr, ten, cfr, cen in PAGES_DEMO:
+    for rel, titre, consigne in PAGES_DEMO:
         p = os.path.join(sortie, rel.replace("/", os.sep))
-        if os.path.isfile(p) and vider_page(p, tfr, ten, cfr, cen):
+        if os.path.isfile(p) and vider_page(p, titre[lg], consigne[lg], lg):
             remplaces += 1
 
     return retires, remplaces
@@ -838,11 +878,14 @@ def valider(c):
                       % (", ".join(PALETTES), c.get("palette")))
 
     langues = c.get("langues") or []
-    if not langues or langues[0] not in ("fr", "en"):
-        griefs.append("« langues » doit commencer par « fr » ou « en ».")
+    if not langues or langues[0] not in RACINES:
+        griefs.append("« langues » doit commencer par la langue racine du cours, %s : la démonstration n'existe "
+                      "encore que dans ces langues." % " ou ".join("« %s »" % l for l in RACINES))
     for l in langues:
         if l not in ("fr", "en"):
-            griefs.append("langue non gérée : %r (seuls fr et en le sont)" % l)
+            griefs.append("langue non gérée : %r (seuls fr et en le sont pour l'instant)" % l)
+    if len(set(langues)) != len(langues):
+        griefs.append("« langues » nomme deux fois la même langue.")
 
     chapitres = c.get("chapitres") or []
     if not chapitres:
@@ -957,9 +1000,17 @@ PLACEHOLDER = {
     "fr": "À rédiger. Remplacez ce paragraphe par le contenu du chapitre.",
     "en": "To be written. Replace this paragraph with the chapter content.",
 }
+TITRE_SECTION = {"fr": "%d. Titre de section à rédiger", "en": "%d. Section title to be written"}
+OBJECTIF = {"fr": "À rédiger : un objectif du chapitre, avec un verbe d'action observable.",
+            "en": "To be written: a chapter objective, with an observable action verb."}
+
+# Le texte d'un chapitre de la démonstration vit dans des <span> sans attribut : ce sont ses anciens blocs
+# bilingues, dont la conversion au site miroir n'a ôté que l'attribut data-tr. Le chapitre vitrine n'en a pas
+# d'autres (vérifié sur la démo d'avant la conversion).
+PROSE = re.compile(r"<span>(?:(?!</span>).)*?</span>", re.S)
 
 
-def vider_prose(t):
+def vider_prose(t, lg):
     """Remplace le texte des paragraphes et des listes par un repère visible.
 
     On garde la structure — sections, listes, encadrés, appels de composants —
@@ -968,30 +1019,28 @@ def vider_prose(t):
     partirait en ligne en parlant d'autre chose que du cours.
     """
     def remplacer(m):
-        lang = m.group(1)
-        return '<span data-tr="%s">%s</span>' % (lang, PLACEHOLDER[lang])
+        return "<span>%s</span>" % PLACEHOLDER[lg]
 
     # les objectifs du chapitre : ils sont dans l'en-tete, donc hors de la
-    # plage traitee plus bas, et ils portaient les objectifs de la demonstration
+    # plage traitee plus bas, et ils portaient les objectifs de la demonstration.
+    # Seule leur liste se vide : l'en-tête « Objectifs du chapitre » devenait
+    # lui aussi un repère de paragraphe.
     o = t.find('<div class="chapter-objectives">')
     if o > -1:
-        of = t.index("</div>", t.index("</ul>", o))
-        t = t[:o] + re.sub(r'<span data-tr="(fr|en)">(?:(?!</span>).)*?</span>',
-                           remplacer, t[o:of], flags=re.S) + t[of:]
+        u = t.index("<ul>", o)
+        uf = t.index("</ul>", u)
+        t = t[:u] + PROSE.sub(lambda m: "<span>%s</span>" % OBJECTIF[lg], t[u:uf]) + t[uf:]
 
     # uniquement dans le corps, et uniquement les blocs de prose
     debut = t.index("<!-- ============ 1 ============ -->")
     fin = t.index("<nav class=\"chapter-pagination\">")
-    corps = t[debut:fin]
-    corps = re.sub(r'<span data-tr="(fr|en)">(?:(?!</span>).)*?</span>',
-                   remplacer, corps, flags=re.S)
+    corps = PROSE.sub(remplacer, t[debut:fin])
 
     # Les titres de section : un repère court et numéroté, pas le paragraphe de remplissage — ils s'affichent dans
     # la page et dans le menu (outils/generer_nav_sections.py les y reporte).
     def titre(m):
         titre.n += 1
-        return ('<h2%s><span data-tr="fr">%d. Titre de section à rédiger</span>'
-                '<span data-tr="en">%d. Section title to be written</span></h2>' % (m.group(1), titre.n, titre.n))
+        return '<h2%s><span>%s</span></h2>' % (m.group(1), TITRE_SECTION[lg] % titre.n)
     titre.n = 0
     corps = re.sub(r"<h2\b([^>]*)>.*?</h2>", titre, corps, flags=re.S)
     return t[:debut] + corps + t[fin:]
@@ -1102,6 +1151,25 @@ def textes_vides(c):
 """
 
 
+TITRE_CHAPITRE = {"fr": "Chapitre %s : %s", "en": "Chapter %s: %s"}
+AVERTISSEMENT_SQUELETTE = {
+    "fr": ("Chapitre à rédiger",
+           "Ce squelette vient de <code>nouveau_cours.py</code>. Il conserve la\n"
+           "        structure et les appels de composants du chapitre vitrine, mais son\n"
+           "        contenu est vide : rien de la démonstration ne peut survivre par\n"
+           "        inadvertance. L'exemple entièrement rempli reste consultable dans\n"
+           "        <code>chapitres/_modele.html</code>. Supprimez cet encadré une fois le\n"
+           "        chapitre écrit."),
+    "en": ("Chapter to be written",
+           "This skeleton comes from <code>nouveau_cours.py</code>. It keeps the\n"
+           "        structure and the component calls of the showcase chapter, but its\n"
+           "        content is empty: nothing from the demo can survive by accident.\n"
+           "        The fully written example remains available in\n"
+           "        <code>chapitres/_modele.html</code>. Delete this box once the\n"
+           "        chapter is written."),
+}
+
+
 def squelette_chapitre(c, ch, modele):
     """Un chapitre vide mais complet : structure, appels de composants, reperes.
 
@@ -1109,39 +1177,43 @@ def squelette_chapitre(c, ch, modele):
     squelette ne peut pas diverger du moteur reel, puisqu'il EST le chapitre
     reel, vide de son contenu.
     """
-    bi = "en" in (c.get("langues") or [])
+    lg = racine(c)
     t = modele
-    tfr = ch["titre"]["fr"]
-    ten = ch["titre"].get("en", tfr) if bi else tfr
+    titre = texte(ch["titre"], lg)
+    num = str(ch.get("num", ""))
 
-    t = t.replace("Chapitre 1 — Cadrer son cours / Scoping your course",
-                  "Chapitre %s — %s" % (ch.get("num", ""), tfr))
+    # Le titre de l'onglet se remplace en entier, quel qu'il soit : cherché mot pour mot, il a cessé d'être reconnu
+    # quand le chapitre vitrine a quitté ses tirets (ea1cc23), et chaque squelette s'annonçait « Chapitre 1 : Cadrer
+    # son cours » dans la barre d'onglets.
+    t = re.sub(r"<title>.*?</title>", lambda m: "<title>%s</title>" % h(TITRE_CHAPITRE[lg] % (num, titre)),
+               t, count=1, flags=re.S)
     t = t.replace('data-accent="marine"', 'data-accent="%s"' % c["palette"])
-    t = t.replace(">Cadrer son cours<", ">%s<" % tfr)
-    t = t.replace(">Scoping your course<", ">%s<" % ten)
-    t = t.replace(">Chapitre 1<", ">Chapitre %s<" % ch.get("num", ""))
-    t = t.replace(">Chapter 1<", ">Chapter %s<" % ch.get("num", ""))
+    t = re.sub(r'(<h1 class="chapter-title">).*?(</h1>)',
+               lambda m: '%s<span>%s</span>%s' % (m.group(1), h(titre), m.group(2)), t, count=1, flags=re.S)
+    t = t.replace(">Chapitre 1<", ">Chapitre %s<" % num)
+    t = t.replace(">Chapter 1<", ">Chapter %s<" % num)
+    # Le badge « Chapitre vitrine » ne dit rien d'un squelette.
+    t = re.sub(r'\s*<span class="pill navy"><span>(?:Chapitre vitrine|Showcase chapter)</span></span>', "", t)
     t = t.replace("RDCX.steps({ chapitre: '1' })",
-                  "RDCX.steps({ chapitre: '%s' })" % ch.get("num", "1"))
+                  "RDCX.steps({ chapitre: '%s' })" % (num or "1"))
     # La durée de l'en-tête est un fragment du référentiel (outils/generer_fragments.py) : celui du chapitre.
-    t = re.sub(r"FRAGMENT:duree-\d+ ", "FRAGMENT:duree-%s " % ch.get("num", "1"), t)
+    t = re.sub(r"FRAGMENT:duree-\d+ ", "FRAGMENT:duree-%s " % (num or "1"), t)
 
     # Le sous-titre de l'en-tête : l'accroche du chapitre de démonstration.
-    t = sous_titre(t, *SOUS_TITRE_CHAPITRE)
+    t = sous_titre(t, SOUS_TITRE_CHAPITRE[lg])
 
     # La meta-description decrivait le chapitre de demonstration : elle part
     # dans les moteurs de recherche et dans les apercus de partage.
     t = re.sub(r'<meta name="description" content="[^"]*">',
-               '<meta name="description" content="Chapitre %s — %s. %s">'
-               % (ch.get("num", ""), tfr, c["titre"]["fr"]), t, count=1)
+               lambda m: '<meta name="description" content="%s">'
+                         % att("%s. %s" % (TITRE_CHAPITRE[lg] % (num, titre), texte(c["titre"], lg))), t, count=1)
 
-    # Les titres d'etapes et de sommaire sont des ATTRIBUTS, pas des blocs
-    # data-tr : le vidage de la prose ne les voit pas.
+    # Les titres d'etapes et de sommaire sont des ATTRIBUTS, pas de la prose :
+    # le vidage de la prose ne les voit pas.
     def num_section(m):
         num_section.n += 1
         return '%s="Section %d"' % (m.group(1), num_section.n)
-    # Leur version anglaise (…-en) aussi : sans quoi un cours créé gardait en anglais les intitulés de la démo.
-    for nom in ("data-step-titre", "data-sommaire-titre", "data-step-titre-en", "data-sommaire-titre-en"):
+    for nom in ("data-step-titre", "data-sommaire-titre"):
         num_section.n = 0
         t = re.sub(r'(%s)="[^"]*"' % re.escape(nom), num_section, t)
 
@@ -1151,21 +1223,17 @@ def squelette_chapitre(c, ch, modele):
     t = t[:d] + textes_vides(c) + "\n" + t[f:]
 
     # la prose des sections
-    t = vider_prose(t)
+    t = vider_prose(t, lg)
 
+    titre_avert, texte_avert = AVERTISSEMENT_SQUELETTE[lg]
     avert = (
         '\n    <div class="callout warning">\n'
         '      <div class="callout-icon">✏️</div>\n'
         '      <div class="callout-content">\n'
-        '        <h4>Chapitre à rédiger</h4>\n'
-        '        <p>Ce squelette vient de <code>nouveau_cours.py</code>. Il conserve la\n'
-        '        structure et les appels de composants du chapitre vitrine, mais son\n'
-        '        contenu est vide : rien de la démonstration ne peut survivre par\n'
-        '        inadvertance. L\'exemple entièrement rempli reste consultable dans\n'
-        '        <code>chapitres/_modele.html</code>. Supprimez cet encadré une fois le\n'
-        '        chapitre écrit.</p>\n'
+        '        <h4>%s</h4>\n'
+        '        <p>%s</p>\n'
         '      </div>\n'
-        '    </div>\n')
+        '    </div>\n' % (titre_avert, texte_avert))
     t = t.replace('    <!-- ============ Médias du chapitre ============ -->',
                   avert + '\n    <!-- ============ Médias du chapitre ============ -->', 1)
     return t
@@ -1178,18 +1246,21 @@ def referentiel_vide():
     return re.sub(r"^(DUREES|VALEURS|FRAGMENTS) = .*$", lambda m: "%s = {}" % m.group(1), t, flags=re.M)
 
 
-def depouiller_langue(t, garder):
-    """Retire les blocs de la langue non retenue, pour un cours monolingue. Les attributs à version anglaise
-    (data-step-titre-en…) disparaissent d'un cours français ; un cours anglais en garde la valeur."""
-    autre = "en" if garder == "fr" else "fr"
-    t = re.sub(r'<span data-tr="%s">.*?</span>' % autre, "", t, flags=re.S)
-    t = re.sub(r'\sdata-tr="%s"' % garder, "", t)
-    for nom in ("data-step-titre", "data-sommaire-titre"):
-        if garder == "en":
-            t = re.sub(r'(\s%s=")[^"]*("[^>]*?)\s%s-en="([^"]*)"' % (nom, nom),
-                       lambda m: m.group(1) + m.group(3) + m.group(2), t)
-        t = re.sub(r'\s%s-en="[^"]*"' % nom, "", t)
-    return t
+def promouvoir_jumelles(site, langue):
+    """Un cours dont la langue racine n'est pas celle de la démonstration (le français) part de ses jumelles : chaque
+    page <langue>/X.html prend la place de X.html, ses chemins remontés d'un cran (outils/miroir.py, remonter). Une
+    page sans jumelle resterait en français : la démonstration les a toutes en anglais. Le nombre de pages prises."""
+    base = os.path.join(site, langue)
+    spec = importlib.util.spec_from_file_location("miroir", os.path.join(RACINE, "outils", "miroir.py"))
+    miroir = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(miroir)
+    n = 0
+    for p in sorted(glob.glob(os.path.join(base, "**", "*.html"), recursive=True)):
+        rel = os.path.relpath(p, base).replace(os.sep, "/")
+        t = io.open(p, encoding="utf-8").read()
+        ecrire(os.path.join(site, *rel.split("/")), miroir.remonter(t, rel, langue, site))
+        n += 1
+    return n
 
 
 def ecrire(chemin, contenu):
@@ -1215,14 +1286,15 @@ def main():
     valider(c)
 
     sortie = os.path.abspath(os.path.join(RACINE, args.sortie or c.get("sortie", "../cours")))
-    bi = "en" in c["langues"]
-    langue = c["langues"][0]
+    langue = racine(c)
 
     print("\nCours à créer\n-------------")
     print("  titre     : %s" % c["titre"]["fr"])
     print("  slug      : %s" % c["slug"])
     print("  palette   : %s" % c["palette"])
-    print("  langues   : %s" % (", ".join(c["langues"]) + ("" if bi else "  (monolingue)")))
+    print("  langues   : %s  (racine : %s%s)" % (", ".join(c["langues"]), langue,
+                                               " ; les autres en pages jumelles, ensuite"
+                                               if len(c["langues"]) > 1 else ""))
     print("  chapitres : %d" % len(c["chapitres"]))
     for ch in c["chapitres"]:
         print("      %-3s %-28s %s" % (ch.get("num", "?"), ch["fichier"], ch["titre"]["fr"][:40]))
@@ -1278,6 +1350,23 @@ def main():
     print("  arborescence copiée (%d entrées)" % len(COPIER))
     if gardes:
         print("  fichiers locaux du cours gardés en place (non ouverts) : %s" % ", ".join(gardes))
+
+    # --- la langue racine. Un cours anglais prend à la racine les jumelles anglaises de la démonstration ; puis les
+    #     dossiers de jumelles partent tous : recopiés, ils apportaient seize pages de la démonstration, déclarées
+    #     dans la mauvaise langue. Les autres langues du cours viennent ensuite, page par page, avec
+    #     outils/creer_jumelle.py, une fois la racine stable.
+    site = os.path.join(sortie, "site")
+    if langue != "fr":
+        print("  %d page(s) de la démonstration prises en « %s »" % (promouvoir_jumelles(site, langue), langue))
+    for d in DOSSIERS_LANGUE:
+        if os.path.isdir(os.path.join(site, d)):
+            shutil.rmtree(os.path.join(site, d))
+    # La liste des pages traduites : vide, faute de jumelles (celle de la démonstration en nommait seize, et le
+    # bouton des langues aurait mené à des pages absentes).
+    r = subprocess.run([sys.executable, os.path.join(sortie, "outils", "generer_langues.py")],
+                       capture_output=True, text=True, encoding="utf-8")
+    print("  langues-data.js : %s" % ("aucune page traduite pour l'instant" if r.returncode == 0
+                                      else "NON écrit (%s)" % (r.stderr.strip() or r.stdout.strip())[-160:]))
 
     # --- le contrat de travail du cours, lu par Claude à chaque ouverture
     ecrire(os.path.join(sortie, "CLAUDE.md"), contrat_du_cours(c))
@@ -1341,11 +1430,10 @@ def main():
             t = io.open(p, encoding="utf-8").read()
             avant = t
             t = re.sub(r'data-accent="[a-z]+"', 'data-accent="%s"' % c["palette"], t)
-            # Un cours monolingue le déclare sur <html> : i18n.js n'y pose alors pas
-            # de bouton de bascule, et n'accepte que cette langue.
+            # Chaque page déclare sa langue, la racine du cours : i18n.js n'y pose pas de bouton 🌐 et n'accepte
+            # qu'elle ; navigation.js y chargera le bouton des langues dès qu'une jumelle existera.
             t = re.sub(r'<html lang="[a-z]{2}" data-lang="[a-z]{2}"(?: data-langues="[a-z ]*")?',
-                       '<html lang="%s" data-lang="%s"%s'
-                       % (langue, langue, "" if bi else ' data-langues="%s"' % langue), t)
+                       '<html lang="%s" data-lang="%s" data-langues="%s"' % (langue, langue, langue), t)
             if t != avant:
                 io.open(p, "w", encoding="utf-8", newline="\n").write(t)
                 n += 1
@@ -1375,20 +1463,13 @@ def main():
     if k:
         print("  cours.html : %d carte(s) de chapitre regeneree(s)" % k)
 
-    # --- cours monolingue : l'autre langue se retire EN DERNIER. Retirée plus tôt,
-    #     elle emportait les repères data-tr dont se servent le renommage (sous-titre
-    #     de l'accueil et du sommaire), le recousage (boutons « Suivant ») et le
-    #     sommaire, qui réécrit ses cartes dans les deux langues : un cours en
-    #     français seul gardait la prose de la démonstration et des liens morts.
-    if not bi:
-        d = 0
+    # --- un cours qui n'a pas le français ET l'anglais ne promet pas des fiches « français et anglais »
+    if not ("fr" in c["langues"] and "en" in c["langues"]):
         for f in glob.glob(os.path.join(sortie, "site", "**", "*.html"), recursive=True):
             t = io.open(f, encoding="utf-8").read()
-            neuf = depouiller_langue(t, langue).replace(" · PDF · français et anglais", " · PDF")
+            neuf = t.replace(" · PDF · français et anglais", " · PDF").replace(" · PDF · French and English", " · PDF")
             if neuf != t:
                 ecrire(f, neuf)
-                d += 1
-        print("  %d page(s) dépouillée(s) de la langue non retenue" % d)
 
     # --- le menu : les sections des chapitres du cours, lues dans leurs <h2 id>. Sans cela, le cours gardait
     #     dans son menu les sections du cours de démonstration (nav-sections.js n'était produit par aucun outil).

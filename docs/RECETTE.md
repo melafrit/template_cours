@@ -138,9 +138,10 @@ Renseignez ces deux champs dans `cours.json`, puis :
 Le cours atterrit dans `../mon-cours`. **Avec les trois chapitres du modèle,
 la sortie doit annoncer :**
 
-    arborescence copiée (15 entrées)
+    arborescence copiée (16 entrées)
+    langues-data.js : aucune page traduite pour l'instant
     CLAUDE.md écrit : les exigences de l'auteur s'appliquent à ce cours
-    contenu de demonstration retire : 26 media(s), 9 fichier(s) remis a l'etat de squelette
+    contenu de demonstration retire : 26 media(s), 10 fichier(s) remis a l'etat de squelette
     14 page(s) renommee(s) au nom du cours
     6 fichier(s) recousu(s) sur les chapitres declares
     cours.html : 3 carte(s) de chapitre regeneree(s)
@@ -151,8 +152,8 @@ la sortie doit annoncer :**
 Les chiffres des recousages et des cartes suivent le nombre de chapitres
 déclarés : une carte par chapitre, et un recousage par chapitre plus les trois
 pages qui les citent (accueil, sommaire, chapitre vitrine). Les 26 médias et les
-9 squelettes — dont l'accueil, l'atelier et les activités, vidés de leur
-démonstration —, eux, ne bougent pas.
+10 squelettes (dont l'accueil, l'atelier et les activités, vidés de leur
+démonstration), eux, ne bougent pas.
 Les deux dernières lignes disent « absent du template » si vos secrets n'y sont
 pas : c'est le cas d'un dépôt fraîchement cloné (§ 4).
 
@@ -175,6 +176,10 @@ Et, pour les secrets — sans les ouvrir :
       déployeur refusera tant qu'elle n'est pas remplacée.
 - [ ] `python3 deploiement/tester_deployer.py` finit sur « Tous les cas sont
       conformes ».
+- [ ] **Aucun dossier `site/en/` ni `site/ar/`** dans le cours, et
+      `site/assets/js/langues-data.js` ne nomme aucune page : les jumelles du
+      cours viennent ensuite, avec `outils/creer_jumelle.py`. Chaque page déclare
+      la langue racine (`<html lang="fr" data-lang="fr" data-langues="fr">`). 🔴
 
 Le cours créé embarque son propre lanceur. Ouvrez-le :
 
@@ -213,21 +218,21 @@ Le contrôle en une ligne, depuis le dossier du cours créé :
 
 Il ne doit rien retourner.
 
-### 3 bis. Le même cours, en français seul
+### 3 bis. Le même cours, en anglais
 
-Un cours monolingue suit un autre chemin dans le générateur : la langue non
-retenue se retire **en dernier**, et chaque page déclare sa langue
-(`data-langues`). Mettez `"langues": ["fr"]` dans `cours.json`, régénérez
-(`--ecraser`), puis :
+Un cours dont la langue racine est l'anglais part des jumelles anglaises de
+la démonstration, remontées à la racine (`miroir.remonter`). Mettez
+`"langues": ["en"]` dans `cours.json`, régénérez (`--ecraser`), puis :
 
-    grep -rc 'data-tr=' --include=*.html site | grep -v ":0"     # rien
-    grep -rho '<html[^>]*>' --include=*.html site | sort | uniq -c   # data-langues="fr" partout
+    grep -rho '<html[^>]*>' --include=*.html site | sort | uniq -c   # lang="en" et data-langues="en" partout
+    grep -rilE "Designing an online course|Scoping your course|Structuring the content|Creating the resources|What this site demonstrates|demo course" site/ | grep -v _modele
 
-- [ ] Aucun bloc anglais, aucun bouton 🌐 ; les libellés des moteurs restent en
-      français même dans un navigateur réglé en anglais. 🔴
-- [ ] `verifier_liens.py` finit sur « Aucun lien mort » — il signale aussi un
-      lien abîmé, dont le début aurait disparu.
-- [ ] Le contrôle des traces de la démonstration ne retourne rien.
+- [ ] Chaque page est en anglais et le déclare ; aucun bouton de langue. 🔴
+- [ ] Le contrôle des traces ne retourne rien. Seuls les dictionnaires des
+      scripts du QCM gardent du français : ils portent les deux langues, et le
+      moteur y prend l'anglais.
+- [ ] `verifier_liens.py` finit sur « Aucun lien mort » : les pages remontées
+      mènent bien aux fichiers partagés.
 
 ---
 
@@ -261,7 +266,7 @@ site de démonstration n'a rien à faire sur votre hébergement, et votre
 |---|---|
 | Un lien mène nulle part dans un cours créé | `recoudre_liens()` dans `nouveau_cours.py` |
 | Un lien « abîmé » (son début a disparu) | une substitution par motif dont le remplacement commence par un chiffre : `\1` suivi de `01-…` devient un octal — écrire `\g<1>` ou une fonction |
-| Un cours en français seul garde de l'anglais ou un bouton 🌐 | le retrait final de la langue dans `main()`, et `data-langues` lu par `i18n.js` |
+| Un cours garde des pages de la démonstration sous `en/` ou `ar/`, ou une page dans une autre langue que sa racine | la langue racine dans `main()` : `promouvoir_jumelles()`, `DOSSIERS_LANGUE`, et `data-langues` lu par `i18n.js` |
 | Du contenu de la démonstration a survécu | `purger_demo()`, listes `DEMO_DOSSIERS` et `DEMO_FICHIERS` |
 | Le titre de la démo reste dans un onglet | `renommer_identite()`, liste `paires` |
 | Un libellé reste en français en anglais | `site/assets/js/ui-labels.js`, et l'abonnement à `tpl:langchange` du moteur concerné |

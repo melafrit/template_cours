@@ -182,6 +182,65 @@ def reloger(t, rel, jumelles, site):
     return "".join(morceaux)
 
 
+def remonter(t, rel, langue, site):
+    """L'inverse de reloger() : la jumelle <langue>/rel, réécrite pour prendre la place de la page rel, à la racine
+    du site. Un chemin qui mène à une page de <langue>/ mène à sa place à la racine ; un fichier partagé remonte d'un
+    cran. nouveau_cours.py s'en sert pour un cours dont la langue racine est celle des jumelles de la démonstration."""
+    dossier = posixpath.dirname(rel)
+    dossier_l = posixpath.join(langue, dossier) if dossier else langue
+
+    def nouveau(chemin):
+        if not chemin or re.match(r"^(?:[a-z][a-z0-9+.-]*:|//|#|/|\{)", chemin, re.I):
+            return chemin
+        fichier, suite = re.match(r"([^?#]*)(.*)$", chemin, flags=re.S).groups()
+        if not fichier:
+            return chemin
+        cible = posixpath.normpath(posixpath.join(dossier_l, fichier))
+        if cible.startswith(".."):
+            return chemin                                # hors du site : on n'y touche pas
+        if cible.startswith(langue + "/"):
+            cible = cible[len(langue) + 1:]              # une page de la langue : sa place à la racine
+        return posixpath.relpath(cible, dossier or ".") + suite
+
+    def attribut(m):
+        return m.group(1) + nouveau(m.group(2)) + m.group(3)
+
+    def srcset(m):
+        parties = []
+        for morceau in m.group(2).split(","):
+            mots = morceau.strip().split()
+            if mots:
+                mots[0] = nouveau(mots[0])
+            parties.append(" ".join(mots))
+        return m.group(1) + ", ".join(parties) + m.group(3)
+
+    def script(m):
+        def chaine(mm):
+            chemin = mm.group(2)
+            cible = posixpath.normpath(posixpath.join(dossier_l, chemin))
+            if cible.startswith(langue + "/"):
+                cible = cible[len(langue) + 1:]
+            # Comme dans reloger() : seul un chemin de fichier du site change, une autre chaîne reste telle quelle.
+            if cible.startswith("..") or not (cible.startswith("assets/")
+                                              or os.path.exists(os.path.join(site, *cible.split("/")))):
+                return mm.group(0)
+            return mm.group(1) + nouveau(chemin) + (mm.group(3) or "") + mm.group(1)
+        return m.group(1) + CHAINE_CHEMIN.sub(chaine, m.group(2)) + m.group(3)
+
+    morceaux, i = [], 0
+    for m in INTACT.finditer(t):
+        morceaux.append(SRCSET.sub(srcset, ATTRIBUT_URL.sub(attribut, t[i:m.start()])))
+        bloc = m.group(0)
+        if bloc[:7].lower() == "<script":
+            if re.match(r"<script\b[^>]*\ssrc=", bloc, re.I):
+                bloc = ATTRIBUT_URL.sub(attribut, bloc, count=1)
+            bloc = SCRIPT.sub(script, bloc)
+        morceaux.append(bloc)
+        i = m.end()
+    morceaux.append(SRCSET.sub(srcset, ATTRIBUT_URL.sub(attribut, t[i:])))
+    return "".join(morceaux)
+
+
 def charger_liste(t):
     """(texte, trouvé) : la jumelle charge la liste des pages traduites juste après i18n.js — son menu et le lien de
     son glossaire en ont besoin dès le premier affichage."""

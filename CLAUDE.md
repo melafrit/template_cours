@@ -311,9 +311,10 @@ d'écouter. **La fiche est la source unique.**
 **Le modèle par défaut est le site miroir** (décision de l'auteur, 25 octobre 2026) :
 chaque page française a sa jumelle anglaise sous `en/` — même chemin, même nom, même suite
 de blocs —, écrite une fois le français stable ; `verifier_parite.py` contrôle la parité.
-Les blocs `data-tr` ci-dessous restent le **modèle de secours**, pour un cours court écrit
-bilingue d'emblée. Les deux modèles en détail : `docs/I18N.md` ; la méthode :
-`prompts/modules/01-bilingue.md`.
+Depuis le 21 novembre 2026, la démonstration du gabarit est elle-même un site miroir, et
+`nouveau_cours.py` ne crée plus que ce modèle (décision de l'auteur). Les blocs `data-tr`
+ci-dessous restent décrits pour les cours qui les ont déjà. Les deux modèles en détail :
+`docs/I18N.md` ; la méthode : `prompts/modules/01-bilingue.md`.
 
 En modèle `data-tr`, trois mécanismes, selon la nature du texte.
 
