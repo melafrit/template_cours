@@ -5,7 +5,7 @@
      signature SHA-256, calcul du score CBM et correction détaillée.
      Bilingue FR/EN (voir assets/js/i18n.js et QCM/qcm-core.js).
      ================================================================= -->
-<html lang="fr" data-lang="fr" data-accent="marine">
+<html lang="fr" data-lang="fr" data-langues="fr" data-accent="marine">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -51,10 +51,10 @@
 
 <header class="site-header">
   <div class="header-left">
-    <a href="../../index.html" class="site-logo"><span class="logo-icon">C<span class="acc">e</span></span><span><span data-tr="fr">Concevoir un cours</span><span data-tr="en">Design a course</span></span></a>
+    <a href="../../index.html" class="site-logo"><span class="logo-icon">C<span class="acc">e</span></span><span><span>Concevoir un cours</span></span></a>
   </div>
   <div class="header-right">
-    <a href="../index.html" class="chapter-nav-btn"><span data-tr="fr">← QCM</span><span data-tr="en">← Quiz</span></a>
+    <a href="../index.html" class="chapter-nav-btn"><span>← QCM</span></a>
     <button class="theme-toggle" data-i18n-aria-fr="Basculer le thème" data-i18n-aria-en="Toggle theme" aria-label="Basculer le thème">🌙</button>
   </div>
 </header>
@@ -62,31 +62,28 @@
 <div class="qcm-wrap">
   <div class="qcm-card">
     <div class="qcm-hero">
-      <h1><span data-tr="fr">🔎 Ma correction</span><span data-tr="en">🔎 My results</span></h1>
+      <h1><span>🔎 Ma correction</span></h1>
       <p>
-        <span data-tr="fr">Déposez votre fichier CSV (celui téléchargé à la fin du QCM) pour voir votre note et la correction détaillée.</span>
-        <span data-tr="en">Drop your CSV file (the one downloaded at the end of the quiz) to see your mark and the detailed correction.</span>
+        <span>Déposez votre fichier CSV (celui téléchargé à la fin du QCM) pour voir votre note et la correction détaillée.</span>
       </p>
     </div>
 
     <div class="callout info"><div class="callout-icon">🔐</div><div class="callout-content">
-      <h4><span data-tr="fr">Intégrité</span><span data-tr="en">Integrity</span></h4>
+      <h4><span>Intégrité</span></h4>
       <p>
-        <span data-tr="fr">Le fichier est signé : la page vérifie qu'il n'a pas été modifié. Toute altération est détectée.</span>
-        <span data-tr="en">The file is signed: the page checks that it has not been modified. Any tampering is detected.</span>
+        <span>Le fichier est signé : la page vérifie qu'il n'a pas été modifié. Toute altération est détectée.</span>
       </p>
     </div></div>
 
     <details style="margin:var(--space-4) 0">
-      <summary style="cursor:pointer;font-family:var(--font-display);font-weight:600"><span data-tr="fr">📊 Rappel du barème</span><span data-tr="en">📊 Marking scheme</span></summary>
+      <summary style="cursor:pointer;font-family:var(--font-display);font-weight:600"><span>📊 Rappel du barème</span></summary>
       <div id="bareme"></div>
     </details>
 
     <div class="dropzone" id="drop">
       <div class="big">📂</div>
       <p>
-        <span data-tr="fr"><strong>Glissez-déposez votre fichier CSV ici</strong><br>ou cliquez pour le sélectionner</span>
-        <span data-tr="en"><strong>Drag and drop your CSV file here</strong><br>or click to select it</span>
+        <span><strong>Glissez-déposez votre fichier CSV ici</strong><br>ou cliquez pour le sélectionner</span>
       </p>
       <input type="file" id="file" accept=".csv" class="hidden">
     </div>
@@ -97,11 +94,10 @@
 
   <footer class="site-footer" style="margin-top:var(--space-12);border-radius:var(--radius-lg)">
     <p>
-      <span data-tr="fr">Correction — « Concevoir un cours en ligne » — Auteur : <a href="#">Mohamed EL AFRIT</a></span>
-      <span data-tr="en">Correction — "Designing an online course" — Author: <a href="#">Mohamed EL AFRIT</a></span>
+      <span>Correction — « Concevoir un cours en ligne » — Auteur : <a href="#">Mohamed EL AFRIT</a></span>
     </p>
     <p class="license"><span class="cc-badges">MIT · CC BY 4.0</span>
-     · <a href="../../about.html"><span data-tr="fr">À propos du template</span><span data-tr="en">About the template</span></a></p>
+     · <a href="../../about.html"><span>À propos du template</span></a></p>
   </footer>
 </div>
 

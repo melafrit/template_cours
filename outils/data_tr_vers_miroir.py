@@ -24,7 +24,8 @@ La conversion appelle ensuite generer_langues.py, generer_nav_sections.py et gen
 rendu dans les deux langues hors d'un bloc data-tr, comme la liste des épisodes de la page Podcasts, traverse la
 conversion tel quel : chaque page le reçoit alors dans sa seule langue) ; restent liens_langues.py, hreflang.py,
 verifier_parite.py, verifier_liens.py, verifier_i18n.py, et la recette au navigateur.
-Le gabarit garde sa démonstration en blocs data-tr, le modèle de secours : l'outil refuse d'y tourner.
+La démonstration du gabarit est passée ainsi au site miroir (décision de l'auteur du 21 novembre 2026) ;
+relancé, l'outil ne trouve plus de page à convertir.
 """
 import argparse
 import glob
@@ -74,7 +75,8 @@ def couper_titre(t, rel, cours, chapitres):
     f = posixpath.basename(rel)
     if rel.startswith("chapitres/") and f in chapitres:
         fr, en, num = chapitres[f]
-        return "Chapitre %s — %s" % (num, fr), "Chapter %s — %s" % (num, en), "course-data.js"
+        # Le deux-points, comme les titres des pages : ni tiret cadratin ni « – » dans ce qui se publie (CLAUDE.md).
+        return "Chapitre %s : %s" % (num, fr), "Chapter %s: %s" % (num, en), "course-data.js"
     if " / " in titre:
         a, b = (x.strip() for x in titre.rsplit(" / ", 1))
         if a and b:
@@ -99,10 +101,6 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--essai", action="store_true", help="dit ce qui serait fait, sans rien écrire")
     args = ap.parse_args()
-    if os.path.exists(os.path.join(RACINE, "nouveau_cours.py")):
-        sys.exit("Le gabarit garde sa démonstration en blocs data-tr, le modèle de secours : lancez cet outil dans "
-                 "un cours (docs/I18N.md).")
-
     pages = sorted(os.path.relpath(p, SITE).replace("\\", "/")
                    for p in glob.glob(os.path.join(SITE, "**", "*.html"), recursive=True))
     pages = [p for p in pages if not p.startswith(("en/", "assets/"))]

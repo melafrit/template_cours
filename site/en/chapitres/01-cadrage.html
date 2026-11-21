@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en" data-langues="en" data-accent="marine">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../../favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+<title>Chapter 1: Scoping your course</title>
+<meta name="description" content="Chapter 1 of the demo course: scoping your course (audience, objectives, through-line). Showcase chapter: it exercises every component of the engine. Bilingual FR/EN.">
+<meta name="author" content="Mohamed EL AFRIT">
+<link rel="stylesheet" href="../../assets/css/fonts.css">
+<link rel="stylesheet" href="../../assets/css/main.css">
+<link rel="stylesheet" href="../../assets/css/palettes.css">
+<link rel="stylesheet" href="../../assets/css/components.css">
+<link rel="stylesheet" href="../../assets/css/interactions.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-left">
+    <button class="sidebar-toggle" aria-label="Menu">☰</button>
+    <a href="../index.html" class="site-logo"><span class="logo-icon">C<span class="acc">e</span></span>
+      <span>Design a course</span></a>
+  </div>
+  <div class="header-right">
+    <nav class="chapter-nav">
+      <a href="../cours.html" class="chapter-nav-btn"><span>← Contents</span></a>
+      <a href="02-structurer.html" class="chapter-nav-btn"><span>Next →</span></a>
+    </nav>
+    <button class="theme-toggle" aria-label="Thème">🌙</button>
+  </div>
+</header>
+
+<aside class="sidebar">
+  <div class="sidebar-progress"><div class="sidebar-progress-bar"></div></div>
+  <div class="sidebar-content"><ul class="nav-tree" id="nav-tree"></ul></div>
+</aside>
+
+<div class="main-wrapper">
+  <main class="main-content">
+
+    <!-- ============ En-tête ============ -->
+    <div class="chapter-header">
+      <div class="chapter-meta">
+        <span class="chapter-badge">🎯 <span>Chapter 1</span></span>
+        <span class="pill navy"><span>Showcase chapter</span></span>
+        <span class="chapter-duration">⏱ <span>~<!-- FRAGMENT:duree-1 -->30 min<!-- /FRAGMENT:duree-1 --> · reading and activities</span></span>
+      </div>
+      <h1 class="chapter-title"><span>Scoping your course</span></h1>
+      <p class="chapter-subtitle">
+        <span>A badly scoped course is hard to repair: you notice on the third session, when it is too late to start over. This chapter sets out the three decisions to make <em>before</em> writing a single line. It also doubles as a showcase: every engine component is exercised here at least once.</span>
+      </p>
+
+      <div class="chapter-objectives">
+        <h3>🎯 <span>Chapter objectives</span></h3>
+        <ul>
+          <li><span><strong>Describe a target audience</strong> by its prerequisites and constraints, not by its degree title.</span></li>
+          <li><span><strong>Write a verifiable objective</strong> using an observable action verb.</span></li>
+          <li><span><strong>Choose a through-line</strong> that runs across the course and holds it together.</span></li>
+        </ul>
+      </div>
+      <!-- L'encadré « Le podcast du chapitre » : il mène à l'épisode, sur la page Podcasts (outils/podcasts.py). -->
+      <!-- FRAGMENT:podcast-1 --><nav class="pod-renvoi" aria-label="The chapter podcast"><span class="pod-renvoi-ico" aria-hidden="true">🎙️</span><span class="pod-renvoi-corps"><span class="pod-renvoi-etiquette">The chapter podcast</span><span class="pod-renvoi-titre">Episode 1: Chapter 1 · Scoping your course</span><span class="pod-renvoi-texte">A few minutes to set out what the chapter will ask you to decide: listen before you read it.</span></span><span class="pod-renvoi-action"><a class="pod-renvoi-lien" href="../podcasts.html#episode-1">Listen to episode 1<span aria-hidden="true"> →</span></a></span></nav><!-- /FRAGMENT:podcast-1 -->
+    </div>
+
+    <!-- data-modele-note : dans un cours cree a partir du template, les
+         medias de ce chapitre ont ete retires avec le reste de la
+         demonstration. Les composants affichent alors leur etat
+         « a enregistrer » ou « image attendue » : ce n'est pas un defaut,
+         c'est justement l'etat qu'il faut connaitre. -->
+    <div data-modele-note hidden></div>
+
+    <!-- ============ Médias du chapitre ============ -->
+    <section class="podcast-section">
+      <div class="podcast-header">
+        <div class="podcast-icon">🎙️</div>
+        <div>
+          <div class="podcast-title"><span>Podcast: Scope before you produce</span></div>
+          <div class="podcast-subtitle"><span>Demo episode · ~2 min</span></div>
+        </div>
+      </div>
+      <div class="podcast-player">
+        <button class="podcast-play-btn" aria-label="Lire">▶</button>
+        <div class="podcast-waveform"></div>
+        <span class="podcast-time">00:00 / 02:00</span>
+      </div>
+    </section>
+
+    <section class="slides-section" data-slides="[]">
+      <div class="slides-header">
+        <div class="slides-header-left"><div class="slides-icon">📊</div><span class="slides-label"><span>Slides: Chapter 1</span></span></div>
+        <div class="slides-controls"><button class="chapter-nav-btn slides-prev">◀</button><span class="slides-counter">· / ·</span><button class="chapter-nav-btn slides-next">▶</button></div>
+      </div>
+      <div class="slides-viewport"><div class="slides-placeholder">📊 <span>Demo deck: drop <code>chapitre-1-slides.pdf</code> into <code>assets/media/slides/</code>.</span></div></div>
+    </section>
+
+    <div id="capsule-1"></div>
+
+    <!-- ============ 1 ============ -->
+    <section class="content-section" data-step data-step-titre="Why scope" data-step-duree="6 min" data-sommaire-titre="Why scope">
+      <h2 id="ch1-s1"><span>1. Why scope before producing</span></h2>
+
+      <p class="lead">
+        <span>When you know your subject, the temptation is to open a document and start at the beginning. That is almost always a mistake: you then produce what you know, not what the learner needs.</span>
+      </p>
+      <p>
+        <span>Scoping means making three decisions, in order: <strong>for whom</strong>, <strong>to do what</strong>, and <strong>around what</strong>. Each one constrains the next. A defined audience narrows the possible objectives; verifiable objectives dictate the kind of activities; the through-line decides the order of chapters. Skipping one of the three does not save time: it moves the time to the rewrite.</span>
+      </p>
+
+      <div id="reveal-1-1"></div>
+    </section>
+
+    <!-- ============ 2 ============ -->
+    <section class="content-section" data-step data-step-titre="The audience" data-step-duree="6 min" data-sommaire-titre="The target audience">
+      <h2 id="ch1-s2"><span>2. Who is learning, exactly?</span></h2>
+
+      <p>
+        <span>"Master's students" describes nobody. A useful audience profile holds three facts: the <strong>prerequisites actually acquired</strong>, the <strong>time available</strong>, and the <strong>practical constraints</strong>. The third is the one people forget, and often the decisive one: a learner following the course on a commute will not watch a twenty-minute video.</span>
+      </p>
+      <p>
+        <span>Write that profile down, at the top of the syllabus. It will settle every difficult decision later, and it will stop you writing for the ideal learner, who does not exist.</span>
+      </p>
+
+      <div id="check-1-1"></div>
+    </section>
+
+    <!-- ============ 3 ============ -->
+    <section class="content-section" data-step data-step-titre="The objectives" data-step-duree="7 min" data-sommaire-titre="Verifiable objectives">
+      <h2 id="ch1-s3"><span>3. Objectives you can verify</span></h2>
+
+      <p>
+        <span>A learning objective states what the learner will be able to <strong>do</strong>, not what they will have "seen" or "understood". The difference is not cosmetic: it decides whether you can assess at all. "Understand the notion of an objective" cannot be observed. "Write an objective containing an action verb" can be observed, corrected and graded.</span>
+      </p>
+      <p>
+        <span>The test is simple: if you cannot picture the exercise that would prove the objective reached, it is badly written.</span>
+      </p>
+
+      <div id="match-1-1"></div>
+    </section>
+
+    <!-- ============ 4 ============ -->
+    <section class="content-section" data-step data-step-titre="The through-line" data-step-duree="6 min" data-sommaire-titre="The through-line">
+      <h2 id="ch1-s4"><span>4. The through-line</span></h2>
+
+      <p>
+        <span>A through-line is a case, a project or a scenario that runs across the whole course. It answers in advance the question the learner asks at every chapter: "what will this be used for?". This demo course has one: you are building a course while reading a course about building one.</span>
+      </p>
+
+      <div id="spot-1-1"></div>
+    </section>
+
+    <!-- ============ 5 ============ -->
+    <section class="content-section" data-step data-step-titre="A trade-off" data-step-duree="5 min" data-sommaire-titre="A trade-off">
+      <h2 id="ch1-s5"><span>5. A trade-off to settle</span></h2>
+
+      <p>
+        <span>Scoping is not a theoretical exercise: it plays out in concrete decisions, usually taken under time pressure. Here is one of them.</span>
+      </p>
+
+      <div id="branch-1-1"></div>
+    </section>
+
+    <!-- ============ 6 ============ -->
+    <section class="content-section" data-step data-step-titre="The diagram" data-step-duree="3 min" data-sommaire-titre="The chapter in one diagram">
+      <h2 id="ch1-s6"><span>6. The chapter in one diagram</span></h2>
+
+      <p>
+        <span>The three decisions and what each one constrains.</span>
+      </p>
+
+      <div id="schema-1-1"></div>
+    </section>
+
+    <!-- ============ 7 ============ -->
+    <section class="content-section" data-sommaire-titre="Review">
+      <h2 id="ch1-s7"><span>7. Review</span></h2>
+      <p>
+        <span>Flip the cards, then answer without looking at your notes.</span>
+      </p>
+      <div id="flash-ch1"></div>
+    </section>
+
+    <!-- ============ À retenir ============ -->
+    <div class="takeaways">
+      <div class="takeaways-head"><span class="ico">🔑</span><h3><span>Key points</span></h3></div>
+      <div class="takeaways-body">
+        <ul>
+          <li><span><strong>Three decisions, in order:</strong> for whom, to do what, around what. Each constrains the next.</span></li>
+          <li><span><strong>An audience is described by its constraints</strong>, not by its degree title.</span></li>
+          <li><span><strong>An objective is verifiable or it is nothing:</strong> if no exercise can prove it, it is badly written.</span></li>
+          <li><span><strong>The through-line answers "what is this for"</strong> before the learner asks.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <nav class="chapter-pagination">
+      <a href="../index.html" class="pagination-link prev">
+        <span class="pagination-label"><span>← Home</span></span>
+      </a>
+      <a href="02-structurer.html" class="pagination-link next">
+        <span class="pagination-label"><span>Next →</span></span>
+        <span class="pagination-title"><span>Structuring the content</span></span>
+      </a>
+    </nav>
+
+  </main>
+</div>
+
+<footer class="site-footer">
+  <p><span>Demo course "Designing an online course" · </span><a href="#">Mohamed EL AFRIT</a></p>
+  <p class="license"><span class="cc-badges">MIT · CC BY 4.0</span> · <a href="../about.html"><span>About the template</span></a></p>
+</footer>
+
+<script src="../../assets/js/i18n.js"></script>
+<script src="../../assets/js/langues-data.js"></script>
+<script src="../../assets/js/ui-labels.js"></script>
+<script src="../../assets/js/course-data.js"></script>
+<script src="../../assets/js/nav-sections.js"></script>
+<script src="../../assets/js/navigation.js"></script>
+<script src="../../assets/js/accessibility.js"></script>
+<script src="../../assets/js/media-data.js"></script>
+<script src="../../assets/js/media.js"></script>
+<script src="../../assets/js/glossaire-data.js"></script>
+<script src="../../assets/js/glossaire-tooltip.js"></script>
+<script src="../../assets/js/flashcards.js"></script>
+<script src="../../assets/js/flashcards-data.js"></script>
+<script src="../../assets/js/animations.js"></script>
+<script src="../../assets/js/interactions.js"></script>
+<script src="../../assets/js/quiz.js"></script>
+<script src="../../assets/js/playlist-data.js"></script>
+<script src="../../assets/js/playlist.js"></script>
+
+<script>
+/* =================================================================
+   Composants interactifs de ce chapitre — MODÈLE À RECOPIER
+
+   Les moteurs RDCX reçoivent des chaînes, pas des objets { fr, en } :
+   ils ignorent qu'un site puisse être bilingue, et c'est très bien —
+   cela les garde simples. Le bilingue se règle donc ICI, dans la page.
+
+   Le motif est toujours le même :
+     1. tout le contenu dans un objet TEXTES = { fr: {...}, en: {...} } ;
+     2. une fonction monter() qui vide les conteneurs et remonte tout
+        avec les textes de la langue active ;
+     3. monter() rejoué sur « tpl:langchange ».
+
+   Vider les conteneurs avant de remonter n'est pas une précaution de
+   confort : sans cela, changer de langue empilerait deux exemplaires du
+   même exercice. Les réponses déjà données sont perdues au changement —
+   c'est assumé, et cela vaut mieux qu'un exercice à moitié traduit.
+   ================================================================= */
+(function () {
+  'use strict';
+
+  var TEXTES = {
+    fr: {
+      capsuleSrc: "../../assets/media/voix/chapitre-1-capsule-fr.mp3",
+      capsuleTitre: "Ce que ce chapitre vous demande de décider",
+      capsuleTrans: "Bienvenue dans le chapitre vitrine. Il fait deux choses à la fois : il enseigne quelque chose de réel (les trois décisions qu'il faut prendre avant d'écrire un cours) et il exerce tous les composants du moteur, pour que vous les voyiez fonctionner. Ces trois décisions sont : pour qui, pour quoi faire, et autour de quoi. Elles se prennent dans cet ordre, parce que chacune restreint le champ de la suivante. Et la tentation est toujours la même : ouvrir un traitement de texte et commencer par le début. On produit alors ce qu'on sait, pas ce dont l'apprenant a besoin. Prenez ce chapitre comme un modèle à recopier, autant que comme un chapitre à lire.",
+
+      revealQ: "Avant de lire : selon vous, laquelle de ces trois décisions faut-il prendre en premier ?",
+      revealIndice: "Demandez-vous laquelle des trois contraint les deux autres, et non l'inverse.",
+      revealOptions: ["Choisir le fil rouge, pour donner sa cohérence au cours.",
+                      "Définir le public cible, avec ses prérequis et ses contraintes.",
+                      "Rédiger les objectifs pédagogiques."],
+      revealReponse: "Le public. Tant qu'on ne sait pas qui apprend, on ne peut ni fixer un objectif atteignable, ni juger si un fil rouge parlera. Les deux autres décisions se prennent ensuite, et elles se prennent mieux.",
+
+      checkTitre: "Point de contrôle : décrire un public",
+      checkQ1: "Parmi ces descriptions, laquelle est réellement utile pour cadrer un cours ?",
+      checkO1: ["Des étudiants de deuxième année de master.",
+                "Des professionnels en reconversion, sans bagage technique, disponibles deux heures par semaine, le plus souvent sur téléphone.",
+                "Un public motivé et curieux."],
+      checkE1: "La deuxième : elle donne des prérequis, un temps disponible et une contrainte matérielle. Les deux autres ne permettent aucune décision, on ne peut rien en déduire sur la longueur des séquences ni sur le format des ressources.",
+      checkQ2: "Un objectif est vérifiable lorsque…",
+      checkO2: ["il porte sur une notion importante du programme.",
+                "on peut décrire l'exercice qui prouverait qu'il est atteint.",
+                "il est formulé en une seule phrase."],
+      checkE2: "La deuxième. La vérifiabilité ne tient ni à l'importance de la notion ni à la concision : elle tient à l'existence d'une preuve observable.",
+      /* Pourquoi chaque autre proposition ne convient pas (vide pour la bonne
+         réponse), et où approfondir : prompts/15_explications_quiz.md. */
+      checkP1: ["Un intitulé de diplôme ne décrit personne : il ne dit ni les prérequis réellement acquis, ni le temps disponible, ni les contraintes matérielles. Aucune décision de cadrage n'en sort.",
+                "",
+                "C'est un souhait, pas une description : il vaudrait pour n'importe quel public, et ne dit rien de ce que l'apprenant sait, du temps qu'il a ni de l'écran sur lequel il lit."],
+      checkA1: [["§ 2 · Qui apprend, exactement ?", "#ch1-s2"],
+                ["§ 1 · Pourquoi cadrer avant de produire", "#ch1-s1"],
+                ["Glossaire · public cible", "../glossaire.html"]],
+      checkP2: ["L'importance d'une notion ne dit pas comment constater qu'elle est acquise : « comprendre une notion importante » ne s'observe pas davantage qu'une notion secondaire.",
+                "",
+                "La concision est une qualité de rédaction, pas une preuve : une phrase courte comme « comprendre la notion d'objectif » reste invérifiable."],
+      checkA2: [["§ 3 · Des objectifs qu'on peut vérifier", "#ch1-s3"],
+                ["Glossaire · objectif pédagogique", "../glossaire.html"],
+                ["Wikipédia · Taxonomie de Bloom : des verbes d'action pour écrire un objectif", "https://fr.wikipedia.org/wiki/Taxonomie_de_Bloom"]],
+
+      matchConsigne: "Reliez chaque formulation au jugement qui lui convient. Cliquez à gauche, puis à droite.",
+      matchG: "Formulation d'objectif",
+      matchD: "Jugement",
+      matchPaires: [
+        ["Comprendre l'importance du cadrage.", "Non vérifiable : « comprendre » ne s'observe pas."],
+        ["Rédiger un objectif contenant un verbe d'action.", "Vérifiable : l'exercice de preuve est évident."],
+        ["Connaître les trois décisions de cadrage.", "Non vérifiable : « connaître » ne dit pas quoi faire."],
+        ["Classer trois objectifs selon leur vérifiabilité.", "Vérifiable : la tâche est observable et corrigeable."]
+      ],
+
+      spotConsigne: "Voici l'en-tête d'un syllabus rédigé un peu vite. Trois affirmations posent problème : repérez-les.",
+      spotIntro: "Syllabus : « Initiation à la conception pédagogique »",
+      spotFrags: [
+        ["Public : toute personne intéressée par la pédagogie.", true, "« Toute personne intéressée » ne décrit ni prérequis, ni temps disponible, ni contrainte. Aucune décision ne peut s'appuyer dessus."],
+        ["Durée : six séances de deux heures, en présentiel.", false, ""],
+        ["Objectif : sensibiliser les participants aux enjeux de la pédagogie.", true, "« Sensibiliser » n'est pas observable : aucun exercice ne peut prouver que l'objectif est atteint."],
+        ["Évaluation : un dossier de conception rendu à la dernière séance.", false, ""],
+        ["Fil rouge : les chapitres seront illustrés par divers exemples.", true, "« Divers exemples » n'est pas un fil rouge : un fil rouge est un cas unique qui traverse le cours et que l'apprenant fait progresser."]
+      ],
+
+      branchTitre: "Deux heures de moins que prévu",
+      branchIntro: "Votre cours devait durer six séances. On vient de vous en retirer une. Le contenu est écrit, les activités aussi.",
+      branchSituation: "Il faut retirer l'équivalent de deux heures.",
+      branchQuestion: "Que sacrifiez-vous ?",
+      branchOptions: [
+        ["Je supprime les activités et je garde tout le contenu : le programme sera couvert.", false,
+         "Le programme est couvert, mais plus rien ne permet de vérifier ce qui est acquis. Un cours sans activité redevient un exposé : l'apprenant écoute, et personne ne sait ce qu'il en reste."],
+        ["Je retire un chapitre entier, celui qui sert le moins le fil rouge.", true,
+         "C'est la coupe qui préserve la cohérence. Le fil rouge sert précisément d'arbitre : ce qui ne le sert pas est ce dont on peut se passer."],
+        ["Je raccourcis chaque chapitre d'un tiers, uniformément.", false,
+         "Chaque chapitre perd sa respiration, ses exemples et ses transitions. On obtient six chapitres également abîmés plutôt que cinq intacts."]
+      ],
+      branchLibelle: "Effet pédagogique",
+
+      schemaSrc: "../../assets/media/schemas/chapitre-1-schema-1-trois-decisions.fr.webp",
+      schemaPoints: [
+        [17, 43, "1. Le public",
+         "Prérequis réellement acquis, temps disponible, contraintes matérielles. C'est la troisième qu'on oublie, et souvent la plus déterminante : un apprenant qui suit le cours dans les transports ne regardera pas une vidéo de vingt minutes."],
+        [50, 43, "2. Les objectifs",
+         "Ce que l'apprenant sera capable de FAIRE. Le test : si vous ne pouvez pas décrire l'exercice qui prouverait l'objectif atteint, il est mal écrit, et vous ne pourrez pas évaluer."],
+        [83, 43, "3. Le fil rouge",
+         "Le cas ou le projet qui traverse tout le cours. Il sert aussi d'arbitre le jour où il faut couper : ce qui ne le sert pas est ce dont on peut se passer."]
+      ],
+      schemaAlt: "Les trois décisions de cadrage et ce que chacune contraint : le public contraint les objectifs, les objectifs contraignent les activités, le fil rouge contraint l'ordre des chapitres.",
+      schemaLegende: "Schéma 1 : Les trois décisions et leur ordre. Chacune restreint le champ de la suivante : c'est ce qui rend le cadrage utile."
+    },
+
+    en: {
+      capsuleSrc: "../../assets/media/voix/chapitre-1-capsule-en.mp3",
+      capsuleTitre: "What this chapter asks you to decide",
+      capsuleTrans: "Welcome to the showcase chapter. It does two things at once: it teaches something real (the three decisions to make before writing a course) and it exercises every component of the engine, so you can see them working. Those three decisions are: for whom, to do what, and around what. They come in that order, because each one narrows the field of the next. And the temptation is always the same: open a document and start at the beginning. You then produce what you know, not what the learner needs. Treat this chapter as a model to copy, as much as a chapter to read.",
+
+      revealQ: "Before reading: which of these three decisions do you think comes first?",
+      revealIndice: "Ask which of the three constrains the other two, rather than the reverse.",
+      revealOptions: ["Choosing the through-line, to hold the course together.",
+                      "Defining the target audience, with its prerequisites and constraints.",
+                      "Writing the learning objectives."],
+      revealReponse: "The audience. Until you know who is learning, you can neither set a reachable objective nor judge whether a through-line will land. The other two decisions come next, and they come out better.",
+
+      checkTitre: "Checkpoint: describing an audience",
+      checkQ1: "Which of these descriptions is actually useful for scoping a course?",
+      checkO1: ["Second-year master's students.",
+                "Career changers with no technical background, available two hours a week, mostly on a phone.",
+                "A motivated and curious audience."],
+      checkE1: "The second: it gives prerequisites, available time and a practical constraint. The other two support no decision at all, nothing can be inferred about sequence length or resource format.",
+      checkQ2: "An objective is verifiable when…",
+      checkO2: ["it covers an important notion of the syllabus.",
+                "you can describe the exercise that would prove it reached.",
+                "it is written in a single sentence."],
+      checkE2: "The second. Verifiability rests neither on the importance of the notion nor on brevity: it rests on the existence of observable proof.",
+      checkP1: ["A degree title describes nobody: it gives neither the prerequisites actually acquired, nor the time available, nor the practical constraints. No scoping decision can come out of it.",
+                "",
+                "That is a wish, not a description: it would fit any audience, and says nothing about what the learner knows, how much time they have or which screen they read on."],
+      checkA1: [["§ 2 · Who is learning, exactly?", "#ch1-s2"],
+                ["§ 1 · Why scope before producing", "#ch1-s1"],
+                ["Glossary · target audience", "../glossaire.html"]],
+      checkP2: ["How important a notion is says nothing about how to observe that it has been acquired: “understanding an important notion” is no more observable than a minor one.",
+                "",
+                "Brevity is a writing quality, not a proof: a short sentence such as “understand the notion of an objective” remains impossible to verify."],
+      checkA2: [["§ 3 · Objectives you can verify", "#ch1-s3"],
+                ["Glossary · learning objective", "../glossaire.html"],
+                ["Wikipedia · Bloom's taxonomy: action verbs for writing objectives", "https://en.wikipedia.org/wiki/Bloom%27s_taxonomy"]],
+
+      matchConsigne: "Match each wording with the judgement that fits. Click on the left, then on the right.",
+      matchG: "Objective wording",
+      matchD: "Judgement",
+      matchPaires: [
+        ["Understand the importance of scoping.", "Not verifiable: “understand” cannot be observed."],
+        ["Write an objective containing an action verb.", "Verifiable: the proving exercise is obvious."],
+        ["Know the three scoping decisions.", "Not verifiable: “know” does not say what to do."],
+        ["Rank three objectives by verifiability.", "Verifiable: the task is observable and correctable."]
+      ],
+
+      spotConsigne: "Here is the header of a syllabus written in a hurry. Three statements are a problem: spot them.",
+      spotIntro: "Syllabus: “Introduction to instructional design”",
+      spotFrags: [
+        ["Audience: anyone interested in teaching.", true, "“Anyone interested” gives no prerequisites, no available time and no constraint. No decision can rest on it."],
+        ["Duration: six two-hour sessions, on site.", false, ""],
+        ["Objective: raise participants' awareness of teaching issues.", true, "“Raise awareness” is not observable: no exercise can prove the objective reached."],
+        ["Assessment: a design report handed in at the last session.", false, ""],
+        ["Through-line: chapters will be illustrated with various examples.", true, "“Various examples” is not a through-line: a through-line is a single case that runs across the course and that the learner moves forward."]
+      ],
+
+      branchTitre: "Two hours fewer than planned",
+      branchIntro: "Your course was meant to run over six sessions. One has just been taken away. The content is written, and so are the activities.",
+      branchSituation: "You must cut the equivalent of two hours.",
+      branchQuestion: "What do you sacrifice?",
+      branchOptions: [
+        ["I drop the activities and keep all the content: the syllabus will be covered.", false,
+         "The syllabus is covered, but nothing verifies what has been learnt. A course without activities is a lecture again: the learner listens, and nobody knows what remains."],
+        ["I remove one whole chapter, the one that serves the through-line least.", true,
+         "That is the cut that preserves coherence. The through-line is precisely the arbiter: what does not serve it is what you can do without."],
+        ["I shorten every chapter by a third, evenly.", false,
+         "Every chapter loses its pacing, its examples and its transitions. You end up with six equally damaged chapters instead of five intact ones."]
+      ],
+      branchLibelle: "Teaching impact",
+
+      schemaSrc: "../../assets/media/schemas/chapitre-1-schema-1-trois-decisions.en.webp",
+      schemaPoints: [
+        [17, 43, "1. The audience",
+         "Prerequisites actually acquired, time available, practical constraints. The third is the forgotten one, and often the decisive one: a learner on a commute will not watch a twenty-minute video."],
+        [50, 43, "2. The objectives",
+         "What the learner will be able to DO. The test: if you cannot describe the exercise that would prove the objective reached, it is badly written, and you will not be able to assess."],
+        [83, 43, "3. The through-line",
+         "The case or project running across the whole course. It is also the arbiter on the day you must cut: what does not serve it is what you can do without."]
+      ],
+      schemaAlt: "The three scoping decisions and what each constrains: the audience constrains the objectives, the objectives constrain the activities, the through-line constrains the order of chapters.",
+      schemaLegende: "Diagram 1: The three decisions and their order. Each narrows the field of the next: that is what makes scoping useful."
+    }
+  };
+
+  function textes() {
+    var l = (window.TPLI18N && TPLI18N.lang()) || 'fr';
+    return TEXTES[l] || TEXTES.fr;
+  }
+
+  var CONTENEURS = ['capsule-1', 'reveal-1-1', 'check-1-1', 'match-1-1',
+                    'spot-1-1', 'branch-1-1', 'schema-1-1'];
+
+  function monter() {
+    var X = textes();
+    CONTENEURS.forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.innerHTML = '';
+    });
+
+    RDCX.voice('capsule-1', {
+      src: X.capsuleSrc,
+      titre: X.capsuleTitre,
+      duree: '0:47',
+      transcription: X.capsuleTrans
+    });
+
+    RDCX.reveal('reveal-1-1', {
+      question: X.revealQ,
+      indice: X.revealIndice,
+      champ: 'choix',
+      options: X.revealOptions,
+      reponse: X.revealReponse
+    });
+
+    RDCX.checkpoint('check-1-1', {
+      titre: X.checkTitre,
+      questions: [
+        { q: X.checkQ1, options: X.checkO1, correct: 1, explication: X.checkE1,
+          pourquoi: X.checkP1, approfondir: X.checkA1 },
+        { q: X.checkQ2, options: X.checkO2, correct: 1, explication: X.checkE2,
+          pourquoi: X.checkP2, approfondir: X.checkA2 }
+      ]
+    });
+
+    RDCX.match('match-1-1', {
+      consigne: X.matchConsigne,
+      colonneGauche: X.matchG,
+      colonneDroite: X.matchD,
+      paires: X.matchPaires.map(function (p) { return { g: p[0], d: p[1] }; })
+    });
+
+    RDCX.spotError('spot-1-1', {
+      consigne: X.spotConsigne,
+      intro: X.spotIntro,
+      fragments: X.spotFrags.map(function (f) {
+        return { t: f[0], faux: f[1], pourquoi: f[2] };
+      })
+    });
+
+    RDCX.branch('branch-1-1', {
+      titre: X.branchTitre,
+      intro: X.branchIntro,
+      libelleConsequence: X.branchLibelle,
+      etapes: [{
+        situation: X.branchSituation,
+        question: X.branchQuestion,
+        choix: X.branchOptions.map(function (o) {
+          return { t: o[0], bon: o[1], consequence: o[2] };
+        })
+      }]
+    });
+
+    /* Le schéma n'existe pas encore : le composant affiche alors son état
+       « image attendue », avec le nom exact du fichier à déposer. C'est
+       voulu — on voit ce qu'il reste à produire au lieu d'une page trouée. */
+    RDCX.hotspots('schema-1-1', {
+      src: X.schemaSrc,
+      alt: X.schemaAlt,
+      legende: X.schemaLegende,
+      points: X.schemaPoints.map(function (p) {
+        return { x: p[0], y: p[1], titre: p[2], texte: p[3] };
+      })
+    });
+  }
+
+  function demarrer() {
+    monter();
+    new FlashcardDeck('flash-ch1', (window.RDC_FLASHCARDS || {})['1'] || [], 'ch1');
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', demarrer);
+  else demarrer();
+
+  document.addEventListener('tpl:langchange', monter);
+})();
+</script>
+</body>
+</html>

@@ -49,9 +49,6 @@ def main():
     ap.add_argument("pages", nargs="+", help="chemins des pages françaises, depuis la racine du site")
     ap.add_argument("--essai", action="store_true", help="dit ce qui serait fait, sans rien écrire")
     args = ap.parse_args()
-    if os.path.exists(os.path.join(RACINE, "nouveau_cours.py")):
-        sys.exit("Le gabarit garde sa démonstration en blocs data-tr : lancez cet outil dans un cours (docs/I18N.md).")
-
     demandees = [p.replace("\\", "/").lstrip("./") for p in args.pages]
     jumelles = set(generer_langues.pages_traduites(SITE)) | set(demandees)
     ecrits, erreurs = {}, []

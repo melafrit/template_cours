@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en" data-langues="en" data-accent="marine">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<title>Summary sheets</title>
+<meta name="description" content="Summary sheets of the demo course, one per chapter, as PDF, in French and English.">
+<meta name="author" content="Mohamed EL AFRIT">
+<link rel="stylesheet" href="../assets/css/fonts.css">
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/palettes.css">
+<link rel="stylesheet" href="../assets/css/components.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-left">
+    <button class="sidebar-toggle" aria-label="Menu">☰</button>
+    <a href="index.html" class="site-logo"><span class="logo-icon">C<span class="acc">e</span></span>
+      <span>Design a course</span></a>
+  </div>
+  <div class="header-right">
+    <a href="cours.html" class="chapter-nav-btn"><span>← Contents</span></a>
+    <button class="theme-toggle" aria-label="Thème">🌙</button>
+  </div>
+</header>
+
+<aside class="sidebar">
+  <div class="sidebar-progress"><div class="sidebar-progress-bar"></div></div>
+  <div class="sidebar-content"><ul class="nav-tree" id="nav-tree"></ul></div>
+</aside>
+
+<div class="main-wrapper full-width">
+<main class="main-content">
+
+  <div class="chapter-header">
+    <div class="chapter-meta">
+      <span class="chapter-badge">📄 <span>Resource</span></span>
+      <span class="chapter-duration"><span>One sheet per chapter · PDF · French and English</span></span>
+    </div>
+    <h1 class="chapter-title"><span>Summary sheets</span></h1>
+    <p class="chapter-subtitle">
+      <span>One sheet per chapter, to print or annotate. They do not replace the online course; they set down its essentials on something you keep. Activities, audio capsules and interactive diagrams are not included<!-- livret:debut -->: the full course book carries them, on paper, with their QR codes<!-- livret:fin -->.</span>
+    </p>
+  </div>
+
+  <div class="callout info">
+    <div class="callout-icon">🔄</div>
+    <div class="callout-content">
+      <h4><span>Generated documents</span></h4>
+      <p>
+        <span>These PDFs are produced by <code>tools/generate_polycopies.py</code> from <code>tools/polycopies_content.json</code>. Do not fix them in a PDF editor: the fix would be lost on the next run. Edit the content file, then run the script again.</span></p>
+    </div>
+  </div>
+
+  <section class="content-section">
+    <h2><span>The sheets</span></h2>
+
+    <div class="template-downloads">
+      <div class="template-grid" id="grille-polycopies"></div>
+    </div>
+
+  </section>
+
+  <section class="content-section">
+    <h2><span>Why PDF only</span></h2>
+    <p>
+      <span>The generator also produces Word files, which stay in <code>assets/polycopies/</code> but are not offered here. A distributed office document gets edited, copied, and then circulates in diverging versions with nobody knowing which one is authoritative. PDF fixes what should be fixed; the Word file is for you, to produce the next version.</span></p>
+  </section>
+
+</main>
+</div>
+
+<footer class="site-footer">
+  <p><span>Demo course "Designing an online course" · </span><a href="#">Mohamed EL AFRIT</a></p>
+  <p class="license"><span class="cc-badges">MIT · CC BY 4.0</span> · <a href="about.html"><span>About the template</span></a></p>
+</footer>
+
+<script src="../assets/js/i18n.js"></script>
+<script src="../assets/js/langues-data.js"></script>
+<script src="../assets/js/ui-labels.js"></script>
+<script src="../assets/js/course-data.js"></script>
+<script src="../assets/js/nav-sections.js"></script>
+<script src="../assets/js/navigation.js"></script>
+<script src="../assets/js/accessibility.js"></script>
+<script src="../assets/js/animations.js"></script>
+
+<script>
+/* =================================================================
+   La grille se construit depuis window.COURSE : une carte par chapitre
+   declare, et rien d'autre. Ecrite en dur, elle proposait des
+   telechargements pour des chapitres qui n'existaient pas.
+
+   Chaque fichier est sonde avant d'etre propose. Un polycopie pas encore
+   genere affiche son etat plutot qu'un lien qui echoue : on voit ce qu'il
+   reste a produire, au lieu de le decouvrir en cliquant.
+   ================================================================= */
+(function () {
+  'use strict';
+  var grille = document.getElementById('grille-polycopies');
+  if (!grille || !window.COURSE) return;
+
+  var LIB = {
+    fr: { manquant: 'À générer', aide: 'python3 tools/generate_polycopies.py' },
+    en: { manquant: 'To generate', aide: 'python3 tools/generate_polycopies.py' }
+  };
+
+  function lang() { return (window.TPLI18N && TPLI18N.lang()) || 'fr'; }
+  function L(x) { return (x && typeof x === 'object') ? (x[lang()] || x.fr) : (x || ''); }
+
+  function chemin(num) {
+    return 'assets/polycopies/chapitre-' + num + '-polycopie.' + lang() + '.pdf';
+  }
+
+  function carte(ch) {
+    var url = chemin(ch.num);
+    var el = document.createElement('div');
+    el.className = 'template-card';
+    el.innerHTML =
+        '<div class="template-card-icon">' + (ch.ico || '📄') + '</div>'
+      + '<div class="template-card-body">'
+      + '  <div class="template-card-title"></div>'
+      + '  <div class="template-card-meta"></div>'
+      + '</div>';
+    el.querySelector('.template-card-title').textContent =
+      (lang() === 'fr' ? 'Chapitre ' : 'Chapter ') + ch.num + ' · ' + L(ch.title);
+    var meta = el.querySelector('.template-card-meta');
+
+    function proposer() {
+      var a = document.createElement('a');
+      a.className = 'template-card-btn';
+      a.href = url; a.setAttribute('download', '');
+      a.textContent = 'PDF';
+      el.appendChild(a);
+      meta.textContent = 'PDF';
+    }
+    function absent() {
+      var s = document.createElement('span');
+      s.className = 'template-card-btn';
+      s.style.opacity = '.55'; s.style.cursor = 'default';
+      s.textContent = LIB[lang()].manquant;
+      el.appendChild(s);
+      meta.textContent = LIB[lang()].aide;
+    }
+
+    if (location.protocol === 'http:' || location.protocol === 'https:') {
+      fetch(url, { method: 'HEAD' })
+        .then(function (r) { r.ok ? proposer() : absent(); })
+        .catch(absent);
+    } else { proposer(); }
+    return el;
+  }
+
+  function construire() {
+    grille.innerHTML = '';
+    (COURSE.chapters || []).forEach(function (ch) { grille.appendChild(carte(ch)); });
+  }
+
+  construire();
+  document.addEventListener('tpl:langchange', construire);
+})();
+</script>
+</body>
+</html>

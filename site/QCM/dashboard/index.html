@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" data-lang="fr" data-accent="marine">
+<html lang="fr" data-lang="fr" data-langues="fr" data-accent="marine">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -143,11 +143,11 @@ svg.chart { display: block; width: 100%; overflow: visible; }
   <div class="header-left">
     <a href="../../index.html" class="site-logo">
       <span class="logo-icon">C<span class="acc">e</span></span>
-      <span data-tr="fr">Concevoir un cours</span><span data-tr="en">Design a course</span>
+      <span>Concevoir un cours</span>
     </a>
   </div>
   <div class="header-right">
-    <a href="../index.html" class="chapter-nav-btn"><span data-tr="fr">← QCM</span><span data-tr="en">← Quiz</span></a>
+    <a href="../index.html" class="chapter-nav-btn"><span>← QCM</span></a>
     <button class="theme-toggle" aria-label="Basculer le thème" data-i18n-aria-fr="Basculer le thème" data-i18n-aria-en="Toggle theme">🌙</button>
   </div>
 </header>
@@ -158,17 +158,16 @@ svg.chart { display: block; width: 100%; overflow: visible; }
   <!-- Hero -->
   <div class="qcm-card">
     <div class="dash-hero">
-      <h1><span data-tr="fr">📊 Dashboard formateur</span><span data-tr="en">📊 Instructor dashboard</span></h1>
+      <h1><span>📊 Dashboard formateur</span></h1>
       <p>
-        <span data-tr="fr">Déposez plusieurs fichiers CSV d'étudiants pour analyser les résultats de classe.</span>
-        <span data-tr="en">Drop several student CSV files to analyse the class results.</span>
+        <span>Déposez plusieurs fichiers CSV d'étudiants pour analyser les résultats de classe.</span>
       </p>
     </div>
 
     <!-- Rappel barème -->
     <details style="margin: var(--space-4) 0">
       <summary style="cursor:pointer;font-family:var(--font-display);font-weight:600">
-        <span data-tr="fr">📐 Rappel du barème</span><span data-tr="en">📐 Marking scheme reminder</span>
+        <span>📐 Rappel du barème</span>
       </summary>
       <div id="bareme-wrap"></div>
     </details>
@@ -180,12 +179,10 @@ svg.chart { display: block; width: 100%; overflow: visible; }
          data-i18n-aria-en="CSV files drop zone">
       <div class="big">📂</div>
       <p>
-        <span data-tr="fr"><strong>Glissez-déposez vos fichiers CSV ici</strong><br>ou cliquez pour les sélectionner</span>
-        <span data-tr="en"><strong>Drag and drop your CSV files here</strong><br>or click to select them</span>
+        <span><strong>Glissez-déposez vos fichiers CSV ici</strong><br>ou cliquez pour les sélectionner</span>
       </p>
       <p class="drop-sub">
-        <span data-tr="fr">Plusieurs fichiers acceptés simultanément (.csv)</span>
-        <span data-tr="en">Several files accepted at once (.csv)</span>
+        <span>Plusieurs fichiers acceptés simultanément (.csv)</span>
       </p>
       <input type="file" id="file-input" accept=".csv" multiple class="hidden">
     </div>
@@ -198,13 +195,13 @@ svg.chart { display: block; width: 100%; overflow: visible; }
   <div id="dashboard" class="hidden">
 
     <!-- Résumé de classe -->
-    <div class="section-title"><span data-tr="fr">Résumé de classe</span><span data-tr="en">Class summary</span></div>
+    <div class="section-title"><span>Résumé de classe</span></div>
     <div class="qcm-card">
       <div class="stats-grid" id="stats-grid"></div>
     </div>
 
     <!-- Tableau + exports -->
-    <div class="section-title"><span data-tr="fr">Résultats des étudiants</span><span data-tr="en">Student results</span></div>
+    <div class="section-title"><span>Résultats des étudiants</span></div>
     <div class="qcm-card">
       <div class="table-toolbar">
         <input type="search" id="search-input"
@@ -215,8 +212,8 @@ svg.chart { display: block; width: 100%; overflow: visible; }
                data-i18n-aria-fr="Rechercher un étudiant"
                data-i18n-aria-en="Search for a student">
         <div class="export-btns">
-          <button class="btn btn-primary" id="btn-xlsx"><span data-tr="fr">⬇ Export Excel (.xlsx)</span><span data-tr="en">⬇ Export Excel (.xlsx)</span></button>
-          <button class="btn btn-ghost"   id="btn-csv"><span data-tr="fr">⬇ Export CSV</span><span data-tr="en">⬇ Export CSV</span></button>
+          <button class="btn btn-primary" id="btn-xlsx"><span>⬇ Export Excel (.xlsx)</span></button>
+          <button class="btn btn-ghost"   id="btn-csv"><span>⬇ Export CSV</span></button>
         </div>
       </div>
       <div class="student-table-wrap">
@@ -230,12 +227,12 @@ svg.chart { display: block; width: 100%; overflow: visible; }
     </div>
 
     <!-- Graphiques -->
-    <div class="section-title"><span data-tr="fr">Graphiques</span><span data-tr="en">Charts</span></div>
+    <div class="section-title"><span>Graphiques</span></div>
     <div class="charts-grid">
 
       <!-- Histogramme notes -->
       <div class="chart-card">
-        <h3><span data-tr="fr">Distribution des notes</span><span data-tr="en">Grade distribution</span></h3>
+        <h3><span>Distribution des notes</span></h3>
         <svg id="svg-histo" class="chart" height="220"
              aria-label="Histogramme de distribution des notes"
              data-i18n-aria-fr="Histogramme de distribution des notes"
@@ -244,23 +241,22 @@ svg.chart { display: block; width: 100%; overflow: visible; }
 
       <!-- Top 5 questions ratées -->
       <div class="chart-card">
-        <h3><span data-tr="fr">Top 5 questions les plus ratées</span><span data-tr="en">Top 5 most missed questions</span></h3>
+        <h3><span>Top 5 questions les plus ratées</span></h3>
         <ul class="top-ratees" id="top-ratees"></ul>
       </div>
 
       <!-- Grille réussite par question -->
       <div class="chart-card chart-card-full">
-        <h3><span data-tr="fr">Taux de réussite par question</span><span data-tr="en">Success rate per question</span></h3>
+        <h3><span>Taux de réussite par question</span></h3>
         <div class="q-grid" id="q-grid"></div>
         <p style="font-size:var(--fs-xs);color:var(--text-muted);margin-top:var(--space-3)">
-          <span data-tr="fr">Vert = forte réussite · Rouge = faible réussite. Survolez une cellule pour voir le % exact.</span>
-          <span data-tr="en">Green = high success · Red = low success. Hover a cell to see the exact %.</span>
+          <span>Vert = forte réussite · Rouge = faible réussite. Survolez une cellule pour voir le % exact.</span>
         </p>
       </div>
     </div>
 
     <!-- Calibration -->
-    <div class="section-title"><span data-tr="fr">Calibration de la classe</span><span data-tr="en">Class calibration</span></div>
+    <div class="section-title"><span>Calibration de la classe</span></div>
     <div class="qcm-card">
       <div class="calib-grid" id="calib-grid"></div>
       <div id="calib-interp" class="callout" style="margin-top:var(--space-4)"></div>
@@ -271,11 +267,10 @@ svg.chart { display: block; width: 100%; overflow: visible; }
   <!-- Footer -->
   <footer class="site-footer" style="margin-top:var(--space-12);border-radius:var(--radius-lg)">
     <p>
-      <span data-tr="fr">Dashboard formateur — « Concevoir un cours en ligne » — Auteur : Mohamed EL AFRIT</span>
-      <span data-tr="en">Instructor dashboard — "Designing an online course" — Author: Mohamed EL AFRIT</span>
+      <span>Dashboard formateur — « Concevoir un cours en ligne » — Auteur : Mohamed EL AFRIT</span>
     </p>
     <p class="license"><span class="cc-badges">MIT · CC BY 4.0</span>
-     · <a href="../../about.html"><span data-tr="fr">À propos du template</span><span data-tr="en">About the template</span></a></p>
+     · <a href="../../about.html"><span>À propos du template</span></a></p>
   </footer>
 </div>
 

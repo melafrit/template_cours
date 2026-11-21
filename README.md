@@ -51,7 +51,7 @@ Le site produit est **statique** (HTML/CSS/JavaScript *vanilla*, **aucun framewo
 
 Tout ce que le template (et donc les prompts) sait produire :
 
-- **🌍 Bilingue FR/EN partout** — bascule de langue (bouton 🌐) sur les pages de cours, la navigation, le QCM, les ateliers et le glossaire. Mécanisme : attribut `data-lang` sur `<html>`, blocs FR/EN alternés masqués en CSS, et dictionnaire i18n pour l'interface générée en JavaScript. Pour un nouveau cours, le modèle retenu est désormais le **site miroir** : chaque page française a sa jumelle anglaise sous `en/`, écrite une fois le français stable, avec ses outils — bouton qui garde la position, préparation des jumelles, conversion d'un cours en blocs alternés, liens, `hreflang`, contrôle de parité ; les blocs alternés restent en secours (`docs/I18N.md`).
+- **🌍 Bilingue FR/EN partout** — le **site miroir** : chaque page française a sa jumelle anglaise sous `en/`, au même chemin, et le bouton FR / EN ouvre la jumelle sur le paragraphe lu. Des outils préparent les jumelles, convertissent un cours en blocs alternés, rebranchent les liens, posent les balises `hreflang` et contrôlent la parité. Les blocs alternés (`data-tr`, bascule 🌐 sur place) restent le modèle de secours (`docs/I18N.md`).
 - **🧱 Site statique sans framework** — HTML/CSS/JS *vanilla*, hors-ligne, thémable par variables CSS, polices hébergées avec le site (aucun appel réseau).
 - **🧭 Navigation latérale** — menu de gauche avec **sous-menu pliable** des sections de chaque chapitre (ancres cliquables).
 - **🎧 Podcast par chapitre** — lecteur audio personnalisé : lecture, ±10 s, **mini-lecteur flottant déplaçable**, *pop-out*, téléchargement.
@@ -237,7 +237,7 @@ The resulting site is **static** (HTML/CSS/JavaScript *vanilla*, **no framework*
 
 Everything the template (and therefore the prompts) can produce:
 
-- **🌍 Bilingual FR/EN everywhere** — language toggle (🌐 button) across course pages, navigation, quiz, workshops and glossary. Mechanism: a `data-lang` attribute on `<html>`, alternating FR/EN blocks hidden via CSS, and an i18n dictionary for the JavaScript-generated UI. For a new course, the chosen model is now the **mirror site**: every French page gets its English twin under `en/`, written once the French is stable, with its tools — a toggle that keeps your place, twin scaffolding, conversion of an alternating-blocks course, links, `hreflang`, parity check; alternating blocks remain the fallback (`docs/I18N.md`).
+- **🌍 Bilingual FR/EN everywhere** — the **mirror site**: every French page has its English twin under `en/`, at the same path, and the FR / EN button opens the twin at the paragraph you were reading. Tools scaffold the twins, convert an alternating-blocks course, relink pages, set the `hreflang` tags and check parity. Alternating blocks (`data-tr`, in-place 🌐 toggle) remain the fallback model (`docs/I18N.md`).
 - **🧱 Static, framework-free site** — *vanilla* HTML/CSS/JS, offline, themeable via CSS variables, fonts hosted with the site (no network call).
 - **🧭 Side navigation** — left menu with a **collapsible sub-menu** of each chapter's sections (clickable anchors).
 - **🎧 Per-chapter podcast** — custom audio player: play, ±10 s, **draggable floating mini-player**, pop-out, download.
