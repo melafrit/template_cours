@@ -206,7 +206,7 @@ modules:
 
 # ─────────────────────────────── L'ÉCOSYSTÈME
 ecosysteme:
-  gabarit_technique: "C:/projets/template_cours"
+  gabarit_technique: "C:/projets/Cours/template_cours"
   cours_de_reference:
     - "C:/projets/Cours/Cours_Architecture_Logicielle"        # site miroir en/, polycopié FR/EN à QR codes cliquables, page Podcasts, Boîte à outils, quiz expliqués et leur correction publique, schémas et leurs lectures, fragments générés, correction protégée, audio v4
     - "C:/projets/Cours/Cours_EADL_ERIS_Etude_Avant_Projet"   # deux filières, site entièrement protégé, version anglaise, correction de TP, générateurs de glossaire et de flashcards, import Livrables, Yparéo, audio v4
@@ -498,7 +498,7 @@ modules:
     boite_a_outils: {actif: false}
     fiches_memo: true
 ecosysteme:
-  gabarit_technique: "C:/projets/template_cours"
+  gabarit_technique: "C:/projets/Cours/template_cours"
   app_livrables: "https://livrables.elafrit.com/"
 git:
   depot: "<compte>/<Cours_Securite_Web>"
