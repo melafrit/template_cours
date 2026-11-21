@@ -3,7 +3,7 @@
 **Neuf capsules en français** sur la page d'accueil (`site/index.html`) : la capsule de bienvenue, toujours
 affichée (conteneur `voix-bienvenue`) ; celle de chaque filière, qui n'apparaît qu'une fois la filière choisie
 (`voix-bienvenue-eadl`, `voix-bienvenue-eris`) ; puis une capsule en tête de chaque section (`voix-section-1` à
-`voix-section-6`). Les mêmes en anglais suivront, dans leur propre fiche.
+`voix-section-6`). Les mêmes en anglais : `Capsules_accueil_en.md`.
 
 Cette fiche est la **source unique** : `outils/generer_audio.py` y lit les scripts, et la transcription se reporte
 dans le script des capsules de `index.html` par `outils/synchroniser_capsules.py`, qui y pose aussi les espaces
