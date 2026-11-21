@@ -975,7 +975,8 @@ class Rendu:
                 r = pp.add_run(self.typo(p.get("titre", "")))
                 r.font.bold = True
                 if p.get("texte"):
-                    pp.add_run(NBSP + "—" + " ")
+                    # « Titre : texte », comme les points de schéma de la page (interactions.js), sans tiret.
+                    pp.add_run(NBSP + ": " if self.langue.code == "fr" else ": ")
                     self.ecrire(pp, markdown(p["texte"]), indexer=False, liens=False)
             bx.fermer()
         return par

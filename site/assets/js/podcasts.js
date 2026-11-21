@@ -32,29 +32,29 @@
 
   var LIB = {
     fr: {
-      bande: 'Diapositives — {e}',
+      bande: 'Diapositives · {e}',
       vignette: 'Agrandir la diapositive {i} sur {n}',
       gauche: 'Faire défiler les diapositives vers la gauche',
       droite: 'Faire défiler les diapositives vers la droite',
-      fenetre: 'Visionneuse des diapositives — {e}',
+      fenetre: 'Visionneuse des diapositives · {e}',
       fermer: 'Fermer la visionneuse',
       prec: 'Diapositive précédente',
       suiv: 'Diapositive suivante',
       compteur: 'Diapositive {i} sur {n}',
-      alt: 'Diapositive {i} sur {n} — {e}',
+      alt: 'Diapositive {i} sur {n} · {e}',
       aide: '← → pour changer de diapositive · Échap pour fermer'
     },
     en: {
-      bande: 'Slides — {e}',
+      bande: 'Slides · {e}',
       vignette: 'Enlarge slide {i} of {n}',
       gauche: 'Scroll the slides left',
       droite: 'Scroll the slides right',
-      fenetre: 'Slide viewer — {e}',
+      fenetre: 'Slide viewer · {e}',
       fermer: 'Close the slide viewer',
       prec: 'Previous slide',
       suiv: 'Next slide',
       compteur: 'Slide {i} of {n}',
-      alt: 'Slide {i} of {n} — {e}',
+      alt: 'Slide {i} of {n} · {e}',
       aide: '← → to change slides · Esc to close'
     }
   };

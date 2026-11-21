@@ -199,7 +199,7 @@
           });
           // Avec les raisons de chaque proposition, la lettre de la bonne réponse est
           // nommée : la liste qui suit parle des autres, par leur lettre.
-          var bonne = q.pourquoi ? ' — ' + esc(T('controle.bonneReponse')) + ' ' + esc(LETTRES[q.correct] || (q.correct + 1)) : '';
+          var bonne = q.pourquoi ? ' · ' + esc(T('controle.bonneReponse')) + ' ' + esc(LETTRES[q.correct] || (q.correct + 1)) : '';
           fb.innerHTML = '<p class="rdcx-fb-why">'
             + (ok ? '<span class="rdcx-fb-ok">' + esc(T('controle.exact')) + '</span> '
                   : '<span class="rdcx-fb-no">' + esc(T('controle.non')) + bonne + '.</span> ')
@@ -460,7 +460,7 @@
             b.removeAttribute('aria-pressed');
           });
           var ex = g.parentNode.querySelector('.rdcx-item-ex');
-          ex.innerHTML = '↔ <strong>' + rich(P[k].d) + '</strong>' + (P[k].ex ? ' — <em>' + rich(P[k].ex) + '</em>' : '');
+          ex.innerHTML = '↔ <strong>' + rich(P[k].d) + '</strong>' + (P[k].ex ? ' · <em>' + rich(P[k].ex) + '</em>' : '');
           ex.hidden = false;
           faits++;
           cnt.textContent = compteur('match.compte', faits, total);
@@ -613,7 +613,7 @@
 
     var liste = PTS.map(function (p, k) {
       return '<li class="rdcx-hs-li"><span class="rdcx-hs-li-num" aria-hidden="true">' + (k + 1) + '</span>'
-        + '<span><strong>' + rich(p.titre) + '</strong> — ' + rich(p.texte) + '</span></li>';
+        + '<span><strong>' + rich(p.titre) + '</strong> : ' + rich(p.texte) + '</span></li>';
     }).join('');
 
     // Pas d'en-tête de bloc : le schéma et sa liste parlent d'eux-mêmes.
@@ -1164,9 +1164,9 @@
           + (partiel ? ' is-partiel' : '')
           + (j === i && !continu ? ' is-current' : '');
         b.querySelector('.rdcx-steps-dot-n').textContent = f ? '✓' : (j + 1);
-        b.setAttribute('title', (j + 1) + '. ' + titres[j] + (durees[j] ? ' — ' + dureeTexte(durees[j]) : ''));
+        b.setAttribute('title', (j + 1) + '. ' + titres[j] + (durees[j] ? ' · ' + dureeTexte(durees[j]) : ''));
         b.setAttribute('aria-label', T('etapes.etape') + ' ' + (j + 1) + ' : ' + titres[j]
-          + (f ? ' ' + T('controle.valide') : '') + (r.t ? ' — ' + r.s + ' ' + T('etapes.surN') + ' ' + r.t : ''));
+          + (f ? ' ' + T('controle.valide') : '') + (r.t ? ' · ' + r.s + ' ' + T('etapes.surN') + ' ' + r.t : ''));
         if (j === i && !continu) b.setAttribute('aria-current', 'step');
         else b.removeAttribute('aria-current');
       });
@@ -1223,7 +1223,7 @@
           + '<span class="rdcx-steps-revoir-score">' + x.s + ' / ' + x.t + '</span></button></li>';
       }).join('');
 
-      fin.innerHTML = head('🏁', '' + T('etapes.chapitreTermine') + ' — ' + valides + ' / ' + N, T('etapes.bilan'))
+      fin.innerHTML = head('🏁', '' + T('etapes.chapitreTermine') + ' · ' + valides + ' / ' + N, T('etapes.bilan'))
         + '<div class="rdcx-body">'
         + '  <div class="rdcx-score' + (complet ? ' is-parfait' : '') + '">'
         + '    <span class="rdcx-score-n">' + valides + ' / ' + N + '</span>'

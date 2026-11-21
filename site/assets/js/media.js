@@ -19,7 +19,7 @@
      ils restaient en français pour un lecteur anglophone. Ce qui ne se reconstruit pas à la bascule de langue — les
      diapositives, l'infographie, leurs fenêtres, le lecteur persistant — repose ses libellés sur « tpl:langchange ». */
   function t(cle, defaut) { return window.T ? T(cle) : defaut; }
-  function duChapitre() { return ' — ' + t('media.chapitre', 'chapitre') + ' ' + N; }
+  function duChapitre() { return ' · ' + t('media.chapitre', 'chapitre') + ' ' + N; }
   /* Les médias déposés (media-data.js, écrit par outils/generer_medias.py) : on ne demande au serveur que ce qui est
      là. Chaque média absent — le podcast sous ses quatre noms possibles, les diapositives, l'infographie, la fiche —
      laissait une erreur 404 dans la console de chaque chapitre. Sans liste (un cours qui ne l'a pas encore), dispo()
@@ -286,7 +286,7 @@
   /* ===== Popup de la fiche de synthèse (aperçu PDF + téléchargement PDF) ===== */
   function buildPolyModal(pdfUrl, N) {
     // Refaite à chaque changement de langue (voir poser()) : elle lit ses libellés à sa construction.
-    var chapitre = ' — ' + t('media.chapitre', 'chapitre') + ' ' + N;
+    var chapitre = ' · ' + t('media.chapitre', 'chapitre') + ' ' + N;
     var modal = document.createElement('div');
     modal.className = 'slides-modal poly-modal'; modal.hidden = true;
     modal.innerHTML =

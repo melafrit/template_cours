@@ -44,7 +44,7 @@ class QuizEngine {
     this.container.innerHTML = `
       <div class="quiz-engine-head">
         <span class="ico">🧠</span>
-        <h3>Quiz express — vérifiez vos acquis</h3>
+        <h3>Quiz express · vérifiez vos acquis</h3>
         <span class="quiz-progress">Question ${this.index + 1} / ${this.questions.length}</span>
       </div>
       <div class="quiz-question">${q.question}</div>
