@@ -33,8 +33,11 @@ par un témoin.
 
 Les lots, dans l'ordre validé :
 
-- [ ] **1. Fondations** : polices locales ; outils du miroir à N langues et écriture de droite à gauche ; bascule de
-  filière ; paramètres filières et langues dans `cours.json` et `nouveau_cours.py`.
+- [ ] **1. Fondations** : polices locales ✅ (`a28b685`) ; outils du miroir à N langues et écriture de droite à
+  gauche ; bascule de filière ; paramètres filières et langues dans `cours.json` et `nouveau_cours.py`. Relevés en
+  chemin, à traiter dans ce lot : les libellés du panneau ♿, écrits en dur en français dans `accessibility.js` (une
+  page anglaise affiche un panneau français) ; `xlsx.full.min.js`, que le tableau de bord du QCM charge d'un CDN,
+  contre le § 7 (l'héberger demande l'accord de l'auteur pour le téléchargement).
 - [ ] **2. Bloc école** : `seances.py`, cahier de texte Yparéo, classeur d'import Livrables, fragments Programme et
   Échéances.
 - [ ] **3. Page d'accueil**, avec les fiches de ses capsules de section.
@@ -65,6 +68,10 @@ Les lots, dans l'ordre validé :
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 21 novembre · lot 1, les polices hébergées avec le site
+> Les pages ne chargent plus rien de Google : 16 fichiers woff2 et leurs six licences OFL dans `site/assets/fonts/`,
+> déclarés dans `fonts.css`, dont deux polices arabes pour la suite du lot. `demarrer.py` sert les woff2 et les WebP
+> avec leur type. `a28b685`. Détail : `JOURNAL.md`, section du 21 novembre.
 > ### 🆕 21 novembre · les objectifs toujours affichés, une seule copie du gabarit, le grand chantier cadré
 > L'en-tête de chapitre pliable est retiré : les objectifs restent toujours affichés (`7591b19`). Le gabarit n'a
 > plus qu'une copie de travail, `C:\projets\Cours\template_cours`, où les secrets de l'autre copie sont rangés sans
@@ -211,8 +218,6 @@ Plus mineurs :
   passer les schémas par la liste des médias (`media-data.js`).
 - `deploiement/destination.exemple.json` donne pour adresse d'exemple `https://exemple.org/…`, un domaine qui
   n'est pas réservé : passer à `example.org`, comme le livret.
-- `demarrer.py` laisse Python deviner le type des fichiers : sous Windows, les WebP partent en
-  `application/octet-stream` (sans effet visible). Déclarer `image/webp`.
 
 ## 🧩 Candidats repris des cours, à décider avec l'auteur
 

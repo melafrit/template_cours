@@ -9,6 +9,40 @@
 
 ---
 
+## 21 novembre 2026 · lot 1, les polices hébergées avec le site (`a28b685`)
+
+Première partie du lot 1 du grand chantier, après l'accord de l'auteur pour le téléchargement (22 fichiers, leur
+source et leur poids annoncés avant). Les pages chargeaient leurs polices depuis Google Fonts, et `accessibility.js`
+y cherchait Atkinson Hyperlegible en mode lecture adaptée, contre le § 7 de `CLAUDE.md`.
+
+- `site/assets/fonts/` : 16 fichiers woff2 pris à l'API de Google Fonts, en sous-ensembles latin et latin-ext pour
+  Sora, Source Serif 4, JetBrains Mono et Atkinson Hyperlegible, arabe pour Noto Naskh Arabic et Noto Sans Arabic
+  (876 Ko, dont 253 Ko d'arabe). Chaque fichier est contrôlé contre la taille annoncée par le serveur et la signature
+  woff2. Les six licences SIL OFL 1.1, qu'elles demandent de joindre, sont dans `licences/`.
+- `site/assets/css/fonts.css` : un `@font-face` par fichier, avec la plage Unicode de Google Fonts et
+  `font-display: swap`. Chaque page le charge avant `main.css`.
+- `accessibility.js` ne charge plus rien ; le navigateur ne télécharge Atkinson que lorsque le mode DYS l'emploie.
+- `demarrer.py` déclare `font/woff2` et `image/webp`, que Python ne connaît pas sous Windows (point du registre clos).
+- README, ARCHITECTURE, CHECKLIST et `prompts/01_cadrage_maitre.md` ne renvoient plus à Google Fonts. Le prompt de
+  cadrage l'aurait fait remettre dans un cours créé.
+
+### Ce qui a été vérifié
+
+Au navigateur, sur le chapitre 1, l'accueil et la correction du QCM : aucune requête hors du site, polices servies
+par `/assets/fonts/` avec leur type, Atkinson locale en mode DYS, console vide, 1280 px en clair et 375 px en sombre.
+Les contrôles du § 6 passent ; `verifier_tirets.py` reste à 69 (lots S4 et S5). Une page latine télécharge 310 Ko de
+polices, comme avant chez Google.
+
+### Relevé en chemin
+
+- Le panneau ♿ garde ses libellés en dur, en français, et une page anglaise l'affiche donc en français. À traiter
+  avec les langues, dans ce lot.
+- Le tableau de bord du QCM charge `xlsx.full.min.js` depuis un CDN, contre le § 7. L'héberger demande l'accord de
+  l'auteur pour le téléchargement.
+- Les polices arabes sont déclarées, mais aucune page ne les emploie encore.
+
+---
+
 ## 21 novembre 2026 · les objectifs toujours affichés, une seule copie du gabarit, le grand chantier cadré
 
 ### Les objectifs toujours affichés (`7591b19`)
