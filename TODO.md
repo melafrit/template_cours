@@ -37,10 +37,13 @@ Les lots, dans l'ordre validé :
   et le générateur qui la suit ✅ (`3f50098`), avancés du lot 4 sur décision de l'auteur ; le socle à plusieurs
   langues ✅ (`3d941a7` : le groupe « FR · EN · عربي », la liste `TPL_MIROIR`, le panneau ♿ traduit) ; la mise
   en page de droite à gauche et les outils à plusieurs langues ✅ (`737e23b`) ; le témoin arabe, le chapitre 1 ✅
-  (`d301d41`, lexique `docs/LEXIQUE-ar.md`). Restent : les outils qui ignorent encore l'arabe
-  (`hreflang.py`, `generer_playlist.py`, `synchroniser_capsules.py`), la bascule de filière, et les paramètres
-  filières et langues dans `cours.json` et `nouveau_cours.py` (l'arabe comme langue d'un cours, puis comme
-  racine). Relevé en chemin, à
+  (`d301d41`, lexique `docs/LEXIQUE-ar.md`) ; la bascule de filière ✅ (`0f8a846` : `filiere.js` générique,
+  `filieres.css` généré, EADL en émeraude et ERIS en prune, le menu ☰ sur téléphone). Restent : les
+  paramètres filières et langues dans `cours.json` et `nouveau_cours.py` (les filières d'un cours, l'arabe
+  comme langue puis comme racine) ; les outils qui ignorent encore l'arabe (`hreflang.py`,
+  `generer_playlist.py`, `synchroniser_capsules.py`) ; la bascule sur les pages du QCM, qui ne chargent pas
+  les données du cours, et la liste de lecture par filière du cours EADL, si l'auteur les veut. Relevé en
+  chemin, à
   traiter dans ce lot : `xlsx.full.min.js`, que le tableau de bord du QCM charge d'un CDN, contre le § 7
   (l'héberger demande l'accord de l'auteur pour le téléchargement).
 - [ ] **2. Bloc école** : `seances.py`, cahier de texte Yparéo, classeur d'import Livrables, fragments Programme et
@@ -80,6 +83,11 @@ Les lots, dans l'ordre validé :
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 21 novembre · lot 1, la bascule de filière
+> Celle du cours EADL, rendue générique : les filières se déclarent dans `course-data.js`, `filiere.js` pose
+> la bascule (le menu ☰ sur téléphone) et le bandeau, `filieres.css` (généré) masque l'autre filière ; EADL en
+> émeraude, ERIS en prune ; un témoin dans « Le fil rouge » du chapitre 1, en trois langues. `0f8a846`. Détail :
+> `JOURNAL.md`, section du 21 novembre.
 > ### 🆕 21 novembre · lot 1, le témoin arabe et la mise en page de droite à gauche
 > Le chapitre 1 existe en arabe, page retournée, interface et glossaire en arabe, d'après le lexique arrêté par
 > l'auteur (`docs/LEXIQUE-ar.md`). La feuille de style suit le sens de lecture, sans rien changer au français ;

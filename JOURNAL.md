@@ -9,6 +9,51 @@
 
 ---
 
+## 21 novembre 2026 · lot 1, la bascule de filière (`0f8a846`)
+
+### Les décisions de l'auteur
+
+- **La bascule du cours EADL, rendue générique** (décidé au cadrage) : aucun nom de filière dans un moteur.
+- **EADL en émeraude, ERIS en prune** : les palettes vérifiées les plus proches des couleurs du cours EADL.
+- **Sur téléphone, la bascule en tête du menu ☰** : l'en-tête d'un chapitre est déjà plein à 375 px.
+- **Le témoin** : un exemple propre à chaque filière dans « Le fil rouge » du chapitre 1, texte validé avant d'être
+  posé, puis traduit en anglais et en arabe.
+
+### Le travail
+
+- Les filières se déclarent dans `course-data.js` : identifiant, sigle, palette, numéro RNCP, nom et intitulé court
+  en trois langues (ceux du cours EADL). Une seule filière, ou aucune : pas de bascule.
+- `filiere.js`, chargé par `navigation.js` dès deux filières : la bascule, sa copie dans le menu, le bandeau
+  « Quelle est votre filière ? », le choix retenu, l'accent pris dans la palette de la filière, l'API `TPLFILIERE`.
+- `filieres.css`, généré par `outils/generer_filieres.py` : un sélecteur CSS ne peut pas comparer la filière de la
+  page à la classe d'un bloc, les règles s'écrivent donc pour les filières du cours. Sans choix, les deux versions
+  s'affichent, étiquetées de la couleur de leur palette.
+- Trois lignes en tête des 33 pages posent la filière mémorisée avant l'affichage, ou celle d'un lien
+  (`?filiere=eris`).
+- `nouveau_cours.py` donne à un cours créé un `filieres.css` vide, et des squelettes sans les blocs du témoin.
+
+### Ce qui a été vérifié
+
+Au navigateur : les deux exemples étiquetés sous le bandeau, sans choix ; EADL choisi, l'autre exemple masqué,
+l'accent en émeraude, le choix retenu, posé avant l'affichage au rechargement, suivi en anglais et en arabe ; la
+désélection rend la couleur du cours ; le lien impose ERIS ; à 375 px, la bascule est dans le menu et l'en-tête ne
+déborde pas. Contrôles verts ; un cours généré n'a aucune trace d'EADL ni d'ERIS hors de `_modele.html`.
+
+### Ce qui n'est pas fait
+
+Les pages du QCM ne chargent pas les données du cours : elles n'ont pas de bascule, seulement la couleur de la
+filière. La liste de lecture par filière du cours EADL n'est pas reprise. Les filières de `cours.json` viendront avec
+les paramètres, la dernière partie du lot 1.
+
+### Pièges appris
+
+- **Le stockage local est partagé par tous les cours d'un même site** : un choix de filière gardé sous une clé fixe
+  passerait d'un cours à l'autre sur mohamedelafrit.com. La clé porte l'adresse de la racine du cours.
+- **Une palette choisie après coup se voit** : le script de tête retient la palette avec la filière, et la pose avant
+  l'affichage ; sinon la page passait d'une couleur à l'autre.
+
+---
+
 ## 21 novembre 2026 · lot 1, le témoin arabe et la mise en page de droite à gauche (`737e23b`, `d301d41`)
 
 ### Les décisions de l'auteur
