@@ -9,6 +9,33 @@
 
 ---
 
+## 21 novembre 2026 · lot 3 terminé, les capsules anglaises de l'accueil (`0d3d1df`)
+
+### Les décisions de l'auteur
+
+- **Le témoin anglais validé, puis les huit autres traductions** : la règle « un exemple avant la série » vaut pour
+  une traduction comme pour une capsule.
+
+### Le travail
+
+- `docs/prompts/Capsules_accueil_en.md` : chaque capsule traduit son texte français validé. Là où la démonstration
+  avait déjà une formulation anglaise (sous-titres des chapitres, atelier, barème du QCM, accueil anglais), elle
+  est reprise mot pour mot. Prononciation « E.A.D.L. », « Eris », comme les capsules anglaises du cours d'étude
+  d'avant-projet ; orthographe américaine, comme le site ; pas d'accent ajouté sur les pistes anglaises.
+- `synchroniser_capsules.py` reporte les transcriptions et les durées dans `en/index.html`, sans espaces
+  insécables : la typographie française ne vaut que pour une page française.
+
+### Ce qui a été vérifié
+
+Au navigateur, la page anglaise annonce « 1:25 (planned) » et ouvre chaque transcription ; aucune ressource en
+erreur ; parité intacte ; une seconde synchronisation ne change rien.
+
+### Ce qui n'est pas fait
+
+L'enregistrement des dix-huit pistes et leur place dans la liste de lecture (lot 9), l'accueil arabe (lot 4).
+
+---
+
 ## 21 novembre 2026 · lot 3, les capsules de l'accueil (`93728b3`) et une faute corrigée (`0d10e75`)
 
 ### Les décisions de l'auteur

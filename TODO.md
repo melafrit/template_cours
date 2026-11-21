@@ -49,16 +49,17 @@ Les lots, dans l'ordre validé :
   titres en français même d'un cours de racine anglaise (`titre.fr`, `sous_titre.fr`, titres des
   chapitres).
 - [ ] **2. Bloc école** : `seances.py`, cahier de texte Yparéo, classeur d'import Livrables, fragments Programme et
-  Échéances.
-- [ ] **3. Page d'accueil**, avec les fiches de ses capsules de section. Redemandée par l'auteur le
+  Échéances ; pour l'accueil, les boutons des épreuves de chaque filière (`BOUTONS` de `outils/accueil.py`), la
+  pastille « diplôme, bloc et module », et un cours créé qui reçoit ses boutons de `cours.json`.
+- [x] **3. Page d'accueil**, avec les fiches de ses capsules de section. Redemandée par l'auteur le
   21 novembre, avec un troisième modèle, le cours de veille technologique (`Cours_EADL_Veille_Techno`), et
   traitée avant le bloc école. L'accueil ✅ (`0910118` : français et anglais, `outils/accueil.py`, couleurs du
-  bandeau contrôlées, accueil des cours créés) ; ses capsules en français ✅ (`93728b3` : le témoin puis les
-  huit autres textes validés, `docs/prompts/Capsules_accueil.md`, transcriptions reportées dans la page par
-  `synchroniser_capsules.py`). Restent : les capsules anglaises (leur fiche, puis leur report dans `en/`) ;
-  l'enregistrement des dix-huit pistes (lot 9, piste témoin d'abord) ; leur place dans la liste de lecture
-  (`generer_playlist.py` n'indexe que les chapitres) ; l'accueil arabe (lot 4) ; les illustrations des cartes
-  (lot 5) ; les boutons des épreuves et la pastille « diplôme, bloc et module » (lot 2). Relevés en chemin (la
+  bandeau contrôlées, accueil des cours créés) ; ses capsules ✅, en français (`93728b3`) et en anglais
+  (`0d3d1df`) : chaque fois le témoin puis les huit autres textes validés, deux fiches
+  (`docs/prompts/Capsules_accueil.md`, `Capsules_accueil_en.md`), transcriptions reportées dans les pages par
+  `synchroniser_capsules.py`. Ce qui en dépend ailleurs : l'enregistrement des dix-huit pistes et leur place dans
+  la liste de lecture (lot 9) ; l'accueil arabe (lot 4) ; les illustrations des cartes (lot 5) ; les boutons des
+  épreuves et la pastille (lot 2). Relevés en chemin (la
   faute « police lecture adaptée » est corrigée sur décision de l'auteur, `0d10e75`) : l'espace insécable devant
   « : », posée sur l'accueil et dans ses transcriptions, absente des autres pages ; le lien de l'auteur, en pied
   de chaque page, qui mène à « # » ; le texte d'exemple de `public.parcours` (`cours.exemple.json`), qui porte
@@ -76,7 +77,9 @@ Les lots, dans l'ordre validé :
   des blocs `data-tr` comme celle de la démo.
 - [ ] **8. Générateur de prompt.**
 - [ ] **9. Enregistrement audio** : `verifier_elevenlabs.py` d'abord, témoins, séries, quota suivi au registre ;
-  la capsule arabe du chapitre 1 (`chapitre-1-capsule-ar.mp3`, nom déjà appelé par la page).
+  la capsule arabe du chapitre 1 (`chapitre-1-capsule-ar.mp3`, nom déjà appelé par la page) ; les dix-huit
+  capsules de l'accueil, textes validés (témoins `accueil-capsule-fr.mp3` et `accueil-capsule-en.mp3`), et leur
+  place dans la liste de lecture (`generer_playlist.py` n'indexe que les chapitres).
 - [ ] **10. Polycopié** : six livrets, témoin d'abord.
 - [ ] **11. Documentation** et son contrôle. `GUIDE.md`, `CHECKLIST.md`, `ARCHITECTURE.md` et le skill bilingue
   décrivent encore la bascule 🌐 comme celle de la démo.
@@ -97,6 +100,10 @@ Les lots, dans l'ordre validé :
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 21 novembre · lot 3 terminé, les capsules anglaises de l'accueil
+> Les neuf capsules traduites des textes français validés, témoin d'abord, dans les formulations anglaises
+> de la démonstration, et reportées dans `en/index.html`. Le lot 3 est fermé ; ce qui en dépend passe aux
+> lots 2, 4, 5 et 9. `0d3d1df`. Détail : `JOURNAL.md`, section du 21 novembre.
 > ### 🆕 21 novembre · lot 3, les capsules de l'accueil
 > Neuf textes en français, le témoin d'abord, tous validés par l'auteur : la bienvenue, une capsule par
 > filière, une par section. `synchroniser_capsules.py` reporte leurs transcriptions dans l'accueil. Restent
