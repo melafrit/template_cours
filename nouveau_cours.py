@@ -958,11 +958,12 @@ def purger_demo(sortie, c):
             ecrire(glo, neuf)
             remplaces += 1
 
-    # la fiche de capsules du cours de demonstration n'a rien a faire ici
-    fiche = os.path.join(sortie, "docs", "prompts", "Capsules_du_cours_demo.md")
-    if os.path.isfile(fiche):
-        os.remove(fiche)
-        retires += 1
+    # les fiches de capsules du cours de demonstration (ses chapitres, son accueil) n'ont rien a faire ici
+    for nom in ("Capsules_du_cours_demo.md", "Capsules_accueil.md"):
+        fiche = os.path.join(sortie, "docs", "prompts", nom)
+        if os.path.isfile(fiche):
+            os.remove(fiche)
+            retires += 1
 
     # l'accueil : la structure de celui de la démonstration, sans sa prose ni « Ce que démontre ce site » ; ses
     # boutons (outils/accueil.py) repartent vides

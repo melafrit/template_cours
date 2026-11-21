@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Reporte les capsules de la fiche de production dans les pages de chapitre.
+"""Reporte les capsules de la fiche de production dans les pages de chapitre et dans l'accueil.
 
     python3 outils/synchroniser_capsules.py
     python3 outils/synchroniser_capsules.py --essai   # dit ce qu'il changerait
@@ -26,10 +26,14 @@ Le suffixe de langue n'est pas décoratif : une page bilingue doit servir la
 capsule de la langue affichée. Sans lui, l'auditeur anglophone entend du
 français.
 LES FICHES : toutes celles de docs/prompts/ dont le nom commence par
-« Capsules » (Capsules_du_cours_demo.md dans le template, Capsules_chapitres.md
-dans un cours…). Seules les capsules d'ouverture de chapitre, nommées selon la
-convention ci-dessus, sont reportées ici ; une capsule d'un autre genre (schéma,
-TP) se synchronise avec l'outil de sa page.
+« Capsules » (Capsules_du_cours_demo.md et Capsules_accueil.md dans le template,
+Capsules_chapitres.md dans un cours…). Deux genres sont reportés ici : les
+capsules d'ouverture de chapitre, nommées selon la convention ci-dessus, et
+celles de l'accueil (accueil-…-<langue>.mp3), dont la transcription et la durée
+s'écrivent dans le script des capsules de index.html, à l'entrée qui appelle ce
+fichier ; une page française y reçoit les espaces insécables de sa typographie.
+Une capsule d'un autre genre (schéma, TP) se synchronise avec l'outil de sa
+page.
 """
 
 import argparse
@@ -86,6 +90,49 @@ def capsules_de_la_fiche():
             "duree": "%d:%02d" % (secondes // 60, secondes % 60) if secondes else "",
         }
     return out
+
+
+def capsules_accueil():
+    """{fichier: {'transcription', 'duree'}} : les capsules de l'accueil (accueil-…-<langue>.mp3) des fiches."""
+    t = "\n---\n".join(io.open(f, encoding="utf-8").read() for f in sorted(glob.glob(FICHES)))
+    out = {}
+    for b in re.split(r"\n---\n|\n(?=## )", t):
+        m = re.search(r"\*\*Nom exact du fichier :\*\*\s*`(accueil-[a-z0-9-]+-(?:fr|en|ar)\.mp3)`", b)
+        tr = re.search(r"\*\*📄 Transcription affichée sur la page\*\*\s*\n+```\n(.*?)\n```", b, re.S)
+        if not m or not tr:
+            continue
+        d = re.search(r"Durée visée :\*\*\s*≈\s*(?:(\d+)\s*min(?:\s*(\d+))?|(\d+)\s*s)", b)
+        secondes = (int(d.group(1)) * 60 + int(d.group(2) or 0)) if d and d.group(1) else (int(d.group(3)) if d else 0)
+        out[m.group(1)] = {"transcription": " ".join(x.strip() for x in tr.group(1).strip().split("\n\n")),
+                           "duree": "%d:%02d" % (secondes // 60, secondes % 60) if secondes else ""}
+    return out
+
+
+def typo_fr(s):
+    """Les espaces insécables du français : avant : ; ? ! et dans « » (la fiche garde des espaces simples)."""
+    s = re.sub(r" ([:;?!])", "\u00a0\\1", s)
+    return s.replace("« ", "«\u00a0").replace(" »", "\u00a0»")
+
+
+def injecter_accueil(page, caps, essai):
+    """Écrit la durée et la transcription de chaque capsule dans le script des capsules de l'accueil, à l'entrée qui
+    appelle son fichier ; vrai si la page change."""
+    brut = io.open(page, "rb").read()
+    nl = "\r\n" if b"\r\n" in brut else "\n"
+    t = brut.decode("utf-8").replace("\r\n", "\n")
+    langue = (re.search(r'<html\b[^>]*\blang="([a-z]{2})"', t) or [None, "fr"])[1]
+    avant = t
+    for nom, c in caps.items():
+        texte = typo_fr(c["transcription"]) if langue == "fr" else c["transcription"]
+        motif = re.compile(r"(\{ id: '[^']+', src: V \+ '%s', titre: \"(?:[^\"\\]|\\.)*\")"
+                           r"(?:, duree: '[^']*')?(?:, transcription: \"(?:[^\"\\]|\\.)*\")?( \})" % re.escape(nom))
+        t = motif.sub(lambda m: "%s, duree: '%s', transcription: %s%s"
+                      % (m.group(1), c["duree"], json.dumps(texte, ensure_ascii=False), m.group(2)), t)
+    if t == avant:
+        return False
+    if not essai:
+        io.open(page, "w", encoding="utf-8", newline=nl).write(t)
+    return True
 
 
 def injecter(page, chap, caps, essai, langues=("fr", "en"), prefixe="../"):
@@ -169,6 +216,21 @@ def main():
                 print("  %-31s mis à jour" % nom)
             else:
                 print("  %-31s déjà à jour" % nom)
+
+    # L'accueil et ses jumelles : chaque page reçoit les capsules qu'elle appelle (le suffixe de langue y veille).
+    accueil = capsules_accueil()
+    if accueil:
+        print("\nAccueil\n-------")
+        print("  %d capsule(s) dans la fiche" % len(accueil))
+        for page in [os.path.join(SITE, "index.html")] + sorted(glob.glob(os.path.join(SITE, "*", "index.html"))):
+            rel = os.path.relpath(page, SITE).replace("\\", "/")
+            if rel.startswith(("QCM/", "livret/")) or not os.path.isfile(page):
+                continue
+            if injecter_accueil(page, accueil, args.essai):
+                touchees += 1
+                print("  %-31s mis à jour" % rel)
+            else:
+                print("  %-31s déjà à jour" % rel)
 
     if args.essai:
         print("\n  Simulation : rien n'a été écrit.")

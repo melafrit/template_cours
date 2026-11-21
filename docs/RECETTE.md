@@ -141,7 +141,7 @@ la sortie doit annoncer :**
     arborescence copiée (16 entrées)
     langues-data.js : aucune page traduite pour l'instant
     CLAUDE.md écrit : les exigences de l'auteur s'appliquent à ce cours
-    contenu de demonstration retire : 26 media(s), 11 fichier(s) remis a l'etat de squelette
+    contenu de demonstration retire : 27 media(s), 11 fichier(s) remis a l'etat de squelette
     14 page(s) renommee(s) au nom du cours
     5 fichier(s) recousu(s) sur les chapitres declares
     cours.html : 3 carte(s) de chapitre regeneree(s)
@@ -153,7 +153,7 @@ la sortie doit annoncer :**
 Les chiffres des recousages et des cartes suivent le nombre de chapitres
 déclarés : une carte par chapitre, et un recousage par chapitre plus les deux
 pages qui les citent (sommaire, chapitre vitrine). L'accueil, lui, naît avec ses
-liens. Les 26 médias et les
+liens. Les 27 médias (dont les deux fiches de capsules de la démonstration) et les
 11 squelettes (dont l'accueil et ses boutons, l'atelier et les activités, vidés
 de leur démonstration), eux, ne bougent pas.
 La ligne de `filieres.css` suit les filières de `cours.json` : « à jour » avec
