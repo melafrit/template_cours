@@ -53,14 +53,16 @@ Les lots, dans l'ordre validé :
 - [ ] **3. Page d'accueil**, avec les fiches de ses capsules de section. Redemandée par l'auteur le
   21 novembre, avec un troisième modèle, le cours de veille technologique (`Cours_EADL_Veille_Techno`), et
   traitée avant le bloc école. L'accueil ✅ (`0910118` : français et anglais, `outils/accueil.py`, couleurs du
-  bandeau contrôlées, accueil des cours créés). Restent : la fiche des capsules de l'accueil, témoin d'abord
-  (neuf noms de pistes déjà fixés) ; leur place dans la liste de lecture (`generer_playlist.py` n'indexe que
-  les chapitres) ; l'accueil arabe (lot 4) ; les illustrations des cartes (lot 5) ; les boutons des épreuves et
-  la pastille « diplôme, bloc et module » (lot 2). Relevés en chemin (la faute « police lecture adaptée » est corrigée,
-  sur décision de l'auteur) : l'espace
-  insécable devant « : », posée sur l'accueil et absente des autres pages ; le lien de l'auteur, en pied de
-  chaque page, qui mène à « # » ; le texte d'exemple de `public.parcours` (`cours.exemple.json`), qui porte un
-  tiret cadratin, et son commentaire, qui le dit affiché sur l'accueil alors qu'aucune page ne l'affiche.
+  bandeau contrôlées, accueil des cours créés) ; ses capsules en français ✅ (`93728b3` : le témoin puis les
+  huit autres textes validés, `docs/prompts/Capsules_accueil.md`, transcriptions reportées dans la page par
+  `synchroniser_capsules.py`). Restent : les capsules anglaises (leur fiche, puis leur report dans `en/`) ;
+  l'enregistrement des dix-huit pistes (lot 9, piste témoin d'abord) ; leur place dans la liste de lecture
+  (`generer_playlist.py` n'indexe que les chapitres) ; l'accueil arabe (lot 4) ; les illustrations des cartes
+  (lot 5) ; les boutons des épreuves et la pastille « diplôme, bloc et module » (lot 2). Relevés en chemin (la
+  faute « police lecture adaptée » est corrigée sur décision de l'auteur, `0d10e75`) : l'espace insécable devant
+  « : », posée sur l'accueil et dans ses transcriptions, absente des autres pages ; le lien de l'auteur, en pied
+  de chaque page, qui mène à « # » ; le texte d'exemple de `public.parcours` (`cours.exemple.json`), qui porte
+  un tiret cadratin, et son commentaire, qui le dit affiché sur l'accueil alors qu'aucune page ne l'affiche.
 - [ ] **4. Démo en trois langues** : le passage au site miroir est fait (avancé au lot 1, `59474ee`), et le
   chapitre 1 est en arabe (le témoin, `d301d41`). Restent : la relecture de ce témoin par un lecteur
   arabophone ; les quinze autres pages en arabe ; la transcription arabe de la capsule 1, écrite dans la page, à
@@ -95,6 +97,10 @@ Les lots, dans l'ordre validé :
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 21 novembre · lot 3, les capsules de l'accueil
+> Neuf textes en français, le témoin d'abord, tous validés par l'auteur : la bienvenue, une capsule par
+> filière, une par section. `synchroniser_capsules.py` reporte leurs transcriptions dans l'accueil. Restent
+> l'anglais et l'enregistrement. `93728b3` ; la faute « police lecture adaptée », `0d10e75`.
 > ### 🆕 21 novembre · lot 3, la page d'accueil
 > Celle des cours d'architecture et d'avant-projet : un bandeau sombre, ses boutons et ses cartes, les
 > capsules d'accueil et de section, les cartes des chapitres, un bouton flottant. Ses couleurs restent lisibles

@@ -9,6 +9,37 @@
 
 ---
 
+## 21 novembre 2026 · lot 3, les capsules de l'accueil (`93728b3`) et une faute corrigée (`0d10e75`)
+
+### Les décisions de l'auteur
+
+- **« Police de lecture adaptée »** au lieu de « police lecture adaptée », faute relevée en chemin : corrigée dans
+  l'accueil et dans `prompts/01_cadrage_maitre.md`, dans un commit à part. L'anglais était juste.
+- **Le témoin, puis la série** : le texte de la capsule de bienvenue validé seul, puis les huit autres d'un coup.
+
+### Le travail
+
+- `docs/prompts/Capsules_accueil.md` : neuf capsules en français, au format que lit `generer_audio.py` (noms
+  fixés, durées visées, tolérances). La bienvenue (≈ 1 min 25), une capsule par filière (≈ 40 s), une par section
+  (50 à 57 s). Chaque phrase vient d'une page de la démonstration ; la prononciation suit celle du cours d'étude
+  d'avant-projet (« E.A.D.L. », « Éris »), et chaque balise porte « speaking slowly ».
+- `outils/synchroniser_capsules.py` reporte aussi les capsules de l'accueil : la transcription et la durée vont
+  dans le script de la page, à l'entrée qui appelle chaque fichier ; une page française y reçoit ses espaces
+  insécables, la fiche gardant des espaces simples.
+- `nouveau_cours.py` retire cette fiche d'un cours créé, comme celle des chapitres de la démonstration.
+
+### Ce qui a été vérifié
+
+Au navigateur, la capsule de bienvenue annonce « 1:25 (prévu) » et ouvre sa transcription ; les six capsules de
+section aussi. Le générateur lit les neuf scripts et leurs tolérances. Contrôles verts, parité comprise, sauf les
+91 tirets du lot S4 ; un cours créé n'a aucune fiche de capsules de la démonstration.
+
+### Ce qui n'est pas fait
+
+Les capsules anglaises (leur fiche), l'enregistrement (lot 9), leur place dans la liste de lecture.
+
+---
+
 ## 21 novembre 2026 · lot 3, la page d'accueil (`0910118`)
 
 ### Les décisions de l'auteur
