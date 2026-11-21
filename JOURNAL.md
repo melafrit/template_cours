@@ -9,6 +9,66 @@
 
 ---
 
+## 21 novembre 2026 · lot 3, la page d'accueil (`0910118`)
+
+### Les décisions de l'auteur
+
+- **La page d'accueil des cours d'architecture et d'étude d'avant-projet** (« il manque encore la page d'accueil du
+  cours », avec trois captures) : elle passe avant le bloc école. Le cours de veille technologique s'ajoute aux
+  modèles analysés.
+- **Les deux boutons blancs de la démonstration** : le dépôt sur Livrables, l'application de tous ses cours, et le QCM
+  de la démonstration. Celle-ci ne prépare aucune épreuve réelle : un bouton « Épreuves du Bloc 1 » l'aurait annoncé.
+- **L'exemple français validé**, puis la série : l'anglais, `nouveau_cours.py`, la documentation.
+
+### L'analyse
+
+Les trois accueils ont la même structure : un bandeau sombre (pastille, titre et son mot coloré, accroche, trois
+boutons, quatre cartes), une capsule d'accueil, des sections numérotées, un bouton flottant (sauf celui de veille).
+Celui d'avant-projet est le plus complet (contenu et capsules par filière, cartes de chapitre illustrées) ; celui
+d'architecture garde son bandeau sombre dans les deux thèmes ; celui de veille, le plus récent, tire tout des
+données. Leurs défauts : l'accent de filière réutilisé sur le bandeau sombre (1,56 pour 1 sur les étiquettes, en
+EADL), 46 tirets cadratins sur l'accueil d'architecture, les adresses écrites dans la page, « Programme » masqué
+sous 768 px, un bouton flottant qui couvre les boutons du bandeau à 375 px.
+
+### Le travail
+
+- `site/index.html` et sa jumelle `en/` : le bandeau, les capsules d'accueil et de filière, six sections ouvertes
+  chacune par sa capsule (le parcours, le fil rouge, ce que vous produisez, l'évaluation, ce que démontre ce site,
+  avant de commencer), le polycopié et les podcasts, le bouton flottant. Leur prose vient des pages de la
+  démonstration ; neuf noms de pistes sont fixés.
+- `outils/accueil.py` : les fragments `accueil-boutons` (les adresses vivent dans ses données) et
+  `cartes-chapitres` (titre, durée, sous-titre du chapitre, illustration déposée ou emoji).
+- `palettes.css` : `--hero-1` à `--hero-3` et `--hero-accent`, mêmes valeurs dans les deux thèmes, calculés pour
+  4,6 pour 1 au moins ; `verifier_contraste.py` les mesure.
+- Le menu ☰ replié sur l'accueil à toutes les largeurs (la bascule de filière y vit sur téléphone) ; le bouton
+  flottant qui attend, sur téléphone, que « Commencer » quitte l'écran ; le monogramme du logo, qui s'empilait.
+- Le nombre de livrables au référentiel, pour l'accueil et l'atelier.
+- `nouveau_cours.py` : l'accueil d'un cours créé, même structure, consignes à rédiger, sans « Ce que démontre ce
+  site » ; `BOUTONS = []`.
+
+### Ce qui a été vérifié
+
+Au navigateur, à 1280 et 375 px, en clair et en sombre, sans filière puis avec EADL (le bandeau passe en émeraude,
+la capsule d'ERIS se cache) ; la bascule de langue garde la position de lecture (le même titre à la même hauteur).
+Aucune ressource en erreur sur l'accueil. Contrôles verts, parité comprise, sauf les 91 tirets du lot S4. Trois
+cours générés : la structure attendue, ni prose de la démonstration, ni lien mort.
+
+### Ce qui n'est pas fait
+
+La fiche des capsules de l'accueil (leurs textes), leur place dans la liste de lecture, l'accueil arabe, les
+illustrations des cartes, les boutons des épreuves (bloc école).
+
+### Pièges appris
+
+- **Un panneau de navigateur masqué fausse les essais** : l'observateur d'intersection et le défilement doux n'y
+  avancent qu'aux captures d'écran. Un bouton qui « ne se cache pas » et une position de lecture « perdue » étaient
+  des artefacts du test ; un saut immédiat (`behavior: 'instant'`) et une capture avant la mesure les ont levés.
+- **Un observateur peut livrer plusieurs états d'un coup** : c'est le dernier qui compte, et l'état de départ se lit
+  tout de suite, sans attendre le premier rappel.
+- **`auto-fill` garde une colonne vide** au bout d'une rangée de trois cartes ; `auto-fit` la referme.
+
+---
+
 ## 21 novembre 2026 · lot 1, les filières et les langues d'un cours (`f3cc344`)
 
 ### Les décisions de l'auteur

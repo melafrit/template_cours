@@ -51,10 +51,16 @@ Les lots, dans l'ordre validé :
 - [ ] **2. Bloc école** : `seances.py`, cahier de texte Yparéo, classeur d'import Livrables, fragments Programme et
   Échéances.
 - [ ] **3. Page d'accueil**, avec les fiches de ses capsules de section. Redemandée par l'auteur le
-  21 novembre, avec un troisième modèle, le cours de veille technologique (`Cours_EADL_Veille_Techno`) :
-  traitée avant le bloc école, dont elle prévoit les liens (livrables, épreuves, programme). Relevé en
-  chemin : le texte d'exemple de `public.parcours` (`cours.exemple.json`), affiché sur l'accueil, porte un
-  tiret cadratin.
+  21 novembre, avec un troisième modèle, le cours de veille technologique (`Cours_EADL_Veille_Techno`), et
+  traitée avant le bloc école. L'accueil ✅ (`0910118` : français et anglais, `outils/accueil.py`, couleurs du
+  bandeau contrôlées, accueil des cours créés). Restent : la fiche des capsules de l'accueil, témoin d'abord
+  (neuf noms de pistes déjà fixés) ; leur place dans la liste de lecture (`generer_playlist.py` n'indexe que
+  les chapitres) ; l'accueil arabe (lot 4) ; les illustrations des cartes (lot 5) ; les boutons des épreuves et
+  la pastille « diplôme, bloc et module » (lot 2). Relevés en chemin : « police lecture adaptée », dans une
+  carte de « Ce que démontre ce site » (français et anglais), une faute à proposer à l'auteur ; l'espace
+  insécable devant « : », posée sur l'accueil et absente des autres pages ; le lien de l'auteur, en pied de
+  chaque page, qui mène à « # » ; le texte d'exemple de `public.parcours` (`cours.exemple.json`), qui porte un
+  tiret cadratin, et son commentaire, qui le dit affiché sur l'accueil alors qu'aucune page ne l'affiche.
 - [ ] **4. Démo en trois langues** : le passage au site miroir est fait (avancé au lot 1, `59474ee`), et le
   chapitre 1 est en arabe (le témoin, `d301d41`). Restent : la relecture de ce témoin par un lecteur
   arabophone ; les quinze autres pages en arabe ; la transcription arabe de la capsule 1, écrite dans la page, à
@@ -89,6 +95,11 @@ Les lots, dans l'ordre validé :
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 21 novembre · lot 3, la page d'accueil
+> Celle des cours d'architecture et d'avant-projet : un bandeau sombre, ses boutons et ses cartes, les
+> capsules d'accueil et de section, les cartes des chapitres, un bouton flottant. Ses couleurs restent lisibles
+> dans chaque palette et pour chaque filière ; un cours créé reçoit la même structure, à rédiger. `0910118`.
+> Détail : `JOURNAL.md`, section du 21 novembre.
 > ### 🆕 21 novembre · lot 1, les filières et les langues d'un cours
 > `cours.json` déclare les filières d'un cours (une, deux ou aucune) et ses langues (le français, l'anglais,
 > l'arabe après la langue racine) ; `nouveau_cours.py` les valide et les écrit dans le `course-data.js` du
