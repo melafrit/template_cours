@@ -1,5 +1,5 @@
 /* =================================================================
-   ui-labels.js — Tous les textes d'interface des moteurs, FR et EN
+   ui-labels.js — Tous les textes d'interface des moteurs, FR, EN et AR
    Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
 
    POURQUOI CE FICHIER EXISTE
@@ -97,6 +97,7 @@ window.UI_LABELS = {
 
     /* ---- point de contrôle ---- */
     'controle.titre': 'Point de contrôle',
+    'controle.question': 'Question',
     'controle.avantDeLire': 'Avant de lire, que pensez-vous ?',
     'controle.votreHypothese': 'Votre hypothèse, avant de regarder :',
     'controle.placeholder': "Écrivez ce que vous pensez, même incertain : c'est l'essai qui fait apprendre.",
@@ -187,6 +188,8 @@ window.UI_LABELS = {
     'flash.compteARevoir': '· ↻ à revoir',
 
     /* ---- quiz ---- */
+    'quiz.titre': 'Quiz express · vérifiez vos acquis',
+    'quiz.score': 'Score :',
     'quiz.bonne': '✅ Bonne réponse.',
     'quiz.mauvaise': '❌ Réponse incorrecte.',
 
@@ -318,6 +321,7 @@ window.UI_LABELS = {
 
     /* ---- checkpoint ---- */
     'controle.titre': 'Checkpoint',
+    'controle.question': 'Question',
     'controle.avantDeLire': 'Before reading, what do you think?',
     'controle.votreHypothese': 'Your hypothesis, before looking:',
     'controle.placeholder': 'Write what you think, even unsure: trying is what makes it stick.',
@@ -408,6 +412,8 @@ window.UI_LABELS = {
     'flash.compteARevoir': '· ↻ to review',
 
     /* ---- quiz ---- */
+    'quiz.titre': 'Quick quiz · check what you have learnt',
+    'quiz.score': 'Score:',
     'quiz.bonne': '✅ Correct.',
     'quiz.mauvaise': '❌ Incorrect.',
 
@@ -475,6 +481,233 @@ window.UI_LABELS = {
     'nav.sommaire': '← Contents',
     'nav.precedent': '← Previous',
     'nav.suivant': 'Next →'
+  },
+
+  /* L'arabe (site miroir, ar/), d'après docs/LEXIQUE-ar.md. Les chevrons ‹ › sont des caractères « miroirs » :
+     le navigateur les retourne de lui-même dans une page de droite à gauche, et « › » y garde son sens de
+     « suivant ». Les flèches → ←, elles, ne se retournent pas : elles sont inversées ici. */
+  ar: {
+    /* ---- lecteur audio et capsules ---- */
+    'lecteur.lire': 'تشغيل الكبسولة الصوتية',
+    'lecteur.pause': 'إيقاف الكبسولة مؤقتًا',
+    'lecteur.progression': 'تقدّم الكبسولة',
+    'lecteur.transcriptionAfficher': 'إظهار النص المكتوب',
+    'lecteur.transcriptionMasquer': 'إخفاء النص المكتوب',
+    'lecteur.aEnregistrer': 'كبسولة قيد التسجيل، الملف المنتظَر:',
+    'lecteur.prevu': '(مُبرمَجة)',
+    'lecteur.capsule': 'كبسولة صوتية',
+    'lecteur.aVenir': 'الكبسولة الصوتية متاحة قريبًا.',
+    'lecteur.aVenirTranscription': 'الكبسولة الصوتية متاحة قريبًا. اقرؤوا نصّها المكتوب في الأثناء.',
+    'lecteur.fichierAttendu': 'الملف المنتظَر: ',
+
+    /* ---- playlist ---- */
+    'playlist.titre': 'المقاطع الصوتية',
+    'playlist.fermer': 'إغلاق قائمة التشغيل',
+    'playlist.basculer': 'إظهار المقاطع الصوتية أو إخفاؤها',
+    'playlist.aEnregistrer': 'مقطع قيد التسجيل',
+    'playlist.sections': 'إظهار الأقسام أو إخفاؤها',
+    'playlist.lire': 'تشغيل: ',
+    'playlist.aria': 'المقاطع الصوتية للمقرّر',
+
+    /* ---- étapes de lecture ---- */
+    'etapes.etape': 'الخطوة',
+    'etapes.suivante': 'الخطوة التالية ›',
+    'etapes.terminer': 'إنهاء الفصل ›',
+    'etapes.voirResultat': 'عرض النتيجة ›',
+    'etapes.termine': 'مُنجَز',
+    'etapes.chapitreTermine': 'تمّ إنجاز الفصل',
+    'etapes.lectureContinue': 'قراءة متواصلة: جميع الخطوات معروضة.',
+    'etapes.revenirPremiere': '↺ العودة إلى الخطوة الأولى',
+    'etapes.aRevoir': 'للمراجعة قبل الفصل التالي',
+    'etapes.aucuneARevoir': 'لا خطوة للمراجعة: الوقفات التقييمية مكتملة.',
+    'etapes.sansControle': 'لا يتضمّن هذا الفصل وقفة تقييمية.',
+    'etapes.pointsControle': 'الوقفات التقييمية للفصل:',
+    'etapes.valideesToutes': 'خطوات مُنجَزة: تمّت قراءة الفصل كاملًا.',
+    'etapes.valideesPartiel': 'خطوات مُنجَزة، والبقية ما زالت مفتوحة.',
+    'etapes.maitrise': '(الفصل متقَن)',
+    'etapes.relisez': 'أعيدوا قراءة القسم',
+    'etapes.tout': 'عرض الكلّ',
+    'etapes.retour': '↩ العودة إلى المسار',
+    'etapes.precedent': '‹ السابق',
+    'etapes.suivant': 'التالي ›',
+    'etapes.sur': '/',
+    'etapes.reste': '⏱ المتبقّي ≈',
+    'etapes.surN': 'من',
+    'etapes.parcours': 'مسار الفصل',
+    'etapes.bilan': 'الحصيلة',
+    'etapes.bonnesReponses': 'إجابات صحيحة.',
+    'etapes.reprendre': 'استئناف القراءة من حيث توقّفتم: القسم',
+    'etapes.reprendreTitre': ': «{t}»',
+    'etapes.masquerReprise': 'إخفاء اقتراح الاستئناف',
+    'objectifs.compte1': 'الأهداف المُنجَزة: {n} / {total}',
+    'objectifs.compteN': 'الأهداف المُنجَزة: {n} / {total}',
+    'progression.aria': 'التقدّم في الفصل',
+    'progression.valeur': 'القسم {n} من {total}',
+    'progression.etiquette': 'القسم {n} / {total}',
+    'progression.section': 'القسم {n}',
+
+    /* ---- point de contrôle ---- */
+    'controle.titre': 'وقفة تقييمية',
+    'controle.question': 'السؤال',
+    'controle.avantDeLire': 'قبل القراءة، ما رأيكم؟',
+    'controle.votreHypothese': 'فرضيّتكم، قبل الاطّلاع على الجواب:',
+    'controle.placeholder': 'اكتبوا ما تظنّونه، ولو لم تكونوا متأكّدين: المحاولة هي التي تُعلّم.',
+    'controle.reveler': 'إظهار الجواب',
+    'controle.laReponse': 'الجواب',
+    'controle.votreReponse': 'جوابكم',
+    'controle.acquis': 'تمّ الاكتساب: يمكنكم المتابعة.',
+    'controle.propositions': 'الاقتراحات',
+    'controle.valide': '(صحيح)',
+    'controle.suivante': 'السؤال التالي ›',
+    'controle.termine': 'مُنجَز',
+    'controle.recommencer': '↺ إعادة المحاولة',
+    'controle.relireSection': 'أعيدوا قراءة القسم',
+    'controle.avantDeContinuer': 'قبل المتابعة.',
+    'controle.relireCette': 'أعيدوا قراءة هذا القسم قبل المتابعة.',
+    /* explication complète : pourquoi les autres propositions, et où approfondir */
+    'controle.exact': '✅ صحيح.',
+    'controle.non': '❌ لا',
+    'controle.bonneReponse': 'الجواب الصحيح هو',
+    'controle.pourquoiPas': 'لماذا ليست الاقتراحات الأخرى؟',
+    'controle.proposition': 'الاقتراح',
+    'controle.deuxPoints': ': ',
+    'controle.votreChoix': '(اختياركم)',
+    'controle.approfondir': '📚 للتعمّق:',
+    'controle.indice': 'تلميح:',
+    'controle.repondreDabord': 'أجيبوا أولًا، ولو على وجه التقريب.',
+    'controle.pourquoi': 'السبب:',
+    'lien.nouvelOnglet': '(علامة تبويب جديدة)',
+
+    /* ---- repérage d'erreurs ---- */
+    'erreurs.titre': 'حدّدوا الأخطاء',
+    'erreurs.bilan': 'أصبحتم الآن قادرين على قراءة هذا النوع من الوثائق بعين ناقدة.',
+    'erreurs.compte1': 'الأخطاء المكتشَفة: {n} / {total}',
+    'erreurs.compteN': 'الأخطاء المكتشَفة: {n} / {total}',
+    'erreurs.erreur': '⚠ خطأ.',
+    'erreurs.correct': 'هذه العبارة صحيحة.',
+    'erreurs.ailleurs': 'ابحثوا في موضع آخر.',
+    'erreurs.toutes': '🎯 تمّ تحديد جميع الأخطاء.',
+
+    /* ---- appariement ---- */
+    'match.consigne': 'اربطوا كلّ عنصر بما يقابله',
+    'match.aide': 'انقروا على عنصر في اليمين، ثم على ما يقابله في اليسار.',
+    'match.paires': 'أزواج مكتشَفة',
+    'match.trouvee': 'مكتشَف',
+    'match.sur': 'من',
+    'match.compte1': 'الأزواج المكتشَفة: {n} / {total}',
+    'match.compteN': 'الأزواج المكتشَفة: {n} / {total}',
+    'match.colonneA': 'العمود أ',
+    'match.colonneB': 'العمود ب',
+    'match.toutes': '🎯 تمّ إيجاد جميع الأزواج.',
+    'match.bonne': '✅ ربط صحيح.',
+    'match.mauvaise': '❌ هذان العنصران لا يتطابقان.',
+    'match.reessayez': 'حاولوا من جديد.',
+
+    /* ---- scénario à embranchements ---- */
+    'scenario.decisions': 'القرارات الممكنة',
+    'scenario.rejouer': '↺ إعادة الحالة',
+    'scenario.vosDecisions': 'قراراتكم',
+    'scenario.nonNote': 'هذه الحالة غير منقَّطة: إنها تُبيّن عواقب كلّ قرار.',
+    'scenario.consequence': 'العاقبة',
+    'scenario.titre': 'حالة تطبيقية',
+    'scenario.conclure': 'الخلاصة ›',
+    'scenario.bilan': 'الحصيلة',
+    'scenario.sansRisque': 'دون مخاطرة',
+
+    /* ---- sommaire ---- */
+    'sommaire.titre': 'المحتويات',
+
+    /* ---- glossaire ---- */
+    'glossaire.voir': '← انظر في مسرد المصطلحات',
+    'glossaire.fermerBulle': 'إغلاق التعريف',
+
+    /* ---- flashcards ---- */
+    'flash.question': 'السؤال',
+    'flash.reponse': 'الجواب',
+    'flash.aria': 'بطاقة مراجعة: انقروا لقلبها',
+    'flash.retourner': '↺ انقروا لقلب البطاقة',
+    'flash.jeSavais': '✓ كنت أعرف',
+    'flash.carte': 'البطاقة',
+    'flash.etatSu': '✓ معروفة',
+    'flash.etatRevoir': '↻ للمراجعة',
+    'flash.precedente': 'البطاقة السابقة',
+    'flash.suivante': 'البطاقة التالية',
+    'flash.aRevoir': 'للمراجعة ↻',
+    'flash.acquis': 'مكتسَبة ✓',
+    'flash.reinitialiser': '↺ إعادة ضبط إجاباتي',
+    'flash.melanger': '🔀 خلط البطاقات',
+    'flash.compteARevoir': '· ↻ للمراجعة',
+
+    /* ---- quiz ---- */
+    'quiz.titre': 'اختبار سريع · تحقّقوا من مكتسباتكم',
+    'quiz.score': 'النتيجة:',
+    'quiz.bonne': '✅ إجابة صحيحة.',
+    'quiz.mauvaise': '❌ إجابة غير صحيحة.',
+
+    /* ---- accessibilité ---- */
+    'a11y.titre': 'إعدادات إمكانية الوصول والقراءة',
+    'a11y.court': 'إعدادات القراءة',
+    'a11y.allerContenu': 'الانتقال إلى المحتوى',
+    'a11y.confort': 'راحة القراءة',
+    'a11y.taille': 'حجم النص',
+    'a11y.reduire': 'تصغير النص',
+    'a11y.agrandir': 'تكبير النص',
+    'a11y.dys': 'القراءة الميسّرة (DYS)',
+    'a11y.dysActiver': 'تفعيل القراءة الميسّرة',
+    'a11y.dysAide': 'خطّ أوضح وتباعد أكبر بين الأسطر والكلمات.',
+    'a11y.reinitialiser': '↺ إعادة الضبط',
+    'langue.groupe': 'لغة الصفحة',
+
+    /* ---- médias ---- */
+    'media.slidesPleinEcran': 'عرض الشرائح بملء الشاشة',
+    'media.infographie': 'إنفوجرافيك تلخيصي',
+    'media.polycopie': '📄 البطاقة التلخيصية',
+    'media.fiche': 'البطاقة التلخيصية',
+    'media.chapitre': 'الفصل',
+    'media.ouvrir': 'فتح ↖',
+    'media.fermer': 'إغلاق',
+    'media.agrandir': '⤢ تكبير',
+    'media.slides': 'الشرائح',
+    'media.slidesPleinEcranTitre': 'الشرائح بملء الشاشة',
+    'media.ouvrirOnglet': 'فتح في علامة تبويب ↖',
+    'media.podcast': 'البودكاست',
+    'media.lecturePause': 'تشغيل / إيقاف مؤقت',
+    'media.reculer': 'الرجوع 10 ثوانٍ',
+    'media.avancer': 'التقدّم 10 ثوانٍ',
+    'media.telecharger': 'تنزيل الحلقة',
+    'media.telechargerTitre': 'تنزيل الحلقة (MP3)',
+    'media.fenetre': 'فتح في نافذة مستقلّة',
+    'media.fenetreCourt': 'نافذة مستقلّة',
+    'media.fermerLecteur': 'إغلاق المشغّل',
+
+    /* ---- schémas à points chauds ---- */
+    'schema.titre': 'مخطّط المقرّر',
+    'schema.fermer': 'إغلاق',
+    'schema.fermerInfo': 'إغلاق النافذة التوضيحية',
+    'schema.aDeposer': 'مخطّط ينبغي إيداعه',
+    'schema.fichierAttendu': 'الملف المنتظَر:',
+    'schema.chemin': 'المسار:',
+    'schema.pointsLisibles': 'تبقى نقاط المخطّط مقروءة أدناه.',
+
+    /* ---- navigation ---- */
+    'nav.accueil': 'الصفحة الرئيسية للمقرّر',
+    'nav.chapitres': 'الفصول',
+    'nav.ressources': 'الموارد',
+    'nav.reinitialiser': '↺ إعادة ضبط تقدّمي',
+    'nav.reinitialiserTitre': 'مسح الفصول المؤشَّر عليها بأنها مُنجَزة',
+    'nav.sections': 'إظهار الأقسام أو إخفاؤها',
+    'nav.marquerFait': 'التأشير على هذا الفصل بأنه مُنجَز',
+    'nav.marquerAnnuler': '✓ الفصل مُنجَز (انقروا للإلغاء)',
+    'nav.reinitialiserConfirme': 'هل تريدون إعادة ضبط تقدّمكم (الفصول المُنجَزة)؟',
+    'nav.enFrancais': 'صفحة ما زالت بالفرنسية',
+    'nav.enAnglais': 'صفحة ما زالت بالإنجليزية',
+    'nav.enArabe': 'صفحة ما زالت بالعربية',
+    'nav.menu': 'القائمة',
+    'nav.theme': 'تغيير المظهر',
+    'nav.langue': 'التبديل إلى الإنجليزية',
+    'nav.sommaire': '→ المحتويات',
+    'nav.precedent': '→ السابق',
+    'nav.suivant': 'التالي ←'
   }
 };
 

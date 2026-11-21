@@ -104,7 +104,15 @@
     function positionPanel() {
       var r = btn.getBoundingClientRect();
       panel.style.top = (r.bottom + 8) + 'px';
-      panel.style.right = Math.max(8, window.innerWidth - r.right) + 'px';
+      // De droite à gauche, le bouton est du côté gauche de l'en-tête : aligné sur son bord droit, le panneau sortait de
+      // l'écran. Il s'aligne alors sur son bord gauche, sans dépasser l'écran (264 px, la largeur que lui donne la feuille
+      // de style ; caché, il n'en a pas encore).
+      if (document.documentElement.dir === 'rtl') {
+        var large = Math.min(264, window.innerWidth - 16);
+        panel.style.right = 'auto';
+        panel.style.left = Math.max(8, Math.min(r.left, window.innerWidth - large - 8)) + 'px';
+      }
+      else { panel.style.left = 'auto'; panel.style.right = Math.max(8, window.innerWidth - r.right) + 'px'; }
     }
     function openPanel() { positionPanel(); panel.hidden = false; btn.setAttribute('aria-expanded', 'true'); }
     function closePanel() { panel.hidden = true; btn.setAttribute('aria-expanded', 'false'); }

@@ -21,13 +21,17 @@ import sys
 
 RACINE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Les dossiers que lit media.js (relatifs à site/), leur clé dans TPL_MEDIAS et les extensions qu'il y cherche. Le
-# reste — les diapositives WebP de la page Podcasts, un fichier de travail — n'a rien à faire dans la liste.
+# Les dossiers que lisent media.js et les composants (relatifs à site/), leur clé dans TPL_MEDIAS et les extensions
+# qu'on y cherche. Les capsules (voix) et les schémas y sont depuis le 21 novembre 2026 : RDCX.voice et RDCX.hotspots
+# n'y demandent plus au serveur un fichier encore à produire. Le reste — les diapositives WebP de la page Podcasts,
+# un fichier de travail — n'a rien à faire dans la liste.
 DOSSIERS = (
     ("podcasts", "assets/media/podcasts", (".mp3", ".m4a")),
     ("slides", "assets/media/slides", (".pdf",)),
     ("infographies", "assets/media/infographies", (".png",)),
     ("polycopies", "assets/polycopies", (".pdf", ".docx")),
+    ("voix", "assets/media/voix", (".mp3", ".m4a")),
+    ("schemas", "assets/media/schemas", (".webp", ".png", ".svg", ".jpg")),
 )
 
 ENTETE = """/* =================================================================

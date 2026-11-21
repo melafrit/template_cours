@@ -27,6 +27,8 @@ SCRIPT = re.compile(r"(<script\b[^>]*>)(.*?)(</script>)", re.S | re.I)
 # eux, restent : i18n.js choisit leur valeur d'après la langue de la page.
 ATTR_EN = re.compile(r'\sdata-((?!i18n-)[a-z][a-z0-9-]*?)-en="([^"]*)"')
 # La marque d'une jumelle préparée par creer_jumelle.py et pas encore traduite : verifier_parite.py la refuse.
+# Les langues écrites de droite à gauche : leur page déclare dir="rtl" (declarer).
+DROITE_A_GAUCHE = ("ar",)
 A_TRADUIRE = "<!-- À TRADUIRE : jumelle préparée par outils/creer_jumelle.py — retirer cette ligne une fois la page traduite -->"
 
 
@@ -117,21 +119,23 @@ def bilingue(t):
 
 def declarer(t, langue):
     """<html> déclare la langue de la page, et elle seule : i18n.js n'y pose alors pas de bouton 🌐, et
-    navigation.js y charge le bouton FR / EN du site miroir."""
+    navigation.js y charge le choix de langue du site miroir. Une langue écrite de droite à gauche (l'arabe) y
+    ajoute dir="rtl", dès le premier affichage."""
     def balise(m):
         b = m.group(0)
-        for nom in ("lang", "data-lang", "data-langues"):
+        for nom in ("lang", "data-lang", "data-langues", "dir"):
             b = re.sub(r'\s%s="[^"]*"' % nom, "", b)
-        return b[:5] + ' lang="%s" data-lang="%s" data-langues="%s"' % (langue, langue, langue) + b[5:]
+        sens = ' dir="rtl"' if langue in DROITE_A_GAUCHE else ""
+        return b[:5] + ' lang="%s" data-lang="%s" data-langues="%s"%s' % (langue, langue, langue, sens) + b[5:]
     return re.sub(r"<html\b[^>]*>", balise, t, count=1)
 
 
-def reloger(t, rel, jumelles, site):
-    """Les chemins de la page française rel (depuis la racine du site), réécrits pour sa jumelle sous en/. Une page
-    de jumelles (l'ensemble des pages qui ont, ou auront, leur jumelle) reste au même chemin relatif ; tout autre
-    fichier du site descend d'un cran."""
+def reloger(t, rel, jumelles, site, langue="en"):
+    """Les chemins de la page rel de la racine (depuis la racine du site), réécrits pour sa jumelle sous <langue>/ (en/
+    par défaut). Une page de jumelles (l'ensemble des pages qui ont, ou auront, leur jumelle dans cette langue) reste
+    au même chemin relatif ; tout autre fichier du site descend d'un cran."""
     dossier = posixpath.dirname(rel)
-    dossier_en = posixpath.join("en", dossier) if dossier else "en"
+    dossier_en = posixpath.join(langue, dossier) if dossier else langue
 
     def nouveau(chemin):
         if not chemin or re.match(r"^(?:[a-z][a-z0-9+.-]*:|//|#|/|\{)", chemin, re.I):

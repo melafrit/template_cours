@@ -24,5 +24,19 @@ window.TPL_MEDIAS = {
   "chapitre-3-polycopie.en.pdf",
   "chapitre-3-polycopie.fr.docx",
   "chapitre-3-polycopie.fr.pdf"
+ ],
+ "voix": [
+  "chapitre-1-capsule-en.mp3",
+  "chapitre-1-capsule-fr.mp3",
+  "chapitre-2-capsule-en.mp3",
+  "chapitre-2-capsule-fr.mp3",
+  "chapitre-3-capsule-en.mp3",
+  "chapitre-3-capsule-fr.mp3"
+ ],
+ "schemas": [
+  "chapitre-1-schema-1-trois-decisions.en.webp",
+  "chapitre-1-schema-1-trois-decisions.fr.webp",
+  "chapitre-3-schema-1-chaine-production.en.webp",
+  "chapitre-3-schema-1-chaine-production.fr.webp"
  ]
 };

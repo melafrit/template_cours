@@ -44,16 +44,16 @@ class QuizEngine {
     this.container.innerHTML = `
       <div class="quiz-engine-head">
         <span class="ico">🧠</span>
-        <h3>Quiz express · vérifiez vos acquis</h3>
-        <span class="quiz-progress">Question ${this.index + 1} / ${this.questions.length}</span>
+        <h3>${T('quiz.titre')}</h3>
+        <span class="quiz-progress">${T('controle.question')} ${this.index + 1} / ${this.questions.length}</span>
       </div>
       <div class="quiz-question">${q.question}</div>
       <div class="quiz-options">${opts}</div>
       ${explain}
       <div class="quiz-actions">
-        <button class="btn btn-ghost" data-act="prev" ${this.index === 0 ? 'disabled' : ''}>← Précédent</button>
-        <button class="btn btn-primary" data-act="next" ${this.index === this.questions.length - 1 ? 'disabled' : ''}>Suivant →</button>
-        ${done ? `<span class="quiz-result">Score : ${score} / ${this.questions.length}</span>` : ''}
+        <button class="btn btn-ghost" data-act="prev" ${this.index === 0 ? 'disabled' : ''}>${T('nav.precedent')}</button>
+        <button class="btn btn-primary" data-act="next" ${this.index === this.questions.length - 1 ? 'disabled' : ''}>${T('nav.suivant')}</button>
+        ${done ? `<span class="quiz-result">${T('quiz.score')} ${score} / ${this.questions.length}</span>` : ''}
       </div>`;
 
     this.container.querySelectorAll('.quiz-option').forEach(btn => {

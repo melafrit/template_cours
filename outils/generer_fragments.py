@@ -111,7 +111,10 @@ def chapitres():
 
 
 def en_lettres(n, langue):
-    """0 à 99 en toutes lettres : 45 → « quarante-cinq » / « forty-five »."""
+    """0 à 99 en toutes lettres : 45 → « quarante-cinq » / « forty-five ». L'arabe garde le chiffre (décision de
+    l'auteur du 21 novembre 2026) : son nom de nombre s'accorde avec ce qu'il compte, que le fragment ignore."""
+    if langue == "ar":
+        return str(n)
     if langue == "en":
         if n < 20:
             return _UNITS[n]
@@ -143,7 +146,13 @@ def nombre(x, langue):
 
 def duree(minutes, langue):
     """30 → « 30 min » ; 80 → « 1 h 20 » ; 120 → « 2 h ». L'espace entre le nombre et l'unité, et avant les
-    minutes, est insécable : un en-tête de chapitre étroit coupait « 7 / min »."""
+    minutes, est insécable : un en-tête de chapitre étroit coupait « 7 / min ». L'arabe abrège ses unités (د pour
+    دقيقة, س pour ساعة), en chiffres occidentaux : l'abréviation évite d'accorder le nom avec le nombre."""
+    if langue == "ar":
+        if minutes < 60:
+            return "%d%sد" % (minutes, INSECABLE)
+        h, m = divmod(minutes, 60)
+        return "%d%sس" % (h, INSECABLE) + ("%s%02d%sد" % (INSECABLE, m, INSECABLE) if m else "")
     if minutes < 60:
         return "%d%smin" % (minutes, INSECABLE)
     h, m = divmod(minutes, 60)

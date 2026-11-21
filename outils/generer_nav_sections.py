@@ -18,6 +18,8 @@ import re
 import sys
 
 RACINE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Les langues du site miroir ; la racine est celle que déclare l'accueil, les autres vivent dans leur dossier.
+LANGUES = ("fr", "en", "ar")
 
 ENTETE = """/* =================================================================
    nav-sections.js — Sous-sections de chaque chapitre, pour le menu
@@ -53,23 +55,37 @@ def sections(chemin):
     return out
 
 
+def langue_racine(racine):
+    """La langue des pages de la racine du site : celle que déclare l'accueil, le français à défaut."""
+    try:
+        t = io.open(os.path.join(racine, "site", "index.html"), encoding="utf-8").read()
+    except OSError:
+        return "fr"
+    m = re.search(r'<html\b[^>]*\blang="([a-z]{2})', t)
+    return m.group(1) if m and m.group(1) in LANGUES else "fr"
+
+
 def produire(racine):
-    """Le texte de nav-sections.js pour le site de racine. En site miroir (docs/I18N.md), le titre anglais d'une
-    section vient de la jumelle site/en/chapitres/<fichier>, à identifiant égal."""
+    """Le texte de nav-sections.js pour le site de racine. En site miroir (docs/I18N.md), le titre d'une section dans
+    une autre langue vient de la jumelle site/<langue>/chapitres/<fichier>, à identifiant égal."""
+    lr = langue_racine(racine)
     donnees = {}
     for num, fichier in chapitres(racine):
         p = os.path.join(racine, "site", "chapitres", fichier)
         if not os.path.isfile(p):
             continue
         secs = sections(p)
-        jumelle = os.path.join(racine, "site", "en", "chapitres", fichier)
-        if os.path.isfile(jumelle):
-            anglais = {s["id"]: s["t"] for s in sections(jumelle)}
+        for lg in LANGUES:
+            jumelle = os.path.join(racine, "site", lg, "chapitres", fichier)
+            if lg == lr or not os.path.isfile(jumelle):
+                continue
+            traduits = {s["id"]: s["t"] for s in sections(jumelle)}
             for s in secs:
-                en = anglais.get(s["id"])
-                en = en.get("en") or en.get("fr") if isinstance(en, dict) else en
-                if en:
-                    s["t"] = {"fr": s["t"].get("fr") if isinstance(s["t"], dict) else s["t"], "en": en}
+                t = traduits.get(s["id"])
+                t = (t.get(lg) or t.get("fr")) if isinstance(t, dict) else t
+                if t:
+                    s["t"] = dict(s["t"]) if isinstance(s["t"], dict) else {lr: s["t"]}
+                    s["t"][lg] = t
         donnees[num] = secs
     return ENTETE + "window.RDC_SECTIONS = " + json.dumps(donnees, ensure_ascii=False, indent=1) + ";\n"
 

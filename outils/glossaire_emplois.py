@@ -170,7 +170,8 @@ def formes(intitule, alias, langue):
         return []
     sigles = {m.lower() for m in re.findall(r"\b[A-Z][A-Z0-9]+\b", intitule)}
     base = {norm(intitule)} | {norm(a) for a in alias or [] if norm(a)}
-    regle = pluriels_en if langue == "en" else pluriels_fr
+    # L'arabe n'a pas de règle de pluriel ici : ses autres formes s'écrivent dans alias (glossaire-data.js).
+    regle = {"en": pluriels_en, "fr": pluriels_fr}.get(langue, lambda forme, sigles=(): set())
     out = set(base)
     for f in base:
         out |= regle(f, sigles)
@@ -263,11 +264,11 @@ class Decoupe(HTMLParser):
 
 
 def chapitres(site=SITE):
-    """[(fichier, numéro, {fr, en})] d'après site/assets/js/course-data.js, dans l'ordre du cours."""
+    """[(fichier, numéro, {fr, en, ar})] d'après site/assets/js/course-data.js, dans l'ordre du cours."""
     src = io.open(os.path.join(site, "assets", "js", "course-data.js"), encoding="utf-8").read()
-    return [(m.group(2), m.group(1), {"fr": m.group(3), "en": m.group(4)})
+    return [(m.group(2), m.group(1), {"fr": m.group(3), "en": m.group(4), "ar": m.group(5) or ""})
             for m in re.finditer(r"num:\s*['\"]([^'\"]+)['\"][^}]*?file:\s*['\"]([^'\"]+)['\"][^}]*?title:\s*\{\s*fr:\s*\"([^\"]*)\","
-                                 r"\s*en:\s*\"([^\"]*)\"", src, flags=re.S)]
+                                 r"\s*en:\s*\"([^\"]*)\"(?:,\s*ar:\s*\"([^\"]*)\")?", src, flags=re.S)]
 
 
 def zones_protegees():
@@ -294,6 +295,11 @@ def non_publiee(chemin, motifs):
     return any(fnmatch.fnmatch(chemin, m) or chemin.startswith(m.rstrip("*").rstrip("/") + "/") for m in motifs)
 
 
+# Les langues du site miroir, et le libellé d'un chapitre dans chacune.
+LANGUES = ("fr", "en", "ar")
+CHAPITRE = {"fr": "Chapitre %s : %s", "en": "Chapter %s: %s", "ar": "الفصل %s: %s"}
+
+
 def pages(site=SITE):
     """[(langue, chemin depuis la racine de la langue, fichier)] : chaque page, dans chacune de ses langues."""
     exclues = EXCLUES + zones_protegees()
@@ -306,8 +312,9 @@ def pages(site=SITE):
         t = io.open(f, encoding="utf-8").read()
         m = re.search(r'<html\b[^>]*\bdata-langues="([^"]*)"', t)
         langues = m.group(1).split() if m else ["fr", "en"]
-        if rel.startswith("en/"):
-            rel, langues = rel[3:], ["en"]
+        dossier = re.match(r"(en|ar)/", rel)                  # une jumelle du site miroir, dans sa seule langue
+        if dossier:
+            rel, langues = rel[3:], [dossier.group(1)]
         if any(rel == x or (x.endswith("/") and rel.startswith(x)) for x in exclues):
             continue
         out += [(lg, rel, f) for lg in langues]
@@ -321,17 +328,17 @@ def calculer(site=SITE):
     rang = {"chapitres/" + f: i for i, (f, _n, _t) in enumerate(chaps)}
     titres = {"chapitres/" + f: (n, t) for f, n, t in chaps}
     regles = {}
-    for lg in ("fr", "en"):
+    for lg in LANGUES:
         regles[lg] = [(ancre(t.get("fr")), motif(formes(t.get(lg), (t.get("alias") or {}).get(lg), lg)),
                        motif([normaliser(x) for x in (t.get("exclus") or {}).get(lg) or []])) for t in termes]
-    out = {"fr": {}, "en": {}}
+    out = {lg: {} for lg in LANGUES}
     lues = sorted(pages(site), key=lambda x: (rang.get(x[1], len(rang)), x[1], x[0]))
     for lg, rel, chemin in lues:
         d = Decoupe(lg)
         d.feed(io.open(chemin, encoding="utf-8").read())
         if rel in titres:
             n, t = titres[rel]
-            libelle = ("Chapter %s: %s" if lg == "en" else "Chapitre %s : %s") % (n, t.get(lg) or t["fr"])
+            libelle = CHAPITRE.get(lg, CHAPITRE["fr"]) % (n, t.get(lg) or t["fr"])
         else:
             libelle = d.h1 or rel
         for ancre_endroit, section, morceaux in d.endroits:
@@ -360,7 +367,7 @@ def produire(emplois):
 
 
 def generer(site=SITE, essai=False):
-    """(à jour avant ?, nombre de termes, termes employés en français, en anglais)."""
+    """(à jour avant ?, nombre de termes, termes employés en français, en anglais, en arabe)."""
     termes, emplois = calculer(site)
     texte = produire(emplois)
     sortie = os.path.join(site, "assets", "js", "glossaire-emplois.js")
@@ -369,16 +376,17 @@ def generer(site=SITE, essai=False):
     if not a_jour and not essai:
         with io.open(sortie, "w", encoding="utf-8", newline="\n") as f:
             f.write(texte)
-    return a_jour, len(termes), len(emplois["fr"]), len(emplois["en"])
+    return a_jour, len(termes), len(emplois["fr"]), len(emplois["en"]), len(emplois["ar"])
 
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--essai", action="store_true", help="dit si le fichier est à jour, sans rien écrire")
     args = ap.parse_args()
-    a_jour, n, fr, en = generer(essai=args.essai)
-    print("glossaire-emplois.js : %d terme(s) ; employés dans le cours : %d en français, %d en anglais — %s"
-          % (n, fr, en, "à jour" if a_jour else ("PAS À JOUR — rien écrit" if args.essai else "écrit")))
+    a_jour, n, fr, en, ar = generer(essai=args.essai)
+    print("glossaire-emplois.js : %d terme(s) ; employés dans le cours : %d en français, %d en anglais%s — %s"
+          % (n, fr, en, ", %d en arabe" % ar if ar else "",
+             "à jour" if a_jour else ("PAS À JOUR — rien écrit" if args.essai else "écrit")))
     return 1 if (args.essai and not a_jour) else 0
 
 

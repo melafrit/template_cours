@@ -46,32 +46,38 @@ def marquer(t):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("pages", nargs="+", help="chemins des pages françaises, depuis la racine du site")
+    ap.add_argument("pages", nargs="+", help="chemins des pages de la racine, depuis la racine du site")
+    ap.add_argument("--langue", default="en", choices=generer_langues.LANGUES,
+                    help="la langue de la jumelle : en (par défaut) ou ar, l'arabe s'écrivant de droite à gauche")
     ap.add_argument("--essai", action="store_true", help="dit ce qui serait fait, sans rien écrire")
     args = ap.parse_args()
+    lg, racine = args.langue, generer_langues.langue_racine(SITE)
+    if lg == racine:
+        sys.exit("« %s » est la langue de la racine : ses pages n'ont pas de jumelle dans leur propre langue." % lg)
+    dossiers = tuple(l + "/" for l in generer_langues.LANGUES) + ("assets/",)
     demandees = [p.replace("\\", "/").lstrip("./") for p in args.pages]
-    jumelles = set(generer_langues.pages_traduites(SITE)) | set(demandees)
+    jumelles = set(generer_langues.pages_traduites(SITE, lg)) | set(demandees)
     ecrits, erreurs = {}, []
     for rel in demandees:
-        fr_p, en_p = os.path.join(SITE, *rel.split("/")), os.path.join(SITE, "en", *rel.split("/"))
-        if rel.startswith(("en/", "assets/")) or not rel.endswith(".html"):
-            erreurs.append("%s : une page française du site, hors en/ et assets/" % rel)
+        r_p, j_p = os.path.join(SITE, *rel.split("/")), os.path.join(SITE, lg, *rel.split("/"))
+        if rel.startswith(dossiers) or not rel.endswith(".html"):
+            erreurs.append("%s : une page de la racine du site, hors des dossiers de langue et d'assets/" % rel)
             continue
-        if not os.path.isfile(fr_p):
+        if not os.path.isfile(r_p):
             erreurs.append("%s : page introuvable" % rel)
             continue
-        if os.path.exists(en_p):
-            erreurs.append("en/%s existe déjà : jamais écrasée" % rel)
+        if os.path.exists(j_p):
+            erreurs.append("%s/%s existe déjà : jamais écrasée" % (lg, rel))
             continue
-        t = io.open(fr_p, encoding="utf-8").read()
+        t = io.open(r_p, encoding="utf-8").read()
         if miroir.bilingue(t):
             erreurs.append("%s : page en blocs data-tr — data_tr_vers_miroir.py la convertit" % rel)
             continue
-        if 'data-langues="fr"' not in t:
-            ecrits[fr_p] = miroir.declarer(t, "fr")
-        en, liste = miroir.charger_liste(miroir.reloger(miroir.declarer(t, "en"), rel, jumelles, SITE))
-        ecrits[en_p] = marquer(en)
-        print("  ✓ %s → en/%s%s" % (rel, rel, "" if liste else " (✗ i18n.js introuvable : liste non chargée)"))
+        if 'data-langues="%s"' % racine not in t:
+            ecrits[r_p] = miroir.declarer(t, racine)
+        jum, liste = miroir.charger_liste(miroir.reloger(miroir.declarer(t, lg), rel, jumelles, SITE, lg))
+        ecrits[j_p] = marquer(jum)
+        print("  ✓ %s → %s/%s%s" % (rel, lg, rel, "" if liste else " (✗ i18n.js introuvable : liste non chargée)"))
     for e in erreurs:
         print("  ✗", e)
     if erreurs:

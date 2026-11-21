@@ -171,7 +171,7 @@
           + '<span class="rdcx-opt-txt">' + rich(o) + '</span></button>';
       }).join('');
 
-      box.innerHTML = head('✅', titre, 'Question ' + (i + 1) + ' / ' + QS.length)
+      box.innerHTML = head('✅', titre, T('controle.question') + ' ' + (i + 1) + ' / ' + QS.length)
         + '<div class="rdcx-body">'
         + '  <p class="rdcx-q" tabindex="-1">' + rich(q.q) + '</p>'
         + '  <div class="rdcx-opts" role="group" aria-label="' + T('controle.propositions') + '">' + options + '</div>'
@@ -617,11 +617,16 @@
     }).join('');
 
     // Pas d'en-tête de bloc : le schéma et sa liste parlent d'eux-mêmes.
+    // La liste des médias (media-data.js) dit si le schéma est déposé : absent, l'image n'est pas demandée au serveur,
+    // qui répondait 404 dans la console, et le cadre de remplacement s'affiche d'emblée. Sans liste, comme avant.
+    var schemas = window.TPL_MEDIAS && window.TPL_MEDIAS.schemas;
+    var attendu = !!(schemas && src && schemas.indexOf(nom) < 0);
+
     box.innerHTML =
         '<div class="rdcx-body">'
       + '  <figure class="rdcx-hs-figure">'
       + '    <div class="rdcx-hs-stage">'
-      + '      <img class="rdcx-hs-img" src="' + esc(src) + '" alt="' + esc(cfg.alt || T('schema.titre')) + '">'
+      + '      <img class="rdcx-hs-img"' + (attendu ? '' : ' src="' + esc(src) + '"') + ' alt="' + esc(cfg.alt || T('schema.titre')) + '">'
       + pins + pops
       + '    </div>'
       + (cfg.legende ? '    <figcaption class="rdcx-hs-cap">' + rich(cfg.legende) + '</figcaption>' : '')
@@ -678,6 +683,7 @@
         + '<span class="rdcx-hs-missing-n">' + T('schema.pointsLisibles') + '</span>'
         + '</div>';
     });
+    if (attendu) img.dispatchEvent(new Event('error'));
   };
 
   /* ----------------------------------------------------------------
@@ -810,6 +816,11 @@
       var titrePlat = String(cfg.titre || T('lecteur.capsule')).replace(/\*\*/g, '');
       window.RDC_LECTEUR.attacher(audio, '🎧 ' + titrePlat);
     }
+
+    // Une capsule absente de la liste des médias (media-data.js) n'est pas demandée au serveur, qui répondait 404 :
+    // elle s'annonce « bientôt disponible » d'emblée. Sans liste, comme avant.
+    var voix = window.TPL_MEDIAS && window.TPL_MEDIAS.voix;
+    if (voix && src && voix.indexOf(nom) < 0) { audio.dispatchEvent(new Event('error')); return; }
 
     // src posé en dernier : tous les écouteurs (dont 'error') sont déjà en place
     audio.src = src;

@@ -169,6 +169,18 @@ def main():
             print("      %s" % k)
     if not sans_en and not sans_fr:
         print("   %d clés, appariées dans les deux langues." % len(fr))
+    # Une langue de plus (l'arabe, site miroir) : sa table, si elle existe, porte exactement les clés du français.
+    for lg in ("ar",):
+        autre = cles_du_bloc(src, lg)
+        if not autre:
+            continue
+        manque, trop = sorted(fr - autre), sorted(autre - fr)
+        if manque or trop:
+            echecs += 1
+            print("   %s : %d clé(s) sans traduction, %d en trop : %s"
+                  % (lg, len(manque), len(trop), ", ".join((manque + trop)[:8])))
+        else:
+            print("   %s : %d clés, appariées au français." % (lg, len(autre)))
 
     print("\n2. Clés appelées par les moteurs")
     print("   -----------------------------")
