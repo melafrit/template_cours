@@ -83,8 +83,8 @@ def main():
         os.makedirs(os.path.dirname(chemin), exist_ok=True)
         with io.open(chemin, "w", encoding="utf-8", newline="\n") as f:
             f.write(texte)
-    _a_jour, traduites = generer_langues.generer(SITE)
-    print("langues-data.js : %d page(s) traduite(s)" % len(traduites))
+    _a_jour, racine, pages = generer_langues.generer(SITE)
+    print("langues-data.js : %s" % generer_langues.resume(racine, pages))
     spec = importlib.util.spec_from_file_location("liens_langues", os.path.join(RACINE, "outils", "liens_langues.py"))
     liens = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(liens)

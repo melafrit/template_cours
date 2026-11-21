@@ -62,7 +62,9 @@
   function langueDe(el) {
     var bloc = el.closest('[data-tr]');
     if (bloc) return bloc.getAttribute('data-tr') === 'en' ? 'en' : 'fr';
-    return /^en/i.test(document.documentElement.getAttribute('lang') || '') ? 'en' : 'fr';
+    // Une page d'une seule langue parle la sienne, si le dictionnaire la connaît ; le français sinon.
+    var lg = (document.documentElement.getAttribute('lang') || 'fr').slice(0, 2);
+    return LIB[lg] ? lg : 'fr';
   }
   function f(modele, v) {
     return modele.replace(/\{(\w+)\}/g, function (_, k) { return v[k] != null ? v[k] : ''; });

@@ -149,8 +149,9 @@ def main():
         os.makedirs(os.path.dirname(chemin), exist_ok=True)
         with io.open(chemin, "w", encoding="utf-8", newline="\n") as f:
             f.write(texte)
-    _a_jour, traduites = charger_module("generer_langues").generer()
-    print("langues-data.js : %d page(s) traduite(s)" % len(traduites))
+    gl = charger_module("generer_langues")
+    _a_jour, racine, pages = gl.generer()
+    print("langues-data.js : %s" % gl.resume(racine, pages))
     _a_jour, nch, nsec = charger_module("generer_nav_sections").generer(RACINE)
     print("nav-sections.js : %d chapitre(s), %d section(s)" % (nch, nsec))
     fragments = os.path.join(RACINE, "outils", "generer_fragments.py")

@@ -270,7 +270,7 @@ prochaine régénération.
 |---|---|---|
 | `site/assets/js/playlist-data.js` | `outils/generer_playlist.py` | les pages et les fichiers audio |
 | `site/assets/js/nav-sections.js` | `outils/generer_nav_sections.py` | les titres `<h2 id>` des chapitres (l'anglais, de leurs jumelles en site miroir) |
-| `site/assets/js/langues-data.js` | `outils/generer_langues.py` | les pages jumelles de `site/en/` (site miroir) |
+| `site/assets/js/langues-data.js` | `outils/generer_langues.py` | les dossiers de langue de `site/` (`en/`, `ar/`…), en site miroir |
 | le contenu entre `<!-- FRAGMENT:nom -->` et `<!-- /FRAGMENT:nom -->` | `outils/generer_fragments.py` | `outils/referentiel.py`, `course-data.js`, `outils/podcasts.py` (la série de podcasts), `outils/livret.py` et `site/livret/livret.json` (la page du polycopié) |
 | `site/assets/js/glossaire-emplois.js` | `outils/glossaire_emplois.py` | les termes de `glossaire-data.js` et les pages qui les emploient |
 | `site/assets/js/media-data.js` | `outils/generer_medias.py` | les médias déposés dans `site/assets/media/` et `site/assets/polycopies/` |

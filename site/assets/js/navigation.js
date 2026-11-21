@@ -12,12 +12,15 @@
   var inChapters = /\/chapitres\//.test(path);
   /* Le chemin vers la racine de la langue de la page : un cran par dossier, compté depuis la racine du site que
      publie i18n.js (TPL_RACINE). Déduit du seul « /chapitres/ », il valait « ./ » dans QCM/ comme dans
-     QCM/correction/ : le menu de ces pages menait à QCM/chapitres/…, qui n'existe pas. Une page anglaise du site
-     miroir compte depuis en/, la racine de sa langue. Sans TPL_RACINE, l'ancienne règle. */
+     QCM/correction/ : le menu de ces pages menait à QCM/chapitres/…, qui n'existe pas. Une jumelle du site miroir
+     compte depuis le dossier de sa langue (en/, ar/), la racine de sa langue. Sans TPL_RACINE, l'ancienne règle. */
+  var DOSSIER = null;                    // le dossier de langue de la page (« en », « ar »), null à la racine
   var base = (function () {
     var racine = window.TPL_RACINE || '', ici = window.location.href.split(/[?#]/)[0];
     if (!racine || ici.indexOf(racine) !== 0) return inChapters ? '../' : './';
-    var crans = (ici.slice(racine.length).replace(/^en\//, '').match(/\//g) || []).length;
+    var rel = ici.slice(racine.length), m = /^(fr|en|ar)\//.exec(rel);
+    if (m) { DOSSIER = m[1]; rel = rel.slice(3); }
+    var crans = (rel.match(/\//g) || []).length;
     return crans ? new Array(crans + 1).join('../') : './';
   })();
   var currentFile = path.split('/').pop() || 'index.html';
@@ -25,24 +28,32 @@
   var MOI = (document.currentScript && document.currentScript.src) || '';
 
   /* Le site miroir (docs/I18N.md, partie A) : une page d'une seule langue le
-     déclare sur <html data-langues="fr"> ou "en". Une page anglaise jumelle vit
-     sous en/, au même chemin que la française ; son menu mène à la jumelle
-     anglaise de chaque page quand elle existe (window.TPL_LANGUES, écrit par
-     outils/generer_langues.py), sinon à la page française, marquée « FR ». */
+     déclare sur <html data-langues="fr">, "en" ou "ar". Une jumelle vit dans le
+     dossier de sa langue (en/, ar/), au même chemin que la page de la racine ;
+     son menu mène à la jumelle de chaque page quand elle existe
+     (window.TPL_MIROIR, écrit par outils/generer_langues.py), sinon à la page
+     de la racine, marquée de sa langue (« FR »). */
   var DECL = (document.documentElement.getAttribute('data-langues') || '').split(/[\s,]+/).filter(Boolean);
   var MONO = DECL.length === 1;
-  var EN = MONO && DECL[0] === 'en';
-  function traduite(cible) { return (window.TPL_LANGUES || []).indexOf(cible.split('#')[0]) >= 0; }
+  var ICI = MONO ? DECL[0] : null;
+  var JUMELLE = MONO && !!DOSSIER;       // la page vit dans le dossier de sa langue
+  var NOMS = { fr: 'FR', en: 'EN', ar: 'عربي' };
+  var ENCORE = { fr: 'enFrancais', en: 'enAnglais', ar: 'enArabe' };
+  function miroir() { return window.TPL_MIROIR || {}; }
+  function racineLg() { return miroir().racine || 'fr'; }
+  function traduite(cible) { return ((miroir().pages || {})[ICI] || []).indexOf(cible.split('#')[0]) >= 0; }
   // cible : le chemin d'une page depuis la racine du site (« chapitres/01-x.html »).
-  function vers(cible) { return EN && !traduite(cible) ? base + '../' + cible : base + cible; }
+  function vers(cible) { return JUMELLE && !traduite(cible) ? base + '../' + cible : base + cible; }
   function marque(cible) {
-    return EN && !traduite(cible)
-      ? ' <span class="nav-langue" lang="fr" title="' + t('enFrancais') + '">FR</span>' : '';
+    if (!JUMELLE || traduite(cible)) return '';
+    var r = racineLg();
+    return ' <span class="nav-langue" lang="' + r + '" title="' + t(ENCORE[r] || 'enFrancais') + '">'
+      + (NOMS[r] || r.toUpperCase()) + '</span>';
   }
 
   function lang() { return window.TPLI18N ? TPLI18N.lang() : 'fr'; }
-  // L(x) : x peut être une chaîne ou un objet { fr, en }
-  function L(x) { return (x && typeof x === 'object') ? (x[lang()] || x.fr || x.en || '') : (x || ''); }
+  // L(x) : x peut être une chaîne ou un objet { fr, en, ar } ; à défaut de la langue de la page, celle de la racine.
+  function L(x) { return (x && typeof x === 'object') ? (x[lang()] || x[racineLg()] || x.fr || x.en || '') : (x || ''); }
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 
   /* Les libellés vivent dans ui-labels.js, avec ceux de tous les autres
@@ -52,7 +63,8 @@
     chapters: 'nav.chapitres', resources: 'nav.ressources', home: 'nav.accueil',
     reset: 'nav.reinitialiser', resetTitle: 'nav.reinitialiserTitre',
     confirmReset: 'nav.reinitialiserConfirme', secToggle: 'nav.sections',
-    doneMark: 'nav.marquerFait', doneUnmark: 'nav.marquerAnnuler', enFrancais: 'nav.enFrancais'
+    doneMark: 'nav.marquerFait', doneUnmark: 'nav.marquerAnnuler', enFrancais: 'nav.enFrancais',
+    enAnglais: 'nav.enAnglais', enArabe: 'nav.enArabe'
   };
   function t(k) { return window.T ? window.T(CLES[k] || k) : k; }
 
@@ -227,11 +239,11 @@
   renderChapterDone();
   document.addEventListener('tpl:langchange', function () { renderTree(); renderChapterDone(); });
 
-  /* -- Le bouton FR / EN du site miroir (langue.js), sur les pages d'une seule
+  /* -- Le choix de langue du site miroir (langue.js), sur les pages d'une seule
      langue : la liste des pages traduites d'abord, si la page ne l'a pas déjà
-     chargée, puis le bouton. Une page bilingue (blocs data-tr) garde son
-     bouton 🌐, posé par i18n.js. Une page anglaise qui reçoit la liste ici
-     redessine son menu, désormais exact. */
+     chargée, puis le groupe « FR · EN · عربي ». Une page bilingue (blocs
+     data-tr) garde son bouton 🌐, posé par i18n.js. Une jumelle qui reçoit la
+     liste ici redessine son menu, désormais exact. */
   if (MONO && MOI) {
     var dossier = MOI.replace(/navigation\.js(?:[?#].*)?$/, '');
     var charger = function (nom, puis) {
@@ -240,7 +252,7 @@
       if (puis) s.onload = puis;
       document.body.appendChild(s);
     };
-    if (window.TPL_LANGUES) charger('langue.js');
-    else charger('langues-data.js', function () { if (EN) renderTree(); charger('langue.js'); });
+    if (window.TPL_MIROIR) charger('langue.js');
+    else charger('langues-data.js', function () { if (JUMELLE) renderTree(); charger('langue.js'); });
   }
 })();

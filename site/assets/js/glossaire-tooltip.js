@@ -6,8 +6,9 @@
    (1re occurrence de chaque terme, hors titres / liens / code / citations de loi)
    et y attache une info-bulle (FR/EN + définition + lien vers le glossaire).
    Dépend de window.GLOSSARY (glossaire-data.js).
-   Sur une page anglaise (site miroir, en/), les mêmes termes se cherchent par
-   leur forme anglaise, et la bulle mène au glossaire anglais.
+   Sur une jumelle (site miroir, en/, ar/), les mêmes termes se cherchent par
+   leur forme dans la langue de la page, et la bulle mène au glossaire de cette
+   langue s'il existe.
    ================================================================= */
 (function () {
   if (!window.GLOSSARY || !window.GLOSSARY.length) return;
@@ -26,7 +27,8 @@
      française, une bulle par forme de GLOSSARY_CURATED, hors des expressions
      de exclus.fr — la règle de outils/glossaire_emplois.py, dans les deux langues. */
   var LANGUE = (window.TPLI18N && TPLI18N.lang && TPLI18N.lang()) || 'fr';
-  var ANGLAIS = LANGUE === 'en';
+  // Le glossaire est rangé par ses formes françaises (e.fr) ; une autre langue cherche les siennes (e.en, e.ar).
+  var FRANCAIS = LANGUE === 'fr';
 
   function norm(s) { return (s || '').toLowerCase().replace(/\s*\(.*?\)\s*/g, ' ').replace(/\s+/g, ' ').trim(); }
   var byNorm = {};
@@ -58,16 +60,17 @@
     if (/[^aeiou]y$/i.test(mot)) return m[1] + mot.slice(0, -1) + 'ies';
     return m[1] + mot + 's';
   }
-  // Les formes anglaises des entrées curatées, chacune liée à son entrée (cle) : une bulle par entrée.
-  function formesAnglaises(liste) {
+  // Les formes des entrées curatées dans la langue lg, chacune liée à son entrée (cle) : une bulle par entrée. Le
+  // pluriel régulier ne vaut que pour l'anglais ; une autre langue écrit ses formes dans alias.
+  function formesDansLaLangue(liste, lg) {
     var vues = {}, out = [];
     liste.forEach(function (t) {
       var e = t.e, deja = {};
       if (vues[e.fr]) return;
       vues[e.fr] = true;
-      [e.en].concat((e.alias && e.alias.en) || []).forEach(function (f) {
+      [e[lg]].concat((e.alias && e.alias[lg]) || []).forEach(function (f) {
         f = String(f || '').replace(/\s*\(.*?\)\s*/g, ' ').replace(/\s+/g, ' ').trim();
-        [f, plurielAnglais(f)].forEach(function (g) {
+        [f, lg === 'en' ? plurielAnglais(f) : ''].forEach(function (g) {
           if (!g || deja[g.toLowerCase()]) return;
           deja[g.toLowerCase()] = true;
           out.push({ ph: g, e: e, cle: 'entree:' + e.fr });
@@ -76,7 +79,7 @@
     });
     return out;
   }
-  if (ANGLAIS) terms = formesAnglaises(terms);
+  if (!FRANCAIS) terms = formesDansLaLangue(terms, LANGUE);
   terms.sort(function (a, b) { return b.ph.length - a.ph.length; });
   if (!terms.length) return;
 
@@ -84,8 +87,8 @@
      depuis /chapitres/, « ./ » depuis la racine. Il etait ecrit en dur pour
      les chapitres, et pointait au-dessus du site sur toute page racine. */
   var BASE_GLOSSAIRE = (/\/chapitres\//.test(location.pathname) ? '../' : './') + 'glossaire.html';
-  /* Une page anglaise jumelle (site miroir, en/) renvoie au glossaire anglais s'il
-     existe, sinon au glossaire français : la liste des pages traduites
+  /* Une jumelle (site miroir, en/, ar/) renvoie au glossaire de sa langue s'il
+     existe, sinon à celui de la racine : la liste des pages traduites
      (langues-data.js) le dit, lue au moment où la bulle s'affiche. */
   // L'ancre d'un terme dans le glossaire, comme la calculent sa page et outils/glossaire_emplois.py.
   function ancre(fr) {
@@ -95,9 +98,10 @@
   }
   function lienGlossaire() {
     var decl = (document.documentElement.getAttribute('data-langues') || '').split(/[\s,]+/);
-    if (!window.TPL_RACINE || decl.length !== 1 || decl[0] !== 'en') return BASE_GLOSSAIRE;
-    var traduit = (window.TPL_LANGUES || []).indexOf('glossaire.html') >= 0;
-    return window.TPL_RACINE + (traduit ? 'en/' : '') + 'glossaire.html';
+    var m = window.TPL_MIROIR || {};
+    if (!window.TPL_RACINE || decl.length !== 1 || decl[0] === (m.racine || 'fr')) return BASE_GLOSSAIRE;
+    var traduit = ((m.pages || {})[decl[0]] || []).indexOf('glossaire.html') >= 0;
+    return window.TPL_RACINE + (traduit ? decl[0] + '/' : '') + 'glossaire.html';
   }
 
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
@@ -107,12 +111,12 @@
     var lg = (window.TPLI18N && TPLI18N.lang && TPLI18N.lang()) || 'fr';
     var d = typeof e.def === 'string' ? e.def : ((e.def && (e.def[lg] || e.def.fr || e.def.en)) || '');
     if (d.length > 180) d = d.slice(0, 178) + '…';
-    // Le terme de la page en tête (.gloss-pop-fr), son équivalent dessous (.gloss-pop-en) : sur une page
-    // anglaise, le terme anglais d'abord, puis le français. Les classes nomment des places, pas des langues.
-    var tete = ANGLAIS ? (e.en || e.fr) : e.fr, autre = ANGLAIS ? e.fr : e.en;
+    // Le terme de la page en tête (.gloss-pop-fr), son équivalent dessous (.gloss-pop-en) : sur une jumelle, le
+    // terme de sa langue d'abord, puis le français. Les classes nomment des places, pas des langues.
+    var tete = FRANCAIS ? e.fr : (e[LANGUE] || e.fr), autre = FRANCAIS ? e.en : e.fr;
     return '<span class="gloss-pop" role="tooltip">'
       + '<span class="gloss-pop-fr">' + esc(tete) + '</span>'
-      + (autre ? '<span class="gloss-pop-en" lang="' + (ANGLAIS ? 'fr' : 'en') + '">' + esc(autre) + '</span>' : '')
+      + (autre ? '<span class="gloss-pop-en" lang="' + (FRANCAIS ? 'en' : 'fr') + '">' + esc(autre) + '</span>' : '')
       + '<span class="gloss-pop-def">' + esc(d) + '</span>'
       + '<a class="gloss-pop-link" href="' + lienGlossaire() + '#' + ancre(e.fr) + '">' + T('glossaire.voir') + '</a>'
       // La croix ne sert qu'au bandeau du téléphone (voir plus bas) : la feuille de style la masque ailleurs.
@@ -131,7 +135,7 @@
     try { return new RegExp('(^|[^\\p{L}\\p{N}])(' + corps + ')(?![\\p{L}\\p{N}])', 'giu'); }
     catch (err) { return new RegExp('(^|[^A-Za-zÀ-ÿ0-9])(' + corps + ')(?![A-Za-zÀ-ÿ0-9])', 'gi'); }
   }
-  var rx = terms.map(function (t) { return { t: t, re: buildRe(t.ph), ex: buildExclus(t.e, ANGLAIS ? 'en' : 'fr') }; });
+  var rx = terms.map(function (t) { return { t: t, re: buildRe(t.ph), ex: buildExclus(t.e, LANGUE) }; });
   // La première occurrence d'un terme dans un texte, hors des expressions écartées (même forme que re.exec).
   function premiere(item, v) {
     if (!item.ex) return item.re.exec(v);

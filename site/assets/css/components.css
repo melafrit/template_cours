@@ -971,6 +971,17 @@ html[data-lang="en"] [data-tr="fr"] { display: none !important; }
 }
 .langue-toggle:hover { background: var(--bg-card-alt); border-color: var(--accent); }
 .langue-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* Le groupe « FR · EN · عربي » (langue.js) : une pastille par langue où la page existe, la langue lue mise en
+   évidence et inerte. Ses boutons s'y serrent, sans bordure propre, pour tenir à 375 px. L'arabe garde sa police
+   système (Sora n'a pas ses lettres), sans espacement : ses lettres se lient entre elles. */
+.langue-choix {
+  display: inline-flex; align-items: center; gap: 2px; height: 40px; padding: 3px;
+  border: 1px solid var(--border); border-radius: var(--radius-full);
+}
+.langue-choix .langue-toggle { min-width: 0; height: 32px; padding: 0 9px; border: 0; }
+.langue-choix .langue-actuelle { background: var(--bg-card-alt); cursor: default; box-shadow: inset 0 0 0 1px var(--accent); }
+.langue-choix .langue-actuelle:hover { border-color: transparent; }
+.langue-toggle[lang="ar"] { letter-spacing: 0; }
 .nav-langue,
 .main-content a[hreflang="fr"]::after {
   display: inline-block; margin-left: 6px; padding: 0 5px; border-radius: var(--radius-sm);

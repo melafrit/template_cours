@@ -62,26 +62,12 @@
 
     var btn = document.createElement('button');
     btn.type = 'button'; btn.className = 'a11y-toggle';
-    btn.setAttribute('aria-label', T('a11y.titre'));
     btn.setAttribute('aria-expanded', 'false');
     btn.innerHTML = '♿'; // ♿
 
     var panel = document.createElement('div');
     panel.className = 'a11y-panel'; panel.hidden = true;
     panel.setAttribute('role', 'dialog');
-    panel.setAttribute('aria-label', T('a11y.court'));
-    panel.innerHTML =
-        '<div class="a11y-row a11y-title">Confort de lecture</div>'
-      + '<div class="a11y-row"><span class="a11y-label">Taille du texte</span>'
-      + '<span class="a11y-size">'
-      + '<button type="button" class="a11y-btn" data-act="dec" aria-label="Réduire le texte">A−</button>'
-      + '<span class="a11y-pct" aria-live="polite">100 %</span>'
-      + '<button type="button" class="a11y-btn a11y-btn-plus" data-act="inc" aria-label="Agrandir le texte">A+</button>'
-      + '</span></div>'
-      + '<div class="a11y-row"><span class="a11y-label">Lecture adaptée (DYS)</span>'
-      + '<button type="button" id="a11y-dys" class="a11y-switch" role="switch" aria-checked="false" aria-label="Activer la lecture adaptée"><span></span></button></div>'
-      + '<div class="a11y-row a11y-hint">Police « Atkinson Hyperlegible » + espacement renforcé.</div>'
-      + '<div class="a11y-row"><button type="button" class="a11y-reset" data-act="reset">↺ Réinitialiser</button></div>';
 
     var themeBtn = hr.querySelector('.theme-toggle');
     if (themeBtn) hr.insertBefore(btn, themeBtn); else hr.appendChild(btn);
@@ -93,7 +79,27 @@
       sw.classList.toggle('on', state.dys);
       sw.setAttribute('aria-checked', state.dys ? 'true' : 'false');
     }
-    refresh();
+    // Les libellés viennent de ui-labels.js : écrits en dur, ils laissaient le panneau en français sur une page
+    // anglaise. Une page en blocs data-tr les réécrit quand le lecteur change de langue.
+    function remplir() {
+      btn.setAttribute('aria-label', T('a11y.titre'));
+      panel.setAttribute('aria-label', T('a11y.court'));
+      panel.innerHTML =
+          '<div class="a11y-row a11y-title">' + T('a11y.confort') + '</div>'
+        + '<div class="a11y-row"><span class="a11y-label">' + T('a11y.taille') + '</span>'
+        + '<span class="a11y-size">'
+        + '<button type="button" class="a11y-btn" data-act="dec" aria-label="' + T('a11y.reduire') + '">A−</button>'
+        + '<span class="a11y-pct" aria-live="polite">100 %</span>'
+        + '<button type="button" class="a11y-btn a11y-btn-plus" data-act="inc" aria-label="' + T('a11y.agrandir') + '">A+</button>'
+        + '</span></div>'
+        + '<div class="a11y-row"><span class="a11y-label">' + T('a11y.dys') + '</span>'
+        + '<button type="button" id="a11y-dys" class="a11y-switch" role="switch" aria-checked="false" aria-label="' + T('a11y.dysActiver') + '"><span></span></button></div>'
+        + '<div class="a11y-row a11y-hint">' + T('a11y.dysAide') + '</div>'
+        + '<div class="a11y-row"><button type="button" class="a11y-reset" data-act="reset">' + T('a11y.reinitialiser') + '</button></div>';
+      refresh();
+    }
+    remplir();
+    document.addEventListener('tpl:langchange', remplir);
 
     function positionPanel() {
       var r = btn.getBoundingClientRect();

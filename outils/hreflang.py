@@ -177,10 +177,11 @@ def ecrire(rel, texte):
 
 
 def liste_publiee():
-    """La liste des pages traduites telle que site/assets/js/langues-data.js la publie (None si illisible)."""
+    """La liste des pages anglaises telle que site/assets/js/langues-data.js la publie (None si illisible)."""
     try:
         texte = io.open(os.path.join(SITE, "assets", "js", "langues-data.js"), encoding="utf-8").read()
-        return json.loads(re.search(r"window\.TPL_LANGUES\s*=\s*(\[.*?\]);", texte, re.S).group(1))
+        miroir = json.loads(re.search(r"window\.TPL_MIROIR\s*=\s*(\{.*\});", texte, re.S).group(1))
+        return miroir.get("pages", {}).get("en", [])
     except (OSError, AttributeError, ValueError):
         return None
 

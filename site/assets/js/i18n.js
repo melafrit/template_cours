@@ -20,7 +20,11 @@
         function t(k){ return (S[TPLI18N.lang()]||S.fr)[k] || S.fr[k]; }
         document.addEventListener('tpl:langchange', reRender);
 
-   API : TPLI18N.lang() · TPLI18N.set('en') · TPLI18N.toggle()
+   API : TPLI18N.lang() · TPLI18N.dir() · TPLI18N.set('en') · TPLI18N.toggle()
+
+   Le site miroir (docs/I18N.md, partie A) : une page d'une seule langue le
+   déclare (data-langues="fr", "en" ou "ar") ; ses moteurs parlent sa langue,
+   et l'arabe passe la page de droite à gauche (dir="rtl").
    ================================================================= */
 (function () {
   // La racine du site, d'après l'adresse de ce script, chargé le premier sur chaque page : les moteurs y
@@ -38,7 +42,11 @@
   // ne font passer les libellés des moteurs dans une langue que le cours n'a pas.
   // Sans l'attribut, le cours est bilingue.
   var DECLAREES = (document.documentElement.getAttribute('data-langues') || 'fr en').split(/[\s,]+/);
-  var SUPPORTED = ['fr', 'en'].filter(function (l) { return DECLAREES.indexOf(l) >= 0; });
+  // Les langues que le gabarit sait servir. L'arabe s'écrit de droite à gauche : sa page porte dir="rtl", et la
+  // feuille de style retourne la mise en page (docs/I18N.md). Les blocs data-tr, eux, restent français et anglais.
+  var CONNUES = ['fr', 'en', 'ar'];
+  var DROITE_A_GAUCHE = ['ar'];
+  var SUPPORTED = CONNUES.filter(function (l) { return DECLAREES.indexOf(l) >= 0; });
   if (!SUPPORTED.length) SUPPORTED = ['fr'];
 
   function saved() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
@@ -68,6 +76,7 @@
     var root = document.documentElement;
     root.setAttribute('data-lang', current);
     root.setAttribute('lang', current);
+    root.setAttribute('dir', DROITE_A_GAUCHE.indexOf(current) >= 0 ? 'rtl' : 'ltr');
     applyAttributes(document);
     document.querySelectorAll('.lang-toggle').forEach(function (b) {
       // le bouton affiche la langue vers laquelle on bascule
@@ -80,6 +89,7 @@
 
   var TPLI18N = {
     lang: function () { return current; },
+    dir: function () { return DROITE_A_GAUCHE.indexOf(current) >= 0 ? 'rtl' : 'ltr'; },
     supported: function () { return SUPPORTED.slice(); },
     set: function (l) {
       l = (l || '').slice(0, 2);
