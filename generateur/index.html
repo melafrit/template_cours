@@ -23,6 +23,9 @@
   header p { margin: 0; color: var(--doux); max-width: 70ch; }
   .alerte { background: var(--alerte); border: 1px solid var(--alerte-bord); border-radius: 8px; padding: 10px 14px;
             margin-top: 12px; }
+  .alerte ul { margin: 6px 0 0; padding-left: 20px; }
+  .alerte li + li { margin-top: 4px; }
+  #points { margin: 0 0 10px; font-size: 0.92rem; }
   main { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; align-items: start; }
   @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
   form > details { background: var(--carte); border: 1px solid var(--bord); border-radius: 10px; margin-bottom: 12px;
@@ -43,7 +46,7 @@
   .sortie { position: sticky; top: 12px; background: var(--carte); border: 1px solid var(--bord); border-radius: 10px;
             padding: 12px 16px; }
   @media (max-width: 900px) { .sortie { position: static; } }
-  #prompt { min-height: 60vh; font: 0.85rem/1.45 ui-monospace, Consolas, monospace; white-space: pre; }
+  #prompt { min-height: 60vh; font: 0.85rem/1.45 ui-monospace, Consolas, monospace; white-space: pre-wrap; }
   .boutons { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
   button { font: inherit; padding: 8px 14px; border-radius: 6px; border: 1px solid var(--accent); cursor: pointer;
            background: var(--carte); color: var(--texte); }
@@ -98,8 +101,11 @@
       <label>Chemin du dossier<input type="text" data-champ="dossier.chemin"></label>
       <label class="case"><input type="checkbox" data-champ="dossier.existe"> Le dossier existe déjà, avec ses documents</label>
       <label>Dossier des documents à analyser<input type="text" data-champ="dossier.documents"></label>
-      <p class="note">Il reste en place : le prompt le fait exclure de Git et des recherches avant tout, et interdit
-         d'ouvrir les fichiers de configuration (.json) qui s'y trouveraient.</p>
+      <label>Fichiers secrets connus parmi les documents, un par ligne<textarea data-champ="dossier.secrets"></textarea></label>
+      <p class="note">Le dossier des documents reste en place : le prompt le fait exclure de Git et des recherches
+         avant tout. Les secrets nommés ici ne s'ouvrent jamais, pas plus qu'un fichier de configuration ou de mot de
+         passe trouvé parmi les documents. Les chemins se collent tels quels, guillemets compris : ils passent aux
+         barres obliques et deviennent relatifs au dossier du cours.</p>
     </details>
 
     <details open>
@@ -109,11 +115,15 @@
     </details>
 
     <details>
-      <summary>Le fil rouge et les livrables</summary>
-      <label>Fil rouge (le cas qui traverse le cours)<input type="text" data-champ="fil_rouge.nom"></label>
-      <label>Sa source, dans les documents<input type="text" data-champ="fil_rouge.source"></label>
+      <summary>Le fil rouge, les livrables et vos consignes</summary>
+      <p class="note">Un champ court garde une valeur (un nom, un chemin) : il va dans le bloc de paramètres. Une
+         phrase va dans une consigne : le prompt la reprend telle quelle, retours à la ligne compris.</p>
+      <label>Fil rouge (le nom du cas qui traverse le cours)<input type="text" data-champ="fil_rouge.nom"></label>
+      <label>Sa source, dans les documents (un chemin)<input type="text" data-champ="fil_rouge.source"></label>
+      <label>Consignes sur le fil rouge : ce qu'il faut lire, ce qu'il faut adapter, filière par filière<textarea data-champ="consignes.fil_rouge"></textarea></label>
       <label>Interdits (sujet du TP, épreuve…), séparés par des virgules<input type="text" data-champ="interdits"></label>
       <label>Livrables déjà connus (facultatif)<textarea data-champ="livrables"></textarea></label>
+      <label>Autres consignes pour Claude<textarea data-champ="consignes.autres"></textarea></label>
     </details>
 
     <details>
@@ -133,7 +143,8 @@
         <label class="case"><input type="checkbox" data-champ="modules.ecole.bouton_qcm"> Bouton « QCM d'évaluation » sur l'accueil</label>
       </fieldset>
       <label class="case"><input type="checkbox" data-champ="modules.tp.actif"> TP et sa correction protégée (module 06)</label>
-      <label>Sujet du TP, distinct de l'exemple du cours<input type="text" data-champ="modules.tp.sujet"></label>
+      <label>Sujet du TP, distinct de l'exemple du cours (en quelques mots)<input type="text" data-champ="modules.tp.sujet"></label>
+      <label>Consignes sur le TP : démarche, modèles, livrables, présentation orale<textarea data-champ="consignes.tp"></textarea></label>
       <label class="case"><input type="checkbox" data-champ="modules.polycopie.actif"> Polycopié Word et PDF (module 02)</label>
       <label class="case"><input type="checkbox" data-champ="modules.podcasts.actif"> Podcasts NotebookLM (module 03)</label>
       <label>Nombre d'épisodes (0 : à proposer)<input type="text" data-champ="modules.podcasts.episodes"></label>
@@ -180,6 +191,7 @@
 
   <section class="sortie" aria-labelledby="titre-sortie">
     <h2 id="titre-sortie" style="margin:4px 0 8px;font-size:1.15rem">Le prompt de lancement</h2>
+    <div class="alerte" id="points" hidden><strong>À vérifier</strong><ul></ul></div>
     <label for="prompt" class="note">À coller dans Claude Code, ouvert à la racine du gabarit ou du dossier du cours.</label>
     <textarea id="prompt" readonly spellcheck="false"></textarea>
     <div class="boutons">

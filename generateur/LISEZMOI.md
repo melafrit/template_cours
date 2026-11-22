@@ -31,11 +31,35 @@ défaut). Le prompt demande alors de :
 
 - n'ouvrir les documents qu'un par un, par leur chemin, sans aucune recherche dans le dossier tant que son
   `.rgignore` ne les exclut pas ;
-- ne jamais ouvrir un fichier de configuration (`.json`) trouvé parmi eux, et le signaler ;
+- ne jamais ouvrir les secrets que vous nommez (« Fichiers secrets connus parmi les documents »), ni un fichier de
+  configuration ou de mot de passe trouvé parmi eux (`.json`, `.env`, « mot de passe »…), et le signaler ;
 - ne déplacer, renommer ni modifier aucun document ;
 - créer le cours dans ce dossier avec `nouveau_cours.py --ecraser`, après un essai : les documents et
   `deploiement/config.json` restent en place ;
 - exclure aussitôt le dossier des documents de Git et des recherches, avant `git init`.
+
+## Vos consignes
+
+Un champ court garde une valeur (un nom, un chemin) : il va dans le bloc de paramètres. Une phrase va dans l'une
+des consignes (le fil rouge, le TP, les autres) : le prompt la reprend telle quelle sous « Ce que l'auteur a
+précisé », retours à la ligne compris. Une consigne laissée dans un champ court finirait dans le YAML, où Claude la
+prendrait pour une donnée ; la page la signale. Ces règles viennent du premier usage réel du générateur, le cours de
+gestion de projet (MOE), le 22 novembre 2026.
+
+## Les chemins
+
+Collez-les tels quels, même entre guillemets, comme les donne « Copier en tant que chemin » dans l'Explorateur. Le
+prompt les écrit avec des barres obliques, sans guillemets, et relatifs au dossier du cours quand ils s'y trouvent
+(`Doc_Reference/…`). Tant que le champ du dossier ne contient que le dossier de base des cours, le prompt dit le
+dossier « à préciser ».
+
+## Les points à vérifier
+
+Au-dessus du prompt, un encadré signale ce qui demande votre regard : une promotion qui n'a pas la forme
+« Année › Promotion » de l'application Livrables, un bloc ou un module qui diffère entre le cours et ses filières,
+« Bloc 04 » (le prompt écrit « Bloc 4 »), une date mal écrite, un Jour 1 à moins de deux semaines, un TP qui porte
+sur le fil rouge, une consigne restée dans un champ court. Ceux qui demandent une décision passent aussi dans le
+prompt, et Claude vous les pose au cadrage. Une promotion mal écrite ne part pas dans le YAML.
 
 ## Ce que la page ne fait pas
 

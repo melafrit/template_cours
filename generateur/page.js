@@ -4,14 +4,17 @@
    Chaque champ du formulaire porte data-champ (un chemin dans l'état du cours, « cours.titre ») ou data-valeur (un
    chemin dans les valeurs habituelles, « hebergement.url_base »). À chaque saisie, le prompt se refait, et le
    brouillon se garde dans ce navigateur (localStorage, une commodité : la page marche sans). Les valeurs habituelles,
-   elles, vivent dans valeurs.local.js, que la page ne peut pas écrire : « Enregistrer » le télécharge.
+   elles, vivent dans valeurs.local.js, que la page ne peut pas écrire : « Enregistrer » le télécharge. Les points à
+   vérifier (promotion, bloc, module, Jour 1 proche, consigne glissée dans un champ court) s'affichent au-dessus du
+   prompt, refaits eux aussi à chaque saisie.
    ================================================================= */
 (function () {
   'use strict';
   var G = window.GENERATEUR;
   var CLE = 'generateur-cours:brouillon';
   var V = G.valeurs(window.VALEURS_HABITUELLES);
-  var etat = lireBrouillon() || G.etatInitial(V, new Date());
+  // Un brouillon d'une version plus ancienne de la page n'a pas tous les champs : completer() les ajoute.
+  var etat = G.completer(lireBrouillon() || G.etatInitial(V, new Date()), V, new Date());
 
   function lireBrouillon() {
     try {
@@ -57,7 +60,7 @@
     ['epreuve', 'Épreuve (EC…)'], ['bloc', 'Bloc'], ['module', 'Module (FM…)'],
     ['page_epreuves', 'Page des épreuves (https://…)'], ['fiche_module', 'Fiche module (chemin)'],
     ['grille', "Grille d'évaluation (chemin)"], ['promotion_app', 'Promotion exacte (Année › Promotion)'],
-    ['matiere_app', 'Matière exacte dans Livrables']
+    ['matiere_app', 'Matière exacte dans Livrables'], ['fil_rouge', 'Projet fil rouge de la filière (en quelques mots)']
   ];
   function dessinerFilieres() {
     var boite = document.getElementById('filieres');
@@ -137,7 +140,17 @@
   }
 
   function rafraichir() {
-    document.getElementById('prompt').value = G.construirePrompt(etat, V);
+    var maintenant = new Date();
+    document.getElementById('prompt').value = G.construirePrompt(etat, V, maintenant);
+    var points = G.verifications(etat, V, maintenant).filter(function (x) { return x.page; });
+    var boite = document.getElementById('points'), ul = boite.querySelector('ul');
+    ul.innerHTML = '';
+    points.forEach(function (x) {
+      var li = document.createElement('li');
+      li.textContent = x.page;
+      ul.appendChild(li);
+    });
+    boite.hidden = !points.length;
     indications();
     garderBrouillon();
   }
