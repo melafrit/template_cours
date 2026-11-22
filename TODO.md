@@ -94,12 +94,13 @@ Les lots, dans l'ordre validé :
   chapitre 1 (`chapitre-1-schema-1-trois-decisions.ar.webp`, la première décision à droite, comme ses points).
 - [ ] **6. Apports** : correction des QCM et garde-fous, Boîte à outils, Modèles pas à pas, bibliographie, petits
   moteurs.
-- [ ] **7. Prompts** : tronc, modules, bibliothèque. Fait : le tronc refondu (`16b0418`), avec ses pièges et leur
+- [x] **7. Prompts** : tronc, modules, bibliothèque. Fait : le tronc refondu (`16b0418`), avec ses pièges et leur
   parade (section 6, témoin validé), les critères d'acceptation (2.5), les décisions déjà prises, les nouveaux
   paramètres (langues, épreuves des filières, bloc école), sans tiret cadratin. Les modules (`63de114`) :
   `01-langues.md` (renommé, l'arabe compris, témoin validé), `10-codex.md` (nouveau, procédure vérifiée en
-  ligne), le 07 relu, aucun tiret cadratin dans les dix. Restent : les prompts numérotés, dont 01, 03, 05 et 13,
-  qui décrivent encore la bascule 🌐 des blocs `data-tr` comme celle de la démo.
+  ligne), le 07 relu, aucun tiret cadratin dans les dix. Les dix-sept prompts numérotés (`da73639`) : le 03 en
+  témoin, puis la série par cinq agents, contrôlée ; réalignés sur le gabarit, sans tiret cadratin. Les relevés du
+  lot sont plus bas, dans « Ouvert, dans le gabarit » et « À décider avec l'auteur ».
 - [ ] **8. Générateur de prompt.** Après le lot 7 (décision de l'auteur du 22 novembre 2026, qui le cherchait : il
   n'existe pas encore).
 - [ ] **9. Enregistrement audio** : `verifier_elevenlabs.py` d'abord, témoins, séries, quota suivi au registre ;
@@ -129,6 +130,9 @@ Les lots, dans l'ordre validé :
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 22 novembre · lot 7 terminé, les prompts numérotés
+> Les dix-sept prompts réalignés sur le gabarit et sans tiret cadratin ; le module 01 corrigé sur deux points.
+> `da73639`. Prochain : le générateur de prompt (lot 8), dont le cadrage a commencé.
 > ### 🆕 22 novembre · lot 7, les modules
 > Le module 01 devient `01-langues.md` (français, anglais, arabe) ; le module 10, Codex, est créé ; le 07
 > est relu ; plus aucun tiret cadratin dans les dix modules. `63de114`. Restent les prompts numérotés.
@@ -273,6 +277,24 @@ Les lots, dans l'ordre validé :
 > § 1 à 5.
 
 ## 🛠️ Ouvert — dans le gabarit
+
+**Relevés du lot 7** (22 novembre 2026, par les agents qui ont relu les prompts, vérifiés dans le code) :
+
+- Des documents décrivent encore l'ancien fonctionnement : `docs/GUIDE.md` (le prompt 01 en point d'entrée à options
+  numérotées, le 03 « bilingue », `site/atelier/templates/` et `tools/` pour les modèles de l'atelier) ; la skill
+  `creer-cours-template` et sa référence `workflow.md` (les blocs `data-tr` dans les conventions) ; la skill
+  `cours-glossaire-flashcards-activites` (`ALIASES` dans `glossaire-tooltip.js`, un filtre `curated: true`) ; la
+  skill `cours-supports-imprimables` et `tools/README.md` (une sortie `tools/out/` pour les fiches de synthèse, qui
+  s'écrivent dans `site/assets/polycopies/`).
+- `generer_audio.py` ne sait pas l'arabe : il ne parcourt que `site/` et `site/en/`, ne reconnaît que les suffixes
+  `-fr` et `-en`, et donnerait à `chapitre-1-capsule-ar.mp3` l'accent parisien (le module 01 le dit désormais).
+- `tools.js` garde son propre dictionnaire de boutons, en français et en anglais, hors de `ui-labels.js` : une page
+  arabe y retombe sur le français. Son classificateur n'a qu'un champ `why`, sans renvois « Pour approfondir ».
+- `glossaire-data.js` : l'alias « objectifs pédagogiques » ne sert à rien sur une page française, puisque cette forme
+  n'est pas dans `GLOSSARY_CURATED`, et son commentaire affirme le contraire.
+- `navigation.js` ne marque pas la page courante (`aria-current="page"`), et le gabarit n'a pas de fil d'Ariane.
+- Le dossier des modèles de l'atelier se contredit : `docs/ARCHITECTURE.md` le dit présent et vide
+  (`atelier/templates/`), `docs/GUIDE.md` cite `site/atelier/templates/` et `tools/`, et aucun n'existe.
 
 **Le gabarit sans tirets** (D55, en cours) : réécrire sans tiret cadratin tout ce que l'apprenant lit. Le témoin
 (chapitre 1, `ea1cc23`) est fait et son style validé ; `outils/verifier_tirets.py` reste rouge, **97 tirets dans
@@ -464,6 +486,18 @@ anglais, rendue `<span lang="fr">` (`qcm/qcm_commun.py`).
 L'ordre de la suite, la recette complète et la relecture de la documentation sont tranchés par le grand chantier
 (lots 11 et 12). Restent :
 
+- le prompt 08 fait écrire un nouveau script de QCM papier, qui doublerait `tools/generate_qcm_papier.py` et
+  l'écraserait : faire plutôt servir le script du gabarit ? (relevé du lot 7) ;
+- le prompt 06b décrit la fenêtre « Où en parle-t-on ? » du cours d'architecture logicielle (badge, fenêtre,
+  flashcards et QCM comptés, `?g=`), quand le gabarit n'a qu'une liste dépliable : aligner le prompt sur le gabarit,
+  ou enrichir le gabarit ? (relevé du lot 7) ;
+- les fiches de synthèse (`tools/generate_polycopies.py`) : le script écrit 10 tirets cadratins et
+  `tools/polycopies_content.json` en contient 18, qui partent dans les PDF publiés ; les DOCX sont publiés aussi,
+  alors que le site n'offre que les PDF ; la correspondance entre les blocs et les encadrés, proposée par le
+  prompt 12, est à valider (relevé du lot 7) ;
+- la signature du CSV du QCM couvre l'identité, les dates, la durée, le nombre de questions et chaque réponse, mais
+  pas le texte des questions (`qcm-core.js`) : la mise en garde du lot S4, de la skill `cours-qcm-cbm` et
+  d'`ARCHITECTURE.md` (§ 4.3) est trop large, à confirmer par un essai (relevé du lot 7) ;
 - la voix et l'accent des pistes arabes, que rien ne fixe encore (`prompts/modules/01-langues.md`, section 4) : à
   trancher avant l'enregistrement de la capsule arabe du chapitre 1 (lot 9) ;
 - le répertoire distant de la démo, au lot 12 (l'adresse publique est décidée) ;

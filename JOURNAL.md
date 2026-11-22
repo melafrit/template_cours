@@ -9,6 +9,46 @@
 
 ---
 
+## 22 novembre 2026 · lot 7 terminé, les prompts numérotés (`da73639`)
+
+### Les décisions de l'auteur
+
+- **Le prompt 03 en témoin**, validé avant la série.
+- **Les prompts avant le générateur**, puis, à sa question sur le générateur de prompt, **son cadrage dès maintenant**
+  pendant que les agents finissaient. Première réponse : la page produit le prompt de lancement, qui renvoie au tronc
+  et aux modules par leur chemin, avec le bloc de paramètres rempli.
+
+### Le travail
+
+- `prompts/03_chapitre.md` (le témoin) : le balisage du chapitre vitrine au lieu d'un balisage que le gabarit
+  n'emploie pas, le glossaire sans balisage, la langue racine seule, les exigences de l'auteur.
+- Les seize autres, confiés à cinq agents avec une consigne écrite (`consigne-prompts.md`, dans le bloc-notes de la
+  session) : chaque tiret réécrit dans sa phrase, chaque passage contraire au gabarit réaligné après vérification dans
+  le code, chaque fait invérifiable laissé et signalé.
+- `prompts/modules/01-langues.md` : deux erreurs, héritées de l'ancien module et relevées par l'agent du prompt 14,
+  corrigées (`generer_audio.py` sans arabe ; les fiches traduites à côté des françaises).
+
+### Ce qui a été vérifié
+
+Les dix-sept prompts : aucun tiret cadratin ni tiret demi-cadratin entre espaces, blocs de code équilibrés, aucun
+octet NUL, fins de ligne cohérentes, `git diff --check` propre ; `data-tr` ne reste que dans des phrases qui
+l'interdisent. Les faits sur lesquels les agents se sont appuyés ont été revérifiés : le format des données du QCM,
+ses quatre difficultés, la note bornée à 0, `tools/generate_qcm_papier.py`, la signature du CSV, `generer_audio.py`
+et le rangement des fiches.
+
+### Ce qui n'est pas fait
+
+Les relevés du lot, inscrits au registre : quatre points à trancher, et des documents et des défauts à reprendre. Une
+faute (« attends rien », sans « n' ») a disparu du prompt 11 avec la phrase qui la portait, réécrite parce qu'elle
+contredisait `CLAUDE.md` (elle disait de ne pas attendre la validation de l'auteur) : signalée à l'auteur.
+
+### Pièges appris
+
+- **Un module validé peut garder une erreur de l'ancien texte** : `docs/prompts/en/` venait du module « bilingue » et
+  avait passé le témoin. Seul le code dit où les outils lisent.
+
+---
+
 ## 22 novembre 2026 · lot 7, les modules (`63de114`)
 
 ### Les décisions de l'auteur
