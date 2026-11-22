@@ -94,6 +94,10 @@ BLOC_GABARIT = re.compile(r"\n?<!-- gabarit:debut -->.*?<!-- gabarit:fin -->\n?"
 # Les passages des pages qui renvoient au polycopié complet, retirés d'un cours sans bloc « livret ».
 BLOC_LIVRET = re.compile(r"<!-- livret:debut -->.*?<!-- livret:fin -->", re.S)
 
+# Les liens hreflang de la démonstration (outils/hreflang.py), retirés de chaque page d'un cours créé : ils annoncent
+# les adresses de la démonstration. Le cours pose les siens, sous son adresse, quand ses pages ont des jumelles.
+BLOC_HREFLANG = re.compile(r"[ \t]*<!-- hreflang\b[^>]*-->.*?<!-- /hreflang -->[ \t]*(?:\r?\n)?", re.S)
+
 # Pages et dossiers retirés quand le bloc correspondant est à false.
 BLOCS = {
     "qcm":                 ["site/QCM"],
@@ -1979,8 +1983,8 @@ def main():
     ecrire(os.path.join(sortie, "site", "assets", "js", "course-data.js"), course_data(c))
     print("  course-data.js généré")
 
-    # --- palette et langue sur toutes les pages
-    n = 0
+    # --- palette et langue sur toutes les pages, sans les liens hreflang de la démonstration
+    n = n_hreflang = 0
     for dossier, _, fichiers in os.walk(os.path.join(sortie, "site")):
         for f in fichiers:
             if not f.endswith(".html"):
@@ -1988,6 +1992,8 @@ def main():
             p = os.path.join(dossier, f)
             t = io.open(p, encoding="utf-8").read()
             avant = t
+            t, k = BLOC_HREFLANG.subn("", t)
+            n_hreflang += k
             t = re.sub(r'data-accent="[a-z]+"', 'data-accent="%s"' % c["palette"], t)
             # Chaque page déclare sa langue, la racine du cours : i18n.js n'y pose pas de bouton 🌐 et n'accepte
             # qu'elle ; navigation.js y chargera le bouton des langues dès qu'une jumelle existera.
@@ -1997,6 +2003,8 @@ def main():
                 io.open(p, "w", encoding="utf-8", newline="\n").write(t)
                 n += 1
     print("  %d page(s) mise(s) à la palette « %s »" % (n, c["palette"]))
+    if n_hreflang:
+        print("  %d bloc(s) hreflang de la démonstration retiré(s)" % n_hreflang)
 
     # --- purge du contenu de demonstration
     if args.avec_demo:

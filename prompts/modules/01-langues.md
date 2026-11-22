@@ -57,11 +57,10 @@ liens (`liens_langues.py`, `documents_en.py`), les balises (`hreflang.py`) et la
 (`verifier_parite.py`, qui signale aussi un bloc arabe resté sans lettre arabe). Un cours créé
 avant leur arrivée les reprend du gabarit.
 
-**Quatre outils ne savent pas encore l'arabe** : `hreflang.py`, `generer_playlist.py` et
-`synchroniser_capsules.py` (registre du gabarit, lot 1), et `generer_audio.py`, qui ne
-parcourt que `site/` et `site/en/` et ne reconnaît que les suffixes `-fr` et `-en` ; une piste
-arabe y recevrait l'accent parisien des pistes françaises. Pour un cours en arabe, signale-le
-à l'auteur au cadrage, et note dans `TODO.md` ce qui en dépend.
+**L'arabe est connu de tous ces outils** (23 novembre 2026), y compris la liste de lecture,
+la synchronisation des capsules et le générateur de pistes. Celui-ci ne donne jamais l'accent
+parisien à une piste arabe, et ne la confie pas d'office au clone français : sans voix déclarée
+pour l'arabe (`voix_id_ar`), la piste attend.
 
 **La méthode de l'anglais** a été rodée de bout en bout sur
 `C:\projets\Cours\Cours_Architecture_Logicielle` (lots 0 à 8, décisions D97 à D113, puis D118
