@@ -1,10 +1,10 @@
-# Capsules d'ouverture — cours de démonstration
+# Capsules d'ouverture · cours de démonstration
 
 **Six capsules à enregistrer** : une par chapitre, dans les deux langues. Elles
 se placent en tête de chapitre, avant la première section.
 
 Ce fichier est la **source unique** : le script part d'ici, la transcription
-affichée sur la page aussi. Ne modifiez jamais la transcription dans le HTML —
+affichée sur la page aussi. Ne modifiez jamais la transcription dans le HTML ;
 modifiez-la ici, puis relancez `python3 outils/synchroniser_capsules.py`.
 
 ## ⚠️ À lire avant de commencer
@@ -13,8 +13,8 @@ modifiez-la ici, puis relancez `python3 outils/synchroniser_capsules.py`.
 > écrites et générées en **Eleven v3** (balises `[warmly]`, `[pause]`). Tout cours
 > créé depuis le template génère désormais en **Eleven v4**, avec l'accent retenu par
 > l'auteur ajouté par le générateur, sans `[pause]`, témoin d'abord : voir
-> `prompts/14_capsules_audio.md`. Cette fiche reste comme exemple du **format** — les
-> marqueurs que lit le générateur —, pas du ton. Elle n'est pas recopiée dans un cours
+> `prompts/14_capsules_audio.md`. Cette fiche reste comme exemple du **format** (les
+> marqueurs que lit le générateur), pas du ton. Elle n'est pas recopiée dans un cours
 > créé.
 
 - **Durée visée : 40 à 70 secondes.** Chaque script fait environ 115 mots
@@ -22,7 +22,7 @@ modifiez-la ici, puis relancez `python3 outils/synchroniser_capsules.py`.
   dessein : une capsule d'ouverture situe, elle n'enseigne pas.
 - **Le contrôle qualité du générateur est calibré sur des capsules de 1 à 2
   minutes.** Ces capsules-ci sont plus brèves, la tolérance est donc déclarée
-  explicitement pour chacune — sans quoi elles seraient rejetées comme « trop
+  explicitement pour chacune, sans quoi elles seraient rejetées comme « trop
   courtes ».
 - **Réglages ElevenLabs v3 :** votre clone vocal, `Stability` ≈ 0,45,
   `Similarity` 0,80, `Speed` 1,0.
@@ -34,28 +34,28 @@ modifiez-la ici, puis relancez `python3 outils/synchroniser_capsules.py`.
   ElevenLabs et renseignez `voix_id_en` dans `outils/elevenlabs.json`.
 - **Format :** MP3, voix seule, sans musique.
 
-## 📋 Récapitulatif — les six fichiers
+## 📋 Récapitulatif · les six fichiers
 
 Tous dans `site/assets/media/voix/`.
 
 | # | Chapitre | Langue | Nom exact du fichier | Durée |
 |---|---|---|---|---|
-| 1 | 1 — Cadrer son cours | FR | `chapitre-1-capsule-fr.mp3` | ≈ 47 s |
-| 2 | 1 — Scoping your course | EN | `chapitre-1-capsule-en.mp3` | ≈ 47 s |
-| 3 | 2 — Structurer le contenu | FR | `chapitre-2-capsule-fr.mp3` | ≈ 47 s |
-| 4 | 2 — Structuring the content | EN | `chapitre-2-capsule-en.mp3` | ≈ 47 s |
-| 5 | 3 — Créer les ressources | FR | `chapitre-3-capsule-fr.mp3` | ≈ 50 s |
-| 6 | 3 — Creating the resources | EN | `chapitre-3-capsule-en.mp3` | ≈ 50 s |
+| 1 | 1 · Cadrer son cours | FR | `chapitre-1-capsule-fr.mp3` | ≈ 47 s |
+| 2 | 1 · Scoping your course | EN | `chapitre-1-capsule-en.mp3` | ≈ 47 s |
+| 3 | 2 · Structurer le contenu | FR | `chapitre-2-capsule-fr.mp3` | ≈ 47 s |
+| 4 | 2 · Structuring the content | EN | `chapitre-2-capsule-en.mp3` | ≈ 47 s |
+| 5 | 3 · Créer les ressources | FR | `chapitre-3-capsule-fr.mp3` | ≈ 50 s |
+| 6 | 3 · Creating the resources | EN | `chapitre-3-capsule-en.mp3` | ≈ 50 s |
 
 ---
 
-## Capsule 1 FR — Chapitre 1, « Cadrer son cours »
+## Capsule 1 FR · Chapitre 1, « Cadrer son cours »
 
 - **Nom exact du fichier :** `chapitre-1-capsule-fr.mp3`
 - **Emplacement exact :** `site/assets/media/voix/chapitre-1-capsule-fr.mp3`
 - **Durée visée :** ≈ 47 s (115 mots parlés, tolérance 0 min 35 → 1 min 10)
 
-- [x] Capsule générée et déposée — contrôlée par outils/generer_audio.py
+- [x] Capsule générée et déposée, contrôlée par outils/generer_audio.py
 
 **▶️ Script ElevenLabs**
 
@@ -81,13 +81,13 @@ Bienvenue dans le chapitre vitrine. Il fait deux choses à la fois : il enseigne
 
 ---
 
-## Capsule 2 EN — Chapter 1, “Scoping your course”
+## Capsule 2 EN · Chapter 1, “Scoping your course”
 
 - **Nom exact du fichier :** `chapitre-1-capsule-en.mp3`
 - **Emplacement exact :** `site/assets/media/voix/chapitre-1-capsule-en.mp3`
 - **Durée visée :** ≈ 47 s (115 mots parlés, tolérance 0 min 35 → 1 min 10)
 
-- [x] Capsule générée et déposée — contrôlée par outils/generer_audio.py
+- [x] Capsule générée et déposée, contrôlée par outils/generer_audio.py
 
 **▶️ Script ElevenLabs**
 
@@ -113,13 +113,13 @@ Welcome to the showcase chapter. It does two things at once: it teaches somethin
 
 ---
 
-## Capsule 3 FR — Chapitre 2, « Structurer le contenu »
+## Capsule 3 FR · Chapitre 2, « Structurer le contenu »
 
 - **Nom exact du fichier :** `chapitre-2-capsule-fr.mp3`
 - **Emplacement exact :** `site/assets/media/voix/chapitre-2-capsule-fr.mp3`
 - **Durée visée :** ≈ 47 s (115 mots parlés, tolérance 0 min 35 → 1 min 10)
 
-- [x] Capsule générée et déposée — contrôlée par outils/generer_audio.py
+- [x] Capsule générée et déposée, contrôlée par outils/generer_audio.py
 
 **▶️ Script ElevenLabs**
 
@@ -145,13 +145,13 @@ Structurer, c'est décider dans quel ordre, et par quels morceaux. Trois idées 
 
 ---
 
-## Capsule 4 EN — Chapter 2, “Structuring the content”
+## Capsule 4 EN · Chapter 2, “Structuring the content”
 
 - **Nom exact du fichier :** `chapitre-2-capsule-en.mp3`
 - **Emplacement exact :** `site/assets/media/voix/chapitre-2-capsule-en.mp3`
 - **Durée visée :** ≈ 47 s (115 mots parlés, tolérance 0 min 35 → 1 min 10)
 
-- [x] Capsule générée et déposée — contrôlée par outils/generer_audio.py
+- [x] Capsule générée et déposée, contrôlée par outils/generer_audio.py
 
 **▶️ Script ElevenLabs**
 
@@ -177,13 +177,13 @@ Structuring means deciding in which order, and in what pieces. Three ideas are e
 
 ---
 
-## Capsule 5 FR — Chapitre 3, « Créer les ressources »
+## Capsule 5 FR · Chapitre 3, « Créer les ressources »
 
 - **Nom exact du fichier :** `chapitre-3-capsule-fr.mp3`
 - **Emplacement exact :** `site/assets/media/voix/chapitre-3-capsule-fr.mp3`
 - **Durée visée :** ≈ 50 s (122 mots parlés, tolérance 0 min 35 → 1 min 10)
 
-- [x] Capsule générée et déposée — contrôlée par outils/generer_audio.py
+- [x] Capsule générée et déposée, contrôlée par outils/generer_audio.py
 
 **▶️ Script ElevenLabs**
 
@@ -207,13 +207,13 @@ Trois formats, trois intentions. Le texte sert à ce qu'on relit : une définiti
 
 ---
 
-## Capsule 6 EN — Chapter 3, “Creating the resources”
+## Capsule 6 EN · Chapter 3, “Creating the resources”
 
 - **Nom exact du fichier :** `chapitre-3-capsule-en.mp3`
 - **Emplacement exact :** `site/assets/media/voix/chapitre-3-capsule-en.mp3`
 - **Durée visée :** ≈ 50 s (122 mots parlés, tolérance 0 min 35 → 1 min 10)
 
-- [x] Capsule générée et déposée — contrôlée par outils/generer_audio.py
+- [x] Capsule générée et déposée, contrôlée par outils/generer_audio.py
 
 **▶️ Script ElevenLabs**
 
@@ -237,13 +237,13 @@ Three formats, three intentions. Text is for what gets re-read: a definition, a 
 
 ---
 
-## Podcast 1 FR — Chapitre 1
+## Podcast 1 FR · Chapitre 1
 
 - **Nom exact du fichier :** `chapitre-1-podcast.fr.mp3`
 - **Emplacement exact :** `site/assets/media/podcasts/chapitre-1-podcast.fr.mp3`
 - **Durée visée :** ≈ 2 min (290 mots parlés, tolérance 1 min 30 → 2 min 40)
 
-- [x] Podcast généré et déposé — contrôlé par outils/generer_audio.py
+- [x] Podcast généré et déposé, contrôlé par outils/generer_audio.py
 
 **▶️ Script ElevenLabs**
 
@@ -275,13 +275,13 @@ Quelques minutes pour poser ce que le chapitre 1 va vous demander de décider. U
 
 ---
 
-## Podcast 2 EN — Chapter 1
+## Podcast 2 EN · Chapter 1
 
 - **Nom exact du fichier :** `chapitre-1-podcast.en.mp3`
 - **Emplacement exact :** `site/assets/media/podcasts/chapitre-1-podcast.en.mp3`
 - **Durée visée :** ≈ 2 min (290 mots parlés, tolérance 1 min 30 → 2 min 40)
 
-- [x] Podcast généré et déposé — contrôlé par outils/generer_audio.py
+- [x] Podcast généré et déposé, contrôlé par outils/generer_audio.py
 
 **▶️ Script ElevenLabs**
 

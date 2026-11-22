@@ -1,5 +1,5 @@
 {
-  "_lisez_moi": "MODÈLE — sans secret. Copiez-le en docs/acces-zones.json, puis lancez python3 deploiement/proteger_zones.py --hors-ligne pour contrôler, et sans option pour poser la protection en ligne. docs/acces-zones.json est ignoré par Git : il porte des mots de passe en clair. Chaque dossier de « zones » doit aussi figurer dans « zones_protegees » de deploiement/destination.json.",
+  "_lisez_moi": "MODÈLE, sans secret. Copiez-le en docs/acces-zones.json, puis lancez python3 deploiement/proteger_zones.py --hors-ligne pour contrôler, et sans option pour poser la protection en ligne. docs/acces-zones.json est ignoré par Git : il porte des mots de passe en clair. Chaque dossier de « zones » doit aussi figurer dans « zones_protegees » de deploiement/destination.json.",
   "_comptes": "Un compte par public. Les identifiants doivent différer d'un compte à l'autre, et ne pas contenir « : ». Les mots de passe partent sur le serveur chiffrés par bcrypt ; ce fichier-ci les garde en clair pour que vous puissiez les communiquer.",
   "comptes": {
     "etudiants": { "identifiant": "a-remplir", "mot_de_passe": "a-remplir" },

@@ -10,18 +10,18 @@
 
 ---
 
-## Phase 0 — Cadrage validé
+## Phase 0 · Cadrage validé
 
-- [ ] Sujet du cours défini et formulé en une phrase claire — `{{SUJET_DU_COURS}}` 🔴
-- [ ] Public cible identifié (profil, prérequis, attentes) — `{{PUBLIC_CIBLE}}`
-- [ ] Niveau visé précisé (débutant / intermédiaire / avancé) — `{{NIVEAU}}`
-- [ ] Durée totale et volume horaire estimés — `{{DUREE}}`
-- [ ] Langue(s) décidée(s) : français seul **ou** français + anglais — `{{LANGUES}}` 🔴
-- [ ] Nombre de chapitres arrêté — `{{NB_CHAPITRES}}`
-- [ ] Fil rouge (scénario continu de l'atelier) choisi et résumé — `{{FIL_ROUGE}}`
-- [ ] Documents de référence rassemblés, lisibles et fiables — `{{DOCUMENTS_DE_REFERENCE}}` 🔴
-- [ ] Auteur et licence(s) fixés (code MIT / contenu CC BY 4.0) — `{{AUTEUR}}`, `{{LICENCE}}`
-- [ ] Contraintes recensées (techniques, légales, de marque, de temps) — `{{CONTRAINTES}}`
+- [ ] Sujet du cours défini et formulé en une phrase claire : `{{SUJET_DU_COURS}}` 🔴
+- [ ] Public cible identifié (profil, prérequis, attentes) : `{{PUBLIC_CIBLE}}`
+- [ ] Niveau visé précisé (débutant / intermédiaire / avancé) : `{{NIVEAU}}`
+- [ ] Durée totale et volume horaire estimés : `{{DUREE}}`
+- [ ] Langue(s) décidée(s) : français seul **ou** français + anglais (`{{LANGUES}}`) 🔴
+- [ ] Nombre de chapitres arrêté : `{{NB_CHAPITRES}}`
+- [ ] Fil rouge (scénario continu de l'atelier) choisi et résumé : `{{FIL_ROUGE}}`
+- [ ] Documents de référence rassemblés, lisibles et fiables : `{{DOCUMENTS_DE_REFERENCE}}` 🔴
+- [ ] Auteur et licence(s) fixés (code MIT / contenu CC BY 4.0) : `{{AUTEUR}}`, `{{LICENCE}}`
+- [ ] Contraintes recensées (techniques, légales, de marque, de temps) : `{{CONTRAINTES}}`
 - [ ] Objectifs pédagogiques généraux rédigés (verbes d'action mesurables)
 - [ ] **Exigence d'exactitude posée** : Claude doit analyser en détail les documents AVANT de produire, ne rien inventer, citer ses sources 🔴
 - [ ] **Interdits du cours** listés dans la fiche de cadrage (sujet du TP, exemples à éviter) et contrôlés par les générateurs
@@ -33,7 +33,7 @@
 
 ---
 
-## Phase 1 — Plan du cours
+## Phase 1 · Plan du cours
 
 - [ ] Plan détaillé chapitre par chapitre généré à partir des documents de référence
 - [ ] Progression pédagogique vérifiée (du simple au complexe, prérequis respectés)
@@ -49,7 +49,7 @@
 
 ---
 
-## Phase 2 — Rédaction des chapitres
+## Phase 2 · Rédaction des chapitres
 
 Pour **chaque** chapitre :
 
@@ -74,7 +74,7 @@ Pour **chaque** chapitre :
 
 ---
 
-## Phase 3 — Glossaire et info-bulles
+## Phase 3 · Glossaire et info-bulles
 
 - [ ] Glossaire bilingue constitué (terme + définition + exemple, FR/EN)
 - [ ] Termes définis sans circularité, alignés sur les sources de référence
@@ -85,7 +85,7 @@ Pour **chaque** chapitre :
 
 ---
 
-## Phase 4 — QCM d'évaluation (CBM)
+## Phase 4 · QCM d'évaluation (CBM)
 
 - [ ] Banque de questions rédigée, à réponse **unique**
 - [ ] Notation CBM en place : certitude Élevée +3/−3, Moyenne +2/−2, Faible +1/0
@@ -105,7 +105,7 @@ Pour **chaque** chapitre :
 
 ---
 
-## Phase 5 — Flashcards de révision
+## Phase 5 · Flashcards de révision
 
 - [ ] Jeu de flashcards recto/verso par chapitre
 - [ ] Bascule « su / à revoir » fonctionnelle
@@ -114,7 +114,7 @@ Pour **chaque** chapitre :
 
 ---
 
-## Phase 6 — Activités interactives
+## Phase 6 · Activités interactives
 
 - [ ] Patron(s) choisi(s) **selon le sujet** parmi : assistant de décision pas-à-pas, quiz-classificateur à feedback, calculateur/simulateur, checklist à score, fiches-résumés
 - [ ] Logique métier de l'activité vérifiée (résultats justes, cas limites gérés)
@@ -124,7 +124,7 @@ Pour **chaque** chapitre :
 
 ---
 
-## Phase 7 — Atelier « fil rouge »
+## Phase 7 · Atelier « fil rouge »
 
 - [ ] Scénario continu (`{{FIL_ROUGE}}`) décliné sur l'ensemble des chapitres
 - [ ] Livrables attendus définis à chaque étape
@@ -134,7 +134,7 @@ Pour **chaque** chapitre :
 
 ---
 
-## Phase 8 — Polycopiés de synthèse
+## Phase 8 · Polycopiés de synthèse
 
 - [ ] Polycopié par chapitre généré en **DOCX** (python-docx)
 - [ ] Polycopié par chapitre généré en **PDF** (fpdf2)
@@ -144,10 +144,10 @@ Pour **chaque** chapitre :
 
 ---
 
-## Phase 8 bis — Le polycopié (bloc `livret`, module 02)
+## Phase 8 bis · Le polycopié (bloc `livret`, module 02)
 
-- [ ] Fiche du livret remplie : `outils/livret.py` — présentation de l'auteur **validée
-      par lui**, pied de couverture, catégorie, année
+- [ ] Fiche du livret remplie : `outils/livret.py` (présentation de l'auteur **validée
+      par lui**, pied de couverture, catégorie, année)
 - [ ] **Témoin** généré (`python3 outils/generer_polycopie.py --temoin`) et **validé par
       l'auteur** avant le livret complet 🔴
 - [ ] Livret français, puis anglais si le cours est bilingue : 0 anomalie aux contrôles
@@ -164,7 +164,7 @@ Pour **chaque** chapitre :
 
 ---
 
-## Phase 9 — QCM papier imprimable (DOCX)
+## Phase 9 · QCM papier imprimable (DOCX)
 
 - [ ] Page de garde présente
 - [ ] Consignes claires
@@ -177,7 +177,7 @@ Pour **chaque** chapitre :
 
 ---
 
-## Phase 10 — Médias et intégration NotebookLM
+## Phase 10 · Médias et intégration NotebookLM
 
 - [ ] Fiche de cours (DOCX) préparée pour NotebookLM
 - [ ] Prompts de génération prêts (infographie / slides / podcast par chapitre)
@@ -193,7 +193,7 @@ Pour **chaque** chapitre :
 
 ---
 
-## Phase 10 ter — Capsules audio (Eleven v4)
+## Phase 10 ter · Capsules audio (Eleven v4)
 
 - [ ] Fiches de production au format exact (`prompts/14_capsules_audio.md`) : nom de fichier, script balisé, transcription
 - [ ] Ton pédagogique, académique, professionnel et motivant ; « speaking slowly » pour les capsules explicatives
@@ -204,27 +204,27 @@ Pour **chaque** chapitre :
 
 ---
 
-## Phase 10 bis — Les vérificateurs
+## Phase 10 bis · Les vérificateurs
 
-- [ ] `python3 outils/verifier_i18n.py` passe — clés appariées, blocs `data-tr`
+- [ ] `python3 outils/verifier_i18n.py` passe : clés appariées, blocs `data-tr`
       équilibrés, titres cohérents entre le menu et les pages
-- [ ] `python3 outils/verifier_contraste.py` passe — palettes lisibles en clair
+- [ ] `python3 outils/verifier_contraste.py` passe : palettes lisibles en clair
       **et** en sombre
-- [ ] `python3 outils/verifier_liens.py` finit sur « Aucun lien mort » — renvois
+- [ ] `python3 outils/verifier_liens.py` finit sur « Aucun lien mort », renvois
       « Pour approfondir » compris (fichier et ancre)
 - [ ] `python3 outils/verifier_interdits.py` ne trouve aucun interdit hors de sa
-      place — sujet du TP, chiffres d'une épreuve (`outils/interdits.py`)
+      place : sujet du TP, chiffres d'une épreuve (`outils/interdits.py`)
 - [ ] `python3 outils/verifier_tirets.py` ne trouve aucun tiret cadratin dans ce
       qui se publie (pages, scripts, libellés) ; les autres marques se relisent
-- [ ] `python3 outils/generer_fragments.py --essai` n'a rien à faire — chaque
+- [ ] `python3 outils/generer_fragments.py --essai` n'a rien à faire : chaque
       chiffre des pages suit le référentiel (`outils/referentiel.py`), aucune
       valeur ne manque
 - [ ] `python3 outils/seances.py` et `python3 outils/sessions.py` finissent sans
       écart : le programme est cohérent, et les dates des sessions le couvrent
-- [ ] `python3 outils/glossaire_emplois.py --essai` dit « à jour » — la fenêtre
+- [ ] `python3 outils/glossaire_emplois.py --essai` dit « à jour » : la fenêtre
       « Où en parle-t-on ? » du glossaire suit les pages
 - [ ] Avec la série de podcasts : `python3 outils/podcasts.py` finit sur
-      « 0 défaut(s) » — chaque épisode complet, chaque encadré à sa place
+      « 0 défaut(s) » (chaque épisode complet, chaque encadré à sa place)
 - [ ] En site miroir : `python3 outils/verifier_parite.py` finit sur « 0 écart »,
       et `generer_langues.py --essai`, `liens_langues.py --essai`,
       `hreflang.py --essai` n'ont rien à faire
@@ -232,13 +232,13 @@ Pour **chaque** chapitre :
 - [ ] Aucun média référencé n'est manquant (les composants affichent leur état,
       ce qui est différent d'un lien mort)
 - [ ] La bascule 🌐 traduit **tout** : contenu, barre d'étapes, capsule audio,
-      schéma, polycopié — puis revient
+      schéma, polycopié, puis revient
 
 > ⚠️ Si un changement JavaScript ne semble pas prendre, **changez de port**
 > plutôt que de recharger : certains navigateurs gardent le script en cache
 > malgré l'en-tête `no-store` du lanceur.
 
-## Phase 11 — Accessibilité
+## Phase 11 · Accessibilité
 
 - [ ] Panneau de réglages présent et **persistant**
 - [ ] Taille du texte ajustable (A+ / A−)
@@ -251,7 +251,7 @@ Pour **chaque** chapitre :
 
 ---
 
-## Phase 12 — Responsive et compatibilité
+## Phase 12 · Responsive et compatibilité
 
 - [ ] Affichage testé sur mobile, tablette et bureau
 - [ ] Navigation latérale et sous-menu pliable utilisables sur petit écran
@@ -262,7 +262,7 @@ Pour **chaque** chapitre :
 
 ---
 
-## Phase 13 — Cohérence bilingue (si FR + EN)
+## Phase 13 · Cohérence bilingue (si FR + EN)
 
 - [ ] Bascule de langue 🌐 fonctionnelle sur **toutes** les pages 🔴
 - [ ] Blocs FR/EN présents et appariés partout (pages, navigation, QCM, ateliers, glossaire)
@@ -273,7 +273,7 @@ Pour **chaque** chapitre :
 
 ---
 
-## Phase 14 — Licences et attribution
+## Phase 14 · Licences et attribution
 
 - [ ] Licence du **code** = MIT, fichier `LICENSE` présent 🔴
 - [ ] Licence du **contenu et des prompts** = CC BY 4.0, mention présente 🔴
@@ -309,17 +309,17 @@ livrables dans l'application Livrables (`docs/GUIDE.md`, section 2 ter).
 
 ---
 
-## Phase 15 — Relecture finale et déploiement
+## Phase 15 · Relecture finale et déploiement
 
 - [ ] Relecture globale de bout en bout (parcours étudiant complet)
 - [ ] Tous les liens internes et ancres testés (aucun lien mort)
 - [ ] Tous les téléchargements testés (podcasts, slides, polycopiés, templates, CSV)
 - [ ] Pieds de page propres et cohérents sur toutes les pages
 - [ ] Métadonnées de page renseignées (titre, description, langue)
-- [ ] Versionné et committé sous Git — **après accord de l'auteur**
+- [ ] Versionné et committé sous Git, **après accord de l'auteur**
 - [ ] `python3 deploiement/deployer.py --essai` : destination attendue, **garde-fou passé**, aucun fichier hors de `site/` 🔴
 - [ ] Zones protégées (correction…) : `proteger_zones.py` lancé **avant** le premier envoi de leur contenu ; elles répondent 401 sans identifiants 🔴
-- [ ] Déployé — **après un second accord de l'auteur** — et URL de production vérifiée 🔴
+- [ ] Déployé, **après un second accord de l'auteur**, et URL de production vérifiée 🔴
 - [ ] Vérification post-déploiement : site accessible, médias chargés, bascule de langue OK
 - [ ] Checklist archivée avec le cours comme preuve de qualité
 
@@ -333,4 +333,4 @@ livrables dans l'application Livrables (`docs/GUIDE.md`, section 2 ter).
 
 ---
 
-*Template de site de cours — Code sous licence MIT, contenu et prompts sous licence CC BY 4.0. Auteur : Mohamed EL AFRIT.*
+*Template de site de cours · Code sous licence MIT, contenu et prompts sous licence CC BY 4.0. Auteur : Mohamed EL AFRIT.*

@@ -1228,7 +1228,7 @@ def copier_secrets(sortie, c, essai=False):
             dst = os.path.join(sortie, rel.replace("/", os.sep))
             os.makedirs(os.path.dirname(dst), exist_ok=True)
             shutil.copyfile(src, dst)
-            bilan.append((rel, "copié en local, ignoré par Git — contenu non affiché"))
+            bilan.append((rel, "copié en local, ignoré par Git (contenu non affiché)"))
     return bilan
 
 
@@ -1241,7 +1241,7 @@ def destination_json(c):
     """
     p = c.get("publication") or {}
     d = {
-        "_lisez_moi": "Où ce cours se publie — écrit par nouveau_cours.py d'après cours.json. "
+        "_lisez_moi": "Où ce cours se publie (écrit par nouveau_cours.py d'après cours.json). "
                       "Sans secret : versionné avec le cours. Les accès à l'hébergement sont dans "
                       "deploiement/config.json (local, ignoré par Git). Voir deploiement/LISEZMOI.md.",
         "cours": c["slug"],
@@ -1260,7 +1260,7 @@ def contrat_du_cours(c):
     """
     t = io.open(os.path.join(RACINE, "CLAUDE.md"), encoding="utf-8").read()
     t = BLOC_GABARIT.sub("\n", t)
-    entete = ("# %s — contrat de travail\n\n"
+    entete = ("# %s · contrat de travail\n\n"
               "Le site du cours « %s » (identifiant `%s`), créé à partir du template de\n"
               "cours. Ce fichier est lu à chaque ouverture : il dit ce qu'il faut savoir\n"
               "avant de toucher à quoi que ce soit. La méthode de création, avec ses jalons,\n"
@@ -1957,7 +1957,7 @@ def main():
         neuf = re.sub(r"^EPISODES = \[\n.*?^\]\n", "EPISODES = []\n", s, count=1, flags=re.S | re.M)
         if neuf != s:
             ecrire(serie, neuf)
-            print("  outils/podcasts.py : la série part vide — ses épisodes s'y déclarent (module 03)")
+            print("  outils/podcasts.py : la série part vide ; ses épisodes s'y déclarent (module 03)")
 
     # --- chapitre vitrine conservé comme modèle
     chap = os.path.join(sortie, "site", "chapitres")
@@ -2006,7 +2006,7 @@ def main():
         print("  contenu de demonstration retire : %d media(s), %d fichier(s) "
               "remis a l'etat de squelette" % (r, s))
         if bloc_actif(c, "livret"):
-            print("  outils/livret.py : la fiche du polycopié part vide — l'auteur y écrit sa présentation, "
+            print("  outils/livret.py : la fiche du polycopié part vide ; l'auteur y écrit sa présentation, "
                   "imprimée mot pour mot (module 02)")
 
     # --- le bloc école : les boutons du bandeau, les épreuves des filières, les sessions (cours.json)
@@ -2080,7 +2080,7 @@ def main():
     for nom in ("README.md", "bibliographie.md"):
         if not os.path.isfile(os.path.join(src_dir, nom)):
             shutil.copy2(os.path.join(RACINE, "sources", nom), os.path.join(src_dir, nom))
-    print("  sources/ prêt — déposez-y vos documents de référence")
+    print("  sources/ prêt : déposez-y vos documents de référence")
 
     # --- la destination de publication et les secrets locaux
     if os.path.isdir(os.path.join(sortie, "deploiement")):
@@ -2113,7 +2113,7 @@ quoi faire ensuite ; vous pouvez le supprimer une fois le cours démarré.
 ## 1. Déposez vos sources
 
 Tout ce sur quoi le cours doit s'appuyer va dans `sources/` : référentiel,
-supports existants, articles, normes, notes. **Ce dossier n'est pas versionné** —
+supports existants, articles, normes, notes. **Ce dossier n'est pas versionné** :
 vos documents d'ayants droit ne partent pas dans le dépôt. Seules la
 bibliographie et le mode d'emploi le sont.
 
@@ -2130,8 +2130,8 @@ rédige rien tant que le cadrage n'est pas validé.
 
 Règle qu'elle applique et qu'il faut connaître : les documents sont la source
 de vérité. Ce qui n'y figure pas est signalé comme lacune, jamais comblé
-d'invention. Les autres exigences — dialogue, Git, secrets, audio, quiz,
-publication — sont dans `CLAUDE.md`, que Claude lit à chaque ouverture.
+d'invention. Les autres exigences (dialogue, Git, secrets, audio, quiz,
+publication) sont dans `CLAUDE.md`, que Claude lit à chaque ouverture.
 
 ## 2 bis. Secrets et publication
 

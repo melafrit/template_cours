@@ -10,7 +10,7 @@ présentes). Tout champ **technique** (id, fichier, index, ancre, icône, href, 
 
 ---
 
-## `window.COURSE` — `assets/js/course-data.js`
+## `window.COURSE` · `assets/js/course-data.js`
 Source unique de vérité de la navigation, lue **partout** (arbre de nav, progression, compteur).
 
 ```js
@@ -34,7 +34,7 @@ Neutres : `author`, `chapters[].num/ico/file`, `resources[].ico/href`.
 
 ---
 
-## `window.RDC_SECTIONS` — `assets/js/nav-sections.js`
+## `window.RDC_SECTIONS` · `assets/js/nav-sections.js`
 Sous-sections (ancres) par chapitre, pour le sous-menu pliable de la sidebar. **Une entrée par
 `<h2 id>` réel** du chapitre ; `id` = l'ancre, `t` = le titre bilingue.
 
@@ -51,7 +51,7 @@ Bilingue : `t`. Neutre : `id` (ancre `#chN-sM`).
 
 ---
 
-## `window.GLOSSARY` — `assets/js/glossaire-data.js`
+## `window.GLOSSARY` · `assets/js/glossaire-data.js`
 Tableau de termes. Ici `fr`/`en` portent **le terme lui-même** dans chaque langue ; `def`/`ex` sont
 eux-mêmes des objets `{ fr, en }`.
 
@@ -68,7 +68,7 @@ Bilingues : `def`, `ex` (chacun `{fr,en}`). Particularité : `fr` / `en` = le te
 
 ---
 
-## `window.RDC_FLASHCARDS` — `assets/js/flashcards-data.js`
+## `window.RDC_FLASHCARDS` · `assets/js/flashcards-data.js`
 Cartes de révision par chapitre. `front`/`back` bilingues (le `back` accepte `**gras**`, interprété
 par `flashcards.js`, **pas** de HTML) ; `ref` = chaîne neutre (ex. `"art. 5"`).
 
@@ -87,7 +87,7 @@ Bilingues : `front`, `back`. Neutre : `ref`.
 
 ---
 
-## `window.QCM_QUESTIONS` — `QCM/questions.js`
+## `window.QCM_QUESTIONS` · `QCM/questions.js`
 Banque de questions. `enonce` et chaque `propositions[]` (4 par convention) sont bilingues, ainsi
 que `meta.titre` / `meta.formation`.
 
@@ -113,7 +113,7 @@ Neutres : `id`, `chapitre`, `difficulte`, `meta.auteur`, `meta.annee_academique`
 
 ---
 
-## `window.QCM_CORRECTIONS` — `QCM/corrections.js`
+## `window.QCM_CORRECTIONS` · `QCM/corrections.js`
 Clé de correction, **appariée par `id`** à `questions.js`. La bonne réponse est un **index** (0..3),
 l'explication est bilingue.
 
@@ -140,4 +140,4 @@ Bilingue : `explication`. Neutres : `id`, `chapitre`, `difficulte`, `bonne_repon
   une question = deux entrées synchronisées par le même `id`. La correction note chaque CSV avec
   la banque du moment (la signature, elle, ne couvre que le CSV) : figez la banque pendant une session d'examen.
 
-> Template de site de cours — **Mohamed EL AFRIT** · code MIT, contenu & prompts CC BY 4.0.
+> Template de site de cours · **Mohamed EL AFRIT** · code MIT, contenu & prompts CC BY 4.0.

@@ -42,7 +42,7 @@ en mémoire, y compris dans un onglet neuf.
 
 **Le symptôme à reconnaître** : votre fichier contient la correction, mais la
 page se comporte comme avant. Avant de suspecter le code, prouvez-le
-autrement — par exemple :
+autrement, par exemple :
 
 ```bash
 node -e "global.window={}; eval(require('fs').readFileSync('site/assets/js/ui-labels.js','utf8')); console.log(Object.keys(window.UI_LABELS.fr).length)"
@@ -56,8 +56,8 @@ origine n'a aucun cache à réutiliser.
 ## 3. Un serveur mono-thread bloque sur un navigateur
 
 `socketserver.TCPServer` traite une requête à la fois. Un navigateur qui garde
-sa connexion ouverte bloque alors tout autre client — un second onglet, un
-outil de vérification. Le symptôme est un gel, sans message, impossible à
+sa connexion ouverte bloque alors tout autre client (un second onglet, un
+outil de vérification). Le symptôme est un gel, sans message, impossible à
 rattacher à sa cause.
 
 `demarrer.py` utilise donc `ThreadingHTTPServer`. Si vous écrivez un autre
@@ -69,13 +69,13 @@ outil qui sert des fichiers, faites de même.
 
 Trois fichiers de ce dépôt sont produits par un script : l'index de playlist,
 l'index des sections, et les transcriptions des capsules. Les corriger à la
-main donne l'illusion d'avoir résolu le problème — jusqu'à la régénération
+main donne l'illusion d'avoir résolu le problème, jusqu'à la régénération
 suivante, qui écrase tout sans prévenir.
 
 Le cas le plus insidieux est la **transcription d'une capsule**. Elle existe
 en deux versions : le script balisé pour la synthèse vocale, et le texte
 lisible affiché sous le lecteur. Tenues à la main, elles divergent dès la
-première correction — et personne ne s'en aperçoit, parce qu'on ne lit pas la
+première correction, et personne ne s'en aperçoit, parce qu'on ne lit pas la
 transcription d'une capsule qu'on vient d'écouter.
 
 **La fiche de production est la source unique.** On corrige là, puis on relance
@@ -103,7 +103,7 @@ faire dans un moteur.
 ## 6. Un squelette ne doit rien garder de la démonstration
 
 `nouveau_cours.py` fabrique les squelettes de chapitre à partir du chapitre
-vitrine — ainsi ils ne peuvent pas diverger du moteur réel. Mais **vidés**.
+vitrine ; ainsi ils ne peuvent pas diverger du moteur réel. Mais **vidés**.
 
 La première version gardait la prose. Un chapitre de cybersécurité serait
 arrivé rempli de texte sur le fil rouge et le public cible ; une section
@@ -115,7 +115,7 @@ de la plage traitée), la **méta-description** (qui part dans les moteurs de
 recherche et les aperçus de partage), et les **titres d'étapes**, qui sont des
 attributs et non des blocs `data-tr`.
 
-**Quand on vide quelque chose, on vérifie qu'il est vide** — par une recherche
+**Quand on vide quelque chose, on vérifie qu'il est vide**, par une recherche
 sur des mots du contenu d'origine, pas par une relecture.
 
 ---
@@ -130,11 +130,11 @@ Trois catégories, et la troisième est la plus traître :
 
 1. Les libellés construits à chaque rendu : ils suivent si le moteur se
    redessine sur `tpl:langchange`.
-2. Les libellés écrits **une seule fois** à la construction — « Tout
+2. Les libellés écrits **une seule fois** à la construction : « Tout
    afficher », « Précédent ». Ils restent dans la
    langue du chargement. Il faut les repeindre explicitement.
 3. Les **attributs** : `aria-label`, `title`, `alt`, `placeholder`. Ils ne se
-   voient pas à l'écran, donc leur oubli ne se remarque jamais — sauf par qui
+   voient pas à l'écran, donc leur oubli ne se remarque jamais, sauf par qui
    utilise un lecteur d'écran.
 
 `outils/verifier_i18n.py` attrape les clés dépareillées et les blocs
@@ -155,7 +155,7 @@ avant un recalibrage gardait les anciennes valeurs et rejetait de bonnes
 prises, sans que personne comprenne pourquoi.
 
 Une fiche peut toutefois déclarer sa **propre fenêtre de durée** quand elle
-s'écarte du format habituel — une capsule de 45 secondes serait rejetée par des
+s'écarte du format habituel : une capsule de 45 secondes serait rejetée par des
 seuils calibrés sur des capsules de deux minutes. Seule la durée s'assouplit :
 le débit et les silences restent mesurés à l'identique, parce que ce sont eux
 qui révèlent une prise inaudible.
@@ -172,7 +172,7 @@ Avant d'écrire une capsule, on estime sa durée. L'estimation par « à peu pr�
 
 La bonne méthode : mesurer le débit **sur les prises déjà validées** du projet,
 prendre la médiane, et dimensionner le script là-dessus. Sur ce dépôt, la
-médiane observée est de 146 mots par minute — et les six capsules générées sont
+médiane observée est de 146 mots par minute, et les six capsules générées sont
 tombées à quelques secondes de l'estimation.
 
 Même logique pour les seuils de contraste, les tailles d'image, les durées de
@@ -193,7 +193,7 @@ Un commentaire utile ressemble à :
 # pour un port occupé, et le serveur se posait par-dessus un autre.
 ```
 
-Il empêche la prochaine personne — souvent vous — de « simplifier » en
+Il empêche la prochaine personne (souvent vous) de « simplifier » en
 réintroduisant le défaut.
 
 ---
@@ -231,13 +231,13 @@ livré, dire ce qu'il contient **et ce qu'il ne contient pas encore**.
 
 La clé ElevenLabs, la voix clonée, les accès à l'hébergement sont les mêmes pour
 tous les cours de l'auteur. Les ressaisir à chaque cours, c'est les faire
-transiter par une conversation, un message, un presse-papiers — autant d'endroits
+transiter par une conversation, un message, un presse-papiers, autant d'endroits
 d'où ils ne repartent jamais.
 
 Ils se **recopient donc tels quels**, octet pour octet, du template vers le cours
 (`nouveau_cours.py` le fait), et seulement si le `.gitignore` du cours les exclut.
 Claude ne les ouvre pas : les scripts s'en servent. Une recherche dans le dépôt
-les exclut explicitement — un `grep` sur tout le dossier affiche aussi ce qu'il y
+les exclut explicitement : un `grep` sur tout le dossier affiche aussi ce qu'il y
 a dans un fichier de secrets.
 
 Pour vérifier qu'une copie est fidèle sans la lire, on compare les empreintes :
@@ -253,7 +253,7 @@ sha256sum ../template_cours/outils/elevenlabs.json outils/elevenlabs.json
 Le premier déployeur lisait le répertoire distant dans la même configuration que
 le mot de passe. Recopiée pour un nouveau cours, elle désignait le dossier du
 cours précédent : le premier envoi l'aurait écrasé, la première purge l'aurait
-vidé — et les étudiants l'auraient découvert avant l'auteur.
+vidé, et les étudiants l'auraient découvert avant l'auteur.
 
 La destination vit donc à part, dans `deploiement/destination.json`, versionné
 avec le cours et écrit à sa création. Et le carnet déposé sur le serveur porte
@@ -270,7 +270,7 @@ que ce qui est vraiment commun.**
 ## 15. La protection d'abord, le contenu ensuite
 
 La correction d'un TP vit derrière un mot de passe. Publiée une minute avant sa
-protection, elle a été vue — ou peut l'avoir été, ce qui revient au même.
+protection, elle a été vue, ou peut l'avoir été, ce qui revient au même.
 
 Le déployeur retient donc le contenu d'une zone protégée tant que son
 `.htaccess` n'est pas en ligne, et ne remplace ni ne purge jamais un `.htaccess`,
@@ -306,8 +306,8 @@ faut démonter : l'idée fausse qui la rendait tentante, et pourquoi elle ne tie
 pas ici.
 
 Chaque question à choix porte donc une raison par proposition écartée, et deux à
-quatre renvois vers **l'endroit exact** qui répond — la section, le schéma, la
-fiche —, jamais « le chapitre 3 ». `outils/verifier_liens.py` contrôle chaque
+quatre renvois vers **l'endroit exact** qui répond (la section, le schéma, la
+fiche), jamais « le chapitre 3 ». `outils/verifier_liens.py` contrôle chaque
 renvoi, fichier **et** ancre : un renvoi vers la bonne page mais la mauvaise
 section ne se voit qu'en cliquant.
 
@@ -316,7 +316,7 @@ section ne se voit qu'en cliquant.
 ## 18. Une adresse externe s'ouvre avant d'être citée
 
 Une adresse recopiée de mémoire, ou devinée d'après le titre d'un article, mène
-une fois sur deux à une page d'erreur — ou pire, à une autre page. Chaque lien
+une fois sur deux à une page d'erreur, ou pire, à une autre page. Chaque lien
 externe s'ouvre donc avant d'être ajouté, s'affiche dans un nouvel onglet
 (`target="_blank" rel="noopener noreferrer"`) et se signale aux lecteurs d'écran.
 
@@ -327,7 +327,7 @@ externe s'ouvre donc avant d'être ajouté, s'affiche dans un nouvel onglet
 En Python, `re.sub(motif, r'\1%s' % nom, texte)` paraît anodin. Si `nom` vaut
 `01-intro.html`, le remplacement devient `\101-intro.html` : `\101` est lu comme
 un caractère octal, la lettre « A ». Le lien `<a href="01-intro.html"` devient
-`A-intro.html"` — plus de `href`, donc rien que le vérificateur de liens puisse
+`A-intro.html"` : plus de `href`, donc rien que le vérificateur de liens puisse
 signaler. Les boutons « Suivant » des cours créés ont disparu ainsi, sans
 message ; la même erreur avait déjà mangé la ponctuation d'une série
 d'explications.

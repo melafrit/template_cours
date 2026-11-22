@@ -24,7 +24,7 @@ site/
 └── assets/
     ├── css/{main.css, components.css}   # variables/thème/layout/a11y ; composants + contrat i18n
     ├── js/
-    │   ├── i18n.js              # MOTEUR bilingue (TPLI18N) — cœur du template
+    │   ├── i18n.js              # MOTEUR bilingue (TPLI18N), cœur du template
     │   ├── navigation.js        # MOTEUR : nav, thème, progression, sidebar
     │   ├── nav-sections.js      # DONNÉES : sous-sections (ancres) par chapitre
     │   ├── accessibility.js     # MOTEUR : panneau ♿
@@ -43,14 +43,14 @@ site/
 
 Les scripts sont chargés **sans `defer`/`async`**, en bas du `<body>` : l'ordre encode les dépendances. Détail et variantes (index, glossaire, activités, QCM) dans `docs/ARCHITECTURE.md` §3.
 
-1. `i18n.js` — **toujours en premier** (expose `TPLI18N`, requis par tous les moteurs).
-2. `course-data.js` puis `nav-sections.js` — **données avant** leur moteur.
-3. `navigation.js` — lit `COURSE` + `RDC_SECTIONS`.
+1. `i18n.js` : **toujours en premier** (expose `TPLI18N`, requis par tous les moteurs).
+2. `course-data.js` puis `nav-sections.js` : **données avant** leur moteur.
+3. `navigation.js` : lit `COURSE` + `RDC_SECTIONS`.
 4. `accessibility.js`, puis `media.js`.
 5. `glossaire-data.js` **avant** `glossaire-tooltip.js`.
 6. `flashcards.js` puis `flashcards-data.js`.
-7. `animations.js` — **en dernier** (purement décoratif).
-8. **Bloc inline** d'instanciation/config (ex. `new FlashcardDeck(...)`) — **après** tous les `src`.
+7. `animations.js` : **en dernier** (purement décoratif).
+8. **Bloc inline** d'instanciation/config (ex. `new FlashcardDeck(...)`) : **après** tous les `src`.
 
 > Règle générale : un fichier `*-data.js` doit venir **avant** le moteur qui le lit ; `i18n.js` d'abord ; `animations.js` en dernier ; le `<script>` inline en toute fin.
 
@@ -77,4 +77,4 @@ Quatre gestes courants. Détail complet : `docs/ARCHITECTURE.md` §4.
 - Choisir l'un des 3 patrons de `tools.js` (`TPLActivities`) adapté au sujet.
 - L'instancier via un `<script>` inline avec sa config (libellés `{fr,en}`), après les `src`.
 
-> Template de site de cours — **Mohamed EL AFRIT** · code MIT, contenu & prompts CC BY 4.0.
+> Template de site de cours · **Mohamed EL AFRIT** · code MIT, contenu & prompts CC BY 4.0.

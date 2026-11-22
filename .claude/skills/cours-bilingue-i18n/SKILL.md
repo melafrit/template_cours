@@ -1,6 +1,6 @@
 ---
 name: cours-bilingue-i18n
-description: À utiliser dès qu'on ajoute ou modifie du CONTENU, des ATTRIBUTS ou un MOTEUR JS dans un site template_cours et qu'il faut le maintenir bilingue FR/EN. Couvre les blocs jumeaux data-tr, les attributs data-i18n-*-fr/en, le motif des moteurs ({fr,en} + tpl:langchange) et l'API window.TPLI18N. Mots-clés FR+EN — "bilingue", "i18n", "bascule FR/EN", "traduction", "data-tr", "bilingual content", "language toggle", "translate", "internationalization".
+description: À utiliser dès qu'on ajoute ou modifie du CONTENU, des ATTRIBUTS ou un MOTEUR JS dans un site template_cours et qu'il faut le maintenir bilingue FR/EN. Couvre les blocs jumeaux data-tr, les attributs data-i18n-*-fr/en, le motif des moteurs ({fr,en} + tpl:langchange) et l'API window.TPLI18N. Mots-clés FR+EN ("bilingue", "i18n", "bascule FR/EN", "traduction", "data-tr", "bilingual content", "language toggle", "translate", "internationalization").
 ---
 
 # Cours bilingue FR/EN (i18n)
@@ -19,7 +19,7 @@ langue active est portée par `data-lang` sur `<html>`, la langue inactive est *
 change quand on bascule la langue, il est bilingue ; un id / fichier / index / ancre / icône / href
 reste une chaîne neutre.
 
-## Les 3 mécanismes — et quand utiliser chacun
+## Les 3 mécanismes (et quand utiliser chacun)
 
 ### 1) CONTENU rédigé en HTML → blocs jumeaux `data-tr`
 Pour tout texte visible écrit en dur (titres, paragraphes, cartes, libellés de boutons-liens). On
@@ -85,7 +85,7 @@ document.addEventListener('tpl:langchange', function () { renderTree(); });
 ```
 
 Pour les **données** `{ fr, en }`, on résout à l'affichage avec un helper `L()` (tolère une chaîne
-simple, replie `fr → en → ''`) — voir `navigation.js` / `flashcards.js` :
+simple, replie `fr → en → ''`), voir `navigation.js` / `flashcards.js` :
 
 ```js
 function L(x){ return (x && typeof x === 'object') ? (x[lang()] || x.fr || x.en || '') : (x || ''); }
@@ -93,11 +93,11 @@ function L(x){ return (x && typeof x === 'object') ? (x[lang()] || x.fr || x.en 
 
 ### 4) INTERFACE DES MOTEURS → `ui-labels.js` et `T('cle')`
 
-Tout ce qu'un moteur fabrique à l'exécution — boutons, états, messages. Ces
+Tout ce qu'un moteur fabrique à l'exécution : boutons, états, messages. Ces
 textes n'existent pas dans le HTML : ils ne peuvent donc pas être jumelés.
 
 ```js
-// ui-labels.js — la clé existe dans les DEUX blocs
+// ui-labels.js : la clé existe dans les DEUX blocs
 'etapes.suivante': 'Étape suivante ›'   // fr
 'etapes.suivante': 'Next step ›'        // en
 
@@ -109,8 +109,8 @@ html += '<button>' + T('etapes.suivante') + '</button>';
 rien ne le signalera. `outils/verifier_i18n.py` contrôle la parité des clés et
 les clés appelées sans être définies.
 
-Attention au cas discret : un libellé écrit **une seule fois** au montage — le
-bouton « Tout afficher » — reste dans la langue
+Attention au cas discret : un libellé écrit **une seule fois** au montage (le
+bouton « Tout afficher ») reste dans la langue
 du chargement même si le moteur écoute `tpl:langchange`. Il faut le repeindre
 explicitement dans la fonction de rendu. Aucun vérificateur ne l'attrape : cela
 se voit en basculant la langue et en regardant.
@@ -174,4 +174,4 @@ prochain changement de langue. (Les blocs `data-tr` injectés, eux, sont gérés
 - Moteur de référence (API, bouton, attributs, évènement) : `site/assets/js/i18n.js` ;
   UI générée bilingue : `site/assets/js/navigation.js`, `flashcards.js`, `QCM/qcm-core.js`.
 
-> Template de site de cours — **Mohamed EL AFRIT** · code MIT, contenu & prompts CC BY 4.0.
+> Template de site de cours · **Mohamed EL AFRIT** · code MIT, contenu & prompts CC BY 4.0.

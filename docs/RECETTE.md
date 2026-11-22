@@ -1,7 +1,7 @@
 # Recette du gabarit
 
-**Quand l'utiliser :** à la réception du template — nouveau poste, nouvelle
-machine, `git pull` important — et après toute modification du moteur. Comptez
+**Quand l'utiliser :** à la réception du template (nouveau poste, nouvelle
+machine, `git pull` important) et après toute modification du moteur. Comptez
 vingt minutes.
 
 Ne pas confondre avec [CHECKLIST.md](CHECKLIST.md), qui accompagne la
@@ -15,7 +15,7 @@ qui vous dise ce que vous recevrez réellement en démarrant un nouveau cours.
 
 ## 0. Lancer
 
-Depuis le Finder, **double-cliquez `demarrer.command`** — le bit exécutable est
+Depuis le Finder, **double-cliquez `demarrer.command`** : le bit exécutable est
 enregistré dans Git, il n'y a pas de `chmod` à faire. En ligne de commande :
 
     ./demarrer.command      # macOS
@@ -32,35 +32,35 @@ tous les autres clients, sans le moindre message.
 
 ---
 
-## 1. Le site de démonstration — à l'œil
+## 1. Le site de démonstration · à l'œil
 
 Le site parle de lui-même : son sujet est « concevoir un cours en ligne ».
 C'est voulu. Vous lisez le mode d'emploi en testant le contenant.
 
-- [ ] **Accueil** — le bouton « commencer » mène au chapitre 1. Ce lien n'est
+- [ ] **Accueil** : le bouton « commencer » mène au chapitre 1. Ce lien n'est
       pas écrit dans la page : `navigation.js` le calcule depuis
       `course-data.js`. S'il tombe juste, le mécanisme qui protège les cours
       créés fonctionne. 🔴
-- [ ] **Chapitre 1** — la vitrine. Les **sept composants interactifs** y sont
+- [ ] **Chapitre 1** : la vitrine. Les **sept composants interactifs** y sont
       tous : point d'étape, révélation, chasse à l'erreur, appariement,
       embranchement, points chauds, prise de parole. Plus une capsule audio, un
       schéma et un polycopié.
-- [ ] **Chapitres 2 et 3** — structure d'un chapitre rédigé. Le 3 porte le
+- [ ] **Chapitres 2 et 3** : structure d'un chapitre rédigé. Le 3 porte le
       podcast.
-- [ ] **Glossaire** — survolez un terme souligné dans un chapitre : l'info-bulle
+- [ ] **Glossaire**. Survolez un terme souligné dans un chapitre : l'info-bulle
       s'affiche, et le lien « voir dans le glossaire » fonctionne depuis
       `/chapitres/` comme depuis la racine.
-- [ ] **Polycopiés** — six PDF. Chacun est testé par une requête HEAD avant
+- [ ] **Polycopiés** : six PDF. Chacun est testé par une requête HEAD avant
       affichage : un bouton visible est un fichier qui existe.
-- [ ] **Activités** — trois patrons réutilisables, douze contrôles.
-- [ ] **QCM** — entraînement, correction, tableau de bord.
-- [ ] **Pied de page** — « À propos du template » est atteignable.
+- [ ] **Activités** : trois patrons réutilisables, douze contrôles.
+- [ ] **QCM** : entraînement, correction, tableau de bord.
+- [ ] **Pied de page** : « À propos du template » est atteignable.
 
 ### Le test qui casse tout d'un coup
 
 - [ ] Basculez **FR/EN** en haut à droite, sur le chapitre 1. Tout doit suivre :
-      titres, prose, boutons, **et** les libellés fabriqués en JavaScript — la
-      barre d'étapes, les activités, les messages de correction. 🔴
+      titres, prose, boutons, **et** les libellés fabriqués en JavaScript (la
+      barre d'étapes, les activités, les messages de correction). 🔴
 
 C'est là que l'i18n lâche d'habitude, parce qu'un libellé écrit une fois à la
 construction ne se repeint pas tout seul. La barre d'étapes est restée en
@@ -69,13 +69,13 @@ du chapitre.
 
 - [ ] **Console vide** (⌥⌘I). Un 404 de favicon suffit à faire perdre
       l'habitude de la regarder.
-- [ ] **Thème sombre** et **affichage téléphone** — le menu passe en tiroir.
-- [ ] **Sections longues sur téléphone** — à 375 px, la plus longue section du cours
+- [ ] **Thème sombre** et **affichage téléphone** : le menu passe en tiroir.
+- [ ] **Sections longues sur téléphone** : à 375 px, la plus longue section du cours
       apparaît dès qu'on y arrive en défilant (aucun bloc ne reste vide).
 
 ---
 
-## 2. Les vérificateurs — automatique, trente secondes
+## 2. Les vérificateurs · automatique, trente secondes
 
     python3 outils/verifier_i18n.py
 
@@ -87,13 +87,13 @@ le menu et les pages. Doit finir sur **« Bilingue cohérent »**.
 
 Les cinq palettes, en thème clair **et** sombre, contre les seuils WCAG :
 4,5:1 pour le texte courant, 3:1 pour le grand texte et le non-texte. Doit
-passer sans échec — c'est ce test qui a rattrapé deux couleurs illisibles de la
+passer sans échec : c'est ce test qui a rattrapé deux couleurs illisibles de la
 palette marine, en place depuis deux ans.
 
     python3 outils/verifier_liens.py
 
 Tous les `href` et `src` qui désignent un fichier du site, et les renvois
-« Pour approfondir » des points de contrôle — fichier **et** ancre. Doit finir
+« Pour approfondir » des points de contrôle (fichier **et** ancre). Doit finir
 sur **« Aucun lien mort »**. C'est le contrôle le plus rentable du lot : quatre
 familles de liens différentes ont, tour à tour, survécu à la génération en
 pointant vers les chapitres de la démonstration.
@@ -112,12 +112,12 @@ sur les anglaises), et le rappel du témoin avant toute série.
 
 - [ ] Au chapitre 1, répondez faux au point de contrôle : l'explication nomme la
       bonne réponse, dit **pourquoi chaque autre proposition** ne convient pas,
-      marque « votre choix », et propose des renvois « Pour approfondir » — le
-      lien Wikipédia s'ouvre dans un nouvel onglet. En anglais aussi.
+      marque « votre choix », et propose des renvois « Pour approfondir » (le
+      lien Wikipédia s'ouvre dans un nouvel onglet). En anglais aussi.
 
 ---
 
-## 3. Générer un cours vide — le test qui compte 🔴
+## 3. Générer un cours vide · le test qui compte 🔴
 
 Tous les défauts sérieux de ce dépôt se sont logés ici : un cours créé héritait
 des médias de la démonstration, de sa prose, de ses liens. Rien de tout cela ne
@@ -148,8 +148,8 @@ la sortie doit annoncer :**
     cours.html : 3 carte(s) de chapitre regeneree(s)
     filieres.css : 2 filière(s), à jour
     deploiement/destination.json écrit (cours « … »)
-    outils/elevenlabs.json     copié en local, ignoré par Git — contenu non affiché
-    deploiement/config.json    copié en local, ignoré par Git — contenu non affiché
+    outils/elevenlabs.json     copié en local, ignoré par Git (contenu non affiché)
+    deploiement/config.json    copié en local, ignoré par Git (contenu non affiché)
 
 Les chiffres des recousages et des cartes suivent le nombre de chapitres
 déclarés : une carte par chapitre, et un recousage par chapitre plus les deux
@@ -167,7 +167,7 @@ Puis, sur le cours produit :
 
     python3 outils/verifier_liens.py --site ../mon-cours/site
 
-Et, pour les secrets — sans les ouvrir :
+Et, pour les secrets, sans les ouvrir :
 
     cd ../mon-cours && git init -q
     git check-ignore -v outils/elevenlabs.json deploiement/config.json   # deux lignes attendues
@@ -178,7 +178,7 @@ Et, pour les secrets — sans les ouvrir :
 - [ ] `CLAUDE.md` du cours porte son titre et **aucun** passage propre au
       template (`grep -c "gabarit:" CLAUDE.md` rend 0).
 - [ ] `deploiement/destination.json` porte le slug du cours et le répertoire de
-      `cours.json` (bloc `publication`) — ou la valeur du modèle, que le
+      `cours.json` (bloc `publication`), ou la valeur du modèle, que le
       déployeur refusera tant qu'elle n'est pas remplacée.
 - [ ] `python3 deploiement/tester_deployer.py` finit sur « Tous les cas sont
       conformes ».
@@ -219,7 +219,7 @@ Le cours créé embarque son propre lanceur. Ouvrez-le :
 - [ ] Le QCM est réduit à deux questions génériques.
 - [ ] Le pied de page ne renvoie plus vers « À propos du template ».
 - [ ] **L'onglet du navigateur porte le titre de VOTRE cours**, sur chaque
-      page — de même que la méta-description, l'auteur des métadonnées et la
+      page, de même que la méta-description, l'auteur des métadonnées et la
       ligne d'auteur du pied de page. 🔴
 - [ ] `verifier_liens.py` finit sur « Aucun lien mort ».
 
@@ -274,12 +274,12 @@ un autre port.
 voulu : `outils/elevenlabs.json` porte votre clé API et votre voix,
 `deploiement/config.json` vos accès à l'hébergement, `docs/acces.json` ceux du
 site de cours. Aucun n'entre au dépôt. Sur votre poste, le template en garde la
-**copie de référence** — `nouveau_cours.py` la recopie dans chaque nouveau cours.
+**copie de référence** : `nouveau_cours.py` la recopie dans chaque nouveau cours.
 Sur un poste neuf, déposez-les une fois dans le template (à partir des modèles
 `*.exemple.json`), jamais dans une conversation.
 
 **Le template ne se déploie pas.** Il n'a pas de `deploiement/destination.json` :
-le déployeur refuse donc d'envoyer quoi que ce soit depuis ici. C'est voulu — son
+le déployeur refuse donc d'envoyer quoi que ce soit depuis ici. C'est voulu : son
 site de démonstration n'a rien à faire sur votre hébergement, et votre
 `config.json` vise un serveur où vivent de vrais cours.
 
@@ -290,7 +290,7 @@ site de démonstration n'a rien à faire sur votre hébergement, et votre
 | Symptôme | Où regarder |
 |---|---|
 | Un lien mène nulle part dans un cours créé | `recoudre_liens()` dans `nouveau_cours.py` |
-| Un lien « abîmé » (son début a disparu) | une substitution par motif dont le remplacement commence par un chiffre : `\1` suivi de `01-…` devient un octal — écrire `\g<1>` ou une fonction |
+| Un lien « abîmé » (son début a disparu) | une substitution par motif dont le remplacement commence par un chiffre : `\1` suivi de `01-…` devient un octal ; écrire `\g<1>` ou une fonction |
 | Un cours garde des pages de la démonstration sous `en/` ou `ar/`, ou une page dans une autre langue que sa racine | la langue racine dans `main()` : `promouvoir_jumelles()`, `DOSSIERS_LANGUE`, et `data-langues` lu par `i18n.js` |
 | Du contenu de la démonstration a survécu | `purger_demo()`, listes `DEMO_DOSSIERS` et `DEMO_FICHIERS` |
 | Le titre de la démo reste dans un onglet | `renommer_identite()`, liste `paires` |

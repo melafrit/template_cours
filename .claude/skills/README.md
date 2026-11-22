@@ -1,4 +1,4 @@
-# Skills Claude Code — *template_cours*
+# Skills Claude Code · *template_cours*
 
 > Index des **Skills** livrés avec le template de site de cours.
 
@@ -6,7 +6,7 @@
 
 Ce dossier regroupe des **Skills Claude Code** embarqués **avec** le template. Lorsqu'on ouvre
 ce dépôt dans Claude Code, Claude **applique automatiquement les conventions du template** pendant
-qu'il génère ou étend un cours — sans qu'il faille les lui rappeler à chaque fois.
+qu'il génère ou étend un cours, sans qu'il faille les lui rappeler à chaque fois.
 
 Un Skill est un fichier `SKILL.md` doté d'un **frontmatter YAML** (`name` + `description`).
 Claude **charge un skill quand la demande de l'utilisateur correspond à sa `description`** :
@@ -29,8 +29,8 @@ de chaque skill et **renvoient** aux docs du dépôt plutôt que de les duplique
 Elles ont été écrites avant le moteur pédagogique et la chaîne audio. Deux
 fichiers font désormais autorité et priment en cas de contradiction :
 
-- **`CLAUDE.md`** — le contrat de travail, lu à chaque ouverture.
-- **`docs/ARCHITECTURE.md`** §2.2 bis — les moteurs `RDCX`, `ui-labels`,
+- **`CLAUDE.md`** : le contrat de travail, lu à chaque ouverture.
+- **`docs/ARCHITECTURE.md`** §2.2 bis : les moteurs `RDCX`, `ui-labels`,
   `playlist` et les palettes.
 
 ## Point d'entrée
@@ -41,8 +41,8 @@ Commencez par demander à Claude de **« créer un cours »** (ou *« create a c
 
 ## Articulation avec le reste du dépôt
 
-Ces skills **complètent** (sans les remplacer) la bibliothèque **`prompts/`** — utilisée pour
-**rédiger du contenu au fil de la discussion** — et les **`docs/`**
+Ces skills **complètent** (sans les remplacer) la bibliothèque **`prompts/`**, utilisée pour
+**rédiger du contenu au fil de la discussion**, et les **`docs/`**
 ([`ARCHITECTURE.md`](../../docs/ARCHITECTURE.md), [`I18N.md`](../../docs/I18N.md),
 [`GUIDE.md`](../../docs/GUIDE.md), [`CHECKLIST.md`](../../docs/CHECKLIST.md)),
 **référence humaine** du template.
@@ -55,4 +55,4 @@ tandis que le reste de la config `.claude/` locale reste ignoré.
 
 ---
 
-> Template de site de cours — **Mohamed EL AFRIT** · code MIT, contenu & prompts CC BY 4.0.
+> Template de site de cours · **Mohamed EL AFRIT** · code MIT, contenu & prompts CC BY 4.0.

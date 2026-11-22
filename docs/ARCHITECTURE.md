@@ -79,7 +79,7 @@ site/
 
 Trois mécanismes coexistent ; un développeur qui ajoute du contenu doit choisir le bon :
 
-1. **Contenu rédigé en HTML** — deux blocs jumelés, l'inactif est masqué *en CSS* :
+1. **Contenu rédigé en HTML** (deux blocs jumelés, l'inactif est masqué *en CSS*) :
    ```html
    <span data-tr="fr">Bonjour</span><span data-tr="en">Hello</span>
    ```
@@ -90,13 +90,13 @@ Trois mécanismes coexistent ; un développeur qui ajoute du contenu doit choisi
    ```
    `i18n.js` ne touche pas à ces nœuds : il bascule l'attribut `data-lang` sur `<html>`, et le CSS fait le reste.
 
-2. **Attributs traduisibles** (`aria-label`, `title`, `alt`, `placeholder`) — déclarés en double, échangés par `i18n.js` :
+2. **Attributs traduisibles** (`aria-label`, `title`, `alt`, `placeholder`), déclarés en double, échangés par `i18n.js` :
    ```html
    <input data-i18n-ph-fr="Rechercher…" data-i18n-ph-en="Search…" placeholder="Rechercher…">
    <img data-i18n-alt-fr="…" data-i18n-alt-en="…" alt="…">
    ```
 
-3. **UI générée en JS** (nav, QCM, lecteurs, flashcards, activités) — chaque moteur définit ses libellés `{ fr:{…}, en:{…} }`, lit la langue via `TPLI18N.lang()`, et **se ré-affiche** sur l'évènement `tpl:langchange`.
+3. **UI générée en JS** (nav, QCM, lecteurs, flashcards, activités) : chaque moteur définit ses libellés `{ fr:{…}, en:{…} }`, lit la langue via `TPLI18N.lang()`, et **se ré-affiche** sur l'évènement `tpl:langchange`.
 
 **API publique de `i18n.js`** (objet global `window.TPLI18N`) :
 
@@ -117,26 +117,26 @@ Trois mécanismes coexistent ; un développeur qui ajoute du contenu doit choisi
 | **i18n.js** | Cœur bilingue : bascule FR/EN, bouton 🌐, évènement `tpl:langchange` ; calcule la racine du site (`window.TPL_RACINE`), où les moteurs prennent leurs médias. Une page qui déclare une seule langue (`data-langues`) n'a pas de bouton 🌐. | `data-lang`, `data-langues` du `<html>` | `tpl-lang` |
 | **langue.js** | Site miroir (`docs/I18N.md`, partie A) : le groupe « FR · EN · عربي » ouvre la jumelle choisie et s'y replace sur le bloc lu ; une langue n'y figure que si la page y existe. Chargé par `navigation.js` sur les pages d'une seule langue ; absent sous deux langues disponibles. | `TPL_MIROIR` | `tpl-lang` (et `tpl-bascule` en session) |
 | **navigation.js** | Construit l'arbre de nav (`#nav-tree`) depuis `window.COURSE` + `window.RDC_SECTIONS` ; gère le **thème** clair/sombre (bouton 🌙/☀️), la **progression** (chapitres terminés, barre, marquage auto au scroll), la **sidebar mobile** et la **barre de lecture**. | `COURSE`, `RDC_SECTIONS` | `tpl-theme`, `tpl-done` |
-| **accessibility.js** | Bouton ♿ + panneau : taille du texte (`--fs-scale`), police « lecture adaptée » DYS (Atkinson Hyperlegible, chargée à la demande), skip-link « Aller au contenu ». | — | `rdc-a11y` |
-| **media.js** | Sur une page de chapitre `NN-…html`, déduit le numéro `N` et **charge automatiquement** podcast / slides PDF / infographie / polycopié s'ils existent. Construit le lecteur audio personnalisé (±10 s, mini-lecteur flottant déplaçable, pop-out), les popups plein écran (slides, image, polycopié). | fichiers de `assets/media/` et `assets/polycopies/` | — |
-| **podcasts.js** | Page Podcasts (module 03) : dessine sous chaque épisode la bande de ses diapositives (vignettes) et ouvre la visionneuse plein écran — ×, Échap, flèches, Début, Fin, glissé, focus gardé dans la fenêtre puis rendu à la vignette. Libellés dans la langue du conteneur. | `data-dossier`, `data-nombre`, `data-episode` des `.pod-diapos` | — |
+| **accessibility.js** | Bouton ♿ + panneau : taille du texte (`--fs-scale`), police « lecture adaptée » DYS (Atkinson Hyperlegible, chargée à la demande), skip-link « Aller au contenu ». | rien | `rdc-a11y` |
+| **media.js** | Sur une page de chapitre `NN-…html`, déduit le numéro `N` et **charge automatiquement** podcast / slides PDF / infographie / polycopié s'ils existent. Construit le lecteur audio personnalisé (±10 s, mini-lecteur flottant déplaçable, pop-out), les popups plein écran (slides, image, polycopié). | fichiers de `assets/media/` et `assets/polycopies/` | rien |
+| **podcasts.js** | Page Podcasts (module 03) : dessine sous chaque épisode la bande de ses diapositives (vignettes) et ouvre la visionneuse plein écran (×, Échap, flèches, Début, Fin, glissé, focus gardé dans la fenêtre puis rendu à la vignette). Libellés dans la langue du conteneur. | `data-dossier`, `data-nombre`, `data-episode` des `.pod-diapos` | rien |
 | **flashcards.js** | Classe `FlashcardDeck(containerId, cards, key)` : carte recto/verso, navigation, « su / à revoir », mélange, barre de progression. Supporte `**gras**` dans les textes. | tableau passé à l'instanciation (souvent `RDC_FLASHCARDS[n]`) | `rdc-flash-<key>` |
-| **glossaire-tooltip.js** | Dans les chapitres, repère la 1re occurrence des termes de `window.GLOSSARY` (langue courante) hors titres/liens/code, et y attache une info-bulle (terme + def + exemple + lien glossaire). Re-scanne au changement de langue. | `GLOSSARY` | — |
-| **tools.js** | Objet global `window.TPLActivities` : 3 fabriques d'activités interactives pilotées par config (voir §4.5). | config passée à l'appel | — |
-| **animations.js** | Révélation des sections au défilement (IntersectionObserver → classe `.visible`, seuil nul : une section plus haute que l'écran apparaît aussi sur téléphone), waveform podcast décorative, encarts repliables, galerie de slides-images (lit `data-slides`). | `data-slides` | — |
-| **QCM/qcm-core.js** | `window.QCMCore` : barème **CBM**, SHA-256 autonome (compatible `file://`), construction/lecture/**signature** du CSV, **scoring**, calcul de la note /20, rappel de barème HTML bilingue. Partagé par les 4 pages QCM. | — | — |
+| **glossaire-tooltip.js** | Dans les chapitres, repère la 1re occurrence des termes de `window.GLOSSARY` (langue courante) hors titres/liens/code, et y attache une info-bulle (terme + def + exemple + lien glossaire). Re-scanne au changement de langue. | `GLOSSARY` | rien |
+| **tools.js** | Objet global `window.TPLActivities` : 3 fabriques d'activités interactives pilotées par config (voir §4.5). | config passée à l'appel | rien |
+| **animations.js** | Révélation des sections au défilement (IntersectionObserver → classe `.visible`, seuil nul : une section plus haute que l'écran apparaît aussi sur téléphone), waveform podcast décorative, encarts repliables, galerie de slides-images (lit `data-slides`). | `data-slides` | rien |
+| **QCM/qcm-core.js** | `window.QCMCore` : barème **CBM**, SHA-256 autonome (compatible `file://`), construction/lecture/**signature** du CSV, **scoring**, calcul de la note /20, rappel de barème HTML bilingue. Partagé par les 4 pages QCM. | rien | rien |
 
-### 2.2 bis — Le moteur pédagogique et l'audio
+### 2.2 bis · Le moteur pédagogique et l'audio
 
 Ces moteurs ont été ajoutés après la première version du template. Ils portent
 tout ce qui rend un chapitre interactif.
 
 | Fichier | Rôle | Lit | Persiste (localStorage) |
 |---|---|---|---|
-| **ui-labels.js** | `window.UI_LABELS` + l'accesseur `T('cle')` : **tous** les textes d'interface fabriqués en JavaScript, en FR et EN. Un libellé écrit en dur dans un moteur est un défaut : il ne se traduira pas. | `TPLI18N.lang()` | — |
-| **interactions.js** | `window.RDCX` — le moteur pédagogique. Sept composants : `checkpoint` (point de contrôle ; avec `pourquoi` et `approfondir`, il explique chaque proposition écartée et propose des renvois — internes dans l'onglet, externes dans un nouvel onglet signalé aux lecteurs d'écran), `reveal` (révélation d'une réponse), `spotError` (repérage d'erreurs dans un document), `match` (appariement), `branch` (scénario à embranchements), `hotspots` (schéma à points chauds), `voice` (capsule audio). Plus `steps` (lecture par étapes) et `sommaire` (barre de sommaire collante), montés automatiquement. En fin de fichier, l'**enregistreur** garde la configuration de chaque composant (`window.RDCX_DONNEES`) ; l'adresse `?polycopie=fr` (ou `en`) la dépose dans la page, où `outils/polycopie/navigateur.py` la lit pour composer le livret (module 02). | attributs `data-step`, `data-sommaire-titre` des sections | `rdc-step-<N>` |
+| **ui-labels.js** | `window.UI_LABELS` + l'accesseur `T('cle')` : **tous** les textes d'interface fabriqués en JavaScript, en FR et EN. Un libellé écrit en dur dans un moteur est un défaut : il ne se traduira pas. | `TPLI18N.lang()` | rien |
+| **interactions.js** | `window.RDCX` : le moteur pédagogique. Sept composants : `checkpoint` (point de contrôle ; avec `pourquoi` et `approfondir`, il explique chaque proposition écartée et propose des renvois, internes dans l'onglet, externes dans un nouvel onglet signalé aux lecteurs d'écran), `reveal` (révélation d'une réponse), `spotError` (repérage d'erreurs dans un document), `match` (appariement), `branch` (scénario à embranchements), `hotspots` (schéma à points chauds), `voice` (capsule audio). Plus `steps` (lecture par étapes) et `sommaire` (barre de sommaire collante), montés automatiquement. En fin de fichier, l'**enregistreur** garde la configuration de chaque composant (`window.RDCX_DONNEES`) ; l'adresse `?polycopie=fr` (ou `en`) la dépose dans la page, où `outils/polycopie/navigateur.py` la lit pour composer le livret (module 02). | attributs `data-step`, `data-sommaire-titre` des sections | `rdc-step-<N>` |
 | **playlist.js** | Panneau latéral rassemblant les pistes du cours, avec enchaînement automatique et tiroir sur mobile. **Filtre par langue** : une piste marquée `langue` n'apparaît que dans cette langue. | `RDC_PLAYLIST` | `rdc-playlist-ouverte` |
-| **quiz.js** | Quiz simple en cours de chapitre (distinct du QCM noté, qui vit dans `site/QCM/`). | config passée à l'appel | — |
+| **quiz.js** | Quiz simple en cours de chapitre (distinct du QCM noté, qui vit dans `site/QCM/`). | config passée à l'appel | rien |
 
 **`palettes.css`** complète `main.css` : il ne redéfinit que les huit variables
 d'identité (`--primary*`, `--accent*`), en thème clair **et** sombre, pour
@@ -155,8 +155,8 @@ se règle dans la page :
 
 1. tout le contenu dans un objet `TEXTES = { fr: {…}, en: {…} }` ;
 2. une fonction `monter()` qui **vide les conteneurs** puis remonte tout avec la
-   langue active — sans le vidage, changer de langue empilerait deux exemplaires
-   du même exercice ;
+   langue active (sans le vidage, changer de langue empilerait deux exemplaires
+   du même exercice) ;
 3. `monter()` rejoué sur `tpl:langchange`.
 
 Modèle complet et commenté : `site/chapitres/_modele.html`.
@@ -178,14 +178,14 @@ La transcription affichée est **générée** depuis la fiche de production par
 | Fichier | Variable globale | Forme | Consommé par |
 |---|---|---|---|
 | **course-data.js** | `window.COURSE` | `{ title, subtitle, author, license, chapters:[{num,ico,file,title}], resources:[{ico,href,label}] }` (libellés `{fr,en}`) | navigation.js, pages |
-| **nav-sections.js** ⚙️ | `window.RDC_SECTIONS` | `{ "<num>": [{ id, t:{fr,en} }] }` — une entrée par `<h2 id>` du chapitre | navigation.js (sous-menu pliable) |
+| **nav-sections.js** ⚙️ | `window.RDC_SECTIONS` | `{ "<num>": [{ id, t:{fr,en} }] }` : une entrée par `<h2 id>` du chapitre | navigation.js (sous-menu pliable) |
 | **glossaire-data.js** | `window.GLOSSARY` | `[{ fr, en, def:{fr,en}, ex:{fr,en}, alias?:{fr:[],en:[]}, exclus?:{fr:[],en:[]} }]` | glossaire.html, glossaire-tooltip.js, outils/glossaire_emplois.py |
-| **glossaire-emplois.js** ⚙️ | `window.GLOSSARY_EMPLOIS` | `{ fr:{ "g-…": [{ p, a, page, section, n }] }, en:{…} }` — où le cours emploie chaque terme, par langue | glossaire.html (« Où en parle-t-on ? ») |
+| **glossaire-emplois.js** ⚙️ | `window.GLOSSARY_EMPLOIS` | `{ fr:{ "g-…": [{ p, a, page, section, n }] }, en:{…} }` : où le cours emploie chaque terme, par langue | glossaire.html (« Où en parle-t-on ? ») |
 | **flashcards-data.js** | `window.RDC_FLASHCARDS` | `{ "<num>": [{ front:{fr,en}, back:{fr,en}, ref }] }` | pages de chapitre (instanciation `FlashcardDeck`) |
 | **QCM/questions.js** | `window.QCM_QUESTIONS` | `{ meta:{…}, questions:[{ id, chapitre, difficulte, enonce:{fr,en}, propositions:[{fr,en}×4] }] }` | pages QCM |
 | **QCM/corrections.js** | `window.QCM_CORRECTIONS` | `{ corrections:[{ id, chapitre, difficulte, bonne_reponse_index, explication:{fr,en} }] }` | entrainement, correction, dashboard |
 | **playlist-data.js** ⚙️ | `window.RDC_PLAYLIST` | `{ "<num>": { titre, page, pistes:[{ type, titre, src, duree, present, langue }] } }` | playlist.js |
-| **media-data.js** ⚙️ | `window.TPL_MEDIAS` | `{ podcasts:[…], slides:[…], infographies:[…], polycopies:[…] }` — les fichiers de chapitre déposés, par dossier | media.js (il ne demande au serveur que ceux-là) |
+| **media-data.js** ⚙️ | `window.TPL_MEDIAS` | `{ podcasts:[…], slides:[…], infographies:[…], polycopies:[…] }` : les fichiers de chapitre déposés, par dossier | media.js (il ne demande au serveur que ceux-là) |
 | **langues-data.js** ⚙️ | `window.TPL_MIROIR` | `{ racine: "fr", pages: { en: ["chapitres/01-x.html", …], ar: […] } }` : la langue des pages de la racine, et pour chaque autre langue les pages qui y ont leur jumelle (vide hors site miroir) | langue.js, navigation.js, glossaire-tooltip.js |
 
 **⚙️ = fichier GÉNÉRÉ.** `langues-data.js` est produit par `outils/generer_langues.py`
@@ -275,7 +275,7 @@ Les scripts sont chargés **sans `defer`/`async`**, en bas du `<body>`, donc dan
 - **glossaire.html** : `… glossaire-data.js` puis un `<script>` inline qui rend la grille filtrable.
 - **activites.html** : `… tools.js` puis un `<script>` inline avec les 3 configs.
 - **QCM (index / entrainement)** : `i18n → nav-sections → navigation → accessibility → qcm-core.js → questions.js [→ corrections.js] → <script inline>`. `corrections.js` n'est chargé que là où il faut corriger (entraînement, correction, dashboard), pas dans le QCM « examen ».
-- **QCM/dashboard** : charge en plus `xlsx.full.min.js` depuis un CDN (export Excel) — **seule dépendance réseau réelle** ; elle ne sert qu'au formateur et n'empêche pas le reste de fonctionner hors-ligne.
+- **QCM/dashboard** : charge en plus `xlsx.full.min.js` depuis un CDN (export Excel), **seule dépendance réseau réelle** ; elle ne sert qu'au formateur et n'empêche pas le reste de fonctionner hors-ligne.
 
 ---
 
@@ -309,7 +309,7 @@ Les scripts sont chargés **sans `defer`/`async`**, en bas du `<body>`, donc dan
 
 ### 4.2 Ajouter / charger des médias d'un chapitre (podcast, slides, infographie, polycopié)
 
-`media.js` fonctionne **par convention de nommage**. Aucun code à écrire : déposez le fichier au bon endroit, avec le bon nom (`<N>` = numéro du chapitre), puis lancez `python3 outils/generer_medias.py`, qui tient la liste des médias présents (`media-data.js`). Un média absent de la liste n'est jamais demandé au serveur — et un média déposé sans régénérer la liste ne s'affiche pas.
+`media.js` fonctionne **par convention de nommage**. Aucun code à écrire : déposez le fichier au bon endroit, avec le bon nom (`<N>` = numéro du chapitre), puis lancez `python3 outils/generer_medias.py`, qui tient la liste des médias présents (`media-data.js`). Un média absent de la liste n'est jamais demandé au serveur, et un média déposé sans régénérer la liste ne s'affiche pas.
 
 | Média | Emplacement et nom | Section HTML attendue dans le chapitre |
 |---|---|---|
@@ -320,8 +320,8 @@ Les scripts sont chargés **sans `defer`/`async`**, en bas du `<body>`, donc dan
 
 Détails utiles :
 - Le **modèle** `01-cadrage.html` contient déjà ces trois `<section>` avec un texte de remplacement (« déposez un fichier… »). Si le média est dans la liste, `media.js` remplace le placeholder ; sinon, le placeholder reste, et rien n'est demandé (aucune erreur 404 en console).
-- Pour les **slides**, gardez `data-slides="[]"` : c'est le mode PDF géré par `media.js`. (Le mode « galerie d'images » d'`animations.js` ne s'active que si `data-slides` contient un tableau d'URL non vide — usage alternatif.)
-- **Sans liste** (un cours qui n'a pas encore `media-data.js`), `media.js` sonde : **en `http(s)`**, un `fetch HEAD` vérifie l'existence du fichier avant d'afficher — chaque absent laisse alors une erreur 404 en console ; **en `file://`**, la vérification est impossible : l'aperçu est activé d'office (PDF/infographie). C'est pourquoi `preload='auto'` est utilisé pour l'audio (fichier entièrement *seekable* en local).
+- Pour les **slides**, gardez `data-slides="[]"` : c'est le mode PDF géré par `media.js`. (Le mode « galerie d'images » d'`animations.js` ne s'active que si `data-slides` contient un tableau d'URL non vide, usage alternatif.)
+- **Sans liste** (un cours qui n'a pas encore `media-data.js`), `media.js` sonde : **en `http(s)`**, un `fetch HEAD` vérifie l'existence du fichier avant d'afficher (chaque absent laisse alors une erreur 404 en console) ; **en `file://`**, la vérification est impossible : l'aperçu est activé d'office (PDF/infographie). C'est pourquoi `preload='auto'` est utilisé pour l'audio (fichier entièrement *seekable* en local).
 - La **série de podcasts** (module 03, bloc `podcasts`) réutilise ces fichiers : l'épisode nommé `chapitre-<N>-podcast` joue, sur la page Podcasts, le MP3 que lit le chapitre ; ses diapositives et ses textes viennent de `outils/podcasts.py` et de `outils/generer_podcasts.py`, et l'encadré « Le podcast du chapitre » (fragment `podcast-N`) y mène depuis l'en-tête du chapitre.
 - Le **pop-out** du lecteur audio ouvre `assets/player.html` (à fournir si vous voulez cette fonction ; absent par défaut, le reste du lecteur fonctionne sans).
 
@@ -365,7 +365,7 @@ Une question = **deux** entrées synchronisées par le même `id`.
 
 ### 4.4 Ajouter un terme au glossaire
 
-Une seule édition suffit — le terme apparaît **à la fois** dans la page glossaire **et** en info-bulle dans les chapitres.
+Une seule édition suffit : le terme apparaît **à la fois** dans la page glossaire **et** en info-bulle dans les chapitres.
 
 Dans `assets/js/glossaire-data.js`, ajouter au tableau `window.GLOSSARY` :
 ```js
@@ -382,7 +382,7 @@ Dans `assets/js/glossaire-data.js`, ajouter au tableau `window.GLOSSARY` :
 
 `window.TPLActivities` expose 3 fabriques. Schéma commun : un `<div id="…"></div>` dans la page + un appel JS qui le remplit. Tout est piloté par des libellés `{ fr, en }`, le `**gras**` est supporté, et l'activité se ré-affiche au changement de langue.
 
-**Patron 1 — `decisionWizard(id, cfg)`** : assistant pas-à-pas (Oui mène au résultat de l'étape, Non passe à l'étape suivante ; `fallback` si on dit Non partout).
+**Patron 1 · `decisionWizard(id, cfg)`** : assistant pas-à-pas (Oui mène au résultat de l'étape, Non passe à l'étape suivante ; `fallback` si on dit Non partout).
 ```js
 TPLActivities.decisionWizard('mon-wizard', {
   icon: '🧭', title: { fr: "…", en: "…" },
@@ -394,19 +394,19 @@ TPLActivities.decisionWizard('mon-wizard', {
 });
 ```
 
-**Patron 2 — `checklist(id, cfg)`** : cases à cocher → verdict selon le nombre coché (`{n}` est remplacé par le compte). Les `verdicts` sont évalués du `min` le plus haut au plus bas.
+**Patron 2 · `checklist(id, cfg)`** : cases à cocher → verdict selon le nombre coché (`{n}` est remplacé par le compte). Les `verdicts` sont évalués du `min` le plus haut au plus bas.
 ```js
 TPLActivities.checklist('ma-checklist', {
   icon: '☑️', title: { fr: "…", en: "…" }, intro: { fr: "Cochez :", en: "Tick:" },
   items: [ { fr: "Item 1", en: "Item 1" }, { fr: "Item 2", en: "Item 2" } ],
   verdicts: [
-    { min: 2, cls: 'rdc-tier-1', msg: { fr: "🟢 OK — {n}/2.", en: "🟢 OK — {n}/2." } },
+    { min: 2, cls: 'rdc-tier-1', msg: { fr: "🟢 OK ({n}/2).", en: "🟢 OK ({n}/2)." } },
     { min: 0, cls: '',           msg: { fr: "⚪ {n}/2.",       en: "⚪ {n}/2." } }
   ]
 });
 ```
 
-**Patron 3 — `classifier(id, cfg)`** : ranger des exemples dans des catégories ; feedback immédiat + score.
+**Patron 3 · `classifier(id, cfg)`** : ranger des exemples dans des catégories ; feedback immédiat + score.
 ```js
 TPLActivities.classifier('mon-quiz', {
   icon: '🗂️', title: { fr: "…", en: "…" },

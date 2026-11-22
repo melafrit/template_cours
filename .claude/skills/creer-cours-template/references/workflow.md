@@ -1,12 +1,12 @@
-# Pipeline en 4 phases — mappé aux fichiers `prompts/`
+# Pipeline en 4 phases · mappé aux fichiers `prompts/`
 
 Ordre recommandé. On peut itérer **à l'intérieur** d'une phase (régénérer un chapitre, retoucher un QCM), mais on ne saute pas une phase en avant sans avoir **validé** la précédente. La règle reste : **un livrable par prompt**, on valide avant de passer au suivant.
 
 > Le détail de chaque prompt (placeholders, bloc à copier, conseils) est dans le fichier lui-même. L'index complet est `prompts/00_README_prompts.md`. Commencer **toujours** par `01`.
 >
-> Ces quatre phases outillent les phases 0 à 14 du **prompt paramétrable** (`prompts/PROMPT-Cours-parametrable.md`), qui fixe aussi les jalons STOP et l'étape zéro (`nouveau_cours.py`). Les options — bilingue, polycopié, podcasts NotebookLM, audio, évaluations, TP, Yparéo et Livrables, déploiement, compléments — ont chacune leur module dans `prompts/modules/`, lu avant sa phase s'il est actif.
+> Ces quatre phases outillent les phases 0 à 14 du **prompt paramétrable** (`prompts/PROMPT-Cours-parametrable.md`), qui fixe aussi les jalons STOP et l'étape zéro (`nouveau_cours.py`). Les options (bilingue, polycopié, podcasts NotebookLM, audio, évaluations, TP, Yparéo et Livrables, déploiement, compléments) ont chacune leur module dans `prompts/modules/`, lu avant sa phase s'il est actif.
 
-## Phase 1 — Cadrage & architecture
+## Phase 1 · Cadrage & architecture
 
 *On décide quoi enseigner, à qui, comment, et dans quel ordre.*
 
@@ -15,7 +15,7 @@ Ordre recommandé. On peut itérer **à l'intérieur** d'une phase (régénérer
 | `prompts/01_cadrage_maitre.md` | **Point d'entrée.** Analyse documentaire, cadrage interactif (questions une à une, options numérotées), puis fiche de cadrage + plan du site + feuille de route. |
 | `prompts/02_plan_syllabus.md` | Plan détaillé / syllabus : chapitres, sections, objectifs pédagogiques, progression, ancres de navigation. |
 
-## Phase 2 — Contenu pédagogique
+## Phase 2 · Contenu pédagogique
 
 *On rédige le cœur du cours, chapitre par chapitre, avec le vocabulaire associé.*
 
@@ -25,7 +25,7 @@ Ordre recommandé. On peut itérer **à l'intérieur** d'une phase (régénérer
 | `prompts/04_relecture_pedagogique.md` | Relecture pédagogique d'un chapitre : exactitude, progression, clarté, fidélité aux sources, repérage des lacunes. |
 | `prompts/06_glossaire.md` | Produit le glossaire bilingue (termes + définitions + exemples FR/EN) pour l'auto-surlignage et les info-bulles. |
 
-## Phase 3 — Évaluation & activités
+## Phase 3 · Évaluation & activités
 
 *On vérifie les acquis et on fait pratiquer.*
 
@@ -36,7 +36,7 @@ Ordre recommandé. On peut itérer **à l'intérieur** d'une phase (régénérer
 | `prompts/11_atelier_templates.md` | Atelier « fil rouge » : énoncé, livrables, templates téléchargeables, corrigé formateur. |
 | `prompts/15_explications_quiz.md` | Pour **toute** question à choix : pourquoi chaque proposition écartée ne convient pas, et deux à quatre renvois « Pour approfondir » (fichier et ancre vérifiés). |
 
-## Phase 4 — Supports & diffusion
+## Phase 4 · Supports & diffusion
 
 *On fabrique les supports imprimables/téléchargeables et on prépare l'écosystème média.*
 
@@ -69,4 +69,4 @@ Renseignés **une fois** (idéalement dans la fiche de cadrage produite par `01`
 
 > **Rappels.** Un livrable par prompt ; valider avant d'avancer. La **fiche de cadrage** (sortie de `01`) est l'entrée commune à presque tout : elle pré-remplit les placeholders des prompts suivants. La conserver dans le dépôt (ex. `docs/cadrage.md`) comme mémoire de projet.
 
-> Template de site de cours — **Mohamed EL AFRIT** · code MIT, contenu & prompts CC BY 4.0.
+> Template de site de cours · **Mohamed EL AFRIT** · code MIT, contenu & prompts CC BY 4.0.

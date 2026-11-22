@@ -1,6 +1,6 @@
 ---
 name: cours-qcm-cbm
-description: À utiliser pour créer ou modifier le QCM / quiz / banque de questions à notation CBM (Certainty-Based Marking) d'un site template_cours. Couvre la double entrée synchronisée questions.js + corrections.js (énoncé + 4 propositions bilingues, index de bonne réponse, explication), le barème par certitude (Élevée/Moyenne/Faible), la note /20, l'équité des positions et le débiaisage des distracteurs, ainsi que la mise en garde sur la signature SHA-256 des CSV. Mots-clés FR+EN — « QCM », « quiz », « banque de questions », « question à choix multiples », « barème », « CBM », « certitude », « multiple choice », « question bank », « certainty-based marking », « scoring ».
+description: À utiliser pour créer ou modifier le QCM / quiz / banque de questions à notation CBM (Certainty-Based Marking) d'un site template_cours. Couvre la double entrée synchronisée questions.js + corrections.js (énoncé + 4 propositions bilingues, index de bonne réponse, explication), le barème par certitude (Élevée/Moyenne/Faible), la note /20, l'équité des positions et le débiaisage des distracteurs, ainsi que la mise en garde sur la signature SHA-256 des CSV. Mots-clés FR+EN (« QCM », « quiz », « banque de questions », « question à choix multiples », « barème », « CBM », « certitude », « multiple choice », « question bank », « certainty-based marking », « scoring »).
 ---
 
 # QCM à notation CBM (Certainty-Based Marking)
@@ -66,11 +66,11 @@ note /20 = score_brut ÷ (3 × nombre_de_questions) × 20,  bornée à [0 ; 20]
 ```
 
 La note se recalcule **toute seule**. Mais après tout ajout/suppression de question,
-mets à jour `meta.nombre_questions` dans `questions.js` (cohérence d'affichage) — ce
+mets à jour `meta.nombre_questions` dans `questions.js` (cohérence d'affichage) : ce
 nombre doit **toujours égaler** la longueur réelle du tableau `questions` et celle de
 `corrections`.
 
-## 4. `difficulte` est indicative — elle n'affecte PAS la note
+## 4. `difficulte` est indicative : elle n'affecte PAS la note
 
 Valeurs : `vert` | `jaune` | `orange` | `rouge` (= Facile / Moyen / Difficile / Expert).
 C'est un repère visuel pour l'apprenant ; le score ne dépend que de la **certitude
@@ -78,7 +78,7 @@ déclarée**, jamais de la difficulté affichée. Ne t'en sers donc jamais comme
 
 ## 5. Qualité de rédaction (équité anti-biais)
 
-Issu de `prompts/07_qcm_banque.md` — à respecter pour une banque équitable :
+Issu de `prompts/07_qcm_banque.md`, à respecter pour une banque équitable :
 
 - **Positions équilibrées** : répartis la bonne réponse ~également entre A/B/C/D
   (cible ~25 % chacune). Pas de motif prévisible (ni `A,B,C,D,A,B…`, ni longue série
@@ -92,8 +92,8 @@ Issu de `prompts/07_qcm_banque.md` — à respecter pour une banque équitable :
 - **Bilingue strict** : versions FR et EN équivalentes (même bonne réponse, même ordre
   A/B/C/D, même sens).
 - **Chaque proposition expliquée** (exigence de l'auteur) : pourquoi la bonne réponse est
-  juste, **pourquoi chacune des autres ne l'est pas** — l'idée fausse qui la rend
-  tentante —, et **deux à quatre renvois** vers l'endroit exact du cours qui répond.
+  juste, **pourquoi chacune des autres ne l'est pas** (l'idée fausse qui la rend
+  tentante), et **deux à quatre renvois** vers l'endroit exact du cours qui répond.
   Dans les points de contrôle, le moteur affiche `pourquoi` et `approfondir` ; dans
   `corrections.js`, l'explication les porte en prose. Voir `prompts/15_explications_quiz.md`.
 
@@ -114,8 +114,8 @@ questions qu'entre deux sessions.
 
 ## Pour aller plus loin
 
-- `docs/ARCHITECTURE.md` §4.3 — recette complète « ajouter une question » + table CBM + caveat signature.
-- `prompts/07_qcm_banque.md` — règles de conception détaillées (réponse unique, équilibre des positions, débiaisage, auto-vérification) et `prompts/08_qcm_papier.md` pour la version papier.
-- Skill **cours-bilingue-i18n** — convention bilingue `{fr,en}` et `TPLI18N` (obligatoire pour toute chaîne).
+- `docs/ARCHITECTURE.md` §4.3 : recette complète « ajouter une question » + table CBM + caveat signature.
+- `prompts/07_qcm_banque.md` : règles de conception détaillées (réponse unique, équilibre des positions, débiaisage, auto-vérification) et `prompts/08_qcm_papier.md` pour la version papier.
+- Skill **cours-bilingue-i18n** : convention bilingue `{fr,en}` et `TPLI18N` (obligatoire pour toute chaîne).
 
-> Template de site de cours — **Mohamed EL AFRIT** · code MIT, contenu & prompts CC BY 4.0.
+> Template de site de cours · **Mohamed EL AFRIT** · code MIT, contenu & prompts CC BY 4.0.

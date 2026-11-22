@@ -1,4 +1,4 @@
-# Template de site de cours — contrat de travail
+# Template de site de cours · contrat de travail
 
 <!-- gabarit:debut -->
 Ce dépôt sert à **fabriquer des sites de cours** : statiques, hors-ligne,
@@ -20,7 +20,7 @@ partent jamais dans un cours ; tout `docs/`, lui, part dans chaque cours.
 **Ne jamais inventer de contenu pédagogique.**
 
 Les documents de référence déposés dans `sources/` sont la source de vérité. Ce
-qui n'y figure pas est signalé comme absent — jamais comblé par une formulation
+qui n'y figure pas est signalé comme absent, jamais comblé par une formulation
 plausible. Un cours faux et crédible est le pire résultat possible : l'apprenant
 ne peut pas le détecter, et il l'apprend.
 
@@ -34,7 +34,7 @@ Concrètement :
 - Ne jamais reproduire le texte ni les figures d'un ouvrage : on reformule, on
   cite, on renvoie.
 
-`sources/` est exclu du dépôt — droit d'auteur. Seuls son mode d'emploi et la
+`sources/` est exclu du dépôt (droit d'auteur). Seuls son mode d'emploi et la
 bibliographie sont versionnés.
 
 ---
@@ -48,14 +48,14 @@ défaut de l'outil.
 ### Le dialogue
 
 - **Une question à la fois**, posée avec l'outil de question à options
-  cliquables (AskUserQuestion) — jamais une liste de questions dans le texte.
+  cliquables (AskUserQuestion), jamais une liste de questions dans le texte.
   Deux à quatre options, la recommandation en premier.
 - **Chaque étape se termine par une question cliquable** sur la suite.
 - Tout en français : messages, documents, commits.
 - Dire ce qui a été fait **et ce qui ne l'a pas été** ; un test qui échoue se
   rapporte avec sa sortie.
-- **Un exemple avant la série** : une transformation répétée — mise en forme,
-  liens, QR codes, capsules — se montre d'abord sur un cas ; elle ne se
+- **Un exemple avant la série** : une transformation répétée (mise en forme,
+  liens, QR codes, capsules) se montre d'abord sur un cas ; elle ne se
   généralise qu'après l'accord de l'auteur.
 - Quand l'auteur doit déposer des fichiers (audio, PDF exportés d'un autre
   outil), lui donner **le nom exact et le dossier exact** de chacun.
@@ -67,7 +67,7 @@ défaut de l'outil.
 
 - Commits au seul nom de l'auteur :
   `Mohamed Amine EL AFRIT <elafrit.mohamed@gmail.com>`. **Jamais** de ligne
-  `Co-Authored-By`, jamais de mention d'un outil ou d'une IA — même quand
+  `Co-Authored-By`, jamais de mention d'un outil ou d'une IA, même quand
   l'outil propose une attribution par défaut.
 - Vérifier `git config user.name` et `git config user.email` avant chaque
   commit.
@@ -89,7 +89,7 @@ défaut de l'outil.
   le `.rgignore` : une recherche qui inclut les `.json` exclut les secrets
   nommément (`!**/config.json`…), ou ne se fait pas.
 - Pour un nouveau cours, ils se **recopient tels quels**, octet pour octet,
-  depuis le template — `nouveau_cours.py` le fait, et seulement si le
+  depuis le template : `nouveau_cours.py` le fait, et seulement si le
   `.gitignore` du cours les exclut. Ils ne vont jamais dans Git.
 - Ne jamais s'authentifier soi-même sur le site en ligne avec des identifiants :
   l'auteur teste dans son navigateur.
@@ -109,8 +109,8 @@ défaut de l'outil.
 - **Rien ne souffle une réponse** : un exemple de méthode porte sur un cas
   neutre ; les réponses d'un TP ne vivent que dans sa correction, placée dans
   une zone protégée par mot de passe.
-- Les **interdits propres au cours** — mots et chiffres du sujet de TP, d'une
-  épreuve, exemples à éviter — sont listés dans `outils/interdits.py`, avec les
+- Les **interdits propres au cours** (mots et chiffres du sujet de TP, d'une
+  épreuve, exemples à éviter) sont listés dans `outils/interdits.py`, avec les
   pages où ils sont permis, et contrôlés par `outils/verifier_interdits.py`
   partout où le cours se publie, scripts des capsules compris.
 - Typographie française : espace insécable avant `: ; ? !` et à l'intérieur des
@@ -130,7 +130,7 @@ défaut de l'outil.
   (« crucial », « véritable », « au cœur de » ; *delve*, *leverage*).
   `outils/verifier_tirets.py` compte les tirets ; le reste se relit.
 - **Une faute de français** relevée en chemin n'est jamais corrigée en
-  silence : elle est proposée à l'auteur, puis corrigée dans un commit séparé —
+  silence : elle est proposée à l'auteur, puis corrigée dans un commit séparé,
   et dans l'autre langue si la même erreur s'y trouve.
 
 ### La pédagogie
@@ -138,8 +138,8 @@ défaut de l'outil.
 - **Tout schéma a son explication élément par élément**, écrite pour un
   débutant : ce qu'il montre, comment le lire, chaque élément et son rôle, ses
   liens avec les autres pièces, le piège à éviter.
-- **Toute question à choix** — point de contrôle, mini-quiz, QCM
-  d'entraînement — explique pourquoi la bonne réponse est juste **et pourquoi
+- **Toute question à choix** (point de contrôle, mini-quiz, QCM
+  d'entraînement) explique pourquoi la bonne réponse est juste **et pourquoi
   chacune des autres ne l'est pas**, puis donne **deux à quatre renvois**
   « Pour approfondir » vers l'endroit exact du cours, ou vers une référence
   externe vérifiée. Voir `prompts/15_explications_quiz.md`.
@@ -154,7 +154,7 @@ défaut de l'outil.
   `outils/generer_audio.py` aux balises des pistes françaises).
 - Ton **pédagogique, académique, professionnel et motivant**, au vouvoiement.
   Une capsule explicative définit la notion, lit l'exemple élément par élément,
-  relie aux autres pièces, finit par le piège et la phrase à retenir — avec
+  relie aux autres pièces, finit par le piège et la phrase à retenir, avec
   « speaking slowly » dans ses balises.
 - **Un témoin d'abord**, écouté par l'auteur ; la série ensuite. Voir
   `prompts/14_capsules_audio.md`.
@@ -180,8 +180,8 @@ défaut de l'outil.
   se compte par script, avec une marge : à la copie, un retour à la ligne peut
   valoir deux caractères. Une série est enchaînée : chaque épisode rappelle le
   précédent et annonce le suivant. Voir `prompts/10_notebooklm_18prompts.md`.
-- **Ce qu'un outil externe produit se relit avant publication** — podcast,
-  diaporama, traduction : chiffres ou exemples inventés, propos prêtés aux
+- **Ce qu'un outil externe produit se relit avant publication** (podcast,
+  diaporama, traduction) : chiffres ou exemples inventés, propos prêtés aux
   personnages du cas, QR codes factices, coquilles. Chaque export corrigé se
   revérifie en entier : une correction peut se perdre d'un export à l'autre.
 
@@ -204,7 +204,7 @@ défaut de l'outil.
   `--purge`, qui retire du serveur les fichiers absents du dépôt, ne se lance
   jamais d'office.
 - Après la mise en ligne, **le site se contrôle en ligne** : les pages
-  publiques répondent 200, les zones protégées 401 — sans s'authentifier.
+  publiques répondent 200, les zones protégées 401, sans s'authentifier.
 
 ### La vérification
 
@@ -229,7 +229,7 @@ défaut de l'outil.
   Mermaid…) : la version de l'outil et les polices changent le rendu. On le
   régénère là où il a été validé, ou on le fait revalider.
 - **Aucun nom ne diffère d'un autre par la seule casse** (`Polycopie/` et
-  `polycopie/`) : Windows les confond, le serveur les distingue — une exclusion
+  `polycopie/`) : Windows les confond, le serveur les distingue ; une exclusion
   ou un lien juste en local devient faux en ligne.
 
 ### Le journal du cours
@@ -255,8 +255,8 @@ paramètres rempli de vos valeurs habituelles (`generateur/valeurs.local.js`, ig
 Elle sait lancer un cours dans un dossier déjà préparé, documents en place. Mode d'emploi :
 `generateur/LISEZMOI.md`.
 
-Le script met en place la mécanique — arborescence, charte, navigation,
-squelettes, outils, déployeur, `CLAUDE.md`, `deploiement/destination.json` — et
+Le script met en place la mécanique (arborescence, charte, navigation,
+squelettes, outils, déployeur, `CLAUDE.md`, `deploiement/destination.json`) et
 recopie en local les secrets communs (§ 2). Il écrit aussi le bloc école de
 `cours.json` : les boutons de l'accueil, les épreuves des filières, les sessions.
 **Il ne rédige aucun contenu.** Le
@@ -302,15 +302,15 @@ ne demande au serveur que les médias de sa liste, et un média qui n'y est pas
 reste caché.
 `generer_polycopie.py` passe après les retouches des pages et du glossaire, puis
 `publier_polycopie.py`, qui relance `generer_fragments.py` : la page du polycopié
-annonce le livret publié — ses pages, son poids, sa langue.
+annonce le livret publié (ses pages, son poids, sa langue).
 `generer_nav_sections.py` se relance après tout ajout, retrait ou renommage de
-section, et `glossaire_emplois.py` après toute retouche d'une page —
+section, et `glossaire_emplois.py` après toute retouche d'une page ;
 `nouveau_cours.py` les lance à la création du cours, avec `generer_medias.py`. En site miroir
 (`docs/I18N.md`, partie A) : `creer_jumelle.py` ou `data_tr_vers_miroir.py`, puis
 `generer_langues.py` et `liens_langues.py`, puis les autres générateurs, et
 `hreflang.py` **en dernier**.
 
-Une capsule vit à deux endroits — le script balisé et la transcription lisible.
+Une capsule vit à deux endroits : le script balisé et la transcription lisible.
 Tenues à la main, elles divergent dès la première correction, et personne ne
 s'en aperçoit : on ne lit pas la transcription d'une capsule qu'on vient
 d'écouter. **La fiche est la source unique.**
@@ -320,8 +320,8 @@ d'écouter. **La fiche est la source unique.**
 ## 5. Le contrat bilingue
 
 **Le modèle par défaut est le site miroir** (décision de l'auteur, 25 octobre 2026) :
-chaque page française a sa jumelle anglaise sous `en/` — même chemin, même nom, même suite
-de blocs —, écrite une fois le français stable ; `verifier_parite.py` contrôle la parité.
+chaque page française a sa jumelle anglaise sous `en/` (même chemin, même nom, même suite
+de blocs), écrite une fois le français stable ; `verifier_parite.py` contrôle la parité.
 Depuis le 21 novembre 2026, la démonstration du gabarit est elle-même un site miroir, et
 `nouveau_cours.py` ne crée plus que ce modèle (décision de l'auteur). Les blocs `data-tr`
 ci-dessous restent décrits pour les cours qui les ont déjà. Les deux modèles en détail :
@@ -329,19 +329,19 @@ ci-dessous restent décrits pour les cours qui les ont déjà. Les deux modèles
 
 En modèle `data-tr`, trois mécanismes, selon la nature du texte.
 
-**Contenu rédigé** — blocs jumelés dans le HTML, le CSS masque la langue
-inactive :
+**Contenu rédigé** : des blocs jumelés dans le HTML, dont le CSS masque la langue
+inactive.
 
 ```html
 <span data-tr="fr">Bonjour</span><span data-tr="en">Hello</span>
 ```
 
-**Interface fabriquée en JavaScript** — dictionnaire unique
+**Interface fabriquée en JavaScript** : un dictionnaire unique,
 `site/assets/js/ui-labels.js`, appelé par `T('cle')`. Ne jamais écrire un
 libellé en dur dans un moteur : un dictionnaire éparpillé est un dictionnaire
 dont on oublie une clé.
 
-**Contenu des composants d'une page** — objet `TEXTES = { fr, en }` dans la
+**Contenu des composants d'une page** : un objet `TEXTES = { fr, en }` dans la
 page, et une fonction `monter()` qui vide les conteneurs puis remonte, rejouée
 sur `tpl:langchange`. Les moteurs `RDCX` reçoivent des chaînes et ignorent le
 bilingue : c'est ce qui les garde simples. Modèle complet dans `_modele.html`.
@@ -349,7 +349,7 @@ bilingue : c'est ce qui les garde simples. Modèle complet dans `_modele.html`.
 **Audio bilingue** : un seul appel `RDCX.voice`, mais une source par langue,
 déclarée dans `TEXTES` sous `capsuleSrc`. Convention de nommage :
 `chapitre-<N>-capsule-<langue>.mp3`. Sans le suffixe, l'auditeur anglophone
-entend du français — et la piste reçoit l'accent parisien des pistes françaises.
+entend du français, et la piste reçoit l'accent parisien des pistes françaises.
 
 ---
 
@@ -398,7 +398,7 @@ Après toute modification du déployeur : `python3 deploiement/tester_deployer.p
 <!-- gabarit:debut -->
 Ces contrôles mesurent ce qui est mesurable : des clés, des contrastes, des
 chemins.
-Ils ne disent rien du seul défaut qui compte vraiment ici — **un cours créé qui
+Ils ne disent rien du seul défaut qui compte vraiment ici : **un cours créé qui
 hérite du contenu de la démonstration**. Cela ne se voit qu'en générant :
 
 ```bash

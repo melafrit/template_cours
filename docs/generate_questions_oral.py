@@ -12,7 +12,7 @@ le communiquer aux etudiants avant l'oral viderait l'exercice de son sens.
 
 A PERSONNALISER : la liste Q ci-dessous ne contient que trois exemples,
 qui montrent la forme attendue. Toutes vos reponses doivent etre tirees
-du dossier remis aux etudiants — une question dont la reponse n'est pas
+du dossier remis aux etudiants : une question dont la reponse n'est pas
 dans le cours est injuste, et l'on ne s'en apercoit qu'a la correction.
 """
 
@@ -35,7 +35,7 @@ ROUGE_BG = "FDEDEC"
 
 AUTEUR = "Mohamed EL AFRIT"
 LICENCE = "CC BY 4.0"
-BANDEAU = ("DOCUMENT FORMATEUR — ne pas diffuser aux étudiants. "
+BANDEAU = ("DOCUMENT FORMATEUR : ne pas diffuser aux étudiants. "
            "Réponses tirées du dossier remis aux étudiants.")
 
 NIVEAUX = {
@@ -63,7 +63,7 @@ Q = [
         reponse="La réponse attendue, avec les chiffres exacts du dossier. "
                 "Écrivez-la comme vous voudriez l'entendre : c'est elle que "
                 "vous comparerez à ce que dit l'étudiant.",
-        excellente="Ce qu'un très bon candidat ajoute — un lien que les autres "
+        excellente="Ce qu'un très bon candidat ajoute : un lien que les autres "
                    "ne font pas, une conséquence qu'il tire seul.",
         alerte="La réponse creuse ou fausse qui revient chaque année, et "
                "pourquoi elle est fausse. C'est ce qui sert le plus en séance.",
@@ -182,7 +182,7 @@ def feuille_questions(wb):
     derniere = get_column_letter(len(COLONNES))
 
     bandeau(ws, derniere,
-            "Soutenance — questions du jury, avec réponses attendues",
+            "Soutenance · questions du jury, avec réponses attendues",
             "Posez 2 à 3 questions par étudiant, choisies d'après ce qu'il vient de présenter. "
             "Le filtre de la colonne « Niveau » permet de calibrer : Accessible pour vérifier "
             "l'acquis, Exigeant pour départager le haut du classement.")
@@ -231,8 +231,8 @@ def feuille_mode_emploi(wb):
         ("Comment les choisir",
          "Partez de ce que l'étudiant vient de présenter. S'il a exposé la phase 3, prenez les "
          "questions 13 ou 14 ; s'il a présenté le contexte, prenez la 1 ou la 4. Une question "
-         "hors de sa partie reste légitime — le jury peut interroger n'importe qui sur "
-         "n'importe quelle partie du dossier, et les étudiants en sont prévenus — mais elle "
+         "hors de sa partie reste légitime (le jury peut interroger n'importe qui sur "
+         "n'importe quelle partie du dossier, et les étudiants en sont prévenus), mais elle "
          "évalue alors la connaissance du dossier, pas la maîtrise de l'exposé."),
         ("Calibrer avec la colonne Niveau",
          "Accessible : tout étudiant ayant travaillé doit répondre ; l'échec y est un signal "
@@ -240,7 +240,7 @@ def feuille_mode_emploi(wb):
          "Exigeant : sert à départager le haut du classement, jamais à sanctionner. Ne posez "
          "une question Exigeant qu'après une réponse solide."),
         ("La relance",
-         "Une seule, et seulement si la réponse est incomplète — pas si elle est fausse. Une "
+         "Une seule, et seulement si la réponse est incomplète, pas si elle est fausse. Une "
          "relance après une erreur ressemble à un piège ; après une réponse partielle, elle "
          "donne sa chance. Si la relance ne débloque rien, passez : insister ne produit plus "
          "d'information sur le niveau."),
@@ -255,8 +255,8 @@ def feuille_mode_emploi(wb):
          "reçoit des questions plus difficiles que la première, sans que personne l'ait voulu."),
         ("Réponses hors dossier",
          "Toutes les réponses attendues sont tirées du dossier de cas du chapitre 8. Si un "
-         "étudiant apporte un élément extérieur — une source, une norme, un retour "
-         "d'expérience — cela ne doit pas lui nuire, à condition qu'il traite d'abord le "
+         "étudiant apporte un élément extérieur (une source, une norme, un retour "
+         "d'expérience), cela ne doit pas lui nuire, à condition qu'il traite d'abord le "
          "dossier. L'exercice reste borné par l'énoncé."),
         ("Diffusion",
          "Ce document ne se donne pas aux étudiants avant l'oral. Il vit dans docs/, que le "
@@ -282,7 +282,7 @@ def feuille_suivi(wb):
                 ("Notes du jury", 60), ("Prestation / 4", 14)]
     derniere = get_column_letter(len(colonnes))
 
-    bandeau(ws, derniere, "Suivi des passages — une ligne par étudiant",
+    bandeau(ws, derniere, "Suivi des passages · une ligne par étudiant",
             "À remplir en séance. Les numéros de questions posées garantissent que toutes les "
             "équipes sont interrogées avec la même exigence.")
 
