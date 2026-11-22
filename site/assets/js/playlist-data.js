@@ -1,7 +1,7 @@
 /* =================================================================
-   playlist-data.js — index des pistes audio, tous chapitres
+   playlist-data.js · index des pistes audio, tous chapitres
 
-   FICHIER GÉNÉRÉ — ne pas modifier à la main.
+   FICHIER GÉNÉRÉ (ne pas modifier à la main).
    Régénérer après tout ajout de capsule ou de podcast :
        python3 outils/generer_playlist.py
 
@@ -45,6 +45,15 @@ window.RDC_PLAYLIST = {
     "duree": "0:42",
     "present": true,
     "langue": "en",
+    "ancre": "capsule-1"
+   },
+   {
+    "type": "ouverture",
+    "titre": "ما يطلب منكم هذا الفصل أن تقرّروه",
+    "src": "assets/media/voix/chapitre-1-capsule-ar.mp3",
+    "duree": "",
+    "present": false,
+    "langue": "ar",
     "ancre": "capsule-1"
    }
   ]

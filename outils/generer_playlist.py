@@ -16,7 +16,15 @@ la lecture automatique enchaînera.
 Les durées viennent de ffprobe quand le fichier existe, sinon de la durée
 annoncée dans l'appel RDCX.voice. Une piste non encore enregistrée figure dans
 la playlist, grisée : l'étudiant voit ce qui arrive.
+
+En site miroir, chaque capsule déclare sa source dans le TEXTES de sa langue ; la
+jumelle arabe porte la sienne, que la page française n'a pas. Le script lit donc
+la page de la racine et ses jumelles (en/, ar/), et marque chaque piste de sa
+langue, d'après le suffixe de son fichier : playlist.js ne montre à une page que
+les pistes de sa langue.
 """
+
+LANGUES_JUMELLES = ("en", "ar")
 
 import glob
 import io
@@ -67,16 +75,18 @@ def texte(html):
     return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", html)).strip()
 
 
-def pistes_du_chapitre(n, chemin_page):
-    """n vaut None pour une page hors chapitre : elle n'a pas de podcast."""
+def pistes_du_chapitre(n, chemin_page, jumelles=()):
+    """n vaut None pour une page hors chapitre : elle n'a pas de podcast. jumelles : les pages de la même
+    page dans les autres langues, qui déclarent les capsules de leur langue."""
     t = io.open(chemin_page, encoding="utf-8").read()
+    textes_jumelles = [io.open(j, encoding="utf-8").read() for j in jumelles]
     pistes = []
 
     # --- le podcast : posé par media.js d'après le nom, pas écrit dans la page
     # Le podcast existe par langue : « chapitre-1-podcast.fr.mp3 ». On indexe
     # chaque langue trouvee, et on retombe sur le nom sans suffixe pour un
     # cours monolingue.
-    for langue in (("fr", "en", None) if n else ()):
+    for langue in (("fr", "en", "ar", None) if n else ()):
         for ext in ("mp3", "m4a", "wav"):
             suffixe = ("." + langue) if langue else ""
             rel = "assets/media/podcasts/chapitre-%d-podcast%s.%s" % (n, suffixe, ext)
@@ -112,11 +122,15 @@ def pistes_du_chapitre(n, chemin_page):
     # voix-N-N / ouverture-N-N n'a pas de sens.
     # Capsules bilingues : un seul appel RDCX.voice sert deux fichiers, la
     # source venant de TEXTES. On lit donc TEXTES, sinon elles sont invisibles.
-    for m in re.finditer(r'capsuleSrc: "([^"]+)"', t):
+    vues = set()
+    for m in [m for page in [t] + textes_jumelles for m in re.finditer(r'capsuleSrc: "([^"]+)"', page)]:
         chemin = m.group(1).replace("../", "")
-        suite = t[m.end():m.end() + 400]
+        if chemin in vues:
+            continue                                   # la jumelle redit la source de la racine
+        vues.add(chemin)
+        suite = m.string[m.end():m.end() + 400]
         ttl = re.search(r'capsuleTitre: "([^"]*)"', suite)
-        lg = re.search(r"-(fr|en)\.mp3$", chemin)
+        lg = re.search(r"-([a-z]{2})\.mp3$", chemin)
         absolu = os.path.join(SITE, chemin.replace("/", os.sep))
         pistes.append({
             "type": "ouverture",
@@ -154,7 +168,9 @@ def main():
         t = io.open(page, encoding="utf-8").read()
         m = re.search(r'<h1[^>]*class="chapter-title"[^>]*>(.*?)</h1>', t, re.S)
         titre = texte_langue(m.group(1)) if m else "Chapitre %d" % n
-        pistes = pistes_du_chapitre(n, page)
+        jumelles = [p for p in (os.path.join(SITE, lg, "chapitres", nom) for lg in LANGUES_JUMELLES)
+                    if os.path.isfile(p)]
+        pistes = pistes_du_chapitre(n, page, jumelles)
         chapitres[str(n)] = {"titre": titre, "page": "chapitres/" + nom, "pistes": pistes}
         total += len(pistes)
         presents += sum(1 for p in pistes if p["present"])
@@ -173,7 +189,8 @@ def main():
         t = io.open(page, encoding="utf-8").read()
         m = re.search(r'<h1[^>]*class="chapter-title"[^>]*>(.*?)</h1>', t, re.S)
         titre = texte_langue(m.group(1)) if m else nom
-        pistes = pistes_du_chapitre(None, page)
+        jumelles = [p for p in (os.path.join(SITE, lg, nom) for lg in LANGUES_JUMELLES) if os.path.isfile(p)]
+        pistes = pistes_du_chapitre(None, page, jumelles)
         if not pistes:
             continue
         chapitres[cle] = {"titre": titre, "page": nom, "num": num,
@@ -185,8 +202,8 @@ def main():
 
     entete = (
         "/* =================================================================\n"
-        "   playlist-data.js — index des pistes audio, tous chapitres\n\n"
-        "   FICHIER GÉNÉRÉ — ne pas modifier à la main.\n"
+        "   playlist-data.js · index des pistes audio, tous chapitres\n\n"
+        "   FICHIER GÉNÉRÉ (ne pas modifier à la main).\n"
         "   Régénérer après tout ajout de capsule ou de podcast :\n"
         "       python3 outils/generer_playlist.py\n\n"
         "   L'ordre des pistes est celui du document : c'est celui dans lequel\n"
