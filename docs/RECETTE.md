@@ -249,7 +249,9 @@ Il ne doit rien retourner. La dernière forme, `hreflang=.x-default`, attrape un
 
 Un cours dont la langue racine est l'anglais part des jumelles anglaises de
 la démonstration, remontées à la racine (`miroir.remonter`). Mettez
-`"langues": ["en"]` dans `cours.json`, régénérez (`--ecraser`), puis :
+`"langues": ["en"]` dans `cours.json`, retirez-en les titres français (`titre.fr`,
+`sous_titre.fr`, ceux des chapitres : seuls ceux de la racine sont exigés),
+régénérez (`--ecraser`), puis :
 
     grep -rho '<html[^>]*>' --include=*.html site | sort | uniq -c   # lang="en" et data-langues="en" partout
     grep -rilE "Designing an online course|Scoping your course|Structuring the content|Creating the resources|What this site demonstrates|demo course|hreflang=.x-default" site/ | grep -v _modele

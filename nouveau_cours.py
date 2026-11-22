@@ -142,9 +142,10 @@ def racine(c):
 
 
 def texte(d, lg):
-    """Le texte de d ({fr, en, …}) dans la langue lg, à défaut en français."""
+    """Le texte de d ({fr, en, …}) dans la langue lg ; à défaut en français, puis dans la première langue qui l'a (un
+    cours de racine anglaise peut n'écrire ses titres qu'en anglais)."""
     d = d or {}
-    return str(d.get(lg) or d.get("fr") or "")
+    return str(d.get(lg) or d.get("fr") or next((v for v in d.values() if v), ""))
 
 
 def att(s):
@@ -320,8 +321,8 @@ def renommer_identite(sortie, c):
     cours en ligne » dans la barre d'onglets du navigateur.
     """
     lg = racine(c)
-    tfr = c["titre"]["fr"]
-    ten = c["titre"].get("en") or tfr
+    tfr = texte(c["titre"], "fr")
+    ten = texte(c["titre"], "en")
     titre = texte(c["titre"], lg)
     st = texte(c.get("sous_titre"), lg)
     auteur = c["auteur"]
@@ -1108,8 +1109,8 @@ def purger_demo(sortie, c):
     js = os.path.join(sortie, "site", "assets", "js")
     qcm = os.path.join(sortie, "site", "QCM")
     remplaces = 0
-    subs = {"titre_fr": c["titre"]["fr"],
-            "titre_en": c["titre"].get("en", c["titre"]["fr"]),
+    subs = {"titre_fr": texte(c["titre"], "fr"),
+            "titre_en": texte(c["titre"], "en"),
             "auteur": c["auteur"]}
     for chemin, contenu in (
             (os.path.join(qcm, "questions.js"), SQUELETTE_QCM_QUESTIONS % subs),
@@ -1270,7 +1271,7 @@ def contrat_du_cours(c):
               "avant de toucher à quoi que ce soit. La méthode de création, avec ses jalons,\n"
               "est dans `prompts/PROMPT-Cours-parametrable.md` et ses modules\n"
               "(`prompts/modules/`, un par option)."
-              % (c["titre"]["fr"], c["titre"]["fr"], c["slug"]))
+              % (texte(c["titre"], racine(c)), texte(c["titre"], racine(c)), c["slug"]))
     t = re.sub(r"^# .*$", lambda m: entete, t, count=1, flags=re.M)
     # Les sections retirées laissaient un trou dans la numérotation : on renumérote.
     rang = [0]
@@ -1305,10 +1306,12 @@ def valider(c):
     elif not re.match(r"^[a-z0-9][a-z0-9-]*$", slug):
         griefs.append("« slug » ne doit contenir que des minuscules, chiffres et tirets : %r" % slug)
 
+    # Les titres s'écrivent au moins dans la langue racine : un cours anglais n'a pas à porter de français.
+    lg = racine(c)
     for cle in ("titre", "sous_titre"):
         v = c.get(cle)
-        if not isinstance(v, dict) or not str(v.get("fr", "")).strip():
-            griefs.append("« %s.fr » est vide." % cle)
+        if not isinstance(v, dict) or not str(v.get(lg, "")).strip():
+            griefs.append("« %s.%s » est vide (la langue racine du cours)." % (cle, lg))
 
     if c.get("palette") not in PALETTES:
         griefs.append("« palette » doit valoir l'une de %s (lu : %r)"
@@ -1416,8 +1419,8 @@ def valider(c):
         if f in vus:
             griefs.append("deux chapitres portent le même fichier : %r" % f)
         vus.add(f)
-        if not str((ch.get("titre") or {}).get("fr", "")).strip():
-            griefs.append("chapitre %s : titre français vide." % ch.get("num", "?"))
+        if not str((ch.get("titre") or {}).get(lg, "")).strip():
+            griefs.append("chapitre %s : « titre.%s » est vide (la langue racine du cours)." % (ch.get("num", "?"), lg))
 
     if not str(c.get("auteur", "")).strip() or c.get("auteur") == "Prénom NOM":
         griefs.append("« auteur » est vide ou resté sur la valeur du modèle.")
@@ -1469,12 +1472,12 @@ def course_data(c):
     def paire(d, defaut=""):
         """{ fr, en[, ar] } : l'anglais retombe sur le français si le cours ne l'a pas ; l'arabe ne s'écrit que si le
         cours le déclare et que cours.json le donne."""
-        fr = (d or {}).get("fr", defaut)
-        en = (d or {}).get("en", fr) if "en" in langues else fr
-        texte = '{ fr: %s, en: %s' % (json.dumps(fr, ensure_ascii=False), json.dumps(en, ensure_ascii=False))
+        fr = texte(d, "fr") or defaut
+        en = texte(d, "en") if "en" in langues else fr
+        js = '{ fr: %s, en: %s' % (json.dumps(fr, ensure_ascii=False), json.dumps(en, ensure_ascii=False))
         if "ar" in langues and (d or {}).get("ar"):
-            texte += ', ar: %s' % json.dumps(d["ar"], ensure_ascii=False)
-        return texte + ' }'
+            js += ', ar: %s' % json.dumps(d["ar"], ensure_ascii=False)
+        return js + ' }'
 
     lignes = [
         "/* =================================================================",
@@ -1840,7 +1843,7 @@ def main():
     langue = racine(c)
 
     print("\nCours à créer\n-------------")
-    print("  titre     : %s" % c["titre"]["fr"])
+    print("  titre     : %s" % texte(c["titre"], langue))
     print("  slug      : %s" % c["slug"])
     print("  palette   : %s" % c["palette"])
     print("  langues   : %s  (racine : %s%s)" % (", ".join(c["langues"]), langue,
@@ -1852,7 +1855,7 @@ def main():
                                  if filieres else "aucune"))
     print("  chapitres : %d" % len(c["chapitres"]))
     for ch in c["chapitres"]:
-        print("      %-3s %-28s %s" % (ch.get("num", "?"), ch["fichier"], ch["titre"]["fr"][:40]))
+        print("      %-3s %-28s %s" % (ch.get("num", "?"), ch["fichier"], texte(ch["titre"], langue)[:40]))
     actifs = [k for k, v in (c.get("blocs") or {}).items() if v]
     print("  blocs     : %s" % (", ".join(sorted(actifs)) or "aucun"))
     if "ecole" in c:
@@ -2197,7 +2200,7 @@ python3 outils/verifier_liens.py     # liens et renvois « Pour approfondir »
 - Langues : %s
 - Chapitres déclarés : %d
 - Dossier : `%s`
-""" % (c["titre"]["fr"], c["slug"], c["titre"]["fr"], c["slug"], c["auteur"], c["palette"],
+""" % (texte(c["titre"], racine(c)), c["slug"], texte(c["titre"], racine(c)), c["slug"], c["auteur"], c["palette"],
        " et ".join(c["langues"]), len(c["chapitres"]), sortie)
 
 
