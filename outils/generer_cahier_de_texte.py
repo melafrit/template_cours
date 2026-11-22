@@ -154,10 +154,12 @@ def texte_seance(i, c, acces=None):
     travail = []
     if s.get("travail"):
         travail.append(S.texte(s["travail"], c["langue"]))
+    lien = S.LIENS.get("livrables", "")
     for e in s.get("echeances", []):
         l = S.LIVRABLES[e]
-        travail.append("%s, à rendre %s sur l'application Livrables (%s)." % (
-            S.texte(l["titre"], c["langue"]), echeance(l, c), S.LIENS.get("livrables", "")))
+        # Sans adresse de Livrables (le bloc école de cours.json l'a laissée vide), le cahier ne cite pas l'application.
+        travail.append("%s, à rendre %s%s." % (S.texte(l["titre"], c["langue"]), echeance(l, c),
+                                               " sur l'application Livrables (%s)" % lien if lien else ""))
     if not s.get("echeances"):
         travail.append("Rien à rendre pour cette séance.")
     site = c["site"] or "l'adresse communiquée en séance"
@@ -204,7 +206,8 @@ def docx_cahier(c, acces=None):
     jours = sorted(s["jours"])
     infos = [("Promotion", s["promotion"]), ("Session", c["nom"]), ("Formateur", c["auteur"]),
              ("Jours", ", ".join(date_longue(c["SE"].date_du_jour(s, j)) for j in jours)),
-             ("Dépôts", S.LIENS.get("livrables", "")), ("Site du cours", c["site"] or "communiqué en séance")]
+             ("Dépôts", S.LIENS.get("livrables", "") or "communiqués en séance"),
+             ("Site du cours", c["site"] or "communiqué en séance")]
     table = doc.add_table(rows=0, cols=2)
     table.style = "Light Grid Accent 1"
     for cle, valeur in infos:

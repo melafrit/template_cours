@@ -142,6 +142,7 @@ la sortie doit annoncer :**
     langues-data.js : aucune page traduite pour l'instant
     CLAUDE.md écrit : les exigences de l'auteur s'appliquent à ce cours
     contenu de demonstration retire : 27 media(s), 13 fichier(s) remis a l'etat de squelette
+    bloc école : 2 bouton(s), 0 filière(s) avec épreuves, 1 session(s)
     14 page(s) renommee(s) au nom du cours
     5 fichier(s) recousu(s) sur les chapitres declares
     cours.html : 3 carte(s) de chapitre regeneree(s)
@@ -199,14 +200,17 @@ Le cours créé embarque son propre lanceur. Ouvrez-le :
 - [ ] L'accueil a la structure de celui de la démonstration (bandeau, capsules,
       sections numérotées, cartes des chapitres, bouton flottant), le titre et le
       sous-titre de `cours.json`, des consignes « À rédiger » à la place de la
-      prose, et ni « Ce que démontre ce site », ni « Déposer mes livrables » :
-      `outils/accueil.py` repart avec `BOUTONS = []`. Sa pastille dit « À rédiger :
-      le public du cours », sans bloc ni bouton d'épreuves : `outils/seances.py`
-      part avec `FILIERES = {}`.
+      prose, et ni « Ce que démontre ce site ». Son bandeau a les deux boutons du
+      bloc école du modèle, « Déposer mes livrables » et « QCM d'évaluation »,
+      écrits dans `outils/accueil.py`. Sa pastille dit « À rédiger : le public du
+      cours », sans bloc ni bouton d'épreuves : les filières du modèle n'en
+      déclarent pas, et `outils/seances.py` part avec `FILIERES = {}`.
 - [ ] Le programme et les échéances de l'accueil disent « À rédiger dans
       `outils/seances.py` » : le cours part sans séance ni livrable, et
-      `python3 outils/seances.py` le dit cohérent ; `outils/sessions.py` part
-      sans session ; `python3 outils/generer_cahier_de_texte.py` répond qu'il
+      `python3 outils/seances.py` le dit cohérent ; `outils/sessions.py` reçoit
+      la session d'exemple du modèle (`promo-2027`), dont le script rappelle,
+      avant la création, qu'elle garde des valeurs fictives ;
+      `python3 outils/generer_cahier_de_texte.py` répond qu'il
       n'y a encore aucune séance à mettre au cahier, et
       `python3 outils/generer_classeur_livrables.py` aucune à mettre au classeur.
 - [ ] Les filières de `cours.json` (EADL et ERIS dans l'exemple) donnent la bascule

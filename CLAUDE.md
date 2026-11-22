@@ -251,7 +251,9 @@ python3 nouveau_cours.py             # crée le cours dans le dossier « sortie 
 
 Le script met en place la mécanique — arborescence, charte, navigation,
 squelettes, outils, déployeur, `CLAUDE.md`, `deploiement/destination.json` — et
-recopie en local les secrets communs (§ 2). **Il ne rédige aucun contenu.** Le
+recopie en local les secrets communs (§ 2). Il écrit aussi le bloc école de
+`cours.json` : les boutons de l'accueil, les épreuves des filières, les sessions.
+**Il ne rédige aucun contenu.** Le
 contenu vient ensuite, par la skill `creer-cours-template`, qui suit
 `prompts/PROMPT-Cours-parametrable.md` et ses modules (`prompts/modules/`) :
 cadrage d'abord, questions **une à une**, rien de produit avant validation

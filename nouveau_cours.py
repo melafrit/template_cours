@@ -40,6 +40,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import urllib.parse
 
 RACINE = os.path.dirname(os.path.abspath(__file__))
 CONFIG_DEFAUT = os.path.join(RACINE, "cours.json")
@@ -734,10 +735,10 @@ def accueil_squelette(c, demo):
     return tete_html + corps + scripts
 
 
-# Les boutons de l'accueil de la démonstration (le dépôt sur Livrables, son QCM) ne valent pas pour un cours créé : il
-# n'a que « Commencer le chapitre 1 » tant que son auteur n'en déclare pas (le bloc école les écrira, lot 2).
-BOUTONS_VIDES = ("# À remplir : le dépôt sur Livrables, les épreuves de chaque filière… (le bloc école les écrira).\n"
-                 "# Tant que la liste est vide, le bandeau n'a que « Commencer le chapitre 1 ».\n"
+# Les boutons de l'accueil de la démonstration (le dépôt sur Livrables, son QCM) ne valent pas pour un cours créé : la
+# liste repart vide, puis le bloc école de cours.json la remplit (ecrire_ecole).
+BOUTONS_VIDES = ("# Dans un cours créé, nouveau_cours.py les écrit d'après le bloc école de cours.json (le dépôt sur\n"
+                 "# Livrables, le QCM). Une liste vide : le bandeau n'a que « Commencer le chapitre 1 ».\n"
                  "BOUTONS = []\n")
 
 
@@ -796,6 +797,129 @@ def vider_boutons_accueil(sortie):
     if neuf != t:
         ecrire(p, neuf)
     return neuf != t
+
+
+
+# Le bloc école de cours.json (décision de l'auteur du 22 novembre 2026, lot 2), écrit dans le cours créé : les
+# boutons du bandeau (outils/accueil.py), les épreuves des filières et l'adresse de Livrables (outils/seances.py),
+# les sessions (outils/sessions.py). Les libellés des boutons sont ceux de la démonstration ; une page arabe reçoit
+# le français, comme les autres libellés de l'accueil.
+CLES_EPREUVES = ("diplome", "bloc", "module", "epreuves")
+
+
+def _ligne_py(v):
+    """v en littéral Python sur une ligne, chaînes entre guillemets doubles comme dans les données du gabarit."""
+    if isinstance(v, bool):
+        return "True" if v else "False"
+    if v is None:
+        return "None"
+    if isinstance(v, (int, float)):
+        return repr(v)
+    if isinstance(v, str):
+        return json.dumps(v, ensure_ascii=False)
+    if isinstance(v, list):
+        return "[" + ", ".join(_ligne_py(x) for x in v) + "]"
+    if isinstance(v, dict):
+        return "{" + ", ".join("%s: %s" % (_ligne_py(k), _ligne_py(x)) for k, x in v.items()) + "}"
+    raise TypeError("valeur non prévue : %r" % (v,))
+
+
+def litteral_py(v, retrait=0, debut=0, largeur=116):
+    """v en littéral Python : sur une ligne s'il tient dans la largeur (debut : la colonne où il commence), sinon un
+    élément par ligne, en retrait de quatre espaces."""
+    une = _ligne_py(v)
+    if not isinstance(v, (dict, list)) or not v or max(debut, retrait) + len(une) <= largeur:
+        return une
+    pad = " " * (retrait + 4)
+    if isinstance(v, dict):
+        lignes = []
+        for k, x in v.items():
+            tete = "%s%s: " % (pad, _ligne_py(k))
+            lignes.append(tete + litteral_py(x, retrait + 4, len(tete), largeur) + ",")
+        return "{\n" + "\n".join(lignes) + "\n" + " " * retrait + "}"
+    return ("[\n" + "\n".join(pad + litteral_py(x, retrait + 4, len(pad), largeur) + "," for x in v) + "\n"
+            + " " * retrait + "]")
+
+
+def remplacer_definition(t, nom, valeur):
+    """La définition « nom = … » de t (sur une ligne, ou un bloc fermé en début de ligne) remplacée par valeur."""
+    ouvrant = "[" if isinstance(valeur, list) else "{"
+    fermant = "]" if ouvrant == "[" else "}"
+    motif = r"^%s = \%s(?:[^\n]*\%s|\n.*?^\%s)\n" % (nom, ouvrant, fermant, fermant)
+    return re.sub(motif, lambda m: "%s = %s\n" % (nom, litteral_py(valeur, 0, len(nom) + 3)), t, count=1,
+                  flags=re.S | re.M)
+
+
+def ecole_du_cours(c):
+    """(boutons, filieres, sessions) d'après le bloc école et les filières de cours.json."""
+    ecole = c.get("ecole") or {}
+    boutons = []
+    if ecole.get("livrables"):
+        hote = urllib.parse.urlparse(ecole["livrables"]).netloc
+        boutons.append({"ico": "📥", "href": ecole["livrables"], "phare": True,
+                        "titre": {"fr": "Déposer mes livrables", "en": "Submit my deliverables"},
+                        "detail": {"fr": hote, "en": hote}})
+    if ecole.get("bouton_qcm") and bloc_actif(c, "qcm"):
+        boutons.append({"ico": "📝", "href": "QCM/index.html",
+                        "titre": {"fr": "QCM d'évaluation", "en": "Assessment quiz"},
+                        "detail": {"fr": "noté, à degré de certitude", "en": "graded, certainty-based"}})
+    filieres = {}
+    for f in c.get("filieres") or []:
+        d = {k: f[k] for k in CLES_EPREUVES if f.get(k)}
+        if d:
+            filieres[f["id"]] = d
+    sessions = {}
+    for s in ecole.get("sessions") or []:
+        sessions[s["nom"]] = {"jours": {i: j for i, j in enumerate(s["jours"], 1)}, "promotion": s["promotion"],
+                              "matiere": {k: s["matiere"][k] for k in ("nom", "code", "couleur", "volume_horaire")
+                                          if k in s["matiere"]}}
+    return boutons, filieres, sessions
+
+
+def ecrire_ecole(sortie, c):
+    """Le bloc école dans le cours créé ; rend (boutons, filières avec épreuves, sessions). Sans bloc « ecole » dans
+    cours.json (une configuration d'avant le 22 novembre 2026), les boutons, l'adresse de Livrables et les sessions
+    restent ceux de la création ; seules les épreuves déclarées dans « filieres » s'écrivent."""
+    boutons, filieres, sessions = ecole_du_cours(c)
+    a_ecrire = {}
+    if "ecole" in c:
+        a_ecrire["accueil.py"] = [("BOUTONS", boutons)]
+        a_ecrire["seances.py"] = [("LIENS", {"livrables": str(c["ecole"].get("livrables") or "")})]
+        a_ecrire["sessions.py"] = [("SESSIONS", sessions)]
+    if filieres:
+        a_ecrire.setdefault("seances.py", []).append(("FILIERES", filieres))
+    for fichier, definitions in a_ecrire.items():
+        p = os.path.join(sortie, "outils", fichier)
+        if not os.path.isfile(p):
+            continue
+        t = io.open(p, encoding="utf-8").read()
+        neuf = t
+        for nom, valeur in definitions:
+            neuf = remplacer_definition(neuf, nom, valeur)
+        if fichier == "sessions.py":
+            neuf = re.sub(r'^SESSION_PAR_DEFAUT = "[^"]*"\n', lambda m: 'SESSION_PAR_DEFAUT = %s\n'
+                          % _ligne_py(next(iter(sessions), "")), neuf, count=1, flags=re.M)
+        if neuf != t:
+            ecrire(p, neuf)
+    return len(boutons), len(filieres), len(sessions)
+
+
+def sessions_du_modele(c):
+    """Les sessions de cours.json qui gardent une valeur de la session d'exemple de cours.exemple.json (sa promotion,
+    sa matière ou ses dates, fictives) : le script le rappelle sans refuser, la recette part de ce modèle."""
+    try:
+        modele = json.load(io.open(os.path.join(RACINE, "cours.exemple.json"), encoding="utf-8"))
+    except (OSError, ValueError):
+        return []
+    exemples = (modele.get("ecole") or {}).get("sessions") or []
+    restees = []
+    for s in (c.get("ecole") or {}).get("sessions") or []:
+        for e in exemples:
+            if (s.get("promotion") == e.get("promotion") or s.get("jours") == e.get("jours")
+                    or (s.get("matiere") or {}).get("nom") == (e.get("matiere") or {}).get("nom")):
+                restees.append(s.get("nom"))
+                break
+    return restees
 
 
 def recoudre_liens(sortie, c):
@@ -1218,8 +1342,63 @@ def valider(c):
         for cle in ("nom", "court"):
             if not str((f.get(cle) or {}).get(racine(c), "")).strip():
                 griefs.append("filière %s : « %s.%s » est vide." % (ident, cle, racine(c)))
+        # L'épreuve d'un bloc, facultative : l'accueil en tire sa pastille et un bouton (outils/accueil.py, FILIERES).
+        e = f.get("epreuves")
+        if e is not None:
+            e = e if isinstance(e, dict) else {}
+            if not re.match(r"^https?://\S+$", str(e.get("url", ""))):
+                griefs.append("filière %s : « epreuves.url » est l'adresse complète de la page des épreuves (lu : %r)."
+                              % (ident, e.get("url")))
+            if not str((e.get("titre") or {}).get(racine(c), "")).strip():
+                griefs.append("filière %s : « epreuves.titre.%s » est vide." % (ident, racine(c)))
+        if f.get("module") is not None and not isinstance(f.get("module"), str):
+            griefs.append("filière %s : « module » s'écrit en texte (ex. « FM04 »)." % ident)
     if len(set(langues)) != len(langues):
         griefs.append("« langues » nomme deux fois la même langue.")
+
+    # Le bloc école (décision de l'auteur du 22 novembre 2026, lot 2) : l'adresse de l'application Livrables, le bouton
+    # du QCM, les sessions (une par promotion : les seules dates réelles du cours).
+    ecole = c.get("ecole") if "ecole" in c else {}
+    if not isinstance(ecole, dict):
+        griefs.append("« ecole » doit être un objet : livrables, bouton_qcm, sessions.")
+        ecole = {}
+    livrables = str(ecole.get("livrables") or "")
+    if livrables and not re.match(r"^https://\S+$", livrables):
+        griefs.append("« ecole.livrables » : l'adresse https://… de l'application, ou rien (lu : %r)." % livrables)
+    if ecole.get("bouton_qcm") and not bloc_actif(c, "qcm"):
+        griefs.append("« ecole.bouton_qcm » mène au QCM du site, et demande donc le bloc « qcm ».")
+    noms = set()
+    for s in ecole.get("sessions") or []:
+        s = s if isinstance(s, dict) else {}
+        nom = str(s.get("nom", ""))
+        if not re.match(r"^[a-z0-9][a-z0-9-]*$", nom) or nom in noms:
+            griefs.append("session %r : « nom » doit être unique, en minuscules, chiffres et tirets." % nom)
+        noms.add(nom)
+        if str(s.get("promotion", "")).count(" › ") != 1:
+            griefs.append("session %s : « promotion » s'écrit « Année › Promotion », exactement comme dans "
+                          "l'application (séparateur U+203A entouré d'espaces)." % nom)
+        m = s.get("matiere") if isinstance(s.get("matiere"), dict) else {}
+        if not str(m.get("nom", "")).strip():
+            griefs.append("session %s : « matiere.nom » est vide." % nom)
+        if not re.match(r"^#[0-9a-fA-F]{6}$", str(m.get("couleur", ""))):
+            griefs.append("session %s : « matiere.couleur » s'écrit #RRVVBB (lu : %r)." % (nom, m.get("couleur")))
+        heures = m.get("volume_horaire", 0)
+        if isinstance(heures, bool) or not isinstance(heures, (int, float)) or heures < 0:
+            griefs.append("session %s : « matiere.volume_horaire » est un nombre d'heures." % nom)
+        dates = []
+        for j in s.get("jours") or []:
+            try:
+                d = datetime.date.fromisoformat(str(j))
+            except ValueError:
+                griefs.append("session %s : date %r illisible (AAAA-MM-JJ attendu)." % (nom, j))
+                continue
+            if d.weekday() >= 5:
+                griefs.append("session %s : le %s tombe un week-end." % (nom, j))
+            dates.append(d)
+        if not dates:
+            griefs.append("session %s : « jours » est vide (la date de chaque jour du cours)." % nom)
+        elif dates != sorted(set(dates)):
+            griefs.append("session %s : les « jours » vont dans l'ordre, sans doublon." % nom)
 
     chapitres = c.get("chapitres") or []
     if not chapitres:
@@ -1672,6 +1851,14 @@ def main():
         print("      %-3s %-28s %s" % (ch.get("num", "?"), ch["fichier"], ch["titre"]["fr"][:40]))
     actifs = [k for k, v in (c.get("blocs") or {}).items() if v]
     print("  blocs     : %s" % (", ".join(sorted(actifs)) or "aucun"))
+    if "ecole" in c:
+        ecole = c.get("ecole") or {}
+        print("  école     : %s ; %s ; %d session(s)" % (
+            "dépôt sur %s" % ecole["livrables"] if ecole.get("livrables") else "sans Livrables",
+            "bouton du QCM" if ecole.get("bouton_qcm") else "sans bouton du QCM", len(ecole.get("sessions") or [])))
+    for nom in sessions_du_modele(c):
+        print("  \u26a0 la session « %s » garde des valeurs de la session d'exemple de cours.exemple.json, fictives : "
+              "remplacez-les par la promotion, la matière et les dates réelles." % nom)
     print("  sortie    : %s" % sortie)
     distant = (c.get("publication") or {}).get("repertoire_distant")
     if bloc_actif(c, "deploiement"):
@@ -1821,6 +2008,10 @@ def main():
         if bloc_actif(c, "livret"):
             print("  outils/livret.py : la fiche du polycopié part vide — l'auteur y écrit sa présentation, "
                   "imprimée mot pour mot (module 02)")
+
+    # --- le bloc école : les boutons du bandeau, les épreuves des filières, les sessions (cours.json)
+    b, f, s = ecrire_ecole(sortie, c)
+    print("  bloc école : %d bouton(s), %d filière(s) avec épreuves, %d session(s)" % (b, f, s))
 
     # --- l'identite : titre d'onglet, description, auteur, pied de page
     i = renommer_identite(sortie, c)

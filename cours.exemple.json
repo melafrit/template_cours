@@ -32,7 +32,7 @@
   "_langues": "Les langues du cours, la langue racine d'abord : « fr » ou « en » (l'arabe pourra l'être quand la démonstration aura toutes ses pages en arabe). Chaque page naît dans la langue racine ; les autres langues viennent ensuite, en site miroir (une page jumelle par page, sous en/ ou ar/), une fois la racine stable (docs/I18N.md, prompts/modules/01-bilingue.md). Ainsi [\"fr\"] donne un cours en français, [\"fr\", \"en\"] un cours français dont la version anglaise suivra, et [\"fr\", \"en\", \"ar\"] les trois langues ; l'arabe s'écrit de droite à gauche, avec le lexique docs/LEXIQUE-ar.md. Pour l'arabe, ajoutez « ar » aux titres (titre, sous_titre, chapitres) : le menu les affiche. ATTENTION : chaque langue ajoutée demande sa propre rédaction ET sa propre facture audio.",
   "langues": ["fr"],
 
-  "_filieres": "Un cours commun à deux filières : une entrée par filière. « id » en minuscules (il nomme la classe only-<id> du contenu propre à la filière), « code » le sigle affiché, « palette » la teinte que prend l'accent quand l'étudiant a choisi sa filière (l'une des valeurs de « palette », plus haut), « nom » et « court » dans chaque langue du cours, « rncp » facultatif. L'exemple donne EADL et ERIS ; pour CDWFS et ASRC, ou toute autre paire, remplacez-les. Un cours pour une seule filière : une seule entrée, ou une liste vide ; il n'y a alors pas de bascule. Le mécanisme : assets/js/filiere.js et outils/generer_filieres.py.",
+  "_filieres": "Un cours commun à deux filières : une entrée par filière. « id » en minuscules (il nomme la classe only-<id> du contenu propre à la filière), « code » le sigle affiché, « palette » la teinte que prend l'accent quand l'étudiant a choisi sa filière (l'une des valeurs de « palette », plus haut), « nom » et « court » dans chaque langue du cours, « rncp » facultatif. L'exemple donne EADL et ERIS ; pour CDWFS et ASRC, ou toute autre paire, remplacez-les. Un cours pour une seule filière : une seule entrée, ou une liste vide ; il n'y a alors pas de bascule. Une filière qui prépare l'épreuve d'un bloc ajoute « bloc », « module » et « epreuves » (« url », « titre » dans chaque langue, et facultatifs « detail » et « langue » de la page) ; l'accueil affiche alors « EADL, Bloc 1, module FM04 » et un bouton vers la page des épreuves (modèle commenté dans outils/seances.py, FILIERES). Le mécanisme : assets/js/filiere.js et outils/generer_filieres.py.",
   "filieres": [
     {"id": "eadl", "code": "EADL", "palette": "emeraude", "rncp": "39765", "nom": {"fr": "Expert en Architecture et Développement Logiciel", "en": "Expert in Software Architecture and Development", "ar": "خبير في معمارية البرمجيات وتطويرها"}, "court": {"fr": "Architecture et développement logiciel", "en": "Software architecture and development", "ar": "معمارية البرمجيات وتطويرها"}},
     {"id": "eris", "code": "ERIS", "palette": "prune", "rncp": "39781", "nom": {"fr": "Expert Réseaux, Infrastructures et Sécurité", "en": "Expert in Networks, Infrastructure and Security", "ar": "خبير في الشبكات والبنى التحتية والأمن"}, "court": {"fr": "Réseaux, infrastructures, sécurité", "en": "Networks, infrastructure, security", "ar": "الشبكات والبنى التحتية والأمن"}}
@@ -88,6 +88,18 @@
     "podcast_par_chapitre": false,
     "_duree_capsule": "Fourchette visée, en secondes, pour écrire les scripts. En Eleven v4, le contrôle qualité déduit la fenêtre de chaque piste de ses mots.",
     "duree_capsule_s": [60, 120]
+  },
+
+  "_ecole": "L'école (module 07, décisions de l'auteur du 22 novembre 2026). « livrables » est l'adresse de l'application Livrables : le bandeau de l'accueil y mène (« Déposer mes livrables »), le cahier de texte et le classeur d'import la citent ; vide, ni bouton ni adresse. « bouton_qcm » ajoute au bandeau un bouton « QCM d'évaluation » vers le QCM du site (bloc « qcm »). « sessions » en donne une par promotion, écrites dans outils/sessions.py : ce sont les seules dates réelles du cours, pour Yparéo et l'application. « promotion » et « matiere.nom » s'écrivent EXACTEMENT comme dans l'application, « promotion » au format « Année › Promotion » (séparateur U+203A) ; « jours » donne la date de chaque jour du cours, dans l'ordre, sans week-end. LA SESSION DE L'EXEMPLE EST FICTIVE : remplacez-la, le script le rappelle tant qu'elle garde ses valeurs. Les épreuves de chaque filière se déclarent dans « filieres », plus haut.",
+  "ecole": {
+    "livrables": "https://livrables.elafrit.com/",
+    "bouton_qcm": true,
+    "sessions": [
+      {"nom": "promo-2027", "promotion": "2026-2027 › Promotion",
+       "matiere": {"nom": "Nom exact de la matière dans l'application", "code": "FM00", "couleur": "#1b3a5b",
+                   "volume_horaire": 14},
+       "jours": ["2027-01-11", "2027-01-12"]}
+    ]
   },
 
   "_publication": "Où le cours se publie. nouveau_cours.py en tire deploiement/destination.json, versionné avec le cours. Les accès à l'hébergement, eux, viennent de deploiement/config.json, recopié tel quel depuis le template : son éventuel répertoire distant n'est JAMAIS lu, puisqu'il désignerait le dossier d'un autre cours. Un dossier propre à CE cours, jamais une racine d'hébergement ni un dossier à l'intérieur d'un autre cours. Laissez vide si vous ne savez pas encore : le déployeur refusera d'envoyer tant que ce n'est pas renseigné.",

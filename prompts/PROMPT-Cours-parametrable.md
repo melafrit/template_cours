@@ -288,7 +288,9 @@ journal. Celles qui reviennent à chaque étape :
    --essai, montre le résultat, puis crée le cours (dossier à part, jamais dans le
    template). Vérifie dans la sortie : secrets recopiés et ignorés par Git, .rgignore
    présent, destination.json au nom de {{cours.slug}}, CLAUDE.md présent, menu des
-   sections régénéré. Initialise le dépôt Git ; crée docs/00-Lisez-moi.md,
+   sections régénéré, bloc école écrit (boutons de l'accueil, épreuves des filières,
+   sessions ; le script signale une session restée sur l'exemple). Initialise le dépôt
+   Git ; crée docs/00-Lisez-moi.md,
    docs/01-Decisions-de-conception.md, docs/02-Etat-d-avancement.md et TODO.md.
 2. Le moteur du template couvre : navigation et menu des sections généré, bilingue en
    site miroir (bouton FR / EN qui garde la position, jumelles, liens, hreflang, parité :

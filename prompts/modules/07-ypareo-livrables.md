@@ -5,7 +5,11 @@
 >
 > **Paramètres.** `modules.ecole` : `ypareo`, `livrables_app` ; les dates réelles dans
 > `cours.calendrier` (elles ne servent qu'ici, et vont dans `outils/sessions.py`) ; les
-> promotions et matières exactes dans `filieres`.
+> promotions et matières exactes dans `filieres`. Dans `cours.json`, ils s'écrivent dans
+> le bloc `ecole` (l'adresse de Livrables, le bouton du QCM, une session par promotion
+> avec sa promotion et sa matière exactes et ses dates réelles) et, pour chaque filière,
+> dans `bloc`, `module` et `epreuves`. `nouveau_cours.py` les reporte dans
+> `outils/accueil.py`, `outils/seances.py` et `outils/sessions.py` du cours créé.
 >
 > **Place.** Phase 12 du tronc, une fois les séances, les livrables et les évaluations
 > arrêtés.
