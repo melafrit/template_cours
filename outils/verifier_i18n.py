@@ -195,7 +195,7 @@ def main():
         print("   %d clés appelées, toutes définies." % len(appelees))
     inutilisees = sorted(fr - set(appelees))
     if inutilisees:
-        print("   %d clé(s) définie(s) mais jamais appelée(s) — sans gravité,"
+        print("   %d clé(s) définie(s) mais jamais appelée(s), sans gravité,"
               % len(inutilisees))
         print("   mais c'est souvent le signe d'un moteur pas encore branché :")
         print("      %s" % ", ".join(inutilisees[:12]))

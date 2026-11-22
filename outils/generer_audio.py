@@ -246,7 +246,7 @@ def controler(chemin, mots, seuils):
     if debit < seuils["mots_par_minute_min"]:
         griefs.append("débit trop lent : %d mots/min" % debit)
     elif debit > seuils["mots_par_minute_max"]:
-        griefs.append("débit trop rapide : %d mots/min — reprenez une fois ; si elle le reste, "
+        griefs.append("débit trop rapide (%d mots/min) : reprenez une fois ; si elle le reste, "
                       "ajoutez « speaking slowly » à chaque balise du script" % debit)
     trous = silences(chemin, seuils["silence_max_s"])
     if trous:
@@ -578,7 +578,7 @@ def main():
               % (fenetre[0] // 60, fenetre[0] % 60, fenetre[1] // 60, fenetre[1] % 60))
         griefs, d, debit = controler(tmp, mots, seuils)
         if griefs:
-            print("      REJETÉE — %s" % " ; ".join(griefs))
+            print("      REJETÉE : %s" % " ; ".join(griefs))
             print("      conservée pour écoute : outils/quarantaine/%s" % nom)
             rejetes.append((nom, griefs))
             continue
@@ -589,7 +589,7 @@ def main():
         # makedirs, la premiere prise conforme, deja payee, echouait au depot.
         os.makedirs(dossier, exist_ok=True)
         os.replace(tmp, os.path.join(dossier, nom))
-        print("      déposée — %d:%02d, %d mots/min" % (d // 60, d % 60, debit))
+        print("      déposée (%d:%02d, %d mots/min)" % (d // 60, d % 60, debit))
         deposes.append(nom)
 
     print("\nBilan\n-----")

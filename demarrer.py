@@ -109,7 +109,7 @@ def main():
     if port is None:
         sys.exit("Aucun port libre entre %d et %d." % (args.port, args.port + 19))
     if port != args.port:
-        print("  Le port %d est occupé — on prend le %d." % (args.port, port))
+        print("  Le port %d est occupé : on prend le %d." % (args.port, port))
 
     url = "http://localhost:%d/index.html" % port
     print("")

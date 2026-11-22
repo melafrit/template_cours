@@ -107,7 +107,7 @@ def main():
     essai = "--essai" in sys.argv[1:]
     a_jour, nch, nsec = generer(RACINE, essai)
     etat = "à jour" if a_jour else ("PAS À JOUR — rien écrit" if essai else "écrit")
-    print("nav-sections.js : %d chapitre(s), %d section(s) — %s" % (nch, nsec, etat))
+    print("nav-sections.js : %d chapitre(s), %d section(s), %s" % (nch, nsec, etat))
     return 1 if (essai and not a_jour) else 0
 
 

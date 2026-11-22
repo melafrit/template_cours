@@ -70,7 +70,7 @@ def main():
     essai = "--essai" in sys.argv[1:]
     a_jour, nombres = generer(RACINE, essai)
     etat = "à jour" if a_jour else ("PAS À JOUR — rien écrit" if essai else "écrit")
-    print("media-data.js : %s — %s" % (", ".join("%s %d" % (c, n) for c, n in nombres.items()), etat))
+    print("media-data.js : %s, %s" % (", ".join("%s %d" % (c, n) for c, n in nombres.items()), etat))
     return 1 if (essai and not a_jour) else 0
 
 

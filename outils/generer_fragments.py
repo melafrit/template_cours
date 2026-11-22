@@ -290,7 +290,7 @@ def regenerer(t, ref, nums, manques, rel, serie=None, livret=None, accueil=None,
         try:
             return rendre(nom, langue, ref, nums, rel, serie, livret, accueil, programme)
         except Manque as e:
-            manques.append("%s : %s — %s" % (rel, nom, e))
+            manques.append("%s : %s (%s)" % (rel, nom, e))
             return MANQUE
 
     def remplacer(m):
@@ -322,7 +322,7 @@ def main():
     if programme is not None:
         ecarts += ["outils/seances.py : " + e for e in programme._module("seances").verifier()]
     if ecarts:
-        print("Sources incohérentes — rien n'est écrit :")
+        print("Sources incohérentes, rien n'est écrit :")
         for e in ecarts:
             print("  ✗", e)
         return 1

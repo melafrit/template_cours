@@ -191,7 +191,7 @@ def main():
     print("\nFiche\n-----")
     for (ch, lg), c in sorted(caps.items()):
         print("  ch%s %s  %-32s %s  %d mots"
-              % (ch, lg, c["fichier"], c["duree"] or "  —  ",
+              % (ch, lg, c["fichier"], c["duree"] or " n.d.",
                  len(c["transcription"].split())))
 
     print("\nPages\n-----")

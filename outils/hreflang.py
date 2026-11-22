@@ -209,11 +209,11 @@ def main():
         n_ouv, n_ferm = len(OUVERTURE.findall(texte)), len(FERMETURE.findall(texte))
         if intouchable(rel, texte):
             if n_ouv or n_ferm:
-                anomalies.append("%s : page protégée, noindex ou de redirection qui porte un bloc hreflang — à "
+                anomalies.append("%s : page protégée, noindex ou de redirection qui porte un bloc hreflang, à "
                                  "retirer à la main (l'outil n'y touche pas)" % rel)
             continue
         if n_ouv != n_ferm or n_ouv > 1:
-            anomalies.append("%s : bloc hreflang mal formé (%d ouverture(s), %d fermeture(s)) — à réparer à la main"
+            anomalies.append("%s : bloc hreflang mal formé (%d ouverture(s), %d fermeture(s)), à réparer à la main"
                              % (rel, n_ouv, n_ferm))
             continue
         if not FIN_TETE.search(texte) and paire(rel):

@@ -163,7 +163,7 @@ def main():
         for nom, motif, sur_plat in r:
             for m in motif.finditer(plat if sur_plat else texte):
                 ligne = texte.count("\n", 0, m.start()) + 1
-                trouves.append("%s:%d — %s : « %s »" % (rel, ligne, nom, texte[m.start():m.end()]))
+                trouves.append("%s:%d · %s : « %s »" % (rel, ligne, nom, texte[m.start():m.end()]))
     if trouves:
         print("Interdits trouvés hors de leur place (%d fichier(s) lus) :" % n)
         for t in trouves:

@@ -110,8 +110,8 @@ def main():
     ap.add_argument("--essai", action="store_true", help="n'écrit rien ; code 1 si le fichier n'est pas à jour")
     args = ap.parse_args()
     a_jour, racine, pages = generer(essai=args.essai)
-    print("langues-data.js : %s — %s"
-          % (resume(racine, pages), "à jour" if a_jour else ("PAS À JOUR — rien écrit" if args.essai else "écrit")))
+    print("langues-data.js : %s, %s"
+          % (resume(racine, pages), "à jour" if a_jour else ("PAS À JOUR, rien écrit" if args.essai else "écrit")))
     return 1 if (args.essai and not a_jour) else 0
 
 

@@ -157,12 +157,12 @@ def main():
                 continue                         # une page nommée n'a pas forcément sa jumelle dans chaque langue
             n_pages += 1
             if not os.path.isfile(fr_p):
-                print("✗ %s/%s — page de la racine absente" % (lg, rel))
+                print("✗ %s/%s : page de la racine absente" % (lg, rel))
                 total += 1
                 continue
             n, out, avis = ecarts(io.open(fr_p, encoding="utf-8").read(), io.open(en_p, encoding="utf-8").read(),
                                   lg, racine)
-            print(("✓ " if not out else "✗ ") + "%s/%s — %d blocs" % (lg, rel, n))
+            print(("✓ " if not out else "✗ ") + "%s/%s : %d blocs" % (lg, rel, n))
             for e in out:
                 print("     ", e)
             for a in avis:

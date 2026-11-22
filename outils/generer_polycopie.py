@@ -130,7 +130,7 @@ def main():
                            os.path.join(TRAVAIL, "Polycopie-" + nom_de_fichier(langue.L["titre"]) + suffixe))
     if not ADRESSE:
         print(f"Adresse publique inconnue (« url » de deploiement/destination.json) : les QR codes portent l'adresse "
-              f"d'exemple {SITE} — aucune vérification en ligne.")
+              f"d'exemple {SITE}, sans vérification en ligne.")
     atelier = images.Atelier(langue, forcer=args.images)
     registre = qr.Registre(langue)
     doc, r, lues = composer(langue, chapitres, args.temoin, atelier, registre)
@@ -193,7 +193,7 @@ def main():
             print("  ✗", x)
         word.fixer_langue(pdf, langue.L["langue_word"])
         n, apercus = C.pdf(pdf, args.apercus)
-        print(f"PDF écrit : {os.path.relpath(pdf, RACINE)} — {n} pages ; marge : {len(compte.get('marge', []))} "
+        print(f"PDF écrit : {os.path.relpath(pdf, RACINE)} ({n} pages) ; marge : {len(compte.get('marge', []))} "
               f"retouche(s) ; figures : {len(compte.get('figures', []))} ; champs : {compte.get('champs')}")
         lu = C.lire_docx(docx)
         print(f"Word relu : {lu['paragraphes']} paragraphes, {lu['tableaux']} tableaux, {lu['images']} images en "

@@ -139,7 +139,7 @@ def main():
     if isinstance(util, int) and isinstance(plafond, int):
         reste = max(0, plafond - util)
         print("  offre : %s" % abo.get("tier", "?"))
-        print("  quota : %s / %s caractères utilisés — il reste %s"
+        print("  quota : %s / %s caractères utilisés, il reste %s"
               % (format(util, ","), format(plafond, ","), format(reste, ",")))
         besoin = besoin_du_cours()
         if besoin and besoin[0]:
@@ -213,7 +213,7 @@ def main():
     else:
         connu = [v for v in voix if v.get("voice_id") == actuel]
         if connu:
-            print("  Configuration : « %s » — voix trouvée sur votre compte." % connu[0].get("name"))
+            print("  Configuration : « %s », voix trouvée sur votre compte." % connu[0].get("name"))
         else:
             print("  /!\\ « voix_id » ne correspond à aucune voix de la liste ci-dessus.")
 

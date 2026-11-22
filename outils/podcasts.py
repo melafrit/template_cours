@@ -533,7 +533,7 @@ def places_manquantes():
             continue
         n = io.open(chemin(rel), encoding="utf-8").read().count("<!-- FRAGMENT:%s -->" % nom)
         if n != 1:
-            out.append("site/%s : %s %s — <!-- FRAGMENT:%s --><!-- /FRAGMENT:%s -->%s, puis python3 "
+            out.append("site/%s : %s %s ; <!-- FRAGMENT:%s --><!-- /FRAGMENT:%s -->%s, puis python3 "
                        "outils/generer_fragments.py" % (rel, quoi, "manque" if not n else "se répète", nom, nom,
                                                        "" if nom == "podcasts" else " à la fin de son en-tête"))
     return out
@@ -556,7 +556,7 @@ def main():
                                                   ", %d diapositives" % diapos["n"] if diapos else ""))
             else:
                 etats.append("%s à venir" % lg)
-        print("  épisode %s — %s : %s" % (ep.get("num"), texte(ep, "titre", "fr").replace("\u00a0", " "),
+        print("  épisode %s · %s : %s" % (ep.get("num"), texte(ep, "titre", "fr").replace("\u00a0", " "),
                                           " ; ".join(etats)))
     for d in defauts:
         print("  ✗", d)

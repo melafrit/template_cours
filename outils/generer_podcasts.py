@@ -135,7 +135,7 @@ def sources(lg):
         if len(chemins) == 1:
             audio[num] = chemins[0]
         else:                                    # lequel est le bon ? On ne devine pas : rien n'est converti
-            erreurs.append("plusieurs épisodes bruts pour l'épisode %d : %s — n'en gardez qu'un"
+            erreurs.append("plusieurs épisodes bruts pour l'épisode %d : %s ; n'en gardez qu'un"
                            % (num, ", ".join(relatif(c) for c in chemins)))
     return audio, diapos, inattendus, erreurs
 
@@ -172,7 +172,7 @@ def convertir(src, dst, ep, lg, total):
         os.replace(provisoire, dst)
     except OSError as ex:                        # le MP3 publié est ouvert ailleurs (lecteur, serveur local…)
         os.remove(provisoire)
-        raise RuntimeError("%s n'a pas pu être remplacé (%s) — fermez ce qui le lit, puis relancez" % (relatif(dst), ex))
+        raise RuntimeError("%s n'a pas pu être remplacé (%s) : fermez ce qui le lit, puis relancez" % (relatif(dst), ex))
     return d
 
 
@@ -201,7 +201,7 @@ def audio(lg, bruts, essai, journal, erreurs):
             erreurs.append("épisode %d (%s) : %s" % (num, relatif(src), ex))
             continue
         a_convertir.add(num)
-        journal.append("%s — %s, %s" % (relatif(dst), texte_fr(P.duree_texte(d, "fr")),
+        journal.append("%s : %s, %s" % (relatif(dst), texte_fr(P.duree_texte(d, "fr")),
                                         texte_fr(P.poids_texte(os.path.getsize(dst), "fr"))))
     return a_convertir
 
@@ -269,7 +269,7 @@ def diaporamas(lg, pdfs, essai, journal, erreurs, alertes):
                            % (num, relatif(src), n, PAGES_MAX))
             continue
         if os.path.getsize(src) > POIDS_ALERTE:
-            alertes.append("diaporama de l'épisode %d : %s à télécharger — lourd pour un téléphone"
+            alertes.append("diaporama de l'épisode %d : %s à télécharger, lourd pour un téléphone"
                            % (num, texte_fr(P.poids_texte(os.path.getsize(src), "fr"))))
         if meme_contenu(src, pdf) and images_completes(dossier, n):
             continue
@@ -291,7 +291,7 @@ def diaporamas(lg, pdfs, essai, journal, erreurs, alertes):
             erreurs.append("diaporama de l'épisode %d : rendu impossible (%s)" % (num, ex))
             continue
         a_rendre.add(num)
-        journal.append("%s et %s/ — %d diapositives, %d image(s) écrite(s)" % (publie(f["pdf"]), publie(f["diapos"]),
+        journal.append("%s et %s/ : %d diapositives, %d image(s) écrite(s)" % (publie(f["pdf"]), publie(f["diapos"]),
                                                                               n, ecrites))
     return a_rendre
 
@@ -308,7 +308,7 @@ def fragments(essai):
 # ── le tableau ──────────────────────────────────────────────────────────────
 def tableau(lg, bruts, a_publier, essai):
     """L'état de chaque épisode d'une langue ; a_publier : ceux que cette passe publie (ou publierait, en essai)."""
-    print("\n%s — %s/%s/ → site/%s/" % (NOM_LANGUE[lg], SOURCES, lg, P.MEDIA))
+    print("\n%s : %s/%s/ → site/%s/" % (NOM_LANGUE[lg], SOURCES, lg, P.MEDIA))
     if not P.EPISODES:
         print("  aucun épisode dans outils/podcasts.py")
     for ep in sorted(P.EPISODES, key=lambda e: e["num"]):
@@ -318,7 +318,7 @@ def tableau(lg, bruts, a_publier, essai):
             etat = "en ligne" + (" · " + texte_fr(P.duree_texte(d, "fr")) if d else "")
         else:
             etat = "à venir" + ("" if num in bruts else
-                                " — déposez %s/%s/%s.<wav|m4a|mp3…>" % (SOURCES, lg, ep["nom"]))
+                                " ; déposez %s/%s/%s.<wav|m4a|mp3…>" % (SOURCES, lg, ep["nom"]))
         diapos = P.diaporama(ep, lg)
         if diapos:
             etat += " · diaporama : %d diapositive%s" % (diapos["n"], "s" if diapos["n"] > 1 else "")
@@ -335,7 +335,7 @@ def main():
     if problemes:
         for p in problemes:
             print("  ✗", p)
-        print("Source incohérente (outils/podcasts.py) — rien n'est fait.")
+        print("Source incohérente (outils/podcasts.py), rien n'est fait.")
         return 1
     journal, alertes, erreurs, publies = [], [], P.places_manquantes(), 0
     for lg in P.LANGUES:
@@ -353,7 +353,7 @@ def main():
         publies += len(a_publier)
         tableau(lg, bruts, a_publier, args.essai)
         for f in inattendus:
-            alertes.append("fichier inattendu, laissé de côté : %s — noms attendus : ceux de outils/podcasts.py "
+            alertes.append("fichier inattendu, laissé de côté : %s. Noms attendus : ceux de outils/podcasts.py "
                            "(<nom>.<wav|m4a|mp3…>, <nom>.pdf)" % f)
     print()
     for a in alertes:

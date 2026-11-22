@@ -71,7 +71,7 @@ def main():
             continue
         t = io.open(r_p, encoding="utf-8").read()
         if miroir.bilingue(t):
-            erreurs.append("%s : page en blocs data-tr — data_tr_vers_miroir.py la convertit" % rel)
+            erreurs.append("%s : page en blocs data-tr ; data_tr_vers_miroir.py la convertit" % rel)
             continue
         if 'data-langues="%s"' % racine not in t:
             ecrits[r_p] = miroir.declarer(t, racine)

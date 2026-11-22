@@ -887,7 +887,7 @@ def main(argv=None):
     jr.titre("Bilan")
     jr.info("%d fichiers envoyés, %s en %s" % (envoyes, humain(cumul), duree(time.time() - depart)))
     if echecs:
-        jr.alerte("%d échec(s) — ces fichiers seront repris au prochain lancement :" % len(echecs))
+        jr.alerte("%d échec(s) ; ces fichiers seront repris au prochain lancement :" % len(echecs))
         for rel, e in echecs[:10]:
             jr.info("%s : %s" % (rel, e))
         return ECHECS

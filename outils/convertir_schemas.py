@@ -104,7 +104,7 @@ def main():
     if sautes:
         print("  %d déjà à jour, laissé(s) tel(s) quel(s)." % sautes)
     if faits:
-        print("\n  À pousser — seuls les WebP sont versionnés :")
+        print("\n  À pousser (seuls les WebP sont versionnés) :")
         print("      git add assets/media/schemas/")
         print("      git commit -m \"schemas du chapitre N\"")
         print("      git push")
