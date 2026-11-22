@@ -217,7 +217,13 @@ adresse externe s'ouvre dans un nouvel onglet, annoncé aux lecteurs d'écran) ;
 chaque carte de chapitre prend son titre dans `course-data.js`, sa durée dans
 `DUREES`, son texte dans le sous-titre de la page du chapitre, et son
 illustration dans `assets/media/illustrations/chapitre-<N>-carte.webp` si elle
-est déposée (l'emoji du chapitre sinon).
+est déposée (l'emoji du chapitre sinon). Le programme du cours, enfin (fragments
+`programme`, `echeances`, `duree-cours`, `nb-seances`) : sa source est
+`outils/seances.py`, le bloc école (séances en demi-journées, travail à faire,
+livrables, échéances et notation, sans aucune date réelle), et
+`outils/programme.py` l'écrit sur l'accueil. `python3 outils/seances.py` contrôle
+sa cohérence, que `generer_fragments.py` vérifie aussi avant d'écrire ; un cours
+créé part avec un programme vide, que ses pages annoncent « à rédiger ».
 
 **Source unique de vérité.** `course-data.js` pilote l'arbre de navigation *partout*. `nav-sections.js` reflète les `<h2 id>` réels de chaque chapitre : relancer `outils/generer_nav_sections.py` après tout ajout, retrait ou renommage de section (`--essai` dit s'il est à jour, sans rien écrire). Les `id` de questions (`Q01`…) doivent **correspondre** entre `questions.js` et `corrections.js`.
 

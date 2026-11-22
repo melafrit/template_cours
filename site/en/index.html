@@ -55,7 +55,7 @@
       </div>
       <!-- /FRAGMENT:accueil-boutons -->
       <div class="info-grid">
-        <div class="info-card"><div class="label">Duration</div><div class="value"><!-- FRAGMENT:duree-totale -->1 h 20<!-- /FRAGMENT:duree-totale --></div><div class="meta">Reading time for the <!-- FRAGMENT:nb-chapitres-lettres -->three<!-- /FRAGMENT:nb-chapitres-lettres --> chapters, workshop not included</div></div>
+        <div class="info-card"><div class="label">Duration</div><div class="value"><!-- FRAGMENT:duree-cours -->2 days<!-- /FRAGMENT:duree-cours --></div><div class="meta">In <!-- FRAGMENT:nb-seances-lettres -->four<!-- /FRAGMENT:nb-seances-lettres --> sessions, with <!-- FRAGMENT:duree-totale -->1 h 20<!-- /FRAGMENT:duree-totale --> of reading</div></div>
         <div class="info-card"><div class="label">Assessment</div><div class="value">Graded quiz</div><div class="meta">Certainty-based marking, correction and dashboard</div></div>
         <div class="info-card"><div class="label">What you produce</div><div class="value"><!-- FRAGMENT:val-livrables -->5<!-- /FRAGMENT:val-livrables --> deliverables</div><div class="meta">The complete skeleton of a course ready to deliver</div></div>
         <div class="info-card"><div class="label">Through-line</div><div class="value">Your own course</div><div class="meta">Built in the workshop, chapter after chapter</div></div>
@@ -90,6 +90,21 @@
         </a>
       </nav>
       <!-- /FRAGMENT:cartes-chapitres -->
+    <h3 class="accueil-sous-titre" id="programme">The schedule, session by session</h3>
+    <!-- FRAGMENT:programme -->
+      <div class="schedule-wrap programme-wrap" role="region" aria-label="The schedule, session by session" tabindex="0">
+      <table class="schedule programme">
+        <caption class="sr-only">The schedule, session by session</caption>
+        <thead><tr><th scope="col">Session</th><th scope="col">On the agenda</th><th scope="col">Due</th></tr></thead>
+        <tbody>
+          <tr><th scope="row" data-label="Session"><div class="dj-cell"><div class="dj-icon" aria-hidden="true">☀️</div><div><div class="dj-tag">Day 1</div><div class="dj-num">morning</div><div class="horaire">9:00 to 12:30</div></div></div></th><td class="content-cell" data-label="On the agenda"><p class="title-cell"><a href="chapitres/01-cadrage.html">Chapter 1 · Scoping your course</a></p><p><strong>Workshop :</strong> The scoping sheet</p><p>Start the scoping sheet: the target audience, the prerequisites, three to five measurable learning objectives, the through-line.</p></td><td class="content-cell" data-label="Due"><p class="text-muted">Nothing due</p></td></tr>
+          <tr><th scope="row" data-label="Session"><div class="dj-cell"><div class="dj-icon" aria-hidden="true">🌇</div><div><div class="dj-tag">Day 1</div><div class="dj-num">afternoon</div><div class="horaire">13:30 to 17:00</div></div></div></th><td class="content-cell" data-label="On the agenda"><p class="title-cell"><a href="chapitres/02-structurer.html">Chapter 2 · Structuring the content</a></p><p><strong>Workshop :</strong> The plan</p><p>Break the course down into modules and sequences, with an estimated duration for each.</p></td><td class="content-cell" data-label="Due"><p><span aria-hidden="true">📤</span> <strong>Work version: scoping sheet and plan</strong><br>Day 1 at 17:00</p></td></tr>
+          <tr><th scope="row" data-label="Session"><div class="dj-cell"><div class="dj-icon" aria-hidden="true">☀️</div><div><div class="dj-tag">Day 2</div><div class="dj-num">morning</div><div class="horaire">9:00 to 12:30</div></div></div></th><td class="content-cell" data-label="On the agenda"><p class="title-cell"><a href="chapitres/03-multimedia.html">Chapter 3 · Creating the resources</a></p><p><strong>Workshop :</strong> The written chapter</p><p>Write one complete chapter, illustrated, with a hook and a "key takeaways" box.</p></td><td class="content-cell" data-label="Due"><p class="text-muted">Nothing due</p></td></tr>
+          <tr><th scope="row" data-label="Session"><div class="dj-cell"><div class="dj-icon" aria-hidden="true">🌇</div><div><div class="dj-tag">Day 2</div><div class="dj-num">afternoon</div><div class="horaire">13:30 to 17:00</div></div></div></th><td class="content-cell" data-label="On the agenda"><p class="title-cell">Workshop and graded quiz</p><p><strong>Workshop :</strong> The quiz and the glossary</p><p>Write the five-question quiz, each question with its correct answer and its justification, and the ten-term glossary; then take the graded quiz.</p></td><td class="content-cell" data-label="Due"><p><span aria-hidden="true">📤</span> <strong>Graded quiz</strong><br>Day 2 at 17:00</p><p><span aria-hidden="true">📤</span> <strong>Final folder: the five deliverables</strong><br>The Sunday after Day 2, at 23:59</p></td></tr>
+        </tbody>
+      </table>
+      </div>
+      <!-- /FRAGMENT:programme -->
   </section>
 
   <section class="landing-section" id="fil-rouge" aria-labelledby="titre-fil-rouge">
@@ -117,6 +132,20 @@
       <li><strong>A quiz</strong>, with the correct answer and a short justification for each question.</li>
       <li><strong>A glossary</strong>: a clear definition and, where possible, an example for each term.</li>
     </ol>
+    <h3 class="accueil-sous-titre" id="echeances">Deadlines</h3>
+    <!-- FRAGMENT:echeances -->
+      <div class="schedule-wrap" role="region" aria-label="Deadlines" tabindex="0">
+      <table class="content-table echeances">
+        <caption class="sr-only">Deadlines</caption>
+        <thead><tr><th scope="col">Deliverable</th><th scope="col">Deadline</th><th scope="col">Grading</th></tr></thead>
+        <tbody>
+          <tr><td>Work version: scoping sheet and plan</td><td>Day 1 at 17:00</td><td>Required, not graded</td></tr>
+          <tr><td>Graded quiz</td><td>Day 2 at 17:00</td><td>Weight 1, out of 20</td></tr>
+          <tr><td>Final folder: the five deliverables</td><td>The Sunday after Day 2, at 23:59</td><td>Weight 2, out of 20, rubric of 6 criteria</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <!-- /FRAGMENT:echeances -->
     <p><a href="atelier.html">The deliverables in detail, with their success criteria, in the workshop <span aria-hidden="true">→</span></a></p>
   </section>
 

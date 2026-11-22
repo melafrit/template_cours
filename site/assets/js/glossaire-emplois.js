@@ -123,6 +123,13 @@ window.GLOSSARY_EMPLOIS = {
     "section": ""
    },
    {
+    "a": "programme",
+    "n": 1,
+    "p": "index.html",
+    "page": "Designing an online course",
+    "section": "The schedule, session by session"
+   },
+   {
     "a": "titre-livrables",
     "n": 1,
     "p": "index.html",
@@ -206,6 +213,13 @@ window.GLOSSARY_EMPLOIS = {
     "section": ""
    },
    {
+    "a": "programme",
+    "n": 1,
+    "p": "index.html",
+    "page": "Designing an online course",
+    "section": "The schedule, session by session"
+   },
+   {
     "a": "titre-fil-rouge",
     "n": 5,
     "p": "index.html",
@@ -271,6 +285,13 @@ window.GLOSSARY_EMPLOIS = {
     "p": "cours.html",
     "page": "Course contents",
     "section": ""
+   },
+   {
+    "a": "programme",
+    "n": 1,
+    "p": "index.html",
+    "page": "Designing an online course",
+    "section": "The schedule, session by session"
    }
   ],
   "g-prerequis": [
@@ -310,6 +331,13 @@ window.GLOSSARY_EMPLOIS = {
     "section": ""
    },
    {
+    "a": "programme",
+    "n": 1,
+    "p": "index.html",
+    "page": "Designing an online course",
+    "section": "The schedule, session by session"
+   },
+   {
     "a": "titre-livrables",
     "n": 1,
     "p": "index.html",
@@ -331,6 +359,13 @@ window.GLOSSARY_EMPLOIS = {
     "p": "atelier.html",
     "page": "Design your own online course",
     "section": ""
+   },
+   {
+    "a": "programme",
+    "n": 1,
+    "p": "index.html",
+    "page": "Designing an online course",
+    "section": "The schedule, session by session"
    },
    {
     "a": "titre-livrables",
@@ -418,6 +453,13 @@ window.GLOSSARY_EMPLOIS = {
     "section": ""
    },
    {
+    "a": "programme",
+    "n": 1,
+    "p": "index.html",
+    "page": "Concevoir un cours en ligne",
+    "section": "Le programme, séance par séance"
+   },
+   {
     "a": "titre-livrables",
     "n": 1,
     "p": "index.html",
@@ -497,6 +539,13 @@ window.GLOSSARY_EMPLOIS = {
     "p": "index.html",
     "page": "Concevoir un cours en ligne",
     "section": ""
+   },
+   {
+    "a": "programme",
+    "n": 1,
+    "p": "index.html",
+    "page": "Concevoir un cours en ligne",
+    "section": "Le programme, séance par séance"
    },
    {
     "a": "titre-fil-rouge",
@@ -612,6 +661,13 @@ window.GLOSSARY_EMPLOIS = {
     "section": ""
    },
    {
+    "a": "programme",
+    "n": 1,
+    "p": "index.html",
+    "page": "Concevoir un cours en ligne",
+    "section": "Le programme, séance par séance"
+   },
+   {
     "a": "titre-livrables",
     "n": 1,
     "p": "index.html",
@@ -640,6 +696,13 @@ window.GLOSSARY_EMPLOIS = {
     "p": "atelier.html",
     "page": "Concevez votre propre cours en ligne",
     "section": ""
+   },
+   {
+    "a": "programme",
+    "n": 1,
+    "p": "index.html",
+    "page": "Concevoir un cours en ligne",
+    "section": "Le programme, séance par séance"
    },
    {
     "a": "titre-livrables",
@@ -672,11 +735,25 @@ window.GLOSSARY_EMPLOIS = {
     "section": ""
    },
    {
+    "a": "programme",
+    "n": 5,
+    "p": "index.html",
+    "page": "Concevoir un cours en ligne",
+    "section": "Le programme, séance par séance"
+   },
+   {
     "a": "titre-livrables",
     "n": 1,
     "p": "index.html",
     "page": "Concevoir un cours en ligne",
     "section": "Ce que vous produisez"
+   },
+   {
+    "a": "echeances",
+    "n": 1,
+    "p": "index.html",
+    "page": "Concevoir un cours en ligne",
+    "section": "Les échéances"
    },
    {
     "a": "titre-evaluation",

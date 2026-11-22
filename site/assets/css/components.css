@@ -1436,3 +1436,32 @@ html[data-theme="dark"] .carte-chapitre .cch-num { color: var(--accent-light); }
 @media (max-width: 768px) {
   .fab-cours.fab-en-attente { opacity: 0; visibility: hidden; pointer-events: none; }
 }
+
+/* Le programme et les échéances de l'accueil (lot 2, outils/programme.py d'après outils/seances.py) : le tableau
+   du planning de main.css (.schedule), une ligne par séance ; ses horaires sous le moment. */
+.accueil-sous-titre { font-size: var(--fs-xl); margin: var(--space-12) 0 var(--space-5); }
+.programme tbody th { text-align: start; font-weight: 400; vertical-align: top; padding: var(--space-5); min-width: 11.5rem; }
+/* La majuscule à la seule première lettre : capitalize écrivait « Après-Midi ». */
+.programme .dj-num::first-letter { text-transform: uppercase; }
+.programme .horaire { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--text-muted); margin-top: 2px; white-space: nowrap; }
+.programme .title-cell { font-size: var(--fs-base); margin-bottom: var(--space-2); }
+.programme .title-cell a { color: var(--text-primary); }
+.programme .title-cell a:hover { color: var(--primary); }
+.echeances { width: 100%; }
+.callout-a-rediger { padding: var(--space-4) var(--space-5); border: 1px dashed var(--border); border-radius: var(--radius-md);
+  color: var(--text-secondary); background: var(--bg-card); }
+.schedule-wrap:focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; }
+/* Sur téléphone, chaque séance devient une carte : le tableau de 760 px défilait de côté dans un cadre de 333. Chaque
+   cellule annonce son intitulé (data-label, posé par outils/programme.py). */
+@media (max-width: 600px) {
+  .programme-wrap { overflow: visible; border: none; box-shadow: none; }
+  .schedule.programme { min-width: 0; background: transparent; }
+  .programme thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .programme, .programme tbody, .programme tr, .programme tbody th, .programme td { display: block; width: 100%; }
+  .programme tbody tr { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm); margin-bottom: var(--space-4); overflow: hidden; }
+  .programme tbody th, .programme td { padding: var(--space-4); }
+  .programme td[data-label]::before { content: attr(data-label); display: block; margin-bottom: var(--space-2);
+    font-family: var(--font-display); font-size: var(--fs-xs); font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--text-muted); }
+}

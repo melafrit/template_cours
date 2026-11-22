@@ -426,9 +426,9 @@ ACCUEIL = {
     "fr": {
         "aller": "Aller au contenu", "sommaire": "Sommaire", "voix": "Capsules d'accueil",
         "pastille": "À rédiger : diplôme, bloc et module",
-        "cartes": [("Durée", "<!-- FRAGMENT:duree-totale -->…<!-- /FRAGMENT:duree-totale -->",
-                    "La lecture des <!-- FRAGMENT:nb-chapitres-lettres -->…<!-- /FRAGMENT:nb-chapitres-lettres -->"
-                    " chapitres"),
+        "cartes": [("Durée", "<!-- FRAGMENT:duree-cours -->…<!-- /FRAGMENT:duree-cours -->",
+                    "En <!-- FRAGMENT:nb-seances-lettres -->…<!-- /FRAGMENT:nb-seances-lettres --> séances, avec "
+                    "<!-- FRAGMENT:duree-totale -->…<!-- /FRAGMENT:duree-totale --> de lecture"),
                    ("Épreuve préparée", "À rédiger", "Les compétences et les critères visés"),
                    ("Ce que vous produisez", "À rédiger", "Les livrables, et où les déposer"),
                    ("Fil rouge", "À rédiger", "Le cas qui traverse tout le cours")],
@@ -449,13 +449,14 @@ ACCUEIL = {
                                      "de l'écran."),
         "flottant": "Chapitre 1", "bienvenue": "Bienvenue dans le cours", "filiere": "En %s",
         "pied": "Cours « %s » · Auteur : ",
+        "programme": "Le programme, séance par séance", "echeances": "Les échéances",
     },
     "en": {
         "aller": "Skip to content", "sommaire": "Contents", "voix": "Welcome audio",
         "pastille": "To be written: degree, block and module",
-        "cartes": [("Duration", "<!-- FRAGMENT:duree-totale -->…<!-- /FRAGMENT:duree-totale -->",
-                    "Reading time for the <!-- FRAGMENT:nb-chapitres-lettres -->…<!-- /FRAGMENT:nb-chapitres-lettres -->"
-                    " chapters"),
+        "cartes": [("Duration", "<!-- FRAGMENT:duree-cours -->…<!-- /FRAGMENT:duree-cours -->",
+                    "In <!-- FRAGMENT:nb-seances-lettres -->…<!-- /FRAGMENT:nb-seances-lettres --> sessions, with "
+                    "<!-- FRAGMENT:duree-totale -->…<!-- /FRAGMENT:duree-totale --> of reading"),
                    ("Assessment prepared", "To be written", "The competences and criteria covered"),
                    ("What you produce", "To be written", "The deliverables, and where to submit them"),
                    ("Through-line", "To be written", "The case that runs across the whole course")],
@@ -475,6 +476,7 @@ ACCUEIL = {
                                      "the screen."),
         "flottant": "Chapter 1", "bienvenue": "Welcome to the course", "filiere": "In %s",
         "pied": "Course \"%s\" · Author: ",
+        "programme": "The schedule, session by session", "echeances": "Deadlines",
     },
 }
 
@@ -572,6 +574,11 @@ def accueil_squelette(c, demo):
                 '    <p class="lead">%s</p>' % h(consigne)]
         if ident == "parcours":
             bloc.append("    <!-- FRAGMENT:cartes-chapitres --><!-- /FRAGMENT:cartes-chapitres -->")
+            bloc.append('    <h3 class="accueil-sous-titre" id="programme">%s</h3>' % h(A["programme"]))
+            bloc.append("    <!-- FRAGMENT:programme --><!-- /FRAGMENT:programme -->")
+        if ident == "livrables":
+            bloc.append('    <h3 class="accueil-sous-titre" id="echeances">%s</h3>' % h(A["echeances"]))
+            bloc.append("    <!-- FRAGMENT:echeances --><!-- /FRAGMENT:echeances -->")
         if ident == "fil-rouge" and multi:
             bloc += ['    <div class="exemple-filiere only-%s"><p>%s</p></div>' % (f["id"], A["exemple"] % h(f["code"]))
                      for f in filieres]
@@ -731,6 +738,29 @@ def accueil_squelette(c, demo):
 BOUTONS_VIDES = ("# À remplir : le dépôt sur Livrables, les épreuves de chaque filière… (le bloc école les écrira).\n"
                  "# Tant que la liste est vide, le bandeau n'a que « Commencer le chapitre 1 ».\n"
                  "BOUTONS = []\n")
+
+
+# Le programme de la démonstration (ses séances, ses livrables) ne vaut pas pour un cours créé : outils/seances.py y
+# part vide, et l'accueil dit « à rédiger » à la place du programme et des échéances.
+SEANCES_VIDES = {
+    "SEANCES": "SEANCES = []\n",
+    "LIVRABLES": "LIVRABLES = {}\n",
+    "REPERES": "REPERES = {}\n",
+}
+
+
+def vider_seances(sortie):
+    """SEANCES, LIVRABLES et REPERES vides dans outils/seances.py du cours ; vrai si le fichier a changé."""
+    p = os.path.join(sortie, "outils", "seances.py")
+    if not os.path.isfile(p):
+        return False
+    t = io.open(p, encoding="utf-8").read()
+    neuf = t
+    for nom, vide in SEANCES_VIDES.items():
+        neuf = re.sub(r"^%s = [\[{]\n.*?^[\]}]\n" % nom, lambda m: vide, neuf, count=1, flags=re.S | re.M)
+    if neuf != t:
+        ecrire(p, neuf)
+    return neuf != t
 
 
 def vider_boutons_accueil(sortie):
@@ -972,6 +1002,8 @@ def purger_demo(sortie, c):
         ecrire(acc, accueil_squelette(c, io.open(acc, encoding="utf-8").read()))
         remplaces += 1
     if vider_boutons_accueil(sortie):
+        remplaces += 1
+    if vider_seances(sortie):
         remplaces += 1
 
     # l'atelier et les activites de la demonstration
@@ -1815,8 +1847,8 @@ def main():
     r = subprocess.run([sys.executable, os.path.join(sortie, "outils", "generer_fragments.py")],
                        capture_output=True, text=True, encoding="utf-8")
     manques = r.stdout.count("✗")
-    print("  fragments écrits%s" % (" — %d à renseigner dans outils/referentiel.py (durées des chapitres)" % manques
-                                    if manques else ""))
+    print("  fragments écrits%s" % (", %d à renseigner (durées des chapitres dans outils/referentiel.py, séances "
+                                    "dans outils/seances.py)" % manques if manques else ""))
 
     # --- « Où en parle-t-on ? » : les emplois des termes du glossaire du cours (celui de la démonstration en avait
     #     d'autres). Le générateur se relance après chaque retouche d'une page.

@@ -32,6 +32,10 @@ Fragments connus :
   livret-auteur         la présentation de l'auteur            ← outils/livret.py
   accueil-boutons       les boutons du bandeau de l'accueil    ← outils/accueil.py (BOUTONS), course-data.js
   cartes-chapitres      les cartes des chapitres de l'accueil  ← course-data.js, sous-titres, DUREES
+  programme             le programme, séance par séance         ← outils/seances.py (via outils/programme.py)
+  echeances             les échéances et la notation            ← outils/seances.py (via outils/programme.py)
+  duree-cours           la durée du cours en jours (« 2 jours ») ← outils/seances.py
+  nb-seances(-lettres)  le nombre de séances (« 4 », « quatre ») ← outils/seances.py
 
 La liste des épisodes rend elle-même ses deux langues sur une page en blocs data-tr : chaque section n'y paraît qu'une
 fois, et l'ancre episode-N que visent les encadrés reste unique. Les chemins (médias, page Podcasts) se calculent
@@ -115,6 +119,16 @@ def charger_accueil():
     return module
 
 
+def charger_programme():
+    """outils/programme.py (le programme et les échéances, d'après outils/seances.py), ou None sans bloc école."""
+    if not all(os.path.isfile(os.path.join(RACINE, "outils", f)) for f in ("programme.py", "seances.py")):
+        return None
+    spec = importlib.util.spec_from_file_location("programme", os.path.join(RACINE, "outils", "programme.py"))
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
 def chapitres():
     """Les numéros des chapitres, dans l'ordre de site/assets/js/course-data.js."""
     src = io.open(os.path.join(SITE, "assets", "js", "course-data.js"), encoding="utf-8").read()
@@ -185,13 +199,18 @@ def valeur(v, langue):
     return html.escape(str(v))
 
 
-def rendre(nom, langue, ref, nums, page="", serie=None, livret=None, accueil=None):
+def rendre(nom, langue, ref, nums, page="", serie=None, livret=None, accueil=None, programme=None):
     """Le contenu du fragment nom, dans une langue, pour la page page (depuis la racine du site) ; Manque s'il est
     inconnu ou incomplet. serie : outils/podcasts.py ; livret : outils/polycopie/page.py ; accueil : outils/accueil.py,
     s'ils existent."""
     durees = getattr(ref, "DUREES", {}) or {}
     if accueil is not None and accueil.FRAGMENT.match(nom):
         return accueil.rendre(nom, langue, page, durees=durees, duree=duree)
+    if programme is not None and programme.FRAGMENT.match(nom):
+        try:
+            return programme.rendre(nom, langue, page, en_lettres=en_lettres)
+        except KeyError as e:
+            raise Manque(e.args[0] if e.args else "programme incomplet")
     if livret is not None and livret.FRAGMENT.match(nom):
         return livret.rendre(nom, langue, page)
     if serie is not None and serie.FRAGMENT.match(nom):
@@ -261,13 +280,13 @@ def contextes(t):
     return out
 
 
-def regenerer(t, ref, nums, manques, rel, serie=None, livret=None, accueil=None):
+def regenerer(t, ref, nums, manques, rel, serie=None, livret=None, accueil=None, programme=None):
     """Le texte de la page, fragments réécrits ; les manques s'ajoutent à la liste."""
     langues, ctx = langues_de_page(t), contextes(t)
 
     def un(nom, langue):
         try:
-            return rendre(nom, langue, ref, nums, rel, serie, livret, accueil)
+            return rendre(nom, langue, ref, nums, rel, serie, livret, accueil, programme)
         except Manque as e:
             manques.append("%s : %s — %s" % (rel, nom, e))
             return MANQUE
@@ -295,8 +314,11 @@ def main():
     ap.add_argument("--essai", action="store_true", help="dit ce qui n'est plus à jour, sans rien écrire")
     args = ap.parse_args()
     ref, serie, livret, accueil = charger_referentiel(), charger_podcasts(), charger_livret(), charger_accueil()
+    programme = charger_programme()
     ecarts = ["outils/referentiel.py : " + e for e in (ref.verifier() if hasattr(ref, "verifier") else [])]
     ecarts += ["outils/podcasts.py : " + e for e in (serie.controler() if serie is not None else [])]
+    if programme is not None:
+        ecarts += ["outils/seances.py : " + e for e in programme._module("seances").verifier()]
     if ecarts:
         print("Sources incohérentes — rien n'est écrit :")
         for e in ecarts:
@@ -317,7 +339,7 @@ def main():
         crlf = "\r\n" in t
         if crlf:
             t = t.replace("\r\n", "\n")
-        neuf = regenerer(t, ref, nums, manques, rel, serie, livret, accueil)
+        neuf = regenerer(t, ref, nums, manques, rel, serie, livret, accueil, programme)
         if neuf == t:
             a_jour += 1
             continue

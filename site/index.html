@@ -55,7 +55,7 @@
       </div>
       <!-- /FRAGMENT:accueil-boutons -->
       <div class="info-grid">
-        <div class="info-card"><div class="label">Durée</div><div class="value"><!-- FRAGMENT:duree-totale -->1 h 20<!-- /FRAGMENT:duree-totale --></div><div class="meta">La lecture des <!-- FRAGMENT:nb-chapitres-lettres -->trois<!-- /FRAGMENT:nb-chapitres-lettres --> chapitres, sans l'atelier</div></div>
+        <div class="info-card"><div class="label">Durée</div><div class="value"><!-- FRAGMENT:duree-cours -->2 jours<!-- /FRAGMENT:duree-cours --></div><div class="meta">En <!-- FRAGMENT:nb-seances-lettres -->quatre<!-- /FRAGMENT:nb-seances-lettres --> séances, avec <!-- FRAGMENT:duree-totale -->1 h 20<!-- /FRAGMENT:duree-totale --> de lecture</div></div>
         <div class="info-card"><div class="label">Évaluation</div><div class="value">QCM noté</div><div class="meta">Notation par degré de certitude, correction et tableau de bord</div></div>
         <div class="info-card"><div class="label">Ce que vous produisez</div><div class="value"><!-- FRAGMENT:val-livrables -->5<!-- /FRAGMENT:val-livrables --> livrables</div><div class="meta">Le squelette complet d'un cours prêt à diffuser</div></div>
         <div class="info-card"><div class="label">Fil rouge</div><div class="value">Votre propre cours</div><div class="meta">Construit dans l'atelier, chapitre après chapitre</div></div>
@@ -90,6 +90,21 @@
         </a>
       </nav>
       <!-- /FRAGMENT:cartes-chapitres -->
+    <h3 class="accueil-sous-titre" id="programme">Le programme, séance par séance</h3>
+    <!-- FRAGMENT:programme -->
+      <div class="schedule-wrap programme-wrap" role="region" aria-label="Le programme, séance par séance" tabindex="0">
+      <table class="schedule programme">
+        <caption class="sr-only">Le programme, séance par séance</caption>
+        <thead><tr><th scope="col">Séance</th><th scope="col">Au programme</th><th scope="col">À rendre</th></tr></thead>
+        <tbody>
+          <tr><th scope="row" data-label="Séance"><div class="dj-cell"><div class="dj-icon" aria-hidden="true">☀️</div><div><div class="dj-tag">Jour 1</div><div class="dj-num">matin</div><div class="horaire">9 h 00 à 12 h 30</div></div></div></th><td class="content-cell" data-label="Au programme"><p class="title-cell"><a href="chapitres/01-cadrage.html">Chapitre 1 · Cadrer son cours</a></p><p><strong>Atelier :</strong> La fiche de cadrage</p><p>Commencer la fiche de cadrage : le public cible, les prérequis, trois à cinq objectifs mesurables, le fil rouge.</p></td><td class="content-cell" data-label="À rendre"><p class="text-muted">Rien à rendre</p></td></tr>
+          <tr><th scope="row" data-label="Séance"><div class="dj-cell"><div class="dj-icon" aria-hidden="true">🌇</div><div><div class="dj-tag">Jour 1</div><div class="dj-num">après-midi</div><div class="horaire">13 h 30 à 17 h 00</div></div></div></th><td class="content-cell" data-label="Au programme"><p class="title-cell"><a href="chapitres/02-structurer.html">Chapitre 2 · Structurer le contenu</a></p><p><strong>Atelier :</strong> Le plan</p><p>Découper le cours en modules et en séquences, avec la durée estimée de chacune.</p></td><td class="content-cell" data-label="À rendre"><p><span aria-hidden="true">📤</span> <strong>Version de travail : fiche de cadrage et plan</strong><br>Jour 1 à 17 h 00</p></td></tr>
+          <tr><th scope="row" data-label="Séance"><div class="dj-cell"><div class="dj-icon" aria-hidden="true">☀️</div><div><div class="dj-tag">Jour 2</div><div class="dj-num">matin</div><div class="horaire">9 h 00 à 12 h 30</div></div></div></th><td class="content-cell" data-label="Au programme"><p class="title-cell"><a href="chapitres/03-multimedia.html">Chapitre 3 · Créer les ressources</a></p><p><strong>Atelier :</strong> Le chapitre rédigé</p><p>Rédiger un chapitre complet, illustré, avec une accroche et un « à retenir ».</p></td><td class="content-cell" data-label="À rendre"><p class="text-muted">Rien à rendre</p></td></tr>
+          <tr><th scope="row" data-label="Séance"><div class="dj-cell"><div class="dj-icon" aria-hidden="true">🌇</div><div><div class="dj-tag">Jour 2</div><div class="dj-num">après-midi</div><div class="horaire">13 h 30 à 17 h 00</div></div></div></th><td class="content-cell" data-label="Au programme"><p class="title-cell">Atelier et QCM noté</p><p><strong>Atelier :</strong> Le QCM et le glossaire</p><p>Écrire le QCM de cinq questions, chacune avec sa bonne réponse et sa justification, et le glossaire de dix termes ; puis passer le QCM noté.</p></td><td class="content-cell" data-label="À rendre"><p><span aria-hidden="true">📤</span> <strong>QCM noté</strong><br>Jour 2 à 17 h 00</p><p><span aria-hidden="true">📤</span> <strong>Dossier final : les cinq livrables</strong><br>Le dimanche qui suit le Jour 2, à 23 h 59</p></td></tr>
+        </tbody>
+      </table>
+      </div>
+      <!-- /FRAGMENT:programme -->
   </section>
 
   <section class="landing-section" id="fil-rouge" aria-labelledby="titre-fil-rouge">
@@ -117,6 +132,20 @@
       <li><strong>Un QCM</strong>, avec la bonne réponse et une justification courte pour chaque question.</li>
       <li><strong>Un glossaire</strong> : une définition claire et, si possible, un exemple pour chaque terme.</li>
     </ol>
+    <h3 class="accueil-sous-titre" id="echeances">Les échéances</h3>
+    <!-- FRAGMENT:echeances -->
+      <div class="schedule-wrap" role="region" aria-label="Les échéances" tabindex="0">
+      <table class="content-table echeances">
+        <caption class="sr-only">Les échéances</caption>
+        <thead><tr><th scope="col">Livrable</th><th scope="col">Échéance</th><th scope="col">Notation</th></tr></thead>
+        <tbody>
+          <tr><td>Version de travail : fiche de cadrage et plan</td><td>Jour 1 à 17 h 00</td><td>Obligatoire, non notée</td></tr>
+          <tr><td>QCM noté</td><td>Jour 2 à 17 h 00</td><td>Coefficient 1, sur 20</td></tr>
+          <tr><td>Dossier final : les cinq livrables</td><td>Le dimanche qui suit le Jour 2, à 23 h 59</td><td>Coefficient 2, sur 20, grille de 6 critères</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <!-- /FRAGMENT:echeances -->
     <p><a href="atelier.html">Le détail des livrables et leurs critères de réussite, dans l'atelier <span aria-hidden="true">→</span></a></p>
   </section>
 
