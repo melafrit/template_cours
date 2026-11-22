@@ -6,7 +6,8 @@ Source unique, décidée par l'auteur le 21 et le 22 novembre 2026 (lot 2), de :
   - le cahier de texte Yparéo, avec et sans les identifiants du site ;
   - le classeur d'import de l'application Livrables (sa feuille Séances porte aussi le texte de chaque séance : la
     voie à suivre quand l'auteur n'a pas accès à Yparéo) ;
-  - les boutons de l'accueil : le dépôt sur Livrables, les épreuves de chaque filière.
+  - la pastille et les boutons des épreuves de l'accueil, pour chaque filière qui prépare l'épreuve d'un bloc
+    (FILIERES, rendus par outils/accueil.py).
 
 AUCUNE DATE ICI. Le contenu dit « Jour 1 », « Jour 2 » ; les dates réelles et les promotions vivent dans
 outils/sessions.py (versionné dans un cours, fictif dans le gabarit public). Une échéance se donne par un jour du
@@ -47,11 +48,18 @@ DESCRIPTION = (
     "de l'atelier, l'apprenant remet cinq livrables qui forment le squelette complet d'un cours prêt à diffuser."
 )
 
-# Les filières qui préparent une épreuve : leur diplôme, leur bloc, leur module, la page de leurs épreuves. Les
-# identifiants sont ceux de course-data.js. Vide : le cours ne prépare aucune épreuve d'un bloc (c'est le cas de la
-# démonstration). Exemple :
-#   "eadl": {"diplome": {"fr": "Master 1 EADL"}, "bloc": {"fr": "Bloc 1"}, "module": "FM04", "epreuve": "EC01",
-#            "epreuves": {"url": "https://…", "titre": {"fr": "Épreuves du Bloc 1"}}},
+# Les filières qui préparent l'épreuve d'un bloc : leur bloc, leur module, et la page de leurs épreuves. L'accueil en
+# tire la suite de sa pastille (« EADL, Bloc 1, module FM04 ») et un bouton par filière vers la page de ses épreuves
+# (outils/accueil.py). Les identifiants sont ceux des filières de course-data.js ; le diplôme de la pastille est le
+# code de la filière, sauf « diplome ». Les textes s'écrivent {"fr": …}, l'anglais et l'arabe facultatifs ; « detail »
+# s'affiche sous le titre du bouton (l'hôte de l'adresse à défaut) ; « langue », celle de la page des épreuves, la
+# signale aux lecteurs d'écran d'une page d'une autre langue. Vide : le cours ne prépare l'épreuve d'aucun bloc, et
+# l'accueil n'affiche ni pastille de bloc ni bouton d'épreuves. C'est le cas de la démonstration (décision de l'auteur
+# du 22 novembre 2026). Exemple, d'après l'accueil du cours EADL :
+#   "eadl": {"bloc": {"fr": "Bloc 1"}, "module": "FM04",
+#            "epreuves": {"url": "https://…", "langue": "fr",
+#                         "titre": {"fr": "Épreuves du Bloc 1", "en": "Bloc 1 assessments"},
+#                         "detail": {"fr": "modalités · dates · règles", "en": "format · dates · rules"}}},
 FILIERES = {}
 
 # ---------------------------------------------------------------- les séances
@@ -203,10 +211,41 @@ def seance_du_chapitre(n):
 
 
 # ---------------------------------------------------------------- contrôle
+def filieres_du_cours():
+    """Les identifiants des filières de site/assets/js/course-data.js (COURSE.filieres), dans l'ordre déclaré."""
+    src = io.open(os.path.join(RACINE, "site", "assets", "js", "course-data.js"), encoding="utf-8").read()
+    bloc = re.search(r"\bfilieres\s*:\s*\[(.*?)\n\s*\]", src, re.S)
+    return re.findall(r"\{\s*id:\s*['\"]([a-z0-9-]+)['\"]", bloc.group(1) if bloc else "")
+
+
+def verifier_filieres():
+    """Les écarts de FILIERES : une filière absente de course-data.js, une page d'épreuves introuvable ou sans titre,
+    un tiret cadratin."""
+    ecarts, connues = [], filieres_du_cours()
+    for ident, f in FILIERES.items():
+        if ident not in connues:
+            ecarts.append("FILIERES : %r absente des filières de course-data.js (%s)" % (ident, ", ".join(connues)
+                                                                                       or "aucune"))
+        e = f.get("epreuves")
+        if e is not None:
+            url = str(e.get("url") or "")
+            if not (re.match(r"^https?://\S+$", url) or (url and os.path.isfile(os.path.join(RACINE, "site", url)))):
+                ecarts.append("filière %s : page des épreuves %r introuvable (adresse https://… ou page du site "
+                              "attendue)" % (ident, url))
+            if not texte(e.get("titre"), "fr"):
+                ecarts.append("filière %s : bouton des épreuves sans titre" % ident)
+        for valeur in (f.get("diplome"), f.get("bloc"), (e or {}).get("titre"), (e or {}).get("detail")):
+            textes = valeur.values() if isinstance(valeur, dict) else [valeur or ""]
+            if any("\u2014" in t or " \u2013 " in t for t in textes):
+                ecarts.append("filière %s : tiret cadratin dans %r" % (ident, valeur))
+    return ecarts
+
+
 def verifier():
     """Les écarts de cohérence du programme : une liste de messages, vide si tout va. Un programme vide (un cours qui
-    vient d'être créé) n'est pas incohérent : il reste à écrire, et les pages le disent."""
-    ecarts = []
+    vient d'être créé) n'est pas incohérent : il reste à écrire, et les pages le disent. FILIERES se contrôle à part :
+    un cours peut déclarer ses épreuves avant son programme."""
+    ecarts = verifier_filieres()
     if not SEANCES:
         return ecarts
     chapitres = [int(n) for n in chapitres_du_cours() if str(n).isdigit()]

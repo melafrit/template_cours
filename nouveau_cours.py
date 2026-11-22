@@ -426,7 +426,7 @@ PAGES_DEMO = [
 ACCUEIL = {
     "fr": {
         "aller": "Aller au contenu", "sommaire": "Sommaire", "voix": "Capsules d'accueil",
-        "pastille": "À rédiger : diplôme, bloc et module",
+        "pastille": "À rédiger : le public du cours",
         "cartes": [("Durée", "<!-- FRAGMENT:duree-cours -->…<!-- /FRAGMENT:duree-cours -->",
                     "En <!-- FRAGMENT:nb-seances-lettres -->…<!-- /FRAGMENT:nb-seances-lettres --> séances, avec "
                     "<!-- FRAGMENT:duree-totale -->…<!-- /FRAGMENT:duree-totale --> de lecture"),
@@ -454,7 +454,7 @@ ACCUEIL = {
     },
     "en": {
         "aller": "Skip to content", "sommaire": "Contents", "voix": "Welcome audio",
-        "pastille": "To be written: degree, block and module",
+        "pastille": "To be written: the course audience",
         "cartes": [("Duration", "<!-- FRAGMENT:duree-cours -->…<!-- /FRAGMENT:duree-cours -->",
                     "In <!-- FRAGMENT:nb-seances-lettres -->…<!-- /FRAGMENT:nb-seances-lettres --> sessions, with "
                     "<!-- FRAGMENT:duree-totale -->…<!-- /FRAGMENT:duree-totale --> of reading"),
@@ -633,7 +633,7 @@ def accueil_squelette(c, demo):
        les chiffres du référentiel (outils/referentiel.py). -->
   <section class="landing-header" id="presentation" aria-labelledby="titre-accueil">
     <div class="landing-inner">
-      <p class="eyebrow"><span class="dot" aria-hidden="true"></span><span>%(pastille)s</span></p>
+      <p class="eyebrow"><span class="dot" aria-hidden="true"></span><span>%(pastille)s<!-- FRAGMENT:accueil-pastille --><!-- /FRAGMENT:accueil-pastille --></span></p>
       <h1 id="titre-accueil">%(titre)s</h1>
       <p class="subtitle">%(st)s</p>
       <!-- FRAGMENT:accueil-boutons --><!-- /FRAGMENT:accueil-boutons -->
@@ -750,6 +750,7 @@ SEANCES_VIDES = {
     "REPERES": "REPERES = {}\n",
     "DESCRIPTION": "DESCRIPTION = \"\"\n",
     "RESSOURCES": "RESSOURCES = []\n",
+    "FILIERES": "FILIERES = {}\n",
 }
 
 

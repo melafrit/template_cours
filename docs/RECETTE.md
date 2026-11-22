@@ -200,7 +200,9 @@ Le cours créé embarque son propre lanceur. Ouvrez-le :
       sections numérotées, cartes des chapitres, bouton flottant), le titre et le
       sous-titre de `cours.json`, des consignes « À rédiger » à la place de la
       prose, et ni « Ce que démontre ce site », ni « Déposer mes livrables » :
-      `outils/accueil.py` repart avec `BOUTONS = []`.
+      `outils/accueil.py` repart avec `BOUTONS = []`. Sa pastille dit « À rédiger :
+      le public du cours », sans bloc ni bouton d'épreuves : `outils/seances.py`
+      part avec `FILIERES = {}`.
 - [ ] Le programme et les échéances de l'accueil disent « À rédiger dans
       `outils/seances.py` » : le cours part sans séance ni livrable, et
       `python3 outils/seances.py` le dit cohérent ; `outils/sessions.py` part

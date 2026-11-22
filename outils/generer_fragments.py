@@ -30,7 +30,9 @@ Fragments connus :
   livret-couverture     la couverture du polycopié publié      ← outils/polycopie/page.py (module 02)
   livret-fiche          son titre, son auteur, son téléchargement ← outils/polycopie/page.py
   livret-auteur         la présentation de l'auteur            ← outils/livret.py
-  accueil-boutons       les boutons du bandeau de l'accueil    ← outils/accueil.py (BOUTONS), course-data.js
+  accueil-pastille      la pastille du bandeau, par filière    ← outils/seances.py (FILIERES), course-data.js
+  accueil-boutons       les boutons du bandeau de l'accueil    ← outils/accueil.py (BOUTONS), course-data.js,
+                                                                 et outils/seances.py (FILIERES)
   cartes-chapitres      les cartes des chapitres de l'accueil  ← course-data.js, sous-titres, DUREES
   programme             le programme, séance par séance         ← outils/seances.py (via outils/programme.py)
   echeances             les échéances et la notation            ← outils/seances.py (via outils/programme.py)

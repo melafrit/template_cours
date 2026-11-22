@@ -37,3 +37,10 @@ html:not([data-filiere]) aside.only-eris::before {
   color: var(--f-couleur); background: var(--bg-card); border: 1px solid var(--f-couleur);
   padding: 0 8px; border-radius: var(--radius-sm); line-height: 1.6;
 }
+
+/* En ligne, deux mentions accolées (<span class="only-a">…</span><span class="only-b">…</span>,
+   la pastille de l'accueil) se liraient d'un seul tenant sans filière choisie : une barre les sépare. */
+html:not([data-filiere]) span.only-eadl + span.only-eris::before,
+html:not([data-filiere]) span.only-eris + span.only-eadl::before {
+  content: " / "; font-weight: 400;
+}

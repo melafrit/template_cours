@@ -27,6 +27,12 @@
   `docs/Cahier_de_texte_avec_identifiants.*`, que le `.gitignore` et le `.rgignore`
   écartent. Sans accès à Yparéo, le même texte part dans l'application Livrables (feuille
   Séances, colonne Contenu). `--essai` signale un cahier périmé.
+- [si une filière prépare l'épreuve d'un bloc] **La pastille et les boutons des épreuves**
+  de l'accueil : `FILIERES` de `outils/seances.py` déclare pour chaque filière son bloc,
+  son module et la page de ses épreuves ; l'accueil ajoute à sa pastille « EADL, Bloc 1,
+  module FM04 » et un bouton « Épreuves du Bloc 1 » par filière (`outils/accueil.py`, sur
+  le modèle du cours EADL). La démonstration n'en déclare aucune (décision de l'auteur du
+  22 novembre 2026).
 - [si `livrables_app`] **Le classeur d'import** de l'application Livrables
   (`outils/generer_classeur_livrables.py`, au format de `ecosysteme.doc_import_app`) : un
   classeur par session de `outils/sessions.py`, donc par promotion,
@@ -54,6 +60,8 @@ Pour l'application elle-même, son `docs/PROMPT-CLASSEUR-IA.md` (le format) et s
 Une question à la fois.
 
 - **Les promotions et les matières**, écrites EXACTEMENT comme dans l'application.
+- **Les épreuves de chaque filière** : son bloc, son module, l'adresse de la page de ses
+  épreuves (ouverte et vérifiée avant d'être ajoutée) et sa langue.
 - **Les échéances** des livrables (versions de travail et finales) et leur notation.
 - **Ce qui se règle à la main** après l'import (les réglages d'un QCM, notamment).
 

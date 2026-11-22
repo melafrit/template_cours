@@ -211,9 +211,13 @@ annoncent (MP3 mono à 64 kbit/s, PDF, diapositives WebP), à partir des dépôt
 `livret-couverture`, `livret-fiche`, `livret-auteur`) : leur source est
 `outils/polycopie/page.py`, qui lit `outils/livret.py` et l'inventaire
 `site/livret/livret.json` qu'écrit `outils/publier_polycopie.py`. L'accueil enfin
-(fragments `accueil-boutons` et `cartes-chapitres`) : sa source est
-`outils/accueil.py`. Les boutons du bandeau y sont déclarés (`BOUTONS` : une
-adresse externe s'ouvre dans un nouvel onglet, annoncé aux lecteurs d'écran) ;
+(fragments `accueil-pastille`, `accueil-boutons` et `cartes-chapitres`) : sa
+source est `outils/accueil.py`. Les boutons du bandeau y sont déclarés
+(`BOUTONS` : une adresse externe s'ouvre dans un nouvel onglet, annoncé aux
+lecteurs d'écran) ; les filières qui préparent l'épreuve d'un bloc
+(`FILIERES` de `outils/seances.py`) ajoutent à la pastille leur bloc et leur
+module (« EADL, Bloc 1, module FM04 »), et un bouton vers la page de leurs
+épreuves, chacun marqué `only-<id>` ;
 chaque carte de chapitre prend son titre dans `course-data.js`, sa durée dans
 `DUREES`, son texte dans le sous-titre de la page du chapitre, et son
 illustration dans `assets/media/illustrations/chapitre-<N>-carte.webp` si elle

@@ -11,7 +11,8 @@ propre à une filière a la classe only-<id> (only-eadl, only-eris). Quand l'ét
 data-filiere="<id>" (posé avant l'affichage par trois lignes en tête de page, puis par assets/js/filiere.js), et ce
 fichier masque le contenu des autres. Sans choix, les deux versions restent affichées, étiquetées de leur sigle et
 bordées de la couleur de leur filière : c'est la vue du formateur en groupe mixte. La couleur est le --primary de la
-palette de la filière (palettes.css), vérifiée en contraste, en clair comme en sombre.
+palette de la filière (palettes.css), vérifiée en contraste, en clair comme en sombre. Sans choix toujours, deux
+mentions accolées en ligne, comme la pastille de l'accueil, sont séparées d'une barre (le modèle du cours EADL).
 
 Un sélecteur CSS ne peut pas comparer la filière de <html> à la classe d'un bloc : les règles s'écrivent donc pour
 les filières du cours, d'où ce générateur. Une seule filière, ou aucune : le fichier n'a pas de règle, et filiere.js
@@ -98,6 +99,12 @@ def produire(racine):
                   "  font-family: var(--font-display); font-size: var(--fs-xs); font-weight: 700;\n"
                   "  color: var(--f-couleur); background: var(--bg-card); border: 1px solid var(--f-couleur);\n"
                   "  padding: 0 8px; border-radius: var(--radius-sm); line-height: 1.6;\n}")
+    lignes.append("")
+    lignes.append("/* En ligne, deux mentions accolées (<span class=\"only-a\">…</span><span class=\"only-b\">…</span>,\n"
+                  "   la pastille de l'accueil) se liraient d'un seul tenant sans filière choisie : une barre les sépare. */")
+    paires = ",\n".join("html:not([data-filiere]) span.only-%s + span.only-%s::before" % (f, g)
+                        for f in ids for g in ids if g != f)
+    lignes.append(paires + " {\n  content: \" / \"; font-weight: 400;\n}")
     return ENTETE + "\n".join(lignes) + "\n", erreurs
 
 
