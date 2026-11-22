@@ -9,6 +9,46 @@
 
 ---
 
+## 22 novembre 2026 · lot 2, la pastille et les boutons des épreuves (`7914eb8`)
+
+### Les décisions de l'auteur
+
+- **Rien dans la démonstration** : elle ne prépare aucune épreuve réelle (lot 3), et son accueil ne change pas. Un
+  cours qui déclare ses épreuves reçoit la pastille et un bouton par filière.
+- **Le témoin validé**, un cours d'essai aux épreuves du cours EADL, puis la série.
+
+### Le travail
+
+- `FILIERES` (`outils/seances.py`) : pour chaque filière, son bloc, son module et la page de ses épreuves (adresse,
+  titre, détail, langue). Son contrôle vaut avant même le programme.
+- `outils/accueil.py` : le fragment `accueil-pastille`, à la suite du texte de la pastille, et un bouton « Épreuves
+  du Bloc 1 » par filière, après ceux de `BOUTONS`. La filière se marque sur le lien lui-même, comme dans le cours
+  EADL, et la langue de la page des épreuves devient un `hreflang`.
+- `outils/generer_filieres.py` : sans filière choisie, une barre sépare deux mentions accolées en ligne (la règle du
+  cours EADL).
+- Les accueils de la démo et le squelette reçoivent le fragment. La pastille du squelette dit « À rédiger : le
+  public du cours ».
+
+### Ce qui a été vérifié
+
+Le cours d'essai, en clair et en sombre, à 1280 et 375 px, avec et sans filière choisie, console vide ; sa page
+anglaise, identique à celle du cours EADL (« Bloc 1 assessments », `hreflang="fr"`). La démo, inchangée en français
+et en anglais, sans ressource manquante. Trois cours générés, sans bloc ni bouton d'épreuves. Le contrôle de
+`FILIERES`, sur quatre fautes (filière inconnue, page introuvable, titre absent, tiret cadratin).
+
+### Ce qui n'est pas fait
+
+Le bloc `ecole` de `cours.json`, qui remplira `FILIERES` à la création d'un cours.
+
+### Pièges appris
+
+- **Une enveloppe `<span class="only-…">` autour d'un bouton** aurait reçu la barre que `filieres.css` pose entre
+  deux mentions accolées. La filière se marque donc sur le lien.
+- **Choisir une filière par script laisse sa palette** : pour une capture sans filière, vider le stockage et
+  recharger la page.
+
+---
+
 ## 22 novembre 2026 · lot 2, le classeur Livrables (`b4426fb`)
 
 ### Les décisions de l'auteur

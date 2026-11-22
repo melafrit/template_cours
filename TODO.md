@@ -64,8 +64,10 @@ Les lots, dans l'ordre validé :
   (cinq feuilles, un par promotion, la colonne Contenu reprise du cahier) et, à côté, les réglages que l'import ne
   porte pas (`b4426fb`). Décision de l'auteur pour le classeur : le QCM noté de la démo en « Exercice / TP »,
   rendu par son fichier CSV, car le type « QCM » de l'application corrige une grille d'après un corrigé à lettres
-  fixes. Restent : les boutons des épreuves et la pastille ; le bloc `ecole` de `cours.json` ; la documentation
-  (GUIDE, CHECKLIST) ; l'arabe. Relevé en chemin, à trancher avec l'auteur : la page du QCM demande d'envoyer le
+  fixes. La pastille et les boutons des épreuves de l'accueil, d'après `FILIERES` de `seances.py`, sur le modèle
+  du cours EADL (`7914eb8`) ; la démonstration n'en déclare aucune (décision de l'auteur). Restent : le bloc
+  `ecole` de `cours.json`, qui remplira `FILIERES` et `BOUTONS` d'un cours créé ; la documentation (GUIDE,
+  CHECKLIST) ; l'arabe. Relevé en chemin, à trancher avec l'auteur : la page du QCM demande d'envoyer le
   CSV au formateur « par e-mail », alors que les consignes du classeur demandent de le déposer dans
   l'application Livrables.
 - [x] **3. Page d'accueil**, avec les fiches de ses capsules de section. Redemandée par l'auteur le
@@ -76,7 +78,7 @@ Les lots, dans l'ordre validé :
   (`docs/prompts/Capsules_accueil.md`, `Capsules_accueil_en.md`), transcriptions reportées dans les pages par
   `synchroniser_capsules.py`. Ce qui en dépend ailleurs : l'enregistrement des dix-huit pistes et leur place dans
   la liste de lecture (lot 9) ; l'accueil arabe (lot 4) ; les illustrations des cartes (lot 5) ; les boutons des
-  épreuves et la pastille (lot 2). Relevés en chemin (la
+  épreuves et la pastille (lot 2, faits : `7914eb8`). Relevés en chemin (la
   faute « police lecture adaptée » est corrigée sur décision de l'auteur, `0d10e75`) : l'espace insécable devant
   « : », posée sur l'accueil et dans ses transcriptions, absente des autres pages ; le lien de l'auteur, en pied
   de chaque page, qui mène à « # » ; le texte d'exemple de `public.parcours` (`cours.exemple.json`), qui porte
@@ -120,6 +122,10 @@ Les lots, dans l'ordre validé :
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 22 novembre · lot 2, la pastille et les boutons des épreuves
+> Une filière qui prépare l'épreuve d'un bloc la déclare dans `FILIERES` (`outils/seances.py`) : l'accueil
+> ajoute à sa pastille « EADL, Bloc 1, module FM04 » et un bouton vers la page de ses épreuves. La démo n'en
+> déclare aucune. `7914eb8`. Reste le bloc `ecole` de `cours.json`.
 > ### 🆕 22 novembre · lot 2, le classeur Livrables
 > `outils/generer_classeur_livrables.py` écrit le classeur d'import (cinq feuilles, un par promotion) et, à
 > côté, les réglages que l'import ne porte pas, relus dans le guide et le code de l'application. Le QCM noté
