@@ -70,7 +70,7 @@ REGENERABLES = ("__pycache__", "*.pyc", "_tmp*", "out", "manifeste.json.tmp")
 # Ce qui appartient au cours et que le template ne fournit jamais : --ecraser le laisse en place (garder_locaux).
 LOCAUX = ("elevenlabs.json", "*.config.json", "config.json", "manifeste.json", "known_hosts", "destination.json",
           "quarantaine", "acces.json", "acces-zones.json", "Cahier_de_texte*.docx", "Cahier_de_texte*.txt",
-          "settings.local.json")
+          "Import_Livrables*", "settings.local.json")
 NE_PAS_COPIER = shutil.ignore_patterns(*(REGENERABLES + LOCAUX))
 
 # Les secrets qui servent à tous les cours de l'auteur — la clé ElevenLabs et sa
@@ -742,23 +742,27 @@ BOUTONS_VIDES = ("# À remplir : le dépôt sur Livrables, les épreuves de chaq
 
 
 # Le programme de la démonstration (ses séances, ses livrables) ne vaut pas pour un cours créé : outils/seances.py y
-# part vide, et l'accueil dit « à rédiger » à la place du programme et des échéances.
+# part vide, et l'accueil dit « à rédiger » à la place du programme et des échéances. La description de la matière et
+# les ressources, que lit le classeur Livrables, partent vides aussi.
 SEANCES_VIDES = {
     "SEANCES": "SEANCES = []\n",
     "LIVRABLES": "LIVRABLES = {}\n",
     "REPERES": "REPERES = {}\n",
+    "DESCRIPTION": "DESCRIPTION = \"\"\n",
+    "RESSOURCES": "RESSOURCES = []\n",
 }
 
 
 def vider_seances(sortie):
-    """SEANCES, LIVRABLES et REPERES vides dans outils/seances.py du cours ; vrai si le fichier a changé."""
+    """SEANCES, LIVRABLES, REPERES, DESCRIPTION et RESSOURCES vides dans outils/seances.py du cours ; vrai si le
+    fichier a changé."""
     p = os.path.join(sortie, "outils", "seances.py")
     if not os.path.isfile(p):
         return False
     t = io.open(p, encoding="utf-8").read()
     neuf = t
     for nom, vide in SEANCES_VIDES.items():
-        neuf = re.sub(r"^%s = [\[{]\n.*?^[\]}]\n" % nom, lambda m: vide, neuf, count=1, flags=re.S | re.M)
+        neuf = re.sub(r"^%s = [\[{(]\n.*?^[\]})]\n" % nom, lambda m: vide, neuf, count=1, flags=re.S | re.M)
     if neuf != t:
         ecrire(p, neuf)
     return neuf != t

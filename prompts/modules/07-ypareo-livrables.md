@@ -27,8 +27,15 @@
   `docs/Cahier_de_texte_avec_identifiants.*`, que le `.gitignore` et le `.rgignore`
   écartent. Sans accès à Yparéo, le même texte part dans l'application Livrables (feuille
   Séances, colonne Contenu). `--essai` signale un cahier périmé.
-- [si `livrables_app`] **Les classeurs d'import** de l'application Livrables
-  (`import-application/`, au format de `ecosysteme.doc_import_app`).
+- [si `livrables_app`] **Le classeur d'import** de l'application Livrables
+  (`outils/generer_classeur_livrables.py`, au format de `ecosysteme.doc_import_app`) : un
+  classeur par session de `outils/sessions.py`, donc par promotion,
+  `docs/Import_Livrables_<session>.xlsx`, et à côté `docs/Import_Livrables_<session>_reglages.txt`,
+  les réglages que l'import ne porte pas. Les séances, les livrables, la grille, la
+  description de la matière et les ressources viennent de `outils/seances.py` ; la colonne
+  Contenu reprend le cahier de texte ; les liens viennent de `deploiement/destination.json`
+  et restent vides, jamais inventés, tant que l'adresse du site n'y est pas. `--essai`
+  signale un classeur périmé. Ni le classeur ni ses réglages ne sont versionnés.
 
 ---
 
@@ -36,7 +43,9 @@
 
 Le cours EADL (lecture seule) pour l'import Livrables et Yparéo ; dans le gabarit,
 `outils/seances.py` (le programme, sans date), `outils/sessions.py` (les dates et les
-promotions) et `outils/generer_cahier_de_texte.py`.
+promotions), `outils/generer_cahier_de_texte.py` et `outils/generer_classeur_livrables.py`.
+Pour l'application elle-même, son `docs/PROMPT-CLASSEUR-IA.md` (le format) et son
+`docs/GUIDE-ENSEIGNANT.md` (ce que font ses cases).
 
 ---
 
@@ -61,8 +70,12 @@ quitte jamais le poste.
 - cinq feuilles aux en-têtes exacts (Matières, Séances, Livrables, Critères, Ressources),
   séparateur « › » (U+203A) « Année › Promotion › Matière » ; promotions et matières
   EXACTEMENT celles de `filieres` ;
-- des consignes détaillées (5 à 10 phrases), des grilles de critères qui totalisent la note
-  maximale et s'adossent à la grille officielle, des ressources par séance.
+- une description de la matière (3 à 6 phrases), des consignes détaillées (5 à 10
+  phrases), des grilles de 4 à 6 critères qui totalisent la note maximale et s'adossent à
+  la grille officielle, des ressources par séance ; le générateur refuse d'écrire un
+  classeur qui s'en écarte ;
+- un QCM passé sur le site du cours se dépose en « Exercice / TP », rendu par son fichier
+  CSV ; le type « QCM » est réservé au QCM que l'application corrige elle-même.
 
 **STOP** : l'auteur importe et vérifie l'aperçu.
 
@@ -72,7 +85,15 @@ quitte jamais le poste.
 
 - **Deux matières NOUVELLES dans un même fichier** : seule la première reçoit ses séances
   — un fichier par promotion.
-- **Réimporter un livrable décoche « facultatif »**.
+- **Réimporter un livrable décochait « facultatif »** : le code de l'application, relu le
+  22 novembre 2026, laisse désormais la case en place. Vérifiez-la après un réimport.
+- **« Livrable bonus, facultatif » rend un livrable non dû** : ceux qui ne l'ont pas rendu
+  sortent du compteur des manquants. Une version de travail obligatoire et non notée ne
+  la coche pas ; on ne lui saisit simplement aucune note.
+- **Un rendu est un lien** tant que « Autoriser les fichiers joints » n'est pas cochée, et
+  l'import ne porte pas cette case : le fichier de réglages la rappelle.
+- **Le type « QCM » corrige une grille d'après un corrigé à lettres fixes** : il ne
+  convient pas au QCM du site, qui mélange questions et propositions.
 - **Un livrable s'identifie par (matière, séance, titre)** : changer l'un, c'est en créer un
   autre.
 - **Pas de bonus négatif** ; **une note non saisie n'entre pas dans la moyenne**.

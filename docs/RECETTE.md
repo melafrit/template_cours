@@ -204,8 +204,9 @@ Le cours créé embarque son propre lanceur. Ouvrez-le :
 - [ ] Le programme et les échéances de l'accueil disent « À rédiger dans
       `outils/seances.py` » : le cours part sans séance ni livrable, et
       `python3 outils/seances.py` le dit cohérent ; `outils/sessions.py` part
-      sans session, et `python3 outils/generer_cahier_de_texte.py` répond qu'il
-      n'y a encore aucune séance à mettre au cahier.
+      sans session ; `python3 outils/generer_cahier_de_texte.py` répond qu'il
+      n'y a encore aucune séance à mettre au cahier, et
+      `python3 outils/generer_classeur_livrables.py` aucune à mettre au classeur.
 - [ ] Les filières de `cours.json` (EADL et ERIS dans l'exemple) donnent la bascule
       de l'en-tête et le bandeau « Quelle est votre filière ? » ; une filière
       choisie prend sa palette. Avec `"filieres": []`, ni bascule ni bandeau.

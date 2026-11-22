@@ -38,6 +38,15 @@ HORAIRES = {"matin": ("09:00", "12:30"), "apres-midi": ("13:30", "17:00")}
 MOMENTS = {"matin": {"fr": "matin", "en": "morning"}, "apres-midi": {"fr": "après-midi", "en": "afternoon"}}
 LIENS = {"livrables": "https://livrables.elafrit.com/"}
 
+# La description de la matière, pour l'application Livrables (feuille Matières, trois à six phrases), dans la langue
+# de l'école. Celle de la démonstration reprend son sous-titre, son accueil et son atelier.
+DESCRIPTION = (
+    "Un cours-démo qui enseigne comment fabriquer un cours en ligne efficace, en utilisant les fonctionnalités qu'il "
+    "démontre. Trois chapitres suivent l'ordre dans lequel un cours se conçoit : cadrer, structurer, puis créer les "
+    "ressources. Son fil rouge est le cours de l'apprenant, construit dans l'atelier chapitre après chapitre. À la fin "
+    "de l'atelier, l'apprenant remet cinq livrables qui forment le squelette complet d'un cours prêt à diffuser."
+)
+
 # Les filières qui préparent une épreuve : leur diplôme, leur bloc, leur module, la page de leurs épreuves. Les
 # identifiants sont ceux de course-data.js. Vide : le cours ne prépare aucune épreuve d'un bloc (c'est le cas de la
 # démonstration). Exemple :
@@ -79,7 +88,8 @@ SEANCES = [
 
 # ---------------------------------------------------------------- les livrables
 # Les types de l'application Livrables (docs/PROMPT-CLASSEUR-IA.md de l'application), et « QCM », que l'application
-# accepte pour un livrable qui porte la configuration d'un QCM.
+# réserve au QCM qu'elle corrige elle-même : l'étudiant y remplit une grille, notée d'après un corrigé à lettres fixes.
+# Le QCM du site mélange questions et propositions et rend un CSV signé : il se dépose en « Exercice / TP ».
 TYPES = ("Dossier / Rapport", "Code source (dépôt Git)", "Présentation (slides)", "Soutenance orale",
          "Maquette / Design", "Vidéo / Démonstration", "Veille / Article", "Cahier des charges", "Exercice / TP",
          "Autre", "QCM")
@@ -97,16 +107,47 @@ LIVRABLES = {
         "titre": {"fr": "Version de travail : fiche de cadrage et plan", "en": "Work version: scoping sheet and plan"},
         "type": "Dossier / Rapport", "seance": 2, "quand": {"jour": 1, "heure": "17:00"},
         "notation": {"notee": False},
+        # Ce que lit l'application Livrables (langue de l'école) : les consignes (cinq à dix phrases), le format
+        # demandé, la page des consignes sur le site (son adresse vient de deploiement/destination.json).
+        "consignes": "Déposez votre fiche de cadrage et votre plan, tels qu'ils sont à la fin du Jour 1. La fiche de "
+                     "cadrage décrit le public cible, ses prérequis, trois à cinq objectifs pédagogiques mesurables "
+                     "et le fil rouge de votre cours. Le plan donne l'arborescence du cours en modules et en "
+                     "séquences, avec la durée estimée de chacune. Cette version de travail est obligatoire, mais "
+                     "elle n'est pas notée. Le format est libre : un document texte, un PDF ou quelques pages HTML "
+                     "sur le modèle du site.",
+        "format": "Fiche de cadrage et plan, en document texte, PDF ou pages HTML",
+        "page": "atelier.html",
     },
     "qcm": {
         "titre": {"fr": "QCM noté", "en": "Graded quiz"},
-        "type": "QCM", "seance": 4, "quand": {"jour": 2, "heure": "17:00"},
+        "type": "Exercice / TP", "seance": 4, "quand": {"jour": 2, "heure": "17:00"},
         "notation": {"notee": True, "note_max": 20, "coef": 1, "mode": "global"},
+        "consignes": "Le QCM noté porte sur les trois chapitres du cours. Pour chaque question, choisissez une "
+                     "réponse et votre degré de certitude ; les questions et les propositions sont mélangées. Une "
+                     "bonne réponse rapporte 3, 2 ou 1 point selon que vous étiez certain, assez sûr ou que vous "
+                     "deviniez ; une erreur coûte 3 ou 2 points avec une certitude élevée ou moyenne, et rien si "
+                     "vous deviniez. Vos réponses sont sauvegardées dans le navigateur ; à la fin, téléchargez le "
+                     "fichier CSV signé et déposez-le ici. La correction est expliquée, question par question.",
+        "format": "Le fichier CSV signé du QCM",
+        "page": "QCM/index.html",
+        # Le rendu est un fichier : l'application n'accepte par défaut qu'un lien, et l'import ne porte pas sa case
+        # « Autoriser les fichiers joints » (le classeur la rappelle dans ses réglages à faire à la main).
+        "fichiers_joints": True,
     },
     "final": {
         "titre": {"fr": "Dossier final : les cinq livrables", "en": "Final folder: the five deliverables"},
         "type": "Dossier / Rapport", "seance": 4, "quand": {"repere": "dimanche-suivant", "heure": "23:59"},
         "notation": {"notee": True, "note_max": 20, "coef": 2, "mode": "grille"},
+        "consignes": "Déposez votre dossier final : les cinq livrables de l'atelier, qui forment ensemble le "
+                     "squelette complet d'un cours prêt à diffuser. Il comprend la fiche de cadrage, le plan, un "
+                     "chapitre entièrement rédigé (une séquence complète, illustrée, avec une accroche et un « à "
+                     "retenir »), un QCM de cinq questions avec la bonne réponse et sa justification, et un glossaire "
+                     "de dix termes, chacun avec sa définition et, si possible, un exemple. Le dossier est réussi si "
+                     "un collègue, en le parcourant, peut comprendre le cours sans vos explications. Il est noté sur "
+                     "20, selon la grille des six critères de l'atelier. Le format est libre : un document texte, un "
+                     "PDF ou quelques pages HTML ; c'est la cohérence entre les cinq livrables qui compte.",
+        "format": "Les cinq livrables, en document texte, PDF ou pages HTML",
+        "page": "atelier.html",
         # Les six critères de réussite de l'atelier (atelier.html, section 5), dans la langue de l'école.
         "criteres": [
             ("Cohérence", 4, "Le QCM et le chapitre rédigé portent bien sur les objectifs de la fiche de cadrage."),
@@ -119,6 +160,18 @@ LIVRABLES = {
         ],
     },
 }
+
+
+# ---------------------------------------------------------------- les ressources
+# Les ressources de l'application Livrables, en plus du site et des pages des chapitres, que le classeur ajoute de
+# lui-même. seance : le numéro de la séance, ou None pour tout le cours ; page : une page du site (son adresse vient de
+# deploiement/destination.json). Types : Document, Lien, Vidéo, Dépôt de code, Exercice, Autre.
+RESSOURCES = [
+    {"seance": None, "titre": "L'atelier fil rouge", "type": "Exercice", "page": "atelier.html",
+     "description": "L'énoncé de l'atelier, ses cinq livrables, ses modèles et ses critères de réussite."},
+    {"seance": 4, "titre": "Le QCM d'évaluation", "type": "Exercice", "page": "QCM/index.html",
+     "description": "Le QCM noté, à degré de certitude ; il produit le fichier CSV à déposer."},
+]
 
 
 # ---------------------------------------------------------------- lecture

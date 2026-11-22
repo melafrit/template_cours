@@ -273,6 +273,7 @@ prochaine régénération.
 | `site/assets/js/langues-data.js` | `outils/generer_langues.py` | les dossiers de langue de `site/` (`en/`, `ar/`…), en site miroir |
 | le contenu entre `<!-- FRAGMENT:nom -->` et `<!-- /FRAGMENT:nom -->` | `outils/generer_fragments.py` | `outils/referentiel.py`, `course-data.js`, `outils/podcasts.py` (la série de podcasts), `outils/livret.py` et `site/livret/livret.json` (la page du polycopié), `outils/accueil.py` (les boutons et les cartes de chapitre de l'accueil), `outils/seances.py` (le programme, les échéances et la durée du cours, par `outils/programme.py`) |
 | `docs/Cahier_de_texte*.txt` et `.docx` (jamais versionnés) | `outils/generer_cahier_de_texte.py` | `outils/seances.py`, `outils/sessions.py`, les pages des chapitres |
+| `docs/Import_Livrables_*.xlsx` et ses réglages (jamais versionnés) | `outils/generer_classeur_livrables.py` | `outils/seances.py`, `outils/sessions.py`, le cahier de texte, `deploiement/destination.json` (les liens) |
 | `site/assets/js/glossaire-emplois.js` | `outils/glossaire_emplois.py` | les termes de `glossaire-data.js` et les pages qui les emploient |
 | `site/assets/css/filieres.css` | `outils/generer_filieres.py` | les filières de `course-data.js` (`COURSE.filieres`) |
 | `site/assets/js/media-data.js` | `outils/generer_medias.py` | les médias déposés dans `site/assets/media/` et `site/assets/polycopies/` |
