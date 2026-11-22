@@ -9,6 +9,57 @@
 
 ---
 
+## 22 novembre 2026 · lot 2, le programme sur l'accueil (`088a1a8`)
+
+### Les décisions de l'auteur
+
+- **« Avec ou sans accès »** veut dire les deux : le cahier de texte avec et sans les identifiants du site (le sens
+  qu'il a dans tous les cours de l'auteur), et une voie sans Yparéo, par la colonne Contenu des séances de
+  l'application Livrables.
+- **Le programme vit sur l'accueil**, pas sur une page à part.
+- **Un seul format** dans la démonstration : le modèle sait en décrire plusieurs, la bascule viendra avec un cours
+  qui en déclare deux.
+- **Les dates réelles et les promotions dans `outils/sessions.py`**, versionné dans un cours (son dépôt est privé),
+  fictif dans le gabarit public.
+- **Une version de travail obligatoire et non notée** : due, rappelée, signalée manquante, hors de la moyenne
+  (« facultatif » veut dire bonus dans l'application).
+- **Le programme de démonstration** : deux jours, quatre séances, la version de travail le Jour 1 à 17 h 00, le QCM
+  noté le Jour 2, le dossier final le dimanche qui suit, noté sur la grille des six critères de l'atelier.
+- **La carte Durée en jours** (« 2 jours »), comme dans les cours de l'auteur.
+
+### L'analyse
+
+Celle des cours d'étude d'avant-projet, de CDWFS/ASRC, d'architecture et de veille, et de la documentation de
+l'application Livrables. Le cours d'avant-projet est le plus abouti : son `seances.py` nourrit le site, trois
+cahiers de texte et un classeur par promotion, sans date. Architecture apporte le déroulé minuté et un échéancier
+qui lit les coefficients ; CDWFS/ASRC, les séances sans chapitre et la mise à jour ciblée. L'application attend
+cinq feuilles, des en-têtes exacts, le séparateur « › », l'heure locale ; l'import ne supprime jamais rien, et le
+titre d'un livrable est une clé.
+
+### Le travail
+
+- `outils/seances.py` : séances, travail, livrables, repères, et `verifier()` ; textes en français et en anglais
+  à la source.
+- `outils/programme.py` : les fragments `programme`, `echeances`, `duree-cours`, `nb-seances` ;
+  `generer_fragments.py` contrôle le programme avant d'écrire.
+- L'accueil : le programme dans « Le parcours », les échéances dans « Ce que vous produisez » (pas de nouvelle
+  section : les noms des capsules, fixés par numéro, auraient bougé) ; sur téléphone, une carte par séance.
+- `nouveau_cours.py` : un programme vide dans un cours créé, dont les pages disent « à rédiger ».
+
+### Ce qui a été vérifié
+
+Au navigateur, à 1280 et 375 px, en clair et en sombre ; contrôles verts, parité comprise ; trois cours générés,
+programme vide et cohérent, aucun lien mort ; la sortie de `nouveau_cours.py` conforme à la recette.
+
+### Pièges appris
+
+- **`text-transform: capitalize`** met une majuscule après un trait d'union (« Après-Midi ») : `::first-letter`
+  ne touche que la première lettre.
+- **Un contrôle qui bloque tout** : sans tolérance pour un programme vide, `verifier()` aurait empêché un cours créé
+  d'écrire le moindre fragment.
+
+---
+
 ## 22 novembre 2026 · la démo en ligne, et un mot de passe retiré d'un commentaire (`0ac89d7`)
 
 ### Les décisions de l'auteur

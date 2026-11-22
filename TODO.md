@@ -52,7 +52,18 @@ Les lots, dans l'ordre validé :
   créé hériterait des liens de la démo). D'ici là, `hreflang.py --essai` signale ces 32 pages sur ce poste.
 - [ ] **2. Bloc école** : `seances.py`, cahier de texte Yparéo, classeur d'import Livrables, fragments Programme et
   Échéances ; pour l'accueil, les boutons des épreuves de chaque filière (`BOUTONS` de `outils/accueil.py`), la
-  pastille « diplôme, bloc et module », et un cours créé qui reçoit ses boutons de `cours.json`.
+  pastille « diplôme, bloc et module », et un cours créé qui reçoit ses boutons de `cours.json`. Décisions de
+  l'auteur (22 novembre) : « avec ou sans accès » veut dire les deux (le cahier avec et sans les identifiants du
+  site, et la voie de l'application Livrables, colonne Contenu de ses séances, quand l'auteur n'a pas accès à
+  Yparéo) ; le programme sur l'accueil ; un seul format, la bascule de format attendant un cours qui en déclare
+  deux ; les dates réelles et les promotions dans `outils/sessions.py`, versionné dans un cours, fictif dans le
+  gabarit ; une version de travail obligatoire et non notée ; le programme de démonstration (deux jours, quatre
+  séances) ; la carte Durée en jours. Fait : `seances.py`, `programme.py`, le programme et les échéances de
+  l'accueil, un programme vide dans un cours créé (`088a1a8`). Restent : `sessions.py` ; le cahier de texte, texte
+  et Word, avec et sans identifiants (il remplacera `docs/generate_cahier_de_texte.py`, qui garde des restes d'un
+  autre cours) ; le classeur d'import Livrables (cinq feuilles, un par promotion, et le mode d'emploi des réglages
+  à refaire à la main : barème du QCM, malus) ; les boutons des épreuves et la pastille ; le bloc `ecole` de
+  `cours.json` ; la documentation (module 07, GUIDE, CHECKLIST) ; l'arabe.
 - [x] **3. Page d'accueil**, avec les fiches de ses capsules de section. Redemandée par l'auteur le
   21 novembre, avec un troisième modèle, le cours de veille technologique (`Cours_EADL_Veille_Techno`), et
   traitée avant le bloc école. L'accueil ✅ (`0910118` : français et anglais, `outils/accueil.py`, couleurs du
@@ -105,6 +116,10 @@ Les lots, dans l'ordre validé :
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 22 novembre · lot 2, le programme sur l'accueil
+> `outils/seances.py`, source unique du bloc école et sans aucune date, porte les séances, le travail et les
+> livrables ; l'accueil en tire son programme, ses échéances et la durée en jours. Sept décisions de l'auteur,
+> dont le programme de démonstration. `088a1a8`. Restent le cahier de texte et le classeur Livrables.
 > ### 🆕 22 novembre · la démo en ligne
 > Sur `https://mohamedelafrit.com/teaching/cours_demo/`, à la demande de l'auteur : essai à blanc d'abord,
 > 120 fichiers envoyés sans purge, contrôlés en ligne. En chemin, un mot de passe cité en exemple dans un
