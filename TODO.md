@@ -322,8 +322,9 @@ Les lots, dans l'ordre validé :
   `ACCENTS`, et laisse une piste arabe en attente de sa voix.
 - ✅ Les libellés de `tools.js` sont dans `ui-labels.js`, en trois langues (`9298ec2`). Reste : son classificateur
   n'a qu'un champ `why`, sans renvois « Pour approfondir » (lot 6).
-- `glossaire-data.js` : l'alias « objectifs pédagogiques » ne sert à rien sur une page française, puisque cette forme
-  n'est pas dans `GLOSSARY_CURATED`, et son commentaire affirme le contraire.
+- ✅ `glossaire-data.js` (23 novembre) : les pluriels des alias entrent dans `GLOSSARY_CURATED`, si bien que
+  « flashcards » et « objectifs pédagogiques » ont leur info-bulle sur les pages françaises, comme leurs pluriels sur
+  les pages anglaises ; les commentaires disent ce que fait chaque liste.
 - ✅ `navigation.js` annonce la page courante (`aria-current="page"`) dans le menu : chapitres, ressources et accueil,
   jumelles comprises (23 novembre). Reste : le gabarit n'a pas de fil d'Ariane.
 - ✅ Le dossier des modèles de l'atelier : le gabarit n'en livre aucun ; un cours qui en fabrique les range dans

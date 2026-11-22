@@ -102,20 +102,26 @@ window.GLOSSARY = [
 
    Choisissez les notions distinctives, celles dont la définition change
    la compréhension du passage. Les mots courants n'ont rien à faire ici.
+
+   La recherche porte sur le mot entier, dans la forme écrite ici : un
+   pluriel employé par les pages s'y ajoute (« objectifs pédagogiques »),
+   et GLOSSARY_ALIASES le rattache à son entrée. Une page anglaise trouve
+   seule le pluriel régulier et les formes de alias.en.
    ----------------------------------------------------------------- */
 window.GLOSSARY_CURATED = [
   "objectif pédagogique", "public cible", "syllabus",
   "fil rouge", "prérequis", "accroche",
   "évaluation formative", "évaluation sommative", "flashcard",
-  "accessibilité", "micro-apprentissage"
+  "accessibilité", "micro-apprentissage",
+  "objectifs pédagogiques", "évaluations formatives", "évaluations sommatives", "flashcards"
 ];
 
 /* Variantes d'écriture qui doivent pointer vers la même entrée : pluriels,
-   synonymes, formes abrégées. Sans cela, « objectifs pédagogiques » au
-   pluriel ne trouve pas « objectif pédagogique » et l'info-bulle manque. */
+   synonymes, formes abrégées. Une variante n'a d'info-bulle que si elle
+   figure aussi dans GLOSSARY_CURATED, qui dit quelles formes chercher ;
+   cette table dit à quelle entrée chacune renvoie. */
 window.GLOSSARY_ALIASES = {
   "objectifs pédagogiques": "objectif pédagogique",
-  "prérequis": "prérequis",
   "évaluations formatives": "évaluation formative",
   "évaluations sommatives": "évaluation sommative",
   "flashcards": "flashcard"

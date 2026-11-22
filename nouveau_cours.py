@@ -272,7 +272,9 @@ SQUELETTE_GLOSSAIRE = """/* ====================================================
    glossaire-data.js · Glossaire BILINGUE
    FICHIER À REMPLIR. GLOSSARY_CURATED liste les termes rendus interactifs
    dans les chapitres : au-delà d'une quinzaine, la page se couvre de
-   pointillés et plus personne ne clique.
+   pointillés et plus personne ne clique. La recherche porte sur le mot
+   entier : un pluriel employé par les pages s'y écrit aussi, et
+   GLOSSARY_ALIASES le rattache à son entrée.
    ================================================================= */
 window.GLOSSARY = [
   { fr: "terme à définir", en: "term to define",
