@@ -141,7 +141,8 @@ Les lots, dans l'ordre validé :
 > `CLAUDE.md`, `docs/`, les skills et les textes qu'écrit `nouveau_cours.py` n'ont plus de tiret cadratin
 > (`7b8a1ef`, `b7ced50`) ; le GUIDE, ARCHITECTURE, les skills et la CHECKLIST décrivent le gabarit tel
 > qu'il est (`d3eeddc`) ; les fautes relevées, à part (`094d453`, `782131c`). Depuis le 22 novembre au soir,
-> l'auteur a demandé d'enchaîner sans valider : l'option recommandée est retenue à chaque décision.
+> l'auteur a demandé d'enchaîner sans valider : l'option recommandée est retenue à chaque décision. Puis les
+> messages des outils (`09f459a`), le mode d'emploi de l'oral (`2370e9c`) et la fiche des capsules (`f305154`).
 > ### 🆕 22 novembre · lot S4, le QCM sans tirets
 > Le site publié ne compte plus aucun tiret cadratin : `verifier_tirets.py` est vert. Les cases vides du QCM
 > disent « aucune » ou « n.d. ». `1df056e`, puis la faute « encouragez-les » à part (`0b18516`).
@@ -325,16 +326,13 @@ Les lots, dans l'ordre validé :
   capitales d'insistance (GUIDE « UNE seule question », « VÉRIFIER AU NAVIGATEUR » ; I18N « Le piège le plus
   discret. »), des mots gonflés (« Le principe fondamental », « (incontournable) », « le cœur du cours »), « C'est
   voulu » trois fois dans RECETTE, « Règle absolue » et « Règle d'or » dans les skills.
-- **`docs/generate_questions_oral.py`** : sa feuille « Mode d'emploi » vient d'un autre cours (« la phase 3 », « les
-  questions 13 ou 14 », le « dossier PIA », le « dossier de cas du chapitre 8 », la page « Soutenance vidéo »),
-  contre la règle d'un gabarit générique ; ses lignes 47 et 48 répètent un même commentaire.
-- **Les messages des outils** gardent leurs tirets : 17 `print` impriment « … — à jour » ou « — écrit »
-  (`generer_medias.py`, `glossaire_emplois.py`…), et les documents qui les citent les gardent avec eux. Les
-  commentaires et docstrings de `nouveau_cours.py` (17 tirets) aussi.
-- **La fiche des capsules** (`docs/prompts/Capsules_du_cours_demo.md`) : les transcriptions des deux podcasts
-  gardent un tiret chacune (lignes 273 et 311 ; aucune page ne les affiche, l'exception du 5 novembre permet de les
-  corriger) ; ses lignes 23 et 24 décrivent le contrôle de la v3 ; les scripts enregistrés gardent les leurs
-  jusqu'au réenregistrement.
+- ✅ **`docs/generate_questions_oral.py`** : sa feuille « Mode d'emploi », venue d'un autre cours, est générique
+  (`2370e9c`, 23 novembre) ; le commentaire en double est retiré.
+- ✅ **Les messages des outils** n'ont plus de tiret : 36, dans 19 outils (`09f459a`) ; l'état d'un générateur
+  s'écrit « …, à jour ». Restent les commentaires et docstrings de `nouveau_cours.py` (17 tirets).
+- **La fiche des capsules** (`docs/prompts/Capsules_du_cours_demo.md`) : les transcriptions des deux podcasts sont
+  sans tiret (`f305154`, ponctuation seule) ; ses lignes 23 et 24 décrivent encore le contrôle de la v3 ; les scripts
+  enregistrés gardent leurs tirets jusqu'au réenregistrement.
 - Les pieds de page des skills signent « Mohamed EL AFRIT », sauf `creer-cours-template` (« Mohamed Amine EL
   AFRIT ») ; ARCHITECTURE, ligne 324, porte deux deux-points dans une phrase.
 - **Les fiches de synthèse en PDF** coupent un mot en gras en fin de ligne : « contrainte » puis « s matérielles »

@@ -9,6 +9,40 @@
 
 ---
 
+## 23 novembre 2026 · les derniers relevés des documents (`09f459a`, `2370e9c`)
+
+### Les décisions prises sous le mode « enchaîne » (options recommandées)
+
+- Les messages des outils suivent la règle des messages à l'auteur : plus de tiret.
+- La feuille « Mode d'emploi » des questions d'oral devient générique, sans rien inventer.
+- Les transcriptions des deux podcasts de la fiche des capsules prennent le deux-points de leur phrase voisine
+  (l'exception du 5 novembre : la ponctuation d'une transcription peut changer, ses mots non).
+
+### Le travail
+
+- 36 tirets dans les messages de 19 outils, de `demarrer.py` au déployeur (`09f459a`). L'état d'un générateur
+  s'écrit « …, à jour », comme `generer_filieres.py` le faisait déjà ; une durée absente devient « n.d. » ; un titre
+  d'épisode prend « · ». Aucun outil ni aucun test ne lit ces messages : vérifié avant.
+- `docs/generate_questions_oral.py` (`2370e9c`) : le choix des questions passe par la colonne Thème, la notation par
+  la ligne de grille que vise chaque question ; plus de « phase 3 », de « questions 13 ou 14 », de « dossier PIA », de
+  « chapitre 8 » ni de page « Soutenance vidéo ». L'antithèse d'un exemple et le commentaire en double partent aussi.
+- La fiche des capsules (`f305154`) : « Le public d'abord : tant qu'on ignore… », « The audience first: until… ».
+
+### Ce qui a été vérifié
+
+Les outils touchés tournent et compilent (`generer_medias.py`, `generer_nav_sections.py`, `generer_langues.py`,
+`glossaire_emplois.py`, `verifier_parite.py`, `verifier_i18n.py`, `verifier_interdits.py`, `synchroniser_capsules.py`,
+`generer_fragments.py`, `podcasts.py`, `hreflang.py`) ; le test du déployeur passe (« Tous les cas sont conformes »).
+Le script de l'oral, lancé vers le dossier temporaire, produit un classeur sans aucune trace de l'autre cours ni
+tiret ; le fichier d'essai a été supprimé. La fiche des capsules se relit toujours.
+
+### Ce qui n'est pas fait
+
+Les autres marques de texte généré (au registre), les commentaires de `nouveau_cours.py`, les lignes 23 et 24 de la
+fiche des capsules.
+
+---
+
 ## 23 novembre 2026 · les documents à jour et sans tirets (`7b8a1ef`, `d3eeddc`)
 
 ### Les décisions de l'auteur
