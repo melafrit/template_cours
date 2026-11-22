@@ -318,7 +318,7 @@ section ne se voit qu'en cliquant.
 ## 18. Une adresse externe s'ouvre avant d'être citée
 
 Une adresse recopiée de mémoire, ou devinée d'après le titre d'un article, mène
-une fois sur deux à une page d'erreur, ou pire, à une autre page. Chaque lien
+une fois sur deux à une page d'erreur, ou, pire, à une autre page. Chaque lien
 externe s'ouvre donc avant d'être ajouté, s'affiche dans un nouvel onglet
 (`target="_blank" rel="noopener noreferrer"`) et se signale aux lecteurs d'écran.
 

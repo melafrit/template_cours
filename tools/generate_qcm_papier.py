@@ -1,25 +1,25 @@
 # -*- coding: utf-8 -*-
 """Template de site de cours · Mohamed EL AFRIT (MIT / CC BY 4.0)
 
-Genere la version PAPIER du QCM a partir des donnees BILINGUES du site
-(site/QCM/questions.js + corrections.js), pour la ou les langues demandees.
+Génère la version PAPIER du QCM à partir des données BILINGUES du site
+(site/QCM/questions.js + corrections.js), pour la ou les langues demandées.
 
 Pour chaque langue (fr / en), produit dans tools/out/ :
-  - QCM_questions.<lang>.docx       : page de garde + consignes + bareme
-                                      (avec exemples chiffres) + questions (2 colonnes)
-  - QCM_grille_reponses.<lang>.docx : grille de reponses (N° + A/B/C/D + certitude F/M/É)
-  - QCM_corrige.<lang>.docx         : corrige formateur (bonne reponse + explication)
+  - QCM_questions.<lang>.docx       : page de garde + consignes + barème
+                                      (avec exemples chiffrés) + questions (2 colonnes)
+  - QCM_grille_reponses.<lang>.docx : grille de réponses (N° + A/B/C/D + certitude F/M/É)
+  - QCM_corrige.<lang>.docx         : corrigé formateur (bonne réponse + explication)
 
-Donnees bilingues attendues :
+Données bilingues attendues :
   meta.titre={fr,en}, question.enonce={fr,en}, question.propositions=[{fr,en}...],
   correction.explication={fr,en}, correction.bonne_reponse_index.
 
-Bareme CBM : Élevée +3/−3 · Moyenne +2/−2 · Faible +1/0.
+Barème CBM : Élevée +3/−3 · Moyenne +2/−2 · Faible +1/0.
 Note /20 = score brut ÷ (3×N) × 20.
 
 Usage :
   python generate_qcm_papier.py [fr|en|both]
-  (defaut : both)
+  (défaut : both)
 """
 import os, sys, json, re
 

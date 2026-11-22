@@ -9,8 +9,8 @@ ce dépôt dans Claude Code, Claude **applique automatiquement les conventions d
 qu'il génère ou étend un cours, sans qu'il faille les lui rappeler à chaque fois.
 
 Un Skill est un fichier `SKILL.md` doté d'un **frontmatter YAML** (`name` + `description`).
-Claude **charge un skill quand la demande de l'utilisateur correspond à sa `description`** :
-les mots-déclencheurs y sont bilingues (français **et** anglais) pour que le skill se déclenche
+Claude **charge une skill quand la demande de l'utilisateur correspond à sa `description`** :
+les mots-déclencheurs y sont bilingues (français **et** anglais) pour que la skill se déclenche
 quelle que soit la formulation. Les détails approfondis vivent dans les fichiers `references/`
 de chaque skill et **renvoient** aux docs du dépôt plutôt que de les dupliquer.
 

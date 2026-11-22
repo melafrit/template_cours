@@ -11,12 +11,12 @@ méthode complète (paramètres, règles, étape zéro, phases et jalons) est da
 **`prompts/PROMPT-Cours-parametrable.md`**, le tronc commun ; chaque option (bilingue,
 polycopié, podcasts NotebookLM, audio, évaluations, TP, Yparéo et Livrables, déploiement,
 compléments) a son **module** dans `prompts/modules/`, lu avant sa phase s'il est actif.
-Ce skill déroule le tronc et ses modules.
+Cette skill déroule le tronc et ses modules.
 
 ## Quand l'utiliser
 
 Dès que l'utilisateur veut **démarrer un projet de cours** ou **générer un nouveau cours**
-depuis ce template. C'est le premier réflexe : on passe par ce skill avant tout autre.
+depuis ce template. C'est le premier réflexe : on passe par cette skill avant toute autre.
 
 ## Les exigences de l'auteur · à appliquer sans qu'il les rappelle
 

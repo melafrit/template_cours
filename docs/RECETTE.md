@@ -200,7 +200,7 @@ Le cours créé embarque son propre lanceur. Ouvrez-le :
 - [ ] L'accueil a la structure de celui de la démonstration (bandeau, capsules,
       sections numérotées, cartes des chapitres, bouton flottant), le titre et le
       sous-titre de `cours.json`, des consignes « À rédiger » à la place de la
-      prose, et ni « Ce que démontre ce site ». Son bandeau a les deux boutons du
+      prose, et pas de section « Ce que démontre ce site ». Son bandeau a les deux boutons du
       bloc école du modèle, « Déposer mes livrables » et « QCM d'évaluation »,
       écrits dans `outils/accueil.py`. Sa pastille dit « À rédiger : le public du
       cours », sans bloc ni bouton d'épreuves : les filières du modèle n'en

@@ -4,16 +4,16 @@
 
     python3 docs/generate_questions_oral.py
 
-Produit un classeur a trois feuilles : les questions avec leur reponse
+Produit un classeur à trois feuilles : les questions avec leur réponse
 attendue, un mode d'emploi, et un tableau de suivi des passages.
 
-DOCUMENT FORMATEUR. Il vit dans docs/, que le deploiement ne publie pas :
-le communiquer aux etudiants avant l'oral viderait l'exercice de son sens.
+DOCUMENT FORMATEUR. Il vit dans docs/, que le déploiement ne publie pas :
+le communiquer aux étudiants avant l'oral viderait l'exercice de son sens.
 
-A PERSONNALISER : la liste Q ci-dessous ne contient que trois exemples,
-qui montrent la forme attendue. Toutes vos reponses doivent etre tirees
-du dossier remis aux etudiants : une question dont la reponse n'est pas
-dans le cours est injuste, et l'on ne s'en apercoit qu'a la correction.
+À PERSONNALISER : la liste Q ci-dessous ne contient que trois exemples,
+qui montrent la forme attendue. Toutes vos réponses doivent être tirées
+du dossier remis aux étudiants : une question dont la réponse n'est pas
+dans le cours est injuste, et l'on ne s'en aperçoit qu'à la correction.
 """
 
 import os

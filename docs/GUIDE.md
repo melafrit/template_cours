@@ -219,7 +219,7 @@ Le pipeline se déroule en **quatre phases**. Vous pouvez itérer à l'intérieu
 
 - **Quand :** après avoir défini le squelette du cours et au moins un chapitre.
 - **À préparer :** la fiche de cadrage, les chapitres concernés, le fil rouge.
-- **Ce que Claude renvoie :** Claude **propose d'abord** les patrons les plus pertinents pour *votre* sujet (assistant de décision pas-à-pas, quiz-classificateur à feedback, calculateur/simulateur, checklist à score, fiches-résumés), **clarifie** le besoin avec vous (une question à la fois), puis **génère** le contenu/les données de l'activité choisie en **HTML/JS vanilla + i18n FR/EN**.
+- **Ce que Claude renvoie :** Claude **propose d'abord** les patrons les plus pertinents pour *votre* sujet (assistant de décision pas à pas, quiz-classificateur à feedback, calculateur/simulateur, checklist à score, fiches-résumés), **clarifie** le besoin avec vous (une question à la fois), puis **génère** le contenu/les données de l'activité choisie en **HTML/JS vanilla + i18n FR/EN**.
 - **Intégration :** insérez le bloc HTML/JS dans la page du chapitre visé (ou une page d'activité dédiée) et déclarez les libellés dans le dictionnaire i18n. Choisissez les activités **selon le sujet** : pas de gadget générique.
 
 ### `07_qcm_banque.md` · Banque de QCM (CBM)

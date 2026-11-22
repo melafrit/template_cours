@@ -58,7 +58,7 @@ new FlashcardDeck('flash-ch6', (window.RDC_FLASHCARDS || {})['6'] || [], 'ch6');
 - 3e argument = **clé de deck** : sert à mémoriser « su / à revoir » dans `localStorage` (`rdc-flash-<clé>`). Une clé unique par chapitre.
 - Ajouter le conteneur dans le HTML : `<div id="flash-ch6"></div>`.
 
-Le deck gère recto/verso, navigation, mélange, barre de progression et se relabellise au changement de langue : rien d'autre à coder.
+Le deck gère recto/verso, navigation, mélange, barre de progression et change ses libellés au changement de langue : rien d'autre à coder.
 
 ---
 
@@ -66,7 +66,7 @@ Le deck gère recto/verso, navigation, mélange, barre de progression et se rela
 
 Schéma commun : un `<div id="…"></div>` dans la page + un appel JS qui le remplit. Libellés en `{fr,en}`, `**gras**` supporté, ré-affichage auto sur `tpl:langchange`. Charger `assets/js/tools.js` dans la page ; les activités réutilisent les classes CSS `.rdc-*` de `components.css`. Modèle complet des 3 patrons : `activites.html`.
 
-**`decisionWizard(id, cfg)`** (pas-à-pas) : **Oui** → résultat de l'étape ; **Non** → étape suivante ; `fallback` si Non partout.
+**`decisionWizard(id, cfg)`** (pas à pas) : **Oui** → résultat de l'étape ; **Non** → étape suivante ; `fallback` si Non partout.
 ```js
 TPLActivities.decisionWizard('mon-wizard', {
   icon: '🧭', title: { fr: "…", en: "…" },

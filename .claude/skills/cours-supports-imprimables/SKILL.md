@@ -29,7 +29,7 @@ pip install -r tools/requirements.txt
 - `python-docx` (DOCX), `fpdf2` (PDF), `pypdfium2` (optionnel, aperçu/rasterisation PDF).
 - Les sorties vont dans **`tools/out/`** : dossier **gitignoré et régénérable**, à ne pas versionner. Seule
   exception : les PDF des fiches de synthèse, que le site sert depuis `site/assets/polycopies/`.
-- Toutes les commandes **sans argument de langue produisent FR **et** EN** (`both` par défaut).
+- Sans argument de langue, toutes les commandes produisent **FR et EN** (`both` par défaut).
 
 ## 1. Fiches de synthèse · `generate_polycopies.py`
 

@@ -80,7 +80,7 @@ Pour **chaque** chapitre :
 - [ ] Termes définis sans circularité, alignés sur les sources de référence
 - [ ] Auto-surlignage des termes vérifié dans le texte des chapitres
 - [ ] Info-bulles au survol testées (affichage, contenu FR/EN, lien vers la page glossaire)
-- [ ] Aucun faux positif gênant (sigles, mots courants surlignés à tort) corrigé
+- [ ] Faux positifs gênants (sigles, mots courants surlignés à tort) corrigés
 - [ ] Cohérence terme ↔ usage : chaque terme du glossaire apparaît bien au moins une fois dans les chapitres
 
 ---
@@ -116,7 +116,7 @@ Pour **chaque** chapitre :
 
 ## Phase 6 · Activités interactives
 
-- [ ] Patron(s) choisi(s) **selon le sujet** parmi : assistant de décision pas-à-pas, quiz-classificateur à feedback, calculateur/simulateur, checklist à score, fiches-résumés
+- [ ] Patron(s) choisi(s) **selon le sujet** parmi : assistant de décision pas à pas, quiz-classificateur à feedback, calculateur/simulateur, checklist à score, fiches-résumés
 - [ ] Logique métier de l'activité vérifiée (résultats justes, cas limites gérés)
 - [ ] Feedback pédagogique clair à chaque étape
 - [ ] Activité bilingue si `{{LANGUES}}` = FR + EN

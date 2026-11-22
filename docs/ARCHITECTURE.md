@@ -301,7 +301,7 @@ Les scripts sont chargés **sans `defer`/`async`**, en bas du `<body>`, donc dan
 
 ---
 
-## 4. Recettes pas-à-pas
+## 4. Recettes pas à pas
 
 ### 4.1 Ajouter un chapitre
 
@@ -404,7 +404,7 @@ Dans `assets/js/glossaire-data.js`, ajouter au tableau `window.GLOSSARY` :
 
 `window.TPLActivities` expose 3 fabriques. Schéma commun : un `<div id="…"></div>` dans la page + un appel JS qui le remplit. Tout est piloté par des libellés `{ fr, en }`, le `**gras**` est supporté, et l'activité se ré-affiche au changement de langue.
 
-**Patron 1 · `decisionWizard(id, cfg)`** : assistant pas-à-pas (Oui mène au résultat de l'étape, Non passe à l'étape suivante ; `fallback` si on dit Non partout).
+**Patron 1 · `decisionWizard(id, cfg)`** : assistant pas à pas (Oui mène au résultat de l'étape, Non passe à l'étape suivante ; `fallback` si on dit Non partout).
 ```js
 TPLActivities.decisionWizard('mon-wizard', {
   icon: '🧭', title: { fr: "…", en: "…" },

@@ -114,7 +114,7 @@ questions qu'entre deux sessions.
 
 ## Pour aller plus loin
 
-- `docs/ARCHITECTURE.md` §4.3 : recette complète « ajouter une question » + table CBM + caveat signature.
+- `docs/ARCHITECTURE.md` §4.3 : recette complète « ajouter une question » + table CBM + mise en garde sur la signature.
 - `prompts/07_qcm_banque.md` : règles de conception détaillées (réponse unique, équilibre des positions, débiaisage, auto-vérification) et `prompts/08_qcm_papier.md` pour la version papier.
 - Skill **cours-bilingue-i18n** : convention bilingue `{fr,en}` et `TPLI18N` (obligatoire pour toute chaîne).
 
