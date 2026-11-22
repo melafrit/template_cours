@@ -82,6 +82,11 @@ template_cours/
 
 ## 0 bis. Amorcer la mécanique avant d'écrire
 
+**Le plus simple** : dans le gabarit, la page `generateur/index.html`, ouverte d'un double clic, fabrique le prompt
+de lancement à coller dans Claude Code. Il renvoie au tronc et aux modules actifs par leur chemin, et donne le bloc
+de paramètres rempli de vos valeurs habituelles. Pour un dossier de cours déjà préparé, il garde les documents en
+place et les fait exclure de Git avant tout (`generateur/LISEZMOI.md`). Claude se charge ensuite de ce qui suit.
+
 Le squelette d'un cours ne s'écrit pas à la main :
 
 ```bash

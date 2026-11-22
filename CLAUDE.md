@@ -249,6 +249,12 @@ python3 nouveau_cours.py --essai     # ce qu'il ferait, sans rien écrire
 python3 nouveau_cours.py             # crée le cours dans le dossier « sortie »
 ```
 
+Le plus simple est la page **`generateur/index.html`**, ouverte d'un double clic : elle fabrique le prompt de
+lancement à coller dans Claude Code, qui renvoie au tronc et aux modules par leur chemin, avec le bloc de
+paramètres rempli de vos valeurs habituelles (`generateur/valeurs.local.js`, ignoré par Git, sans aucun secret).
+Elle sait lancer un cours dans un dossier déjà préparé, documents en place. Mode d'emploi :
+`generateur/LISEZMOI.md`.
+
 Le script met en place la mécanique — arborescence, charte, navigation,
 squelettes, outils, déployeur, `CLAUDE.md`, `deploiement/destination.json` — et
 recopie en local les secrets communs (§ 2). Il écrit aussi le bloc école de
@@ -401,7 +407,8 @@ python3 nouveau_cours.py --essai      # dit ce qu'il ferait, n'écrit rien
 
 Après toute modification du moteur ou du générateur, déroulez
 `docs/RECETTE.md` en entier. Son troisième test est le seul qui dise ce que
-l'utilisateur recevra réellement.
+l'utilisateur recevra réellement. Après toute retouche du générateur de prompt :
+`node generateur/essai_generateur.js`.
 
 <!-- gabarit:fin -->
 ---

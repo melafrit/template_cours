@@ -84,3 +84,6 @@ docs/Import_Livrables*
 # Dans un depot de cours PRIVE, l'auteur peut decider de le versionner ; dans
 # ce template, public, jamais.
 docs/acces-zones.json
+
+# Le générateur de prompt : les valeurs habituelles de l'auteur restent sur son poste.
+generateur/valeurs.local.js

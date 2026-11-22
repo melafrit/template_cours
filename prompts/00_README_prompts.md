@@ -10,6 +10,9 @@ Ce dossier contient **le prompt paramétrable** de création d'un cours et **ses
 
 **[`PROMPT-Cours-parametrable.md`](PROMPT-Cours-parametrable.md)** est le tronc commun. Il réunit un bloc de paramètres (le cours, les filières, le fil rouge, les livrables, les modules, l'écosystème, Git) et la méthode : règles de conduite, étape zéro depuis ce template, conventions, **quinze phases avec leurs jalons STOP**, contrôles avant mise en ligne, définition de « terminé ».
 
+**Le prompt de lancement** se fabrique dans le gabarit, avec la page `generateur/index.html` : elle remplit ce bloc
+de paramètres de vos valeurs habituelles et renvoie au tronc et aux modules actifs par leur chemin.
+
 **[`modules/`](modules/)** contient un fichier par option, lu avant sa phase s'il est actif ; chacun sert aussi **seul**, sur un cours existant :
 
 | Module | Ce qu'il ajoute |

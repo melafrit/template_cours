@@ -24,7 +24,9 @@
 ## 1. Mode d'emploi
 
 1. **Remplissez le bloc de paramètres** (section 3), modules compris. Laissez vide ce que
-   vous ne savez pas encore : Claude le demandera.
+   vous ne savez pas encore : Claude le demandera. Le plus simple est la page du générateur,
+   dans le gabarit (`generateur/index.html`) : elle remplit le bloc de vos valeurs habituelles
+   et fabrique le prompt de lancement à coller.
 2. **Demandez à Claude de créer le cours** (« crée un nouveau cours sur … avec le
    template »), ou collez le bloc rempli puis le prompt de la section 4 dans le même
    message.
