@@ -57,9 +57,11 @@ liens (`liens_langues.py`, `documents_en.py`), les balises (`hreflang.py`) et la
 (`verifier_parite.py`, qui signale aussi un bloc arabe resté sans lettre arabe). Un cours créé
 avant leur arrivée les reprend du gabarit.
 
-**Trois outils ne savent pas encore l'arabe** (registre du gabarit, lot 1) : `hreflang.py`,
-`generer_playlist.py` et `synchroniser_capsules.py`. Pour un cours en arabe, signale-le à
-l'auteur au cadrage, et note dans `TODO.md` ce qui en dépend.
+**Quatre outils ne savent pas encore l'arabe** : `hreflang.py`, `generer_playlist.py` et
+`synchroniser_capsules.py` (registre du gabarit, lot 1), et `generer_audio.py`, qui ne
+parcourt que `site/` et `site/en/` et ne reconnaît que les suffixes `-fr` et `-en` ; une piste
+arabe y recevrait l'accent parisien des pistes françaises. Pour un cours en arabe, signale-le
+à l'auteur au cadrage, et note dans `TODO.md` ce qui en dépend.
 
 **La méthode de l'anglais** a été rodée de bout en bout sur
 `C:\projets\Cours\Cours_Architecture_Logicielle` (lots 0 à 8, décisions D97 à D113, puis D118
@@ -169,8 +171,9 @@ cours de référence quand il existe :
 - **Une piste par langue**, nommée `chapitre-<N>-capsule-<langue>.mp3` : sans le suffixe,
   l'auditeur d'une autre langue entend la racine. La capsule arabe du chapitre 1
   (`chapitre-1-capsule-ar.mp3`) est déjà appelée par sa page.
-- Les scripts traduits vivent à côté de ceux de la racine (`docs/prompts/en/` pour
-  l'anglais), avec **les mêmes marqueurs** : mêmes faits, même ordre, autant de paragraphes et
+- Les fiches traduites vivent à côté de celles de la racine, avec le suffixe de leur langue
+  (`docs/prompts/Capsules_accueil_en.md`), jamais dans un sous-dossier, que les outils ne
+  lisent pas. Elles gardent **les mêmes marqueurs** : mêmes faits, même ordre, autant de paragraphes et
   de balises de jeu (« speaking slowly » dans chacune), longueur à 10 % près ; nombres et
   sigles écrits pour la voix (« S.A.D. »), la transcription les écrivant normalement. Tant que
   `synchroniser_capsules.py` ne sait pas l'arabe, la transcription arabe s'écrit dans la page

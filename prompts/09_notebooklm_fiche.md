@@ -11,19 +11,19 @@ Une fois que la structure du cours et les contenus des chapitres existent, pour 
 
 ## Placeholders à compléter
 
-- `{{SUJET_DU_COURS}}` — intitulé exact du cours.
-- `{{PUBLIC_CIBLE}}` — à qui s'adresse le cours.
-- `{{NIVEAU}}` — débutant / intermédiaire / avancé.
-- `{{DUREE}}` — volume horaire ou durée totale.
-- `{{LANGUES}}` — `français seul` **ou** `français + anglais`.
-- `{{NB_CHAPITRES}}` — nombre de chapitres du cours.
-- `{{PLAN_DU_COURS}}` — la liste ordonnée des chapitres et de leurs sections (titres). Colle-la telle quelle.
-- `{{DOCUMENTS_DE_REFERENCE}}` — sources faisant autorité (textes du cours déjà rédigés, supports, normes, lois, articles…). **La fiche doit s'appuyer EXCLUSIVEMENT dessus.**
-- `{{FIL_ROUGE}}` — le scénario continu (cas fil rouge) qui traverse le cours.
-- `{{GLOSSAIRE}}` — la liste des termes clés / définitions déjà fixés pour le cours (pour rester cohérent). Mets `à déduire des documents` si tu n'en as pas encore.
-- `{{AUTEUR}}` — auteur du cours.
-- `{{LICENCE}}` — licence du contenu (ex. CC BY 4.0).
-- `{{CONTRAINTES}}` — limites particulières (longueur cible, vocabulaire à éviter, exclusions, niveau de détail…).
+- `{{SUJET_DU_COURS}}` : intitulé exact du cours.
+- `{{PUBLIC_CIBLE}}` : à qui s'adresse le cours.
+- `{{NIVEAU}}` : débutant / intermédiaire / avancé.
+- `{{DUREE}}` : volume horaire ou durée totale.
+- `{{LANGUES}}` : `français seul` **ou** `français + anglais`.
+- `{{NB_CHAPITRES}}` : nombre de chapitres du cours.
+- `{{PLAN_DU_COURS}}` : la liste ordonnée des chapitres et de leurs sections (titres). Colle-la telle quelle.
+- `{{DOCUMENTS_DE_REFERENCE}}` : sources faisant autorité (textes du cours déjà rédigés, supports, normes, lois, articles…). **La fiche doit s'appuyer EXCLUSIVEMENT dessus.**
+- `{{FIL_ROUGE}}` : le scénario continu (cas fil rouge) qui traverse le cours.
+- `{{GLOSSAIRE}}` : la liste des termes clés / définitions déjà fixés pour le cours (pour rester cohérent). Mets `à déduire des documents` si tu n'en as pas encore.
+- `{{AUTEUR}}` : auteur du cours.
+- `{{LICENCE}}` : licence du contenu (ex. CC BY 4.0).
+- `{{CONTRAINTES}}` : limites particulières (longueur cible, vocabulaire à éviter, exclusions, niveau de détail…).
 
 ---
 
@@ -68,6 +68,7 @@ CONSIGNES DE RÉDACTION POUR NOTEBOOKLM
 - Donne des exemples CONCRETS et, dès que possible, rattache-les au fil rouge {{FIL_ROUGE}} : cela rend les podcasts et slides vivants et incarnés.
 - Reste neutre et factuel ; pas de marketing, pas de « nous pensons que ». Ton pédagogique, précis, professionnel.
 - Pas d'éléments interactifs, de liens hypertexte, d'images : du texte structuré uniquement (ce document sera converti en .docx).
+- Aucun tiret cadratin ni demi-cadratin (–) entre espaces, titres compris : une incise passe entre virgules ou entre parenthèses, ou devient une phrase. Un titre prend le deux-points, le point médian ou les parenthèses (« Chapitre 1 · Bienvenue »). N'emploie aucune marque de texte généré : un seul deux-points par phrase, ni phrase-choc sans verbe, ni questions rhétoriques en cascade, ni antithèse réflexe, ni triade par habitude, ni mot gonflé (« crucial », « véritable », « au cœur de »).
 
 GESTION DES LANGUES
 - Si {{LANGUES}} = « français seul » : rédige toute la fiche en français.
@@ -75,7 +76,7 @@ GESTION DES LANGUES
 
 STRUCTURE EXACTE DU DOCUMENT À PRODUIRE
 
-# Fiche de cours pour NotebookLM — {{SUJET_DU_COURS}}
+# Fiche de cours pour NotebookLM · {{SUJET_DU_COURS}}
 
 ## 0. Notice d'utilisation (1/2 page)
 - Indique : auteur {{AUTEUR}}, licence {{LICENCE}}, public {{PUBLIC_CIBLE}}, niveau {{NIVEAU}}, durée {{DUREE}}.
@@ -95,7 +96,7 @@ STRUCTURE EXACTE DU DOCUMENT À PRODUIRE
 ## 3 → (2 + {{NB_CHAPITRES}}). UN BLOC PAR CHAPITRE
 Pour CHAQUE chapitre du {{PLAN_DU_COURS}}, produis EXACTEMENT cette structure, avec les mêmes intitulés de sous-titres :
 
-### Chapitre N — [Titre]
+### Chapitre N · [Titre]
 **En une phrase.** Ce que ce chapitre apprend, formulé simplement.
 
 **Objectifs du chapitre.** 2 à 4 objectifs précis et vérifiables.
@@ -118,7 +119,7 @@ Pour CHAQUE chapitre du {{PLAN_DU_COURS}}, produis EXACTEMENT cette structure, a
 
 [Si {{LANGUES}} = français + anglais] **Key terms (EN).** Traduction des termes clés + un résumé du chapitre en une à deux phrases en anglais.
 
-## Dernière section — Synthèse finale et fil rouge bouclé
+## Dernière section · Synthèse finale et fil rouge bouclé
 - Résumé du parcours complet en un paragraphe.
 - Reprise du fil rouge {{FIL_ROUGE}} du début à la fin : ce qui a été décidé/produit à chaque étape, et l'état final.
 - Les 8 à 12 messages clés de tout le cours, en puces (« si vous ne deviez retenir que… »).

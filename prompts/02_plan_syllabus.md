@@ -13,7 +13,7 @@ Juste après la fiche de cadrage (prompt `01`), quand le périmètre du cours es
 | `{{PUBLIC_CIBLE}}` | À qui s'adresse le cours (ex. étudiants en M1 droit du numérique, professionnels RH, développeurs). |
 | `{{NIVEAU}}` | Débutant / intermédiaire / avancé, et prérequis attendus. |
 | `{{DUREE}}` | Volume horaire total visé (ex. 14 h, 6 séances de 3 h, 20 h en autonomie). |
-| `{{LANGUES}}` | `français seul` **ou** `français + anglais` (le syllabus est alors entièrement bilingue, titres et objectifs en FR/EN). |
+| `{{LANGUES}}` | La langue racine d'abord (`fr` ou `en`), puis les jumelles éventuelles (`en`, `ar`), comme `cours.langues` (ex. `["fr", "en"]`). Le syllabus s'écrit dans la langue racine ; les titres et objectifs des jumelles y restent provisoires. |
 | `{{DOCUMENTS_DE_REFERENCE}}` | Liste des sources faisant autorité (textes de loi, normes, manuels, supports internes, URLs, PDF joints). |
 | `{{FIL_ROUGE}}` | Le scénario continu qui traverse tout le cours (ex. « une coopérative agricole fictive qui ouvre une boutique en ligne »). |
 | `{{NB_CHAPITRES}}` | Nombre de chapitres souhaité, ou « à proposer » si tu laisses Claude décider et justifier. |
@@ -48,7 +48,7 @@ EXIGENCE D'EXACTITUDE (NON NÉGOCIABLE)
 2. Ne fonde le contenu QUE sur ces documents et sur des connaissances établies et vérifiables. N'INVENTE RIEN : ni article de loi, ni chiffre, ni définition, ni jurisprudence, ni norme.
 3. Quand une notion provient d'un document, CITE la source (titre du document, section/article/page). Utilise une notation courte et constante (ex. [DOC1 §3], [Manuel p.42]).
 4. Si une information manque, est ambiguë ou contradictoire dans les sources, NE COMBLE PAS le vide : signale-le explicitement dans une section « Points à clarifier » et propose des questions précises à l'auteur.
-5. Si tu mobilises une connaissance générale non couverte par les documents, signale-la comme telle (mention « hors sources fournies — à vérifier »).
+5. Si tu mobilises une connaissance générale non couverte par les documents, signale-la comme telle (mention « hors sources fournies, à vérifier »).
 
 PRINCIPES PÉDAGOGIQUES À RESPECTER
 - Objectifs FORMULÉS AVEC DES VERBES D'ACTION MESURABLES (taxonomie de Bloom : identifier, distinguer, appliquer, analyser, évaluer, concevoir…). Bannir « connaître », « comprendre », « être sensibilisé à » seuls.
@@ -56,24 +56,24 @@ PRINCIPES PÉDAGOGIQUES À RESPECTER
 - Charge cognitive raisonnable : équilibre des durées, pas de chapitre surchargé.
 - Chaque chapitre doit faire AVANCER le fil rouge {{FIL_ROUGE}} d'une étape concrète et identifiable.
 - Activités interactives CHOISIES SELON LE SUJET parmi ces patrons réutilisables : assistant de décision pas-à-pas, quiz-classificateur à feedback, calculateur/simulateur, checklist à score, fiche-résumé interactive. Justifie le choix au regard de l'objectif visé.
-- Si {{LANGUES}} = « français + anglais » : fournis titres ET objectifs en FR ET EN. Sinon, français uniquement.
+- Rédige dans la langue racine, la première de {{LANGUES}}. Si {{LANGUES}} compte des jumelles (anglais, arabe), donne aussi titres ET objectifs dans chacune, à titre provisoire : les pages jumelles se traduiront plus tard, une fois la racine stable, avec le lexique de chaque langue (prompts/modules/01-langues.md).
 
-TRAVAIL DEMANDÉ — PRODUIS, DANS CET ORDRE :
+TRAVAIL DEMANDÉ (À PRODUIRE DANS CET ORDRE)
 
 A) VUE D'ENSEMBLE (8-12 lignes)
    - Promesse pédagogique du cours (ce que l'apprenant saura FAIRE à la fin).
    - Compétences-cibles globales (3 à 6, mesurables).
    - Logique de progression en une phrase par chapitre (le « fil narratif » du programme).
 
-B) TABLEAU DU SYLLABUS — une ligne par chapitre, colonnes EXACTEMENT :
-   | N° | Titre FR (/ Titre EN) | Objectifs pédagogiques mesurables | Durée | Notions-clés | Place dans le fil rouge | Idées d'activités interactives | Termes de glossaire pressentis | Sources |
+B) TABLEAU DU SYLLABUS (une ligne par chapitre), colonnes EXACTEMENT :
+   | N° | Titre (/ titres des jumelles) | Objectifs pédagogiques mesurables | Durée | Notions-clés | Place dans le fil rouge | Idées d'activités interactives | Termes de glossaire pressentis | Sources |
    Règles de remplissage :
    - Objectifs : 2 à 4 par chapitre, chacun commençant par un verbe d'action mesurable.
    - Durée : cohérente avec {{DUREE}} ; le total des durées doit correspondre à la durée visée (indique le total).
    - Notions-clés : 4 à 8, formulées comme dans les sources.
    - Place dans le fil rouge : l'étape concrète que ce chapitre fait franchir au scénario {{FIL_ROUGE}}, avec le livrable attendu de l'apprenant.
    - Activités : 1 à 2 patrons + en une ligne ce que l'apprenant y fait.
-   - Termes de glossaire : 3 à 8 termes (FR, + EN si bilingue) candidats à l'auto-surlignage/info-bulle.
+   - Termes de glossaire : 3 à 8 termes (dans la langue racine, et dans chaque jumelle s'il y en a) candidats à l'auto-surlignage/info-bulle.
    - Sources : références courtes [DOCx §y] justifiant le contenu du chapitre.
 
 C) JUSTIFICATION DE LA PROGRESSION (15-25 lignes)
@@ -83,7 +83,7 @@ C) JUSTIFICATION DE LA PROGRESSION (15-25 lignes)
    - Comment l'évaluation (QCM, flashcards, atelier) s'aligne-t-elle sur les objectifs ?
 
 D) GLOSSAIRE GLOBAL PRESSENTI
-   - Liste consolidée et dédoublonnée de TOUS les termes de glossaire (FR, + EN si bilingue), classés par ordre alphabétique, avec le n° de chapitre où chacun apparaît en premier. (Définitions NON requises ici — elles viendront plus tard.)
+   - Liste consolidée et dédoublonnée de TOUS les termes de glossaire (dans la langue racine, et dans chaque jumelle s'il y en a), classés par ordre alphabétique, avec le n° de chapitre où chacun apparaît en premier. (Définitions NON requises ici : elles viendront plus tard.)
 
 E) POINTS À CLARIFIER
    - Toute ambiguïté, manque ou contradiction repérés dans les sources, sous forme de questions précises à {{AUTEUR}}.
@@ -93,6 +93,8 @@ FORMAT DE SORTIE
 - Le tableau du syllabus en vraie syntaxe de tableau Markdown (séparateurs |).
 - Pas de remplissage verbeux : du concret, exploitable tel quel pour rédiger ensuite les chapitres.
 - Ton professionnel, sobre, orienté action.
+- Ni tiret cadratin ni tiret demi-cadratin entre espaces : une incise passe entre virgules ou entre parenthèses, ou devient une phrase ; un titre prend le deux-points, le point médian ou les parenthèses (« Chapitre 1 · Bienvenue »).
+- Aucune marque de texte généré : un seul deux-points par phrase, ni phrase-choc sans verbe, ni questions rhétoriques en cascade, ni antithèse réflexe, ni triade par habitude, ni mot gonflé (« crucial », « véritable », « au cœur de »).
 ```
 
 ---
@@ -104,4 +106,4 @@ FORMAT DE SORTIE
 - **Vérifie d'abord la cohérence des durées** (le total doit retomber sur `{{DUREE}}`) et la **mesurabilité des objectifs** (chaque objectif doit commencer par un verbe d'action testable). Refuse tout objectif en « comprendre / connaître ».
 - Conserve la sortie comme **document pivot** : les termes de glossaire (section D) alimenteront le prompt glossaire, les objectifs et notions-clés guideront la rédaction des chapitres et la banque de QCM, la « place dans le fil rouge » nourrira l'atelier.
 - Traite la section **« Points à clarifier »** avant de lancer la rédaction des chapitres : c'est là que se cachent les inventions évitées et les arbitrages à faire avec l'auteur.
-- En mode bilingue, contrôle que **titres et objectifs** existent bien en FR **et** EN (le site génère des blocs FR/EN alternés ; un objectif manquant dans une langue créera un trou dans le rendu).
+- Avec des langues jumelles, contrôle que **titres et objectifs** existent bien dans chacune, en sachant qu'ils restent provisoires : chaque page jumelle se traduit plus tard d'après sa page racine stable, bloc pour bloc, et `outils/verifier_parite.py` contrôle qu'elle garde la même suite de blocs.

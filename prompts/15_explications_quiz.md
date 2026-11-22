@@ -36,7 +36,8 @@ renvoi vers « le chapitre 3 » ne sert à rien : il faut la section, le schéma
   `page.html#ancre`, relative) s'ouvre dans le même onglet ; une adresse `https://` dans
   un nouvel onglet, signalé aux lecteurs d'écran. Toute autre forme est écartée.
 - Dans une page bilingue, les deux tableaux vivent dans `TEXTES.fr` et `TEXTES.en`
-  (`checkP1`, `checkA1`…), comme dans `site/chapitres/_modele.html`.
+  (`checkP1`, `checkA1`…), comme dans le chapitre vitrine (`site/chapitres/01-cadrage.html`
+  dans le gabarit, `_modele.html` dans un cours créé).
 - Dans le pied de l'explication, le moteur nomme la bonne réponse par sa lettre et marque
   « votre choix » dans la liste : rien à écrire pour cela.
 

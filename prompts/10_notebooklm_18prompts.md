@@ -7,7 +7,7 @@
 > « Podcasts » du site. Ce prompt-ci reste pour l'infographie, les slides et le podcast de
 > chaque chapitre.
 
-**Quand l'utiliser** — Une fois que les chapitres de votre cours existent (au moins leur plan détaillé ou leur texte rédigé), pour produire dans **NotebookLM** les trois médias de chaque chapitre du template : (a) l'**infographie de synthèse**, (b) les **slides**, (c) le **podcast** (dialogue pédagogique). Ce fichier vous donne un *générateur de prompts* : Claude lit vos chapitres et vous renvoie, pour chacun, 3 prompts NotebookLM autonomes, prêts à coller, dans les limites des champs de NotebookLM : 4 800 caractères pour le podcast, 3 700 pour les slides, retours à la ligne compris.
+**Quand l'utiliser.** Une fois que les chapitres de votre cours existent (au moins leur plan détaillé ou leur texte rédigé), pour produire dans **NotebookLM** les trois médias de chaque chapitre du template : (a) l'**infographie de synthèse**, (b) les **slides**, (c) le **podcast** (dialogue pédagogique). Ce fichier vous donne un *générateur de prompts* : Claude lit vos chapitres et vous renvoie, pour chacun, 3 prompts NotebookLM autonomes, prêts à coller, dans les limites des champs de NotebookLM : 4 800 caractères pour le podcast, 3 700 pour les slides, retours à la ligne compris.
 
 > Rappel : NotebookLM travaille à partir des **sources** que vous y déposez (vos chapitres, votre fiche de cours DOCX, vos documents de référence). Les prompts ci-dessous *pilotent* la génération (audio, rapport/infographie, présentation) mais ne remplacent pas les sources : déposez d'abord le bon matériel dans le notebook.
 
@@ -15,23 +15,23 @@
 
 ## Placeholders à compléter
 
-- `{{SUJET_DU_COURS}}` — intitulé complet du cours.
-- `{{PUBLIC_CIBLE}}` — à qui s'adresse le cours (ex. étudiants L3, salariés en reconversion).
-- `{{NIVEAU}}` — débutant / intermédiaire / avancé.
-- `{{LANGUES}}` — `français seul` **ou** `français + anglais`.
-- `{{NB_CHAPITRES}}` — nombre de chapitres à traiter.
-- `{{LISTE_DES_CHAPITRES}}` — pour chaque chapitre : numéro, titre, et 1–3 lignes de résumé OU le texte/plan complet.
-- `{{DOCUMENTS_DE_REFERENCE}}` — sources déposées dans NotebookLM (titres + nature : loi, norme, rapport, manuel…).
-- `{{FIL_ROUGE}}` — scénario continu du cours (ex. une coopérative agricole fictive qui numérise ses ventes), à mobiliser dans les exemples.
-- `{{AUTEUR}}` — auteur du cours (mention de crédit).
-- `{{LICENCE}}` — licence du contenu (ex. CC BY 4.0).
-- `{{CHARTE_VISUELLE}}` — *(optionnel)* couleurs, ambiance, ton visuel (ex. « sobre institutionnel, bleu nuit + accent ocre »).
-- `{{DUREE_PODCAST}}` — *(optionnel)* durée visée du podcast par chapitre (ex. 8–12 min).
-- `{{CONTRAINTES}}` — *(optionnel)* interdits, sensibilités, vocabulaire imposé, registres à éviter.
+- `{{SUJET_DU_COURS}}` : intitulé complet du cours.
+- `{{PUBLIC_CIBLE}}` : à qui s'adresse le cours (ex. étudiants L3, salariés en reconversion).
+- `{{NIVEAU}}` : débutant / intermédiaire / avancé.
+- `{{LANGUES}}` : `français seul` **ou** `français + anglais`.
+- `{{NB_CHAPITRES}}` : nombre de chapitres à traiter.
+- `{{LISTE_DES_CHAPITRES}}` : pour chaque chapitre, numéro, titre, et 1 à 3 lignes de résumé OU le texte/plan complet.
+- `{{DOCUMENTS_DE_REFERENCE}}` : sources déposées dans NotebookLM (titres + nature, ex. loi, norme, rapport, manuel…).
+- `{{FIL_ROUGE}}` : scénario continu du cours (ex. une coopérative agricole fictive qui numérise ses ventes), à mobiliser dans les exemples.
+- `{{AUTEUR}}` : auteur du cours (mention de crédit).
+- `{{LICENCE}}` : licence du contenu (ex. CC BY 4.0).
+- `{{CHARTE_VISUELLE}}` : *(optionnel)* couleurs, ambiance, ton visuel (ex. « sobre institutionnel, bleu nuit + accent ocre »).
+- `{{DUREE_PODCAST}}` : *(optionnel)* durée visée du podcast par chapitre (ex. 8 à 12 min).
+- `{{CONTRAINTES}}` : *(optionnel)* interdits, sensibilités, vocabulaire imposé, registres à éviter.
 
 ---
 
-## PROMPT À COPIER (générateur — à donner à Claude)
+## PROMPT À COPIER (générateur, à donner à Claude)
 
 > Collez ce bloc dans Claude, complétez les placeholders, et fournissez vos chapitres. Claude vous renverra `3 × {{NB_CHAPITRES}}` prompts NotebookLM prêts à l'emploi.
 
@@ -66,7 +66,11 @@ EXIGENCE D'EXACTITUDE (impérative)
 3. Chaque prompt doit ordonner à NotebookLM de s'appuyer UNIQUEMENT sur les sources
    du notebook et de citer/renvoyer aux sources quand c'est pertinent.
 4. Cohérence stricte : chaque prompt reste fidèle au périmètre, au vocabulaire et aux
-   exemples de SON chapitre. Pas de contenu d'un autre chapitre.
+   exemples de SON chapitre. Pas de contenu d'un autre chapitre, hors du rappel du
+   précédent et de l'annonce du suivant.
+5. Rien ne souffle une réponse : aucun prompt ne fait donner la réponse d'un exercice,
+   d'un QCM ni du TP, et les exemples viennent du cas, jamais du sujet du TP ni d'une
+   épreuve (les interdits du cours, outils/interdits.py).
 
 CONTRAINTES DE FORMAT DES PROMPTS PRODUITS
 - Pour CHAQUE chapitre, produis EXACTEMENT 3 prompts, dans cet ordre : INFOGRAPHIE,
@@ -74,9 +78,10 @@ CONTRAINTES DE FORMAT DES PROMPTS PRODUITS
 - Chaque prompt est AUTONOME (se suffit à lui-même, sans dépendre des autres) et
   conçu pour fonctionner EN UNE SEULE PASSE dans NotebookLM.
 - Longueur maximale de chaque prompt, espaces et retours à la ligne compris :
-  PODCAST 4 800 caractères, SLIDES 3 700, INFOGRAPHIE 3 700 (par prudence). Vise
-  50 caractères de moins : à la copie, un retour à la ligne peut compter double.
-  Compte avec un script, pas à l'œil, et indique entre crochets à la fin de chaque
+  PODCAST 4 800 caractères, SLIDES 3 700, INFOGRAPHIE 3 700 (par prudence). Compte
+  avec un script, pas à l'œil, chaque retour à la ligne compté pour deux (à la copie,
+  un retour peut valoir deux caractères), et garde une marge : 4 750 pour le podcast,
+  3 650 pour les slides et l'infographie. Indique entre crochets à la fin de chaque
   prompt son nombre exact de caractères, ex. « [1 830 caractères] ».
 - Langue des prompts et des livrables : respecte {{LANGUES}}. Si « français +
   anglais », demande une version FR ET une version EN du livrable (deux passes ou
@@ -85,10 +90,13 @@ CONTRAINTES DE FORMAT DES PROMPTS PRODUITS
   prompt le type de sortie attendu de NotebookLM (« Génère un rapport / une
   infographie… », « Génère une présentation… », « Génère un épisode audio… »).
 - Mentionne l'auteur et la licence à inclure dans le livrable (crédit discret).
+- Aucun tiret cadratin ni demi-cadratin (–) entre espaces dans les prompts : une incise
+  passe entre virgules ou entre parenthèses, ou devient une phrase. Un titre prend le
+  deux-points, le point médian ou les parenthèses (« Chapitre 1 · Bienvenue »).
 
 SPÉCIFICATIONS PAR TYPE DE MÉDIA
 
-(a) INFOGRAPHIE DE SYNTHÈSE — le prompt doit demander :
+(a) Pour l'INFOGRAPHIE DE SYNTHÈSE, le prompt doit demander :
 - un visuel de synthèse d'UNE page, lisible d'un coup d'œil ;
 - un titre clair + le numéro et le titre du chapitre ;
 - les 4 à 7 idées-clés du chapitre, hiérarchisées (du général au détail) ;
@@ -99,22 +107,24 @@ SPÉCIFICATIONS PAR TYPE DE MÉDIA
 - consigne d'accessibilité : contrastes suffisants, pas d'info portée par la seule
   couleur, texte court et concret.
 
-(b) SLIDES — le prompt doit demander :
+(b) Pour les SLIDES, le prompt doit demander :
 - une présentation de 8 à 14 diapositives pour le chapitre ;
 - structure : 1 diapo titre (chapitre, objectifs d'apprentissage), des diapos de
-  contenu (1 idée par diapo, titre d'action + 3–5 puces brèves), 1 diapo « exemple
+  contenu (1 idée par diapo, titre d'action + 3 à 5 puces brèves), 1 diapo « exemple
   fil rouge », 1 diapo « À retenir », 1 diapo de transition/ouverture vers le chapitre
   suivant si pertinent ;
 - ton qui motive le public ({{PUBLIC_CIBLE}}, {{NIVEAU}}) : accroche en ouverture ;
 - des notes de présentateur courtes sous chaque diapo si NotebookLM le permet ;
 - mention crédit auteur + licence sur la dernière diapo.
 
-(c) PODCAST (dialogue pédagogique) — le prompt doit demander :
+(c) Pour le PODCAST (dialogue pédagogique), le prompt doit demander :
 - un épisode audio en dialogue à deux voix (un animateur curieux + un expert
   pédagogue) centré sur CE chapitre, durée {{DUREE_PODCAST}} si fournie ;
-- déroulé : accroche/teaser → objectifs → 3 à 5 points-clés expliqués simplement avec
-  analogies et un exemple concret du fil rouge → idées reçues corrigées → « à retenir »
-  → mini-récap final → teaser du chapitre suivant ;
+- déroulé : accroche/teaser → rappel du chapitre précédent, nommé dans le prompt (au
+  premier, présentation de la série) → objectifs → 3 à 5 points-clés expliqués
+  simplement avec analogies et un exemple concret du fil rouge → idées reçues corrigées
+  → « à retenir » → mini-récap final → teaser du chapitre suivant, nommé lui aussi (au
+  dernier, des conseils pour continuer) ;
 - ton chaleureux, clair, vivant, sans jargon inutile (et si jargon nécessaire :
   définir) ; rythme dynamique, phrases courtes ;
 - rester strictement fidèle aux sources, ne pas inventer d'exemples non sourcés ;
@@ -129,6 +139,10 @@ zéro, celui qui ouvre le nom de sa page (03-….html -> 3) ; c'est ce que lit m
 - Podcast      -> site/assets/media/podcasts/chapitre-N-podcast.fr.mp3
                   (chapitre-N-podcast.en.mp3 pour l'anglais ; sans suffixe de
                   langue pour un cours monolingue ; .m4a accepté aussi)
+Si le cours a la série de podcasts (module 03), le podcast d'un chapitre en est
+l'épisode chapitre-N-podcast : son fichier brut se dépose dans Podcasts/fr/
+(Podcasts/en/ pour l'anglais), extension d'origine gardée, et
+python3 outils/generer_podcasts.py le publie en chapitre-N-podcast.fr.mp3 (ou .en.mp3).
 Conserve les sources/exports bruts hors du site, dans sources-notebooklm/chapitre-N/.
 Nomme tout en minuscules, sans espaces ni accents. Après le dépôt, lancer
 python3 outils/generer_medias.py : la page ne charge que les médias de sa liste
@@ -136,7 +150,7 @@ python3 outils/generer_medias.py : la page ne charge que les médias de sa liste
 
 SORTIE ATTENDUE DE TA PART (Claude)
 Pour chaque chapitre, dans l'ordre :
-### Chapitre N — {titre}
+### Chapitre N · {titre}
 1) PROMPT INFOGRAPHIE
    <le prompt, prêt à coller>  [nombre exact de caractères]
 2) PROMPT SLIDES
@@ -157,8 +171,8 @@ Ne produis que ces prompts et ce récapitulatif. Pas de commentaire superflu.
 - **Déposez d'abord les bonnes sources** dans NotebookLM (chapitres + fiche de cours DOCX + documents de référence). La qualité des trois médias dépend directement de ce qui est dans le notebook : un prompt parfait sur des sources pauvres donnera un média pauvre.
 - **Un notebook par cours, généré chapitre par chapitre.** Lancez les prompts un à la fois et vérifiez chaque sortie avant de passer au suivant ; NotebookLM est plus fiable sur des demandes ciblées que sur une consigne monolithique.
 - **Limites de NotebookLM** : 4 800 caractères pour le podcast, 3 700 pour les slides, retours à la ligne compris. Si un prompt approche la limite, demandez à Claude de le resserrer plutôt que de couper à l'aveugle.
-- **Bilingue** : pour `français + anglais`, générez de préférence FR et EN en deux passes séparées (deux fichiers distincts), c'est plus propre que de mélanger les deux langues dans un même média. Côté template, le sélecteur de langue 🌐 pointera vers la version adéquate.
-- **Vérification factuelle obligatoire** : NotebookLM peut paraphraser de travers. Relisez chiffres, dates, articles de loi et citations avant publication — surtout sur un cours réglementaire.
+- **Bilingue** : pour `français + anglais`, générez de préférence FR et EN en deux passes séparées (deux fichiers distincts), c'est plus propre que de mélanger les deux langues dans un même média. Côté template, chaque page joue le podcast de sa langue (`chapitre-N-podcast.fr.mp3` sur la page française, `.en.mp3` sur sa jumelle anglaise) ; les slides et l'infographie n'ont qu'un fichier par chapitre, que la page et sa jumelle affichent toutes deux.
+- **Vérification factuelle obligatoire** : NotebookLM peut paraphraser de travers. Relisez chiffres, dates, articles de loi et citations avant publication, surtout sur un cours réglementaire.
 - **Accessibilité** : pour l'infographie en lightbox du template, prévoyez un texte alternatif décrivant le contenu, et vérifiez les contrastes. Pour le podcast, NotebookLM ne fournit pas toujours de transcription : pensez à en générer une (utile pour le glossaire auto-surligné et pour l'accessibilité).
-- **Nommage et rangement** : respectez strictement `chapitre-N-…` (N sans zéro : `chapitre-3-slides.pdf`) et l'arborescence `site/assets/media/...` ; c'est ce que `media.js` attend pour relier podcast, slides (popup PDF) et infographie (lightbox) à chaque chapitre. Un autre nom, et le média ne s'affiche pas — sans message d'erreur.
+- **Nommage et rangement** : respectez strictement `chapitre-N-…` (N sans zéro : `chapitre-3-slides.pdf`) et l'arborescence `site/assets/media/...` ; c'est ce que `media.js` attend pour relier podcast, slides (popup PDF) et infographie (lightbox) à chaque chapitre. Sous un autre nom, le média ne s'affiche pas, et aucun message d'erreur ne le signale.
 - **Crédit et licence** : laissez la mention `{{AUTEUR}}` + `{{LICENCE}}` discrète mais présente sur chaque média (dernière diapo, coin d'infographie, clôture audio).

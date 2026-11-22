@@ -1,9 +1,11 @@
-# Prompt — capsules audio en Eleven v4
+# Prompt : capsules audio en Eleven v4
 
-> **Quand l'utiliser** — Pour écrire, ou réécrire, les capsules audio d'un cours :
-> ouverture de chapitre, présentation d'un schéma, d'une fiche, d'un TP, « ce qui est
-> attendu ». Le prompt produit une **fiche de production** au format que lit
-> `outils/generer_audio.py` ; la génération, elle, se lance ensuite, témoin d'abord.
+> **Quand l'utiliser.** Pour écrire, ou réécrire, les capsules audio d'un cours :
+> ouverture de chapitre, début de chaque section, de l'accueil comme des chapitres
+> (décision de l'auteur du 21 novembre 2026), présentation d'un schéma, d'une fiche,
+> d'un TP, « ce qui est attendu ». Le prompt produit une **fiche de production** au
+> format que lit `outils/generer_audio.py` ; la génération, elle, se lance ensuite,
+> témoin d'abord.
 
 ---
 
@@ -16,8 +18,8 @@ pas d'une capsule à l'autre.
 |---|---|---|
 | Modèle | **Eleven v4** | imposé par `outils/generer_audio.py` (`--modele` seulement pour un essai) |
 | Voix | le clone vocal de l'auteur | `outils/elevenlabs.json` (local, jamais lu ni affiché) |
-| Accent | **« strong Parisian French accent »** sur les pistes françaises | ajouté par le générateur à chaque balise — **jamais écrit dans les scripts** |
-| Pistes anglaises | sans accent ajouté (le clone a déjà le sien) ; `voix_id_en` pour une autre voix | `ACCENTS` dans le générateur |
+| Accent | **« strong Parisian French accent »** sur les pistes françaises | ajouté par le générateur à chaque balise, **jamais écrit dans les scripts** |
+| Pistes anglaises | sans accent ajouté par défaut (le clone a déjà le sien), ou l'accent retenu avec le module 01 ; `voix_id_en` pour une autre voix | `ACCENTS` dans le générateur, que la configuration peut surcharger |
 | Ton | pédagogique, académique, professionnel, motivant ; au vouvoiement | ce prompt |
 | Rythme | posé ; « speaking slowly » dans les balises d'une capsule explicative | les scripts |
 | Contrôle | débit 105 à 190 mots/min en v4, silence ≤ 3,6 s, fenêtre de durée déduite des mots | le générateur, avant tout dépôt |
@@ -32,18 +34,21 @@ n'existe pour le modèle (`--serie` pour passer outre, sciemment).
 
 ---
 
-## Le format de la fiche — ce que le générateur lit
+## Le format de la fiche : ce que lisent les outils
 
-Une fiche par famille de capsules, dans `docs/prompts/Capsules_<famille>.md`. Pour chaque
-capsule, **ces marqueurs exactement** :
+Une fiche par famille de capsules, dans `docs/prompts/Capsules_<famille>.md` ; une fiche
+anglaise se range à côté (`Capsules_accueil_en.md` dans le gabarit), jamais dans un
+sous-dossier, que les outils ne lisent pas. Pour chaque capsule, **ces marqueurs
+exactement** :
 
 ````markdown
-## Capsule 3 — Le diagramme de composants
+## Capsule 3 · Le diagramme de composants
 
 **Emplacement.** Page des schémas, conteneur `voix-sch-composants`.
 
-- **Nom exact du fichier :** `schema-composants.mp3`
-- **Emplacement exact :** `site/assets/media/voix/schema-composants.mp3`
+- **Nom exact du fichier :** `schema-composants-fr.mp3`
+- **Emplacement exact :** `site/assets/media/voix/schema-composants-fr.mp3`
+- **Durée visée :** ≈ 1 min 30 (… mots parlés)
 
 - [ ] Témoin écouté et validé par l'auteur
 - [ ] Capsule générée, contrôlée et déposée
@@ -64,9 +69,13 @@ Le même texte, sans les balises, avec l'orthographe d'affichage.
 ````
 
 - Le **nom du fichier** est celui que réclame la page (`RDCX.voice`, ou `capsuleSrc` dans
-  `TEXTES` pour une page bilingue) : c'est la clé. Une piste anglaise finit par `-en.mp3`.
-- La **transcription** se recopie dans la page par `outils/synchroniser_capsules.py` : la
-  fiche est la source unique, on ne corrige jamais la transcription dans le HTML.
+  l'objet `TEXTES`, une piste par langue) : c'est la clé. Chaque piste porte le suffixe de
+  sa langue (`chapitre-<N>-capsule-<langue>.mp3` pour une ouverture de chapitre) : sans lui,
+  le générateur la prend pour une piste française, accent parisien compris.
+- La **transcription** d'une capsule d'ouverture de chapitre ou de l'accueil se recopie
+  dans la page par `outils/synchroniser_capsules.py`, avec sa **durée visée** ; celle d'un
+  autre genre (schéma, TP) se reporte avec l'outil de sa page. La fiche reste la source
+  unique : on ne corrige jamais la transcription dans le HTML.
 - Une capsule au format inhabituel peut déclarer sa fenêtre :
   « tolérance 1 min 30 → 2 min 40 ». Le débit et les silences restent contrôlés.
 
@@ -88,7 +97,7 @@ le cours dit déjà. Les interdits du cours s'appliquent : {{INTERDITS_DU_COURS}
 
 LE TON. Professionnel et académique : des définitions exactes, le vocabulaire du métier, un
 raisonnement articulé. Motivant et engageant : on s'adresse à l'étudiant, on lui montre
-l'enjeu — son métier, son TP, l'épreuve — et on lui donne envie d'aller plus loin.
+l'enjeu (son métier, son TP, l'épreuve) et on lui donne envie d'aller plus loin.
 Pédagogique : une progression claire, un exemple concret, la nuance qui fait la
 différence, une phrase à retenir. Au vouvoiement, toujours. Pas de familiarité, pas
 d'emphase creuse.
@@ -110,18 +119,21 @@ LA MISE EN VOIX (Eleven v4) :
   chute d'un paragraphe. Pas de balise ludique, pas de [emphasis], plus de [pause] : la v4
   rythme par la ponctuation.
 - Capsule explicative : « speaking slowly » dans chaque balise
-  ([thoughtful, speaking slowly]) — l'auteur veut une lecture posée.
+  ([thoughtful, speaking slowly]) ; l'auteur veut une lecture posée.
 - N'écris JAMAIS l'accent dans les balises : le générateur ajoute « strong Parisian French
   accent » aux pistes françaises.
 - Deux à quatre points de suspension « … » par script, aux respirations utiles ; des
   phrases courtes ; un paragraphe par idée.
+- Ni tiret cadratin ni tiret demi-cadratin entre espaces, dans le script comme dans la
+  transcription : une incise passe entre virgules, ou devient une phrase.
 - Écrire pour l'oreille : nombres en lettres (« quatre mille places ») ; sigles épelés
   pointés quand ils s'épellent (« T.P. », « A.P.I. ») ; mots étrangers écrits comme ils se
   prononcent si besoin. La TRANSCRIPTION, elle, garde l'orthographe d'affichage (« TP »,
   « 4 000 »).
 
-LA LONGUEUR : {{DUREE_VISEE}} — compte les mots parlés (balises exclues) : environ 160 à
-175 mots par minute en v4 avec « speaking slowly », 175 à 190 sans.
+LA LONGUEUR : {{DUREE_VISEE}}, à inscrire dans la ligne « Durée visée » de chaque capsule.
+Compte les mots parlés, balises exclues : environ 160 à 175 mots par minute en v4 avec
+« speaking slowly », 175 à 190 sans.
 
 VARIER : chaque capsule a sa propre accroche ; le lien au métier, au TP ou à l'épreuve ne
 revient pas sous la même formule d'une capsule à l'autre.
@@ -141,7 +153,7 @@ python3 outils/generer_audio.py --essai                     # ce qui partirait, 
 python3 outils/generer_audio.py --fichier <témoin>.mp3 --temoin   # le témoin, à côté
 ```
 
-**STOP — l'auteur écoute le témoin** (`outils/quarantaine/temoins/eleven_v4/`). Puis :
+**STOP. L'auteur écoute le témoin** (`outils/quarantaine/temoins/eleven_v4/`). Puis :
 
 ```bash
 python3 outils/generer_audio.py --chapitre 1                # la série, chapitre par chapitre
