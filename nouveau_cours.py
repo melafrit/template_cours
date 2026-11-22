@@ -180,7 +180,7 @@ DEMO_DOSSIERS = [
 ]
 
 SQUELETTE_QCM_QUESTIONS = """/* =================================================================
-   questions.js — Banque de questions BILINGUE (FR/EN)
+   questions.js · Banque de questions BILINGUE (FR/EN)
    FICHIER À REMPLIR. Deux exemples montrent la forme attendue.
 
    Règles à tenir : une question porte sur ce que le chapitre enseigne
@@ -222,7 +222,7 @@ window.QCM_QUESTIONS = {
 """
 
 SQUELETTE_QCM_CORRECTIONS = """/* =================================================================
-   corrections.js — Cle de correction BILINGUE (FR/EN)
+   corrections.js · Cle de correction BILINGUE (FR/EN)
    FICHIER À REMPLIR. Les identifiants doivent CORRESPONDRE a questions.js.
 
    L'explication est la partie utile : dire pourquoi les autres propositions
@@ -249,7 +249,7 @@ window.QCM_CORRECTIONS = {
 """
 
 SQUELETTE_FLASHCARDS = """/* =================================================================
-   flashcards-data.js — Cartes de revision, par chapitre
+   flashcards-data.js · Cartes de revision, par chapitre
    FICHIER À REMPLIR. Une carte pose une question, pas une definition :
    « Qu'est-ce qui distingue X de Y ? » se revise ; « X : definition »
    se relit sans rien apprendre.
@@ -264,7 +264,7 @@ window.RDC_FLASHCARDS = {
 """
 
 SQUELETTE_GLOSSAIRE = """/* =================================================================
-   glossaire-data.js — Glossaire BILINGUE
+   glossaire-data.js · Glossaire BILINGUE
    FICHIER À REMPLIR. GLOSSARY_CURATED liste les termes rendus interactifs
    dans les chapitres : au-dela d'une quinzaine, la page se couvre de
    pointilles et plus personne ne clique.
@@ -282,8 +282,8 @@ window.GLOSSARY_ALIASES = {};
 """
 
 SQUELETTE_PLAYLIST = """/* =================================================================
-   playlist-data.js — index des pistes audio
-   FICHIER GENERE — ne pas modifier a la main :
+   playlist-data.js · index des pistes audio
+   FICHIER GENERE (ne pas modifier a la main) :
        python3 outils/generer_playlist.py
    ================================================================= */
 window.RDC_PLAYLIST = {};
@@ -1474,13 +1474,13 @@ def course_data(c):
 
     lignes = [
         "/* =================================================================",
-        "   course-data.js — Données du cours (source unique de vérité)",
+        "   course-data.js · Données du cours (source unique de vérité)",
         "",
         "   FICHIER GÉNÉRÉ par nouveau_cours.py d'après cours.json.",
         "   Vous pouvez l'éditer à la main ensuite : c'est ce fichier qui fait foi",
         "   pour la navigation, pas cours.json, qui n'a servi qu'à l'amorçage.",
         "",
-        "   %s — %s" % (c["auteur"], c.get("licence", {}).get("fr", "")),
+        "   %s · %s" % (c["auteur"], c.get("licence", {}).get("fr", "")),
         "   ================================================================= */",
         "window.COURSE = {",
         "  title: %s," % paire(c.get("titre")),
@@ -1601,7 +1601,7 @@ def textes_vides(c):
        entierement rempli se trouve dans chapitres/_modele.html. */
     fr: {
       capsuleTitre: "Titre de la capsule d'ouverture",
-      capsuleTrans: "Transcription de la capsule — a rediger.",
+      capsuleTrans: "Transcription de la capsule (a rediger).",
       revealQ: "Question posee avant la lecture ?",
       revealIndice: "Un indice qui oriente sans donner la reponse.",
       revealOptions: ["Premiere proposition.", "Deuxieme proposition.", "Troisieme proposition."],
@@ -1616,9 +1616,9 @@ def textes_vides(c):
       /* Pourquoi chaque autre proposition ne convient pas (vide pour la bonne
          reponse), et deux a quatre renvois vers l'endroit exact qui repond :
          prompts/15_explications_quiz.md. */
-      checkP1: ["Pourquoi A ne convient pas — a rediger.", "", "Pourquoi C ne convient pas — a rediger."],
+      checkP1: ["Pourquoi A ne convient pas (a rediger).", "", "Pourquoi C ne convient pas (a rediger)."],
       checkA1: [["Section 2 de ce chapitre", "#ch1-s2"], ["Section 1 de ce chapitre", "#ch1-s1"]],
-      checkP2: ["Pourquoi A ne convient pas — a rediger.", "", "Pourquoi C ne convient pas — a rediger."],
+      checkP2: ["Pourquoi A ne convient pas (a rediger).", "", "Pourquoi C ne convient pas (a rediger)."],
       checkA2: [["Section 3 de ce chapitre", "#ch1-s3"], ["Section 1 de ce chapitre", "#ch1-s1"]],
       matchConsigne: "Reliez chaque element a son correspondant.",
       matchG: "Colonne de gauche",
@@ -1640,16 +1640,16 @@ def textes_vides(c):
       ],
       branchLibelle: "Consequence",
       schemaAlt: "Description du schema, pour qui ne le voit pas.",
-      schemaLegende: "Schema 1 — ce qu'il montre et ce qu'il faut en retenir.",
+      schemaLegende: "Schema 1 : ce qu'il montre et ce qu'il faut en retenir.",
       /* Le schema et ses points chauds : absents, monter() s'arretait sur
          « X.schemaPoints.map » et ni le parcours par etapes ni le sommaire
          n'etaient montes. Chaque point : [x %, y %, titre, explication]. */
       schemaSrc: "",
-      schemaPoints: [[50, 50, "Premier element du schema", "Ce qu'il represente, et comment le lire — a rediger."]]
+      schemaPoints: [[50, 50, "Premier element du schema", "Ce qu'il represente, et comment le lire (a rediger)."]]
     },
     en: {
       capsuleTitre: "Opening capsule title",
-      capsuleTrans: "Capsule transcript — to be written.",
+      capsuleTrans: "Capsule transcript (to be written).",
       revealQ: "Question asked before reading?",
       revealIndice: "A hint that points without giving the answer.",
       revealOptions: ["First option.", "Second option.", "Third option."],
@@ -1661,9 +1661,9 @@ def textes_vides(c):
       checkQ2: "Second question?",
       checkO2: ["Option A.", "Option B.", "Option C."],
       checkE2: "The explanation for the second question.",
-      checkP1: ["Why A does not fit — to be written.", "", "Why C does not fit — to be written."],
+      checkP1: ["Why A does not fit (to be written).", "", "Why C does not fit (to be written)."],
       checkA1: [["Section 2 of this chapter", "#ch1-s2"], ["Section 1 of this chapter", "#ch1-s1"]],
-      checkP2: ["Why A does not fit — to be written.", "", "Why C does not fit — to be written."],
+      checkP2: ["Why A does not fit (to be written).", "", "Why C does not fit (to be written)."],
       checkA2: [["Section 3 of this chapter", "#ch1-s3"], ["Section 1 of this chapter", "#ch1-s1"]],
       matchConsigne: "Match each item with its counterpart.",
       matchG: "Left column",
@@ -1685,9 +1685,9 @@ def textes_vides(c):
       ],
       branchLibelle: "Consequence",
       schemaAlt: "Description of the diagram, for those who cannot see it.",
-      schemaLegende: "Diagram 1 — what it shows and what to take from it.",
+      schemaLegende: "Diagram 1: what it shows and what to take from it.",
       schemaSrc: "",
-      schemaPoints: [[50, 50, "First element of the diagram", "What it represents, and how to read it — to be written."]]
+      schemaPoints: [[50, 50, "First element of the diagram", "What it represents, and how to read it (to be written)."]]
     }
   };
 """
