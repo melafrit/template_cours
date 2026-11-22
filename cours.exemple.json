@@ -1,5 +1,5 @@
 {
-  "_lisez_moi": "MODÈLE — copiez-le en cours.json, remplissez-le, puis lancez : python3 nouveau_cours.py. Les clés commençant par « _ » sont des commentaires : le script les ignore, vous pouvez les laisser en place. Rien n'est deviné : ce que vous n'écrivez pas ici n'apparaîtra pas dans le cours.",
+  "_lisez_moi": "MODÈLE : copiez-le en cours.json, remplissez-le, puis lancez python3 nouveau_cours.py. Les clés commençant par « _ » sont des commentaires : le script les ignore, vous pouvez les laisser en place. Rien n'est deviné : ce que vous n'écrivez pas ici n'apparaîtra pas dans le cours.",
 
   "_identite": "Ce qui distingue ce cours de tous les autres. Le slug sert au nom du dossier et aux fichiers ; gardez-le court, sans accent ni espace.",
   "slug": "mon-cours",
@@ -11,7 +11,7 @@
     "fr": "Une phrase qui dit à qui s'adresse le cours et ce qu'il permet de faire. Elle s'affiche sous le titre, sur l'accueil.",
     "en": "One sentence saying who the course is for and what it enables. Shown under the title, on the home page."
   },
-  "_titre_court": "FACULTATIF — le nom affiché en tête de chaque page, à côté du pictogramme. Par défaut : la partie du titre qui précède « : ». « logo » : une ou deux lettres pour le pictogramme (la seconde prend la couleur d'accent) ; par défaut, les deux premières du titre court.",
+  "_titre_court": "FACULTATIF : le nom affiché en tête de chaque page, à côté du pictogramme. Par défaut, la partie du titre qui précède « : ». « logo » : une ou deux lettres pour le pictogramme (la seconde prend la couleur d'accent) ; par défaut, les deux premières du titre court.",
   "titre_court": {
     "fr": "Titre court",
     "en": "Short title"
@@ -38,9 +38,9 @@
     {"id": "eris", "code": "ERIS", "palette": "prune", "rncp": "39781", "nom": {"fr": "Expert Réseaux, Infrastructures et Sécurité", "en": "Expert in Networks, Infrastructure and Security", "ar": "خبير في الشبكات والبنى التحتية والأمن"}, "court": {"fr": "Réseaux, infrastructures, sécurité", "en": "Networks, infrastructure, security", "ar": "الشبكات والبنى التحتية والأمن"}}
   ],
 
-  "_public": "Sert au cadrage et s'affiche sur la page d'accueil. Décrivez le public par ses PRÉREQUIS et ses CONTRAINTES, pas par son intitulé de diplôme : « master 2 » ne permet aucune décision, « sans bagage technique, deux heures par semaine, souvent sur téléphone » en permet beaucoup.",
+  "_public": "Sert au cadrage ; aucune page ne l'affiche. Décrivez le public par ses PRÉREQUIS et ses CONTRAINTES plutôt que par son intitulé de diplôme : « master 2 » ne permet aucune décision, « sans bagage technique, deux heures par semaine, souvent sur téléphone » en permet beaucoup.",
   "public": {
-    "parcours": ["Master 1 — parcours à nommer"],
+    "parcours": ["Master 1 (parcours à nommer)"],
     "prerequis": {
       "fr": "Ce que l'apprenant est supposé savoir en arrivant.",
       "en": "What the learner is assumed to know on arrival."
@@ -51,13 +51,13 @@
     }
   },
 
-  "_fil_rouge": "Le cas, projet ou scénario qui traverse tout le cours. C'est lui qui arbitre quand il faut couper. Laissez vide si le cours n'en a pas — mais sachez que c'est ce qui manque le plus souvent aux cours qu'on abandonne en cours de route.",
+  "_fil_rouge": "Le cas, projet ou scénario qui traverse tout le cours. C'est lui qui arbitre quand il faut couper. Laissez vide si le cours n'en a pas ; c'est pourtant ce qui manque le plus souvent aux cours qu'on abandonne en cours de route.",
   "fil_rouge": {
     "fr": "Nom et pitch du fil rouge en deux phrases.",
     "en": "Name and two-sentence pitch of the through-line."
   },
 
-  "_chapitres": "L'ordre de cette liste est celui du cours. « fichier » est créé dans site/chapitres/. « ico » est un emoji, il apparaît dans le menu. Le script génère un squelette par chapitre : en-tête, sections vides, appels des composants commentés. Le contenu, lui, s'écrit ensuite — avec la skill « creer-cours-template », qui lira vos documents de référence.",
+  "_chapitres": "L'ordre de cette liste est celui du cours. « fichier » est créé dans site/chapitres/. « ico » est un emoji, il apparaît dans le menu. Le script génère un squelette par chapitre : en-tête, sections vides, appels des composants commentés. Le contenu, lui, s'écrit ensuite, avec la skill « creer-cours-template », qui lira vos documents de référence.",
   "chapitres": [
     { "num": "1", "ico": "🎯", "fichier": "01-premier-chapitre.html",
       "titre": { "fr": "Titre du premier chapitre", "en": "First chapter title" } },
@@ -81,7 +81,7 @@
     "deploiement": true
   },
 
-  "_audio": "Les capsules audio du cours. « capsule_par_section » en pose une sous chaque titre de section ; « podcast_par_chapitre » réserve un épisode long par chapitre. La génération passe par outils/generer_audio.py, toujours en Eleven v4 avec l'accent retenu par l'auteur, un témoin écouté avant toute série (prompts/14_capsules_audio.md). Sa configuration séparée, outils/elevenlabs.json, porte votre clé et votre voix — jamais ce fichier-ci — et se recopie telle quelle dans le nouveau cours.",
+  "_audio": "Les capsules audio du cours. « capsule_par_section » en pose une sous chaque titre de section ; « podcast_par_chapitre » réserve un épisode long par chapitre. La génération passe par outils/generer_audio.py, toujours en Eleven v4 avec l'accent retenu par l'auteur, un témoin écouté avant toute série (prompts/14_capsules_audio.md). Sa configuration séparée, outils/elevenlabs.json, porte votre clé et votre voix (jamais ce fichier-ci), et se recopie telle quelle dans le nouveau cours.",
   "audio": {
     "capsule_ouverture_chapitre": true,
     "capsule_par_section": true,
@@ -110,6 +110,6 @@
     "zones_protegees": []
   },
 
-  "_sortie": "Où créer le cours. Chemin relatif à ce dépôt, ou absolu — jamais le template lui-même ni un dossier qui le contient. Le script refuse d'écrire dans un dossier non vide, sauf avec --ecraser.",
+  "_sortie": "Où créer le cours. Chemin relatif à ce dépôt, ou absolu, mais jamais le template lui-même ni un dossier qui le contient. Le script refuse d'écrire dans un dossier non vide, sauf avec --ecraser.",
   "sortie": "../mon-cours"
 }
