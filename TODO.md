@@ -1,7 +1,7 @@
 # Registre des travaux — template_cours
 
 > Fichier de suivi du gabarit. **À lire en premier** à la reprise du travail ; « ce qui reste à faire » se répond à
-> partir de lui. Dernière mise à jour : **2026-11-22**
+> partir de lui. Dernière mise à jour : **2026-11-23**
 >
 > Ce qui a été fait, session par session et avec ses commits : [`JOURNAL.md`](JOURNAL.md). Ni ce registre ni le
 > journal ne partent dans un cours créé (`nouveau_cours.py` ne recopie de la racine que ce que liste `COPIER`) ; un
@@ -137,6 +137,11 @@ Les lots, dans l'ordre validé :
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 23 novembre · les documents à jour et sans tirets
+> `CLAUDE.md`, `docs/`, les skills et les textes qu'écrit `nouveau_cours.py` n'ont plus de tiret cadratin
+> (`7b8a1ef`, `b7ced50`) ; le GUIDE, ARCHITECTURE, les skills et la CHECKLIST décrivent le gabarit tel
+> qu'il est (`d3eeddc`) ; les fautes relevées, à part (`094d453`, `782131c`). Depuis le 22 novembre au soir,
+> l'auteur a demandé d'enchaîner sans valider : l'option recommandée est retenue à chaque décision.
 > ### 🆕 22 novembre · lot S4, le QCM sans tirets
 > Le site publié ne compte plus aucun tiret cadratin : `verifier_tirets.py` est vert. Les cases vides du QCM
 > disent « aucune » ou « n.d. ». `1df056e`, puis la faute « encouragez-les » à part (`0b18516`).
@@ -300,10 +305,10 @@ Les lots, dans l'ordre validé :
 
 **Relevés du lot 7** (22 novembre 2026, par les agents qui ont relu les prompts, vérifiés dans le code) :
 
-- Des documents décrivent encore l'ancien fonctionnement : `docs/GUIDE.md` (le prompt 01 en point d'entrée à options
-  numérotées, le 03 « bilingue », `site/atelier/templates/` et `tools/` pour les modèles de l'atelier) ; la skill
-  `creer-cours-template` et sa référence `workflow.md` (les blocs `data-tr` dans les conventions) ; la skill
-  `cours-glossaire-flashcards-activites` (`ALIASES` dans `glossaire-tooltip.js`, un filtre `curated: true`).
+- ✅ Les documents qui décrivaient l'ancien fonctionnement sont à jour (`d3eeddc`, 23 novembre) : le GUIDE (le
+  cadrage ouvert par le prompt 01, les options cliquables, le site miroir, les seize prompts), ARCHITECTURE (le
+  site miroir, l'arborescence réelle, l'API de `i18n.js`), les skills (l'ordre du tronc, `GLOSSARY_CURATED` et
+  `GLOSSARY_ALIASES`, les six mécanismes) et la CHECKLIST.
 - `generer_audio.py` ne sait pas l'arabe : il ne parcourt que `site/` et `site/en/`, ne reconnaît que les suffixes
   `-fr` et `-en`, et donnerait à `chapitre-1-capsule-ar.mp3` l'accent parisien (le module 01 le dit désormais).
 - `tools.js` garde son propre dictionnaire de boutons, en français et en anglais, hors de `ui-labels.js` : une page
@@ -311,8 +316,27 @@ Les lots, dans l'ordre validé :
 - `glossaire-data.js` : l'alias « objectifs pédagogiques » ne sert à rien sur une page française, puisque cette forme
   n'est pas dans `GLOSSARY_CURATED`, et son commentaire affirme le contraire.
 - `navigation.js` ne marque pas la page courante (`aria-current="page"`), et le gabarit n'a pas de fil d'Ariane.
-- Le dossier des modèles de l'atelier se contredit : `docs/ARCHITECTURE.md` le dit présent et vide
-  (`atelier/templates/`), `docs/GUIDE.md` cite `site/atelier/templates/` et `tools/`, et aucun n'existe.
+- ✅ Le dossier des modèles de l'atelier : le gabarit n'en livre aucun ; un cours qui en fabrique les range dans
+  `site/atelier/templates/` (prompt 11, GUIDE, ARCHITECTURE ; `d3eeddc`).
+- **Les autres marques de texte généré**, relevées par les agents du lot des documents et non corrigées (elles se
+  relisent, avec l'auteur) : des antithèses (`CLAUDE.md` § 7 « Ce n'est pas une faveur faite à une minorité » ;
+  BONNES_PRATIQUES § 8, § 9, § 19 ; RECETTE, fin ; `docs/generate_questions_oral.py`, « ce n'est pas une limite,
+  c'est une formule de politesse » ; la fiche des capsules, lignes 22 et 29), des phrases sans verbe et des
+  capitales d'insistance (GUIDE « UNE seule question », « VÉRIFIER AU NAVIGATEUR » ; I18N « Le piège le plus
+  discret. »), des mots gonflés (« Le principe fondamental », « (incontournable) », « le cœur du cours »), « C'est
+  voulu » trois fois dans RECETTE, « Règle absolue » et « Règle d'or » dans les skills.
+- **`docs/generate_questions_oral.py`** : sa feuille « Mode d'emploi » vient d'un autre cours (« la phase 3 », « les
+  questions 13 ou 14 », le « dossier PIA », le « dossier de cas du chapitre 8 », la page « Soutenance vidéo »),
+  contre la règle d'un gabarit générique ; ses lignes 47 et 48 répètent un même commentaire.
+- **Les messages des outils** gardent leurs tirets : 17 `print` impriment « … — à jour » ou « — écrit »
+  (`generer_medias.py`, `glossaire_emplois.py`…), et les documents qui les citent les gardent avec eux. Les
+  commentaires et docstrings de `nouveau_cours.py` (17 tirets) aussi.
+- **La fiche des capsules** (`docs/prompts/Capsules_du_cours_demo.md`) : les transcriptions des deux podcasts
+  gardent un tiret chacune (lignes 273 et 311 ; aucune page ne les affiche, l'exception du 5 novembre permet de les
+  corriger) ; ses lignes 23 et 24 décrivent le contrôle de la v3 ; les scripts enregistrés gardent les leurs
+  jusqu'au réenregistrement.
+- Les pieds de page des skills signent « Mohamed EL AFRIT », sauf `creer-cours-template` (« Mohamed Amine EL
+  AFRIT ») ; ARCHITECTURE, ligne 324, porte deux deux-points dans une phrase.
 - **Les fiches de synthèse en PDF** coupent un mot en gras en fin de ligne : « contrainte » puis « s matérielles »
   (fiche du chapitre 1, section 1 ; `tools/generate_polycopies.py`). Relevé le 22 novembre, non corrigé.
 - **`tools/generate_qcm_papier.py`** ne connaît que le français et l'anglais (le prompt 08 le dit) ; ses fichiers
@@ -340,7 +364,9 @@ est vert : **aucun tiret dans `site/`**. Les cinq lots, faits (style du témoin,
 - ✅ **S5 · les données** : `course-data.js` au lot S3 (`617017d`), `flashcards-data.js` avec le lot S4 (`1df056e`).
 
 Puis, hors du champ de `verifier_tirets.py` (il ne lit que `site/`, html/js/css) : `prompts/` est fait au lot 7
-(aucun tiret, `da73639`) ; restent `CLAUDE.md` (29) et `docs/` (260 dans 11 fichiers), que lisent les futurs cours.
+(aucun tiret, `da73639`) ; `CLAUDE.md`, `docs/`, les skills et les textes qu'écrit `nouveau_cours.py` le 23 novembre
+(`7b8a1ef`, `b7ced50`). Restent les exceptions voulues (les scripts enregistrés de la fiche des capsules) et ce qui
+est noté plus haut (messages des outils, commentaires de `nouveau_cours.py`).
 
 Les deux défauts de `media.js` relevés le 26 octobre sont réglés : les fenêtres des diapositives et de l'infographie
 parlent la langue de la page (`150f25d`), et `media.js` ne demande plus que les médias déposés (`0732822`).
@@ -486,8 +512,8 @@ anglais, rendue `<span lang="fr">` (`qcm/qcm_commun.py`).
   sa propre copie du fichier `elevenlabs.json`, celle du gabarit) ; d'ici là, le prompt de lancement les nomme. Le
   gabarit n'exclut de Git que `sources/` : le prompt du générateur fait exclure `Doc_Reference/` avant `git init`.
   Créé le 22 novembre à 22 h 13, avant les quatre points du lot 7 (`ab70c18`) : il a les anciens prompts 08 et 06b,
-  `tools/generate_qcm_papier.py` et `tools/generate_polycopies.py` à tirets, des DOCX de fiches publiés ; à reprendre
-  si l'auteur le veut.
+  `tools/generate_qcm_papier.py` et `tools/generate_polycopies.py` à tirets, des DOCX de fiches publiés ; ni les
+  documents ni les skills à jour du 23 novembre (`7b8a1ef`, `d3eeddc`, `782131c`). À reprendre si l'auteur le veut.
 - **Cours d'étude d'avant-projet CDWFS et ASRC** (`C:\projets\Cours\Cours_CDWFS_ASRC_Etude_Avant_Projet`) : son
   `.rgignore` n'exclut ni `outils/qcm/banque_cdwfs.py` ni `banque_asrc.py`, probablement les banques de l'épreuve
   d'après leur nom (jamais ouvertes ; le dépôt est privé). À ajouter dans ce cours, avec l'accord de l'auteur

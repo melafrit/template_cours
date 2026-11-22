@@ -9,6 +9,71 @@
 
 ---
 
+## 23 novembre 2026 · les documents à jour et sans tirets (`7b8a1ef`, `d3eeddc`)
+
+### Les décisions de l'auteur
+
+- **Les documents, à jour et sans tirets**, témoin d'abord : `CLAUDE.md`, validé (22 novembre), puis la série par
+  cinq agents, contrôlée.
+- **« Enchaîne sans me demander de valider »** (22 novembre au soir) : à chaque décision, l'option recommandée est
+  retenue et annoncée, les commits partent sans question, jusqu'à ce que l'auteur redemande des questions. Les règles
+  de sûreté de `CLAUDE.md` restent (secrets, purge, authentification).
+
+### Les décisions prises sous ce mode (options recommandées)
+
+- Les textes que `nouveau_cours.py` écrit dans un cours (valeurs d'exemple des squelettes de chapitre, en-têtes des
+  fichiers de données) sans tiret (`b7ced50`), puis leurs accents et apostrophes, à part (`094d453`).
+- Les passages périmés repris (`d3eeddc`), puis les fautes relevées par les agents, à part (`782131c`).
+- La recette suit la sortie réelle du générateur : 21 médias retirés, depuis que les DOCX des fiches ont quitté le
+  site (`a88811e`).
+
+### Le travail
+
+- `CLAUDE.md` (29 tirets), l'en-tête que `nouveau_cours.py` écrit dans le `CLAUDE.md` d'un cours.
+- `docs/` (GUIDE, CHECKLIST, I18N, ARCHITECTURE, RECETTE, BONNES_PRATIQUES, le script des questions d'oral, les
+  exemples JSON), `deploiement/destination.exemple.json`, les neuf fichiers des skills, les textes et messages de
+  `nouveau_cours.py` : environ 390 tirets, chacun remplacé par la ponctuation que le sens demande. Les cinq agents
+  avaient une consigne écrite complète (style du témoin, exceptions, interdits, méthode, rapport) ; le contrôle
+  automatique comparait chaque fichier à sa version commitée (nombre de lignes, lignes touchées, mots inchangés hors
+  ponctuation, fins de ligne, blocs enregistrés de la fiche des capsules, compilation, en-têtes YAML) ; chaque
+  changement a été relu.
+- Les squelettes que reçoit un cours créé : le bloc TEXTES des chapitres, les fiches de synthèse, le QCM, les
+  flashcards, le glossaire, dont le français était écrit sans accents (« Question posee », « Polycopie de
+  synthese », « terme a definir ») ; cinq messages de la création aussi.
+- Les passages périmés : le GUIDE (cadrage, options cliquables, site miroir, seize prompts, atelier, bouton des
+  langues), ARCHITECTURE (site miroir, arborescence réelle, `quiz.js`, API de `i18n.js`), BONNES_PRATIQUES, le
+  prompt 11, les skills (ordre du tronc, glossaire, six mécanismes), la CHECKLIST (ordre des phases, vouvoiement).
+
+### Ce qui a été vérifié
+
+Le contrôle automatique passe ; ses alertes, relues, étaient sans gravité. `verifier_tirets.py` reste vert sur le
+gabarit. Un cours d'essai, généré dans le dossier temporaire avec une configuration à part (le `cours.json` du cours
+MOE n'a pas été touché) : aucun tiret dans ses 45 fichiers publiés, ni dans son `CLAUDE.md` (« # Titre du cours ·
+contrat de travail ») ni dans `DEMARRER-ICI.md` ; ses squelettes accentués ; `verifier_i18n.py`, `verifier_liens.py`,
+`verifier_parite.py` passent ; puis le cours d'essai, qui portait une copie locale des secrets, a été supprimé. La
+fiche des capsules se relit toujours (`synchroniser_capsules.py --essai`, `generer_audio.py --essai`). Les en-têtes
+YAML des skills se relisent, et Claude Code les a rechargés.
+
+### Ce qui n'est pas fait
+
+Les autres marques de texte généré relevées (antithèses, phrases sans verbe, mots gonflés), la feuille « Mode
+d'emploi » du script des questions d'oral, venue d'un autre cours, les messages des outils à tirets, les deux
+transcriptions de podcast de la fiche des capsules : tous au registre.
+
+### Pièges appris
+
+- **Un texte d'exemple que le générateur écrit part dans chaque cours** : un tiret ou une faute y devient celui de
+  tous les cours créés, et `verifier_tirets.py`, qui ne lit que le `site/` du gabarit, ne le voit pas. Seul un cours
+  d'essai le montre.
+- **Un compte attendu dans la recette suit le gabarit** : six DOCX sortis du site ont fait passer « 27 médias » à 21
+  sans qu'aucun contrôle le signale. La génération l'a montré.
+- **Un message changé ici et cité là** : deux agents en parallèle, l'un sur `nouveau_cours.py`, l'autre sur la
+  recette qui cite sa sortie ; la citation se recale après coup, sur la vraie sortie.
+- **Un « : » dans l'en-tête YAML d'une skill** casse sa description : dans l'en-tête, un tiret devient une virgule,
+  des parenthèses ou « · ».
+
+---
+
 ## 22 novembre 2026 · lot S4, le QCM sans tirets (`1df056e`)
 
 ### Les décisions de l'auteur
