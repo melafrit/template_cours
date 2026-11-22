@@ -65,9 +65,10 @@ Les lots, dans l'ordre validé :
   porte pas (`b4426fb`). Décision de l'auteur pour le classeur : le QCM noté de la démo en « Exercice / TP »,
   rendu par son fichier CSV, car le type « QCM » de l'application corrige une grille d'après un corrigé à lettres
   fixes. La pastille et les boutons des épreuves de l'accueil, d'après `FILIERES` de `seances.py`, sur le modèle
-  du cours EADL (`7914eb8`) ; la démonstration n'en déclare aucune (décision de l'auteur). Restent : le bloc
-  `ecole` de `cours.json`, qui remplira `FILIERES` et `BOUTONS` d'un cours créé ; la documentation (GUIDE,
-  CHECKLIST) ; l'arabe. Relevé en chemin, à trancher avec l'auteur : la page du QCM demande d'envoyer le
+  du cours EADL (`7914eb8`) ; la démonstration n'en déclare aucune (décision de l'auteur). Le bloc `ecole` de
+  `cours.json` (`4deb980`) : un cours créé reçoit ses boutons, les épreuves de ses filières et ses sessions ; le
+  modèle porte Livrables, le QCM et une session d'exemple fictive, que le script signale (décisions de l'auteur).
+  Restent : la documentation (GUIDE, CHECKLIST) ; l'arabe. Relevé en chemin, à trancher avec l'auteur : la page du QCM demande d'envoyer le
   CSV au formateur « par e-mail », alors que les consignes du classeur demandent de le déposer dans
   l'application Livrables.
 - [x] **3. Page d'accueil**, avec les fiches de ses capsules de section. Redemandée par l'auteur le
@@ -122,6 +123,10 @@ Les lots, dans l'ordre validé :
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 22 novembre · lot 2, le bloc école de cours.json
+> Un cours créé reçoit de `cours.json` ses boutons (Livrables, QCM), les épreuves de ses filières et ses
+> sessions (promotion, matière, dates réelles). Le modèle porte une session d'exemple fictive, que le script
+> signale. `4deb980`. Restent la documentation (GUIDE, CHECKLIST) et l'arabe.
 > ### 🆕 22 novembre · lot 2, la pastille et les boutons des épreuves
 > Une filière qui prépare l'épreuve d'un bloc la déclare dans `FILIERES` (`outils/seances.py`) : l'accueil
 > ajoute à sa pastille « EADL, Bloc 1, module FM04 » et un bouton vers la page de ses épreuves. La démo n'en

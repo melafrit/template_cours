@@ -9,6 +9,46 @@
 
 ---
 
+## 22 novembre 2026 · lot 2, le bloc école de cours.json (`4deb980`)
+
+### Les décisions de l'auteur
+
+- **Épreuves, boutons et sessions** : le bloc école de `cours.json` remplit les trois dans un cours créé.
+- **Le modèle tout rempli** : l'adresse de Livrables, le bouton du QCM et une session d'exemple aux valeurs fictives,
+  à remplacer.
+
+### Le travail
+
+- `cours.exemple.json` : le bloc `ecole` (`livrables`, `bouton_qcm`, `sessions`), et dans chaque filière `bloc`,
+  `module` et `epreuves`, décrits dans le commentaire.
+- `nouveau_cours.py` : la validation du bloc (promotion « Année › Promotion », dates lisibles, ouvrées et dans
+  l'ordre, couleur, adresses, bouton du QCM sans bloc `qcm`) ; l'écriture de `BOUTONS`, `FILIERES`, `LIENS` et
+  `SESSIONS` en littéraux Python lisibles, une clé par ligne quand la ligne serait trop longue ; l'avertissement
+  d'une session restée sur l'exemple, qui ne bloque pas. Une configuration sans bloc `ecole` se comporte comme avant.
+- `outils/generer_cahier_de_texte.py` : sans adresse de Livrables, le cahier ne cite pas l'application.
+- La recette, `CLAUDE.md` (§ 3), le module 07 et l'étape zéro du prompt suivent.
+
+### Ce qui a été vérifié
+
+Trois cours générés : boutons Livrables et QCM, session d'exemple écrite et signalée, et, dans le cours à une
+filière, les épreuves EADL déclarées dans `cours.json`, avec leur pastille et leur bouton. Quatre configurations de
+plus refusées (séparateur de promotion, week-end, bouton du QCM sans bloc, adresse d'épreuves). Une création depuis
+le gabarit réel. La réécriture des définitions sur les blocs de plusieurs lignes de la démo. Le cahier et le
+classeur de la démo, inchangés.
+
+### Ce qui n'est pas fait
+
+La documentation du lot 2 (GUIDE, CHECKLIST) et l'arabe.
+
+### Pièges appris
+
+- **Une session d'exemple qui bloquerait la création** ferait échouer la recette, qui part du modèle : le script
+  avertit sans refuser.
+- **sed et les échappements Unicode** : `\u26a0` passé par sed est devenu `26a0`. Un correctif se scripte en
+  Python (§ 2).
+
+---
+
 ## 22 novembre 2026 · lot 2, la pastille et les boutons des épreuves (`7914eb8`)
 
 ### Les décisions de l'auteur
