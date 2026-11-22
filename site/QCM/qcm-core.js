@@ -206,7 +206,7 @@ window.QCMCore = (function () {
         + '<tr><td><strong>Low</strong> <span class="bareme-muted">(guessing)</span></td><td class="bareme-pos">+1</td><td>0</td></tr>'
         + '</tbody></table>'
         + '<p class="bareme-note"><strong>Certainty-based marking (strict CBM).</strong> Score /20 = raw score ÷ (3 × number of questions) × 20. Difficulty (question colour) is <em>indicative</em> and does not change the score. '
-        + '<strong>Honest strategy:</strong> "Low" if you guess, "Medium" if fairly sure, "High" only if you are truly certain — a wrong high-certainty answer costs −3.</p>';
+        + '<strong>Honest strategy:</strong> "Low" if you guess, "Medium" if fairly sure, "High" only if you are truly certain, because a wrong high-certainty answer costs −3.</p>';
     }
     return '<table class="bareme-table"><thead><tr><th>Votre certitude</th><th>✅ Bonne réponse</th><th>❌ Mauvaise réponse</th></tr></thead><tbody>'
       + '<tr><td><strong>Élevée</strong> <span class="bareme-muted">(certain)</span></td><td class="bareme-pos">+3</td><td class="bareme-neg">−3</td></tr>'
@@ -214,7 +214,7 @@ window.QCMCore = (function () {
       + '<tr><td><strong>Faible</strong> <span class="bareme-muted">(je devine)</span></td><td class="bareme-pos">+1</td><td>0</td></tr>'
       + '</tbody></table>'
       + '<p class="bareme-note"><strong>Notation par degré de certitude (CBM strict).</strong> Note /20 = score brut ÷ (3 × nombre de questions) × 20. La difficulté (couleur des questions) est <em>indicative</em> et ne change pas le score. '
-      + '<strong>Stratégie honnête :</strong> « Faible » si vous devinez, « Moyenne » si assez sûr, « Élevée » seulement si vous êtes vraiment certain — car une certitude élevée erronée coûte −3.</p>';
+      + '<strong>Stratégie honnête :</strong> « Faible » si vous devinez, « Moyenne » si assez sûr, « Élevée » seulement si vous êtes vraiment certain, car une certitude élevée erronée coûte −3.</p>';
   }
 
   return {

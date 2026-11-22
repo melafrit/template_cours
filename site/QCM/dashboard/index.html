@@ -6,8 +6,8 @@
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 <link rel="icon" href="../../favicon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
-<title>Dashboard formateur — QCM</title>
-<meta name="description" content="Dashboard formateur du QCM. Analysez les résultats de classe, consultez les statistiques par question et exportez les données. Template de site de cours — Mohamed EL AFRIT.">
+<title>Dashboard formateur · QCM</title>
+<meta name="description" content="Dashboard formateur du QCM. Analysez les résultats de classe, consultez les statistiques par question et exportez les données. Template de site de cours · Mohamed EL AFRIT.">
 <meta name="author" content="Mohamed EL AFRIT">
 <script>/* La filière mémorisée, posée avant l'affichage : voir assets/js/filiere.js */(function(){try{var d=document.documentElement,s=localStorage,p=location.pathname,b='',v='',q=new URLSearchParams(location.search).get('filiere');for(var i=0;i<s.length;i++){var k=s.key(i);if(k&&k.indexOf('tpl-filiere|')===0&&p.indexOf(k.slice(12))===0&&k.length-12>b.length){b=k.slice(12);v=s.getItem(k)||'';}}var c=v.split('|'),f=q||c[0];if(f&&/^[a-z0-9-]+$/.test(f)){d.setAttribute('data-filiere',f);if(c[1]&&f===c[0]){d.setAttribute('data-accent-cours',d.getAttribute('data-accent')||'');d.setAttribute('data-accent',c[1]);}}}catch(e){}})();</script>
 <link rel="stylesheet" href="../../assets/css/fonts.css">
@@ -269,7 +269,7 @@ svg.chart { display: block; width: 100%; overflow: visible; }
   <!-- Footer -->
   <footer class="site-footer" style="margin-top:var(--space-12);border-radius:var(--radius-lg)">
     <p>
-      <span>Dashboard formateur — « Concevoir un cours en ligne » — Auteur : Mohamed EL AFRIT</span>
+      <span>Dashboard formateur · « Concevoir un cours en ligne » · Auteur : Mohamed EL AFRIT</span>
     </p>
     <p class="license"><span class="cc-badges">MIT · CC BY 4.0</span>
      · <a href="../../about.html"><span>À propos du template</span></a></p>
@@ -321,6 +321,7 @@ svg.chart { display: block; width: 100%; overflow: visible; }
       histoTitle: 'étudiant(s)',
       noData: 'Aucune donnée disponible.',
       qNoAnswer: 'aucune réponse', qSuccess: 'de réussite',
+      noCert: 'aucune', noDur: 'n.d.',
       calibGood: 'Certitude Élevée justifiée (bonne)',
       calibOver: 'Sur-confiance (Élevée mais fausse −3)',
       calibUnder: 'Excès de prudence (Faible mais juste)',
@@ -330,7 +331,7 @@ svg.chart { display: block; width: 100%; overflow: visible; }
       interpTitle: 'Interprétation',
       interpInsuff: 'Données de calibration insuffisantes (aucune certitude Élevée ni Faible enregistrée).',
       interpOver: 'La classe est globalement <strong>sur-confiante</strong> : plus de la moitié des certitudes « Élevée » étaient erronées ($PCT$ %). Insistez sur le risque de pénalisation −3.',
-      interpUnder: 'La classe est globalement <strong>trop prudente</strong> : $PCT$ % des réponses « Faible » étaient correctes. Les étudiants sous-estiment leurs connaissances — encouragez à assumer une certitude « Moyenne ».',
+      interpUnder: 'La classe est globalement <strong>trop prudente</strong> : $PCT$ % des réponses « Faible » étaient correctes. Les étudiants sous-estiment leurs connaissances : encouragez à assumer une certitude « Moyenne ».',
       interpBalanced: 'La calibration de la classe est <strong>globalement équilibrée</strong> : taux de sur-confiance $OVER$ %, taux d\'excès de prudence $UNDER$ %.',
       modalSigOk: '🔐 Signature valide', modalSigKo: '⚠️ Signature INVALIDE',
       modalNote: 'Note / 20', modalBonnes: 'Bonnes / ', modalScoreBrut: 'Score brut (max ',
@@ -364,6 +365,7 @@ svg.chart { display: block; width: 100%; overflow: visible; }
       histoTitle: 'student(s)',
       noData: 'No data available.',
       qNoAnswer: 'no answer', qSuccess: 'success',
+      noCert: 'none', noDur: 'n/a',
       calibGood: 'High certainty justified (correct)',
       calibOver: 'Over-confidence (High but wrong −3)',
       calibUnder: 'Excess caution (Low but correct)',
@@ -373,7 +375,7 @@ svg.chart { display: block; width: 100%; overflow: visible; }
       interpTitle: 'Interpretation',
       interpInsuff: 'Insufficient calibration data (no High or Low certainty recorded).',
       interpOver: 'The class is overall <strong>over-confident</strong>: more than half of the "High" certainties were wrong ($PCT$ %). Stress the −3 penalty risk.',
-      interpUnder: 'The class is overall <strong>too cautious</strong>: $PCT$ % of "Low" answers were correct. Students underestimate their knowledge — encourage them to claim a "Medium" certainty.',
+      interpUnder: 'The class is overall <strong>too cautious</strong>: $PCT$ % of "Low" answers were correct. Students underestimate their knowledge: encourage them to claim a "Medium" certainty.',
       interpBalanced: 'The class calibration is <strong>overall balanced</strong>: over-confidence rate $OVER$ %, excess-caution rate $UNDER$ %.',
       modalSigOk: '🔐 Valid signature', modalSigKo: '⚠️ INVALID signature',
       modalNote: 'Grade / 20', modalBonnes: 'Correct / ', modalScoreBrut: 'Raw score (max ',
@@ -682,7 +684,7 @@ svg.chart { display: block; width: 100%; overflow: visible; }
       var sigHtml = s.sigOk
         ? '<span class="sig-badge sig-ok">' + esc(t('sigValide')) + '</span>'
         : '<span class="sig-badge sig-ko">' + esc(t('sigInvalide')) + '</span>';
-      var dur = s.dureeSec > 0 ? fmt1(s.dureeSec / 60) : '—';
+      var dur = s.dureeSec > 0 ? fmt1(s.dureeSec / 60) : t('noDur');
       var trClass = s.sigOk ? '' : ' sig-invalid';
       return '<tr class="' + trClass + '" data-key="' + esc(s.nom + '|' + s.prenom) + '">'
         + '<td class="rang-cell">' + s._rang + '</td>'
@@ -783,7 +785,7 @@ svg.chart { display: block; width: 100%; overflow: visible; }
       var rate  = st.answered > 0 ? st.ok / st.answered : null;
       var pct   = rate !== null ? Math.round(rate * 100) : null;
       var color = rate !== null ? taux2color(rate) : '#999';
-      var title = q.id + ' — ' + (pct !== null ? pct + '% ' + t('qSuccess') + ' (' + st.ok + '/' + st.answered + ')' : t('qNoAnswer'));
+      var title = q.id + ' · ' + (pct !== null ? pct + '% ' + t('qSuccess') + ' (' + st.ok + '/' + st.answered + ')' : t('qNoAnswer'));
       return '<div class="q-cell" style="background:' + color + '" title="' + esc(title) + '">' + q.id.replace('Q', '') + '</div>';
     }).join('');
 
@@ -887,7 +889,7 @@ svg.chart { display: block; width: 100%; overflow: visible; }
         return '<div class="opt' + oc + '"><span class="lt">' + Core.LETTERS[i] + '</span><span>' + esc(L(p)) + '</span></div>';
       }).join('');
       var pc = it.points > 0 ? 'pts-pos' : (it.points < 0 ? 'pts-neg' : 'pts-zero');
-      var certTxt = it.certitude ? Core.certLabel(it.certitude) : '—';
+      var certTxt = it.certitude ? Core.certLabel(it.certitude) : t('noCert');
       var diffTxt = it.difficulte ? Core.diffLabel(it.difficulte) : '';
       return '<div class="res-q ' + cls + '">'
         + '<div class="meta">'

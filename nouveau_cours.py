@@ -189,7 +189,7 @@ SQUELETTE_QCM_QUESTIONS = """/* ================================================
    ================================================================= */
 window.QCM_QUESTIONS = {
   meta: {
-    titre: { fr: 'QCM — %(titre_fr)s', en: 'Quiz — %(titre_en)s' },
+    titre: { fr: 'QCM · %(titre_fr)s', en: 'Quiz · %(titre_en)s' },
     formation: { fr: '%(titre_fr)s', en: '%(titre_en)s' },
     annee_academique: '',
     auteur: '%(auteur)s',

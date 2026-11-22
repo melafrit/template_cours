@@ -12,7 +12,7 @@
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 <link rel="icon" href="../../favicon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
-<title>Correction — QCM Concevoir un cours en ligne</title>
+<title>Correction · QCM Concevoir un cours en ligne</title>
 <meta name="description" content="Page de correction du QCM (degré de certitude). Déposez votre CSV pour voir votre correction. Auteur Mohamed EL AFRIT, licence Creative Commons.">
 <meta name="author" content="Mohamed EL AFRIT">
 <script>/* La filière mémorisée, posée avant l'affichage : voir assets/js/filiere.js */(function(){try{var d=document.documentElement,s=localStorage,p=location.pathname,b='',v='',q=new URLSearchParams(location.search).get('filiere');for(var i=0;i<s.length;i++){var k=s.key(i);if(k&&k.indexOf('tpl-filiere|')===0&&p.indexOf(k.slice(12))===0&&k.length-12>b.length){b=k.slice(12);v=s.getItem(k)||'';}}var c=v.split('|'),f=q||c[0];if(f&&/^[a-z0-9-]+$/.test(f)){d.setAttribute('data-filiere',f);if(c[1]&&f===c[0]){d.setAttribute('data-accent-cours',d.getAttribute('data-accent')||'');d.setAttribute('data-accent',c[1]);}}}catch(e){}})();</script>
@@ -96,7 +96,7 @@
 
   <footer class="site-footer" style="margin-top:var(--space-12);border-radius:var(--radius-lg)">
     <p>
-      <span>Correction — « Concevoir un cours en ligne » — Auteur : <a href="#">Mohamed EL AFRIT</a></span>
+      <span>Correction · « Concevoir un cours en ligne » · Auteur : <a href="#">Mohamed EL AFRIT</a></span>
     </p>
     <p class="license"><span class="cc-badges">MIT · CC BY 4.0</span>
      · <a href="../../about.html"><span>À propos du template</span></a></p>
@@ -122,8 +122,8 @@
   // Libellés de l'UI générée en JS (motif S + t).
   var S = {
     fr: {
-      sigOk: '🔐 Signature valide — fichier authentique',
-      sigKo: '⚠️ Signature INVALIDE — fichier modifié ou corrompu',
+      sigOk: '🔐 Signature valide : fichier authentique',
+      sigKo: '⚠️ Signature INVALIDE : fichier modifié ou corrompu',
       noteSur: 'Note / 20',
       bonnes: 'Bonnes réponses / ',
       scoreBrut: 'Score brut (max ',
@@ -134,7 +134,7 @@
       detailTitle: 'Correction détaillée',
       chap: 'Ch.',
       certitude: 'Certitude : ',
-      noCert: '—',
+      noCert: 'aucune',
       sansReponse: '⚪ Sans réponse',
       correct: '✅ Correct',
       incorrect: '❌ Incorrect',
@@ -145,8 +145,8 @@
       errRead: 'Fichier illisible : '
     },
     en: {
-      sigOk: '🔐 Valid signature — authentic file',
-      sigKo: '⚠️ INVALID signature — file modified or corrupted',
+      sigOk: '🔐 Valid signature: authentic file',
+      sigKo: '⚠️ INVALID signature: file modified or corrupted',
       noteSur: 'Mark / 20',
       bonnes: 'Correct answers / ',
       scoreBrut: 'Raw score (max ',
@@ -157,7 +157,7 @@
       detailTitle: 'Detailed correction',
       chap: 'Ch.',
       certitude: 'Certainty: ',
-      noCert: '—',
+      noCert: 'none',
       sansReponse: '⚪ No answer',
       correct: '✅ Correct',
       incorrect: '❌ Incorrect',

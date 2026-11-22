@@ -22,8 +22,8 @@
 window.QCM_QUESTIONS = {
   meta: {
     titre: {
-      fr: 'QCM — Concevoir un cours en ligne',
-      en: 'Quiz — Designing an online course'
+      fr: 'QCM · Concevoir un cours en ligne',
+      en: 'Quiz · Designing an online course'
     },
     formation: {
       fr: 'Démo du template de cours',
@@ -122,8 +122,8 @@ window.QCM_QUESTIONS = {
     {
       id: 'Q07', chapitre: 3, difficulte: 'vert',
       enonce: {
-        fr: 'Vous devez transmettre une durée de conservation exacte — quinze minutes. Quel format choisir ?',
-        en: 'You must convey an exact retention period — fifteen minutes. Which format should you choose?'
+        fr: 'Vous devez transmettre une durée de conservation exacte (quinze minutes). Quel format choisir ?',
+        en: 'You must convey an exact retention period (fifteen minutes). Which format should you choose?'
       },
       propositions: [
         { fr: 'Le texte : un chiffre exact doit pouvoir être relu', en: 'Text: an exact figure must be re-readable' },

@@ -77,7 +77,7 @@
 <div class="qcm-wrap">
   <div id="app"></div>
   <footer class="site-footer" style="margin-top:var(--space-12);border-radius:var(--radius-lg)">
-    <p><span>MCQ — "Designing an online course" — Author:</span> <a href="#">Mohamed EL AFRIT</a></p>
+    <p><span>MCQ · "Designing an online course" · Author:</span> <a href="#">Mohamed EL AFRIT</a></p>
     <p class="license"><span class="cc-badges">MIT · CC BY 4.0</span> · <a href="../about.html"><span>About the template</span></a></p>
   </footer>
 </div>
@@ -108,13 +108,13 @@
       closedH: 'Accès ouvert par votre formateur',
       closedP: 'Le QCM d\'évaluation deviendra accessible ici <strong>lorsque votre formateur en ouvrira l\'accès</strong>. Merci de revenir sur cette page le moment venu.',
       homeTitle: '📝 QCM d\'évaluation',
-      homeLead1: 'Concevoir un cours en ligne — ',
+      homeLead1: 'Concevoir un cours en ligne · ',
       homeLead2: ' questions à degré de certitude',
       trainH: 'Première fois ? Entraînez-vous d\'abord',
       trainP: 'Cette page est le QCM <strong>en conditions d\'examen</strong> (pas de correction immédiate). Pour réviser avec une <strong>correction immédiate</strong> après chaque question, passez par le <a href="entrainement.html">mode entraînement</a>.',
       noCorrH: 'Vous ne verrez pas votre correction à la fin',
       noCorrP: 'À la fin, vous téléchargez un fichier (CSV) à envoyer à votre formateur. Vous pourrez ensuite voir votre correction sur la <strong>page Correction</strong> en y déposant ce fichier.',
-      baremeTitle: 'Barème — degré de certitude',
+      baremeTitle: 'Barème : degré de certitude',
       instrH: 'Consignes',
       instrP: 'Pour chaque question : choisissez une réponse <strong>et</strong> votre degré de certitude. Les questions et les propositions sont mélangées. Navigation libre, retour arrière possible. Vos réponses sont sauvegardées dans ce navigateur.',
       yourInfo: 'Vos informations',
@@ -138,13 +138,13 @@
       finAnswered: ' répondues · ', finMin: ' min',
       finNoCorrH: 'Pas de correction ici',
       finNoCorrP: 'Votre correction n\'est pas affichée sur cette page. Téléchargez votre fichier, envoyez-le à votre formateur, puis utilisez la page <strong>Correction</strong> pour voir le détail.',
-      card1H: '1. Terminer — télécharger mon fichier',
+      card1H: '1. Terminer : télécharger mon fichier',
       card1P: 'Téléchargez votre fichier CSV (signé) et <strong>envoyez-le à votre formateur par e-mail, en pièce jointe</strong>. Vérifiez la bonne réception avant la fin de l\'épreuve.',
       dlBtn: '⬇️ Télécharger mon CSV',
-      card2H: '2. Corriger — voir ma correction',
+      card2H: '2. Corriger : voir ma correction',
       card2P: 'Ouvrez la page Correction et <strong>déposez-y votre fichier CSV</strong> pour voir votre note et la correction détaillée (avec vérification d\'intégrité).',
       card2Btn: '🔎 Aller à la page Correction →',
-      card3H: '3. Consolider — espace formateur',
+      card3H: '3. Consolider : espace formateur',
       card3P: 'Réservé au formateur : déposer plusieurs fichiers d\'étudiants pour consolider et visualiser les résultats de la classe.',
       card3Btn: '📊 Ouvrir le dashboard formateur →',
       backQcm: '← Revenir au QCM',
@@ -158,13 +158,13 @@
       closedH: 'Access opened by your instructor',
       closedP: 'The graded MCQ will become available here <strong>when your instructor opens access</strong>. Please come back to this page when the time comes.',
       homeTitle: '📝 Graded MCQ',
-      homeLead1: 'Designing an online course — ',
+      homeLead1: 'Designing an online course · ',
       homeLead2: ' certainty-based questions',
       trainH: 'First time? Practise first',
       trainP: 'This page is the MCQ <strong>under exam conditions</strong> (no immediate feedback). To revise with <strong>immediate feedback</strong> after each question, use the <a href="entrainement.html">practice mode</a>.',
       noCorrH: 'You will not see your correction at the end',
       noCorrP: 'At the end, you download a file (CSV) to send to your instructor. You can then view your correction on the <strong>Correction page</strong> by uploading that file there.',
-      baremeTitle: 'Marking scheme — certainty level',
+      baremeTitle: 'Marking scheme: certainty level',
       instrH: 'Instructions',
       instrP: 'For each question: choose one answer <strong>and</strong> your certainty level. Questions and options are shuffled. Free navigation, going back is allowed. Your answers are saved in this browser.',
       yourInfo: 'Your details',
@@ -188,13 +188,13 @@
       finAnswered: ' answered · ', finMin: ' min',
       finNoCorrH: 'No correction here',
       finNoCorrP: 'Your correction is not shown on this page. Download your file, send it to your instructor, then use the <strong>Correction page</strong> to see the details.',
-      card1H: '1. Finish — download my file',
+      card1H: '1. Finish: download my file',
       card1P: 'Download your (signed) CSV file and <strong>send it to your instructor by e-mail, as an attachment</strong>. Check it was received before the end of the test.',
       dlBtn: '⬇️ Download my CSV',
-      card2H: '2. Correct — view my correction',
+      card2H: '2. Correct: view my correction',
       card2P: 'Open the Correction page and <strong>upload your CSV file</strong> there to see your grade and the detailed correction (with integrity check).',
       card2Btn: '🔎 Go to the Correction page →',
-      card3H: '3. Consolidate — instructor area',
+      card3H: '3. Consolidate: instructor area',
       card3P: 'Instructor only: upload several student files to consolidate and visualise the class results.',
       card3Btn: '📊 Open the instructor dashboard →',
       backQcm: '← Back to the MCQ',
@@ -328,7 +328,7 @@
     if(timerInt)clearInterval(timerInt);
     var dur=(state.start&&state.end)? Math.round((new Date(state.end)-new Date(state.start))/60000):0;
     app.innerHTML='<div class="qcm-card">'
-      +'<div class="qcm-hero"><h1>'+t('finTitle')+'</h1><p>'+esc(state.id.prenom)+' '+esc(state.id.nom)+' — '+countAnswered()+'/'+N+t('finAnswered')+dur+t('finMin')+'</p></div>'
+      +'<div class="qcm-hero"><h1>'+t('finTitle')+'</h1><p>'+esc(state.id.prenom)+' '+esc(state.id.nom)+' · '+countAnswered()+'/'+N+t('finAnswered')+dur+t('finMin')+'</p></div>'
       +'<div class="callout warning"><div class="callout-icon">🔒</div><div class="callout-content"><h4>'+t('finNoCorrH')+'</h4><p>'+t('finNoCorrP')+'</p></div></div>'
       +'<div class="action-cards">'
       +'<div class="action-card primary"><div class="ac-ico">⬇️</div><div style="flex:1"><h3>'+t('card1H')+'</h3><p>'+t('card1P')+'</p><button class="btn btn-primary" id="dl">'+t('dlBtn')+'</button> <span id="dl-ok" style="color:var(--success);font-weight:600;margin-left:.5rem"></span></div></div>'
