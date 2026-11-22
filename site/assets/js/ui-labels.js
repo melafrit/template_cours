@@ -22,7 +22,7 @@
        document.addEventListener('tpl:langchange', redessiner);
 
    AJOUTER UNE CLÉ
-   Toujours dans les deux langues, à la même place dans les deux blocs.
+   Toujours dans chaque langue, à la même place dans chaque bloc.
    `python3 outils/verifier_i18n.py` signale les clés dépareillées.
 
    CE QUI N'A PAS SA PLACE ICI
@@ -241,6 +241,19 @@ window.UI_LABELS = {
     'schema.fichierAttendu': 'Fichier attendu\u00a0:',
     'schema.chemin': 'Chemin\u00a0:',
     'schema.pointsLisibles': 'Les points du schéma restent lisibles ci-dessous.',
+
+    /* ---- activités interactives (tools.js) ---- */
+    'activite.question': 'Question',
+    'activite.sur': '/',
+    'activite.oui': 'Oui',
+    'activite.non': 'Non',
+    'activite.resultat': 'Résultat',
+    'activite.recommencer': '↺ Recommencer',
+    'activite.score': 'Score',
+    'activite.scoreFinal': 'Score\u00a0: ',
+    'activite.suivant': 'Suivant ›',
+    'activite.citationDebut': '«\u00a0',
+    'activite.citationFin': '\u00a0»',
 
     /* ---- navigation ---- */
     'nav.accueil': 'Accueil du cours',
@@ -469,6 +482,19 @@ window.UI_LABELS = {
     'schema.fichierAttendu': 'Expected file:',
     'schema.chemin': 'Path:',
     'schema.pointsLisibles': "The diagram's points remain readable below.",
+
+    /* ---- interactive activities (tools.js) ---- */
+    'activite.question': 'Question',
+    'activite.sur': '/',
+    'activite.oui': 'Yes',
+    'activite.non': 'No',
+    'activite.resultat': 'Result',
+    'activite.recommencer': '↺ Restart',
+    'activite.score': 'Score',
+    'activite.scoreFinal': 'Score: ',
+    'activite.suivant': 'Next ›',
+    'activite.citationDebut': '“',
+    'activite.citationFin': '”',
 
     /* ---- navigation ---- */
     'nav.accueil': 'Course home',
@@ -700,6 +726,19 @@ window.UI_LABELS = {
     'schema.fichierAttendu': 'الملف المنتظَر:',
     'schema.chemin': 'المسار:',
     'schema.pointsLisibles': 'تبقى نقاط المخطّط مقروءة أدناه.',
+
+    /* ---- activités interactives (tools.js) ---- */
+    'activite.question': 'السؤال',
+    'activite.sur': '/',
+    'activite.oui': 'نعم',
+    'activite.non': 'لا',
+    'activite.resultat': 'النتيجة',
+    'activite.recommencer': '↺ إعادة المحاولة',
+    'activite.score': 'النتيجة',
+    'activite.scoreFinal': 'النتيجة: ',
+    'activite.suivant': 'التالي ›',
+    'activite.citationDebut': '«',
+    'activite.citationFin': '»',
 
     /* ---- navigation ---- */
     'nav.accueil': 'الصفحة الرئيسية للمقرّر',

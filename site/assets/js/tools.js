@@ -2,12 +2,13 @@
    tools.js — Patrons d'ACTIVITÉS INTERACTIVES réutilisables (bilingues)
    Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
 
-   Trois patrons génériques, pilotés par configuration (data { fr, en }),
+   Trois patrons génériques, pilotés par configuration (data { fr, en }, et ar pour une page arabe),
    à adapter à n'importe quel sujet de cours :
      TPLActivities.decisionWizard(id, cfg)  — assistant de décision pas-à-pas (oui/non -> résultat)
      TPLActivities.checklist(id, cfg)       — checklist à score (N cases cochées -> verdict)
      TPLActivities.classifier(id, cfg)      — quiz de classification (ranger des exemples + feedback)
    Chaque activité se ré-affiche au changement de langue (évènement tpl:langchange).
+   Ses boutons et son score viennent de ui-labels.js (clés activite.*), dans chaque langue.
    Réutilise les classes CSS .rdc-* de components.css.
    ================================================================= */
 window.TPLActivities = (function () {
@@ -15,13 +16,8 @@ window.TPLActivities = (function () {
   function L(o) { return (o && typeof o === 'object') ? (o[lng()] || o.fr || o.en || '') : (o || ''); }
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
   function rich(s) { return esc(s).split('**').map(function (seg, i) { return i % 2 ? '<strong>' + seg + '</strong>' : seg; }).join(''); }
-  function UI(k) {
-    var d = {
-      fr: { restart: '↺ Recommencer', next: 'Suivant ›', yes: 'Oui', no: 'Non', score: 'Score', step: 'Question', of: '/', verdict: 'Résultat' },
-      en: { restart: '↺ Restart', next: 'Next ›', yes: 'Yes', no: 'No', score: 'Score', step: 'Question', of: '/', verdict: 'Result' }
-    };
-    return (d[lng()] || d.fr)[k];
-  }
+  // Les libellés vivent dans ui-labels.js, comme ceux des autres moteurs : une page arabe y trouve les siens.
+  function UI(k) { return window.T ? T('activite.' + k) : k; }
   function head(icon, title) {
     return '<div class="rdc-tool-head"><span class="rdc-tool-ico">' + (icon || '🧩') + '</span><span class="rdc-tool-title">' + esc(L(title)) + '</span></div>';
   }
@@ -36,17 +32,17 @@ window.TPLActivities = (function () {
     function render() {
       var s = cfg.steps[step];
       el.innerHTML = head(cfg.icon || '🧭', cfg.title) + '<div class="rdc-tool-body">'
-        + '<div class="rdc-step">' + UI('step') + ' ' + (step + 1) + ' ' + UI('of') + ' ' + cfg.steps.length + '</div>'
+        + '<div class="rdc-step">' + UI('question') + ' ' + (step + 1) + ' ' + UI('sur') + ' ' + cfg.steps.length + '</div>'
         + '<p class="rdc-q">' + rich(L(s.q)) + '</p>'
-        + '<div class="rdc-yn"><button type="button" class="rdc-btn rdc-yes">' + UI('yes') + '</button><button type="button" class="rdc-btn">' + UI('no') + '</button></div></div>';
+        + '<div class="rdc-yn"><button type="button" class="rdc-btn rdc-yes">' + UI('oui') + '</button><button type="button" class="rdc-btn">' + UI('non') + '</button></div></div>';
       el.querySelector('.rdc-yes').addEventListener('click', function () { result(cfg.steps[step].result); });
       el.querySelectorAll('.rdc-btn')[1].addEventListener('click', function () { step++; if (step < cfg.steps.length) render(); else result(cfg.fallback); });
     }
     function result(r) {
       el.innerHTML = head(cfg.icon || '🧭', cfg.title) + '<div class="rdc-tool-body"><div class="rdc-result">'
-        + '<div class="rdc-tier">' + UI('verdict') + '</div><div class="rdc-amount">' + rich(L(r.name)) + '</div>'
+        + '<div class="rdc-tier">' + UI('resultat') + '</div><div class="rdc-amount">' + rich(L(r.name)) + '</div>'
         + '<div class="rdc-ex">' + rich(L(r.detail)) + '</div></div>'
-        + '<div class="rdc-tools-row"><button type="button" class="rdc-restart">' + UI('restart') + '</button></div></div>';
+        + '<div class="rdc-tools-row"><button type="button" class="rdc-restart">' + UI('recommencer') + '</button></div></div>';
       el.querySelector('.rdc-restart').addEventListener('click', function () { step = 0; render(); });
     }
     render();
@@ -88,18 +84,18 @@ window.TPLActivities = (function () {
     var labelOf = {}; cfg.categories.forEach(function (c) { labelOf[c.key] = c.label; });
     function render() {
       if (i >= cfg.items.length) {
-        el.innerHTML = head(cfg.icon || '🗂️', cfg.title) + '<div class="rdc-tool-body"><div class="rdc-result"><div class="rdc-amount">' + UI('score') + ' : ' + score + ' ' + UI('of') + ' ' + cfg.items.length + '</div></div>'
-          + '<div class="rdc-tools-row"><button type="button" class="rdc-restart">' + UI('restart') + '</button></div></div>';
+        el.innerHTML = head(cfg.icon || '🗂️', cfg.title) + '<div class="rdc-tool-body"><div class="rdc-result"><div class="rdc-amount">' + UI('scoreFinal') + score + ' ' + UI('sur') + ' ' + cfg.items.length + '</div></div>'
+          + '<div class="rdc-tools-row"><button type="button" class="rdc-restart">' + UI('recommencer') + '</button></div></div>';
         el.querySelector('.rdc-restart').addEventListener('click', function () { i = 0; score = 0; render(); });
         return;
       }
       var it = cfg.items[i];
       el.innerHTML = head(cfg.icon || '🗂️', cfg.title) + '<div class="rdc-tool-body">'
-        + '<div class="rdc-step">' + (i + 1) + ' ' + UI('of') + ' ' + cfg.items.length + ' · ' + UI('score') + ' ' + score + '</div>'
-        + '<p class="rdc-q">«&nbsp;' + rich(L(it.ex)) + '&nbsp;»</p>'
+        + '<div class="rdc-step">' + (i + 1) + ' ' + UI('sur') + ' ' + cfg.items.length + ' · ' + UI('score') + ' ' + score + '</div>'
+        + '<p class="rdc-q">' + esc(UI('citationDebut')) + rich(L(it.ex)) + esc(UI('citationFin')) + '</p>'
         + '<div class="rdc-opts">' + cfg.categories.map(function (c) { return '<button type="button" class="rdc-opt" data-k="' + c.key + '">' + esc(L(c.label)) + '</button>'; }).join('') + '</div>'
         + '<div class="rdc-feedback" aria-live="polite"></div>'
-        + '<div class="rdc-tools-row"><button type="button" class="rdc-next2" hidden>' + UI('next') + '</button></div></div>';
+        + '<div class="rdc-tools-row"><button type="button" class="rdc-next2" hidden>' + UI('suivant') + '</button></div></div>';
       var opts = el.querySelectorAll('.rdc-opt'), fb = el.querySelector('.rdc-feedback'), next = el.querySelector('.rdc-next2'), done = false;
       opts.forEach(function (b) {
         b.addEventListener('click', function () {

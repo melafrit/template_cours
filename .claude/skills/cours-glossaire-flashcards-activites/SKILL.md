@@ -64,7 +64,7 @@ Le deck gère recto/verso, navigation, mélange, barre de progression et change 
 
 ## 3) ACTIVITÉS · `window.TPLActivities` (3 fabriques pilotées par config)
 
-Schéma commun : un `<div id="…"></div>` dans la page + un appel JS qui le remplit. Libellés en `{fr,en}`, `**gras**` supporté, ré-affichage auto sur `tpl:langchange`. Charger `assets/js/tools.js` dans la page ; les activités réutilisent les classes CSS `.rdc-*` de `components.css`. Modèle complet des 3 patrons : `activites.html`.
+Schéma commun : un `<div id="…"></div>` dans la page + un appel JS qui le remplit. Libellés en `{fr,en}` (et `ar` pour une page arabe), `**gras**` supporté, ré-affichage auto sur `tpl:langchange` ; les boutons et le score viennent de `ui-labels.js` (clés `activite.*`). Charger `assets/js/tools.js` dans la page ; les activités réutilisent les classes CSS `.rdc-*` de `components.css`. Modèle complet des 3 patrons : `activites.html`.
 
 **`decisionWizard(id, cfg)`** (pas à pas) : **Oui** → résultat de l'étape ; **Non** → étape suivante ; `fallback` si Non partout.
 ```js

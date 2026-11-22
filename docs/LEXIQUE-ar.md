@@ -87,3 +87,7 @@ pages trouble l'étudiant, qui ne peut pas savoir qu'il s'agit de la même notio
 | Réinitialiser | إعادة الضبط |
 | Thème clair, thème sombre | المظهر الفاتح، المظهر الداكن |
 | à venir | قريبًا |
+| Oui, Non | نعم، لا |
+| Question | السؤال |
+| Score, Résultat | النتيجة |
+| Recommencer (une activité, un point de contrôle) | إعادة المحاولة |

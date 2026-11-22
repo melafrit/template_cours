@@ -144,7 +144,7 @@ Sur une page qui déclare deux langues (modèle `data-tr`), `i18n.js` injecte au
 | **podcasts.js** | Page Podcasts (module 03) : dessine sous chaque épisode la bande de ses diapositives (vignettes) et ouvre la visionneuse plein écran (×, Échap, flèches, Début, Fin, glissé, focus gardé dans la fenêtre puis rendu à la vignette). Libellés dans la langue du conteneur. | `data-dossier`, `data-nombre`, `data-episode` des `.pod-diapos` | rien |
 | **flashcards.js** | Classe `FlashcardDeck(containerId, cards, key)` : carte recto/verso, navigation, « su / à revoir », mélange, barre de progression. Supporte `**gras**` dans les textes. | tableau passé à l'instanciation (souvent `RDC_FLASHCARDS[n]`) | `rdc-flash-<key>` |
 | **glossaire-tooltip.js** | Dans les chapitres, repère la 1re occurrence des termes de `window.GLOSSARY` (langue courante) hors titres/liens/code, et y attache une info-bulle (terme + def + exemple + lien glossaire). Re-scanne au changement de langue. | `GLOSSARY` | rien |
-| **tools.js** | Objet global `window.TPLActivities` : 3 fabriques d'activités interactives pilotées par config (voir §4.5). | config passée à l'appel | rien |
+| **tools.js** | Objet global `window.TPLActivities` : 3 fabriques d'activités interactives pilotées par config (voir §4.5). | config passée à l'appel ; `T()` pour ses boutons (`activite.*`) | rien |
 | **animations.js** | Révélation des sections au défilement (IntersectionObserver → classe `.visible`, seuil nul : une section plus haute que l'écran apparaît aussi sur téléphone), waveform podcast décorative, encarts repliables, galerie de slides-images (lit `data-slides`). | `data-slides` | rien |
 | **QCM/qcm-core.js** | `window.QCMCore` : barème **CBM**, SHA-256 autonome (compatible `file://`), construction/lecture/**signature** du CSV, **scoring**, calcul de la note /20, rappel de barème HTML bilingue. Partagé par les 4 pages QCM. | rien | rien |
 
@@ -155,7 +155,7 @@ tout ce qui rend un chapitre interactif.
 
 | Fichier | Rôle | Lit | Persiste (localStorage) |
 |---|---|---|---|
-| **ui-labels.js** | `window.UI_LABELS` + l'accesseur `T('cle')` : **tous** les textes d'interface fabriqués en JavaScript, en FR et EN. Un libellé écrit en dur dans un moteur est un défaut : il ne se traduira pas. | `TPLI18N.lang()` | rien |
+| **ui-labels.js** | `window.UI_LABELS` + l'accesseur `T('cle')` : **tous** les textes d'interface fabriqués en JavaScript, en français, en anglais et en arabe. Un libellé écrit en dur dans un moteur est un défaut : il ne se traduira pas. | `TPLI18N.lang()` | rien |
 | **interactions.js** | `window.RDCX` : le moteur pédagogique. Sept composants : `checkpoint` (point de contrôle ; avec `pourquoi` et `approfondir`, il explique chaque proposition écartée et propose des renvois, internes dans l'onglet, externes dans un nouvel onglet signalé aux lecteurs d'écran), `reveal` (révélation d'une réponse), `spotError` (repérage d'erreurs dans un document), `match` (appariement), `branch` (scénario à embranchements), `hotspots` (schéma à points chauds), `voice` (capsule audio). Plus `steps` (lecture par étapes) et `sommaire` (barre de sommaire collante), montés automatiquement. En fin de fichier, l'**enregistreur** garde la configuration de chaque composant (`window.RDCX_DONNEES`) ; l'adresse `?polycopie=fr` (ou `en`) la dépose dans la page, où `outils/polycopie/navigateur.py` la lit pour composer le livret (module 02). | attributs `data-step`, `data-sommaire-titre` des sections | `rdc-step-<N>` |
 | **playlist.js** | Panneau latéral rassemblant les pistes du cours, avec enchaînement automatique et tiroir sur mobile. **Filtre par langue** : une piste marquée `langue` n'apparaît que dans cette langue. | `RDC_PLAYLIST` | `rdc-playlist-ouverte` |
 | **quiz.js** | Quiz simple en cours de chapitre (distinct du QCM noté, qui vit dans `site/QCM/`). | config passée à l'appel | rien |
@@ -402,7 +402,7 @@ Dans `assets/js/glossaire-data.js`, ajouter au tableau `window.GLOSSARY` :
 
 ### 4.5 Ajouter une activité interactive (les 3 patrons de `tools.js`)
 
-`window.TPLActivities` expose 3 fabriques. Schéma commun : un `<div id="…"></div>` dans la page + un appel JS qui le remplit. Tout est piloté par des libellés `{ fr, en }`, le `**gras**` est supporté, et l'activité se ré-affiche au changement de langue.
+`window.TPLActivities` expose 3 fabriques. Schéma commun : un `<div id="…"></div>` dans la page + un appel JS qui le remplit. Tout est piloté par des libellés `{ fr, en }` (et `ar` pour une page arabe), le `**gras**` est supporté, et l'activité se ré-affiche au changement de langue ; ses boutons (Oui, Non, Suivant, Recommencer) et son score viennent de `ui-labels.js`, clés `activite.*`.
 
 **Patron 1 · `decisionWizard(id, cfg)`** : assistant pas à pas (Oui mène au résultat de l'étape, Non passe à l'étape suivante ; `fallback` si on dit Non partout).
 ```js
