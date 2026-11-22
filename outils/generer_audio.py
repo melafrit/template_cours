@@ -316,6 +316,8 @@ def pistes_attendues():
             out.append((n, cid, src.group(1).split("/")[-1], titre.replace("**", "")))
         # capsules bilingues, dont la source vient de TEXTES et non d'un litteral
         out.extend(capsules_bilingues(page, n))
+        # capsules déclarées dans une liste, comme celles de l'accueil (src: V + '…')
+        out.extend(capsules_en_liste(page, n))
     # les podcasts ne sont declares dans aucune page : ils viennent des fiches
     out.extend(podcasts_des_fiches())
     # Une même capsule peut figurer sur deux pages : on ne la garde qu'une fois,
@@ -345,6 +347,19 @@ def capsules_bilingues(page, n):
         titre = ttl.group(1) if ttl else os.path.basename(chemin)
         cid = "capsule-%d" % n
         out.append((n, cid, chemin.split("/")[-1], titre))
+    return out
+
+
+def capsules_en_liste(page, n):
+    """Les capsules qu'une page déclare dans une liste, comme celles de l'accueil :
+    { id: 'voix-…', src: V + 'accueil-…-fr.mp3', titre: "…", … }, montées ensuite par une boucle
+    sur RDCX.voice. Leur source n'est ni un littéral de l'appel ni une entrée de TEXTES : sans
+    cette lecture, le générateur ne voyait pas les dix-huit capsules de l'accueil.
+    """
+    t = io.open(page, encoding="utf-8").read()
+    out = []
+    for m in re.finditer(r"""\{\s*id:\s*'([^']+)',\s*src:\s*V\s*\+\s*'([^']+\.mp3)',\s*titre:\s*"((?:[^"\\]|\\.)*)\"""", t):
+        out.append((n, m.group(1), m.group(2), json.loads('"%s"' % m.group(3))))
     return out
 
 

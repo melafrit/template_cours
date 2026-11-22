@@ -56,8 +56,11 @@ générateur de prompt passe ses cinq cas.
 
 ### Ce qui n'est pas fait
 
-Le téléchargement de `xlsx.full.min.js` (accord de l'auteur) ; `generer_audio.py` ne voit pas les capsules de
-l'accueil (lot 9) ; les commentaires à tirets des outils (94 lignes) et du site (145 lignes), au registre.
+Le téléchargement de `xlsx.full.min.js` (accord de l'auteur) ; les commentaires à tirets des outils (94 lignes)
+et du site (145 lignes), au registre. Juste après ce lot, préalable au lot 9 : `generer_audio.py` voit les
+dix-huit capsules de l'accueil, déclarées dans une liste (`src: V + '…'`) qu'il ne lisait pas ; son essai à
+blanc les compte (18 pistes, 19 317 caractères), chacune avec son script, l'accent parisien sur les seules
+pistes françaises.
 
 ---
 

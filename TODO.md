@@ -114,8 +114,8 @@ Les lots, dans l'ordre validé :
   section 4), sans laquelle `generer_audio.py` la laisse en attente, jamais avec l'accent parisien (`274e79d`) ;
   les dix-huit capsules de l'accueil, textes validés (témoins `accueil-capsule-fr.mp3` et
   `accueil-capsule-en.mp3`), et leur place dans la liste de lecture (`generer_playlist.py` n'indexe que les
-  chapitres). Relevé le 23 novembre : `generer_audio.py` ne voit pas ces dix-huit capsules, que l'accueil déclare
-  dans une liste (`src: V + '…'`) qu'il ne lit pas ; à lui apprendre avant leur enregistrement.
+  chapitres). `generer_audio.py` voit ces dix-huit capsules depuis le 23 novembre (l'accueil les déclare dans une
+  liste, `src: V + '…'`, qu'il ne lisait pas) : 18 pistes, 19 317 caractères, chacune avec son script.
 - [ ] **10. Polycopié** : six livrets, témoin d'abord.
 - [ ] **11. Documentation** et son contrôle. `GUIDE.md`, `CHECKLIST.md`, `ARCHITECTURE.md` et le skill bilingue
   décrivent encore la bascule 🌐 comme celle de la démo.
