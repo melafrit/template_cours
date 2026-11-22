@@ -9,6 +9,49 @@
 
 ---
 
+## 22 novembre 2026 · lot 8, le générateur de prompt (`632e9b8`)
+
+### Les décisions de l'auteur
+
+- **La page produit le prompt de lancement** : il renvoie au tronc et aux modules actifs par leur chemin, avec le
+  bloc de paramètres rempli ; Claude écrit `cours.json` à l'étape zéro.
+- **Les valeurs habituelles préremplies** : identité et Git, hébergement, écosystème, filières et habitudes.
+- **Un dossier déjà préparé garde ses documents** : le formulaire demande leur dossier (`Doc_Reference` par défaut),
+  que le prompt fait exclure de Git et des recherches. L'exemple de l'auteur : son prochain cours,
+  `Cours_CDWFS_ASRC_Gestion_de_Projet_MOE`.
+- **Le témoin validé** avant la série.
+
+### Le travail
+
+- `generateur/index.html` et `page.js` : le formulaire, le prompt refait à chaque saisie, la copie, le
+  téléchargement, le brouillon gardé dans le navigateur, l'enregistrement des valeurs habituelles (un fichier
+  téléchargé, puisque la page ne peut pas écrire dans son dossier).
+- `generateur/generateur.js` : la fabrication du prompt, une fonction pure ; `valeurs.exemple.js`, versionné ;
+  `valeurs.local.js`, préparé pour l'auteur et ignoré par Git ; `essai_generateur.js`, le contrôle.
+- `CLAUDE.md` (sections réservées au gabarit), le GUIDE, le README des prompts et le mode d'emploi du tronc le
+  documentent.
+
+### Ce qui a été vérifié
+
+Le contrôle passe (trois cas : un dossier préparé avec deux filières et Codex, un dossier neuf avec une jumelle, des
+valeurs absentes). Au navigateur : les valeurs chargées, les filières proposées (paires et filières seules), le
+prompt refait et copié, la console vide, en clair et en sombre, à 1280 et 375 px. Les données des filières CDWFS et
+ASRC viennent du cours d'étude d'avant-projet CDWFS/ASRC (intitulés et RNCP).
+
+### Ce qui n'est pas fait
+
+Le premier usage réel, sur le cours de gestion de projet (MOE). Le secret trouvé dans ses documents, à retirer par
+l'auteur.
+
+### Pièges appris
+
+- **Avant sa création, un cours n'a pas de `.rgignore`** : une recherche dans un dossier préparé pourrait lire un
+  secret posé parmi les documents. Le prompt interdit toute recherche tant que les documents ne sont pas exclus.
+- **Un clic de test se trompe de bouton** : un premier essai a téléchargé le prompt au lieu de le copier. Les boutons
+  d'une page se visent par leur référence, pas par des coordonnées.
+
+---
+
 ## 22 novembre 2026 · lot 7 terminé, les prompts numérotés (`da73639`)
 
 ### Les décisions de l'auteur

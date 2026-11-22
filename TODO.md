@@ -101,8 +101,11 @@ Les lots, dans l'ordre validé :
   ligne), le 07 relu, aucun tiret cadratin dans les dix. Les dix-sept prompts numérotés (`da73639`) : le 03 en
   témoin, puis la série par cinq agents, contrôlée ; réalignés sur le gabarit, sans tiret cadratin. Les relevés du
   lot sont plus bas, dans « Ouvert, dans le gabarit » et « À décider avec l'auteur ».
-- [ ] **8. Générateur de prompt.** Après le lot 7 (décision de l'auteur du 22 novembre 2026, qui le cherchait : il
-  n'existe pas encore).
+- [x] **8. Générateur de prompt** (`632e9b8`) : la page `generateur/index.html`, ouverte d'un double clic, jamais
+  publiée ; les valeurs habituelles dans `generateur/valeurs.local.js`, ignoré par Git ; le prompt renvoie au tronc
+  et aux modules actifs par leur chemin, avec le bloc de paramètres rempli ; un dossier déjà préparé garde ses
+  documents en place, exclus de Git et des recherches ; le contrôle `node generateur/essai_generateur.js`. Premier
+  usage prévu : `C:\projets\Cours\Cours_CDWFS_ASRC_Gestion_de_Projet_MOE`.
 - [ ] **9. Enregistrement audio** : `verifier_elevenlabs.py` d'abord, témoins, séries, quota suivi au registre ;
   la capsule arabe du chapitre 1 (`chapitre-1-capsule-ar.mp3`, nom déjà appelé par la page) ; les dix-huit
   capsules de l'accueil, textes validés (témoins `accueil-capsule-fr.mp3` et `accueil-capsule-en.mp3`), et leur
@@ -130,6 +133,9 @@ Les lots, dans l'ordre validé :
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 22 novembre · lot 8, le générateur de prompt
+> Double-cliquez sur `generateur/index.html` : la page fabrique le prompt de lancement d'un cours, avec vos
+> valeurs habituelles. `632e9b8`.
 > ### 🆕 22 novembre · lot 7 terminé, les prompts numérotés
 > Les dix-sept prompts réalignés sur le gabarit et sans tiret cadratin ; le module 01 corrigé sur deux points.
 > `da73639`. Prochain : le générateur de prompt (lot 8), dont le cadrage a commencé.
@@ -458,6 +464,10 @@ anglais, rendue `<span lang="fr">` (`qcm/qcm_commun.py`).
 
 ## 🔗 Ouvert — dans les cours créés depuis le gabarit (hors de ce dépôt)
 
+- **Cours de gestion de projet (MOE), CDWFS et ASRC** (`C:\projets\Cours\Cours_CDWFS_ASRC_Gestion_de_Projet_MOE`,
+  préparé par l'auteur) : `Doc_Reference/` contient un `elevenlabs.json`, un secret parmi les documents (jamais
+  ouvert). Le cours recevra sa propre copie du gabarit : à retirer de `Doc_Reference/` par l'auteur. Le gabarit
+  n'exclut de Git que `sources/` : le prompt du générateur fait exclure `Doc_Reference/` avant `git init`.
 - **Cours de veille technologique** (`C:\projets\Cours\Cours_CDWFS_ASRC_Veille_Techno`) : sa liste « Remontées pour le
   gabarit » (`TODO.md`) peut se mettre à jour — dix de ses treize remontées sont dans le gabarit ; restent la bascule
   de filière, `generer_playlist.py --essai` et l'indice de longueur, candidats ci-dessus. Dans son dépôt, avec
