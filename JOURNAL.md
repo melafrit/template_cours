@@ -9,6 +9,62 @@
 
 ---
 
+## 22 novembre 2026 · le générateur après son premier usage (`bba8c23`)
+
+### Les décisions de l'auteur
+
+- **Le prompt complet du cours MOE**, demandé d'après le premier prompt sorti de la page : corrigé à la main et
+  livré (chemins relatifs, FM02 et Bloc 4, promotion à demander, consignes en prose, deux secrets nommés, Jour 1 au
+  23 novembre 2026).
+- **Corriger le générateur** d'après ce premier usage, témoin d'abord.
+
+### Les défauts relevés
+
+Le prompt que l'auteur a obtenu de la page portait cinq défauts. Ses chemins étaient absolus, à antislashs. Ses
+consignes sur le fil rouge et le TP étaient tombées dans des valeurs du YAML. La règle des secrets se limitait aux
+`.json`, alors qu'un fichier de mot de passe se trouvait parmi les documents. La promotion « 2027 » n'est pas un nom
+que l'application Livrables reconnaît. Le cours disait « M02 » et ses filières « FM02 », avec « Bloc 04 » contre
+« Bloc 4 ».
+
+### Le travail
+
+- `generateur/generateur.js` : les chemins nettoyés (barres obliques, guillemets ôtés) et relatifs au dossier du
+  cours ; le dossier de base seul dit « à préciser » ; `verifications()`, une fonction pure, relève les points à
+  vérifier, chacun avec son texte pour la page et, s'il demande une décision, sa consigne pour le prompt ; les
+  consignes de l'auteur sous « Ce que l'auteur a précisé », retours à la ligne gardés ; les secrets nommés ; la règle
+  des fichiers de configuration et de mot de passe, pour un dossier préparé comme pour `sources/`.
+- `index.html` et `page.js` : les champs des consignes (fil rouge, TP, autres), du projet fil rouge par filière et des
+  secrets ; l'encadré « À vérifier » au-dessus du prompt ; le prompt replié à la largeur de sa zone ; un brouillon
+  d'une version plus ancienne complété au chargement.
+- `essai_generateur.js` : cinq cas au lieu de trois, dont la saisie du premier usage et un Jour 1 lointain.
+- `generateur/LISEZMOI.md` : les consignes, les chemins, les points à vérifier.
+
+### Ce qui a été vérifié
+
+Le contrôle passe (cinq cas). Sept défauts introduits exprès dans une copie du moteur sont tous attrapés. Le témoin,
+la saisie de l'auteur rangée dans les nouveaux champs, redonne le prompt corrigé à la main, à une différence près :
+« M02 » n'est plus remplacé en silence, le prompt fait demander lequel garder. Telle que l'auteur l'avait tapée, la
+saisie déclenche six signalements. Au navigateur, la saisie a été refaite champ par champ ; la console reste vide, en
+clair et en sombre, à 1280 et 375 px sans débordement. Le brouillon déjà présent dans l'onglet a été mis de côté,
+puis remis.
+
+### Ce qui n'est pas fait
+
+Les boutons Copier et Télécharger, inchangés, n'ont pas été retestés. Le générateur ne reformule pas les libellés de
+l'auteur (les simulateurs restent tels que saisis). Les deux secrets du cours MOE restent à retirer de ses documents
+par l'auteur.
+
+### Pièges appris
+
+- **Une consigne dans un champ court devient une donnée** : dans le YAML, Claude la lit comme une valeur, et ses
+  chemins à antislashs s'y doublent. La page sépare les deux et signale une phrase restée dans un champ court.
+- **« Copier en tant que chemin » met des guillemets** : Windows les interdit dans un nom de fichier, un champ de
+  chemin peut donc les perdre sans risque.
+- **Corriger en silence, c'est trancher à la place de l'auteur** : « M02 » contre « FM02 » peut être une faute de
+  frappe ou un choix. Le prompt pose la question au lieu de choisir.
+
+---
+
 ## 22 novembre 2026 · lot 8, le générateur de prompt (`632e9b8`)
 
 ### Les décisions de l'auteur

@@ -105,7 +105,8 @@ Les lots, dans l'ordre validé :
   publiée ; les valeurs habituelles dans `generateur/valeurs.local.js`, ignoré par Git ; le prompt renvoie au tronc
   et aux modules actifs par leur chemin, avec le bloc de paramètres rempli ; un dossier déjà préparé garde ses
   documents en place, exclus de Git et des recherches ; le contrôle `node generateur/essai_generateur.js`. Premier
-  usage prévu : `C:\projets\Cours\Cours_CDWFS_ASRC_Gestion_de_Projet_MOE`.
+  usage, le cours MOE (22 novembre 2026) : cinq défauts corrigés (`bba8c23`), dont les consignes en prose, les
+  chemins relatifs au dossier du cours et l'encadré « À vérifier ».
 - [ ] **9. Enregistrement audio** : `verifier_elevenlabs.py` d'abord, témoins, séries, quota suivi au registre ;
   la capsule arabe du chapitre 1 (`chapitre-1-capsule-ar.mp3`, nom déjà appelé par la page) ; les dix-huit
   capsules de l'accueil, textes validés (témoins `accueil-capsule-fr.mp3` et `accueil-capsule-en.mp3`), et leur
@@ -133,6 +134,9 @@ Les lots, dans l'ordre validé :
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 22 novembre · le générateur après son premier usage
+> Des champs de consignes en prose, les chemins nettoyés et relatifs au dossier du cours, les secrets nommés,
+> un encadré « À vérifier » (promotion, bloc, module, Jour 1 proche). `bba8c23`.
 > ### 🆕 22 novembre · lot 8, le générateur de prompt
 > Double-cliquez sur `generateur/index.html` : la page fabrique le prompt de lancement d'un cours, avec vos
 > valeurs habituelles. `632e9b8`.
@@ -465,9 +469,10 @@ anglais, rendue `<span lang="fr">` (`qcm/qcm_commun.py`).
 ## 🔗 Ouvert — dans les cours créés depuis le gabarit (hors de ce dépôt)
 
 - **Cours de gestion de projet (MOE), CDWFS et ASRC** (`C:\projets\Cours\Cours_CDWFS_ASRC_Gestion_de_Projet_MOE`,
-  préparé par l'auteur) : `Doc_Reference/` contient un `elevenlabs.json`, un secret parmi les documents (jamais
-  ouvert). Le cours recevra sa propre copie du gabarit : à retirer de `Doc_Reference/` par l'auteur. Le gabarit
-  n'exclut de Git que `sources/` : le prompt du générateur fait exclure `Doc_Reference/` avant `git init`.
+  préparé par l'auteur) : `Doc_Reference/` contient deux secrets parmi les documents, jamais ouverts,
+  `elevenlabs.json` et `Templates/Mot de passe.txt`. À retirer de `Doc_Reference/` par l'auteur (le cours recevra
+  sa propre copie du fichier `elevenlabs.json`, celle du gabarit) ; d'ici là, le prompt de lancement les nomme. Le
+  gabarit n'exclut de Git que `sources/` : le prompt du générateur fait exclure `Doc_Reference/` avant `git init`.
 - **Cours de veille technologique** (`C:\projets\Cours\Cours_CDWFS_ASRC_Veille_Techno`) : sa liste « Remontées pour le
   gabarit » (`TODO.md`) peut se mettre à jour — dix de ses treize remontées sont dans le gabarit ; restent la bascule
   de filière, `generer_playlist.py --essai` et l'indice de longueur, candidats ci-dessus. Dans son dépôt, avec
