@@ -9,6 +9,46 @@
 
 ---
 
+## 22 novembre 2026 · lot 2, le cahier de texte Yparéo (`0211023`)
+
+### Les décisions de l'auteur
+
+- **Le témoin validé** (le cahier de la démonstration, en texte et en Word), puis la série : le remplacement de
+  l'ancien générateur, `nouveau_cours.py`, la documentation.
+
+### Le travail
+
+- `outils/sessions.py` : la date de chaque jour, la promotion, la matière ; les dates de la démonstration sont
+  fictives (lundi 11 et mardi 12 janvier 2027). Son contrôle refuse un jour sans date, un week-end, des dates dans
+  le désordre, une promotion sans « › ».
+- `outils/generer_cahier_de_texte.py` : un bloc par séance, la ligne datée de la séance, ses chapitres, CONTENU DE
+  LA SÉANCE (le sous-titre et les objectifs de chaque chapitre, lus dans sa page ; l'atelier) et TRAVAIL À FAIRE (le
+  travail, ce qu'il faut rendre avec sa date réelle, le dépôt sur Livrables, le support). En `.txt`, en fins de
+  ligne Windows et avec les espaces insécables, et en `.docx`. La version avec identifiants sort quand
+  `docs/acces.json` existe ; `.gitignore` et `.rgignore` l'écartent. `--essai` signale un cahier périmé, sans
+  échouer sur un cahier absent (les cahiers ne sont jamais versionnés).
+- `docs/generate_cahier_de_texte.py` retiré : il gardait des restes d'un autre cours.
+- `nouveau_cours.py` : des sessions vides dans un cours créé, qui ne reçoit pas les cahiers de la démonstration.
+
+### Ce qui a été vérifié
+
+Le cahier de la démonstration : quatre séances, la version de travail au lundi 17 h 00, le dossier final au dimanche
+17 janvier 2027 à 23 h 59, aucun tiret cadratin, 69 fins de ligne Windows ; le Word, un titre par séance. Trois cours
+générés : sessions vides et cohérentes, un cahier qui répond « aucune séance », aucune copie de la démonstration.
+Contrôles verts, sauf les 91 tirets du lot S4.
+
+### Ce qui n'est pas fait
+
+La version avec identifiants, faute de `docs/acces.json` dans le gabarit ; le classeur Livrables.
+
+### Pièges appris
+
+- **`lower()` sur une phrase entière** écrivait « le qcm » : seule la première lettre se baisse.
+- **Un contrôle de péremption sur des fichiers jamais versionnés** échouerait sur chaque clone neuf : un cahier absent
+  n'est pas périmé.
+
+---
+
 ## 22 novembre 2026 · lot 2, le programme sur l'accueil (`088a1a8`)
 
 ### Les décisions de l'auteur

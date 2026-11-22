@@ -59,11 +59,11 @@ Les lots, dans l'ordre validé :
   deux ; les dates réelles et les promotions dans `outils/sessions.py`, versionné dans un cours, fictif dans le
   gabarit ; une version de travail obligatoire et non notée ; le programme de démonstration (deux jours, quatre
   séances) ; la carte Durée en jours. Fait : `seances.py`, `programme.py`, le programme et les échéances de
-  l'accueil, un programme vide dans un cours créé (`088a1a8`). Restent : `sessions.py` ; le cahier de texte, texte
-  et Word, avec et sans identifiants (il remplacera `docs/generate_cahier_de_texte.py`, qui garde des restes d'un
-  autre cours) ; le classeur d'import Livrables (cinq feuilles, un par promotion, et le mode d'emploi des réglages
-  à refaire à la main : barème du QCM, malus) ; les boutons des épreuves et la pastille ; le bloc `ecole` de
-  `cours.json` ; la documentation (module 07, GUIDE, CHECKLIST) ; l'arabe.
+  l'accueil, un programme vide dans un cours créé (`088a1a8`) ; `sessions.py` et le cahier de texte, texte et
+  Word, avec et sans identifiants, qui remplace l'ancien générateur (`0211023`). Restent : le classeur d'import
+  Livrables (cinq feuilles, un par promotion, la colonne Contenu des séances reprise du cahier, et le mode
+  d'emploi des réglages à refaire à la main : barème du QCM, malus) ; les boutons des épreuves et la pastille ; le
+  bloc `ecole` de `cours.json` ; la documentation (GUIDE, CHECKLIST) ; l'arabe.
 - [x] **3. Page d'accueil**, avec les fiches de ses capsules de section. Redemandée par l'auteur le
   21 novembre, avec un troisième modèle, le cours de veille technologique (`Cours_EADL_Veille_Techno`), et
   traitée avant le bloc école. L'accueil ✅ (`0910118` : français et anglais, `outils/accueil.py`, couleurs du
@@ -116,6 +116,10 @@ Les lots, dans l'ordre validé :
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 22 novembre · lot 2, le cahier de texte Yparéo
+> `outils/sessions.py` porte les seules dates du dépôt ; `outils/generer_cahier_de_texte.py` écrit le cahier
+> en texte et en Word, avec et sans les identifiants du site, et remplace l'ancien générateur. `0211023`.
+> Reste le classeur Livrables.
 > ### 🆕 22 novembre · lot 2, le programme sur l'accueil
 > `outils/seances.py`, source unique du bloc école et sans aucune date, porte les séances, le travail et les
 > livrables ; l'accueil en tire son programme, ses échéances et la durée en jours. Sept décisions de l'auteur,
