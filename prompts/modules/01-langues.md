@@ -170,14 +170,15 @@ cours de référence quand il existe :
   durée et débit contrôlés par le générateur (module 04).
 - **Une piste par langue**, nommée `chapitre-<N>-capsule-<langue>.mp3` : sans le suffixe,
   l'auditeur d'une autre langue entend la racine. La capsule arabe du chapitre 1
-  (`chapitre-1-capsule-ar.mp3`) est déjà appelée par sa page.
+  (`chapitre-1-capsule-ar.mp3`) est déjà appelée par sa page ; le générateur ne la produit qu'avec la
+  voix choisie pour l'arabe (`voix_id_ar`), jamais avec le clone français ni l'accent parisien.
 - Les fiches traduites vivent à côté de celles de la racine, avec le suffixe de leur langue
   (`docs/prompts/Capsules_accueil_en.md`), jamais dans un sous-dossier, que les outils ne
   lisent pas. Elles gardent **les mêmes marqueurs** : mêmes faits, même ordre, autant de paragraphes et
   de balises de jeu (« speaking slowly » dans chacune), longueur à 10 % près ; nombres et
-  sigles écrits pour la voix (« S.A.D. »), la transcription les écrivant normalement. Tant que
-  `synchroniser_capsules.py` ne sait pas l'arabe, la transcription arabe s'écrit dans la page
-  et se reporte dans la fiche plus tard (registre).
+  sigles écrits pour la voix (« S.A.D. »), la transcription les écrivant normalement. La
+  transcription arabe vit dans la fiche comme les autres : `synchroniser_capsules.py` la reporte
+  dans la jumelle de `ar/`.
 - **Un texte enregistré ne se change jamais sans réenregistrer la piste** ; un écart se note
   dans `TODO.md`.
 

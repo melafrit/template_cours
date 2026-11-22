@@ -323,7 +323,7 @@ def tableau(lg, bruts, a_publier, essai):
         if diapos:
             etat += " · diaporama : %d diapositive%s" % (diapos["n"], "s" if diapos["n"] > 1 else "")
         if num in a_publier:
-            etat = ("à publier — " if essai else "publié par cette passe — ") + etat
+            etat = ("à publier · " if essai else "publié par cette passe · ") + etat
         print("  %2d  %-34s %s" % (num, ep["nom"], etat))
 
 

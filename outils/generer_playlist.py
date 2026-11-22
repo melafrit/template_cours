@@ -24,8 +24,6 @@ langue, d'après le suffixe de son fichier : playlist.js ne montre à une page q
 les pistes de sa langue.
 """
 
-LANGUES_JUMELLES = ("en", "ar")
-
 import glob
 import io
 import json
@@ -39,6 +37,10 @@ RACINE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # les fiches de production et la documentation, qui ne sont pas publies.
 SITE = os.path.join(RACINE, "site")
 SORTIE = os.path.join(SITE, "assets", "js", "playlist-data.js")
+# Les jumelles du site miroir, lues après la page de la racine ; avec le français, les langues reconnues au
+# suffixe d'une piste (« -ar.mp3 »). Un nom qui finit par deux autres lettres (« -tp.mp3 ») n'a pas de langue.
+LANGUES_JUMELLES = ("en", "ar")
+LANGUES = ("fr",) + LANGUES_JUMELLES
 
 
 def duree_reelle(chemin):
@@ -86,7 +88,7 @@ def pistes_du_chapitre(n, chemin_page, jumelles=()):
     # Le podcast existe par langue : « chapitre-1-podcast.fr.mp3 ». On indexe
     # chaque langue trouvee, et on retombe sur le nom sans suffixe pour un
     # cours monolingue.
-    for langue in (("fr", "en", "ar", None) if n else ()):
+    for langue in ((LANGUES + (None,)) if n else ()):
         for ext in ("mp3", "m4a", "wav"):
             suffixe = ("." + langue) if langue else ""
             rel = "assets/media/podcasts/chapitre-%d-podcast%s.%s" % (n, suffixe, ext)
@@ -130,7 +132,7 @@ def pistes_du_chapitre(n, chemin_page, jumelles=()):
         vues.add(chemin)
         suite = m.string[m.end():m.end() + 400]
         ttl = re.search(r'capsuleTitre: "([^"]*)"', suite)
-        lg = re.search(r"-([a-z]{2})\.mp3$", chemin)
+        lg = re.search(r"-(%s)\.mp3$" % "|".join(LANGUES), chemin)
         absolu = os.path.join(SITE, chemin.replace("/", os.sep))
         pistes.append({
             "type": "ouverture",

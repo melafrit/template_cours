@@ -102,8 +102,18 @@ PLAFOND_V4 = 190
 # « parisien marqué » en ferait une caricature. Le témoin tranche ; la
 # configuration peut surcharger ces valeurs (clé « accent »), et le script le
 # signale.
+#
+# Une piste arabe (-ar.mp3) n'en reçoit pas non plus, et ne part qu'avec la voix
+# choisie pour elle (voix_id_ar, VOIX_PROPRE) : sans elle, le générateur la
+# laisse en attente plutôt que de la confier au clone français. Sa voix et son
+# accent restent à décider avec l'auteur (prompts/modules/01-langues.md,
+# section 4). Les clés d'ACCENTS sont aussi les langues que le générateur
+# reconnaît au suffixe d'un fichier.
 ACCENT_V4 = "strong Parisian French accent"
-ACCENTS = {"fr": ACCENT_V4, "en": ""}
+ACCENTS = {"fr": ACCENT_V4, "en": "", "ar": ""}
+VOIX_PROPRE = ("ar",)
+# Les dossiers des jumelles du site miroir, parcourus après la racine.
+LANGUES_JUMELLES = ("en", "ar")
 
 for flux in (sys.stdout, sys.stderr):
     try:
@@ -124,9 +134,10 @@ def avec_accent(script, accent):
 
 
 def langue_piste(nom):
-    """« fr » ou « en », d'après le suffixe du fichier — chapitre-1-capsule-en.mp3 pour une capsule,
-    chapitre-1-podcast.en.mp3 pour un podcast ; une piste sans suffixe est française."""
-    m = re.search(r"[-.](fr|en)\.mp3$", nom)
+    """La langue d'une piste, d'après le suffixe de son fichier : chapitre-1-capsule-ar.mp3 pour une capsule,
+    chapitre-1-podcast.en.mp3 pour un podcast. Une piste sans suffixe de langue connue (une clé d'ACCENTS) est
+    française, même si son nom finit par deux lettres (« -tp.mp3 »)."""
+    m = re.search(r"[-.](%s)\.mp3$" % "|".join(ACCENTS), nom)
     return m.group(1) if m else "fr"
 
 
@@ -267,12 +278,14 @@ def pages_a_scruter():
     soutenance, le QCM) : limiter la recherche à chapitres/0*.html rendait ses
     pistes invisibles au générateur.
 
-    En site miroir, les jumelles de site/en/ déclarent leurs propres pistes
-    (…-en.mp3) : on les parcourt après les pages françaises, sinon les capsules
-    anglaises n'existaient pour le générateur que dans les fiches.
+    En site miroir, les jumelles de site/en/ et de site/ar/ déclarent leurs
+    propres pistes (…-en.mp3, …-ar.mp3) : on les parcourt après les pages
+    françaises, sinon leurs capsules n'existaient pour le générateur que dans
+    les fiches.
     """
     pages = []
-    racines = [SITE] + ([os.path.join(SITE, "en")] if os.path.isdir(os.path.join(SITE, "en")) else [])
+    racines = [SITE] + [os.path.join(SITE, lg) for lg in LANGUES_JUMELLES
+                        if os.path.isdir(os.path.join(SITE, lg))]
     for racine in racines:
         pages += [(int(os.path.basename(p)[:2]), p)
                   for p in sorted(glob.glob(os.path.join(racine, "chapitres", "[0-9][0-9]-*.html")))]
@@ -484,7 +497,7 @@ def main():
     tolerances = tolerances_des_fiches()
     seuils_base = cfg["controles"]
 
-    travail, sans_script = [], []
+    travail, sans_script, sans_voix = [], [], []
     for n, cid, nom, titre in pistes_attendues():
         if args.chapitre and n != args.chapitre:
             continue
@@ -500,7 +513,14 @@ def main():
             continue
         langue = langue_piste(nom)
         accent = "" if (args.sans_accent or not v4) else cfg["accents"].get(langue, "")
-        voix = cfg.get("voix_id_en") if langue == "en" and cfg.get("voix_id_en") else cfg["voix_id"]
+        # La voix de la langue quand la configuration en déclare une (voix_id_en…), sinon le
+        # clone de l'auteur. Une langue de VOIX_PROPRE n'a pas ce repli : sans sa voix, sa piste attend.
+        voix = str(cfg.get("voix_id_%s" % langue) or "").strip()
+        if voix in GABARITS:
+            if langue in VOIX_PROPRE:
+                sans_voix.append((n, nom, langue))
+                continue
+            voix = cfg["voix_id"]
         # La fenêtre de durée : celle de la fiche si elle en déclare une ; en v4,
         # celle que donnent ses mots entre les débits plafond et plancher.
         m = mots_parles(sc)
@@ -520,8 +540,13 @@ def main():
         print("  /!\\ %d piste(s) sans script dans les fiches :" % len(sans_script))
         for n, nom in sans_script[:5]:
             print("      %-4s %s" % (etiquette(n), nom))
+    if sans_voix:
+        print("  /!\\ %d piste(s) en attente de leur voix (outils/elevenlabs.json) :" % len(sans_voix))
+        for n, nom, langue in sans_voix[:5]:
+            print("      %-4s %-46s voix_id_%s" % (etiquette(n), nom[:46], langue))
     if not travail:
-        print("  rien à faire : toutes les pistes demandées sont déjà en place.")
+        print("  rien d'autre à générer." if sans_script or sans_voix
+              else "  rien à faire : toutes les pistes demandées sont déjà en place.")
         return 0
 
     total_car = sum(len(t[3]) for t in travail)
@@ -532,7 +557,7 @@ def main():
     print("  modèle « %s », vitesse %s%s%s" % (
         cfg["modele"], cfg.get("reglages", {}).get("vitesse", 1.0),
         ", accent « %s » (pistes françaises)" % cfg["accents"].get("fr") if v4 and not args.sans_accent else "",
-        " — témoin, rien n'est déposé" if args.temoin else ""))
+        ", témoin : rien n'est déposé" if args.temoin else ""))
 
     if len(travail) > 1 and not args.temoin and not args.serie and not temoins_existants(cfg["modele"]):
         print("\n  /!\\ Aucun témoin pour « %s » dans ce cours : écoutez-en un avant toute série."

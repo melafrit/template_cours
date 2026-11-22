@@ -24,7 +24,9 @@ CONVENTION DE NOMMAGE
 
 Le suffixe de langue n'est pas décoratif : une page bilingue doit servir la
 capsule de la langue affichée. Sans lui, l'auditeur anglophone entend du
-français.
+français. En site miroir, la page de chapitres/ reçoit la capsule française, et
+chaque jumelle (en/, ar/) celle de sa langue.
+
 LES FICHES : toutes celles de docs/prompts/ dont le nom commence par
 « Capsules » (Capsules_du_cours_demo.md et Capsules_accueil.md dans le template,
 Capsules_chapitres.md dans un cours…). Deux genres sont reportés ici : les
@@ -47,6 +49,9 @@ import sys
 RACINE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = os.path.join(RACINE, "site")
 FICHES = os.path.join(RACINE, "docs", "prompts", "Capsules*.md")
+# Les langues des capsules de chapitre : celle de la racine, puis celles des jumelles du site miroir.
+LANGUES_JUMELLES = ("en", "ar")
+LANGUES = ("fr",) + LANGUES_JUMELLES
 
 for flux in (sys.stdout, sys.stderr):
     try:
@@ -69,7 +74,7 @@ def capsules_de_la_fiche():
         if not m:
             continue
         nom = m.group(1)
-        n = re.match(r"chapitre-(\d+)-capsule-(fr|en)\.mp3$", nom)
+        n = re.match(r"chapitre-(\d+)-capsule-(%s)\.mp3$" % "|".join(LANGUES), nom)
         if not n:
             # podcasts, schémas, TP… : d'autres genres, qui ne vivent pas dans TEXTES
             continue
@@ -137,8 +142,8 @@ def injecter_accueil(page, caps, essai):
 
 def injecter(page, chap, caps, essai, langues=("fr", "en"), prefixe="../"):
     """Écrit src, durée et transcription dans le bloc TEXTES de la page, pour ses langues : les deux en modèle
-    data-tr ; en site miroir, le français dans la page de chapitres/, l'anglais dans sa jumelle de en/chapitres/
-    (prefixe « ../../ »)."""
+    data-tr ; en site miroir, le français dans la page de chapitres/, chaque autre langue dans sa jumelle
+    (en/chapitres/, ar/chapitres/, prefixe « ../../ »)."""
     brut = io.open(page, "rb").read()
     nl = "\r\n" if b"\r\n" in brut else "\n"   # on garde les fins de ligne de la page (CRLF sous Windows)
     t = brut.decode("utf-8").replace("\r\n", "\n")
@@ -204,10 +209,12 @@ def main():
         if not any(k[0] == chap for k in caps):
             continue
         page = os.path.join(SITE, "chapitres", f)
-        jumelle = os.path.join(SITE, "en", "chapitres", f)
-        # Site miroir : la jumelle anglaise porte la capsule anglaise ; sans jumelle, la page porte les deux.
-        cibles = [(page, f, ("fr",), "../"), (jumelle, "en/" + f, ("en",), "../../")] \
-            if os.path.exists(jumelle) else [(page, f, ("fr", "en"), "../")]
+        jumelles = [(lg, os.path.join(SITE, lg, "chapitres", f)) for lg in LANGUES_JUMELLES]
+        jumelles = [(lg, p) for lg, p in jumelles if os.path.exists(p)]
+        # Site miroir : chaque jumelle (en/, ar/) porte la capsule de sa langue, la page de chapitres/ la
+        # française ; sans jumelle anglaise (modèle data-tr), la page porte le français et l'anglais.
+        racine = ("fr",) if any(lg == "en" for lg, _p in jumelles) else ("fr", "en")
+        cibles = [(page, f, racine, "../")] + [(p, lg + "/" + f, (lg,), "../../") for lg, p in jumelles]
         for chemin, nom, langues, prefixe in cibles:
             if not any((chap, lg) in caps for lg in langues):
                 continue

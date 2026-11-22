@@ -1,7 +1,8 @@
 # Capsules d'ouverture · cours de démonstration
 
-**Six capsules à enregistrer** : une par chapitre, dans les deux langues. Elles
-se placent en tête de chapitre, avant la première section.
+**Sept capsules** : une par chapitre dans les deux langues, et celle du chapitre 1
+en arabe, encore à enregistrer. Elles se placent en tête de chapitre, avant la
+première section.
 
 Ce fichier est la **source unique** : le script part d'ici, la transcription
 affichée sur la page aussi. Ne modifiez jamais la transcription dans le HTML ;
@@ -9,13 +10,13 @@ modifiez-la ici, puis relancez `python3 outils/synchroniser_capsules.py`.
 
 ## ⚠️ À lire avant de commencer
 
-> **Une fiche d'une autre génération.** Ces six capsules de démonstration ont été
-> écrites et générées en **Eleven v3** (balises `[warmly]`, `[pause]`). Tout cours
+> **Une fiche d'une autre génération.** Les six capsules en français et en anglais ont
+> été écrites et générées en **Eleven v3** (balises `[warmly]`, `[pause]`). Tout cours
 > créé depuis le template génère désormais en **Eleven v4**, avec l'accent retenu par
 > l'auteur ajouté par le générateur, sans `[pause]`, témoin d'abord : voir
 > `prompts/14_capsules_audio.md`. Cette fiche reste comme exemple du **format** (les
 > marqueurs que lit le générateur), pas du ton. Elle n'est pas recopiée dans un cours
-> créé.
+> créé. Le script de la capsule arabe, qui reste à écrire, suivra Eleven v4.
 
 - **Durée visée : 40 à 70 secondes.** Chaque script fait environ 115 mots
   parlés, soit ~47 s au débit médian de 146 mots par minute. C'est court à
@@ -32,9 +33,13 @@ modifiez-la ici, puis relancez `python3 outils/synchroniser_capsules.py`.
   l'anglais a un accent : écoutez la première prise avant de générer les deux
   autres. Si le résultat ne convient pas, créez une seconde voix chez
   ElevenLabs et renseignez `voix_id_en` dans `outils/elevenlabs.json`.
+- **La capsule arabe attend sa voix.** Sans `voix_id_ar` dans `outils/elevenlabs.json`,
+  le générateur la laisse en attente plutôt que de la confier au clone français, et
+  elle ne reçoit jamais l'accent parisien. Sa voix et son accent se décident d'abord
+  (`prompts/modules/01-langues.md`, section 4).
 - **Format :** MP3, voix seule, sans musique.
 
-## 📋 Récapitulatif · les six fichiers
+## 📋 Récapitulatif · les sept fichiers
 
 Tous dans `site/assets/media/voix/`.
 
@@ -46,6 +51,7 @@ Tous dans `site/assets/media/voix/`.
 | 4 | 2 · Structuring the content | EN | `chapitre-2-capsule-en.mp3` | ≈ 47 s |
 | 5 | 3 · Créer les ressources | FR | `chapitre-3-capsule-fr.mp3` | ≈ 50 s |
 | 6 | 3 · Creating the resources | EN | `chapitre-3-capsule-en.mp3` | ≈ 50 s |
+| 7 | 1 · تأطير المقرّر | AR | `chapitre-1-capsule-ar.mp3` | ≈ 47 s |
 
 ---
 
@@ -233,6 +239,22 @@ Trois formats, trois intentions. Le texte sert à ce qu'on relit : une définiti
 
 ```
 Three formats, three intentions. Text is for what gets re-read: a definition, a procedure, an exact figure. Audio is for what carries in a voice: an intention, a nuance, an encouragement. A diagram is for what no single sentence can hold. The trap is choosing from the tool you happen to own, rather than from what you want to achieve: you have a microphone, so you record. A definition delivered by voice is lost: you would have to listen again, and nobody listens again. Above all, remember this: two formats that repeat each other are worth less than one well chosen.
+```
+
+---
+
+## Capsule 7 AR · الفصل 1، «تأطير المقرّر»
+
+- **Nom exact du fichier :** `chapitre-1-capsule-ar.mp3`
+- **Emplacement exact :** `site/assets/media/voix/chapitre-1-capsule-ar.mp3`
+- **Durée visée :** ≈ 47 s, comme la capsule française (la tolérance se fixera avec le script)
+
+- [ ] Capsule à enregistrer, une fois sa voix choisie (`voix_id_ar`) et son script écrit
+
+**📄 Transcription affichée sur la page**
+
+```
+مرحبًا بكم في الفصل النموذجي. إنه يقوم بأمرين في آن واحد: يعلّم شيئًا حقيقيًا، هو القرارات الثلاثة التي ينبغي اتخاذها قبل كتابة مقرّر، ويستعمل جميع مكوّنات المحرّك لتروها وهي تعمل. وهذه القرارات الثلاثة هي: لمن، ولأيّ غاية، وحول أيّ محور. وهي تُتَّخذ بهذا الترتيب، لأن كلّ قرار يضيّق مجال القرار الذي يليه. والإغراء هو نفسه دائمًا: أن نفتح معالج النصوص ونبدأ من البداية. فننتج حينها ما نعرفه، لا ما يحتاج إليه المتعلّم. خذوا هذا الفصل نموذجًا تحتذونه، بقدر ما هو فصل تقرؤونه.
 ```
 
 ---

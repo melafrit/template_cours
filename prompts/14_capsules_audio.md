@@ -20,6 +20,7 @@ pas d'une capsule à l'autre.
 | Voix | le clone vocal de l'auteur | `outils/elevenlabs.json` (local, jamais lu ni affiché) |
 | Accent | **« strong Parisian French accent »** sur les pistes françaises | ajouté par le générateur à chaque balise, **jamais écrit dans les scripts** |
 | Pistes anglaises | sans accent ajouté par défaut (le clone a déjà le sien), ou l'accent retenu avec le module 01 ; `voix_id_en` pour une autre voix | `ACCENTS` dans le générateur, que la configuration peut surcharger |
+| Pistes arabes | sans accent ajouté ; une voix choisie pour l'arabe, obligatoire (`voix_id_ar`), sans quoi la piste attend | `ACCENTS` et `VOIX_PROPRE` dans le générateur ; la voix et l'accent se décident avec le module 01 |
 | Ton | pédagogique, académique, professionnel, motivant ; au vouvoiement | ce prompt |
 | Rythme | posé ; « speaking slowly » dans les balises d'une capsule explicative | les scripts |
 | Contrôle | débit 105 à 190 mots/min en v4, silence ≤ 3,6 s, fenêtre de durée déduite des mots | le générateur, avant tout dépôt |

@@ -108,7 +108,8 @@ finir sur **« Tous les cas sont conformes »**.
 
 La chaîne audio sans dépense, si `outils/elevenlabs.json` est en place : modèle
 **eleven_v4**, accent sur les pistes françaises seulement (« sans accent ajouté »
-sur les anglaises), et le rappel du témoin avant toute série.
+sur les anglaises), la capsule arabe du chapitre 1 en attente (de son script, puis
+de sa voix `voix_id_ar`), et le rappel du témoin avant toute série.
 
 - [ ] Au chapitre 1, répondez faux au point de contrôle : l'explication nomme la
       bonne réponse, dit **pourquoi chaque autre proposition** ne convient pas,
