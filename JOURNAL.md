@@ -9,6 +9,31 @@
 
 ---
 
+## 22 novembre 2026 · lot 2, la documentation (`15b456b`)
+
+### Les décisions de l'auteur
+
+- **Le texte validé** avant le commit.
+
+### Le travail
+
+- `docs/GUIDE.md` : l'amorce dit ce que `nouveau_cours.py` écrit du bloc école ; la section 2 ter décrit le
+  programme sans date, les sessions, le cahier de texte, le classeur Livrables et ses réglages, puis l'import par
+  l'auteur, avec un tableau des commandes ; le récapitulatif du pipeline les reprend.
+- `docs/CHECKLIST.md` : `seances.py` et `sessions.py` parmi les vérificateurs, et une phase 14 bis de huit cases,
+  dont deux bloquantes (aucune date dans le contenu, le cahier avec identifiants qui reste sur le poste).
+
+### Ce qui a été vérifié
+
+Aucun tiret cadratin dans le texte ajouté, aucun lien mort. Les titres des anciennes phases de la CHECKLIST gardent
+leur tiret, qui relève du lot de réécriture des documents ; la nouvelle phase prend le point médian.
+
+### Ce qui n'est pas fait
+
+L'arabe du lot 2, qui attend l'accueil arabe (lot 4).
+
+---
+
 ## 22 novembre 2026 · lot 2, le bloc école de cours.json (`4deb980`)
 
 ### Les décisions de l'auteur

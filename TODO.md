@@ -68,7 +68,8 @@ Les lots, dans l'ordre validé :
   du cours EADL (`7914eb8`) ; la démonstration n'en déclare aucune (décision de l'auteur). Le bloc `ecole` de
   `cours.json` (`4deb980`) : un cours créé reçoit ses boutons, les épreuves de ses filières et ses sessions ; le
   modèle porte Livrables, le QCM et une session d'exemple fictive, que le script signale (décisions de l'auteur).
-  Restent : la documentation (GUIDE, CHECKLIST) ; l'arabe. Relevé en chemin, à trancher avec l'auteur : la page du QCM demande d'envoyer le
+  La documentation, GUIDE (section 2 ter) et CHECKLIST (phase 14 bis) (`15b456b`). Reste l'arabe, qui attend
+  l'accueil arabe (lot 4). Relevé en chemin, à trancher avec l'auteur : la page du QCM demande d'envoyer le
   CSV au formateur « par e-mail », alors que les consignes du classeur demandent de le déposer dans
   l'application Livrables.
 - [x] **3. Page d'accueil**, avec les fiches de ses capsules de section. Redemandée par l'auteur le
@@ -123,6 +124,9 @@ Les lots, dans l'ordre validé :
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 22 novembre · lot 2, la documentation
+> Le GUIDE décrit l'école pas à pas (section 2 ter) et la CHECKLIST lui consacre une phase (14 bis).
+> `15b456b`. Le lot 2 est fait, hors l'arabe, qui attend le lot 4.
 > ### 🆕 22 novembre · lot 2, le bloc école de cours.json
 > Un cours créé reçoit de `cours.json` ses boutons (Livrables, QCM), les épreuves de ses filières et ses
 > sessions (promotion, matière, dates réelles). Le modèle porte une session d'exemple fictive, que le script
