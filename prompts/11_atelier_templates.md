@@ -97,7 +97,7 @@ Chaque template doit contenir : page de garde / en-tête (titre du livrable, cou
 
 Fournis le CODE PYTHON complet, exécutable hors-ligne, qui génère TOUS les templates, organisé ainsi :
 - Dépendances en tête (python-docx, openpyxl, et fpdf2 si une version PDF d'aperçu est demandée), avec commande d'installation.
-- Une fonction par template, des noms de fichiers clairs (ex. `atelier_livrable_01_cartographie.xlsx`), un dossier de sortie `atelier/templates/`.
+- Une fonction par template, des noms de fichiers clairs (ex. `atelier_livrable_01_cartographie.xlsx`), un dossier de sortie `site/atelier/templates/`, que le cours crée (les étudiants y téléchargent les modèles).
 - Si {{LANGUES}} compte plusieurs langues : tire les libellés d'un dictionnaire par langue, sans dupliquer la logique. Le script génère d'abord la langue racine ; les versions traduites (suffixe `_fr` / `_en`) suivent avec les autres langues du cours.
 - Code commenté, réutilisable, paramétrable (le scénario et les libellés en variables en haut du fichier).
 

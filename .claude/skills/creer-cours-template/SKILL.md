@@ -48,7 +48,19 @@ Lire le bloc de paramètres fourni (section 3 du prompt paramétrable). Pour cha
 paramètre vide qui ne se déduit pas des sources, **une question à la fois**. Récapituler
 ce qui est fourni, déduit et encore ouvert. **STOP.**
 
-### 2. L'amorçage mécanique · étape zéro
+### 2. Les sources et la conception · Phase 1
+
+- **Les documents de référence** : ceux que l'auteur fournit (un dossier préparé, comme
+  `Doc_Reference/`, ou le `sources/` d'un cours déjà créé). Ils ne sont jamais versionnés
+  (droit d'auteur) ; `sources/bibliographie.md`, lui, l'est et se complète au fil de l'eau.
+- **Lire tous les documents AVANT** la moindre question de fond.
+- Conduire le cadrage comme `prompts/01_cadrage_maitre.md` le prescrit : analyse
+  documentaire, questions une à une, **langues tranchées tôt** (une à trois ; chaque
+  jumelle double la rédaction et l'audio de sa page), activités adaptées au sujet.
+- Proposer la conception (section « Concevoir le cours » du prompt paramétrable), présenter
+  un récapitulatif et attendre un « oui » clair. **STOP.**
+
+### 3. L'amorçage mécanique · étape zéro (Phase 2)
 
 ```
 cp cours.exemple.json cours.json      # Claude le remplit d'après les paramètres
@@ -66,30 +78,21 @@ du cours, chapitre vitrine conservé (`site/chapitres/_modele.html`). Puis initi
 dépôt Git du cours (privé), et le journal : `docs/01-Decisions-de-conception.md`,
 `docs/02-Etat-d-avancement.md`.
 
-### 3. Les sources et le cadrage · Phase 1
-
-- **Les documents de référence vivent dans `sources/`** du cours (non versionnés : droit
-  d'auteur ; `sources/bibliographie.md`, lui, l'est et se complète au fil de l'eau).
-- **Lire tous les documents AVANT** la moindre question de fond.
-- Conduire le cadrage comme `prompts/01_cadrage_maitre.md` le prescrit : analyse
-  documentaire, questions une à une, **langue tranchée tôt** (français seul ou bilingue :
-  le bilingue double la rédaction et l'audio), activités adaptées au sujet.
-- Présenter un récapitulatif et attendre un « oui » clair. **STOP.**
-
-### 4. La production · Phases 2 à 11
+### 4. La production · Phases 2 à 14
 
 Suivre les phases du prompt paramétrable, avec leurs jalons : référentiel du cas,
 squelette, chapitres (STOP après le premier), TP et correction protégée, évaluations
-expliquées, audio (témoin, STOP, série), illustrations, Yparéo et Livrables, déploiement,
-documentation de reprise.
+expliquées, compléments et illustrations, audio (témoin, STOP, série), langues jumelles,
+polycopié, podcasts, Yparéo et Livrables, déploiement, documentation de reprise.
 
 > Détail des phases ↔ fichiers `prompts/` : voir `references/workflow.md`.
 
 ## Conventions imposées par le template
 
-- **Bilingue** (si retenu) : contenu en blocs `data-tr`, libellés des moteurs via `T()`
-  (`ui-labels.js`), contenu des composants dans `TEXTES = { fr, en }`. → skill
-  **`cours-bilingue-i18n`** et `docs/I18N.md`.
+- **Langues** : le site miroir, chaque page dans une seule langue et ses jumelles sous `en/`
+  et `ar/`, écrites une fois la racine stable (module 01) ; libellés des moteurs via `T()`
+  (`ui-labels.js`), contenu des composants dans `TEXTES`. Les blocs `data-tr` restent ceux
+  des cours qui les ont déjà. → `docs/I18N.md` et skill **`cours-bilingue-i18n`**.
 - **Hors-ligne & statique** : HTML/CSS/JS vanilla ; tout fonctionne sans serveur. →
   `docs/ARCHITECTURE.md` §5.
 - **Copier depuis `_modele.html`** plutôt qu'écrire de mémoire. **Ordre d'inclusion des
@@ -101,7 +104,7 @@ documentation de reprise.
 
 Skills domaine à mobiliser selon la tâche :
 
-- **`cours-bilingue-i18n`** : conventions bilingues (data-tr, TPLI18N, formes de données).
+- **`cours-bilingue-i18n`** : conventions des langues (blocs `data-tr` des cours qui les ont, TPLI18N, formes de données).
 - **`cours-qcm-cbm`** : banque QCM à notation CBM (`questions.js` + `corrections.js`).
 - **`cours-glossaire-flashcards-activites`** : glossaire, flashcards, activités.
 - **`cours-supports-imprimables`** : polycopiés et QCM papier.

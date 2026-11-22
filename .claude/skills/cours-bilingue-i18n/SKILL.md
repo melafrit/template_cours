@@ -19,7 +19,7 @@ langue active est portée par `data-lang` sur `<html>`, la langue inactive est *
 change quand on bascule la langue, il est bilingue ; un id / fichier / index / ancre / icône / href
 reste une chaîne neutre.
 
-## Les 3 mécanismes (et quand utiliser chacun)
+## Les six mécanismes (et quand utiliser chacun)
 
 ### 1) CONTENU rédigé en HTML → blocs jumeaux `data-tr`
 Pour tout texte visible écrit en dur (titres, paragraphes, cartes, libellés de boutons-liens). On

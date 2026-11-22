@@ -2,7 +2,7 @@
 
 Document technique pour développeurs. But : comprendre l'organisation du site et l'**étendre** (ajouter un chapitre, des médias, une question de QCM, un terme de glossaire, une activité, changer le thème) sans rien casser.
 
-Le site (`site/`) est **100 % statique** : HTML + CSS + JavaScript *vanilla*, aucun build, aucune dépendance npm, aucun framework. Il est **bilingue FR/EN** (une seule bascule agit sur tout) et **fonctionne hors-ligne** (ouverture directe d'un fichier en `file://`). Les données du cours vivent dans des fichiers JS (`window.XXX = …`) ; les « moteurs » JS les lisent et génèrent l'interface.
+Le site (`site/`) est **100 % statique** : HTML + CSS + JavaScript *vanilla*, aucun build, aucune dépendance npm, aucun framework. Il s'écrit en **une à trois langues**, chaque page dans une seule et ses jumelles sous `en/` et `ar/` au même chemin (le **site miroir**, modèle par défaut), et il **fonctionne hors-ligne** (ouverture directe d'un fichier en `file://`). Les données du cours vivent dans des fichiers JS (`window.XXX = …`) ; les « moteurs » JS les lisent et génèrent l'interface.
 
 ---
 
@@ -20,13 +20,13 @@ site/
 ├── polycopies.html             # Les fiches de synthèse par chapitre (tools/generate_polycopies.py)
 ├── livret/                     # Le livret publié : livret.<langue>.pdf, couverture.<langue>.webp, livret.json
 ├── about.html                  # À propos / crédits / licences
+├── en/                         # Les jumelles anglaises, au même chemin que leur page française (site miroir)
+├── ar/                         # Les jumelles arabes, de droite à gauche (pour l'instant, le chapitre 1)
 │
 ├── chapitres/                  # Une page HTML par chapitre
-│   ├── 01-cadrage.html         # ← CHAPITRE MODÈLE : copier celui-ci pour en créer un
+│   ├── 01-cadrage.html         # ← CHAPITRE MODÈLE (_modele.html dans un cours créé) : copier celui-ci
 │   ├── 02-structurer.html
-│   ├── 03-multimedia.html
-│   ├── 04-evaluer.html
-│   └── 05-accessibilite-diffusion.html
+│   └── 03-multimedia.html
 │
 ├── QCM/                        # Module QCM autonome (4 pages + logique partagée)
 │   ├── index.html              # QCM noté « conditions d'examen » (export CSV signé)
@@ -40,14 +40,23 @@ site/
 └── assets/
     ├── css/
     │   ├── main.css            # Design system : variables (:root), thème, layout, a11y
-    │   └── components.css      # Composants : callouts, cartes, glossaire, contrat i18n
+    │   ├── palettes.css        # Les palettes d'accent, vérifiées en contraste (verifier_contraste.py)
+    │   ├── fonts.css           # Les polices, hébergées dans assets/fonts/ (aucun CDN)
+    │   ├── components.css      # Composants : callouts, cartes, glossaire, contrat i18n
+    │   ├── interactions.css    # Les composants du moteur pédagogique (interactions.js)
+    │   └── filieres.css        # GÉNÉRÉ ⚙️ : la bascule de filière (outils/generer_filieres.py)
     ├── js/
-    │   ├── i18n.js             # MOTEUR : bascule FR/EN (cœur du template), racine du site
-    │   ├── langue.js           # MOTEUR : bouton FR / EN du site miroir (chargé par navigation.js)
+    │   ├── i18n.js             # MOTEUR : langue de la page, API TPLI18N, racine du site (chargé en premier)
+    │   ├── ui-labels.js        # DONNÉES : le dictionnaire des libellés d'interface, appelé par T('cle')
+    │   ├── langue.js           # MOTEUR : bouton des langues du site miroir (chargé par navigation.js)
     │   ├── langues-data.js     # DONNÉES ⚙️ : langue racine, et pages qui ont leur jumelle sous en/, ar/…
     │   ├── navigation.js       # MOTEUR : arbre de nav, thème, progression, sidebar
     │   ├── nav-sections.js     # DONNÉES : sous-sections (ancres) par chapitre
     │   ├── accessibility.js    # MOTEUR : panneau ♿ (taille texte, police DYS, skip-link)
+    │   ├── filiere.js          # MOTEUR : la bascule de filière d'un cours commun à deux filières
+    │   ├── interactions.js     # MOTEUR : window.RDCX, le moteur pédagogique des chapitres (§2.2 bis)
+    │   ├── playlist.js         # MOTEUR : le panneau de lecture, qui rassemble les pistes audio des chapitres
+    │   ├── playlist-data.js    # GÉNÉRÉ ⚙️ : les pistes audio (outils/generer_playlist.py)
     │   ├── media.js            # MOTEUR : chargement auto podcast/slides/infographie/polycopié
     │   ├── media-data.js       # DONNÉES (générées) : les médias déposés, que media.js charge
     │   ├── podcasts.js         # MOTEUR : bande des diapositives et visionneuse de la page Podcasts
@@ -55,21 +64,26 @@ site/
     │   ├── flashcards-data.js  # DONNÉES : cartes par chapitre
     │   ├── glossaire-tooltip.js# MOTEUR : surligne les termes du glossaire dans le texte
     │   ├── glossaire-data.js   # DONNÉES : termes du glossaire (FR/EN, def, ex)
+    │   ├── glossaire-emplois.js# GÉNÉRÉ ⚙️ : « Où en parle-t-on ? » (outils/glossaire_emplois.py)
     │   ├── course-data.js      # DONNÉES : chapitres + ressources (source unique)
     │   ├── tools.js            # MOTEUR : 3 patrons d'activités interactives
     │   ├── animations.js       # MOTEUR : révélation au défilement + détails divers
-    │   └── quiz.js             # (présent dans le dépôt, non inclus par les pages actuelles)
+    │   └── quiz.js             # MOTEUR : le quiz court des chapitres (distinct du QCM noté)
+    ├── fonts/                  # Les polices, servies en local
+    ├── polycopies/             # Les PDF des fiches de synthèse (tools/generate_polycopies.py)
     └── media/                  # Médias par chapitre (déposés à la main, voir §4.2)
         ├── podcasts/           # chapitre-<N>-podcast.<langue>.mp3 ; diaporamas/ de la série (module 03)
-        ├── slides/             # chapitre-<N>-slides.pdf
-        └── infographies/       # chapitre-<N>-infographie.png
+        ├── voix/               # Les capsules : chapitre-<N>-capsule-<langue>.mp3 (outils/generer_audio.py)
+        ├── schemas/            # Les schémas des chapitres, un fichier par langue
+        ├── slides/             # chapitre-<N>-slides.pdf (s'il y en a)
+        └── infographies/       # chapitre-<N>-infographie.png (s'il y en a)
 ```
 
 > **Notes d'état réel du dépôt :**
-> - Les dossiers `assets/media/*` sont **vides** par défaut (vous déposez vos fichiers). Voir §4.2.
+> - Dans un cours créé, les dossiers `assets/media/*` partent **vides** : vous y déposez vos fichiers. Voir §4.2.
 > - `media.js` référence aussi `assets/polycopies/chapitre-<N>-polycopie.<langue>.pdf` et `assets/player.html` (pop-out du lecteur audio) : ces emplacements sont **optionnels** et **absents par défaut**. Le code dégrade proprement (rien ne s'affiche si le fichier n'existe pas).
-> - `atelier/templates/` existe (vide) ; `atelier.html` est une page de contenu statique.
-> - `assets/js/quiz.js` est présent mais **n'est référencé par aucune page** : la logique de quiz active est celle de `QCM/qcm-core.js` + les scripts inline des pages QCM.
+> - Le gabarit ne livre aucun dossier de modèles d'atelier : un cours qui en fabrique (prompt 11) les range dans `site/atelier/templates/`, et les scripts qui les produisent dans `tools/`. `atelier.html` est une page de contenu statique.
+> - `assets/js/quiz.js` sert le quiz court des chapitres, qui le chargent. Le QCM noté, lui, vit dans `QCM/` (`qcm-core.js` et les scripts des pages QCM).
 
 ---
 
@@ -77,7 +91,14 @@ site/
 
 ### 2.1 Le contrat bilingue (à comprendre AVANT tout le reste)
 
-Trois mécanismes coexistent ; un développeur qui ajoute du contenu doit choisir le bon :
+**Le modèle par défaut est le site miroir** (`docs/I18N.md`, partie A) : chaque page est écrite dans une seule langue,
+qu'elle déclare sur `<html>` (`lang`, `data-langues`), et ses jumelles vivent sous `en/` et `ar/`, au même chemin. Le
+bouton des langues (`langue.js`, chargé par `navigation.js`) mène d'une jumelle à l'autre ; l'arabe passe la page de
+droite à gauche. Une telle page n'a besoin que du mécanisme 3 ci-dessous : ses moteurs lisent sa langue et prennent
+leurs libellés dans les dictionnaires. Les mécanismes 1 et 2 sont ceux du modèle en blocs `data-tr`, que gardent les
+cours qui l'ont déjà.
+
+En modèle `data-tr`, trois mécanismes coexistent ; un développeur qui ajoute du contenu doit choisir le bon :
 
 1. **Contenu rédigé en HTML** (deux blocs jumelés, l'inactif est masqué *en CSS*) :
    ```html
@@ -102,13 +123,14 @@ Trois mécanismes coexistent ; un développeur qui ajoute du contenu doit choisi
 
 | Méthode | Effet |
 |---|---|
-| `TPLI18N.lang()` | renvoie `'fr'` ou `'en'` (langue courante) |
+| `TPLI18N.lang()` | renvoie la langue de la page : `'fr'`, `'en'` ou `'ar'` |
+| `TPLI18N.dir()` | renvoie `'rtl'` pour l'arabe, `'ltr'` sinon |
 | `TPLI18N.set('en')` | change la langue, persiste, émet `tpl:langchange` |
 | `TPLI18N.toggle()` | bascule FR↔EN |
 | `TPLI18N.refresh(root)` | ré-applique les attributs i18n après injection dynamique de HTML |
-| `TPLI18N.supported()` | `['fr','en']` |
+| `TPLI18N.supported()` | les langues que la page déclare (`data-langues`) : une seule dans un site miroir |
 
-`i18n.js` injecte aussi le bouton 🌐 dans `.header-right`, choisit la langue initiale (localStorage `tpl-lang` → langue navigateur → `lang` du document), et applique tout *le plus tôt possible* pour éviter un flash de la mauvaise langue.
+Sur une page qui déclare deux langues (modèle `data-tr`), `i18n.js` injecte aussi le bouton 🌐 dans `.header-right`, choisit la langue initiale (localStorage `tpl-lang` → langue navigateur → `lang` du document), et applique tout *le plus tôt possible* pour éviter un flash de la mauvaise langue.
 
 ### 2.2 Moteurs JS
 

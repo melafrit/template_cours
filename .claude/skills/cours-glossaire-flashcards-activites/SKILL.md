@@ -25,11 +25,11 @@ Ajouter une entrée au tableau `window.GLOSSARY` dans `assets/js/glossaire-data.
 
 - `def` et `ex` sont obligatoires en `{fr,en}` ; la def est tronquée à ~180 car. dans l'info-bulle (intégrale au glossaire).
 - `glossaire.html` régénère sa grille filtrable (recherche FR+EN, compteur, suit la bascule de langue).
-- `glossaire-tooltip.js` surligne **la 1re occurrence** du terme **dans la langue courante**, hors titres (`h1`–`h4`), liens (`a`/`button`), code (`code`/`pre`) et encarts spéciaux (`.law-ref`, `.gloss`, etc.) ; il re-scanne au changement de langue. Aucune liste codée en dur : les termes dérivent de `GLOSSARY` lui-même.
+- `glossaire-tooltip.js` surligne **la 1re occurrence** du terme **dans la langue courante**, hors titres (`h1`–`h4`), liens (`a`/`button`), code (`code`/`pre`) et encarts spéciaux (`.law-ref`, `.gloss`, etc.) ; il re-scanne au changement de langue. Aucune liste codée en dur dans le moteur : il ne rend interactifs que les termes de `GLOSSARY_CURATED` (ci-dessous).
 
-**ALIASES** : variantes orthographiques → entrée canonique. À régler dans l'objet `ALIASES` de `glossaire-tooltip.js` (par langue), p. ex. `'données personnelles' → 'donnée à caractère personnel'`. Utile pour rattacher pluriels/synonymes à une seule entrée.
+**`GLOSSARY_ALIASES`** (`glossaire-data.js`) : variantes d'écriture → entrée canonique, p. ex. `'données personnelles' → 'donnée à caractère personnel'`. Utile pour rattacher pluriels et synonymes à une seule entrée ; le moteur la lit sous le nom `ALIASES`. Les autres formes d'un terme, langue par langue, vont dans son champ `alias` (`{ fr: [...], en: [...] }`), que lisent les pages anglaises et `outils/glossaire_emplois.py` ; les expressions où le mot ne désigne pas la notion vont dans son champ `exclus`.
 
-**curated:true (optionnel)**, pour ne lier en info-bulle qu'**une sélection** de termes : ajouter `curated: true` aux entrées voulues, puis **décommenter le filtre** dans la fonction `curated()` de `glossaire-tooltip.js`. Sans ça, tous les termes du glossaire sont candidats.
+**`GLOSSARY_CURATED`** (`glossaire-data.js`) : la liste des termes rendus interactifs dans les chapitres, par leur forme française. Seuls ceux-là ont une info-bulle ; au-delà d'une quinzaine de termes par chapitre, la page se couvre de pointillés et plus personne ne clique.
 
 Inclusion (page de chapitre) : `glossaire-data.js` **avant** `glossaire-tooltip.js`.
 

@@ -67,8 +67,10 @@ outil qui sert des fichiers, faites de même.
 
 ## 4. Ne jamais éditer un fichier généré
 
-Trois fichiers de ce dépôt sont produits par un script : l'index de playlist,
-l'index des sections, et les transcriptions des capsules. Les corriger à la
+Plusieurs fichiers de ce dépôt sont produits par un script : l'index de playlist,
+l'index des sections, les transcriptions des capsules, les fragments des pages, la
+liste des médias, entre autres ; le tableau du § 4 de `CLAUDE.md` les liste tous,
+avec la source de chacun. Les corriger à la
 main donne l'illusion d'avoir résolu le problème, jusqu'à la régénération
 suivante, qui écrase tout sans prévenir.
 
@@ -322,6 +324,16 @@ externe s'ouvre donc avant d'être ajouté, s'affiche dans un nouvel onglet
 
 ---
 
+## 19. Vérifier sans écran
+
+L'onglet de navigateur intégré à l'outil ne s'affiche pas toujours. Un navigateur
+sans interface (Edge ou Chrome lancé en `--headless`, piloté par le protocole de
+débogage) fait alors les captures et les parcours automatiques : cliquer chaque
+proposition d'un quiz, mesurer un contraste, vérifier qu'une ancre est visible.
+Ce qui compte, c'est que la vérification ait lieu, pas l'outil qui la fait.
+
+---
+
 ## 19 bis. Un remplacement qui commence par un chiffre
 
 En Python, `re.sub(motif, r'\1%s' % nom, texte)` paraît anodin. Si `nom` vaut
@@ -335,13 +347,3 @@ d'explications.
 **La règle** : dans un remplacement, `\g<1>` plutôt que `\1`, ou une fonction
 (`lambda m: m.group(1) + nom`). Et `verifier_liens.py` cherche désormais les
 fins de liens orphelines (`….html" class=` sans `href=` devant).
-
----
-
-## 19. Vérifier sans écran
-
-L'onglet de navigateur intégré à l'outil ne s'affiche pas toujours. Un navigateur
-sans interface (Edge ou Chrome lancé en `--headless`, piloté par le protocole de
-débogage) fait alors les captures et les parcours automatiques : cliquer chaque
-proposition d'un quiz, mesurer un contraste, vérifier qu'une ancre est visible.
-Ce qui compte, c'est que la vérification ait lieu, pas l'outil qui la fait.

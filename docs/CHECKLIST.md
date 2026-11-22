@@ -1,11 +1,11 @@
 # Checklist de production d'un cours
 
-**Quand l'utiliser :** tout au long de la fabrication d'un cours avec ce template, de la première réunion de cadrage jusqu'à la mise en ligne. Coche chaque case au fur et à mesure pour ne rien oublier. Chaque phase doit être validée avant de passer à la suivante.
+**Quand l'utiliser :** tout au long de la fabrication d'un cours avec ce template, de la première réunion de cadrage jusqu'à la mise en ligne. Cochez chaque case au fur et à mesure pour ne rien oublier. Chaque phase doit être validée avant de passer à la suivante.
 
 > Conseils d'usage
-> - Travaille **phase par phase** : ne commence pas à rédiger les chapitres tant que le cadrage et le plan ne sont pas validés.
+> - Travaillez **phase par phase** : ne commencez pas à rédiger les chapitres tant que le cadrage et le plan ne sont pas validés.
 > - Les cases marquées **🔴 bloquant** ne doivent jamais être livrées non cochées : elles conditionnent la qualité pédagogique ou la conformité juridique.
-> - Duplique ce fichier dans le dossier de ton cours (ex. `cours-xyz/CHECKLIST.md`) et garde-le sous Git pour suivre l'avancement.
+> - Dupliquez ce fichier dans le dossier de votre cours (ex. `cours-xyz/CHECKLIST.md`) et gardez-le sous Git pour suivre l'avancement.
 > - Les placeholders communs du template sont rappelés en bas de page.
 
 ---
@@ -193,17 +193,6 @@ Pour **chaque** chapitre :
 
 ---
 
-## Phase 10 ter · Capsules audio (Eleven v4)
-
-- [ ] Fiches de production au format exact (`prompts/14_capsules_audio.md`) : nom de fichier, script balisé, transcription
-- [ ] Ton pédagogique, académique, professionnel et motivant ; « speaking slowly » pour les capsules explicatives
-- [ ] `python3 outils/verifier_elevenlabs.py` : clé, voix, Eleven v4 disponible, quota suffisant
-- [ ] **Témoin** généré (`--temoin`) et **écouté par l'auteur** sur la page avant toute série 🔴
-- [ ] Sortie du générateur : modèle `eleven_v4`, accent « strong Parisian French accent » sur les pistes françaises
-- [ ] Aucune prise en quarantaine laissée sans décision ; transcriptions synchronisées ; playlist régénérée
-
----
-
 ## Phase 10 bis · Les vérificateurs
 
 - [ ] `python3 outils/verifier_i18n.py` passe : clés appariées, blocs `data-tr`
@@ -221,22 +210,37 @@ Pour **chaque** chapitre :
       valeur ne manque
 - [ ] `python3 outils/seances.py` et `python3 outils/sessions.py` finissent sans
       écart : le programme est cohérent, et les dates des sessions le couvrent
-- [ ] `python3 outils/glossaire_emplois.py --essai` dit « à jour » : la fenêtre
+- [ ] `python3 outils/glossaire_emplois.py --essai` dit « à jour » : la liste
       « Où en parle-t-on ? » du glossaire suit les pages
 - [ ] Avec la série de podcasts : `python3 outils/podcasts.py` finit sur
       « 0 défaut(s) » (chaque épisode complet, chaque encadré à sa place)
-- [ ] En site miroir : `python3 outils/verifier_parite.py` finit sur « 0 écart »,
+- [ ] En site miroir : `python3 outils/verifier_parite.py` finit sur « 0 écart(s) »,
       et `generer_langues.py --essai`, `liens_langues.py --essai`,
       `hreflang.py --essai` n'ont rien à faire
 - [ ] Le site tourne : `python3 demarrer.py`, sans erreur en console
 - [ ] Aucun média référencé n'est manquant (les composants affichent leur état,
       ce qui est différent d'un lien mort)
-- [ ] La bascule 🌐 traduit **tout** : contenu, barre d'étapes, capsule audio,
-      schéma, polycopié, puis revient
+- [ ] Le bouton des langues mène à la jumelle de chaque page, au même endroit ;
+      chaque jumelle est entière dans sa langue (contenu, barre d'étapes, capsule
+      audio, schéma, polycopié). En modèle `data-tr`, la bascule 🌐 traduit tout,
+      puis revient
 
 > ⚠️ Si un changement JavaScript ne semble pas prendre, **changez de port**
 > plutôt que de recharger : certains navigateurs gardent le script en cache
 > malgré l'en-tête `no-store` du lanceur.
+
+---
+
+## Phase 10 ter · Capsules audio (Eleven v4)
+
+- [ ] Fiches de production au format exact (`prompts/14_capsules_audio.md`) : nom de fichier, script balisé, transcription
+- [ ] Ton pédagogique, académique, professionnel et motivant ; « speaking slowly » pour les capsules explicatives
+- [ ] `python3 outils/verifier_elevenlabs.py` : clé, voix, Eleven v4 disponible, quota suffisant
+- [ ] **Témoin** généré (`--temoin`) et **écouté par l'auteur** sur la page avant toute série 🔴
+- [ ] Sortie du générateur : modèle `eleven_v4`, accent « strong Parisian French accent » sur les pistes françaises
+- [ ] Aucune prise en quarantaine laissée sans décision ; transcriptions synchronisées ; playlist régénérée
+
+---
 
 ## Phase 11 · Accessibilité
 

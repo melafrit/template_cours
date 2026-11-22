@@ -19,7 +19,7 @@ de chaque skill et **renvoient** aux docs du dépôt plutôt que de les duplique
 | Dossier (`name`) | Rôle (une ligne) | Se déclenche quand… |
 | --- | --- | --- |
 | **`creer-cours-template`** | Orchestrateur / point d'entrée pour générer un cours complet. | On demande de **« créer un cours »** / *« create a course »*, lancer/échafauder un nouveau cours à partir du template. |
-| **`cours-bilingue-i18n`** | Conventions bilingues FR/EN (`data-tr`, `TPLI18N`, formes de données). | On ajoute/traduit du contenu **bilingue**, gère le sélecteur de langue, structure les données i18n (*bilingual, translation, FR/EN*). |
+| **`cours-bilingue-i18n`** | Conventions des langues : blocs `data-tr` des cours qui les ont, `TPLI18N`, formes de données ; le site miroir, modèle par défaut, est dans `docs/I18N.md`. | On ajoute/traduit du contenu **bilingue**, gère le sélecteur de langue, structure les données i18n (*bilingual, translation, FR/EN*). |
 | **`cours-qcm-cbm`** | QCM avec **Certainty-Based Marking** (`questions.js` + `corrections.js`). | On crée/édite un **QCM**, un quiz, une banque de questions, le barème de confiance (*MCQ, quiz, CBM*). |
 | **`cours-glossaire-flashcards-activites`** | Infobulles de glossaire, flashcards, `TPLActivities`. | On ajoute un **glossaire**, des **flashcards**, des activités interactives (*glossary tooltips, flashcards, activities*). |
 | **`cours-supports-imprimables`** | Générateurs Python des supports papier (polycopiés + QCM papier). | On produit des **supports imprimables**, polycopiés, PDF/DOCX, QCM papier (*printable handouts, polycopié*). |

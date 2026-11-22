@@ -2,7 +2,7 @@
 
 > **Quand l'utiliser :** dès que vous démarrez un cours avec ce dépôt, gardez ce guide ouvert. Il explique, phase par phase, **quel prompt lancer, quoi préparer, ce que Claude vous renvoie, et où coller le résultat dans le template**. C'est le mode d'emploi opérationnel de la bibliothèque `prompts/`.
 
-Ce dépôt est un **template réutilisable de site de cours** : un site statique HTML/CSS/JavaScript vanilla, hors-ligne, thémable et bilingue (FR/EN). Vous ne le remplissez pas à la main : vous le fabriquez **avec Claude**, en enchaînant les prompts du dossier `prompts/`, chacun produisant un livrable que vous déposez dans l'arborescence du site.
+Ce dépôt est un **template réutilisable de site de cours** : un site statique HTML/CSS/JavaScript vanilla, hors-ligne, thémable, en une à trois langues (français, anglais, arabe, chaque page avec ses jumelles au même chemin). Vous ne le remplissez pas à la main : vous le fabriquez **avec Claude**, en enchaînant les prompts du dossier `prompts/`, chacun produisant un livrable que vous déposez dans l'arborescence du site.
 
 > **Le chemin le plus court :** remplissez le bloc de paramètres de [`prompts/PROMPT-Cours-parametrable.md`](../prompts/PROMPT-Cours-parametrable.md) et demandez à Claude de **créer le cours**. Il amorce le cours, pose ses questions une à une et déroule les phases ci-dessous avec leurs jalons. Ce guide détaille chaque étape.
 
@@ -16,12 +16,12 @@ Double licence du dépôt : **MIT** pour le code, **CC BY 4.0** pour le contenu 
 
 **On ne génère pas un cours en un seul prompt.** Un cours exact, progressif, motivant, évalué et accessible se construit **étape par étape**, chaque étape consommant la sortie de la précédente. Quatre règles gouvernent tout le dépôt :
 
-1. **Le cadrage d'abord, toujours.** Rien ne se génère tant que le périmètre n'est pas figé. C'est le rôle du prompt `01`, qui pose ses questions **une à une** et produit la **fiche de cadrage** réutilisée par tous les prompts suivants.
+1. **Le cadrage d'abord, toujours.** Rien ne se génère tant que le périmètre n'est pas figé. C'est le rôle du prompt `01`, appelé par le prompt paramétrable, qui pose ses questions **une à une** et produit la **fiche de cadrage** réutilisée par tous les prompts suivants.
 2. **Exactitude non négociable.** Chaque prompt de contenu demande à Claude d'**analyser les documents de référence AVANT de rédiger**, de **ne rien inventer** et de **citer ses sources**. En cas de lacune, Claude le signale plutôt que de combler le vide.
 3. **Un livrable par prompt.** Chaque prompt a une sortie claire et vérifiable. On valide une étape avant de passer à la suivante.
 4. **Le template pilote la forme.** Les prompts connaissent les fonctionnalités du site et produisent des sorties qui s'y insèrent directement, sans bricolage.
 
-> **Règle d'or :** commencez **TOUJOURS** par `01_cadrage_maitre.md`. Sauter cette étape, c'est s'exposer à des chapitres incohérents, un fil rouge bancal et des QCM hors-sujet.
+> **Règle d'or :** commencez toujours par le cadrage. Le prompt paramétrable l'ouvre par le prompt `01`, que vous pouvez aussi lancer seul. Sauter cette étape, c'est s'exposer à des chapitres incohérents, un fil rouge bancal et des QCM hors-sujet.
 
 > **Avec Claude Code :** ce dépôt embarque des *skills* (`.claude/skills/`) qui appliquent **automatiquement** les conventions du template. Ouvrez le dépôt dans Claude Code et demandez simplement « **créer un cours** » : l'orchestrateur `creer-cours-template` prend le relais (cadrage question par question, pipeline en 4 phases), et les skills de domaine (bilinguisme, QCM CBM, glossaire/flashcards/activités, supports imprimables) s'activent au besoin. Voir [`.claude/skills/README.md`](../.claude/skills/README.md).
 
@@ -58,16 +58,17 @@ Vos livrables atterrissent dans cette structure (déjà créée, vide au départ
 
 ```
 template_cours/
-├── prompts/        ← les 13 prompts à lancer (ne pas modifier en usage normal)
+├── prompts/        ← le prompt paramétrable, ses modules et les seize prompts de production
 ├── docs/           ← ce guide + votre fiche de cadrage
 ├── site/
 │   ├── index.html              ← page d'accueil
+│   ├── en/, ar/                ← les jumelles des autres langues, au même chemin
 │   ├── chapitres/              ← une page HTML par chapitre
 │   ├── QCM/                    ← QCM web
 │   │   ├── correction/         ← page de dépôt d'un CSV
 │   │   └── dashboard/          ← tableau de bord multi-CSV
-│   ├── atelier/
-│   │   └── templates/          ← gabarits téléchargeables de l'atelier
+│   ├── atelier.html            ← l'atelier fil rouge
+│   ├── atelier/templates/      ← ses modèles téléchargeables, si le cours en fabrique (prompt 11)
 │   └── assets/
 │       ├── css/                ← thème (variables CSS)
 │       ├── js/                 ← moteur QCM, flashcards, glossaire, i18n…
@@ -121,27 +122,27 @@ Claude lit avant de poser la moindre question.
 
 ## 1. La boucle « questions une à une » du prompt maître
 
-C'est le point le plus important du guide, parce que c'est là que tout se joue. Le prompt maître `01_cadrage_maitre.md` ne fonctionne **pas** comme une commande qu'on lance et qu'on oublie : c'est un **dialogue cadré**.
+Le prompt maître `01_cadrage_maitre.md`, que le prompt paramétrable appelle à sa phase de cadrage, mène un **dialogue cadré** : il pose ses questions une à une et n'avance qu'avec vos réponses.
 
 ### Ce qui se passe quand vous le lancez
 
 1. **Étape 1 · Analyse documentaire.** Claude commence par produire une **synthèse de lecture** de vos documents : périmètre couvert (et ce qui manque), concepts clés, découpage thématique naturel, termes candidats au glossaire, points de vigilance (zones floues, redondances, éléments potentiellement obsolètes). Il termine par : « Voici ce que j'ai compris. Je vais maintenant te poser quelques questions de cadrage, une par une. »
 
-2. **Étape 2 · Cadrage interactif.** Claude pose **UNE seule question à la fois**, puis **attend votre réponse** avant la suivante. Chaque question vient avec une **recommandation par défaut** fondée sur l'analyse, et des **options numérotées** que vous choisissez d'un simple chiffre. Les questions couvrent, dans l'ordre : langues → public → niveau et objectifs → durée → nombre et découpage des chapitres → fil rouge → évaluation (QCM, CBM, flashcards, QCM papier) → activités interactives → identité visuelle → multimédia et NotebookLM → contraintes (accessibilité, hors-ligne, polycopiés) → périmètre de l'itération.
+2. **Étape 2 · Cadrage interactif.** Claude pose **UNE seule question à la fois**, puis **attend votre réponse** avant la suivante. Chaque question arrive avec deux à quatre **options cliquables** ; la première est la **recommandation**, fondée sur l'analyse. Les questions couvrent, dans l'ordre : langues → public → niveau et objectifs → durée → nombre et découpage des chapitres → fil rouge → évaluation (QCM, CBM, flashcards, QCM papier) → activités interactives → identité visuelle → multimédia et NotebookLM → contraintes (accessibilité, hors-ligne, polycopiés) → périmètre de l'itération.
 
-3. **Étape 3 · Validation.** Quand le cadrage est suffisant, Claude présente un **récapitulatif** et demande explicitement : « Valides-tu ce cadrage ? (oui / je corrige tel point) ». Il **n'avance pas** sans votre « oui » clair.
+3. **Étape 3 · Validation.** Quand le cadrage est suffisant, Claude présente un **récapitulatif** et vous demande, par une question cliquable, de le valider ou d'en corriger un point. Il **n'avance pas** sans votre accord clair.
 
 4. **Étape 4 · Livrables de cadrage** (après validation seulement) : trois blocs nets.
    - **A) Fiche de cadrage** : tableau de toutes les décisions + liste des hypothèses et points à vérifier.
-   - **B) Plan du site** : arborescence complète des pages, en précisant pour chacune si elle est bilingue.
+   - **B) Plan du site** : arborescence complète des pages, en précisant pour chacune ses langues (la racine, puis ses jumelles).
    - **C) Feuille de route des prompts** : la liste **ordonnée** des prompts suivants à lancer, avec leurs placeholders **déjà pré-remplis** depuis la fiche de cadrage, pour enchaîner sans ressaisir le contexte.
 
 ### Comment bien jouer cette boucle
 
-- **Répondez par un chiffre** quand des options numérotées sont proposées : plus rapide, moins d'ambiguïté. Utilisez « Autre (précise) » dès que votre besoin sort du cadre.
+- **Répondez d'un clic** : l'option recommandée vient en premier. Le champ « Autre » vous laisse écrire votre réponse quand votre besoin sort du cadre.
 - **Une question = une réponse.** Ne devancez pas Claude en répondant à dix questions d'un coup : le dialogue séquentiel existe pour que chaque décision affine la suivante.
 - **Ne sautez jamais l'étape de validation.** La fiche de cadrage est le **contrat de référence** de tout le reste : elle pré-remplit les placeholders des prompts ultérieurs (langues, fil rouge, nombre de chapitres…).
-- **Tranchez le bilingue tôt.** Un cours `français + anglais` double le travail de contenu (chaque page, QCM, glossaire, atelier doit exister dans les deux langues). Ce choix conditionne tous les prompts suivants.
+- **Tranchez les langues tôt.** Chaque langue ajoutée donne à chaque page sa jumelle (QCM, glossaire et atelier compris), écrite une fois la langue racine stable (module 01). Ce choix conditionne tous les prompts suivants.
 - **Sauvegardez la sortie** dans `docs/cadrage.md` avant de passer à la phase 2.
 
 ---
@@ -153,11 +154,11 @@ Le pipeline se déroule en **quatre phases**. Vous pouvez itérer à l'intérieu
 | Phase | Objectif | Prompts |
 |-------|----------|---------|
 | **1 · Cadrage & architecture** | Décider quoi enseigner, à qui, dans quel ordre. | `01`, `02` |
-| **2 · Contenu pédagogique** | Rédiger le cœur du cours + le vocabulaire. | `03`, `04`, `06` |
-| **3 · Évaluation & activités** | Vérifier les acquis, faire pratiquer. | `05`, `07`, `08`, `11` |
-| **4 · Médias & supports** | Fabriquer les supports téléchargeables et l'écosystème média, puis auditer. | `09`, `10`, `12`, `13` |
+| **2 · Contenu pédagogique** | Rédiger le cœur du cours + le vocabulaire. | `03`, `04`, `06`, `06b` |
+| **3 · Évaluation & activités** | Vérifier les acquis, faire pratiquer. | `05`, `07`, `08`, `11`, `15` |
+| **4 · Médias & supports** | Fabriquer les supports téléchargeables et l'écosystème média, puis auditer. | `09`, `10`, `12`, `13`, `14` |
 
-> La numérotation des fichiers (`01` → `13`) reflète l'ordre **recommandé** de lecture, mais l'enchaînement réel suit les dépendances de contenu décrites ci-dessous. Quand un doute survient, fiez-vous à la **feuille de route** produite par `01`, qui ordonne les prompts pour *votre* cours précis.
+> La numérotation des fichiers (`01` → `15`) reflète l'ordre **recommandé** de lecture, mais l'enchaînement réel suit les dépendances de contenu décrites ci-dessous. Quand un doute survient, fiez-vous à la **feuille de route** produite par `01`, qui ordonne les prompts pour *votre* cours précis.
 
 ---
 
@@ -189,8 +190,8 @@ Le pipeline se déroule en **quatre phases**. Vous pouvez itérer à l'intérieu
 
 - **Quand :** une fois le syllabus arrêté. **À lancer une fois par chapitre.**
 - **À préparer :** le syllabus, les `{{DOCUMENTS_DE_REFERENCE}}`, le numéro du chapitre visé, et le rappel du `{{FIL_ROUGE}}` et de `{{LANGUES}}`.
-- **Ce que Claude renvoie :** un **chapitre complet en HTML**, prêt à coller dans une page du template : accroche motivante, objectifs, sections avec encadrés, exemples reliés au fil rouge, termes de glossaire mis en évidence, encadré « À retenir ». Si le cours est bilingue, la **version anglaise en parallèle** (blocs FR/EN alternés, masqués en CSS, pilotés par la bascule 🌐).
-- **Intégration :** créez `site/chapitres/chapitre-N.html` à partir du gabarit de page du template et collez-y le bloc HTML. Vérifiez que les ancres de section correspondent au sous-menu de navigation. Répétez pour chaque chapitre.
+- **Ce que Claude renvoie :** un **chapitre complet en HTML**, prêt à coller dans une page du template : accroche motivante, objectifs, sections avec encadrés, exemples reliés au fil rouge, termes de glossaire mis en évidence, encadré « À retenir ». Le chapitre s'écrit dans la langue racine ; ses jumelles (anglais, arabe) viennent une fois la racine stable (site miroir, module 01).
+- **Intégration :** complétez le squelette de chapitre que `nouveau_cours.py` a créé dans `site/chapitres/`, sur le modèle du chapitre vitrine `_modele.html`, et collez-y le bloc HTML. Vérifiez que les ancres de section correspondent au sous-menu de navigation. Répétez pour chaque chapitre.
 
 ### `04_relecture_pedagogique.md` · Relecture & amélioration
 
@@ -240,7 +241,7 @@ Le pipeline se déroule en **quatre phases**. Vous pouvez itérer à l'intérieu
 - **Quand :** une fois le plan arrêté et le fil rouge défini, en cohérence avec le QCM.
 - **À préparer :** le scénario fil rouge, le plan, `{{FIL_ROUGE}}`.
 - **Ce que Claude renvoie :** l'**atelier fil rouge** complet (mission, livrables, critères d'évaluation, **templates téléchargeables** (DOCX/XLSX) que l'étudiant complète, et **corrigé formateur**) plus le **contenu HTML** intégrable dans la page « Atelier » et les **scripts Python** qui fabriquent les fichiers.
-- **Intégration :** collez le contenu pédagogique dans `site/atelier/`, déposez les gabarits générés dans `site/atelier/templates/`, et rangez les scripts Python dans `tools/`.
+- **Intégration :** collez le contenu pédagogique dans `site/atelier.html`, déposez les modèles générés dans `site/atelier/templates/` (le cours crée ce dossier), et rangez les scripts Python dans `tools/`.
 
 ### `15_explications_quiz.md` · Expliquer chaque proposition
 
@@ -345,7 +346,7 @@ une notion difficile vaut mieux qu'un `branch` plaqué là où rien ne se décid
 
 Aucun livrable n'est « terminé » tant que vous ne l'avez pas **ouvert dans un navigateur** et essayé. Le site est statique et hors-ligne : ouvrez `site/index.html` directement, ou servez le dossier en local. À chaque intégration, contrôlez :
 
-- **Bascule de langue 🌐** : tout le contenu visible bascule FR ↔ EN (pages, navigation, QCM, ateliers, glossaire). Aucun bloc orphelin ne reste dans la mauvaise langue. L'attribut `data-lang` sur `<html>` change bien, et les libellés d'UI générés en JS suivent le dictionnaire i18n.
+- **Bouton des langues** : il mène à la jumelle de la page, au même endroit de lecture. Chaque jumelle est entière dans sa langue, interface comprise (libellés de `ui-labels.js`), et l'arabe se lit de droite à gauche.
 - **Navigation latérale** : le sous-menu pliable des sections s'ouvre/se ferme, et chaque ancre amène à la bonne section.
 - **Glossaire** : les termes sont **auto-surlignés** dans les chapitres, l'info-bulle au survol affiche définition + exemple (FR/EN) et renvoie à la page glossaire.
 - **Médias** : le podcast lit, avance/recule de ±10 s, le mini-lecteur flottant se déplace et se détache ; les slides s'ouvrent en popup plein écran ; l'infographie s'agrandit en lightbox.
@@ -366,16 +367,17 @@ Phase 1 · Cadrage & architecture
   02  Plan & syllabus ........................... syllabus + arborescence des sections
 
 Phase 2 · Contenu pédagogique
-  03  Chapitre (1 par chapitre) ................. HTML bilingue → site/chapitres/
+  03  Chapitre (1 par chapitre) ................. HTML (langue racine) → site/chapitres/
   04  Relecture pédagogique ..................... corrections appliquées au HTML
   06  Glossaire + info-bulles ................... glossaire.html + glossaire-data.js / -tooltip.js
       (+ flashcards si prévues)
+  06b « Où en parle-t-on ? » .................... alias, sens écartés → glossaire_emplois.py
 
 Phase 3 · Évaluation & activités
   05  Activités interactives .................... HTML/JS vanilla + i18n dans les chapitres
   07  Banque QCM (CBM) .......................... moteur QCM + correction/ + dashboard/
   08  QCM papier (DOCX) ......................... questions + grille + corrigé → tools/
-  11  Atelier fil rouge + templates ............. site/atelier/ + atelier/templates/ + tools/
+  11  Atelier fil rouge + templates ............. site/atelier.html + site/atelier/templates/ + tools/
   15  Explications des quiz ..................... pourquoi + approfondir → verifier_liens.py
 
 Phase 4 · Médias & supports, puis audit
