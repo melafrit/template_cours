@@ -22,7 +22,7 @@ RACINE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LANGUES = ("fr", "en", "ar")
 
 ENTETE = """/* =================================================================
-   nav-sections.js — Sous-sections de chaque chapitre, pour le menu
+   nav-sections.js · Sous-sections de chaque chapitre, pour le menu
    FICHIER GÉNÉRÉ par outils/generer_nav_sections.py, d'après les titres
    <h2 id> des pages de chapitre : ne pas le modifier à la main.
    ================================================================= */
@@ -106,7 +106,7 @@ def generer(racine, essai=False):
 def main():
     essai = "--essai" in sys.argv[1:]
     a_jour, nch, nsec = generer(RACINE, essai)
-    etat = "à jour" if a_jour else ("PAS À JOUR — rien écrit" if essai else "écrit")
+    etat = "à jour" if a_jour else ("PAS À JOUR, rien écrit" if essai else "écrit")
     print("nav-sections.js : %d chapitre(s), %d section(s), %s" % (nch, nsec, etat))
     return 1 if (essai and not a_jour) else 0
 

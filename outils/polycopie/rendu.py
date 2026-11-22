@@ -487,7 +487,7 @@ class Rendu:
         if apres is None:
             self.empile[par._p] = decalage + hauteur + 0.35
         ident = self.ids()
-        nom = f"Marge {ident} — {etiquette}"
+        nom = f"Marge {ident} · {etiquette}"
         dessin = X.xml(X.zone_marge_xml(ident, nom, f"{etiquette} {texte}".strip(), G.MARGE_BOITE, hauteur, contenu,
                                         decalage))
         pp = par._p.find(qn("w:pPr"))

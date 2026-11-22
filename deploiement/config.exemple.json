@@ -7,7 +7,7 @@
   "protocole": "sftp",
   "_port": "22 pour le SFTP, 21 pour le FTP et le FTPS.",
   "port": 22,
-  "_repertoire_distant": "Ne le mettez pas ici : le répertoire distant vient de deploiement/destination.json, propre à chaque cours. S'il figure dans ce fichier, le déployeur l'ignore — une configuration recopiée d'un cours à l'autre désignerait sinon le dossier du cours précédent.",
+  "_repertoire_distant": "Ne le mettez pas ici : le répertoire distant vient de deploiement/destination.json, propre à chaque cours. S'il figure dans ce fichier, le déployeur l'ignore : une configuration recopiée d'un cours à l'autre désignerait sinon le dossier du cours précédent.",
   "_passif": "FTP et FTPS seulement. true convient à presque tous les réseaux ; ne passez à false que si le transfert bloque après connexion.",
   "passif": true,
   "_delai": "Secondes avant abandon d'une opération réseau.",

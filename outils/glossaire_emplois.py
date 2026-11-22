@@ -355,7 +355,7 @@ def calculer(site=SITE):
 
 def produire(emplois):
     return ("/* =================================================================\n"
-            "   glossaire-emplois.js — Où le cours emploie chaque terme du glossaire\n"
+            "   glossaire-emplois.js · Où le cours emploie chaque terme du glossaire\n"
             "   FICHIER GÉNÉRÉ par outils/glossaire_emplois.py, d'après les pages du\n"
             "   site : ne pas le modifier à la main. Lu par glossaire.html, sous\n"
             "   chaque terme (« Où en parle-t-on ? »). Par langue, l'ancre du terme\n"
@@ -386,7 +386,7 @@ def main():
     a_jour, n, fr, en, ar = generer(essai=args.essai)
     print("glossaire-emplois.js : %d terme(s) ; employés dans le cours : %d en français, %d en anglais%s, %s"
           % (n, fr, en, ", %d en arabe" % ar if ar else "",
-             "à jour" if a_jour else ("PAS À JOUR — rien écrit" if args.essai else "écrit")))
+             "à jour" if a_jour else ("PAS À JOUR, rien écrit" if args.essai else "écrit")))
     return 1 if (args.essai and not a_jour) else 0
 
 

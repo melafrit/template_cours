@@ -80,7 +80,7 @@ def composer(langue, chapitres, temoin, atelier, registre, journal=print):
     lues = {}
     for num, rel, _titre in chapitres:
         lues[rel] = lecture.lire_page(langue, rel)
-        journal(f"lu : {rel} — {len(lues[rel].blocs)} blocs, {len(lues[rel].sections)} sections, "
+        journal(f"lu : {rel}, {len(lues[rel].blocs)} blocs, {len(lues[rel].sections)} sections, "
                 f"{len(lues[rel].activites)} composants")
     cibles(r, lues)
     pages.couverture(r)

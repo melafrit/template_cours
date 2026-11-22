@@ -121,7 +121,8 @@ def ecarts(fr_t, en_t, lg="en", racine="fr"):
         out.append('la page en %s ne déclare pas <html lang="%s">' % (b_n, lg))
     if lg in miroir.DROITE_A_GAUCHE and not re.search(r'<html[^>]*\bdir="rtl"', en_t):
         out.append('la page en %s ne déclare pas <html dir="rtl">' % b_n)
-    if miroir.A_TRADUIRE in en_t:
+    # Par son début : une jumelle préparée avant le 23 novembre 2026 porte l'ancienne marque, à tiret.
+    if "<!-- À TRADUIRE" in en_t:
         out.append("jumelle préparée par creer_jumelle.py, encore à traduire (marque « À TRADUIRE »)")
     avis = []
     mots = sorted(set(ACCENTS.findall(" ".join(s_en.texte)))) if lg == "en" else []

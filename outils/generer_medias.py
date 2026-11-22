@@ -35,7 +35,7 @@ DOSSIERS = (
 )
 
 ENTETE = """/* =================================================================
-   media-data.js — Les médias déposés dans le site, par dossier
+   media-data.js · Les médias déposés dans le site, par dossier
    FICHIER GÉNÉRÉ par outils/generer_medias.py, d'après les fichiers de
    site/assets/media/ et site/assets/polycopies/ : ne pas le modifier à
    la main. media.js n'y demande au serveur que ce qui est là.
@@ -69,7 +69,7 @@ def generer(racine, essai=False):
 def main():
     essai = "--essai" in sys.argv[1:]
     a_jour, nombres = generer(RACINE, essai)
-    etat = "à jour" if a_jour else ("PAS À JOUR — rien écrit" if essai else "écrit")
+    etat = "à jour" if a_jour else ("PAS À JOUR, rien écrit" if essai else "écrit")
     print("media-data.js : %s, %s" % (", ".join("%s %d" % (c, n) for c, n in nombres.items()), etat))
     return 1 if (essai and not a_jour) else 0
 

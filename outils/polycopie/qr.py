@@ -103,7 +103,7 @@ class Registre:
                 else:
                     x = exclu(rel)
                     if x:
-                        self.avertissements.append(f"{url} : tenu hors ligne par destination.json (« {x} ») — en "
+                        self.avertissements.append(f"{url} : tenu hors ligne par destination.json (« {x} ») ; en "
                                                    "ligne, sa version précédente demeure, s'il y en a une")
                     self.statuts[url] = "site protégé : vérifié dans le dépôt"
             a_tester = externes

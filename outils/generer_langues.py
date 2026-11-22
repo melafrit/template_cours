@@ -81,7 +81,7 @@ def resume(racine, pages):
 
 def produire(racine, pages):
     return ("/* =================================================================\n"
-            "   langues-data.js — Les pages du site miroir et leurs jumelles\n"
+            "   langues-data.js · Les pages du site miroir et leurs jumelles\n"
             "   FICHIER GÉNÉRÉ par outils/generer_langues.py, d'après les dossiers\n"
             "   de langue de site/ (en/, ar/…) : ne pas le modifier à la main.\n"
             "   racine : la langue des pages de la racine ; pages : pour chaque\n"

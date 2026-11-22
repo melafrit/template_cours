@@ -54,7 +54,7 @@ POIDS_ALERTE = 40 << 20                           # au-delà de 40 Mo, un diapor
 SOURCES = "Podcasts"                              # le dossier des dépôts, à la racine du dépôt
 IGNORES = {".gitignore", "desktop.ini", "thumbs.db", ".ds_store"}
 IMAGE = re.compile(r"(diapo|vignette)-(\d+)\.webp")
-SERIE = {"fr": "{titre} — les podcasts du cours", "en": "{titre} — The course podcasts"}
+SERIE = {"fr": "{titre} · les podcasts du cours", "en": "{titre} · The course podcasts"}
 COMMENTAIRE = {
     ("fr", "notebooklm"): "Voix générées par IA avec NotebookLM, d'après le cours de {auteur}",
     ("fr", "auteur"): "Voix clonée de l'auteur (ElevenLabs), d'après le cours de {auteur}",

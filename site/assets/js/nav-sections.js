@@ -1,5 +1,5 @@
 /* =================================================================
-   nav-sections.js — Sous-sections de chaque chapitre, pour le menu
+   nav-sections.js · Sous-sections de chaque chapitre, pour le menu
    FICHIER GÉNÉRÉ par outils/generer_nav_sections.py, d'après les titres
    <h2 id> des pages de chapitre : ne pas le modifier à la main.
    ================================================================= */

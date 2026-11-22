@@ -242,8 +242,8 @@ class Langue:
     def glossaire(self):
         """Les entrées du glossaire, dans cette langue : terme, fr, en, définition, ancre (g-…), alias, exclus."""
         if GE is None:
-            raise SystemExit("✗ Le livret imprime le glossaire du cours — en fin de livret, dans la marge, dans "
-                             "l'index — : outils/glossaire_emplois.py manque (bloc « glossaire » de nouveau_cours.py).")
+            raise SystemExit("✗ Le livret imprime le glossaire du cours (en fin de livret, dans la marge, dans "
+                             "l'index) : outils/glossaire_emplois.py manque (bloc « glossaire » de nouveau_cours.py).")
         if self._glossaire is None:
             out = []
             for e in GE.lire_glossaire(SITE_LOCAL):
@@ -263,5 +263,5 @@ def presentation_auteur(langue):
     texte = (fiche_livret().get("presentation") or {}).get(langue, "")
     if not str(texte).strip():
         raise SystemExit(f"Présentation de l'auteur absente ({langue}) : outils/livret.py, LIVRET[\"presentation\"]"
-                         f"[\"{langue}\"] — le texte validé par l'auteur, qui s'imprime mot pour mot.")
+                         f"[\"{langue}\"], le texte validé par l'auteur, qui s'imprime mot pour mot.")
     return re.sub(r"\s+", " ", str(texte)).strip()

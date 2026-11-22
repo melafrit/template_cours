@@ -117,7 +117,7 @@ def schema_decisions(langue):
     T = {
         "fr": {
             "titre": "Les trois décisions de cadrage",
-            "sous": "Chacune restreint le champ de la suivante — c'est ce qui rend le cadrage utile.",
+            "sous": "Chacune restreint le champ de la suivante : c'est ce qui rend le cadrage utile.",
             "etapes": [
                 ("1. LE PUBLIC", "Prérequis réellement acquis, temps disponible, contraintes matérielles.",
                  "→ restreint les objectifs atteignables"),
@@ -130,7 +130,7 @@ def schema_decisions(langue):
         },
         "en": {
             "titre": "The three scoping decisions",
-            "sous": "Each narrows the field of the next — that is what makes scoping useful.",
+            "sous": "Each narrows the field of the next: that is what makes scoping useful.",
             "etapes": [
                 ("1. THE AUDIENCE", "Prerequisites actually acquired, time available, practical constraints.",
                  "→ narrows the reachable objectives"),

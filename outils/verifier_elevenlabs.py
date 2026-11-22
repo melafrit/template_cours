@@ -123,7 +123,7 @@ def main():
         if "CERTIFICATE_VERIFY_FAILED" in raison:
             sys.exit(
                 "  Connexion impossible : votre installation de Python n'a pas de magasin\n"
-                "  de certificats utilisable. C'est fréquent sur macOS — Python n'utilise\n"
+                "  de certificats utilisable. C'est fréquent sur macOS, où Python n'utilise\n"
                 "  pas le trousseau du système.\n\n"
                 "  Installez le magasin, puis relancez :\n"
                 "      python3 -m pip install --upgrade certifi\n\n"

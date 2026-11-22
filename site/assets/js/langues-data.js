@@ -1,5 +1,5 @@
 /* =================================================================
-   langues-data.js — Les pages du site miroir et leurs jumelles
+   langues-data.js · Les pages du site miroir et leurs jumelles
    FICHIER GÉNÉRÉ par outils/generer_langues.py, d'après les dossiers
    de langue de site/ (en/, ar/…) : ne pas le modifier à la main.
    racine : la langue des pages de la racine ; pages : pour chaque

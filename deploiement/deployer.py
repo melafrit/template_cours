@@ -445,7 +445,7 @@ def diagnostic(e):
     if "CERTIFICATE_VERIFY_FAILED" not in str(e):
         return ""
     return ("\n      Votre installation de Python n'a pas de magasin de certificats"
-            "\n      utilisable — fréquent sur macOS. Installez-le puis relancez :"
+            "\n      utilisable (fréquent sur macOS). Installez-le puis relancez :"
             "\n          python3 -m pip install --upgrade certifi"
             "\n      Si Python vient de python.org, exécutez aussi, une fois :"
             "\n          open \"/Applications/Python %d.%d/Install Certificates.command\""
@@ -689,7 +689,7 @@ def main(argv=None):
     ap.add_argument("--purge", action="store_true",
                     help="supprime en ligne les fichiers absents du dépôt (demande confirmation)")
     ap.add_argument("--purge-confirme", action="store_true", dest="purge_confirme",
-                    help="purge sans poser de question — pour un lancement non interactif")
+                    help="purge sans poser de question, pour un lancement non interactif")
     ap.add_argument("--adopter", action="store_true",
                     help="reprend un dossier distant publié par un autre outil (jamais avec --purge)")
     args = ap.parse_args(argv)
@@ -806,7 +806,7 @@ def main(argv=None):
             jr.action("%s  (%s)" % (rel, humain(taille)))
         if len(a_envoyer) > 40:
             jr.info("… et %d autres fichiers" % (len(a_envoyer) - 40))
-        jr.info("destination : le répertoire du cours (deploiement/destination.json) — hôte masqué")
+        jr.info("destination : le répertoire du cours (deploiement/destination.json), hôte masqué")
         jr.info("rien n'a été envoyé.")
         raccrocher()
         return OK

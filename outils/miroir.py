@@ -29,7 +29,7 @@ ATTR_EN = re.compile(r'\sdata-((?!i18n-)[a-z][a-z0-9-]*?)-en="([^"]*)"')
 # La marque d'une jumelle préparée par creer_jumelle.py et pas encore traduite : verifier_parite.py la refuse.
 # Les langues écrites de droite à gauche : leur page déclare dir="rtl" (declarer).
 DROITE_A_GAUCHE = ("ar",)
-A_TRADUIRE = "<!-- À TRADUIRE : jumelle préparée par outils/creer_jumelle.py — retirer cette ligne une fois la page traduite -->"
+A_TRADUIRE = "<!-- À TRADUIRE : jumelle préparée par outils/creer_jumelle.py ; retirer cette ligne une fois la page traduite -->"
 
 
 class ErreurBloc(ValueError):

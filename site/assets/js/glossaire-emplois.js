@@ -1,5 +1,5 @@
 /* =================================================================
-   glossaire-emplois.js — Où le cours emploie chaque terme du glossaire
+   glossaire-emplois.js · Où le cours emploie chaque terme du glossaire
    FICHIER GÉNÉRÉ par outils/glossaire_emplois.py, d'après les pages du
    site : ne pas le modifier à la main. Lu par glossaire.html, sous
    chaque terme (« Où en parle-t-on ? »). Par langue, l'ancre du terme

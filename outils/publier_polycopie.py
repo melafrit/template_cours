@@ -67,7 +67,7 @@ def controler(pdf, langue):
     """Les caractéristiques du PDF de travail (pages, octets, titre) ; SystemExit s'il ne convient pas."""
     import fitz
     if not os.path.isfile(pdf):
-        raise SystemExit(f"✗ PDF de travail introuvable : {pdf} — générez-le d'abord "
+        raise SystemExit(f"✗ PDF de travail introuvable : {pdf} ; générez-le d'abord "
                          f"(python3 outils/generer_polycopie.py{' --anglais' if langue.code == 'en' else ''}).")
     octets = os.path.getsize(pdf)
     with fitz.open(pdf) as d:
