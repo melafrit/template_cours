@@ -96,9 +96,10 @@ Les lots, dans l'ordre validé :
   moteurs.
 - [ ] **7. Prompts** : tronc, modules, bibliothèque. Fait : le tronc refondu (`16b0418`), avec ses pièges et leur
   parade (section 6, témoin validé), les critères d'acceptation (2.5), les décisions déjà prises, les nouveaux
-  paramètres (langues, épreuves des filières, bloc école), sans tiret cadratin. Restent : les modules (langues,
-  Codex, école relu) ; les prompts numérotés, dont 01, 03, 05 et 13, qui décrivent encore la bascule 🌐 des blocs
-  `data-tr` comme celle de la démo.
+  paramètres (langues, épreuves des filières, bloc école), sans tiret cadratin. Les modules (`63de114`) :
+  `01-langues.md` (renommé, l'arabe compris, témoin validé), `10-codex.md` (nouveau, procédure vérifiée en
+  ligne), le 07 relu, aucun tiret cadratin dans les dix. Restent : les prompts numérotés, dont 01, 03, 05 et 13,
+  qui décrivent encore la bascule 🌐 des blocs `data-tr` comme celle de la démo.
 - [ ] **8. Générateur de prompt.** Après le lot 7 (décision de l'auteur du 22 novembre 2026, qui le cherchait : il
   n'existe pas encore).
 - [ ] **9. Enregistrement audio** : `verifier_elevenlabs.py` d'abord, témoins, séries, quota suivi au registre ;
@@ -128,6 +129,9 @@ Les lots, dans l'ordre validé :
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 22 novembre · lot 7, les modules
+> Le module 01 devient `01-langues.md` (français, anglais, arabe) ; le module 10, Codex, est créé ; le 07
+> est relu ; plus aucun tiret cadratin dans les dix modules. `63de114`. Restent les prompts numérotés.
 > ### 🆕 22 novembre · lot 7, le tronc refondu
 > Le prompt paramétrable a ses pièges et leur parade, ses critères d'acceptation, ses décisions déjà prises et
 > ses nouveaux paramètres, sans tiret cadratin. `16b0418`. Restent les modules et les prompts numérotés ; le
@@ -460,6 +464,8 @@ anglais, rendue `<span lang="fr">` (`qcm/qcm_commun.py`).
 L'ordre de la suite, la recette complète et la relecture de la documentation sont tranchés par le grand chantier
 (lots 11 et 12). Restent :
 
+- la voix et l'accent des pistes arabes, que rien ne fixe encore (`prompts/modules/01-langues.md`, section 4) : à
+  trancher avant l'enregistrement de la capsule arabe du chapitre 1 (lot 9) ;
 - le répertoire distant de la démo, au lot 12 (l'adresse publique est décidée) ;
 - la typographie française des pages : une espace ordinaire précède souvent le deux-points, qui peut alors commencer
   une ligne à 375 px (relevé au chapitre 1) ; à proposer avant de corriger (§ 2) ;

@@ -9,6 +9,45 @@
 
 ---
 
+## 22 novembre 2026 · lot 7, les modules (`63de114`)
+
+### Les décisions de l'auteur
+
+- **Le module 01 renommé `01-langues.md`** : il couvre le français, l'anglais et l'arabe, et `modules.bilingue`
+  disparaît au profit de `cours.langues`. Le témoin (le module réécrit) a été validé avant la série.
+
+### Le travail
+
+- `prompts/modules/01-langues.md` (renommé par `git mv`) : le site miroir dans chaque langue, la méthode de
+  l'arabe (le chapitre 1 de la démonstration en témoin, `docs/LEXIQUE-ar.md`), les six règles de l'arabe
+  appliquées sans les redemander, la mise en page de droite à gauche, les pièges de l'arabe. La voix arabe reste à
+  trancher, et trois outils qui ne savent pas encore l'arabe sont signalés. Six fichiers qui nommaient l'ancien
+  module suivent.
+- `prompts/modules/10-codex.md`, nouveau : Codex vérifié sur le poste, ou sa procédure officielle, vérifiée en
+  ligne le 22 novembre sur le dépôt `openai/codex` et la documentation d'OpenAI, puis l'arrêt ; un dossier dédié
+  hors du dépôt ; le témoin ; le message, sur le modèle du cours EADL ; la conversion en WebP ; la relecture ; la
+  reprise d'une image ; les pièges de sa décision D49. Il rejoint le tronc, le README des prompts et le module 09.
+- Le module 07 relu (ses paramètres), et les 53 tirets cadratins des modules 02 à 09 réécrits.
+
+### Ce qui a été vérifié
+
+Aucun tiret cadratin dans le tronc ni dans les dix modules ; plus aucun renvoi à `01-bilingue.md` ;
+`cours.exemple.json` reste un JSON valide. Les commandes de Codex viennent de son aide installée (0.163.0) et de sa
+documentation officielle ; la documentation se contredit sur Windows (WSL2 ou PowerShell natif), et le module le
+dit.
+
+### Ce qui n'est pas fait
+
+Les dix-sept prompts numérotés ; les tirets de `CLAUDE.md` et de `docs/I18N.md`, hors du lot 7.
+
+### Pièges appris
+
+- **Un `git add` qui nomme un chemin disparu échoue en entier** : après le `git mv`, l'ancien nom du module n'existait
+  plus, rien n'a été ajouté, et, la sortie d'erreur masquée, le commit est parti avec le seul renommage. Il a été
+  complété avant d'être poussé. La parade consiste à lire `git diff --cached --stat` avant chaque commit.
+
+---
+
 ## 22 novembre 2026 · lot 7, le tronc refondu (`16b0418`)
 
 ### Les décisions de l'auteur
