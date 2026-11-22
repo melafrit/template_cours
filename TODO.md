@@ -324,7 +324,8 @@ Les lots, dans l'ordre validé :
   n'a qu'un champ `why`, sans renvois « Pour approfondir » (lot 6).
 - `glossaire-data.js` : l'alias « objectifs pédagogiques » ne sert à rien sur une page française, puisque cette forme
   n'est pas dans `GLOSSARY_CURATED`, et son commentaire affirme le contraire.
-- `navigation.js` ne marque pas la page courante (`aria-current="page"`), et le gabarit n'a pas de fil d'Ariane.
+- ✅ `navigation.js` annonce la page courante (`aria-current="page"`) dans le menu : chapitres, ressources et accueil,
+  jumelles comprises (23 novembre). Reste : le gabarit n'a pas de fil d'Ariane.
 - ✅ Le dossier des modèles de l'atelier : le gabarit n'en livre aucun ; un cours qui en fabrique les range dans
   `site/atelier/templates/` (prompt 11, GUIDE, ARCHITECTURE ; `d3eeddc`).
 - **Les autres marques de texte généré**, relevées par les agents du lot des documents et non corrigées (elles se

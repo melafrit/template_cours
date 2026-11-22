@@ -55,6 +55,14 @@
   // L(x) : x peut être une chaîne ou un objet { fr, en, ar } ; à défaut de la langue de la page, celle de la racine.
   function L(x) { return (x && typeof x === 'object') ? (x[lang()] || x[racineLg()] || x.fr || x.en || '') : (x || ''); }
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  /* La page courante, annoncée aux lecteurs d'écran (aria-current="page") : on compare l'adresse résolue de chaque
+     lien du menu à celle de la page, un dossier valant son index.html (QCM/ et QCM/index.html). */
+  function sansIndex(p) { return p.replace(/\/index\.html$/, '/'); }
+  var PAGE = sansIndex(window.location.pathname);
+  function courante(href) {
+    try { return sansIndex(new URL(href, window.location.href).pathname) === PAGE ? ' aria-current="page"' : ''; }
+    catch (e) { return ''; }
+  }
 
   /* Les libellés vivent dans ui-labels.js, avec ceux de tous les autres
      moteurs : un seul dictionnaire à tenir, et verifier_i18n.py les contrôle.
@@ -89,7 +97,7 @@
       var secs = (window.RDC_SECTIONS && window.RDC_SECTIONS[ch.num]) || [];
       var isCur = ch.file === currentFile;
       html += '<li class="nav-item' + (secs.length ? ' has-sub' : '') + (isCur && secs.length ? ' open' : '') + '">';
-      html += '<div class="nav-row"><a class="nav-link' + active + d + '" data-file="' + ch.file + '" href="' + vers('chapitres/' + ch.file) + '"><span class="nav-num">' + (done[ch.file] ? '✓' : ch.num) + '</span><span class="nav-label">' + esc(L(ch.title)) + marque('chapitres/' + ch.file) + '</span></a>';
+      html += '<div class="nav-row"><a class="nav-link' + active + d + '" data-file="' + ch.file + '" href="' + vers('chapitres/' + ch.file) + '"' + courante(vers('chapitres/' + ch.file)) + '><span class="nav-num">' + (done[ch.file] ? '✓' : ch.num) + '</span><span class="nav-label">' + esc(L(ch.title)) + marque('chapitres/' + ch.file) + '</span></a>';
       if (secs.length) html += '<button type="button" class="nav-toggle" aria-label="' + t('secToggle') + '" aria-expanded="' + (isCur ? 'true' : 'false') + '">▸</button>';
       html += '</div>';
       if (secs.length) {
@@ -101,10 +109,10 @@
     });
     html += '<li class="nav-section-label">' + t('resources') + '</li>';
     (COURSE.resources || []).forEach(function (r) {
-      html += '<li class="nav-item"><a class="nav-link" href="' + vers(r.href) + '"><span class="nav-ico">' + (r.ico || '') + '</span><span class="nav-label">' + esc(L(r.label)) + marque(r.href) + '</span></a></li>';
+      html += '<li class="nav-item"><a class="nav-link" href="' + vers(r.href) + '"' + courante(vers(r.href)) + '><span class="nav-ico">' + (r.ico || '') + '</span><span class="nav-label">' + esc(L(r.label)) + marque(r.href) + '</span></a></li>';
     });
     html += '<li class="nav-section-label">&nbsp;</li>';
-    html += '<li class="nav-item"><a class="nav-link" href="' + vers('index.html') + '"><span class="nav-ico">🏠</span><span class="nav-label">' + t('home') + marque('index.html') + '</span></a></li>';
+    html += '<li class="nav-item"><a class="nav-link" href="' + vers('index.html') + '"' + courante(vers('index.html')) + '><span class="nav-ico">🏠</span><span class="nav-label">' + t('home') + marque('index.html') + '</span></a></li>';
     html += '<li class="nav-reset"><button type="button" id="nav-reset-btn" title="' + t('resetTitle') + '">' + t('reset') + '</button></li>';
     tree.innerHTML = html;
     tree.querySelectorAll('.nav-toggle').forEach(function (btn) {
