@@ -94,9 +94,13 @@ Les lots, dans l'ordre validé :
   chapitre 1 (`chapitre-1-schema-1-trois-decisions.ar.webp`, la première décision à droite, comme ses points).
 - [ ] **6. Apports** : correction des QCM et garde-fous, Boîte à outils, Modèles pas à pas, bibliographie, petits
   moteurs.
-- [ ] **7. Prompts** : tronc, modules, bibliothèque. Les prompts 01, 03, 05 et 13 décrivent encore la bascule 🌐
-  des blocs `data-tr` comme celle de la démo.
-- [ ] **8. Générateur de prompt.**
+- [ ] **7. Prompts** : tronc, modules, bibliothèque. Fait : le tronc refondu (`16b0418`), avec ses pièges et leur
+  parade (section 6, témoin validé), les critères d'acceptation (2.5), les décisions déjà prises, les nouveaux
+  paramètres (langues, épreuves des filières, bloc école), sans tiret cadratin. Restent : les modules (langues,
+  Codex, école relu) ; les prompts numérotés, dont 01, 03, 05 et 13, qui décrivent encore la bascule 🌐 des blocs
+  `data-tr` comme celle de la démo.
+- [ ] **8. Générateur de prompt.** Après le lot 7 (décision de l'auteur du 22 novembre 2026, qui le cherchait : il
+  n'existe pas encore).
 - [ ] **9. Enregistrement audio** : `verifier_elevenlabs.py` d'abord, témoins, séries, quota suivi au registre ;
   la capsule arabe du chapitre 1 (`chapitre-1-capsule-ar.mp3`, nom déjà appelé par la page) ; les dix-huit
   capsules de l'accueil, textes validés (témoins `accueil-capsule-fr.mp3` et `accueil-capsule-en.mp3`), et leur
@@ -124,6 +128,10 @@ Les lots, dans l'ordre validé :
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 22 novembre · lot 7, le tronc refondu
+> Le prompt paramétrable a ses pièges et leur parade, ses critères d'acceptation, ses décisions déjà prises et
+> ses nouveaux paramètres, sans tiret cadratin. `16b0418`. Restent les modules et les prompts numérotés ; le
+> générateur de prompt suivra.
 > ### 🆕 22 novembre · lot 2, la documentation
 > Le GUIDE décrit l'école pas à pas (section 2 ter) et la CHECKLIST lui consacre une phase (14 bis).
 > `15b456b`. Le lot 2 est fait, hors l'arabe, qui attend le lot 4.

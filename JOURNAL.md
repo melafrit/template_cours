@@ -9,6 +9,43 @@
 
 ---
 
+## 22 novembre 2026 · lot 7, le tronc refondu (`16b0418`)
+
+### Les décisions de l'auteur
+
+- **Le générateur de prompt après le lot 7.** L'auteur le cherchait ; il n'existe pas encore (lot 8). Les prompts
+  passent d'abord, pour que le générateur assemble un tronc et des modules à jour.
+- **Le tronc d'abord, un témoin avant la série** : la section des pièges, validée, puis le reste.
+
+### Le travail
+
+- `prompts/PROMPT-Cours-parametrable.md` :
+  - la section 6, 27 pièges déjà rencontrés et leur parade, en sept groupes (le poste, les secrets, l'audio, le
+    navigateur, l'application Livrables, le contenu, l'arabe) ; l'annexe passe en section 7 ;
+  - la section 2.5, ce que le cours livre et le critère d'acceptation de chaque sortie ;
+  - les paramètres : les langues, les filières au format de `cours.json` (code, nom, palette, bloc, module, page
+    des épreuves), le bouton du QCM, et ce qui part dans le bloc école ;
+  - dans le prompt, les décisions déjà prises, chacune datée, une règle qui renvoie aux pièges, l'étape zéro et la
+    définition de « terminé » mises à jour ;
+  - ses 25 tirets cadratins réécrits.
+
+### Ce qui a été vérifié
+
+Les pièges viennent du tableau du prompt de cours d'étude d'avant-projet et des « Pièges appris » du journal ; aucun
+n'est inventé, et ceux qui ne touchent que le moteur du gabarit sont écartés. Les décisions sont datées d'après le
+registre et le journal. Aucun autre fichier n'emploie les anciens noms de paramètres. Aucun tiret cadratin.
+
+### Ce qui n'est pas fait
+
+Les modules (langues, Codex, école relu) et les prompts numérotés.
+
+### Pièges appris
+
+- **Une version plus longue n'est pas plus récente** : le tronc des cours EADL et CDWFS (536 lignes) date du
+  11 octobre et précède celui du gabarit, qui l'a généralisé. Une version se date par son historique (`git log`).
+
+---
+
 ## 22 novembre 2026 · lot 2, la documentation (`15b456b`)
 
 ### Les décisions de l'auteur
