@@ -96,9 +96,9 @@ Suivez l'ordre. Vous pouvez itérer à l'intérieur d'une phase (régénérer un
 | **04** | `04_relecture_pedagogique.md` | Relire un chapitre : exactitude, progression, clarté, fidélité aux sources. | Chapitre, sources | Corrections et lacunes signalées |
 | **05** | `05_activites_interactives.md` | Concevoir des activités adaptées au sujet. | Cadrage, chapitres, fil rouge | Activités prêtes à monter |
 | **06** | `06_glossaire.md` | Produire le glossaire et ses info-bulles. | Chapitres, cadrage | Termes, définitions, exemples |
-| **06b** | `06b_glossaire_ou_en_parle_t_on.md` | Relier chaque terme à tous les endroits qui l'emploient. | Glossaire, pages publiées | Badge « Où en parle-t-on ? » et liens précis |
+| **06b** | `06b_glossaire_ou_en_parle_t_on.md` | Relier chaque terme à tous les endroits qui l'emploient. | Glossaire, pages publiées | La liste « Où en parle-t-on ? » juste pour le cours : alias, sens écartés, pages exclues |
 | **07** | `07_qcm_banque.md` | Générer la banque de QCM **notation CBM**. | Chapitres, objectifs | `questions.js` + `corrections.js` |
-| **08** | `08_qcm_papier.md` | Produire le QCM papier imprimable. | Banque QCM | DOCX : garde, consignes, barème, questions, grille, corrigé |
+| **08** | `08_qcm_papier.md` | Imprimer le QCM en ligne avec le script du gabarit (`tools/generate_qcm_papier.py`). | Banque QCM | DOCX : garde, consignes, barème, questions, grille, corrigé |
 | **09** | `09_notebooklm_fiche.md` | Préparer la fiche de cours pour NotebookLM. | Chapitres | Fiche DOCX |
 | **10** | `10_notebooklm_18prompts.md` | Les prompts NotebookLM par chapitre. | Fiche | Infographie, slides, podcast |
 | **11** | `11_atelier_templates.md` | Construire l'atelier fil rouge. | Fil rouge, plan | Énoncé, livrables, modèles, corrigé |

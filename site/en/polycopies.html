@@ -70,7 +70,7 @@
   <section class="content-section">
     <h2><span>Why PDF only</span></h2>
     <p>
-      <span>The generator also produces Word files, which stay in <code>assets/polycopies/</code> but are not offered here. A distributed office document gets edited, copied, and then circulates in diverging versions with nobody knowing which one is authoritative. PDF fixes what should be fixed; the Word file is for you, to produce the next version.</span></p>
+      <span>The generator also produces Word files, kept outside the site, in <code>tools/out/</code>, and never published. A distributed office document gets edited, copied, and then circulates in diverging versions with nobody knowing which one is authoritative. PDF fixes what should be fixed; the Word file is for you, to produce the next version.</span></p>
   </section>
 
 </main>
@@ -114,7 +114,7 @@
   function L(x) { return (x && typeof x === 'object') ? (x[lang()] || x.fr) : (x || ''); }
 
   function chemin(num) {
-    return 'assets/polycopies/chapitre-' + num + '-polycopie.' + lang() + '.pdf';
+    return '../assets/polycopies/chapitre-' + num + '-polycopie.' + lang() + '.pdf';
   }
 
   function carte(ch) {

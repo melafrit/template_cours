@@ -67,7 +67,7 @@ site/
 
 > **Notes d'état réel du dépôt :**
 > - Les dossiers `assets/media/*` sont **vides** par défaut (vous déposez vos fichiers). Voir §4.2.
-> - `media.js` référence aussi `assets/polycopies/chapitre-<N>-polycopie.pdf|.docx` et `assets/player.html` (pop-out du lecteur audio) : ces emplacements sont **optionnels** et **absents par défaut**. Le code dégrade proprement (rien ne s'affiche si le fichier n'existe pas).
+> - `media.js` référence aussi `assets/polycopies/chapitre-<N>-polycopie.<langue>.pdf` et `assets/player.html` (pop-out du lecteur audio) : ces emplacements sont **optionnels** et **absents par défaut**. Le code dégrade proprement (rien ne s'affiche si le fichier n'existe pas).
 > - `atelier/templates/` existe (vide) ; `atelier.html` est une page de contenu statique.
 > - `assets/js/quiz.js` est présent mais **n'est référencé par aucune page** : la logique de quiz active est celle de `QCM/qcm-core.js` + les scripts inline des pages QCM.
 
@@ -316,7 +316,7 @@ Les scripts sont chargés **sans `defer`/`async`**, en bas du `<body>`, donc dan
 | Podcast | `assets/media/podcasts/chapitre-<N>-podcast.mp3` (ou `.m4a`) | `<section class="podcast-section">…</section>` |
 | Slides | `assets/media/slides/chapitre-<N>-slides.pdf` | `<section class="slides-section" data-slides="[]">…</section>` |
 | Infographie | `assets/media/infographies/chapitre-<N>-infographie.png` | `<section class="infographie-section">…</section>` |
-| Polycopié | `assets/polycopies/chapitre-<N>-polycopie.pdf` (+ `.docx`) | aucun — bouton injecté dans `.chapter-nav` |
+| Polycopié | `assets/polycopies/chapitre-<N>-polycopie.<langue>.pdf` (le `.docx`, jamais publié, va dans `tools/out/`) | aucun (bouton injecté dans `.chapter-nav`) |
 
 Détails utiles :
 - Le **modèle** `01-cadrage.html` contient déjà ces trois `<section>` avec un texte de remplacement (« déposez un fichier… »). Si le média est dans la liste, `media.js` remplace le placeholder ; sinon, le placeholder reste, et rien n'est demandé (aucune erreur 404 en console).
@@ -353,7 +353,7 @@ Une question = **deux** entrées synchronisées par le même `id`.
    ```
 3. Mettre à jour `meta.nombre_questions` dans `questions.js` (cohérence d'affichage). La note `/20` se recalcule seule : `note = score_brut ÷ (3 × nb_questions) × 20`, bornée à `[0;20]`.
 
-> **Compatibilité des CSV déjà soumis :** le nombre et l'ordre des questions entrent dans la **signature SHA-256** des fichiers exportés. Modifier la banque **invalide les CSV produits avec l'ancienne version**. Figez la banque pendant une session d'examen.
+> **Les CSV déjà rendus :** la **signature SHA-256** ne couvre que le contenu du CSV (identité, dates, durée, nombre de questions, et pour chaque réponse la question, l'ordre des propositions, le choix et la certitude) ; modifier la banque n'invalide donc aucun CSV. La **note**, elle, se calcule avec la banque du moment : une bonne réponse changée, une question ajoutée ou retirée changent la note des copies déjà rendues (le maximum vaut 3 × le nombre de questions de `corrections.js`, et la réponse à une question retirée compte comme une erreur). Figez la banque pendant une session d'examen.
 
 **Barème CBM** (rappel, défini dans `qcm-core.js`) :
 

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
+"""Template de site de cours · Mohamed EL AFRIT (MIT / CC BY 4.0)
 
 Générateur de polycopiés de synthèse imprimables (DOCX + PDF), bilingue FR/EN,
 pour le TEMPLATE de site de cours. Identité visuelle : bleu nuit / doré.
@@ -13,7 +13,8 @@ Usage :
     python generate_polycopies.py en         # EN seulement
     python generate_polycopies.py both       # FR + EN
 
-Sorties : site/assets/polycopies/chapitre-<n>-polycopie.<lang>.docx et .pdf
+Sorties : site/assets/polycopies/chapitre-<n>-polycopie.<lang>.pdf, que le site sert, et le .docx du même nom
+dans tools/out/, jamais publié.
 
 Dépendances : python-docx, fpdf2 (+ pypdfium2 facultatif).
 """
@@ -34,6 +35,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 # depuis assets/polycopies/. Les ecrire dans tools/out/ obligeait a les
 # recopier a la main, et donc a oublier de le faire.
 OUT = os.path.join(os.path.dirname(HERE), 'site', 'assets', 'polycopies')
+# Les DOCX ne se publient pas (decision de l'auteur du 22 novembre 2026) : un fichier Word diffuse se modifie et
+# circule en versions divergentes. Ils vont dans tools/out/, que Git ignore ; seuls les PDF vont au site.
+OUT_DOCX = os.path.join(HERE, 'out')
 CONTENT = os.path.join(HERE, 'polycopies_content.json')
 FONTS = r'C:\Windows\Fonts'
 
@@ -52,21 +56,21 @@ CALLOUT = {  # type -> (bordure RVB, fond clair RVB, hex_docx_fond)
 LANGS = ('fr', 'en')
 LABELS = {
   'fr': {
-    'kicker':    "POLYCOPIÉ DE SYNTHÈSE — CHAPITRE %d",
+    'kicker':    "POLYCOPIÉ DE SYNTHÈSE · CHAPITRE %d",
     'subtitle':  "Polycopié de synthèse",
     'toc':       "Sommaire",
     'takeaways': "À retenir",
     'lawref':    "Référence",
-    'footer':    "Mohamed EL AFRIT — CC BY 4.0",
+    'footer':    "Mohamed EL AFRIT · CC BY 4.0",
     'page':      "Page %d",
   },
   'en': {
-    'kicker':    "SUMMARY HANDOUT — CHAPTER %d",
+    'kicker':    "SUMMARY HANDOUT · CHAPTER %d",
     'subtitle':  "Summary handout",
     'toc':       "Contents",
     'takeaways': "Key takeaways",
     'lawref':    "Reference",
-    'footer':    "Mohamed EL AFRIT — CC BY 4.0",
+    'footer':    "Mohamed EL AFRIT · CC BY 4.0",
     'page':      "Page %d",
   },
 }
@@ -113,8 +117,8 @@ def split_bold(text):
 
 
 def ref_label(ref):
-    """Retire un préfixe « Référence/Reference — » déjà présent (évite le doublon)."""
-    return re.sub(r'^\s*(r[ée]f[ée]rence|reference)\s*[—\-:]\s*', '', ref or '', flags=re.I).strip()
+    """Retire un préfixe « Référence : » ou « Reference - » déjà présent (évite le doublon)."""
+    return re.sub(r'^\s*(r[ée]f[ée]rence|reference)\s*[—\-:·]\s*', '', ref or '', flags=re.I).strip()
 
 
 # ======================= PDF (fpdf2) =======================
@@ -160,7 +164,7 @@ def render_pdf(num, ch, lang, path):
     subtitle = pick(ch.get('subtitle'), lang) or L['subtitle']
 
     pdf = Poly(format='A4')
-    pdf.title_short = "%s %d — %s" % ("Chapitre" if lang == 'fr' else "Chapter", num, title)
+    pdf.title_short = "%s %d · %s" % ("Chapitre" if lang == 'fr' else "Chapter", num, title)
     pdf.foot_left = L['footer']
     pdf.page_label = L['page']
     pdf.set_margins(18, 16, 18); pdf.set_auto_page_break(True, 18)
@@ -226,7 +230,7 @@ def render_pdf(num, ch, lang, path):
             _, ref, txt = b
             ref = pick(ref, lang); txt = pick(txt, lang)
             bd, bg, _hx = CALLOUT['legal']
-            head = (L['lawref'] + " — " + ref_label(ref)).upper()
+            head = (L['lawref'] + " · " + ref_label(ref)).upper()
             th = (mc_height(pdf, head, W - 3, 6, 'B', 9.5)
                   + mc_height(pdf, "« " + txt + " »", W - 3, 5.4, 'I', 10, markdown=True) + 3)
             if pdf.will_page_break(th):
@@ -357,7 +361,7 @@ def render_docx(num, ch, lang, path):
             bd, _bg, hx = CALLOUT['legal']
             cell = box(doc, hx)
             tp = cell.paragraphs[0]
-            r = tp.add_run((L['lawref'] + " — " + ref_label(ref)).replace('**', ''))
+            r = tp.add_run((L['lawref'] + " · " + ref_label(ref)).replace('**', ''))
             r.bold = True; r.font.size = Pt(9.5); r.font.color.rgb = RGBColor(*bd); r.font.name = 'Calibri'
             add_runs(cell.add_paragraph(), "« " + txt + " »", size=10, color=SLATE, italic=True)
             doc.add_paragraph()
@@ -401,12 +405,13 @@ def main(argv):
         raise SystemExit("Langue inconnue : %r (attendu : 'fr', 'en' ou 'both')" % arg)
 
     os.makedirs(OUT, exist_ok=True)
+    os.makedirs(OUT_DOCX, exist_ok=True)
     chapters = load_chapters()
 
     for lang in langs:
         for num, ch in chapters.items():
             pdfp = os.path.join(OUT, "chapitre-%d-polycopie.%s.pdf" % (num, lang))
-            docp = os.path.join(OUT, "chapitre-%d-polycopie.%s.docx" % (num, lang))
+            docp = os.path.join(OUT_DOCX, "chapitre-%d-polycopie.%s.docx" % (num, lang))
             render_pdf(num, ch, lang, pdfp)
             render_docx(num, ch, lang, docp)
             print("OK [%s] chapitre %d : %d o (pdf) %d o (docx)"

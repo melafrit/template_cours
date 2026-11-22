@@ -1,20 +1,32 @@
 # 06 b · Glossaire : « Où en parle-t-on ? »
 
 **Quand l'utiliser**
-Une fois le glossaire produit (prompt `06`) et les pages du cours écrites (chapitres, fiches, cas fil rouge, TP, révisions). Ce prompt ajoute, sur chaque terme du glossaire, la liste de **tous les endroits du cours qui l'emploient**, avec un lien qui mène **précisément** à l'endroit, le mot surligné. L'étudiant passe ainsi d'un mot à tout ce que le cours en dit.
+Une fois le glossaire produit (prompt `06`) et les pages du cours écrites (chapitres, fiches, cas fil rouge, TP,
+révisions). Sous chaque terme du glossaire, la liste « Où en parle-t-on ? » mène à **tous les endroits du cours qui
+l'emploient**, avec le nombre d'emplois. Ce prompt la rend juste pour le cours : les bonnes formes de chaque terme,
+les emplois d'un autre sens écartés, les bonnes pages exclues.
 
-À lancer **en fin de production** : la liste se calcule en lisant les pages publiées. Le générateur se relance ensuite après chaque retouche d'une page.
+À lancer **en fin de production** : la liste se calcule en lisant les pages publiées. Le générateur se relance
+ensuite après chaque retouche d'une page.
 
-> **Le gabarit fournit déjà le mécanisme** : `outils/glossaire_emplois.py` compte les emplois, section par section et dans chaque langue, et la page `glossaire.html` les affiche sous chaque terme, avec une ancre par terme (`#g-…`) que vise l'info-bulle des chapitres. Ce prompt sert à l'adapter au cours : les alias et les expressions écartées de chaque terme (champs `alias` et `exclus` de `glossaire-data.js`), les pages à exclure (`EXCLUES` du générateur), et, si le cours le veut, le surlignage du mot à l'arrivée.
+> **Le mécanisme est celui du gabarit.** `outils/glossaire_emplois.py` compte les emplois, section par section et
+> dans chaque langue (français, anglais, arabe), puis écrit `site/assets/js/glossaire-emplois.js`. La page
+> `glossaire.html` les affiche sous chaque terme, en liste dépliable, avec une ancre par terme (`#g-…`) que vise
+> l'info-bulle des chapitres. Le cours l'adapte par ses données, sans le réécrire : les champs `alias` et `exclus`
+> de `glossaire-data.js`, la liste `EXCLUES` du générateur, la balise `hors-glossaire` des pages. La version plus
+> riche du cours d'architecture logicielle (fenêtre, surlignage à l'arrivée, flashcards et QCM comptés) est décrite
+> à la fin ; le gabarit ne l'a pas encore.
 
 ---
 
 ## Placeholders à compléter
 
 - `{{SUJET_DU_COURS}}` : intitulé exact du cours.
-- `{{PARTIES_DU_SITE}}` : les parties du site, dans l'ordre du cours (ex. `chapitres, Boîte à outils, cas fil rouge, TP, flashcards, QCM d'entraînement, accueil, programme, bibliographie`).
-- `{{PAGES_A_EXCLURE}}` : les pages que la fenêtre ne cite pas, en plus du glossaire (ex. une carte qui n'est qu'une liste de noms).
-- `{{EXEMPLES_DOUBLE_SENS}}` : quelques mots du glossaire qui sont aussi des mots courants, s'ils sont déjà connus (ex. « Service » dans « mise en service », « Module » pour le module du cours).
+- `{{PAGES_A_EXCLURE}}` : les pages que la liste ne cite pas, en plus de celles qu'exclut déjà le générateur (le
+  glossaire, la page « À propos », la correction et le tableau de bord du QCM, les pages Podcasts et Polycopié, les
+  zones protégées) ; ex. une carte qui n'est qu'une liste de noms.
+- `{{EXEMPLES_DOUBLE_SENS}}` : quelques mots du glossaire qui sont aussi des mots courants, s'ils sont déjà connus
+  (ex. « Service » dans « mise en service », « Module » pour le module du cours).
 
 ---
 
@@ -24,66 +36,70 @@ Une fois le glossaire produit (prompt `06`) et les pages du cours écrites (chap
 > # Glossaire : « Où en parle-t-on ? »
 >
 > ## Contexte
-> Le site du cours « {{SUJET_DU_COURS}} » a une page Glossaire, dessinée par son script d'après
-> glossaire-data.js (source unique). Chaque terme y montre son équivalent dans l'autre langue, sa
-> définition et son exemple. Un cours né du gabarit y a déjà, sous chaque terme employé, la liste
-> dépliable « Où en parle-t-on ? », calculée section par section par outils/glossaire_emplois.py.
+> Le site du cours « {{SUJET_DU_COURS}} » est né du gabarit. Sa page Glossaire est dessinée par son script d'après
+> glossaire-data.js (source unique). Sous chaque terme employé, la liste dépliable « Où en parle-t-on ? » est
+> calculée section par section par outils/glossaire_emplois.py, qui écrit site/assets/js/glossaire-emplois.js.
 >
 > ## Ce que je veux
-> Sur chaque terme du glossaire, un badge « Où en parle-t-on ? (N endroits) », à côté des autres badges.
-> Il ouvre une fenêtre qui liste tous les endroits du cours où le terme est employé ; chaque ligne mène
-> précisément à son endroit.
+> Que chaque liste soit juste pour ce cours : chaque emploi du terme compté, aucun emploi d'un autre sens, aucune
+> page qui ne doit pas y figurer. Le mécanisme du gabarit reste tel quel ; tu l'adaptes par ses données, sans
+> réécrire ni la page du glossaire ni le générateur.
 >
 > ## Règles
-> 1. Périmètre : tout le site publié ({{PARTIES_DU_SITE}}). Exclus : la page du glossaire, {{PAGES_A_EXCLURE}},
->    et les PDF (on ne peut pas y viser un endroit précis ; leur contenu reprend les pages web).
-> 2. Un endroit : une section (titre h2 ou h3 qui porte une ancre, encadré « À retenir », référence de la
->    bibliographie), une carte de flashcards, une question du QCM. Le texte avant la première ancre forme
->    le haut de la page. Ajouter une ancre là où une partie longue n'en a pas, dans la source de la page
->    (la page elle-même, ou le générateur qui l'écrit), jamais dans du HTML généré.
-> 3. Précision : une ligne par endroit (« Chapitre 4 › 3. Le couplage », « Fiche F1-06 › L'essentiel »),
->    avec le nombre d'emplois. Le clic ouvre la page au premier emploi dans l'endroit, déplie le bloc
->    replié qui le contient et surligne le terme (adresse de la forme page?g=terme#ancre), avec un bandeau
->    de retour au glossaire. Flashcards : le lien ouvre la carte à son numéro. QCM : la question s'affiche
->    seule, sans toucher à la série en cours de l'étudiant.
-> 4. Un emploi = le terme, ses pluriels et ses formes déclarées (alias, sigles), entre deux limites de mot.
->    Relever dans les pages les formes que le glossaire ne connaît pas encore (« SLI », « manœuvre
->    inverse »…) et les déclarer. Écarter les emplois qui ne désignent pas la notion
->    ({{EXEMPLES_DOUBLE_SENS}}) : une expression, ou une fiche entière où le mot a un autre sens d'un bout à
->    l'autre. Ces exclusions vivent dans la source du glossaire ; rien ne les signale sur la page. Un
->    homonyme isolé peut aussi se baliser dans la page, `<span class="hors-glossaire">…</span>` : il n'a
->    alors ni info-bulle ni emploi.
-> 5. Ne comptent pas : le code, les schémas, les boutons, la navigation, ce qui est masqué, et ce que les
->    scripts dessinent après coup (quiz des fiches, transcriptions audio, exercices), sauf les flashcards
->    et le QCM, lus dans leurs données. Dans le QCM, seul l'énoncé compte : surligner une proposition
->    soufflerait la réponse.
-> 6. La fenêtre : titre « « Terme » dans le cours (N endroits) » ; lignes rangées par partie, puis dans
->    l'ordre du cours ; fermeture par ✕, Échap ou clic à côté ; focus gardé dans la fenêtre et rendu au
->    badge ; plein écran sur téléphone ; thème clair et sombre. Un terme employé nulle part n'a pas de badge.
-> 7. Rien à la main : le générateur du glossaire calcule les listes ; le script de surlignage applique
->    exactement la même règle que le décompte. Le contrôle (--essai) dit quand les listes ont vieilli, et
->    signale une exclusion qui ne sert plus et une page publiée qu'il ne lit pas.
-> 8. Hors périmètre : les info-bulles des chapitres et le glossaire de l'annexe ne changent pas.
+> 1. Périmètre : les pages publiées du site, dans chaque langue. Le générateur exclut déjà le glossaire, la page
+>    « À propos », la correction et le tableau de bord du QCM, les pages Podcasts et Polycopié, les zones protégées
+>    et ce que le déployeur ne publie pas. Ajoute à EXCLUES : {{PAGES_A_EXCLURE}}.
+> 2. Un endroit : une section, c'est-à-dire un titre h2 ou h3 qui porte un id. Le texte avant la première ancre
+>    forme le haut de la page. Là où une partie longue n'a pas d'ancre, ajoute-la dans la source de la page (la
+>    page elle-même, ou le générateur qui l'écrit), jamais dans du HTML généré.
+> 3. Un emploi : l'intitulé du terme sans sa parenthèse, ses alias et leurs pluriels, entre deux limites de mot.
+>    Relève dans les pages les formes que le glossaire ne connaît pas encore (un sigle, un synonyme) et déclare-les
+>    dans alias, langue par langue. En arabe, faute de règle de pluriel, chaque autre forme s'y écrit.
+> 4. Un autre sens : les expressions où le mot ne désigne pas la notion ({{EXEMPLES_DOUBLE_SENS}}) vont dans le
+>    champ exclus du terme. Un homonyme isolé se balise dans la page, <span class="hors-glossaire">…</span> : il
+>    n'a alors ni info-bulle ni emploi. Rien ne signale ces exclusions sur la page.
+> 5. Ne comptent pas : le code, les schémas, les boutons, la navigation, ce qui est masqué, les blocs de l'autre
+>    langue.
+> 6. Rien à la main : glossaire-emplois.js est généré. Relance python3 outils/glossaire_emplois.py après toute
+>    retouche d'une page ; avec --essai, il dit si les listes ont vieilli.
+> 7. Hors périmètre : la page du glossaire, son affichage et les info-bulles des chapitres ne changent pas. Une
+>    fenêtre, un surlignage à l'arrivée ou des liens vers les flashcards et le QCM relèvent du gabarit ; ils ne se
+>    construisent pas dans ce cours.
 >
 > ## Méthode
-> - Lis d'abord le générateur du glossaire, la page du glossaire et la façon dont chaque type de page est produit.
+> - Lis d'abord le générateur, la page du glossaire et la façon dont chaque type de page est produit.
 > - Ne me pose que les questions qui restent ouvertes pour ce cours, une à la fois, cliquables.
-> - Relis le contexte des termes les plus employés et des mots courants : propose les exclusions et les alias manquants.
-> - Montre-moi trois termes avant de généraliser : un terme central très employé, un terme rare, un terme à double sens.
-> - Ouvre au moins quinze endroits variés dans le navigateur : le nombre annoncé doit égaler le nombre surligné.
->   Vérifie aussi la fenêtre sur téléphone et en thème sombre, puis lance les contrôles du projet.
-> - Mets à jour la documentation (décisions, guide de production : « Où en parle-t-on ? » se régénère après toute retouche d'une page).
+> - Relis le contexte des termes les plus employés et des mots courants : propose les exclusions et les alias
+>   manquants.
+> - Montre-moi trois termes avant de généraliser : un terme central très employé, un terme rare, un terme à double
+>   sens.
+> - Ouvre au moins quinze lignes variées dans le navigateur : chaque lien mène à sa section, et le nombre annoncé
+>   égale le nombre d'emplois que tu y comptes. Vérifie aussi la page sur téléphone et en thème sombre, puis lance
+>   les contrôles du projet (glossaire_emplois.py --essai, verifier_liens.py).
+> - Mets à jour la documentation (décisions, guide de production : « Où en parle-t-on ? » se régénère après toute
+>   retouche d'une page).
 > - À la fin, propose-moi de commiter et pousser, puis demande-moi si je veux déployer.
 > ````
 
 ---
 
-## Implémentation de référence
+## La version complète, dans le cours d'architecture logicielle
 
-Cours « Conception d'architectures logicielles » (dépôt `Cours_Architecture_Logicielle`, décision D70) :
+Le cours « Conception d'architectures logicielles » (dépôt `Cours_Architecture_Logicielle`, décision D70) va plus
+loin. Un badge « Où en parle-t-on ? (N endroits) » ouvre une fenêtre. Le clic sur une ligne ouvre la page au premier
+emploi, déplie le bloc qui le contient et surligne le terme (`page?g=terme#ancre`), avec un bandeau de retour au
+glossaire. Les cartes de flashcards et les questions du QCM d'entraînement comptent aussi ; leur lien ouvre la carte
+ou la question seule.
 
-- `outils/glossaire_emplois.py` : le découpage des pages en endroits, les formes, le décompte ;
+- `outils/glossaire_emplois.py` et `outils/glossaire_emplois_en.py` : le découpage des pages en endroits, les
+  formes, le décompte ;
 - `outils/glossaire_cours.py` : `ALIASES` et `EXCLUSIONS` (une expression, ou `"@F4-14"` pour une fiche entière) ;
 - `outils/generer_glossaire.py` : écrit `assets/js/glossaire-emplois.js` et `assets/js/glossaire-formes.js` ;
-- `assets/js/glossaire-renvoi.js` : le surlignage à l'arrivée, chargé par `navigation.js` quand l'adresse porte `?g=` ;
-- `glossaire.html` : le badge et la fenêtre ; `assets/js/flashcards.js` et `QCM/qcm-entrainement.js`, les liens vers une carte ou une question.
+- `assets/js/glossaire-renvoi.js` : le surlignage à l'arrivée, chargé par `navigation.js` quand l'adresse porte
+  `?g=` ;
+- `glossaire.html` : le badge et la fenêtre ; `assets/js/flashcards.js` et `QCM/qcm-entrainement.js`, les liens vers
+  une carte ou une question.
+
+Le gabarit ne l'a pas encore : son portage est inscrit au lot 6 du registre du gabarit (décision de l'auteur du
+22 novembre 2026). Un cours qui la voudrait avant ce portage en parle d'abord à l'auteur, car la construire dans un
+seul cours le ferait diverger du gabarit.

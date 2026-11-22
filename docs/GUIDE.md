@@ -232,8 +232,8 @@ Le pipeline se déroule en **quatre phases**. Vous pouvez itérer à l'intérieu
 
 - **Quand :** après avoir validé la banque de questions (`07`).
 - **À préparer :** la banque de QCM validée.
-- **Ce que Claude renvoie :** la **version papier** du même QCM, en fichiers **DOCX noir & blanc compacts** : `QCM_questions.docx` (page de garde + consignes + barème CBM **avec exemples chiffrés** + questions en **2 colonnes**), `QCM_grille_reponses.docx` (grille A/B/C/D + certitude F/M/É, seul document ramassé), et le **corrigé formateur**.
-- **Intégration :** placez le script de génération dans `tools/` et les DOCX produits parmi les ressources téléchargeables. Imprimez pour les sessions sans écran.
+- **Ce que Claude renvoie :** le rapport de contrôle de la banque, puis la **version papier** du même QCM, que produit le script du gabarit (`tools/generate_qcm_papier.py`). Pour chaque langue, trois fichiers **DOCX noir et blanc compacts** : `QCM_questions.<langue>.docx` (page de garde, consignes, barème CBM **avec exemples chiffrés**, questions en **2 colonnes**), `QCM_grille_reponses.<langue>.docx` (grille A/B/C/D et certitude F/M/É, seul document ramassé) et `QCM_corrige.<langue>.docx`, le **corrigé du formateur**. Le prompt n'écrit aucun script.
+- **Intégration :** les fichiers sortent dans `tools/out/`, que Git ignore, et le corrigé n'est jamais publié. Imprimez les questions et la grille pour les sessions sans écran. Une épreuve dont la banque ne se publie pas suit le module 05, sur le modèle du cours CDWFS.
 
 ### `11_atelier_templates.md` — Atelier fil rouge + templates
 

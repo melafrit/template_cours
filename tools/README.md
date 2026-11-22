@@ -15,7 +15,8 @@ pip install -r tools/requirements.txt
 ```
 
 > `python-docx` (DOCX), `fpdf2` (PDF), `pypdfium2` (optionnel — aperçu PDF).
-> Les sorties sont écrites dans **`tools/out/`**.
+> Les sorties sont écrites dans **`tools/out/`**, sauf les PDF des fiches de synthèse, que le site sert depuis
+> `site/assets/polycopies/`.
 
 ## 1. Polycopiés de synthèse — `generate_polycopies.py`
 

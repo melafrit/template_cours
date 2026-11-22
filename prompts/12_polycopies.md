@@ -127,7 +127,7 @@
 > - Dépendances : python-docx (DOCX), fpdf2 (PDF), pypdfium2 en option ; « pip install -r tools/requirements.txt ».
 > - Appel : « python3 tools/generate_polycopies.py » pour les deux langues, avec « fr » ou « en » pour une seule.
 > - Entrée : « tools/polycopies_content.json », toutes ses entrées à chaque passage.
-> - Sorties : « site/assets/polycopies/chapitre-<n>-polycopie.<langue>.docx » et « .pdf », avec une ligne « OK » par chapitre et par langue.
+> - Sorties : « site/assets/polycopies/chapitre-<n>-polycopie.<langue>.pdf », que le site sert, et le « .docx » du même nom dans « tools/out/ », jamais publié ; une ligne « OK » par chapitre et par langue.
 > - Mise en page : bandeau de titre, mini-sommaire tiré des « h2 », encadrés colorés selon leur type, tableau à en-tête colorée et lignes alternées, « À retenir » encadré, pied de page ; charte bleu nuit et doré, Calibri pour le DOCX, Arial pour le PDF.
 > - Une autre charte se demande à l'auteur, puis se règle dans les constantes du script (NAVY, GOLD, CALLOUT, LABELS), jamais dans le contenu.
 >

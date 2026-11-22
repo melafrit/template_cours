@@ -18,8 +18,10 @@
 - Des **points de contrôle** expliqués, un par section importante.
 - [si actif] Le **QCM en ligne** noté (`prompts/07_qcm_banque.md`) : notation CBM (degré de
   certitude), correction signée et tableau de bord du formateur, par le moteur du gabarit.
-- [si actif] Le **QCM papier** (`prompts/08_qcm_papier.md`) : livrets, corrigé commenté,
-  grille.
+- [si actif] Le **QCM papier** : livrets, corrigé commenté, grille. Soit la version
+  imprimée du QCM en ligne (`prompts/08_qcm_papier.md`, qui fait lancer
+  `tools/generate_qcm_papier.py`), soit une épreuve à banque privée, sur le modèle du
+  cours CDWFS.
 - [si actif] Le **QCM d'entraînement** : des questions **différentes** du QCM noté, même
   barème.
 - [si actif] La page publique **« ✅ Correction des QCM »**, juste après « 🏋️ QCM
@@ -41,7 +43,9 @@ réponse est juste, pourquoi chacune des autres ne l'est pas), et deux à quatre
   `QCM/correction-des-qcm.html` et sa jumelle anglaise, écrites par
   `outils/generer_qcm_formateur.py` (476 questions et leurs explications pour grand
   débutant), décisions D96 (la page devient publique) et D107 (sa version anglaise).
-- **Le QCM papier à certitude** (Leclercq), sur le cours CDWFS (lecture seule).
+- **Le QCM papier à certitude** (Leclercq), une épreuve à banque privée, sur le cours CDWFS
+  (lecture seule) : `outils/qcm/`, avec ses banques par filière, son audit des biais et sa
+  grille. Ses banques (`banque_*.py`) sont des secrets, à ne jamais ouvrir.
 
 ---
 
@@ -53,6 +57,8 @@ Une question à la fois.
   difficulté.
 - **La notation** (CBM pour le QCM en ligne ; pour le papier, propositions et barème de
   certitude), d'après le règlement et la grille de l'épreuve.
+- **La forme du QCM papier** : la version imprimée du QCM en ligne (prompt 08), ou une
+  épreuve à banque privée (modèle CDWFS) ?
 - **Un QCM papier par filière**, ou un seul ?
 - **La correction publique** : ce qu'elle reprend (chapitres, fiches, banque
   d'entraînement) ; jamais le QCM papier de l'épreuve, jamais la correction du TP.
@@ -63,8 +69,11 @@ Une question à la fois.
 
 - **QCM en ligne** : réponse unique, positions de la bonne réponse équilibrées,
   distracteurs débiaisés (même longueur, même registre), explications complètes.
-- **QCM papier** : mélange déterministe, audit des biais (position, longueur) ; livret,
-  corrigé commenté, grille. **STOP** : l'auteur relit les livrets.
+- **QCM papier** : imprimé du QCM en ligne, il passe par le prompt 08 et le script du
+  gabarit, sans nouveau script. Épreuve à banque privée, il suit le modèle CDWFS (mélange
+  déterministe, audit des biais de position et de longueur, livret, corrigé commenté,
+  grille), sa banque exclue des recherches par le `.rgignore` dès sa création. **STOP** :
+  l'auteur relit les livrets.
 - **QCM d'entraînement** : questions différentes du noté, même barème, chaque proposition
   expliquée.
 - **Correction publique** : générée d'après les questions telles que les pages les

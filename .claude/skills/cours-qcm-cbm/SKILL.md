@@ -97,13 +97,20 @@ Issu de `prompts/07_qcm_banque.md` — à respecter pour une banque équitable :
   Dans les points de contrôle, le moteur affiche `pourquoi` et `approfondir` ; dans
   `corrections.js`, l'explication les porte en prose. Voir `prompts/15_explications_quiz.md`.
 
-## 6. ⚠️ Mise en garde SIGNATURE (figer la banque pendant un examen)
+## 6. ⚠️ Signature et note : figer la banque pendant un examen
 
-Le **nombre** et l'**ordre** des questions entrent dans la **signature SHA-256
-autonome** des CSV exportés (calculée dans `qcm-core.js`). Modifier la banque (ajout,
-suppression, réordonnancement) **invalide les CSV produits avec l'ancienne version** :
-ils ne se vérifieront plus à la correction. **Fige la banque pendant toute la durée
-d'une session d'examen** ; ne fais évoluer les questions qu'entre deux sessions.
+La **signature SHA-256** des CSV (`signatureBase()` de `qcm-core.js`) ne couvre que ce
+que le CSV contient : l'identité, les dates, la durée, le nombre de questions, et pour
+chaque réponse la question (`id`), l'ordre des propositions, le choix et la certitude.
+Elle ne lit pas la banque : reformuler un énoncé, réordonner, ajouter ou retirer une
+question n'invalide aucun CSV déjà rendu. Une copie falsifiée, elle, reste rejetée.
+
+La **note** se calcule à la correction avec la banque du moment (`scoreSubmission()`) :
+une bonne réponse changée dans `corrections.js`, une question ajoutée ou retirée changent
+la note des copies déjà rendues. Le maximum vaut 3 × le nombre de questions de
+`corrections.js`, et la réponse à une question retirée compte comme une erreur. **Fige
+donc la banque pendant toute la durée d'une session d'examen** ; ne fais évoluer les
+questions qu'entre deux sessions.
 
 ## Pour aller plus loin
 

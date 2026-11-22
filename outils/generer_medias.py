@@ -29,7 +29,7 @@ DOSSIERS = (
     ("podcasts", "assets/media/podcasts", (".mp3", ".m4a")),
     ("slides", "assets/media/slides", (".pdf",)),
     ("infographies", "assets/media/infographies", (".png",)),
-    ("polycopies", "assets/polycopies", (".pdf", ".docx")),
+    ("polycopies", "assets/polycopies", (".pdf",)),
     ("voix", "assets/media/voix", (".mp3", ".m4a")),
     ("schemas", "assets/media/schemas", (".webp", ".png", ".svg", ".jpg")),
 )

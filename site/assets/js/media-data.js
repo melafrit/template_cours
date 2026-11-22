@@ -12,17 +12,11 @@ window.TPL_MEDIAS = {
  "slides": [],
  "infographies": [],
  "polycopies": [
-  "chapitre-1-polycopie.en.docx",
   "chapitre-1-polycopie.en.pdf",
-  "chapitre-1-polycopie.fr.docx",
   "chapitre-1-polycopie.fr.pdf",
-  "chapitre-2-polycopie.en.docx",
   "chapitre-2-polycopie.en.pdf",
-  "chapitre-2-polycopie.fr.docx",
   "chapitre-2-polycopie.fr.pdf",
-  "chapitre-3-polycopie.en.docx",
   "chapitre-3-polycopie.en.pdf",
-  "chapitre-3-polycopie.fr.docx",
   "chapitre-3-polycopie.fr.pdf"
  ],
  "voix": [

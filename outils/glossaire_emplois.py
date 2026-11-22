@@ -13,9 +13,9 @@ UN ENDROIT : une section d'une page, désignée par son ancre — un h2 ou un h3
 la première ancre forme le haut de la page. Seul compte le contenu de <main>, hors code, schémas, boutons,
 navigation, éléments masqués, et hors des blocs de l'autre langue.
 UN EMPLOI : une forme du terme entre deux limites de mot — son intitulé sans parenthèse, ses alias, leurs pluriels
-(français ou anglais) —, hors des expressions écartées.
+(français ou anglais ; en arabe, les autres formes s'écrivent dans alias) —, hors des expressions écartées.
 LES LANGUES : le français sur les pages françaises et les blocs data-tr="fr", l'anglais sur les jumelles de en/ et
-les blocs data-tr="en". Les chemins partent de la racine de la langue : la page du glossaire de chaque langue y
+les blocs data-tr="en", l'arabe sur les jumelles de ar/. Les chemins partent de la racine de la langue : la page du glossaire de chaque langue y
 mène directement.
 NE COMPTENT PAS : les pages d'EXCLUES — le glossaire lui-même, les pages qui donnent des réponses —, les zones
 protégées de deploiement/destination.json et les pages que le déployeur ne publie pas (sa liste « exclure ») : en

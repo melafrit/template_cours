@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
+"""Template de site de cours · Mohamed EL AFRIT (MIT / CC BY 4.0)
 
 Genere la version PAPIER du QCM a partir des donnees BILINGUES du site
 (site/QCM/questions.js + corrections.js), pour la ou les langues demandees.
@@ -159,7 +159,7 @@ def load_data():
 def labels(lang, titre, sous, duree, n, maxraw, auteur):
     if lang == 'en':
         return {
-            'cover_kicker': "QUIZ — INDIVIDUAL ASSESSMENT",
+            'cover_kicker': "QUIZ · INDIVIDUAL ASSESSMENT",
             'cover_meta': sous + "  ·  Time: " + duree + "  ·  " + str(n) + " questions",
             'idline': "LAST NAME: ______________________________     FIRST NAME: ______________________________     DATE: ____ / ____ / ______",
             'instructions_h': "Instructions",
@@ -169,7 +169,7 @@ def labels(lang, titre, sous, duree, n, maxraw, auteur):
                 "Report all your answers on the answer sheet, the only document collected. For each question, fill in a single answer circle (A/B/C/D) and a single certainty circle (L/M/H).",
                 "Every mark must be clear; in case of error, cross it out clearly. If no certainty is indicated, the “Low” certainty is applied.",
             ],
-            'scale_h': "Marking scheme — certainty-based marking (CBM)",
+            'scale_h': "Marking scheme: certainty-based marking (CBM)",
             'scale_intro': "You state your certainty for each answer. The more confident you are, the more a correct answer earns… but the more a mistake costs.",
             'scale_hdr': ["Your certainty", "Correct answer", "Wrong answer"],
             'scale_rows': [
@@ -193,29 +193,29 @@ def labels(lang, titre, sous, duree, n, maxraw, auteur):
                 ["", "", "Total (3 q.)", "+2"],
             ],
             'example_global': "Across all " + str(n) + " questions, a raw score of " + _example_raw(n, maxraw) + " gives, for instance: " + _example_raw(n, maxraw) + " ÷ " + str(maxraw) + " × 20 = " + _example_mark(n, maxraw) + " / 20.",
-            'strategy': "Honest strategy: “Low” if you are guessing, “Medium” if you are fairly sure, “High” only if you are truly certain — a wrong High certainty costs −3.",
+            'strategy': "Honest strategy: “Low” if you are guessing, “Medium” if you are fairly sure, “High” only if you are truly certain, because a wrong High certainty costs −3.",
             'questions_h': "Questions (1 to " + str(n) + ")",
-            'foot_q': titre + " — Quiz — " + auteur + " — CC BY 4.0",
+            'foot_q': titre + " · Quiz · " + auteur + " · CC BY 4.0",
             # grille
-            'grille_title2': "Quiz — Answer sheet   (the only document to hand in)",
+            'grille_title2': "Quiz · Answer sheet   (the only document to hand in)",
             'grille_instructions': [
                 ("Single answer: fill in a single circle A, B, C or D per question.", False),
                 ("Certainty (one circle ○): L = Low · M = Medium · H = High   (default: Low).", False),
                 ("Scale: High +3 / −3  ·  Medium +2 / −2  ·  Low +1 / 0.   Mark /20 = raw ÷ " + str(maxraw) + " × 20.", True),
             ],
             'grille_sub': ['No.', 'A', 'B', 'C', 'D', 'L', 'M', 'H'],
-            'foot_grille': titre + " — Answer sheet — " + auteur + " — CC BY 4.0",
+            'foot_grille': titre + " · Answer sheet · " + auteur + " · CC BY 4.0",
             # corrige
-            'corrige_kicker': "ANSWER KEY — for the instructor only",
-            'corrige_intro': "Quiz — " + str(n) + " single-answer questions. CBM scale: High +3/−3 · Medium +2/−2 · Low +1/0. Mark /20 = raw ÷ " + str(maxraw) + " × 20.",
+            'corrige_kicker': "ANSWER KEY (for the instructor only)",
+            'corrige_intro': "Quiz: " + str(n) + " single-answer questions. CBM scale: High +3/−3 · Medium +2/−2 · Low +1/0. Mark /20 = raw ÷ " + str(maxraw) + " × 20.",
             'corrige_chapter': "Chapter ",
             'corrige_answer': "Answer: ",
             'corrige_expl': "Explanation. ",
-            'foot_corrige': titre + " — Answer key (instructor) — " + auteur + " — CC BY 4.0",
+            'foot_corrige': titre + " · Answer key (instructor) · " + auteur + " · CC BY 4.0",
         }
     # ----- FR (defaut) -----
     return {
-        'cover_kicker': "QCM — ÉPREUVE INDIVIDUELLE",
+        'cover_kicker': "QCM · ÉPREUVE INDIVIDUELLE",
         'cover_meta': sous + "  ·  Durée : " + duree + "  ·  " + str(n) + " questions",
         'idline': "NOM : ______________________________     PRÉNOM : ______________________________     DATE : ____ / ____ / ______",
         'instructions_h': "Consignes",
@@ -225,7 +225,7 @@ def labels(lang, titre, sous, duree, n, maxraw, auteur):
             "Reportez toutes vos réponses sur la grille de réponses, seul document ramassé. Pour chaque question, noircissez un seul cercle de réponse (A/B/C/D) et un seul cercle de certitude (F/M/É).",
             "Toute marque doit être nette ; en cas d'erreur, raturez clairement. À défaut de certitude indiquée, la certitude « Faible » est appliquée.",
         ],
-        'scale_h': "Barème — notation par degré de certitude (CBM)",
+        'scale_h': "Barème : notation par degré de certitude (CBM)",
         'scale_intro': "Vous indiquez votre certitude pour chaque réponse. Plus vous êtes sûr, plus une bonne réponse rapporte… mais plus une erreur coûte.",
         'scale_hdr': ["Votre certitude", "Bonne réponse", "Mauvaise réponse"],
         'scale_rows': [
@@ -249,25 +249,25 @@ def labels(lang, titre, sous, duree, n, maxraw, auteur):
             ["", "", "Total (3 q.)", "+2"],
         ],
         'example_global': "Sur l'ensemble des " + str(n) + " questions, un score brut de " + _example_raw(n, maxraw) + " donne par exemple : " + _example_raw(n, maxraw) + " ÷ " + str(maxraw) + " × 20 = " + _example_mark(n, maxraw) + " / 20.",
-        'strategy': "Stratégie honnête : « Faible » si vous devinez, « Moyenne » si vous êtes assez sûr, « Élevée » seulement si vous êtes vraiment certain — une certitude Élevée erronée coûte −3.",
+        'strategy': "Stratégie honnête : « Faible » si vous devinez, « Moyenne » si vous êtes assez sûr, « Élevée » seulement si vous êtes vraiment certain, car une certitude Élevée erronée coûte −3.",
         'questions_h': "Questions (1 à " + str(n) + ")",
-        'foot_q': titre + " — QCM — " + auteur + " — CC BY 4.0",
+        'foot_q': titre + " · QCM · " + auteur + " · CC BY 4.0",
         # grille
-        'grille_title2': "QCM — Grille de réponses   (seul document à rendre)",
+        'grille_title2': "QCM · Grille de réponses   (seul document à rendre)",
         'grille_instructions': [
             ("Réponse unique : noircissez un seul cercle A, B, C ou D par question.", False),
             ("Certitude (un seul cercle ○) : F = Faible · M = Moyenne · É = Élevée   (à défaut : Faible).", False),
             ("Barème : Élevée +3 / −3  ·  Moyenne +2 / −2  ·  Faible +1 / 0.   Note /20 = brut ÷ " + str(maxraw) + " × 20.", True),
         ],
         'grille_sub': ['N°', 'A', 'B', 'C', 'D', 'F', 'M', 'É'],
-        'foot_grille': titre + " — Grille QCM — " + auteur + " — CC BY 4.0",
+        'foot_grille': titre + " · Grille QCM · " + auteur + " · CC BY 4.0",
         # corrige
-        'corrige_kicker': "CORRIGÉ — réservé au formateur",
-        'corrige_intro': "QCM — " + str(n) + " questions à réponse unique. Barème CBM : Élevée +3/−3 · Moyenne +2/−2 · Faible +1/0. Note /20 = brut ÷ " + str(maxraw) + " × 20.",
+        'corrige_kicker': "CORRIGÉ (réservé au formateur)",
+        'corrige_intro': "QCM : " + str(n) + " questions à réponse unique. Barème CBM : Élevée +3/−3 · Moyenne +2/−2 · Faible +1/0. Note /20 = brut ÷ " + str(maxraw) + " × 20.",
         'corrige_chapter': "Chapitre ",
         'corrige_answer': "Réponse : ",
         'corrige_expl': "Explication. ",
-        'foot_corrige': titre + " — Corrigé QCM (formateur) — " + auteur + " — CC BY 4.0",
+        'foot_corrige': titre + " · Corrigé QCM (formateur) · " + auteur + " · CC BY 4.0",
     }
 
 
@@ -551,7 +551,7 @@ def build_corrige(meta, merged, lang, ctx):
         pr = doc.add_paragraph(); no_space(pr, 0, 1); pr.paragraph_format.left_indent = Mm(4)
         if bi is not None and 0 <= bi < len(props):
             lab = L[bi] if bi < len(L) else chr(ord('A') + bi)
-            run(pr, T['corrige_answer'] + lab + " — ", 9.5, bold=True)
+            run(pr, T['corrige_answer'] + lab + " · ", 9.5, bold=True)
             run(pr, pick(props[bi], lang), 9.5, bold=True)
         else:
             run(pr, T['corrige_answer'] + "?", 9.5, bold=True)

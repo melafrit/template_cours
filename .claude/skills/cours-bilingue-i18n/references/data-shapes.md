@@ -137,7 +137,7 @@ Bilingue : `explication`. Neutres : `id`, `chapitre`, `difficulte`, `bonne_repon
   section doit correspondre **exactement** à une ancre `<h2 id="chN-sM">` de la page, sinon le
   sous-menu pointe dans le vide.
 - **Les `id` de questions (`Q01`…) doivent correspondre** entre `questions.js` et `corrections.js` :
-  une question = deux entrées synchronisées par le même `id`. Le nombre et l'ordre des questions
-  entrent dans la signature SHA-256 des CSV : figez la banque pendant une session d'examen.
+  une question = deux entrées synchronisées par le même `id`. La correction note chaque CSV avec
+  la banque du moment (la signature, elle, ne couvre que le CSV) : figez la banque pendant une session d'examen.
 
 > Template de site de cours — **Mohamed EL AFRIT** · code MIT, contenu & prompts CC BY 4.0.

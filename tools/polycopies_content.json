@@ -5,15 +5,15 @@
       "en": "Scoping your course"
     },
     "subtitle": {
-      "fr": "Polycopié de synthèse — Cours-démo « Concevoir un cours en ligne »",
-      "en": "Summary handout — Demo course “Designing an online course”"
+      "fr": "Polycopié de synthèse · Cours-démo « Concevoir un cours en ligne »",
+      "en": "Summary handout · Demo course “Designing an online course”"
     },
     "blocks": [
       [
         "p",
         {
-          "fr": "Trois décisions se prennent **avant** d'écrire la première ligne : pour qui, pour quoi faire, et autour de quoi. Chacune contraint la suivante. Les sauter ne fait pas gagner de temps — cela le déplace vers la refonte.",
-          "en": "Three decisions come **before** writing a single line: for whom, to do what, and around what. Each constrains the next. Skipping them does not save time — it moves the time to the rewrite."
+          "fr": "Trois décisions se prennent **avant** d'écrire la première ligne : pour qui, pour quoi faire, et autour de quoi. Chacune contraint la suivante. Les sauter ne fait pas gagner de temps : cela le déplace vers la refonte.",
+          "en": "Three decisions come **before** writing a single line: for whom, to do what, and around what. Each constrains the next. Skipping them does not save time: it moves the time to the rewrite."
         }
       ],
       [
@@ -99,8 +99,8 @@
       "en": "Structuring the content"
     },
     "subtitle": {
-      "fr": "Polycopié de synthèse — Cours-démo « Concevoir un cours en ligne »",
-      "en": "Summary handout — Demo course “Designing an online course”"
+      "fr": "Polycopié de synthèse · Cours-démo « Concevoir un cours en ligne »",
+      "en": "Summary handout · Demo course “Designing an online course”"
     },
     "blocks": [
       [
@@ -120,8 +120,8 @@
       [
         "p",
         {
-          "fr": "Un chapitre est une unité de rangement ; ce que l'apprenant traverse, ce sont des **séquences**. Une séquence utile porte trois éléments : une **question** qui la motive, un **contenu** qui y répond, une **vérification** qui prouve qu'elle a porté. C'est presque toujours la troisième qui manque — c'est la plus difficile à imaginer.",
-          "en": "A chapter is a storage unit; what the learner goes through are **sequences**. A useful sequence carries three parts: a **question** that motivates it, **content** that answers it, a **check** that proves it landed. It is almost always the third that goes missing — it is the hardest to imagine."
+          "fr": "Un chapitre est une unité de rangement ; ce que l'apprenant traverse, ce sont des **séquences**. Une séquence utile porte trois éléments : une **question** qui la motive, un **contenu** qui y répond, une **vérification** qui prouve qu'elle a porté. C'est presque toujours la troisième qui manque, car c'est la plus difficile à imaginer.",
+          "en": "A chapter is a storage unit; what the learner goes through are **sequences**. A useful sequence carries three parts: a **question** that motivates it, **content** that answers it, a **check** that proves it landed. It is almost always the third that goes missing, because it is the hardest to imagine."
         }
       ],
       [
@@ -148,8 +148,8 @@
       [
         "p",
         {
-          "fr": "L'erreur la plus commune est d'ouvrir par ce qui compte le plus — donc par ce qui suppose tout le reste acquis. Listez vos notions, tracez une flèche de chacune vers celles qu'elle suppose : les notions sans flèche entrante sont vos points de départ. Un cycle signale une notion mal découpée.",
-          "en": "The most common mistake is opening with what matters most — hence with what assumes everything else. List your notions, draw an arrow from each to those it assumes: notions with no incoming arrow are your starting points. A cycle signals a badly cut notion."
+          "fr": "L'erreur la plus commune est d'ouvrir par ce qui compte le plus, donc par ce qui suppose tout le reste acquis. Listez vos notions, tracez une flèche de chacune vers celles qu'elle suppose : les notions sans flèche entrante sont vos points de départ. Un cycle signale une notion mal découpée.",
+          "en": "The most common mistake is opening with what matters most, hence with what assumes everything else. List your notions, draw an arrow from each to those it assumes: notions with no incoming arrow are your starting points. A cycle signals a badly cut notion."
         }
       ],
       [
@@ -193,15 +193,15 @@
       "en": "Creating the resources"
     },
     "subtitle": {
-      "fr": "Polycopié de synthèse — Cours-démo « Concevoir un cours en ligne »",
-      "en": "Summary handout — Demo course “Designing an online course”"
+      "fr": "Polycopié de synthèse · Cours-démo « Concevoir un cours en ligne »",
+      "en": "Summary handout · Demo course “Designing an online course”"
     },
     "blocks": [
       [
         "p",
         {
-          "fr": "Texte, audio, schéma : trois formats, trois intentions. Les confondre coûte cher — en temps de production, et en attention perdue.",
-          "en": "Text, audio, diagram: three formats, three intentions. Confusing them is expensive — in production time, and in lost attention."
+          "fr": "Texte, audio, schéma : trois formats, trois intentions. Les confondre coûte cher : en temps de production, et en attention perdue.",
+          "en": "Text, audio, diagram: three formats, three intentions. Confusing them is expensive: in production time, and in lost attention."
         }
       ],
       [
@@ -242,8 +242,8 @@
       [
         "p",
         {
-          "fr": "La production est le moment où les cours s'arrêtent. La voie praticable : un **script écrit** pour chaque ressource, avec sa durée visée — c'est lui qu'on corrige, pas l'enregistrement — puis un **contrôle automatique** avant publication. Ce que le contrôle rejette part de côté, jamais en ligne.",
-          "en": "Production is where courses stall. The workable path: a **written script** for each resource, with its target duration — that is what you fix, not the recording — then an **automatic check** before publication. Whatever the check rejects goes aside, never online."
+          "fr": "La production est le moment où les cours s'arrêtent. La voie praticable : un **script écrit** pour chaque ressource, avec sa durée visée (c'est lui qu'on corrige, pas l'enregistrement), puis un **contrôle automatique** avant publication. Ce que le contrôle rejette part de côté, jamais en ligne.",
+          "en": "Production is where courses stall. The workable path: a **written script** for each resource, with its target duration (that is what you fix, not the recording), then an **automatic check** before publication. Whatever the check rejects goes aside, never online."
         }
       ],
       [
