@@ -1,4 +1,4 @@
-# Module 05 — Les évaluations : QCM en ligne, papier et d'entraînement, et leur correction publique
+# Module 05 · Les évaluations : QCM en ligne, papier et d'entraînement, et leur correction publique
 
 > **Quand l'activer.** Dès que le cours se conclut par une évaluation, ou prépare une
 > épreuve. Les points de contrôle, eux, valent pour tout cours.
@@ -17,7 +17,7 @@
 
 - Des **points de contrôle** expliqués, un par section importante.
 - [si actif] Le **QCM en ligne** noté (`prompts/07_qcm_banque.md`) : notation CBM (degré de
-  certitude), correction signée et tableau de bord du formateur — le moteur du gabarit.
+  certitude), correction signée et tableau de bord du formateur, par le moteur du gabarit.
 - [si actif] Le **QCM papier** (`prompts/08_qcm_papier.md`) : livrets, corrigé commenté,
   grille.
 - [si actif] Le **QCM d'entraînement** : des questions **différentes** du QCM noté, même
@@ -26,8 +26,8 @@
   d'entraînement » dans le menu : chaque question du cours, sa réponse et ses explications,
   pour réviser.
 
-**Toujours**, quelle que soit la forme : chaque proposition expliquée — pourquoi la bonne
-réponse est juste, pourquoi chacune des autres ne l'est pas — et deux à quatre renvois
+**Toujours**, quelle que soit la forme : chaque proposition expliquée (pourquoi la bonne
+réponse est juste, pourquoi chacune des autres ne l'est pas), et deux à quatre renvois
 « Pour approfondir » vers l'endroit exact du cours ou une référence externe vérifiée
 (`prompts/15_explications_quiz.md`). Ce n'est pas une option.
 

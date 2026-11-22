@@ -1,4 +1,4 @@
-# Module 02 — Le polycopié : un livret Word et PDF, relié au site par ses QR codes
+# Module 02 · Le polycopié : un livret Word et PDF, relié au site par ses QR codes
 
 > **Quand l'activer.** Quand le cours doit exister aussi en livre : un livret qu'on imprime,
 > qu'on annote et qu'on révise hors écran, relié au site par des QR codes.
@@ -20,8 +20,8 @@
 
 Un **vrai livret de cours**, motivant, à la mise en page professionnelle, pédagogique et
 académique : des encadrés, les schémas du cours expliqués, et des **QR codes dans la marge,
-au bon endroit**, vers les ressources du site — capsules audio, glossaire, activités,
-corrections en ligne, modèles, simulateurs, épisodes du podcast. Il est **au nom de
+au bon endroit**, vers les ressources du site (capsules audio, glossaire, activités,
+corrections en ligne, modèles, simulateurs, épisodes du podcast). Il est **au nom de
 l'auteur** (`cours.auteur`), avec une présentation brève de lui, une **page de garde
 professionnelle comme un livre**, des **mentions légales**, un **mini-sommaire au début de
 chaque chapitre**, une **bibliographie**, le **glossaire** et un **index**.
@@ -48,7 +48,7 @@ recopie depuis le gabarit les fichiers du tableau et ajoute l'entrée du menu da
 |---|---|
 | `outils/generer_polycopie.py` | compose le livret Word, puis le PDF par Word, dans `Polycopie/` (jamais publié) |
 | `outils/polycopie/` | le paquet : sources, libelles, navigateur, lecture, gabarit, ooxml, pictos, images, qr, rendu, pages, word, controles, page |
-| `outils/livret.py` | la fiche du livret : ce que le site ne dit pas — pied de couverture, catégorie, année du copyright, **présentation de l'auteur** (le livret refuse de s'écrire sans elle), cas fictif, adresses à nommer, noms gardant leur minuscule, chapitres du témoin ; mention d'édition (« Deuxième édition »), palette du site si elle n'est pas celle du gabarit, site protégé (QR codes vérifiés dans le dépôt, mentions qui disent où trouver ses identifiants) |
+| `outils/livret.py` | la fiche du livret, ce que le site ne dit pas : pied de couverture, catégorie, année du copyright, **présentation de l'auteur** (le livret refuse de s'écrire sans elle), cas fictif, adresses à nommer, noms gardant leur minuscule, chapitres du témoin ; mention d'édition (« Deuxième édition »), palette du site si elle n'est pas celle du gabarit, site protégé (QR codes vérifiés dans le dépôt, mentions qui disent où trouver ses identifiants) |
 | `outils/publier_polycopie.py` | contrôle le PDF, le publie dans `site/livret/` avec la vignette de sa couverture et `livret.json`, puis réécrit la page |
 | `site/polycopie.html` | la page : fragments `livret-couverture`, `livret-fiche`, `livret-auteur`, écrits par `outils/generer_fragments.py` |
 | `site/assets/js/interactions.js` | l'enregistreur : chaque composant RDCX garde sa configuration ; l'adresse `?polycopie=fr` (ou `en`) la dépose dans la page, que Chrome sans interface lit |
@@ -74,7 +74,7 @@ en pleine page, l'étude de cas et le TP pas à pas, les filières, le manifeste
 
 **Le modèle : le cours d'architecture logicielle (lecture seule).** Ce travail a été fait
 de bout en bout sur `C:\projets\Cours\Cours_Architecture_Logicielle` (décisions D114 à
-D122). **Étudie-le pour ce que le gabarit n'a pas, et n'y modifie jamais rien** — pas même
+D122). **Étudie-le pour ce que le gabarit n'a pas, et n'y modifie jamais rien**, pas même
 un `__pycache__` : lis ses modules Python, ne les importe pas. Ses fichiers secrets valent
 ceux du cours : ne les lis jamais.
 
@@ -89,8 +89,8 @@ ceux du cours : ne les lis jamais.
 | `deploiement\deployer.py` | l'exclusion du dossier de travail `Polycopie/*` |
 | `livret\`, `en\livret\` | les livrets publiés : 226 et 222 pages, 368 et 369 QR codes |
 
-Reprends ce qui s'applique, adapte ce qui diffère — structure du site (`site/` dans un cours
-créé depuis le template), ressources, langues, filières — et dis à l'auteur ce que tu
+Reprends ce qui s'applique, adapte ce qui diffère (structure du site, `site/` dans un cours
+créé depuis le template, ressources, langues, filières), et dis à l'auteur ce que tu
 reprends : chaque reprise est une décision Dnn.
 
 ---
@@ -106,17 +106,17 @@ Une question à la fois ; entre parenthèses, le choix retenu sur le cours de r�
 - **Présentation de l'auteur** : pars de celle du cours de référence
   (`docs\06-Plan-du-polycopie.md`, § 3), adapte-la, **montre-la en entier dans la
   question** ; corrigée par l'auteur, elle s'imprime ensuite mot pour mot.
-- **Mentions légales** (« © année, nom de l'auteur — Tous droits réservés » ; usage
+- **Mentions légales** (« © année et nom de l'auteur. Tous droits réservés. » ; usage
   personnel et pédagogique des étudiants autorisé, toute autre reproduction ou diffusion
   soumise à l'accord écrit de l'auteur ; Première édition ; l'année n'apparaît que dans le
   copyright ; cas d'étude fictif ; marques à leurs propriétaires).
 - **Couleur** (la charte du site, **lisible en noir et blanc** : chaque encadré se
   reconnaît à son pictogramme, son libellé et son filet, jamais à la seule couleur).
 - **Contenu** (les chapitres en entier, chacun ouvert par son mini-sommaire ; l'étude de
-  cas ; le TP pas à pas **sans sa correction** ; les ressources propres au cours — guide de
-  schémas, catalogue d'une Boîte à outils, une ou deux lignes par fiche : sa définition,
-  puis à quoi elle sert ; les fiches mémo en pleine page ; bibliographie, glossaire,
-  index).
+  cas ; le TP pas à pas **sans sa correction** ; les ressources propres au cours, comme le
+  guide de schémas ou le catalogue d'une Boîte à outils, avec une ou deux lignes par fiche,
+  sa définition puis à quoi elle sert ; les fiches mémo en pleine page ; bibliographie,
+  glossaire, index).
 - **Réponses** (seulement en ligne : **aucune réponse imprimée** ; chaque série d'exercices
   ou de QCM porte un QR code vers sa correction en ligne ; **jamais** la correction
   protégée du TP, vers laquelle aucun QR code ne mène).
@@ -128,11 +128,11 @@ Une question à la fois ; entre parenthèses, le choix retenu sur le cours de r�
   débutant ; s'il en manque une, propose de l'ajouter aussi sur le site, dans chaque
   langue).
 - **Bibliographie** (celle du site ; si le site n'en a pas, propose-la par rubriques, chaque
-  référence vérifiée — auteur, titre, éditeur, édition, ISBN ou adresse officielle — et
+  référence vérifiée (auteur, titre, éditeur, édition, ISBN ou adresse officielle), et
   fais-la valider avant qu'elle entre dans le livret).
 - **Sur le site** (la page « 📘 Polycopié » : couverture, bouton de téléchargement, PDF,
   pages, poids, langue ; ce que contient le livret ; ses QR codes ; comment l'imprimer ;
-  l'auteur — la page du gabarit a tout cela ; entrée de menu en tête des ressources ; carte
+  l'auteur (la page du gabarit a tout cela) ; entrée de menu en tête des ressources ; carte
   sur l'accueil, qui mène à la page et non au PDF).
 - **Podcasts**, si le module 03 est actif (un QR code « PODCAST » à l'ouverture de chaque
   partie, vers l'épisode qui la raconte ; posé une fois les épisodes publiés).
@@ -156,8 +156,8 @@ Selon le cours, deux décisions de plus :
   `--anglais`, `--essai`, `--sans-pdf`, `--hors-ligne`, `--apercus`, `--images`,
   `--verrou`, `--sortie` ; le cours de référence y ajoute `--manifeste`) et un paquet
   `outils/polycopie/` : lecture des
-  pages du site (le contenu de `<main>`) en blocs Word — intertitres, paragraphes, listes,
-  tableaux, figures, encadrés, activités, capsules, termes du glossaire ; un lien vers une
+  pages du site (le contenu de `<main>`) en blocs Word (intertitres, paragraphes, listes,
+  tableaux, figures, encadrés, activités, capsules, termes du glossaire) ; un lien vers une
   autre partie du livret devient un renvoi « (p. n) » ; libellés dans les deux langues. Les
   chiffres viennent des mêmes sources que le site.
 - **Word** écrit par python-docx et de l'OOXML : marges en miroir (intérieure 2,2 cm,
@@ -219,7 +219,7 @@ commit séparé.
   `livret/` et `en/livret/`.
 - **Un schéma déjà rendu par PlantUML ne se rend jamais de nouveau sur un autre poste** que
   celui qui l'a produit : les polices changent le dessin.
-- **Un seul export Word à la fois** : deux exports simultanés se marchent dessus — d'où le
+- **Un seul export Word à la fois** : deux exports simultanés se marchent dessus, d'où le
   verrou.
 - **Word écrit toujours « en »** comme langue du PDF : la langue et le titre se posent
   après l'export.
@@ -239,9 +239,9 @@ commit séparé.
 ## 7. Les contrôles, à chaque livret
 
 - **Le Word** s'ouvre. **Le PDF** : nombre de pages, signets, langue, titre ; **chaque page
-  rendue en PNG (PyMuPDF) et relue à l'œil** — marges, QR codes à leur place, en-têtes,
-  mini-sommaires et leurs pages, encadrés, schémas nets (signale toute image sous 240
-  points par pouce), rien qui déborde.
+  rendue en PNG (PyMuPDF) et relue à l'œil** (marges, QR codes à leur place, en-têtes,
+  mini-sommaires et leurs pages, encadrés, schémas nets, rien qui déborde) ; signale toute
+  image sous 240 points par pouce.
 - **Chaque QR code décodé dans le PDF** : son adresse absolue, sa réponse ; **chaque QR
   code et sa légende couverts par un lien de même adresse** ; un manifeste JSON des QR
   codes.
@@ -250,7 +250,7 @@ commit séparé.
 - **Sur le site** : liens, menus à jour, parité des pages jumelles et `hreflang` si le cours
   est bilingue, recette au navigateur à 1280 et 375 px (console vide, aucun débordement).
 - **Après la mise en ligne** : page et PDF en 200, tailles identiques au dépôt ; sur un site
-  protégé, 401 sans identifiants — sans jamais t'authentifier.
+  protégé, 401 sans identifiants, sans jamais t'authentifier.
 
 **Terminé** quand le livret de chaque langue est publié sans anomalie aux contrôles ; que la
 page, le menu et la carte de l'accueil y mènent ; et que le plan du polycopié, les
@@ -268,7 +268,7 @@ décisions, l'état d'avancement, le guide de production et `TODO.md` sont à jo
    mémo, termes du glossaire, références, documents du TP, épisodes du podcast. Recompte
    sur le dépôt : un chiffre recopié d'un document date.
 3. Pose les questions de cadrage, **une à une** (section 3).
-4. Propose le plan — témoin, livret français, livret anglais, page du site —, puis attends
+4. Propose le plan (témoin, livret français, livret anglais, page du site), puis attends
    l'accord de l'auteur pour lancer le témoin.
 
 Sur un cours qui n'a pas été créé depuis le template, les règles de son `CLAUDE.md`

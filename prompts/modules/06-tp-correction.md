@@ -1,4 +1,4 @@
-# Module 06 — Le TP et sa correction protégée
+# Module 06 · Le TP et sa correction protégée
 
 > **Quand l'activer.** Quand le cours fait produire un travail guidé dont les réponses ne
 > doivent pas circuler : un TP pas à pas, un projet, une étude.
@@ -51,8 +51,8 @@ Une question à la fois.
 ## 4. La méthode
 
 1. **Les interdits** : le sujet du TP, ses chiffres et ses mots n'apparaissent que sur les
-   pages du TP et dans la correction. Ils entrent dans `outils/interdits.py` — mots,
-   nombres (cherchés aussi en toutes lettres, pour les scripts audio), motifs — avec, dans
+   pages du TP et dans la correction. Ils entrent dans `outils/interdits.py` (mots,
+   nombres, cherchés aussi en toutes lettres pour les scripts audio, et motifs), avec, dans
    `PERMIS`, la page du TP et le dossier de la correction ; `outils/verifier_interdits.py`
    les cherche partout ailleurs.
 2. **La page du TP** : énoncé, étapes, attendus, modèles adaptés au cas.

@@ -41,7 +41,7 @@
 
 | Module | Fichier, dans `prompts/modules/` | Ce qu'il ajoute | Phase |
 |---|---|---|---|
-| Bilingue | `01-bilingue.md` | la version anglaise, une fois le français stable | 9 |
+| Langues | `01-langues.md` | les pages jumelles (anglais, arabe), une fois la racine stable ; actif dès que `cours.langues` compte deux langues | 9 |
 | Polycopié | `02-polycopie.md` | le livret Word et PDF, ses QR codes cliquables, sa page sur le site | 10 |
 | Podcasts | `03-podcasts-notebooklm.md` | la série NotebookLM, ses diaporamas, sa page sur le site | 11 |
 | Audio | `04-audio-elevenlabs.md` | les capsules, à la voix clonée de l'auteur | 8 |
@@ -50,6 +50,7 @@
 | École | `07-ypareo-livrables.md` | les cahiers de texte Yparéo, les classeurs d'import de l'application Livrables | 12 |
 | Déploiement | `08-deploiement.md` | la mise en ligne, ses garde-fous, ses contrôles | 13 |
 | Compléments | `09-complements.md` | schémas, illustrations, simulateurs, glossaire, Boîte à outils, fiches mémo | 7 |
+| Codex | `10-codex.md` | les illustrations, générées par Codex, que Claude Code lance lui-même | 7 |
 
 Un module s'utilise aussi **seul**, sur un cours qui existe déjà (lui ajouter un
 polycopié, une série de podcasts, sa version anglaise) : donnez le fichier du module à
@@ -185,9 +186,7 @@ malus_version_de_travail: 0
 
 # ─────────────────────────────── LES MODULES (un fichier chacun dans prompts/modules/)
 modules:
-  bilingue:                     # 01 : les pages jumelles d'une autre langue, une fois la racine stable
-    actif: false
-    modele: "miroir"            # pages jumelles sous en/ ; "data-tr" (blocs jumelés) en secours : voir le module
+                                # 01, les langues : actif dès que cours.langues compte deux langues (site miroir)
   polycopie:                    # 02 : le livret Word et PDF
     actif: false                # (cours.json : le bloc « livret » amène la chaîne et la page ; il demande le glossaire)
   podcasts:                     # 03 : NotebookLM
@@ -219,7 +218,7 @@ modules:
     site_protege: false         # tout le site derrière un mot de passe, posé côté serveur
   complements:                  # 09
     schemas: {actif: true, capsule_par_schema: false}
-    illustrations: {actif: false, outil: "Codex"}
+    illustrations: {actif: false, outil: "Codex"}   # le détail : module 10
     simulateurs: []
     glossaire: true
     boite_a_outils: {actif: false, fiches: 0}
@@ -405,11 +404,10 @@ ce template, sauf avis contraire de sa part dans les PARAMÈTRES.
 - Site statique sans framework ni build, dans site/ : index.html, cours.html,
   chapitres/NN-*.html, glossaire.html, activites.html, atelier.html, QCM/… Seul site/ se
   publie.
-- Le bilingue (docs/I18N.md) : par défaut, des pages en français, puis leur jumelle
-  anglaise sous en/ une fois le français stable (module 01) ; en secours, des blocs
-  data-tr, le contenu des composants dans TEXTES = { fr, en } et monter() rejoué sur
-  tpl:langchange. Dans les deux cas, les libellés des moteurs vivent dans ui-labels.js
-  (T()), jamais en dur.
+- Les langues (docs/I18N.md, module 01) : des pages dans la langue racine, puis leurs
+  jumelles sous en/ ou ar/ une fois la racine stable ; l'arabe de droite à gauche, avec
+  docs/LEXIQUE-ar.md. Les blocs data-tr ne se créent plus et restent décrits pour les cours
+  qui les ont déjà. Les libellés des moteurs vivent dans ui-labels.js (T()), jamais en dur.
 - Copier depuis site/chapitres/_modele.html, le seul endroit où tous les composants sont
   appelés pour de vrai.
 - Chaque chapitre : capsule d'ouverture, sections numérotées (h2 id), composants RDCX là
@@ -446,9 +444,9 @@ Phase 4   Contenus en français, un chapitre à la fois (prompts/03_chapitre.md,
           densité, explications des quiz), puis à la fin.
 Phase 5   TP et sa correction protégée ................................... module 06
 Phase 6   Évaluations, toutes expliquées. STOP ............................. module 05
-Phase 7   Compléments : schémas, simulateurs, glossaire, Boîte à outils .... module 09
+Phase 7   Compléments, puis illustrations par Codex ........................ modules 09, 10
 Phase 8   Audio : fiches, témoin, STOP, série .............................. module 04
-Phase 9   Version anglaise, une fois le français stable .................... module 01
+Phase 9   Langues jumelles, une fois la racine stable ...................... module 01
 Phase 10  Polycopié : témoin, STOP, livret français, puis anglais .......... module 02
 Phase 11  Podcasts et diaporamas, puis leurs QR codes dans le livret ....... module 03
 Phase 12  Yparéo et import Livrables. STOP ................................. module 07
@@ -611,7 +609,6 @@ livrables:
      version_finale: {jour: 2, heure: "15:00", note_max: 20, coefficient: 1, grille: false}}
 malus_version_de_travail: 2
 modules:
-  bilingue: {actif: false}
   polycopie: {actif: true}
   podcasts: {actif: true, episodes: 8, diaporamas: true}
   audio: {actif: true, capsules: ["accueil", "ouverture de chapitre", "TP pas à pas"]}

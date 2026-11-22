@@ -1,11 +1,12 @@
-# Module 07 — L'école : les cahiers de texte Yparéo et l'import de l'application Livrables
+# Module 07 · L'école : les cahiers de texte Yparéo et l'import de l'application Livrables
 
 > **Quand l'activer.** Quand le cours se donne dans une école qui tient ses séances dans
 > Yparéo et recueille les livrables dans l'application de l'auteur.
 >
-> **Paramètres.** `modules.ecole` : `ypareo`, `livrables_app` ; les dates réelles dans
-> `cours.calendrier` (elles ne servent qu'ici, et vont dans `outils/sessions.py`) ; les
-> promotions et matières exactes dans `filieres`. Dans `cours.json`, ils s'écrivent dans
+> **Paramètres.** `modules.ecole` : `ypareo`, `livrables_app`, `bouton_qcm` ; les dates
+> réelles dans `cours.calendrier` (elles ne servent qu'ici, et vont dans
+> `outils/sessions.py`) ; les promotions, les matières exactes et la page des épreuves dans
+> `filieres`. Dans `cours.json`, ils s'écrivent dans
 > le bloc `ecole` (l'adresse de Livrables, le bouton du QCM, une session par promotion
 > avec sa promotion et sa matière exactes et ses dates réelles) et, pour chaque filière,
 > dans `bloc`, `module` et `epreuves`. `nouveau_cours.py` les reporte dans
@@ -95,8 +96,8 @@ quitte jamais le poste.
 
 ## 5. Les pièges connus
 
-- **Deux matières NOUVELLES dans un même fichier** : seule la première reçoit ses séances
-  — un fichier par promotion.
+- **Deux matières NOUVELLES dans un même fichier** : seule la première reçoit ses séances,
+  d'où un fichier par promotion.
 - **Réimporter un livrable décochait « facultatif »** : le code de l'application, relu le
   22 novembre 2026, laisse désormais la case en place. Vérifiez-la après un réimport.
 - **« Livrable bonus, facultatif » rend un livrable non dû** : ceux qui ne l'ont pas rendu

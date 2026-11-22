@@ -14,7 +14,7 @@ Ce dossier contient **le prompt paramétrable** de création d'un cours et **ses
 
 | Module | Ce qu'il ajoute |
 |---|---|
-| [`01-bilingue.md`](modules/01-bilingue.md) | la version anglaise, après le français (site miroir `en/` ou blocs `data-tr`) |
+| [`01-langues.md`](modules/01-langues.md) | les pages jumelles d'une autre langue, anglais ou arabe, après la racine (site miroir `en/`, `ar/`) |
 | [`02-polycopie.md`](modules/02-polycopie.md) | le livret Word et PDF, ses QR codes cliquables, sa page sur le site |
 | [`03-podcasts-notebooklm.md`](modules/03-podcasts-notebooklm.md) | la série de podcasts NotebookLM, ses diaporamas, sa page sur le site |
 | [`04-audio-elevenlabs.md`](modules/04-audio-elevenlabs.md) | les capsules, à la voix clonée de l'auteur |
@@ -23,6 +23,7 @@ Ce dossier contient **le prompt paramétrable** de création d'un cours et **ses
 | [`07-ypareo-livrables.md`](modules/07-ypareo-livrables.md) | les cahiers de texte Yparéo, les classeurs d'import Livrables |
 | [`08-deploiement.md`](modules/08-deploiement.md) | la mise en ligne, ses garde-fous, ses contrôles |
 | [`09-complements.md`](modules/09-complements.md) | schémas, illustrations, simulateurs, glossaire, Boîte à outils, fiches mémo |
+| [`10-codex.md`](modules/10-codex.md) | les illustrations, générées par Codex, que Claude Code lance lui-même |
 
 C'est le tronc que suit la skill `creer-cours-template` quand on demande à Claude de « créer un cours ». Les prompts ci-dessous en sont les outils, étape par étape.
 

@@ -1,4 +1,4 @@
-# Module 09 — Les compléments : schémas, illustrations, simulateurs, glossaire, Boîte à outils, fiches mémo
+# Module 09 · Les compléments : schémas, illustrations, simulateurs, glossaire, Boîte à outils, fiches mémo
 
 > **Quand l'activer.** Selon la matière : des schémas pour un cours de conception, des
 > simulateurs pour un cours de calcul, une Boîte à outils pour un cours de méthode, des
@@ -19,8 +19,8 @@
 
 Le référentiel du cas, `outils/referentiel.py`, porte **tous** les chiffres du cas
 (`VALEURS`, `DUREES`, des fragments composés) et une fonction `verifier()` ; un chiffre ne
-s'écrit jamais à la main dans une page. La page marque l'endroit —
-`<!-- FRAGMENT:val-places -->12 000<!-- /FRAGMENT:val-places -->` — et
+s'écrit jamais à la main dans une page. La page marque l'endroit
+(`<!-- FRAGMENT:val-places -->12 000<!-- /FRAGMENT:val-places -->`), et
 `outils/generer_fragments.py` y écrit la valeur, dans la langue de la page ou du bloc
 `data-tr` qui l'entoure ; il fournit aussi `nb-chapitres` et `nb-chapitres-lettres`, d'après
 `course-data.js`. Son `--essai` signale un fragment périmé, inconnu ou sans valeur ; il fait
@@ -53,7 +53,7 @@ Une fiche par image (fichier, dimensions, page, contexte, scène, composition) ;
 style en anglais ; **aucun texte dans l'image** ; les personnages décrits mot pour mot d'une
 fiche à l'autre ; conversion en WebP, emplacements posés d'avance. L'outil
 (`illustrations.outil`, Codex) génère ; l'auteur valide. **STOP** : relecture en planche
-contact.
+contact. Le détail, de l'installation de Codex à la relecture : module 10 (`10-codex.md`).
 
 ---
 
@@ -74,9 +74,9 @@ Chaque terme : sa définition, son chapitre d'introduction, un exemple ; des ter
 les info-bulles du moteur (`glossaire-tooltip.js`). Puis **« Où en parle-t-on ? »**
 (`prompts/06_glossaire.md`, `prompts/06b_glossaire_ou_en_parle_t_on.md`) :
 `outils/glossaire_emplois.py` compte, section par section et dans chaque langue, où le
-cours emploie chaque terme — formes, pluriels, alias (`alias`), hors des expressions où le
-mot ne désigne pas la notion (`exclus`), deux champs facultatifs de `glossaire-data.js` —,
-et la page du glossaire l'affiche sous chaque terme. Une page qui n'explique aucune notion
+cours emploie chaque terme, sous ses formes, ses pluriels et ses alias (le champ facultatif
+`alias` de `glossaire-data.js`), hors des expressions où le mot ne désigne pas la notion (le
+champ facultatif `exclus`) ; la page du glossaire l'affiche sous chaque terme. Une page qui n'explique aucune notion
 (une table des matières, la page du polycopié, celle des podcasts) entre dans `EXCLUES`.
 Chaque terme a son ancre (`glossaire.html#g-…`), que vise l'info-bulle des chapitres :
 c'est aussi l'adresse d'un QR code vers un terme (module 02). Le générateur se relance
@@ -110,7 +110,7 @@ l'état d'avancement et `TODO.md` sont à jour.
 ## 8. Pour commencer
 
 1. Lis le référentiel du cas, les contenus et les compléments déjà présents.
-2. Propose, complément par complément, ce qui servirait ce cours — et ce qui ne le servirait
+2. Propose, complément par complément, ce qui servirait ce cours, et ce qui ne le servirait
    pas : un bloc jamais rempli qui traîne dans le menu donne un cours inachevé.
 3. Pose les questions de cadrage, **une à une**.
 4. Un témoin par sorte de complément (un schéma et sa lecture, une fiche, un simulateur),

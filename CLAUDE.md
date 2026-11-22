@@ -319,7 +319,7 @@ de blocs —, écrite une fois le français stable ; `verifier_parite.py` contr�
 Depuis le 21 novembre 2026, la démonstration du gabarit est elle-même un site miroir, et
 `nouveau_cours.py` ne crée plus que ce modèle (décision de l'auteur). Les blocs `data-tr`
 ci-dessous restent décrits pour les cours qui les ont déjà. Les deux modèles en détail :
-`docs/I18N.md` ; la méthode : `prompts/modules/01-bilingue.md`.
+`docs/I18N.md` ; la méthode, pour l'anglais comme pour l'arabe : `prompts/modules/01-langues.md`.
 
 En modèle `data-tr`, trois mécanismes, selon la nature du texte.
 

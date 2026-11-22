@@ -1,4 +1,4 @@
-# Module 04 — L'audio : les capsules du cours, à la voix clonée de l'auteur
+# Module 04 · L'audio : les capsules du cours, à la voix clonée de l'auteur
 
 > **Quand l'activer.** Presque toujours : une capsule d'ouverture par chapitre, une par
 > schéma ou par fiche, le TP pas à pas, « ce qui est attendu ». L'étudiant entend l'auteur
@@ -66,8 +66,8 @@ Une question à la fois.
    `outils/quarantaine/temoins/`, sans rien déposer ni remplacer. L'auteur l'écoute. **STOP.**
    Tant qu'aucun témoin n'existe pour le modèle, une série est refusée.
 4. **La série**, chapitre par chapitre (`--chapitre N`). Le générateur contrôle chaque prise
-   — débit (105 à 190 mots par minute en v4), durée déduite des mots, silences (3,6 s au
-   plus) — et met en quarantaine ce qui sort des clous, avec la raison ; il n'écrase rien
+   (débit de 105 à 190 mots par minute en v4, durée déduite des mots, silences de 3,6 s au
+   plus) et met en quarantaine ce qui sort des clous, avec la raison ; il n'écrase rien
    sans `--force`. Une prise trop rapide : une reprise, puis « speaking slowly ».
 5. **Après la série** : `outils/synchroniser_capsules.py` (les transcriptions des pages,
    d'après les fiches), puis `outils/generer_playlist.py` (l'index de toutes les pistes).

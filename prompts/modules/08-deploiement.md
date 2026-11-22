@@ -1,4 +1,4 @@
-# Module 08 — Le déploiement : la mise en ligne, ses garde-fous et ses contrôles
+# Module 08 · Le déploiement : la mise en ligne, ses garde-fous et ses contrôles
 
 > **Quand l'activer.** Dès que le cours se publie sur l'hébergement de l'auteur.
 >
@@ -16,7 +16,7 @@
 ## 1. Ce que le module produit
 
 Le site en ligne à `modules.deploiement.url`, identique au dépôt, au bon endroit, protégé là
-où il doit l'être — et un déploiement qu'on peut relancer sans risque.
+où il doit l'être, et un déploiement qu'on peut relancer sans risque.
 
 ---
 
@@ -43,8 +43,8 @@ où il doit l'être — et un déploiement qu'on peut relancer sans risque.
 
 1. **Les contrôles du tronc** (« Contrôles avant chaque mise en ligne ») et ceux des
    modules actifs.
-2. **L'essai à blanc** : `deployer.py --essai` — destination attendue, garde-fou passé,
-   aucun fichier hors de `site/`, la liste de ce qui partirait.
+2. **L'essai à blanc** : `deployer.py --essai`, avec la destination attendue, le garde-fou
+   passé, aucun fichier hors de `site/`, et la liste de ce qui partirait.
 3. **L'accord de l'auteur**, distinct de celui du commit.
 4. **Les zones protégées d'abord** : leur protection en ligne, vérifiée en 401 sans
    identifiant, avant leur contenu.

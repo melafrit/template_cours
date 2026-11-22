@@ -7,7 +7,7 @@ description: À utiliser dès qu'on ajoute ou modifie du CONTENU, des ATTRIBUTS 
 
 > **Le modèle par défaut des cours est le site miroir** (pages jumelles sous `en/`, décision
 > de l'auteur du 25 octobre 2026) : `docs/I18N.md`, partie A, et
-> `prompts/modules/01-bilingue.md`. Ce skill décrit le **modèle de secours**, les blocs
+> `prompts/modules/01-langues.md`. Ce skill décrit le **modèle de secours**, les blocs
 > `data-tr`, pour les cours déjà construits ainsi : `nouveau_cours.py` ne le crée plus depuis
 > le 21 novembre 2026.
 
