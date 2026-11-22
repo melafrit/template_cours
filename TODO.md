@@ -137,6 +137,9 @@ Les lots, dans l'ordre validé :
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 22 novembre · lot S4, le QCM sans tirets
+> Le site publié ne compte plus aucun tiret cadratin : `verifier_tirets.py` est vert. Les cases vides du QCM
+> disent « aucune » ou « n.d. ». `1df056e`, puis la faute « encouragez-les » à part (`0b18516`).
 > ### 🆕 22 novembre · lot 7, les quatre points tranchés
 > Le prompt 08 sert le script du QCM papier ; le 06b s'aligne sur le gabarit, la fenêtre du cours d'architecture
 > attend le lot 6 ; les fiches de synthèse sans tiret et sans DOCX publié ; la signature du QCM éprouvée par un
@@ -319,10 +322,9 @@ Les lots, dans l'ordre validé :
   mise en ligne (lot 12).
 
 **Le gabarit sans tirets** (D55, en cours) : réécrire sans tiret cadratin tout ce que l'apprenant lit. Le témoin
-(chapitre 1, `ea1cc23`) est fait et son style validé ; `outils/verifier_tirets.py` reste rouge, **97 tirets dans
-12 fichiers de `site/`** (69 après les lots S1 à S3 ; la conversion de la démo au site miroir, le 21 novembre, a
-dédoublé les pages du QCM et leurs dictionnaires). La suite, en cinq lots (style du témoin, régénération des fichiers générés, `verifier_tirets`
-à 0 par lot) :
+(chapitre 1, `ea1cc23`) est fait et son style validé. Depuis le 22 novembre (`1df056e`), `outils/verifier_tirets.py`
+est vert : **aucun tiret dans `site/`**. Les cinq lots, faits (style du témoin, régénération des fichiers générés,
+`verifier_tirets` à 0 par lot) :
 
 - ✅ **S1 · les moteurs partagés** (fait le 21 novembre, `e8ea658`) : `ui-labels.js` (26), `interactions.js` (6), `podcasts.js` (6), `media.js` (2),
   `quiz.js` (1). Priorité : leur chrome s'injecte dans toutes les pages (« Before reading — … », le séparateur
@@ -331,16 +333,14 @@ dédoublé les pages du QCM et leurs dictionnaires). La suite, en cinq lots (sty
 - ✅ **S2 · les chapitres** (fait le 21 novembre, `14a944c`) : `02-structurer.html` (37), `03-multimedia.html` (37), sur le modèle du témoin.
 - ✅ **S3 · les pages de ressources** (fait le 21 novembre, `617017d`) : `atelier` (40), `activites` (15), `about` (10), `polycopie` (10), `cours` (9),
   `index` (6), `glossaire` (5), `polycopies` (5), `podcasts` (4).
-- **S4 — le QCM** : `QCM/index` (17), `corrections.js` (13), `dashboard` (11), `correction` (11), `entrainement` (7),
-  `questions.js` (4), `qcm-core.js` (2). Toucher au texte d'une question ne change pas la
-  signature des CSV, qui ne couvre que le CSV (essai du 22 novembre 2026, `ab70c18`) ; le QCM papier reprend ces tirets. Depuis le 21 novembre, les quatre pages du QCM ont
-  leur jumelle sous `en/`, aux mêmes tirets ; le squelette du QCM qu'écrit `nouveau_cours.py` en a aussi
-  (« QCM — … »).
-- **S5 · les données** : `course-data.js` fait au lot S3 (`617017d`) ; reste `flashcards-data.js` (4).
+- ✅ **S4 · le QCM** (fait le 22 novembre, `1df056e`) : les pages d'examen, de correction, du tableau de bord et
+  d'entraînement avec leurs jumelles, la banque, `qcm-core.js`, le squelette du QCM de `nouveau_cours.py` ; 61 tirets.
+  Les cases vides disent « aucune » ou « none », « n.d. » ou « n/a ». La signature des CSV n'en dépend pas (essai du
+  22 novembre, `ab70c18`). En chemin, la faute « encouragez à assumer » devient « encouragez-les » (`0b18516`).
+- ✅ **S5 · les données** : `course-data.js` au lot S3 (`617017d`), `flashcards-data.js` avec le lot S4 (`1df056e`).
 
-Puis, hors du champ de `verifier_tirets.py` (il ne lit que `site/`, html/js/css) : `CLAUDE.md` (30) et `prompts/`
-(~440, des `.md`), ce que lisent les futurs cours. `prompts/15_explications_quiz.md` est déjà fait (21 novembre,
-`a1a6a45`) : sa règle prescrivait le tiret.
+Puis, hors du champ de `verifier_tirets.py` (il ne lit que `site/`, html/js/css) : `prompts/` est fait au lot 7
+(aucun tiret, `da73639`) ; restent `CLAUDE.md` (29) et `docs/` (260 dans 11 fichiers), que lisent les futurs cours.
 
 Les deux défauts de `media.js` relevés le 26 octobre sont réglés : les fenêtres des diapositives et de l'infographie
 parlent la langue de la page (`150f25d`), et `media.js` ne demande plus que les médias déposés (`0732822`).

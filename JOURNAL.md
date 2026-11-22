@@ -9,6 +9,50 @@
 
 ---
 
+## 22 novembre 2026 · lot S4, le QCM sans tirets (`1df056e`)
+
+### Les décisions de l'auteur
+
+- **Le lot S4, témoin d'abord** : la page d'examen du QCM, en français et sa jumelle anglaise, et l'explication de
+  Q01, alignée sur la phrase validée du chapitre 1 ; puis la série sur les 61 tirets restants.
+- **Les cases vides prennent un mot** : « aucune » ou « none » pour une certitude absente, « n.d. » ou « n/a » pour une
+  durée ; un lecteur d'écran le lit mieux qu'un tiret.
+- **La faute « encouragez à assumer »**, relevée en chemin : « encouragez-les à assumer », dans un commit à part
+  (`0b18516`).
+
+### Le travail
+
+- Les pages d'examen, de correction, du tableau de bord et d'entraînement, et leurs jumelles : « · » dans les titres,
+  descriptions et bandeaux d'auteur ; le deux-points dans les titres de carte et les messages de signature. Les deux
+  dictionnaires de chaque page vivent dans chacune des jumelles : chaque passage s'y applique deux fois.
+- Le tableau de bord reçoit deux clés, `noCert` et `noDur`, en français et en anglais, au lieu d'un tiret écrit en dur.
+- La banque : son titre, la question sur la durée de conservation (« (quinze minutes) », comme au chapitre 3), dix
+  explications au deux-points ou à la virgule, alignées sur les chapitres quand la phrase y existe.
+- `qcm-core.js` (la stratégie du barème), deux flashcards (lot S5, qui rejoignent la virgule de leur version arabe),
+  le squelette du QCM de `nouveau_cours.py` (« QCM · titre »).
+
+### Ce qui a été vérifié
+
+`verifier_tirets.py` est vert pour la première fois : aucun tiret dans `site/` (91 au début du lot). Les contrôles du
+projet passent (i18n, parité, liens, glossaire, fragments, médias) ; les données du QCM se relisent. Au navigateur,
+avec des copies signées par le vrai moteur et déposées sur les pages : la correction (« Signature valide : fichier
+authentique », « Certitude : aucune », « Certainty: none »), le tableau de bord (« n.d. », « n/a », l'info-bulle
+« Q01 · 100% de réussite (1/1) », le détail d'une copie) ; les pages d'examen et d'entraînement ; la console vide dans
+un onglet neuf ; 375 px sans débordement, thème sombre.
+
+### Ce qui n'est pas fait
+
+`CLAUDE.md` (29 tirets) et `docs/` (260 dans 11 fichiers) gardent les leurs. Les commentaires du code aussi, que
+personne ne lit sur le site.
+
+### Pièges appris
+
+- **Une jumelle garde les deux dictionnaires** : la page anglaise porte encore le français, et inversement ; un même
+  libellé se corrige deux fois par page, dans le bon ordre quand la chaîne est identique (`noCert: '—'`).
+- **Un tiret écrit en dur dans un moteur** échappe au dictionnaire : il devient une clé, pour se traduire.
+
+---
+
 ## 22 novembre 2026 · lot 7, les quatre points tranchés (`ab70c18`)
 
 ### Les décisions de l'auteur
