@@ -74,6 +74,8 @@ deploiement/known_hosts
 # Le document produit les porte aussi : ni l'un ni l'autre n'entre au depot.
 docs/acces.json
 docs/Cahier_de_texte*.docx
+# Sa version texte (outils/generer_cahier_de_texte.py), sans et avec identifiants : produite, jamais versionnée.
+docs/Cahier_de_texte*.txt
 
 # Comptes des zones protegees (correction de TP…) : mots de passe en clair.
 # Dans un depot de cours PRIVE, l'auteur peut decider de le versionner ; dans

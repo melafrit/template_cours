@@ -4,8 +4,8 @@
 > Yparéo et recueille les livrables dans l'application de l'auteur.
 >
 > **Paramètres.** `modules.ecole` : `ypareo`, `livrables_app` ; les dates réelles dans
-> `cours.calendrier` (elles ne servent qu'ici) ; les promotions et matières exactes dans
-> `filieres`.
+> `cours.calendrier` (elles ne servent qu'ici, et vont dans `outils/sessions.py`) ; les
+> promotions et matières exactes dans `filieres`.
 >
 > **Place.** Phase 12 du tronc, une fois les séances, les livrables et les évaluations
 > arrêtés.
@@ -17,11 +17,16 @@
 
 ## 1. Ce que le module produit
 
-- [si `ypareo`] **Les cahiers de texte** (`docs/generate_cahier_de_texte.py`, un par
-  format) : un bloc par séance, « CONTENU DE LA SÉANCE » et « TRAVAIL À FAIRE », en `.txt`
-  et `.docx` ; une version « avec accès » (identifiants tirés de `docs/acces.json`) dans un
-  dossier ignoré par Git ; `--sans-acces --site ADRESSE` en donne une sans identifiants
-  (« communiqués par le formateur »), utile avant que `docs/acces.json` existe.
+- [si `ypareo`] **Le cahier de texte** (`outils/generer_cahier_de_texte.py`, d'après
+  `outils/seances.py` et `outils/sessions.py`) : un bloc par séance, « CONTENU DE LA
+  SÉANCE » (sous-titre et objectifs de chaque chapitre, lus dans sa page ; l'atelier) et
+  « TRAVAIL À FAIRE » (le travail, ce qu'il faut rendre et quand, le support), en `.txt` et
+  `.docx`. « Avec ou sans accès » veut dire les deux (décision de l'auteur du 22 novembre
+  2026) : la version sans identifiants sort toujours, `docs/Cahier_de_texte.*` ; celle qui
+  porte les identifiants du site sort aussi quand `docs/acces.json` existe,
+  `docs/Cahier_de_texte_avec_identifiants.*`, que le `.gitignore` et le `.rgignore`
+  écartent. Sans accès à Yparéo, le même texte part dans l'application Livrables (feuille
+  Séances, colonne Contenu). `--essai` signale un cahier périmé.
 - [si `livrables_app`] **Les classeurs d'import** de l'application Livrables
   (`import-application/`, au format de `ecosysteme.doc_import_app`).
 
@@ -29,8 +34,9 @@
 
 ## 2. Le modèle
 
-Le cours EADL (lecture seule) pour l'import Livrables et Yparéo ; `docs/generate_cahier_de_texte.py`
-du gabarit pour les cahiers de texte.
+Le cours EADL (lecture seule) pour l'import Livrables et Yparéo ; dans le gabarit,
+`outils/seances.py` (le programme, sans date), `outils/sessions.py` (les dates et les
+promotions) et `outils/generer_cahier_de_texte.py`.
 
 ---
 

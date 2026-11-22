@@ -6,3 +6,5 @@ deploiement/config.json
 deploiement/known_hosts
 docs/acces.json
 docs/acces-zones.json
+# Le cahier de texte qui porte les identifiants du site (outils/generer_cahier_de_texte.py).
+docs/Cahier_de_texte_avec_identifiants*

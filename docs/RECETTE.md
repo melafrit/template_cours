@@ -141,7 +141,7 @@ la sortie doit annoncer :**
     arborescence copiée (16 entrées)
     langues-data.js : aucune page traduite pour l'instant
     CLAUDE.md écrit : les exigences de l'auteur s'appliquent à ce cours
-    contenu de demonstration retire : 27 media(s), 12 fichier(s) remis a l'etat de squelette
+    contenu de demonstration retire : 27 media(s), 13 fichier(s) remis a l'etat de squelette
     14 page(s) renommee(s) au nom du cours
     5 fichier(s) recousu(s) sur les chapitres declares
     cours.html : 3 carte(s) de chapitre regeneree(s)
@@ -154,8 +154,8 @@ Les chiffres des recousages et des cartes suivent le nombre de chapitres
 déclarés : une carte par chapitre, et un recousage par chapitre plus les deux
 pages qui les citent (sommaire, chapitre vitrine). L'accueil, lui, naît avec ses
 liens. Les 27 médias (dont les deux fiches de capsules de la démonstration) et les
-12 squelettes (dont l'accueil, ses boutons et son programme, l'atelier et les
-activités, vidés de leur démonstration), eux, ne bougent pas.
+13 squelettes (dont l'accueil, ses boutons, son programme et ses sessions,
+l'atelier et les activités, vidés de leur démonstration), eux, ne bougent pas.
 La ligne de `filieres.css` suit les filières de `cours.json` : « à jour » avec
 celles du modèle (ce sont celles de la démonstration), « écrit » avec d'autres.
 Une seule filière, ou aucune, ne donne pas de bascule.
@@ -203,7 +203,9 @@ Le cours créé embarque son propre lanceur. Ouvrez-le :
       `outils/accueil.py` repart avec `BOUTONS = []`.
 - [ ] Le programme et les échéances de l'accueil disent « À rédiger dans
       `outils/seances.py` » : le cours part sans séance ni livrable, et
-      `python3 outils/seances.py` le dit cohérent.
+      `python3 outils/seances.py` le dit cohérent ; `outils/sessions.py` part
+      sans session, et `python3 outils/generer_cahier_de_texte.py` répond qu'il
+      n'y a encore aucune séance à mettre au cahier.
 - [ ] Les filières de `cours.json` (EADL et ERIS dans l'exemple) donnent la bascule
       de l'en-tête et le bandeau « Quelle est votre filière ? » ; une filière
       choisie prend sa palette. Avec `"filieres": []`, ni bascule ni bandeau.

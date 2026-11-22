@@ -69,7 +69,8 @@ COPIER = ["site", "outils", "prompts", "docs", ".claude", "deploiement", "tools"
 REGENERABLES = ("__pycache__", "*.pyc", "_tmp*", "out", "manifeste.json.tmp")
 # Ce qui appartient au cours et que le template ne fournit jamais : --ecraser le laisse en place (garder_locaux).
 LOCAUX = ("elevenlabs.json", "*.config.json", "config.json", "manifeste.json", "known_hosts", "destination.json",
-          "quarantaine", "acces.json", "acces-zones.json", "Cahier_de_texte*.docx", "settings.local.json")
+          "quarantaine", "acces.json", "acces-zones.json", "Cahier_de_texte*.docx", "Cahier_de_texte*.txt",
+          "settings.local.json")
 NE_PAS_COPIER = shutil.ignore_patterns(*(REGENERABLES + LOCAUX))
 
 # Les secrets qui servent à tous les cours de l'auteur — la clé ElevenLabs et sa
@@ -102,7 +103,7 @@ BLOCS = {
     "activites":           ["site/activites.html"],
     "polycopies":          ["site/polycopies.html", "site/assets/polycopies", "tools/generate_polycopies.py"],
     "atelier":             ["site/atelier", "site/atelier.html"],
-    "documents_formateur": ["docs/generate_cahier_de_texte.py",
+    "documents_formateur": ["outils/generer_cahier_de_texte.py",
                             "docs/generate_questions_oral.py"],
     "deploiement":         ["deploiement"],
     "podcasts":            ["site/podcasts.html", "site/assets/js/podcasts.js", "outils/podcasts.py",
@@ -763,6 +764,23 @@ def vider_seances(sortie):
     return neuf != t
 
 
+# Les sessions de la démonstration (ses dates fictives, sa promotion) non plus : outils/sessions.py part vide.
+SESSIONS_VIDES = "SESSIONS = {}\nSESSION_PAR_DEFAUT = \"\"\n"
+
+
+def vider_sessions(sortie):
+    """SESSIONS vide dans outils/sessions.py du cours ; vrai si le fichier a changé."""
+    p = os.path.join(sortie, "outils", "sessions.py")
+    if not os.path.isfile(p):
+        return False
+    t = io.open(p, encoding="utf-8").read()
+    neuf = re.sub(r"^SESSIONS = \{\n.*?^\}\nSESSION_PAR_DEFAUT = \"[^\"]*\"\n", lambda m: SESSIONS_VIDES, t, count=1,
+                  flags=re.S | re.M)
+    if neuf != t:
+        ecrire(p, neuf)
+    return neuf != t
+
+
 def vider_boutons_accueil(sortie):
     """BOUTONS = [] dans outils/accueil.py du cours ; vrai si le fichier a changé."""
     p = os.path.join(sortie, "outils", "accueil.py")
@@ -1004,6 +1022,8 @@ def purger_demo(sortie, c):
     if vider_boutons_accueil(sortie):
         remplaces += 1
     if vider_seances(sortie):
+        remplaces += 1
+    if vider_sessions(sortie):
         remplaces += 1
 
     # l'atelier et les activites de la demonstration

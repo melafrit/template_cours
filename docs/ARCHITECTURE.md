@@ -223,7 +223,11 @@ est déposée (l'emoji du chapitre sinon). Le programme du cours, enfin (fragmen
 livrables, échéances et notation, sans aucune date réelle), et
 `outils/programme.py` l'écrit sur l'accueil. `python3 outils/seances.py` contrôle
 sa cohérence, que `generer_fragments.py` vérifie aussi avant d'écrire ; un cours
-créé part avec un programme vide, que ses pages annoncent « à rédiger ».
+créé part avec un programme vide, que ses pages annoncent « à rédiger ». Les dates
+réelles ne vivent que dans `outils/sessions.py` (une session : la date de chaque
+jour, la promotion, la matière), que lisent `outils/generer_cahier_de_texte.py`
+(le cahier de texte Yparéo, en `.txt` et `.docx`, avec et sans les identifiants
+du site) et le classeur d'import de l'application Livrables.
 
 **Source unique de vérité.** `course-data.js` pilote l'arbre de navigation *partout*. `nav-sections.js` reflète les `<h2 id>` réels de chaque chapitre : relancer `outils/generer_nav_sections.py` après tout ajout, retrait ou renommage de section (`--essai` dit s'il est à jour, sans rien écrire). Les `id` de questions (`Q01`…) doivent **correspondre** entre `questions.js` et `corrections.js`.
 
