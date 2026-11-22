@@ -9,6 +9,58 @@
 
 ---
 
+## 23 novembre 2026 · les outils à trois langues (`7a9c964` à `11e4b42`)
+
+### Les décisions prises sous le mode « enchaîne » (options recommandées)
+
+- Une piste arabe ne part jamais avec le clone français ni avec l'accent parisien : sans voix déclarée
+  (`voix_id_ar`), `generer_audio.py` la laisse en attente. La voix et l'accent de l'arabe restent à décider avec
+  l'auteur (module 01, section 4).
+- Seules les langues du site comptent comme suffixe d'une piste : « -tp.mp3 » reste une piste française.
+- Les liens hreflang sont posés dans les pages de la démo, puisque son adresse publique est connue (elle figure
+  déjà au registre) ; un cours créé les perd à sa création et pose les siens sous son adresse.
+- Les mots arabes des activités sont ceux des autres moteurs ; ceux qui manquaient au lexique y entrent, à relire
+  avec le témoin arabe.
+- `xlsx.full.min.js` n'est pas téléchargé : un téléchargement demande l'accord explicite de l'auteur, que le mode
+  « enchaîne » ne donne pas.
+
+### Le travail
+
+- `generer_playlist.py` (`7a9c964`) lit les jumelles de `en/` et `ar/` ; la capsule arabe du chapitre 1 entre dans
+  la liste de lecture, « à venir ». Sa constante remonte après les imports, et il ne reconnaît plus que les langues
+  du site (`274e79d`).
+- La chaîne audio (`274e79d`) : `synchroniser_capsules.py` écrit dans la jumelle de `ar/chapitres/` ;
+  `generer_audio.py` parcourt `ar/`, reconnaît la langue d'après les clés d'`ACCENTS` et tient la liste des pistes
+  en attente de leur voix ; la fiche des capsules reçoit la capsule 7 AR (la transcription de la page, sans
+  script) ; `elevenlabs.exemple.json` documente `voix_id_ar` et perd ses six tirets, comme deux messages d'outils.
+- `hreflang.py` (`77873d8`) suit la langue racine et les dossiers de langue : 16 groupes, 33 pages (fr 16, en 16,
+  ar 1). `nouveau_cours.py` retire ces blocs de chaque page d'un cours créé.
+- `tools.js` (`9298ec2`) prend ses libellés dans `ui-labels.js` (`activite.*`, trois langues) ; le score final et
+  les guillemets suivent la typographie de chaque langue (“…” et « Score: » en anglais).
+- `nouveau_cours.py` (`376208a`) demande les titres de la langue racine ; `texte()` retombe sur le français, puis
+  sur la première langue présente. Le test a trouvé en chemin une variable locale qui masquait `texte()`, renommée.
+- `cours.exemple.json` (`11e4b42`) : sept tirets, et le commentaire de « public », qui le disait affiché.
+
+### Ce qui a été vérifié
+
+`synchroniser_capsules.py --essai` lit la capsule arabe et laisse la page arabe à jour ; un essai sur une copie
+montre qu'une retouche de la fiche n'atteint que la jumelle arabe, fins de ligne gardées, et qu'une seconde passe
+ne change rien. `generer_audio.py --essai` signale la piste arabe sans script ; sur une copie, avec une
+configuration factice, elle attend sa voix, puis part sans accent ajouté quand la voix est déclarée, et les pistes
+françaises gardent l'accent parisien. `hreflang.py` pose 33 blocs, puis ne trouve plus rien à faire. Cinq essais
+de création de cours, supprimés ensuite : racines française et anglaise sans aucun bloc ni adresse de la démo ;
+racine anglaise sans titre français acceptée et titrée en anglais ; racine française inchangée ; racine anglaise
+sans titre anglais refusée, la clé nommée. La page des activités, en français et en anglais (et l'arabe simulé),
+console vide dans un onglet neuf, capture à 375 px en thème sombre. Tous les contrôles du § 6 sont verts, et le
+générateur de prompt passe ses cinq cas.
+
+### Ce qui n'est pas fait
+
+Le téléchargement de `xlsx.full.min.js` (accord de l'auteur) ; `generer_audio.py` ne voit pas les capsules de
+l'accueil (lot 9) ; les commentaires à tirets des outils (94 lignes) et du site (145 lignes), au registre.
+
+---
+
 ## 23 novembre 2026 · les derniers relevés des documents (`09f459a`, `2370e9c`)
 
 ### Les décisions prises sous le mode « enchaîne » (options recommandées)

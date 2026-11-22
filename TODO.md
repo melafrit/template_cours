@@ -40,16 +40,14 @@ Les lots, dans l'ordre validé :
   (`d301d41`, lexique `docs/LEXIQUE-ar.md`) ; la bascule de filière ✅ (`0f8a846` : `filiere.js` générique,
   `filieres.css` généré, EADL en émeraude et ERIS en prune, le menu ☰ sur téléphone) ; les paramètres
   filières et langues de `cours.json` ✅ (`f3cc344` : une, deux ou aucune filière, l'arabe après la langue
-  racine, le tout écrit dans le `course-data.js` du cours créé). Restent : l'arabe comme racine (lot 4) ;
-  les outils qui ignorent encore l'arabe (`hreflang.py`, `generer_playlist.py`,
-  `synchroniser_capsules.py`) ; la bascule sur les pages du QCM, qui ne chargent pas les données du cours,
-  et la liste de lecture par filière du cours EADL, si l'auteur les veut. Relevés en chemin, à traiter dans
-  ce lot : `xlsx.full.min.js`, que le tableau de bord du QCM charge d'un CDN, contre le § 7 (l'héberger
-  demande l'accord de l'auteur pour le téléchargement) ; la validation de `nouveau_cours.py`, qui exige les
-  titres en français même d'un cours de racine anglaise (`titre.fr`, `sous_titre.fr`, titres des
-  chapitres) ; les liens hreflang, que `hreflang.py` poserait dans 32 pages maintenant que l'adresse de la démo
-  est connue sur ce poste : avant, qu'il sache l'arabe, et que `nouveau_cours.py` efface ses blocs (sinon un cours
-  créé hériterait des liens de la démo). D'ici là, `hreflang.py --essai` signale ces 32 pages sur ce poste.
+  racine, le tout écrit dans le `course-data.js` du cours créé) ; les outils à trois langues ✅ (23 novembre :
+  la liste de lecture `7a9c964`, la chaîne audio `274e79d`, les liens hreflang posés dans 33 pages et retirés
+  d'un cours créé `77873d8`, les libellés de `tools.js` `9298ec2`) ; la validation de `nouveau_cours.py` pour
+  un cours de racine anglaise ✅ (`376208a`). Restent : l'arabe comme racine (lot 4) ; la bascule sur les pages
+  du QCM, qui ne chargent pas les données du cours, et la liste de lecture par filière du cours EADL, si
+  l'auteur les veut ; `xlsx.full.min.js`, que le tableau de bord du QCM charge d'un CDN, contre le § 7
+  (l'héberger demande l'accord explicite de l'auteur pour le téléchargement, que le mode « enchaîne » ne donne
+  pas).
 - [ ] **2. Bloc école** : `seances.py`, cahier de texte Yparéo, classeur d'import Livrables, fragments Programme et
   Échéances ; pour l'accueil, les boutons des épreuves de chaque filière (`BOUTONS` de `outils/accueil.py`), la
   pastille « diplôme, bloc et module », et un cours créé qui reçoit ses boutons de `cours.json`. Décisions de
@@ -86,10 +84,10 @@ Les lots, dans l'ordre validé :
   de chaque page, qui mène à « # » ; le texte d'exemple de `public.parcours` (`cours.exemple.json`), qui porte
   un tiret cadratin, et son commentaire, qui le dit affiché sur l'accueil alors qu'aucune page ne l'affiche.
 - [ ] **4. Démo en trois langues** : le passage au site miroir est fait (avancé au lot 1, `59474ee`), et le
-  chapitre 1 est en arabe (le témoin, `d301d41`). Restent : la relecture de ce témoin par un lecteur
-  arabophone ; les quinze autres pages en arabe ; la transcription arabe de la capsule 1, écrite dans la page, à
-  reporter dans la fiche des capsules quand `synchroniser_capsules.py` saura l'arabe ; les fiches des capsules
-  de section des chapitres.
+  chapitre 1 est en arabe (le témoin, `d301d41`) ; la transcription arabe de sa capsule est dans la fiche des
+  capsules (`274e79d`). Restent : la relecture de ce témoin par un lecteur arabophone, avec les quatre mots
+  d'interface entrés au lexique le 23 novembre (Oui, Non ; Question ; Score, Résultat ; Recommencer, `9298ec2`) ;
+  les quinze autres pages en arabe ; les fiches des capsules de section des chapitres.
 - [ ] **5. Codex** : le kit, puis les illustrations des cartes de chapitre et de l'accueil ; le schéma arabe du
   chapitre 1 (`chapitre-1-schema-1-trois-decisions.ar.webp`, la première décision à droite, comme ses points).
 - [ ] **6. Apports** : correction des QCM et garde-fous, Boîte à outils, Modèles pas à pas, bibliographie, petits
@@ -111,16 +109,21 @@ Les lots, dans l'ordre validé :
   usage, le cours MOE (22 novembre 2026) : cinq défauts corrigés (`bba8c23`), dont les consignes en prose, les
   chemins relatifs au dossier du cours et l'encadré « À vérifier ».
 - [ ] **9. Enregistrement audio** : `verifier_elevenlabs.py` d'abord, témoins, séries, quota suivi au registre ;
-  la capsule arabe du chapitre 1 (`chapitre-1-capsule-ar.mp3`, nom déjà appelé par la page) ; les dix-huit
-  capsules de l'accueil, textes validés (témoins `accueil-capsule-fr.mp3` et `accueil-capsule-en.mp3`), et leur
-  place dans la liste de lecture (`generer_playlist.py` n'indexe que les chapitres).
+  la capsule arabe du chapitre 1 (`chapitre-1-capsule-ar.mp3`, nom déjà appelé par la page), qui attend son
+  script, puis sa voix (`voix_id_ar`, la voix et l'accent de l'arabe étant à décider avec l'auteur, module 01,
+  section 4), sans laquelle `generer_audio.py` la laisse en attente, jamais avec l'accent parisien (`274e79d`) ;
+  les dix-huit capsules de l'accueil, textes validés (témoins `accueil-capsule-fr.mp3` et
+  `accueil-capsule-en.mp3`), et leur place dans la liste de lecture (`generer_playlist.py` n'indexe que les
+  chapitres). Relevé le 23 novembre : `generer_audio.py` ne voit pas ces dix-huit capsules, que l'accueil déclare
+  dans une liste (`src: V + '…'`) qu'il ne lit pas ; à lui apprendre avant leur enregistrement.
 - [ ] **10. Polycopié** : six livrets, témoin d'abord.
 - [ ] **11. Documentation** et son contrôle. `GUIDE.md`, `CHECKLIST.md`, `ARCHITECTURE.md` et le skill bilingue
   décrivent encore la bascule 🌐 comme celle de la démo.
 - [ ] **12. Mise en ligne** de la démo : la première ✅ le 22 novembre, à la demande de l'auteur, sur
   `https://mohamedelafrit.com/teaching/cours_demo/` (120 fichiers, sans purge ; `destination.json` gardé local,
   exclu par `.git/info/exclude` ; essai à blanc comparé à Git ; 19 adresses à 200 et console vide en ligne).
-  Restent : un nouvel envoi après chaque lot (essai à blanc, accord) ; les liens hreflang (lot 1) ; la question des
+  Restent : un nouvel envoi après chaque lot (essai à blanc, accord), dont les 33 pages aux liens hreflang
+  (`77873d8`) ; la question des
   zones protégées, puisque le corrigé du QCM et le tableau de bord sont en accès libre, comme sur GitHub.
 
 ## 📍 Où en est le gabarit (1er novembre)
@@ -137,6 +140,11 @@ Les lots, dans l'ordre validé :
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 23 novembre · les outils à trois langues
+> La liste de lecture, la synchronisation des capsules et le générateur de pistes savent l'arabe (`7a9c964`,
+> `274e79d`) ; les liens hreflang nomment toutes les langues d'une page, posés dans 33 pages et retirés d'un cours
+> créé (`77873d8`) ; les libellés de `tools.js` vivent dans `ui-labels.js` (`9298ec2`) ; un cours de racine
+> anglaise n'a plus à porter de titres français (`376208a`) ; `cours.exemple.json` sans tiret (`11e4b42`).
 > ### 🆕 23 novembre · les documents à jour et sans tirets
 > `CLAUDE.md`, `docs/`, les skills et les textes qu'écrit `nouveau_cours.py` n'ont plus de tiret cadratin
 > (`7b8a1ef`, `b7ced50`) ; le GUIDE, ARCHITECTURE, les skills et la CHECKLIST décrivent le gabarit tel
@@ -310,10 +318,10 @@ Les lots, dans l'ordre validé :
   cadrage ouvert par le prompt 01, les options cliquables, le site miroir, les seize prompts), ARCHITECTURE (le
   site miroir, l'arborescence réelle, l'API de `i18n.js`), les skills (l'ordre du tronc, `GLOSSARY_CURATED` et
   `GLOSSARY_ALIASES`, les six mécanismes) et la CHECKLIST.
-- `generer_audio.py` ne sait pas l'arabe : il ne parcourt que `site/` et `site/en/`, ne reconnaît que les suffixes
-  `-fr` et `-en`, et donnerait à `chapitre-1-capsule-ar.mp3` l'accent parisien (le module 01 le dit désormais).
-- `tools.js` garde son propre dictionnaire de boutons, en français et en anglais, hors de `ui-labels.js` : une page
-  arabe y retombe sur le français. Son classificateur n'a qu'un champ `why`, sans renvois « Pour approfondir ».
+- ✅ `generer_audio.py` sait l'arabe (`274e79d`) : il parcourt `ar/`, reconnaît la langue d'une piste d'après
+  `ACCENTS`, et laisse une piste arabe en attente de sa voix.
+- ✅ Les libellés de `tools.js` sont dans `ui-labels.js`, en trois langues (`9298ec2`). Reste : son classificateur
+  n'a qu'un champ `why`, sans renvois « Pour approfondir » (lot 6).
 - `glossaire-data.js` : l'alias « objectifs pédagogiques » ne sert à rien sur une page française, puisque cette forme
   n'est pas dans `GLOSSARY_CURATED`, et son commentaire affirme le contraire.
 - `navigation.js` ne marque pas la page courante (`aria-current="page"`), et le gabarit n'a pas de fil d'Ariane.
@@ -329,7 +337,11 @@ Les lots, dans l'ordre validé :
 - ✅ **`docs/generate_questions_oral.py`** : sa feuille « Mode d'emploi », venue d'un autre cours, est générique
   (`2370e9c`, 23 novembre) ; le commentaire en double est retiré.
 - ✅ **Les messages des outils** n'ont plus de tiret : 36, dans 19 outils (`09f459a`) ; l'état d'un générateur
-  s'écrit « …, à jour ». Restent les commentaires et docstrings de `nouveau_cours.py` (17 tirets).
+  s'écrit « …, à jour ». Restent les commentaires et docstrings des outils et de `nouveau_cours.py` (94 lignes
+  le 23 novembre).
+- **Les commentaires des scripts et des feuilles de style du site** gardent des tirets : 145 lignes (85 dans
+  `site/assets/js/`, 60 dans `site/assets/css/`, en-têtes des fichiers générés compris). Invisibles à l'affichage,
+  ils se lisent dans le source publié ; `verifier_tirets.py` ne lit pas les commentaires.
 - **La fiche des capsules** (`docs/prompts/Capsules_du_cours_demo.md`) : les transcriptions des deux podcasts sont
   sans tiret (`f305154`, ponctuation seule) ; ses lignes 23 et 24 décrivent encore le contrôle de la v3 ; les scripts
   enregistrés gardent leurs tirets jusqu'au réenregistrement.
