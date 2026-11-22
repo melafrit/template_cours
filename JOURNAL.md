@@ -9,6 +9,67 @@
 
 ---
 
+## 22 novembre 2026 · lot 7, les quatre points tranchés (`ab70c18`)
+
+### Les décisions de l'auteur
+
+- **Le prompt 08 sert le script du gabarit** (`tools/generate_qcm_papier.py`) au lieu d'en faire écrire un autre,
+  qui l'aurait écrasé. Une épreuve à banque privée suit le module 05, sur le modèle du cours CDWFS.
+- **Le prompt 06b s'aligne sur le gabarit**, sa liste dépliable ; la fenêtre du cours d'architecture logicielle
+  reste décrite comme référence, et son portage va au lot 6.
+- **Les fiches de synthèse** : tous leurs tirets corrigés, témoin d'abord (la fiche du chapitre 1, validée) ; leurs
+  DOCX ne se publient plus ; la correspondance des huit blocs du prompt 12 avec les six types du script est validée
+  telle quelle.
+- **La signature du QCM** : les mises en garde corrigées d'après l'essai.
+- **Le lien de la page anglaise des fiches**, relevé en chemin, corrigé avant le commit.
+
+### Le travail
+
+- `prompts/08_qcm_papier.md` réécrit : le contrôle de la banque, les consignes imprimées comparées au règlement, la
+  génération par le script, la checklist ; une étape 0 renvoie une épreuve à banque privée au module 05. Le module
+  05, le GUIDE et le sommaire des prompts suivent. Les libellés de `tools/generate_qcm_papier.py` passent au point
+  médian, aux parenthèses ou au deux-points.
+- `prompts/06b_glossaire_ou_en_parle_t_on.md` réécrit : il fait adapter le mécanisme du gabarit par ses données
+  (`alias`, `exclus`, `EXCLUES`, `hors-glossaire`). La docstring de `glossaire_emplois.py` dit l'arabe, que le code
+  traitait déjà.
+- `tools/generate_polycopies.py` et `tools/polycopies_content.json` sans tiret ; les DOCX écrits dans `tools/out/`,
+  les six retirés du dépôt ; `generer_medias.py` ne liste plus que les PDF. La page Polycopiés (français et anglais),
+  ARCHITECTURE, le prompt 12, `tools/README.md` et la skill des supports imprimables suivent ; ces deux derniers se
+  trompaient déjà de dossier.
+- Les mises en garde sur la signature : la skill `cours-qcm-cbm` (§ 6), ARCHITECTURE (§ 4.3), la skill bilingue
+  (`data-shapes.md`) et la note du lot S4.
+- `site/en/polycopies.html` cherche ses PDF dans `../assets/polycopies/`.
+
+### Ce qui a été vérifié
+
+L'essai de la signature, sur le vrai moteur et la vraie banque de la démo, avec une copie parfaite : telle quelle,
+valide et 20/20 ; falsifiée, rejetée ; énoncé reformulé et banque réordonnée, valide et 20/20 ; une bonne réponse
+changée, valide et 15,56 ; une question ajoutée, valide et 18 ; une question retirée, valide et 17,5. Les fiches
+régénérées : aucun tiret dans les six PDF ni dans les six DOCX, la langue déclarée juste (`/Lang`), une page chacune.
+Le script du QCM papier régénère ses six fichiers. Les contrôles du projet passent (i18n, liens, parité, médias,
+glossaire, fragments, menus, langues) ; `verifier_tirets.py` garde les 91 tirets connus du lot S4. Au navigateur :
+les deux pages Polycopiés, leur phrase, leurs liens (200), la console vide dans un onglet neuf ; le bouton du
+chapitre 1, en français et en anglais.
+
+### Ce qui n'est pas fait
+
+Les tirets que la banque de la démo garde (son titre, des explications) passent encore dans le QCM papier (lot S4).
+Les six DOCX restent en ligne jusqu'à une purge, avec l'accord de l'auteur. Le mot coupé des fiches en PDF
+(« contrainte » puis « s matérielles ») est relevé, pas corrigé. Le cours MOE, créé avant ces points, a les anciennes
+versions.
+
+### Pièges appris
+
+- **Une mise en garde se vérifie par un essai** : celle de la signature disait le contraire du code, et freinait à
+  tort le lot S4.
+- **Un chemin construit par morceaux dans un script échappe à la conversion en site miroir** : `outils/miroir.py` ne
+  réécrit que les chaînes d'un seul tenant, terminées par une extension. La page anglaise des fiches cherchait ses
+  PDF dans `en/assets/`.
+- **`git rm` refuse un fichier modifié** : une régénération avait touché les DOCX, refaits ailleurs ; d'où
+  `git rm -f`.
+
+---
+
 ## 22 novembre 2026 · le générateur après son premier usage (`bba8c23`)
 
 ### Les décisions de l'auteur

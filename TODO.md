@@ -1,7 +1,7 @@
 # Registre des travaux — template_cours
 
 > Fichier de suivi du gabarit. **À lire en premier** à la reprise du travail ; « ce qui reste à faire » se répond à
-> partir de lui. Dernière mise à jour : **2026-11-21**
+> partir de lui. Dernière mise à jour : **2026-11-22**
 >
 > Ce qui a été fait, session par session et avec ses commits : [`JOURNAL.md`](JOURNAL.md). Ni ce registre ni le
 > journal ne partent dans un cours créé (`nouveau_cours.py` ne recopie de la racine que ce que liste `COPIER`) ; un
@@ -93,14 +93,17 @@ Les lots, dans l'ordre validé :
 - [ ] **5. Codex** : le kit, puis les illustrations des cartes de chapitre et de l'accueil ; le schéma arabe du
   chapitre 1 (`chapitre-1-schema-1-trois-decisions.ar.webp`, la première décision à droite, comme ses points).
 - [ ] **6. Apports** : correction des QCM et garde-fous, Boîte à outils, Modèles pas à pas, bibliographie, petits
-  moteurs.
+  moteurs. Ajouts du 22 novembre (lot 7) : la fenêtre « Où en parle-t-on ? » du cours d'architecture logicielle
+  (badge, fenêtre, surlignage à l'arrivée, flashcards et QCM comptés), à porter dans le gabarit (décision de
+  l'auteur ; le prompt 06b la décrit comme référence) ; la note du QCM face à une banque modifiée après la session
+  (le maximum suit `corrections.js`, la réponse à une question retirée compte comme une erreur), à trancher.
 - [x] **7. Prompts** : tronc, modules, bibliothèque. Fait : le tronc refondu (`16b0418`), avec ses pièges et leur
   parade (section 6, témoin validé), les critères d'acceptation (2.5), les décisions déjà prises, les nouveaux
   paramètres (langues, épreuves des filières, bloc école), sans tiret cadratin. Les modules (`63de114`) :
   `01-langues.md` (renommé, l'arabe compris, témoin validé), `10-codex.md` (nouveau, procédure vérifiée en
   ligne), le 07 relu, aucun tiret cadratin dans les dix. Les dix-sept prompts numérotés (`da73639`) : le 03 en
   témoin, puis la série par cinq agents, contrôlée ; réalignés sur le gabarit, sans tiret cadratin. Les relevés du
-  lot sont plus bas, dans « Ouvert, dans le gabarit » et « À décider avec l'auteur ».
+  lot sont plus bas, dans « Ouvert, dans le gabarit » ; ses quatre points à décider sont tranchés (`ab70c18`).
 - [x] **8. Générateur de prompt** (`632e9b8`) : la page `generateur/index.html`, ouverte d'un double clic, jamais
   publiée ; les valeurs habituelles dans `generateur/valeurs.local.js`, ignoré par Git ; le prompt renvoie au tronc
   et aux modules actifs par leur chemin, avec le bloc de paramètres rempli ; un dossier déjà préparé garde ses
@@ -134,6 +137,10 @@ Les lots, dans l'ordre validé :
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 22 novembre · lot 7, les quatre points tranchés
+> Le prompt 08 sert le script du QCM papier ; le 06b s'aligne sur le gabarit, la fenêtre du cours d'architecture
+> attend le lot 6 ; les fiches de synthèse sans tiret et sans DOCX publié ; la signature du QCM éprouvée par un
+> essai, ses mises en garde corrigées. `ab70c18`.
 > ### 🆕 22 novembre · le générateur après son premier usage
 > Des champs de consignes en prose, les chemins nettoyés et relatifs au dossier du cours, les secrets nommés,
 > un encadré « À vérifier » (promotion, bloc, module, Jour 1 proche). `bba8c23`.
@@ -293,9 +300,7 @@ Les lots, dans l'ordre validé :
 - Des documents décrivent encore l'ancien fonctionnement : `docs/GUIDE.md` (le prompt 01 en point d'entrée à options
   numérotées, le 03 « bilingue », `site/atelier/templates/` et `tools/` pour les modèles de l'atelier) ; la skill
   `creer-cours-template` et sa référence `workflow.md` (les blocs `data-tr` dans les conventions) ; la skill
-  `cours-glossaire-flashcards-activites` (`ALIASES` dans `glossaire-tooltip.js`, un filtre `curated: true`) ; la
-  skill `cours-supports-imprimables` et `tools/README.md` (une sortie `tools/out/` pour les fiches de synthèse, qui
-  s'écrivent dans `site/assets/polycopies/`).
+  `cours-glossaire-flashcards-activites` (`ALIASES` dans `glossaire-tooltip.js`, un filtre `curated: true`).
 - `generer_audio.py` ne sait pas l'arabe : il ne parcourt que `site/` et `site/en/`, ne reconnaît que les suffixes
   `-fr` et `-en`, et donnerait à `chapitre-1-capsule-ar.mp3` l'accent parisien (le module 01 le dit désormais).
 - `tools.js` garde son propre dictionnaire de boutons, en français et en anglais, hors de `ui-labels.js` : une page
@@ -305,6 +310,13 @@ Les lots, dans l'ordre validé :
 - `navigation.js` ne marque pas la page courante (`aria-current="page"`), et le gabarit n'a pas de fil d'Ariane.
 - Le dossier des modèles de l'atelier se contredit : `docs/ARCHITECTURE.md` le dit présent et vide
   (`atelier/templates/`), `docs/GUIDE.md` cite `site/atelier/templates/` et `tools/`, et aucun n'existe.
+- **Les fiches de synthèse en PDF** coupent un mot en gras en fin de ligne : « contrainte » puis « s matérielles »
+  (fiche du chapitre 1, section 1 ; `tools/generate_polycopies.py`). Relevé le 22 novembre, non corrigé.
+- **`tools/generate_qcm_papier.py`** ne connaît que le français et l'anglais (le prompt 08 le dit) ; ses fichiers
+  reprennent les tirets que la banque de la démo garde encore (lot S4).
+- **En ligne, les six DOCX des fiches de la démo** restent servis (`chapitre-1-polycopie.fr.docx` répond 200) : ils
+  ne sont plus dans le dépôt (`ab70c18`), et seule une purge, avec l'accord de l'auteur, les retirera, à la prochaine
+  mise en ligne (lot 12).
 
 **Le gabarit sans tirets** (D55, en cours) : réécrire sans tiret cadratin tout ce que l'apprenant lit. Le témoin
 (chapitre 1, `ea1cc23`) est fait et son style validé ; `outils/verifier_tirets.py` reste rouge, **97 tirets dans
@@ -320,8 +332,8 @@ dédoublé les pages du QCM et leurs dictionnaires). La suite, en cinq lots (sty
 - ✅ **S3 · les pages de ressources** (fait le 21 novembre, `617017d`) : `atelier` (40), `activites` (15), `about` (10), `polycopie` (10), `cours` (9),
   `index` (6), `glossaire` (5), `polycopies` (5), `podcasts` (4).
 - **S4 — le QCM** : `QCM/index` (17), `corrections.js` (13), `dashboard` (11), `correction` (11), `entrainement` (7),
-  `questions.js` (4), `qcm-core.js` (2). ⚠️ La signature SHA-256 des banques : toucher au texte d'une question change
-  le CSV signé (skill `cours-qcm-cbm`), à traiter avec soin. Depuis le 21 novembre, les quatre pages du QCM ont
+  `questions.js` (4), `qcm-core.js` (2). Toucher au texte d'une question ne change pas la
+  signature des CSV, qui ne couvre que le CSV (essai du 22 novembre 2026, `ab70c18`) ; le QCM papier reprend ces tirets. Depuis le 21 novembre, les quatre pages du QCM ont
   leur jumelle sous `en/`, aux mêmes tirets ; le squelette du QCM qu'écrit `nouveau_cours.py` en a aussi
   (« QCM — … »).
 - **S5 · les données** : `course-data.js` fait au lot S3 (`617017d`) ; reste `flashcards-data.js` (4).
@@ -473,6 +485,13 @@ anglais, rendue `<span lang="fr">` (`qcm/qcm_commun.py`).
   `elevenlabs.json` et `Templates/Mot de passe.txt`. À retirer de `Doc_Reference/` par l'auteur (le cours recevra
   sa propre copie du fichier `elevenlabs.json`, celle du gabarit) ; d'ici là, le prompt de lancement les nomme. Le
   gabarit n'exclut de Git que `sources/` : le prompt du générateur fait exclure `Doc_Reference/` avant `git init`.
+  Créé le 22 novembre à 22 h 13, avant les quatre points du lot 7 (`ab70c18`) : il a les anciens prompts 08 et 06b,
+  `tools/generate_qcm_papier.py` et `tools/generate_polycopies.py` à tirets, des DOCX de fiches publiés ; à reprendre
+  si l'auteur le veut.
+- **Cours d'étude d'avant-projet CDWFS et ASRC** (`C:\projets\Cours\Cours_CDWFS_ASRC_Etude_Avant_Projet`) : son
+  `.rgignore` n'exclut ni `outils/qcm/banque_cdwfs.py` ni `banque_asrc.py`, probablement les banques de l'épreuve
+  d'après leur nom (jamais ouvertes ; le dépôt est privé). À ajouter dans ce cours, avec l'accord de l'auteur
+  (CLAUDE.md, § 2).
 - **Cours de veille technologique** (`C:\projets\Cours\Cours_CDWFS_ASRC_Veille_Techno`) : sa liste « Remontées pour le
   gabarit » (`TODO.md`) peut se mettre à jour — dix de ses treize remontées sont dans le gabarit ; restent la bascule
   de filière, `generer_playlist.py --essai` et l'indice de longueur, candidats ci-dessus. Dans son dépôt, avec
@@ -501,18 +520,6 @@ anglais, rendue `<span lang="fr">` (`qcm/qcm_commun.py`).
 L'ordre de la suite, la recette complète et la relecture de la documentation sont tranchés par le grand chantier
 (lots 11 et 12). Restent :
 
-- le prompt 08 fait écrire un nouveau script de QCM papier, qui doublerait `tools/generate_qcm_papier.py` et
-  l'écraserait : faire plutôt servir le script du gabarit ? (relevé du lot 7) ;
-- le prompt 06b décrit la fenêtre « Où en parle-t-on ? » du cours d'architecture logicielle (badge, fenêtre,
-  flashcards et QCM comptés, `?g=`), quand le gabarit n'a qu'une liste dépliable : aligner le prompt sur le gabarit,
-  ou enrichir le gabarit ? (relevé du lot 7) ;
-- les fiches de synthèse (`tools/generate_polycopies.py`) : le script écrit 10 tirets cadratins et
-  `tools/polycopies_content.json` en contient 18, qui partent dans les PDF publiés ; les DOCX sont publiés aussi,
-  alors que le site n'offre que les PDF ; la correspondance entre les blocs et les encadrés, proposée par le
-  prompt 12, est à valider (relevé du lot 7) ;
-- la signature du CSV du QCM couvre l'identité, les dates, la durée, le nombre de questions et chaque réponse, mais
-  pas le texte des questions (`qcm-core.js`) : la mise en garde du lot S4, de la skill `cours-qcm-cbm` et
-  d'`ARCHITECTURE.md` (§ 4.3) est trop large, à confirmer par un essai (relevé du lot 7) ;
 - la voix et l'accent des pistes arabes, que rien ne fixe encore (`prompts/modules/01-langues.md`, section 4) : à
   trancher avant l'enregistrement de la capsule arabe du chapitre 1 (lot 9) ;
 - le répertoire distant de la démo, au lot 12 (l'adresse publique est décidée) ;
