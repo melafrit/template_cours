@@ -184,8 +184,8 @@ SQUELETTE_QCM_QUESTIONS = """/* ================================================
    FICHIER À REMPLIR. Deux exemples montrent la forme attendue.
 
    Règles à tenir : une question porte sur ce que le chapitre enseigne
-   REELLEMENT ; les positions des bonnes reponses sont equilibrees ; les
-   distracteurs sont plausibles. Voir corrections.js pour la cle.
+   RÉELLEMENT ; les positions des bonnes réponses sont équilibrées ; les
+   distracteurs sont plausibles. Voir corrections.js pour la clé.
    ================================================================= */
 window.QCM_QUESTIONS = {
   meta: {
@@ -199,7 +199,7 @@ window.QCM_QUESTIONS = {
   questions: [
     {
       id: 'Q01', chapitre: 1, difficulte: 'vert',
-      enonce: { fr: 'Premiere question ?', en: 'First question?' },
+      enonce: { fr: 'Première question ?', en: 'First question?' },
       propositions: [
         { fr: 'Proposition A', en: 'Option A' },
         { fr: 'Proposition B', en: 'Option B' },
@@ -209,7 +209,7 @@ window.QCM_QUESTIONS = {
     },
     {
       id: 'Q02', chapitre: 1, difficulte: 'jaune',
-      enonce: { fr: 'Deuxieme question ?', en: 'Second question?' },
+      enonce: { fr: 'Deuxième question ?', en: 'Second question?' },
       propositions: [
         { fr: 'Proposition A', en: 'Option A' },
         { fr: 'Proposition B', en: 'Option B' },
@@ -222,11 +222,11 @@ window.QCM_QUESTIONS = {
 """
 
 SQUELETTE_QCM_CORRECTIONS = """/* =================================================================
-   corrections.js · Cle de correction BILINGUE (FR/EN)
-   FICHIER À REMPLIR. Les identifiants doivent CORRESPONDRE a questions.js.
+   corrections.js · Clé de correction BILINGUE (FR/EN)
+   FICHIER À REMPLIR. Les identifiants doivent CORRESPONDRE à questions.js.
 
    L'explication est la partie utile : dire pourquoi les autres propositions
-   etaient credibles, et ou le raisonnement derape.
+   étaient crédibles, et où le raisonnement dérape.
    ================================================================= */
 window.QCM_CORRECTIONS = {
   corrections: [
@@ -240,7 +240,7 @@ window.QCM_CORRECTIONS = {
     {
       id: 'Q02', chapitre: 1, difficulte: 'jaune', bonne_reponse_index: 1,
       explication: {
-        fr: 'L explication de la deuxieme question.',
+        fr: "L'explication de la deuxième question.",
         en: 'The explanation for the second question.'
       }
     }
@@ -249,15 +249,15 @@ window.QCM_CORRECTIONS = {
 """
 
 SQUELETTE_FLASHCARDS = """/* =================================================================
-   flashcards-data.js · Cartes de revision, par chapitre
-   FICHIER À REMPLIR. Une carte pose une question, pas une definition :
-   « Qu'est-ce qui distingue X de Y ? » se revise ; « X : definition »
+   flashcards-data.js · Cartes de révision, par chapitre
+   FICHIER À REMPLIR. Une carte pose une question, pas une définition :
+   « Qu'est-ce qui distingue X de Y ? » se révise ; « X : définition »
    se relit sans rien apprendre.
    ================================================================= */
 window.RDC_FLASHCARDS = {
   "1": [
-    { front: { fr: 'Question de revision ?', en: 'Revision question?' },
-      back:  { fr: 'La reponse, en une phrase.', en: 'The answer, in one sentence.' },
+    { front: { fr: 'Question de révision ?', en: 'Revision question?' },
+      back:  { fr: 'La réponse, en une phrase.', en: 'The answer, in one sentence.' },
       ref:   'Chapitre 1' }
   ]
 };
@@ -266,24 +266,24 @@ window.RDC_FLASHCARDS = {
 SQUELETTE_GLOSSAIRE = """/* =================================================================
    glossaire-data.js · Glossaire BILINGUE
    FICHIER À REMPLIR. GLOSSARY_CURATED liste les termes rendus interactifs
-   dans les chapitres : au-dela d'une quinzaine, la page se couvre de
-   pointilles et plus personne ne clique.
+   dans les chapitres : au-delà d'une quinzaine, la page se couvre de
+   pointillés et plus personne ne clique.
    ================================================================= */
 window.GLOSSARY = [
-  { fr: "terme a definir", en: "term to define",
-    def: { fr: "La definition, en une ou deux phrases.",
+  { fr: "terme à définir", en: "term to define",
+    def: { fr: "La définition, en une ou deux phrases.",
            en: "The definition, in one or two sentences." },
     ex:  { fr: "Un exemple concret.", en: "A concrete example." } }
 ];
 
-window.GLOSSARY_CURATED = ["terme a definir"];
+window.GLOSSARY_CURATED = ["terme à définir"];
 
 window.GLOSSARY_ALIASES = {};
 """
 
 SQUELETTE_PLAYLIST = """/* =================================================================
    playlist-data.js · index des pistes audio
-   FICHIER GENERE (ne pas modifier a la main) :
+   FICHIER GÉNÉRÉ (ne pas modifier à la main) :
        python3 outils/generer_playlist.py
    ================================================================= */
 window.RDC_PLAYLIST = {};
@@ -292,15 +292,15 @@ window.RDC_PLAYLIST = {};
 SQUELETTE_POLYCOPIES = {
     "1": {
         "title": {"fr": "Titre du chapitre", "en": "Chapter title"},
-        "subtitle": {"fr": "Polycopie de synthese", "en": "Summary handout"},
+        "subtitle": {"fr": "Polycopié de synthèse", "en": "Summary handout"},
         "blocks": [
-            ["p", {"fr": "Introduction du polycopie, a rediger.",
+            ["p", {"fr": "Introduction du polycopié, à rédiger.",
                    "en": "Handout introduction, to be written."}],
-            ["h2", {"fr": "1. Premiere partie", "en": "1. First part"}],
-            ["p", {"fr": "Le contenu de la premiere partie. Le gras s ecrit avec "
-                         "des **asterisques**.",
+            ["h2", {"fr": "1. Première partie", "en": "1. First part"}],
+            ["p", {"fr": "Le contenu de la première partie. Le gras s'écrit avec "
+                         "des **astérisques**.",
                    "en": "The content of the first part. Bold uses **asterisks**."}],
-            ["takeaways", [{"fr": "Ce qu il faut retenir.",
+            ["takeaways", [{"fr": "Ce qu'il faut retenir.",
                             "en": "What to remember."}]],
         ],
     }
@@ -1597,55 +1597,55 @@ def textes_vides(c):
     """
     return """  var TEXTES = {
     /* Le motif bilingue : tout le contenu des composants ici, une fois par
-       langue, et monter() est rejoue au changement de langue. Un exemple
-       entierement rempli se trouve dans chapitres/_modele.html. */
+       langue, et monter() est rejoué au changement de langue. Un exemple
+       entièrement rempli se trouve dans chapitres/_modele.html. */
     fr: {
       capsuleTitre: "Titre de la capsule d'ouverture",
-      capsuleTrans: "Transcription de la capsule (a rediger).",
-      revealQ: "Question posee avant la lecture ?",
-      revealIndice: "Un indice qui oriente sans donner la reponse.",
-      revealOptions: ["Premiere proposition.", "Deuxieme proposition.", "Troisieme proposition."],
-      revealReponse: "La reponse, et surtout POURQUOI c'est celle-la.",
-      checkTitre: "Point de controle",
-      checkQ1: "Premiere question ?",
+      capsuleTrans: "Transcription de la capsule (à rédiger).",
+      revealQ: "Question posée avant la lecture ?",
+      revealIndice: "Un indice qui oriente sans donner la réponse.",
+      revealOptions: ["Première proposition.", "Deuxième proposition.", "Troisième proposition."],
+      revealReponse: "La réponse, et surtout POURQUOI c'est celle-là.",
+      checkTitre: "Point de contrôle",
+      checkQ1: "Première question ?",
       checkO1: ["Proposition A.", "Proposition B.", "Proposition C."],
       checkE1: "Pourquoi B est juste, et pourquoi les autres ne le sont pas.",
-      checkQ2: "Deuxieme question ?",
+      checkQ2: "Deuxième question ?",
       checkO2: ["Proposition A.", "Proposition B.", "Proposition C."],
-      checkE2: "L'explication de la deuxieme question.",
+      checkE2: "L'explication de la deuxième question.",
       /* Pourquoi chaque autre proposition ne convient pas (vide pour la bonne
-         reponse), et deux a quatre renvois vers l'endroit exact qui repond :
+         réponse), et deux à quatre renvois vers l'endroit exact qui répond :
          prompts/15_explications_quiz.md. */
-      checkP1: ["Pourquoi A ne convient pas (a rediger).", "", "Pourquoi C ne convient pas (a rediger)."],
+      checkP1: ["Pourquoi A ne convient pas (à rédiger).", "", "Pourquoi C ne convient pas (à rédiger)."],
       checkA1: [["Section 2 de ce chapitre", "#ch1-s2"], ["Section 1 de ce chapitre", "#ch1-s1"]],
-      checkP2: ["Pourquoi A ne convient pas (a rediger).", "", "Pourquoi C ne convient pas (a rediger)."],
+      checkP2: ["Pourquoi A ne convient pas (à rédiger).", "", "Pourquoi C ne convient pas (à rédiger)."],
       checkA2: [["Section 3 de ce chapitre", "#ch1-s3"], ["Section 1 de ce chapitre", "#ch1-s1"]],
-      matchConsigne: "Reliez chaque element a son correspondant.",
+      matchConsigne: "Reliez chaque élément à son correspondant.",
       matchG: "Colonne de gauche",
       matchD: "Colonne de droite",
-      matchPaires: [["Element 1", "Correspondant 1"], ["Element 2", "Correspondant 2"]],
-      spotConsigne: "Reperez les affirmations qui posent probleme.",
-      spotIntro: "Titre du document a relire",
+      matchPaires: [["Élément 1", "Correspondant 1"], ["Élément 2", "Correspondant 2"]],
+      spotConsigne: "Repérez les affirmations qui posent problème.",
+      spotIntro: "Titre du document à relire",
       spotFrags: [
         ["Une affirmation fausse.", true, "Pourquoi elle est fausse."],
         ["Une affirmation juste.", false, ""]
       ],
       branchTitre: "Titre du cas",
       branchIntro: "La situation, en deux phrases.",
-      branchSituation: "Ce qu'il faut decider.",
-      branchQuestion: "Quelle est votre decision ?",
+      branchSituation: "Ce qu'il faut décider.",
+      branchQuestion: "Quelle est votre décision ?",
       branchOptions: [
-        ["Premiere option.", false, "Ce qu'elle produit, et pourquoi c'est un probleme."],
-        ["Deuxieme option.", true, "Pourquoi c'est la bonne."]
+        ["Première option.", false, "Ce qu'elle produit, et pourquoi c'est un problème."],
+        ["Deuxième option.", true, "Pourquoi c'est la bonne."]
       ],
-      branchLibelle: "Consequence",
-      schemaAlt: "Description du schema, pour qui ne le voit pas.",
-      schemaLegende: "Schema 1 : ce qu'il montre et ce qu'il faut en retenir.",
-      /* Le schema et ses points chauds : absents, monter() s'arretait sur
-         « X.schemaPoints.map » et ni le parcours par etapes ni le sommaire
-         n'etaient montes. Chaque point : [x %, y %, titre, explication]. */
+      branchLibelle: "Conséquence",
+      schemaAlt: "Description du schéma, pour qui ne le voit pas.",
+      schemaLegende: "Schéma 1 : ce qu'il montre et ce qu'il faut en retenir.",
+      /* Le schéma et ses points chauds : absents, monter() s'arrêtait sur
+         « X.schemaPoints.map » et ni le parcours par étapes ni le sommaire
+         n'étaient montés. Chaque point : [x %, y %, titre, explication]. */
       schemaSrc: "",
-      schemaPoints: [[50, 50, "Premier element du schema", "Ce qu'il represente, et comment le lire (a rediger)."]]
+      schemaPoints: [[50, 50, "Premier élément du schéma", "Ce qu'il représente, et comment le lire (à rédiger)."]]
     },
     en: {
       capsuleTitre: "Opening capsule title",
@@ -2000,11 +2000,11 @@ def main():
 
     # --- purge du contenu de demonstration
     if args.avec_demo:
-        print("  contenu de demonstration CONSERVE (--avec-demo)")
+        print("  contenu de démonstration CONSERVÉ (--avec-demo)")
     else:
         r, s = purger_demo(sortie, c)
-        print("  contenu de demonstration retire : %d media(s), %d fichier(s) "
-              "remis a l'etat de squelette" % (r, s))
+        print("  contenu de démonstration retiré : %d média(s), %d fichier(s) "
+              "remis à l'état de squelette" % (r, s))
         if bloc_actif(c, "livret"):
             print("  outils/livret.py : la fiche du polycopié part vide ; l'auteur y écrit sa présentation, "
                   "imprimée mot pour mot (module 02)")
@@ -2015,16 +2015,16 @@ def main():
 
     # --- l'identite : titre d'onglet, description, auteur, pied de page
     i = renommer_identite(sortie, c)
-    print("  %d page(s) renommee(s) au nom du cours" % i)
+    print("  %d page(s) renommée(s) au nom du cours" % i)
 
     # --- les liens de chapitre : ils pointaient vers la demonstration
     r = recoudre_liens(sortie, c)
-    print("  %d fichier(s) recousu(s) sur les chapitres declares" % r)
+    print("  %d fichier(s) recousu(s) sur les chapitres déclarés" % r)
 
     # --- le sommaire : ses cartes portent la prose du cours de demonstration
     k = regenerer_sommaire(sortie, c)
     if k:
-        print("  cours.html : %d carte(s) de chapitre regeneree(s)" % k)
+        print("  cours.html : %d carte(s) de chapitre régénérée(s)" % k)
 
     # --- un cours qui n'a pas le français ET l'anglais ne promet pas des fiches « français et anglais »
     if not ("fr" in c["langues"] and "en" in c["langues"]):

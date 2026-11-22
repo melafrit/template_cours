@@ -141,11 +141,11 @@ la sortie doit annoncer :**
     arborescence copiée (16 entrées)
     langues-data.js : aucune page traduite pour l'instant
     CLAUDE.md écrit : les exigences de l'auteur s'appliquent à ce cours
-    contenu de demonstration retire : 27 media(s), 13 fichier(s) remis a l'etat de squelette
+    contenu de démonstration retiré : 27 média(s), 13 fichier(s) remis à l'état de squelette
     bloc école : 2 bouton(s), 0 filière(s) avec épreuves, 1 session(s)
-    14 page(s) renommee(s) au nom du cours
-    5 fichier(s) recousu(s) sur les chapitres declares
-    cours.html : 3 carte(s) de chapitre regeneree(s)
+    14 page(s) renommée(s) au nom du cours
+    5 fichier(s) recousu(s) sur les chapitres déclarés
+    cours.html : 3 carte(s) de chapitre régénérée(s)
     filieres.css : 2 filière(s), à jour
     deploiement/destination.json écrit (cours « … »)
     outils/elevenlabs.json     copié en local, ignoré par Git (contenu non affiché)
