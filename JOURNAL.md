@@ -9,6 +9,55 @@
 
 ---
 
+## 22 novembre 2026 · lot 2, le classeur Livrables (`b4426fb`)
+
+### Les décisions de l'auteur
+
+- **Le témoin validé** (le classeur de la démonstration et ses réglages), puis la série : `nouveau_cours.py`, la
+  documentation, les essais.
+- **Le QCM noté de la démonstration en « Exercice / TP »**, rendu par son fichier CSV. Le type « QCM » de
+  l'application corrige une grille d'après un corrigé à lettres fixes, et le QCM du site mélange questions et
+  propositions.
+
+### Le travail
+
+- `outils/generer_classeur_livrables.py` : les cinq feuilles aux en-têtes exacts de l'application, un classeur par
+  session de `outils/sessions.py`, donc par promotion. La colonne Contenu des séances reprend le cahier de texte
+  (`texte_seance()`) ; les liens viennent de `deploiement/destination.json` et restent vides sans adresse. Le
+  générateur refuse une description hors de trois à six phrases, des consignes hors de cinq à dix, une grille hors
+  de quatre à six critères ou qui ne totalise pas la note maximale, une séance inconnue, une échéance avant sa
+  séance, un « = » en tête de cellule. `--essai` compare les valeurs des cellules.
+- À côté du classeur, `docs/Import_Livrables_<session>_reglages.txt` : les créations que l'aperçu doit annoncer, la
+  case des fichiers joints, la version de travail jamais notée et jamais cochée « facultatif », la note du QCM du
+  site, le réimport qui ne supprime rien. Chaque phrase a été vérifiée dans le guide et le code de l'application.
+- `outils/seances.py` : la description de la matière, les consignes, le format et la page de chaque livrable, les
+  ressources. Les textes ont été vérifiés contre l'atelier et le QCM du site, barème compris.
+- `nouveau_cours.py` : un cours créé part sans description ni ressources, et ne reçoit pas le classeur de la
+  démonstration. Le module 07, `CLAUDE.md`, `ARCHITECTURE.md` et la recette suivent.
+
+### Ce qui a été vérifié
+
+Le classeur de la démonstration : 1 matière, 4 séances, 3 livrables, 6 critères pour 20 points, 6 ressources,
+aucune formule ; une seconde génération ne change rien. Un clone sans adresse : liens et ressources vides, et une
+remarque qui ne bloque pas. Trois cours générés depuis une copie sans secret, et une création depuis le gabarit
+réel : ni classeur ni cahier recopiés, et un classeur qui répond « aucune séance ». Contrôles verts, sauf les
+91 tirets du lot S4 et les 32 pages de `hreflang.py`.
+
+### Ce qui n'est pas fait
+
+L'import réel dans l'application, que fait l'auteur. L'écart entre la page du QCM (envoi du CSV par e-mail) et les
+consignes du classeur (dépôt dans l'application), inscrit au registre.
+
+### Pièges appris
+
+- **« Livrable bonus, facultatif » rend un livrable non dû** : une version de travail obligatoire ne la coche pas.
+  La moyenne de l'application ne compte que les livrables notés.
+- **Un rendu est un lien par défaut** : un fichier demande la case « Autoriser les fichiers joints », que l'import
+  ne porte pas.
+- **openpyxl relit une chaîne vide comme une case vide** : `--essai` voyait périmé un classeur tout juste écrit.
+
+---
+
 ## 22 novembre 2026 · lot 2, le cahier de texte Yparéo (`0211023`)
 
 ### Les décisions de l'auteur

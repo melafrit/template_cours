@@ -60,10 +60,14 @@ Les lots, dans l'ordre validé :
   gabarit ; une version de travail obligatoire et non notée ; le programme de démonstration (deux jours, quatre
   séances) ; la carte Durée en jours. Fait : `seances.py`, `programme.py`, le programme et les échéances de
   l'accueil, un programme vide dans un cours créé (`088a1a8`) ; `sessions.py` et le cahier de texte, texte et
-  Word, avec et sans identifiants, qui remplace l'ancien générateur (`0211023`). Restent : le classeur d'import
-  Livrables (cinq feuilles, un par promotion, la colonne Contenu des séances reprise du cahier, et le mode
-  d'emploi des réglages à refaire à la main : barème du QCM, malus) ; les boutons des épreuves et la pastille ; le
-  bloc `ecole` de `cours.json` ; la documentation (GUIDE, CHECKLIST) ; l'arabe.
+  Word, avec et sans identifiants, qui remplace l'ancien générateur (`0211023`) ; le classeur d'import Livrables
+  (cinq feuilles, un par promotion, la colonne Contenu reprise du cahier) et, à côté, les réglages que l'import ne
+  porte pas (`b4426fb`). Décision de l'auteur pour le classeur : le QCM noté de la démo en « Exercice / TP »,
+  rendu par son fichier CSV, car le type « QCM » de l'application corrige une grille d'après un corrigé à lettres
+  fixes. Restent : les boutons des épreuves et la pastille ; le bloc `ecole` de `cours.json` ; la documentation
+  (GUIDE, CHECKLIST) ; l'arabe. Relevé en chemin, à trancher avec l'auteur : la page du QCM demande d'envoyer le
+  CSV au formateur « par e-mail », alors que les consignes du classeur demandent de le déposer dans
+  l'application Livrables.
 - [x] **3. Page d'accueil**, avec les fiches de ses capsules de section. Redemandée par l'auteur le
   21 novembre, avec un troisième modèle, le cours de veille technologique (`Cours_EADL_Veille_Techno`), et
   traitée avant le bloc école. L'accueil ✅ (`0910118` : français et anglais, `outils/accueil.py`, couleurs du
@@ -116,6 +120,11 @@ Les lots, dans l'ordre validé :
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 22 novembre · lot 2, le classeur Livrables
+> `outils/generer_classeur_livrables.py` écrit le classeur d'import (cinq feuilles, un par promotion) et, à
+> côté, les réglages que l'import ne porte pas, relus dans le guide et le code de l'application. Le QCM noté
+> de la démo passe en « Exercice / TP ». `b4426fb`. Restent les boutons des épreuves, la pastille et le bloc
+> `ecole`.
 > ### 🆕 22 novembre · lot 2, le cahier de texte Yparéo
 > `outils/sessions.py` porte les seules dates du dépôt ; `outils/generer_cahier_de_texte.py` écrit le cahier
 > en texte et en Word, avec et sans les identifiants du site, et remplace l'ancien générateur. `0211023`.
@@ -412,6 +421,12 @@ anglais, rendue `<span lang="fr">` (`qcm/qcm_commun.py`).
   `f80bd8b`, relevé le 25 octobre) ; un correctif a été lancé le 26 octobre dans une autre session : à vérifier.
 - **Cours d'architecture logicielle** (le cours de référence) : deux commentaires de sa chaîne du polycopié à
   corriger ; son registre (`TODO.md`) les détaille.
+- **Cours d'étude d'avant-projet** (`C:\projets\Cours\Cours_EADL_ERIS_Etude_Avant_Projet`) : son mode d'emploi de
+  l'import (`import-application/README.md`, réglage 2) fait cocher « facultatif » sur les versions de travail
+  pour les sortir de la moyenne. Dans l'application, cette case (« Livrable bonus, facultatif ») les rend non dues,
+  et un étudiant qui ne les rend pas sort du compteur des manquants ; la moyenne, elle, ne compte que les
+  livrables notés (relevé le 22 novembre dans le guide et le code de l'application). À proposer à l'auteur, dans
+  son dépôt.
 - **Tout cours créé avant le 25 octobre** n'a ni les outils du site miroir, ni les interdits, ni les fragments, ni
   « Où en parle-t-on ? », ni la page Podcasts, ni le polycopié : chaque module (`prompts/modules/`) dit comment les
   ajouter à un cours existant. **Tout cours créé avant le 1er novembre** n'a pas les corrections des lots 1 à 4 ni
