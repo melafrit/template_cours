@@ -45,7 +45,6 @@ NIVEAUX = {
 }
 
 # ─────────────────────────────────────────────────────────────── les questions
-# ─────────────────────────────────────────────────────────────── les questions
 #
 # TROIS EXEMPLES, à remplacer par les vôtres. La forme compte plus que le
 # nombre : une question sans « alerte » ni « relance » n'aide pas le jury en
@@ -91,8 +90,8 @@ Q = [
                 "difficultés.",
         excellente="Le candidat dit ce qu'il a tranché malgré la limite, et "
                    "sur quel argument.",
-        alerte="« Nous aurions pu approfondir. » Cela ne dit rien : ce n'est "
-               "pas une limite, c'est une formule de politesse.",
+        alerte="« Nous aurions pu approfondir. » Cela ne dit rien : une formule "
+               "de politesse tient la place de la limite.",
         relance="Et vous avez tranché dans quel sens, finalement ?",
         critere="Critère de la grille visé (n points)",
     ),
@@ -225,12 +224,12 @@ def feuille_mode_emploi(wb):
 
     blocs = [
         ("Combien de questions",
-         "Deux à trois par étudiant, pas davantage. Le temps de parole est de cinq minutes par "
-         "personne ; les questions viennent après, et une équipe de cinq représente déjà "
-         "vingt-cinq minutes d'exposé. Mieux vaut deux questions creusées qu'une rafale."),
+         "Deux à trois par étudiant, pas davantage : mieux vaut deux questions creusées qu'une "
+         "rafale. Comptez la durée de l'oral (le temps de parole de chacun, la taille des "
+         "équipes) avant d'en prévoir davantage."),
         ("Comment les choisir",
-         "Partez de ce que l'étudiant vient de présenter. S'il a exposé la phase 3, prenez les "
-         "questions 13 ou 14 ; s'il a présenté le contexte, prenez la 1 ou la 4. Une question "
+         "Partez de ce que l'étudiant vient de présenter, et prenez les questions de son thème "
+         "(colonne Thème de la feuille des questions). Une question "
          "hors de sa partie reste légitime (le jury peut interroger n'importe qui sur "
          "n'importe quelle partie du dossier, et les étudiants en sont prévenus), mais elle "
          "évalue alors la connaissance du dossier, pas la maîtrise de l'exposé."),
@@ -245,23 +244,21 @@ def feuille_mode_emploi(wb):
          "donne sa chance. Si la relance ne débloque rien, passez : insister ne produit plus "
          "d'information sur le niveau."),
         ("Ce que vous notez",
-         "La grille attribue 4 points de prestation individuelle : maîtrise du contenu présenté, "
-         "capacité à répondre à une question, respect des cinq minutes. Les questions servent "
-         "le deuxième point. Elles ne modifient pas les 12 points du dossier PIA, qui se notent "
-         "sur l'archive exportée."),
+         "Chaque question vise une ligne de la grille d'évaluation de l'oral (dernière colonne "
+         "de la feuille des questions) : notez la réponse sur cette ligne seulement. La note "
+         "du dossier écrit, elle, se juge sur le dossier lui-même."),
         ("Équité entre les équipes",
-         "Notez dans la feuille « Suivi » les numéros de questions posées à chacun. Sur trois "
-         "heures de soutenances, la mémoire déforme : sans trace écrite, la troisième équipe "
+         "Notez dans la feuille « Suivi » les numéros de questions posées à chacun. Sur une "
+         "longue série de soutenances, la mémoire déforme : sans trace écrite, la troisième équipe "
          "reçoit des questions plus difficiles que la première, sans que personne l'ait voulu."),
         ("Réponses hors dossier",
-         "Toutes les réponses attendues sont tirées du dossier de cas du chapitre 8. Si un "
+         "Toutes les réponses attendues sont tirées du dossier remis aux étudiants. Si un "
          "étudiant apporte un élément extérieur (une source, une norme, un retour "
          "d'expérience), cela ne doit pas lui nuire, à condition qu'il traite d'abord le "
          "dossier. L'exercice reste borné par l'énoncé."),
         ("Diffusion",
          "Ce document ne se donne pas aux étudiants avant l'oral. Il vit dans docs/, que le "
-         "script de déploiement exclut du site : il n'est pas mis en ligne. Après les "
-         "soutenances, la page « Soutenance vidéo » joue le rôle de correction publique."),
+         "script de déploiement exclut du site : il n'est pas mis en ligne."),
     ]
 
     ligne = 5
