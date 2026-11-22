@@ -219,6 +219,8 @@ Pour **chaque** chapitre :
 - [ ] `python3 outils/generer_fragments.py --essai` n'a rien à faire — chaque
       chiffre des pages suit le référentiel (`outils/referentiel.py`), aucune
       valeur ne manque
+- [ ] `python3 outils/seances.py` et `python3 outils/sessions.py` finissent sans
+      écart : le programme est cohérent, et les dates des sessions le couvrent
 - [ ] `python3 outils/glossaire_emplois.py --essai` dit « à jour » — la fenêtre
       « Où en parle-t-on ? » du glossaire suit les pages
 - [ ] Avec la série de podcasts : `python3 outils/podcasts.py` finit sur
@@ -279,6 +281,31 @@ Pour **chaque** chapitre :
 - [ ] Sources tierces créditées (textes, images, polices) ; droits d'usage vérifiés
 - [ ] Chaque police de `site/assets/fonts/` accompagnée de sa licence (`licences/`), toute police ajoutée comprise
 - [ ] Mentions de licence reportées dans les exports (DOCX/PDF) le cas échéant
+
+---
+
+## Phase 14 bis · L'école (module 07)
+
+Pour un cours donné dans une école qui tient ses séances dans Yparéo et recueille les
+livrables dans l'application Livrables (`docs/GUIDE.md`, section 2 ter).
+
+- [ ] `python3 outils/seances.py` finit sur « cohérent » : chaque chapitre placé une
+      fois, chaque échéance après sa séance, chaque grille au total de sa note maximale
+- [ ] Aucune date dans le contenu : les dates réelles ne sont que dans
+      `outils/sessions.py`, et `python3 outils/sessions.py` finit sur « cohérentes » 🔴
+- [ ] La session d'exemple du modèle est remplacée : promotion et matière écrites
+      exactement comme dans l'application, la promotion au format « Année › Promotion »
+- [ ] Le programme et les échéances de l'accueil suivent `seances.py`
+      (`python3 outils/generer_fragments.py --essai` n'a rien à faire)
+- [ ] Le cahier de texte est produit et relu (`python3 outils/generer_cahier_de_texte.py`) ;
+      la version avec identifiants ne quitte pas le poste 🔴
+- [ ] Un classeur Livrables par promotion
+      (`python3 outils/generer_classeur_livrables.py --session <nom>`), produit sans
+      écart, et son fichier de réglages relu
+- [ ] L'auteur a importé chaque classeur et relu l'aperçu (des créations au premier
+      import, des mises à jour ensuite), puis fait les réglages à la main
+- [ ] Les épreuves de chaque filière (`FILIERES`) : adresse ouverte avant d'être
+      ajoutée, pastille et bouton vérifiés au navigateur, avec et sans filière choisie
 
 ---
 

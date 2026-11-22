@@ -98,7 +98,12 @@ rôle des phases qui suivent. Il écrit aussi :
 - `deploiement/destination.json` — où ce cours se publie (bloc `publication` de
   `cours.json`) ; le déployeur refuse le dossier d'un autre cours ;
 - les **secrets communs** — `outils/elevenlabs.json` et `deploiement/config.json`,
-  recopiés tels quels depuis le template, en local, ignorés par Git.
+  recopiés tels quels depuis le template, en local, ignorés par Git ;
+- le **bloc école** de `cours.json` : les boutons de l'accueil (`outils/accueil.py`),
+  les épreuves de chaque filière (`FILIERES`, dans `outils/seances.py`) et les
+  sessions (`outils/sessions.py`), avec la promotion et la matière exactes de
+  l'application Livrables et les dates réelles. Une session restée sur l'exemple
+  du modèle est signalée.
 
 Il **retire aussi le contenu de démonstration** : capsules, schémas, polycopiés,
 QCM et glossaire du cours-démo ne partent pas dans votre cours. À leur place,
@@ -306,6 +311,31 @@ Un chapitre n'est pas qu'un texte. `interactions.js` expose `window.RDCX` :
 Choisissez selon l'intention, pas selon la nouveauté : un `checkpoint` après
 une notion difficile vaut mieux qu'un `branch` plaqué là où rien ne se décide.
 
+## 2 ter. L'école : le programme, le cahier de texte et le classeur Livrables
+
+*Pour un cours donné dans une école qui tient ses séances dans Yparéo et recueille les livrables dans l'application Livrables (module 07, `prompts/modules/07-ypareo-livrables.md`). On y vient une fois les chapitres, l'atelier et les évaluations arrêtés.*
+
+**Le programme ne porte aucune date.** `outils/seances.py` le décrit : les séances en demi-journées (« Jour 1, matin »), le travail à faire, les livrables avec leurs échéances et leur notation, la description de la matière et les ressources. Les dates réelles vivent dans `outils/sessions.py`, une session par promotion, avec la promotion et la matière écrites exactement comme dans l'application. `nouveau_cours.py` les y a mises d'après le bloc école de `cours.json` ; la session d'exemple du modèle se remplace avant tout usage.
+
+| Ce qu'on obtient | Commande | Ce qu'elle lit |
+|---|---|---|
+| Le programme et les échéances de l'accueil | `python3 outils/generer_fragments.py` | `outils/seances.py` |
+| Le cahier de texte Yparéo, en `.txt` et en `.docx` | `python3 outils/generer_cahier_de_texte.py` | `seances.py`, `sessions.py`, les pages des chapitres |
+| Le classeur d'import Livrables et ses réglages | `python3 outils/generer_classeur_livrables.py --session <nom>` | `seances.py`, `sessions.py`, le cahier, `deploiement/destination.json` |
+| La pastille et les boutons des épreuves de l'accueil | `python3 outils/generer_fragments.py` | `FILIERES`, dans `seances.py` |
+
+**Les contrôles.** `python3 outils/seances.py` vérifie le programme (chaque chapitre placé une fois, chaque échéance après sa séance, des grilles qui totalisent la note maximale) et `FILIERES`. `python3 outils/sessions.py` vérifie les dates : une par jour du programme, un jour ouvré, dans l'ordre. Les deux générateurs ont un `--essai` qui signale un document périmé, sans rien écrire.
+
+**Le cahier de texte.** Un bloc par séance, « CONTENU DE LA SÉANCE » puis « TRAVAIL À FAIRE ». La version sans identifiants sort toujours. Celle qui porte les identifiants du site sort quand `docs/acces.json` existe, et ne quitte jamais le poste. Sans accès à Yparéo, le même texte part dans l'application Livrables, colonne Contenu de la feuille Séances.
+
+**Le classeur Livrables.** Un classeur par promotion, car deux matières nouvelles dans un même fichier se prennent pour des doublons. Les liens viennent du site publié ; sans adresse connue, ils restent vides. À côté du classeur, `docs/Import_Livrables_<session>_reglages.txt` liste ce que l'import ne porte pas :
+
+- la case « Autoriser les fichiers joints », sans laquelle l'étudiant ne rend qu'un lien ;
+- la version de travail, jamais notée, et jamais cochée « Livrable bonus, facultatif », qui la rendrait non due ;
+- la note d'un QCM passé sur le site, calculée dans son tableau de bord puis saisie dans l'application.
+
+**L'import.** L'auteur relit l'aperçu avant de confirmer : un premier import annonce des créations, un réimport des mises à jour seulement. L'import ne supprime jamais rien, et le titre d'un livrable sert de clé. Un titre changé crée donc un livrable de plus, à retirer à la main.
+
 ## 3. La vérification au navigateur (incontournable)
 
 Aucun livrable n'est « terminé » tant que vous ne l'avez pas **ouvert dans un navigateur** et essayé. Le site est statique et hors-ligne : ouvrez `site/index.html` directement, ou servez le dossier en local. À chaque intégration, contrôlez :
@@ -349,6 +379,12 @@ Phase 4 — Médias & supports, puis audit
   09  Fiche NotebookLM .......................... .docx → source NotebookLM
   10  Prompts NotebookLM ........................ médias → assets/media/{podcasts,slides,infographies}
   13  Accessibilité & QA ........................ audit + corrections → VÉRIFIER AU NAVIGATEUR
+
+L'école (module 07, si le cours en relève)
+      outils/seances.py ......................... le programme, sans date → accueil
+      outils/sessions.py ........................ promotions, matières, dates réelles
+      generer_cahier_de_texte.py ................ cahier de texte Yparéo (.txt, .docx)
+      generer_classeur_livrables.py ............. classeur d'import et réglages → l'auteur importe
 
 Mise en ligne
       deploiement/deployer.py --essai ........... destination.json, garde-fou, puis envoi (après accord)
