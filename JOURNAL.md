@@ -9,6 +9,25 @@
 
 ---
 
+## 23 novembre 2026 · les compteurs du déployeur s'accordent au nombre (`f0bd661`)
+
+Relevé dans un cours, en préparant la purge d'un seul fichier : le déployeur demandait « Supprimer ces 1 fichiers en
+ligne ? » et finissait par « 0 fichiers envoyés ». En français, 0 et 1 prennent le singulier. L'auteur a demandé la
+correction dans le cours, puis son report ici.
+
+### Le travail (`f0bd661`)
+
+- Deux fonctions, `accord()` et `nombre()`, accordent chaque compteur des messages : la question de la purge, le
+  bilan, l'inventaire, le carnet, la comparaison, l'alerte des zones protégées (verbe compris), la liste au-delà de
+  40 fichiers (« 1 autre fichier »), les échecs, l'alerte des fichiers Word et l'essai à blanc de la purge. Les
+  formes en « (s) » laissent place à l'accord exact.
+- `tester_deployer.py` gagne un cas, une purge d'un seul fichier à laquelle on répond « non », et le cas des
+  fichiers Word attend désormais « 2 fichiers Word dans site/, laissés sur le poste ». Les 32 cas passent ; les
+  trois vérifications nouvelles ou modifiées échouent sur l'ancien déployeur.
+- Les tirets cadratins des messages, retirés dans le cours le même jour, l'étaient déjà ici.
+
+---
+
 ## 23 novembre 2026 · aucun fichier Word en ligne (`133336d`)
 
 La demande de l'auteur : « Il ne faut pas que les docx soit proposé en telechargement dans les pages web mais
