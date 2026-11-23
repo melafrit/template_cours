@@ -345,9 +345,10 @@ Les lots, dans l'ordre validé :
   - des commentaires anciens écrits sans accents (`interactions.js`, `media.js`, `navigation.js`, `playlist.js`,
     `.gitignore`, `demarrer.py`, `deployer.py`, `nouveau_cours.py`, `generer_audio.py`, `verifier_i18n.py`), fautes
     à proposer à l'auteur puis à corriger dans un commit à part ;
-  - des passages périmés, dans `ui-labels.js` (le repli sur le français décrit pour l'anglais seul), `i18n.js`
-    (« bilingue FR/EN »), `interactions.css` (un `overflow: hidden` retiré depuis), `components.css` (« les 60
-    pastilles », pour un QCM de 9 questions) et `verifier_liens.py` (« aucun des deux autres vérificateurs ») ;
+  - ✅ les passages périmés, corrigés le jour même : `ui-labels.js` (le repli sur le français, décrit pour
+    l'anglais seul), `i18n.js` (« bilingue FR/EN », et un contrat qui montrait un dictionnaire par moteur),
+    `interactions.css` (un `overflow: hidden` retiré depuis), `components.css` (« les 60 pastilles ») et
+    `verifier_liens.py` (« aucun des deux autres vérificateurs ») ;
   - des tournures, dans `main.css` (un participe sans sujet, « se résolvait contre », calque de l'anglais),
     `polycopie/ooxml.py` (« seul moyen que », pour « pour que ») et `glossaire_emplois.py` (deux deux-points dans une
     phrase) ;

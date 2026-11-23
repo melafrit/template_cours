@@ -795,7 +795,7 @@ html.a11y-dys body { letter-spacing: 0.02em; word-spacing: 0.06em; }
 }
 
 
-/* QCM : les 60 pastilles de navigation doivent atteindre la zone tactile de 44 px */
+/* QCM : les pastilles de navigation (une par question) doivent atteindre la zone tactile de 44 px */
 @media (max-width: 768px) {
   body .nav-grid { grid-template-columns: repeat(auto-fill, minmax(2.75rem, 1fr)); }
   body .nav-cell { min-height: 2.75rem; min-width: 2.75rem; }

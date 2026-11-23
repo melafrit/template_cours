@@ -13,7 +13,7 @@
    COMMENT S'EN SERVIR DANS UN MOTEUR
        html += '<button>' + T('lecteur.lire') + '</button>';
    T() renvoie la chaîne de la langue active, et retombe sur le français
-   si la clé manque en anglais : un libellé français vaut mieux qu'un
+   si la clé manque dans sa langue : un libellé français vaut mieux qu'un
    bouton vide.
 
    QUAND LA LANGUE CHANGE
@@ -762,7 +762,7 @@ window.UI_LABELS = {
   }
 };
 
-/* Accesseur global. Volontairement tolérant : une clé absente en anglais
+/* Accesseur global. Volontairement tolérant : une clé absente d'une langue
    retombe sur le français, une clé inconnue renvoie la clé elle-même ; on
    voit alors immédiatement laquelle manque, au lieu d'un bouton vide. */
 window.T = function (cle) {

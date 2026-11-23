@@ -7,7 +7,7 @@
 
 POURQUOI
 
-C'est le défaut le plus coûteux du template, et le seul qu'aucun des deux
+C'est le défaut le plus coûteux du template, et le seul qu'aucun des
 autres vérificateurs n'attrape.
 
 Le site de démonstration parle de « concevoir un cours en ligne ». Ses pages

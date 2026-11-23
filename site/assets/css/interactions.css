@@ -702,8 +702,8 @@
 @media (max-width: 768px) {
 
   /* (c) INFO-BULLES DES SCHÉMAS · composant le plus à risque.
-     Elles sont ancrées en absolu dans .rdcx-hs-stage, qui est en
-     overflow: hidden et ne mesure plus que ~140 px de haut une fois
+     Elles sont ancrées en absolu dans .rdcx-hs-stage, alors en
+     overflow: hidden, qui ne mesure plus que ~140 px de haut une fois
      l'image réduite à 320 px. Résultat mesuré : 17 bulles sur 17
      tronquées verticalement (jusqu'à 199 px rognés en bas, 256 px en
      haut) ; le texte devenait illisible.

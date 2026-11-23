@@ -1,5 +1,5 @@
 /* =================================================================
-   i18n.js · Bascule de langue bilingue FR/EN (cœur du template)
+   i18n.js · La langue de chaque page, et la bascule FR/EN des pages bilingues (cœur du template)
    Template de site de cours · Mohamed EL AFRIT (MIT / CC BY 4.0)
 
    CONTRAT (à suivre par les pages et les moteurs) :
@@ -14,10 +14,9 @@
         <img  data-i18n-alt-fr="…" data-i18n-alt-en="…" alt="…">
       i18n.js échange l'attribut au changement de langue.
 
-   3) UI générée en JS (nav, QCM, lecteurs…) · chaque moteur définit ses
-      libellés et écoute l'évènement de changement de langue :
-        var S = { fr:{ play:'Lire' }, en:{ play:'Play' } };
-        function t(k){ return (S[TPLI18N.lang()]||S.fr)[k] || S.fr[k]; }
+   3) UI générée en JS (nav, QCM, lecteurs…) · chaque moteur prend ses
+      libellés dans ui-labels.js, par T(), et écoute le changement de langue :
+        html += '<button>' + T('lecteur.lire') + '</button>';
         document.addEventListener('tpl:langchange', reRender);
 
    API : TPLI18N.lang() · TPLI18N.dir() · TPLI18N.set('en') · TPLI18N.toggle()
