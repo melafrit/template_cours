@@ -63,10 +63,26 @@ cours d'essai, créé dans le dossier temporaire puis supprimé, n'a ni la copie
 la mention dans son `CLAUDE.md`. L'essai à blanc du déployeur retient les quatre fichiers de la zone, faute de
 protection en ligne.
 
+### La protection et la mise en ligne de la rubrique
+
+L'auteur a donné l'identifiant et le mot de passe dans la conversation, demandé qu'ils soient écrits à sa place dans
+`docs/acces-zones.json`, et précisé que cet outil ne pose pas de problème de sécurité. Un script les a reçus par
+l'environnement et n'a rien affiché ; ils ne sont écrits nulle part ailleurs, ni ici ni dans le registre. Ensuite,
+dans l'ordre :
+
+- `proteger_zones.py --hors-ligne`, puis la simulation connectée, puis la pose : `.htaccess` et `.htpasswd` envoyés
+  et relus, le 401 constaté sur `generateur/` ;
+- l'essai à blanc du déployeur : 5 fichiers, exactement les fichiers de `site/` changés selon Git depuis `f78efe5`
+  (l'entrée du menu et les quatre fichiers de la rubrique, que le déployeur ne retenait plus) ;
+- l'envoi, puis un nouvel essai qui ne trouve plus rien.
+
+En ligne, sans identifiant, les 65 pages, scripts et feuilles de style publics répondent 200 avec les octets du
+dépôt ; la rubrique et ses fichiers répondent 401, son `.htaccess` et son `.htpasswd` 403. La connexion elle-même ne
+se teste pas ici : l'auteur l'essaie dans son navigateur (CLAUDE.md, § 2).
+
 ### Ce qui n'est pas fait
 
-La protection et la mise en ligne de la rubrique attendent le mot de passe de l'auteur (registre). Les six fiches
-Word restent en ligne sans purge.
+L'essai de connexion par l'auteur. Les six fiches Word restent en ligne sans purge.
 
 ---
 
