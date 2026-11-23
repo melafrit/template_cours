@@ -102,7 +102,7 @@
 > FORMAT DE SORTIE (IMPORTANT, pour alimenter le script Python)
 > Ne génère PAS directement de DOCX/PDF, et ne réécris pas le script : « tools/generate_polycopies.py » existe dans le gabarit, et le site attend ses fichiers sous leurs noms. Produis :
 > 1. Pour chaque chapitre, son entrée de « tools/polycopies_content.json », dont la clé est le numéro du chapitre, suivant EXACTEMENT le schéma JSON ci-dessous (clés stables, le script ne lit que ces clés).
-> 2. Rien d'autre : le script lit ce fichier et écrit, pour chaque chapitre et chaque langue, un DOCX et un PDF dans « site/assets/polycopies/ ».
+> 2. Rien d'autre : le script lit ce fichier et écrit, pour chaque chapitre et chaque langue, un PDF dans « site/assets/polycopies/ », que le site sert, et un DOCX dans « tools/out/ », jamais publié.
 >
 > SCHÉMA JSON (une entrée par chapitre ; chaque texte en {"fr": "…", "en": "…"}, ou une simple chaîne en français seul) :
 > {

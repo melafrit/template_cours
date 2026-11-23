@@ -44,9 +44,9 @@ python3 deploiement/deployer.py
 
 | Option | Effet |
 |---|---|
-| `--essai` | Simulation : se connecte, vérifie le garde-fou, affiche ce qui serait envoyé, n'envoie rien. |
+| `--essai` | Simulation : se connecte, vérifie le garde-fou, affiche ce qui serait envoyé, n'envoie rien. Avec `--purge`, liste aussi ce qui serait supprimé, sans rien supprimer. |
 | `--tout` | Ignore le carnet et réenvoie tous les fichiers. |
-| `--purge` | Supprime en ligne les fichiers absents du dépôt. Demande confirmation. |
+| `--purge` | Supprime en ligne les fichiers absents du dépôt. Demande confirmation. `--essai --purge` en donne d'abord la liste. |
 | `--purge-confirme` | Même chose, sans question posée. Pour un lancement non interactif. |
 | `--adopter` | Reprend un dossier déjà publié par un autre outil (voir le garde-fou). Jamais avec `--purge`. |
 
@@ -73,6 +73,10 @@ avec `--purge` : adoptez, vérifiez le site, purgez lors d'un envoi suivant.
 
 **Jamais envoyés, jamais purgés** : `.htaccess`, `.htpasswd`, `.user.ini`, `.ovhconfig`, et les
 motifs de `proteger`. Un mot de passe posé côté serveur survit ainsi à chaque publication.
+
+**Les fichiers Word ne partent jamais** (décision de l'auteur du 23 novembre 2026). Un `.docx` de
+`site/`, même suivi par Git, reste sur le poste : le déployeur le signale sans l'envoyer, et
+`--purge` retire ceux qu'un envoi plus ancien a laissés en ligne. Le PDF se publie à sa place.
 
 **Les zones protégées** (`zones_protegees` dans `destination.json` — la correction d'un TP, la
 partie formateur) ne partent qu'une fois leur `.htaccess` en ligne. Pour les poser :

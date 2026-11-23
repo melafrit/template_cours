@@ -9,7 +9,8 @@ l'hébergement, et des fichiers temporaires remplacent config.json et
 destination.json ; les vrais ne sont jamais ouverts. Chaque cas rejoue une
 situation réelle : un cours neuf, un cours déjà publié, le dossier d'un autre
 cours, un dossier publié par un ancien déployeur, un dossier logé dans un
-autre cours, une zone protégée sans sa protection.
+autre cours, une zone protégée sans sa protection, un fichier Word dans site/
+ou resté en ligne, l'essai à blanc d'une purge.
 
 Code de sortie 1 au premier écart : à lancer après toute modification de
 deployer.py.
@@ -304,10 +305,47 @@ def cas_destination():
         banc.nettoyer()
 
 
+def cas_word():
+    print("\nFichiers Word et essai à blanc de la purge")
+    banc = Banc(fichiers_site={"index.html": "<h1>Accueil</h1>",
+                               "assets/polycopies/chapitre-1-polycopie.fr.pdf": "%PDF",
+                               "assets/polycopies/chapitre-1-polycopie.fr.docx": "word",
+                               "atelier/Modele.DOCX": "word"})
+    try:
+        ancien = "assets/polycopies/chapitre-2-polycopie.fr.docx"
+        s = FauxServeur({CARNET: carnet("nouveau-cours"), BASE + "/" + ancien: b"word",
+                         BASE + "/" + PROTEGE: b"Require valid-user"})
+        avant = dict(s.fichiers)
+        code, sortie = lancer(banc, s, "--essai", "--purge")
+        verifier("--essai --purge : la liste de la purge, rien d'envoyé ni de supprimé",
+                 code == D.OK and s.fichiers == avant and "à supprimer : " + ancien in sortie
+                 and "à supprimer : " + PROTEGE not in sortie and "ni supprimé" in sortie
+                 and "[simulation] assets/polycopies/chapitre-1-polycopie.fr.docx" not in sortie, sortie)
+
+        code, sortie = lancer(banc, s)
+        en_ligne = [f[len(BASE) + 1:] for f in s.fichiers if f.startswith(BASE + "/")]
+        verifier("un .docx suivi par Git ne part jamais, casse comprise ; le PDF part, l'alerte le dit",
+                 code == D.OK and "assets/polycopies/chapitre-1-polycopie.fr.pdf" in en_ligne
+                 and not [f for f in en_ligne if f.lower().endswith(".docx") and f != ancien]
+                 and "fichier(s) Word" in sortie, sortie)
+
+        code, sortie = lancer(banc, s, "--purge-confirme")
+        verifier("la purge retire le .docx resté en ligne et garde la protection",
+                 code == D.OK and BASE + "/" + ancien not in s.fichiers
+                 and BASE + "/" + PROTEGE in s.fichiers and CARNET in s.fichiers, sortie)
+
+        code, sortie = lancer(banc, s, "--essai", "--purge")
+        verifier("après la purge, un nouvel essai ne trouve plus rien à supprimer",
+                 code == D.OK and "à supprimer" not in sortie and "aucun." in sortie, sortie)
+    finally:
+        banc.nettoyer()
+
+
 def main():
     cas_garde()
     cas_protections()
     cas_zones()
+    cas_word()
     cas_destination()
     print()
     if ECARTS:

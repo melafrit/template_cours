@@ -240,8 +240,8 @@ Le pipeline se déroule en **quatre phases**. Vous pouvez itérer à l'intérieu
 
 - **Quand :** une fois le plan arrêté et le fil rouge défini, en cohérence avec le QCM.
 - **À préparer :** le scénario fil rouge, le plan, `{{FIL_ROUGE}}`.
-- **Ce que Claude renvoie :** l'**atelier fil rouge** complet (mission, livrables, critères d'évaluation, **templates téléchargeables** (DOCX/XLSX) que l'étudiant complète, et **corrigé formateur**) plus le **contenu HTML** intégrable dans la page « Atelier » et les **scripts Python** qui fabriquent les fichiers.
-- **Intégration :** collez le contenu pédagogique dans `site/atelier.html`, déposez les modèles générés dans `site/atelier/templates/` (le cours crée ce dossier), et rangez les scripts Python dans `tools/`.
+- **Ce que Claude renvoie :** l'**atelier fil rouge** complet (mission, livrables, critères d'évaluation, **templates** que l'étudiant complète (XLSX téléchargeables, DOCX remis hors du site), et **corrigé formateur**) plus le **contenu HTML** intégrable dans la page « Atelier » et les **scripts Python** qui fabriquent les fichiers.
+- **Intégration :** collez le contenu pédagogique dans `site/atelier.html`, déposez les modèles XLSX dans `site/atelier/templates/` (le cours crée ce dossier), et rangez les scripts Python dans `tools/`. Les modèles DOCX, écrits dans `tools/out/atelier/`, ne se publient jamais (décision de l'auteur du 23 novembre 2026) ; le formateur les remet hors du site.
 
 ### `15_explications_quiz.md` · Expliquer chaque proposition
 
@@ -268,7 +268,7 @@ Le pipeline se déroule en **quatre phases**. Vous pouvez itérer à l'intérieu
 - **Quand :** une fois les chapitres rédigés et stabilisés.
 - **À préparer :** les chapitres et leurs « à retenir ».
 - **Ce que Claude renvoie :** **par chapitre**, un polycopié de synthèse académique (mini-sommaire, encadrés colorés, tableau récapitulatif, « à retenir ») exporté simultanément en **DOCX et PDF** via un **script Python unique** (`tools/generate_polycopies.py`, basé sur `python-docx` + `fpdf2`).
-- **Intégration :** placez `generate_polycopies.py` dans `tools/`, lancez-le (`python tools/generate_polycopies.py`), puis proposez les DOCX/PDF en téléchargement par chapitre. Les polycopiés doivent rester **strictement cohérents** avec le contenu du site.
+- **Intégration :** placez `generate_polycopies.py` dans `tools/`, lancez-le (`python tools/generate_polycopies.py`), puis proposez le PDF en téléchargement par chapitre ; le DOCX, rangé dans `tools/out/`, ne se publie jamais. Les polycopiés doivent rester **strictement cohérents** avec le contenu du site.
 
 ### `09_notebooklm_fiche.md` · Fiche de cours pour NotebookLM
 

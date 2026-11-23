@@ -31,6 +31,11 @@ Les cibles construites en JavaScript ne sont pas visibles ici : les boutons
 `data-chapitre`, par exemple, reçoivent leur `href` à l'exécution. C'est
 volontaire, et c'est justement ce qui les met à l'abri.
 
+LES FICHIERS WORD ne se publient jamais (décision de l'auteur du 23 novembre
+2026) : le déployeur ne les envoie pas. Un lien vers un `.docx`, juste sur le
+poste, mènerait en ligne à une page d'erreur ; il est signalé, que le fichier
+existe ou non. On propose le PDF.
+
 LES RENVOIS « POUR APPROFONDIR » des quiz sont écrits dans le JavaScript des
 pages, en paires ["libellé", "adresse"] : aucun href ne les porte. Ils sont
 contrôlés à part, fichier ET ancre : un renvoi vers le bon chapitre mais la
@@ -61,6 +66,9 @@ LIEN = re.compile(r'(?:href|src)\s*=\s*(["\'])(.*?)\1', re.I | re.S)
 
 # Ce qui ne désigne pas un fichier du site.
 IGNORE = re.compile(r'^\s*(?:https?:|//|mailto:|tel:|javascript:|data:|#|\{)', re.I)
+
+# Un fichier Word ne se publie jamais (voir plus haut) : il n'est donc la cible d'aucun lien.
+WORD = re.compile(r'\.docx$', re.I)
 
 # Une paire ["libellé", "adresse"] écrite en JavaScript ; seules comptent celles
 # dont l'adresse a la forme d'un renvoi : les mêmes formes que le moteur accepte
@@ -146,12 +154,14 @@ def main():
     print("\nLiens du site\n-------------")
     print("  %d page(s) analysée(s) dans %s" % (len(pages), os.path.relpath(site, RACINE)))
 
-    morts = []
+    morts, word = [], []
     total, internes, externes = 0, 0, 0
     for p in sorted(pages):
         for cible, reel in liens_de(p, site):
             total += 1
-            if not os.path.exists(reel):
+            if WORD.search(reel):
+                word.append((os.path.relpath(p, site), cible))
+            elif not os.path.exists(reel):
                 morts.append((os.path.relpath(p, site), cible))
         for reste in balises_cassees(p):
             morts.append((os.path.relpath(p, site), "%s  (lien abîmé : son « <a href= » a disparu)" % reste))
@@ -168,9 +178,21 @@ def main():
     print("  %d renvoi(s) « Pour approfondir » contrôlé(s), fichier et ancre ; %d externe(s)"
           % (internes, externes))
 
+    if word:
+        print("\n  %d lien(s) vers un fichier Word :\n" % len(word))
+        courante = None
+        for page, cible in word:
+            if page != courante:
+                print("    %s" % page.replace(os.sep, "/"))
+                courante = page
+            print("        -> %s" % cible)
+        print("\n  Un .docx reste sur le poste : le déployeur ne l'envoie pas, et ce lien")
+        print("  mènerait en ligne à une page d'erreur. Proposez le PDF.")
+
     if not morts:
-        print("\nBilan\n-----\n  Aucun lien mort.")
-        return 0
+        print("\nBilan\n-----\n  Aucun lien mort%s." % (", mais %d lien(s) vers un fichier Word" % len(word)
+                                                       if word else ""))
+        return 1 if word else 0
 
     print("\n  %d lien(s) mort(s) :\n" % len(morts))
     courante = None

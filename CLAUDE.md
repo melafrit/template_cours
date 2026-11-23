@@ -87,7 +87,9 @@ défaut de l'outil.
   Claude Code ignore le `.gitignore`, pas ce fichier. Tout nouveau secret s'y
   ajoute. Un filtre de fichiers explicite (`*.json`, `*.{md,json}`) passe outre
   le `.rgignore` : une recherche qui inclut les `.json` exclut les secrets
-  nommément (`!**/config.json`…), ou ne se fait pas.
+  nommément (`!**/config.json`…), ou ne se fait pas. Dans le terminal,
+  `grep -r` ne lit pas le `.rgignore` : une recherche sur le dépôt entier passe
+  par l'outil de recherche, ou vise des dossiers sans secret, nommés un à un.
 - Pour un nouveau cours, ils se **recopient tels quels**, octet pour octet,
   depuis le template : `nouveau_cours.py` le fait, et seulement si le
   `.gitignore` du cours les exclut. Ils ne vont jamais dans Git.
@@ -192,6 +194,11 @@ défaut de l'outil.
   distant de `config.json`.
 - Ne partent que les fichiers de `site/` suivis par Git : jamais les sources,
   les outils, la documentation de production ni les secrets.
+- **Aucun fichier Word en ligne** (décision de l'auteur du 23 novembre 2026). Un
+  `.docx` reste sur le poste, aucune page ne le propose, et le PDF se publie à
+  sa place. Le déployeur n'en envoie aucun, sa purge retire ceux qu'un envoi
+  plus ancien a laissés, et `verifier_liens.py` signale tout lien vers un
+  `.docx`.
 - Une zone protégée ne reçoit son contenu qu'après sa protection
   (`deploiement/proteger_zones.py`).
 - Toute mise en ligne commence par un **essai à blanc** (`--essai`). La sortie
@@ -202,7 +209,8 @@ défaut de l'outil.
   l'accord ; après l'envoi, un nouvel essai ne trouve plus rien à envoyer.
 - **Aucune suppression en ligne** sans l'accord explicite de l'auteur :
   `--purge`, qui retire du serveur les fichiers absents du dépôt, ne se lance
-  jamais d'office.
+  jamais d'office. Son essai à blanc (`--essai --purge`) liste ce qu'elle
+  supprimerait : l'accord porte sur cette liste.
 - Après la mise en ligne, **le site se contrôle en ligne** : les pages
   publiques répondent 200, les zones protégées 401, sans s'authentifier.
 

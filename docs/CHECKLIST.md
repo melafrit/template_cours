@@ -128,7 +128,7 @@ Pour **chaque** chapitre :
 
 - [ ] Scénario continu (`{{FIL_ROUGE}}`) décliné sur l'ensemble des chapitres
 - [ ] Livrables attendus définis à chaque étape
-- [ ] Templates téléchargeables fournis
+- [ ] Templates fournis : les XLSX téléchargeables, les DOCX remis hors du site, jamais en ligne
 - [ ] Corrigé formateur rédigé
 - [ ] Cohérence narrative et de difficulté vérifiée d'un bout à l'autre
 
@@ -136,7 +136,7 @@ Pour **chaque** chapitre :
 
 ## Phase 8 · Polycopiés de synthèse
 
-- [ ] Polycopié par chapitre généré en **DOCX** (python-docx)
+- [ ] Polycopié par chapitre généré en **DOCX** (python-docx), dans `tools/out/`, jamais publié
 - [ ] Polycopié par chapitre généré en **PDF** (fpdf2)
 - [ ] Mise en page relue (titres, listes, tableaux, sauts de page)
 - [ ] Contenu fidèle aux chapitres (pas de divergence)
@@ -322,6 +322,7 @@ livrables dans l'application Livrables (`docs/GUIDE.md`, section 2 ter).
 - [ ] Métadonnées de page renseignées (titre, description, langue)
 - [ ] Versionné et committé sous Git, **après accord de l'auteur**
 - [ ] `python3 deploiement/deployer.py --essai` : destination attendue, **garde-fou passé**, aucun fichier hors de `site/` 🔴
+- [ ] Aucun fichier Word en ligne : `verifier_liens.py` ne signale aucun lien vers un `.docx`, et `python3 deploiement/deployer.py --essai --purge` n'en trouve aucun à supprimer 🔴
 - [ ] Zones protégées (correction…) : `proteger_zones.py` lancé **avant** le premier envoi de leur contenu ; elles répondent 401 sans identifiants 🔴
 - [ ] Déployé, **après un second accord de l'auteur**, et URL de production vérifiée 🔴
 - [ ] Vérification post-déploiement : site accessible, médias chargés, bascule de langue OK

@@ -5,6 +5,7 @@
     python3 deploiement/deployer.py --essai      # simulation, rien n'est envoyé
     python3 deploiement/deployer.py              # envoi réel
     python3 deploiement/deployer.py --purge      # + suppression des fichiers obsolètes
+                                                 #   (avec --essai : leur liste, rien n'est supprimé)
     python3 deploiement/deployer.py --tout       # ignore le carnet, réenvoie tout
     python3 deploiement/deployer.py --adopter    # reprend un dossier déjà publié par un autre outil
 
@@ -30,6 +31,10 @@ LES PROTECTIONS DU SERVEUR. Un mot de passe (.htaccess, .htpasswd) ou un réglag
 (.user.ini, .ovhconfig) posés côté serveur ne sont jamais écrasés ni purgés. Les zones protégées
 déclarées dans destination.json (une correction de TP, par exemple) ne partent que si leur
 .htaccess est déjà en ligne : deploiement/proteger_zones.py le pose.
+
+LES FICHIERS WORD restent sur le poste (décision de l'auteur du 23 novembre 2026). Un .docx de
+site/ ne part jamais, même suivi par Git, et une purge retire ceux qu'un envoi plus ancien a
+laissés en ligne. Le PDF se publie à sa place.
 
 Le transfert est INCRÉMENTAL. Capsules audio, polycopiés et schémas ne changent presque jamais :
 tout réenvoyer à chaque correction de texte serait du temps perdu. On compare donc l'empreinte
@@ -95,6 +100,12 @@ PROTEGES_TOUJOURS = (".htaccess", ".htpasswd", ".user.ini", ".ovhconfig")
 # Exclusions plancher, relatives à site/ : du code ou des reliquats de poste
 # n'ont rien à faire sur un serveur, quelle que soit la configuration.
 EXCLUS_TOUJOURS = ("*.py", "*.pyc", ".DS_Store", "Thumbs.db", "desktop.ini", "_tmp*")
+
+# Ce qui reste sur le poste, quelle que soit la configuration : les fichiers Word (décision de
+# l'auteur du 23 novembre 2026). Un document bureautique diffusé se modifie, se recopie et circule
+# en versions divergentes ; le PDF fige ce qui se diffuse. Comparé sans la casse : un « .DOCX »
+# venu d'un autre poste reste un fichier Word, et fnmatch ne confond les casses que sous Windows.
+EXTENSIONS_LOCALES = (".docx",)
 
 # Valeurs des modèles : si elles sont encore là, le fichier n'a pas été rempli.
 GABARITS = {"a-remplir", "", "ftp.exemple.ovh.net", "votre-identifiant", "votre-mot-de-passe",
@@ -236,6 +247,11 @@ def exclu(chemin, motifs):
         if fnmatch.fnmatch(chemin, m) or chemin.startswith(m.rstrip("*").rstrip("/") + "/"):
             return True
     return False
+
+
+def reste_local(chemin):
+    """Vrai pour un fichier que le serveur ne reçoit jamais (EXTENSIONS_LOCALES)."""
+    return chemin.lower().endswith(EXTENSIONS_LOCALES)
 
 
 def protege(chemin, motifs):
@@ -678,6 +694,19 @@ def lister_distant(ftp, base, jr):
     return [t[n:].lstrip("/") for t in trouves]
 
 
+def obsoletes_en_ligne(ftp, base, retenus, c, jr):
+    """(conservés, obsolètes) : les protections du dossier distant, que le serveur garde, et les
+    fichiers que le dépôt ne publie plus. Le carnet n'est pas un fichier du site, il n'est jamais
+    obsolète. La simulation et la purge réelle calculent la même liste : l'accord de l'auteur porte
+    sur ce qui sera supprimé, pas sur une estimation."""
+    distants = lister_distant(ftp, base, jr)
+    locaux = set(retenus)
+    gardes = sorted(d for d in distants if d and protege(d, c["proteger"]))
+    obsoletes = sorted(d for d in distants
+                       if d and d not in locaux and d != MANIFESTE_DISTANT and d not in gardes)
+    return gardes, obsoletes
+
+
 # ---------------------------------------------------------------- programme
 def main(argv=None):
     ap = argparse.ArgumentParser(
@@ -714,9 +743,14 @@ def main(argv=None):
     jr.titre("Inventaire")
     tous = fichiers_suivis()
     retenus = [f for f in tous
-               if not exclu(f, c["exclure"]) and not protege(f, c["proteger"])]
+               if not exclu(f, c["exclure"]) and not protege(f, c["proteger"]) and not reste_local(f)]
     jr.info("%d fichiers de site/ suivis par Git, %d retenus après exclusions"
             % (len(tous), len(retenus)))
+    word = [f for f in tous if reste_local(f)]
+    if word:
+        jr.alerte("%d fichier(s) Word dans site/, laissé(s) sur le poste : un .docx ne se publie "
+                  "jamais. Retirez-le(s) de site/ et proposez le PDF : %s%s"
+                  % (len(word), ", ".join(word[:5]), " …" if len(word) > 5 else ""))
 
     # --- on se connecte AVANT de comparer, y compris en simulation et avec --tout :
     #     le garde-fou et le carnet de référence sont sur le serveur. Sans
@@ -806,8 +840,23 @@ def main(argv=None):
             jr.action("%s  (%s)" % (rel, humain(taille)))
         if len(a_envoyer) > 40:
             jr.info("… et %d autres fichiers" % (len(a_envoyer) - 40))
+        if not a_envoyer:
+            jr.info("rien à envoyer.")
+        # --- la purge a son essai à blanc, comme l'envoi : la liste de ce qu'elle
+        #     supprimerait, celle-là même que la purge réelle supprimera.
+        if args.purge:
+            jr.titre("Fichiers obsolètes en ligne")
+            if not ftp:
+                jr.alerte("sans connexion, les fichiers en ligne sont inconnus : purge non simulée.")
+            else:
+                gardes, obsoletes = obsoletes_en_ligne(ftp, base, retenus, c, jr)
+                for g in gardes:
+                    jr.info("conservé (protégé) : %s" % g)
+                for o in obsoletes:
+                    jr.action("à supprimer : %s" % o)
+                jr.info("%d fichier(s) à supprimer." % len(obsoletes) if obsoletes else "aucun.")
         jr.info("destination : le répertoire du cours (deploiement/destination.json), hôte masqué")
-        jr.info("rien n'a été envoyé.")
+        jr.info("rien n'a été envoyé%s." % (" ni supprimé" if args.purge else ""))
         raccrocher()
         return OK
 
@@ -846,13 +895,7 @@ def main(argv=None):
         # ---- purge éventuelle
         if args.purge:
             jr.titre("Fichiers obsolètes en ligne")
-            distants = lister_distant(ftp, base, jr)
-            locaux = set(retenus)
-            gardes = sorted(d for d in distants if d and protege(d, c["proteger"]))
-            # le carnet n'est pas un fichier du site : il ne doit jamais être purgé
-            obsoletes = sorted(d for d in distants
-                               if d and d not in locaux and d != MANIFESTE_DISTANT
-                               and d not in gardes)
+            gardes, obsoletes = obsoletes_en_ligne(ftp, base, retenus, c, jr)
             for g in gardes:
                 jr.info("conservé (protégé) : %s" % g)
             if not obsoletes:

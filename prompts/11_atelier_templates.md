@@ -1,6 +1,6 @@
 # Atelier fil rouge + templates
 
-**Quand l'utiliser :** une fois le plan du cours arrêté et le fil rouge défini, pour concevoir l'**atelier fil rouge** (le scénario continu qui traverse tout le cours), avec sa mission, ses livrables, ses critères d'évaluation, les **templates téléchargeables** (DOCX/XLSX) que l'étudiant complète, et un **corrigé formateur**. À lancer après les prompts de structure du cours (plan, chapitres) et en cohérence avec le QCM d'évaluation. Génère à la fois le contenu pédagogique de l'atelier (intégrable dans la page HTML « Atelier ») et les scripts Python qui fabriquent les fichiers téléchargeables.
+**Quand l'utiliser :** une fois le plan du cours arrêté et le fil rouge défini, pour concevoir l'**atelier fil rouge** (le scénario continu qui traverse tout le cours), avec sa mission, ses livrables, ses critères d'évaluation, les **templates** que l'étudiant complète (XLSX téléchargeables, DOCX remis par le formateur hors du site, jamais en ligne), et un **corrigé formateur**. À lancer après les prompts de structure du cours (plan, chapitres) et en cohérence avec le QCM d'évaluation. Génère à la fois le contenu pédagogique de l'atelier (intégrable dans la page HTML « Atelier ») et les scripts Python qui fabriquent les modèles.
 
 ---
 
@@ -89,15 +89,15 @@ PARTIE 1 · CAHIER DE L'ATELIER (contenu pédagogique, prêt à intégrer dans l
 1.7 BARÈME / grille d'évaluation globale (rubric) : 4 à 6 critères, niveaux (ex. Insuffisant / En cours / Acquis / Maîtrisé), descripteurs observables par niveau, points par critère. Les points totalisent la note maximale du livrable (20 dans la démonstration), comme l'exige outils/seances.py, où la grille s'inscrit ensuite.
 1.8 Consignes de rendu : format, nommage des fichiers, délai, modalité de dépôt, rappel {{OUTILS_AUTORISES}}, mention {{LICENCE}} et auteur {{AUTEUR}}. Le délai se donne par un jour du cours et une heure, ou par un repère (« le dimanche qui suit le Jour 2 »), jamais par une date fixe ; outils/seances.py tient ces échéances. Le rendu ne porte aucun nom ni prénom d'étudiant, ni dans le texte, ni dans le nom du fichier, ni dans ses métadonnées (anonymat des copies).
 
-PARTIE 2 · TEMPLATES TÉLÉCHARGEABLES (à fabriquer par script)
+PARTIE 2 · TEMPLATES (à fabriquer par script)
 Pour chaque livrable intermédiaire et pour le livrable final, conçois le TEMPLATE que l'étudiant complète. Choisis le format selon la nature du travail :
-- DOCX (python-docx) pour les livrables rédactionnels/structurés (fiches, notes, rapports, registres en prose).
+- DOCX (python-docx) pour les livrables rédactionnels/structurés (fiches, notes, rapports, registres en prose). Un DOCX ne se publie jamais (décision de l'auteur du 23 novembre 2026) : le formateur le remet hors du site, et la page Atelier le nomme sans lien.
 - XLSX (openpyxl) pour les livrables tabulaires/calculés (cartographies, matrices de risque, plans d'action, checklists à score, registres de traitements).
 Chaque template doit contenir : page de garde / en-tête (titre du livrable, cours, fil rouge, champs Groupe et Date, sans champ Nom, pour l'anonymat des copies), la consigne rappelée, une STRUCTURE pré-remplie (sections, tableaux, colonnes nommées, listes déroulantes XLSX si utile, formules de calcul si pertinent), des zones à compléter clairement repérées (ex. « [À COMPLÉTER] »), et un pied de page avec mention {{LICENCE}} · {{AUTEUR}}. Soigne l'accessibilité : styles de titres, contrastes, intitulés de colonnes explicites.
 
 Fournis le CODE PYTHON complet, exécutable hors-ligne, qui génère TOUS les templates, organisé ainsi :
 - Dépendances en tête (python-docx, openpyxl, et fpdf2 si une version PDF d'aperçu est demandée), avec commande d'installation.
-- Une fonction par template, des noms de fichiers clairs (ex. `atelier_livrable_01_cartographie.xlsx`), un dossier de sortie `site/atelier/templates/`, que le cours crée (les étudiants y téléchargent les modèles).
+- Une fonction par template, des noms de fichiers clairs (ex. `atelier_livrable_01_cartographie.xlsx`), deux dossiers de sortie : `site/atelier/templates/` pour les XLSX, que les étudiants y téléchargent (le cours crée ce dossier), et `tools/out/atelier/` pour les DOCX, jamais publiés.
 - Si {{LANGUES}} compte plusieurs langues : tire les libellés d'un dictionnaire par langue, sans dupliquer la logique. Le script génère d'abord la langue racine ; les versions traduites (suffixe `_fr` / `_en`) suivent avec les autres langues du cours.
 - Code commenté, réutilisable, paramétrable (le scénario et les libellés en variables en haut du fichier).
 
@@ -106,7 +106,7 @@ PARTIE 3 · CORRIGÉ FORMATEUR
 3.2 Pour chaque livrable : les ERREURS FRÉQUENTES anticipées et comment les repérer/y remédier.
 3.3 GRILLE DE NOTATION renseignée (rappel des critères + ce qui distingue un rendu « Acquis » d'un « Maîtrisé »), et conseils de feedback.
 3.4 Variante « atelier court » et « atelier approfondi » (comment alléger ou enrichir selon {{DUREE}}).
-3.5 Indique quels fichiers du corrigé doivent rester RÉSERVÉS au formateur : ils ne se publient que dans sa zone protégée par mot de passe (site/correction/formateur/, prompts/modules/06-tp-correction.md), jamais dans une page publique.
+3.5 Indique quels fichiers du corrigé doivent rester RÉSERVÉS au formateur : ils ne se publient que dans sa zone protégée par mot de passe (site/correction/formateur/, prompts/modules/06-tp-correction.md), jamais dans une page publique. Un corrigé en DOCX reste sur le poste du formateur ; sa zone reçoit la version HTML ou PDF.
 
 FORMAT DE SORTIE
 - Partie 1 : Markdown clair, structuré par titres, prêt à transposer en HTML dans la langue racine, sur le balisage de la page Atelier du gabarit (site/atelier.html). Indique les balises/ancres suggérées.
@@ -131,7 +131,7 @@ Termine par une checklist récapitulative « ce que l'enseignant doit relire/ada
 - **Donne les vrais documents de référence.** La qualité du corrigé (et donc l'exactitude juridique/technique) dépend entièrement de ce que Claude a réellement lu. Sans sources, exige qu'il signale chaque affirmation comme « à vérifier ».
 - **Cadence les livrables sur les chapitres.** Un livrable par chapitre crée l'effet « dossier qui s'épaissit » et garde la motivation ; si `{{NB_CHAPITRES}}` est élevé, regroupe pour ne pas surcharger.
 - **DOCX pour le rédactionnel, XLSX pour le tabulaire/calculé.** Demande des listes déroulantes et des formules dans les XLSX (matrices de risque, checklists à score) : c'est plus pédagogique et plus rapide à corriger.
-- **Sépare bien étudiant et formateur.** Publie les templates vierges et la grille d'évaluation côté étudiant ; garde le corrigé-type dans la zone protégée du formateur (marqueur 🔒, module `06-tp-correction.md`).
+- **Sépare bien étudiant et formateur.** Publie les templates XLSX vierges et la grille d'évaluation côté étudiant (les DOCX vierges se remettent hors du site) ; garde le corrigé-type dans la zone protégée du formateur (marqueur 🔒, module `06-tp-correction.md`).
 - **Bilingue = double tout.** Si le cours est FR/EN, vérifie que les templates et le corrigé existent dans les deux langues et que les libellés de colonnes sont traduits, pas seulement les consignes.
 - **Boucle avec le QCM.** Présente clairement le partage des rôles : le QCM mesure les connaissances (CBM), l'atelier mesure le savoir-faire ; ensemble ils couvrent les compétences visées.
 - **Teste le code Python** en local avant publication : exécute-le, ouvre les fichiers générés, vérifie l'accessibilité (styles de titres, intitulés de colonnes) et le rendu des pieds de page (licence + auteur).

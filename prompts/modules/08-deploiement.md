@@ -72,9 +72,12 @@ l'auteur vérifie le contenu dans son navigateur. **Claude ne s'authentifie jama
   `Polycopie/`) : Windows les confond, le serveur les distingue.
 - **Les dossiers de travail** (`docs/`, `outils/`, `sources/`, `Polycopie/`, `Podcasts/`)
   ne partent jamais : seul `site/` se publie.
+- **Un fichier Word** ne part jamais non plus (décision de l'auteur du 23 novembre 2026) : un
+  `.docx` de `site/` reste sur le poste, le déployeur le signale, et le PDF se publie à sa place.
 - **Aucune suppression de fichier distant** sans l'accord explicite de l'auteur : `--purge`
   demande confirmation, et `--purge-confirme`, qui n'en demande pas, ne s'emploie qu'après
-  cet accord.
+  cet accord. L'accord se donne sur la liste de `--essai --purge`, qui dit ce qui serait
+  supprimé sans rien supprimer.
 
 ---
 
