@@ -9,6 +9,63 @@
 
 ---
 
+## 23 novembre 2026 · aucun fichier Word en ligne (`133336d`)
+
+La demande de l'auteur : « Il ne faut pas que les docx soit proposé en telechargement dans les pages web mais
+uniquement en local et pas en ligne donc il faut les enlever de l'espace en ligne ».
+
+### Ce qui était déjà vrai
+
+Aucune page ne proposait de fichier Word depuis `ab70c18` (22 novembre) : la page des fiches de synthèse ne sert que
+les PDF, et leurs fichiers Word vont dans `tools/out/`, que Git ignore. Restaient les six fiches Word envoyées avant
+cette date, que le serveur servait encore à qui connaissait leur adresse.
+
+### Le travail (`133336d`)
+
+- Le déployeur n'envoie plus aucun `.docx`, même suivi par Git, casse ignorée ; il le signale, et sa purge retire
+  ceux qu'un envoi plus ancien a laissés en ligne.
+- La purge a son essai à blanc : `--essai --purge` liste ce qu'elle supprimerait, sans rien supprimer. Jusque-là, la
+  simulation passait la purge sous silence, et sa liste ne s'affichait qu'au moment de supprimer.
+- `verifier_liens.py` signale un lien vers un `.docx`, que le fichier existe ou non.
+- La règle entre dans `CLAUDE.md` (« La publication »), le mode d'emploi du déployeur, le module 08, le guide et la
+  liste de contrôle. Deux consignes la contredisaient : le guide demandait de proposer « les DOCX/PDF en
+  téléchargement par chapitre », et le prompt 12 annonçait un DOCX dans `site/assets/polycopies/`. Elles sont
+  corrigées.
+
+### Les décisions prises sous le mode « enchaîne » (options recommandées)
+
+- La règle vaut pour tous les `.docx` du site, modèles de l'atelier compris (prompt 11) : le formateur remet les
+  modèles DOCX hors du site, et la page Atelier les nomme sans lien. Les modèles XLSX restent téléchargeables, la
+  décision ne visant que les fichiers Word (question ouverte au registre).
+- Le déployeur écarte un `.docx` en le signalant, plutôt que de refuser tout l'envoi.
+
+### La mise en ligne
+
+L'essai à blanc de la purge listait les six fiches Word, et rien d'autre ; le `.htaccess` et le `.htpasswd` de la
+rubrique du générateur étaient conservés. La purge les a retirées, puis un nouvel essai n'a plus rien trouvé, ni à
+envoyer ni à supprimer. En ligne, les six adresses répondent 404 ; les 114 fichiers publics répondent 200 avec les
+octets du dépôt, la rubrique 401, son `.htaccess` et son `.htpasswd` 403.
+
+### Ce qui a été vérifié
+
+Le test du déployeur passe, avec quatre cas de plus ; privé de la règle, il échoue sur deux d'entre eux.
+`verifier_liens.py`, essayé sur un site factice, signale le lien Word et le lien mort ; sur le site, il ne trouve
+rien. `verifier_tirets.py`, `verifier_interdits.py` et `verifier_i18n.py` passent.
+
+### Un incident
+
+Une recherche lancée dans le terminal (`grep -r`) a affiché deux lignes de commentaire de
+`deploiement/config.json` : un `--` placé avant le motif avait fait des filtres de fichiers de simples noms. Ni
+identifiant, ni mot de passe, ni hôte, ni répertoire distant n'y figuraient. `CLAUDE.md` (« Les secrets ») le dit
+désormais : `grep -r` ne lit pas le `.rgignore`, et une recherche sur le dépôt entier passe par l'outil de
+recherche.
+
+### Ce qui n'est pas fait
+
+Tout ce que demandait l'auteur est fait. Reste la question des modèles XLSX de l'atelier (registre).
+
+---
+
 ## 23 novembre 2026 · la démo en ligne, et la rubrique du générateur de prompt (`e4c3ee7`, `fead1ef`)
 
 La demande de l'auteur : « Mise en ligne et je veux ajouter une rubrique pour le générateur de prompt et l'acces doit

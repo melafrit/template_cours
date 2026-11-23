@@ -125,9 +125,9 @@ Les lots, dans l'ordre validé :
   exclu par `.git/info/exclude` ; essai à blanc comparé à Git ; 19 adresses à 200 et console vide en ligne). La
   deuxième ✅ le 23 novembre, à la demande de l'auteur (70 fichiers, 1,6 Mo, dont les 33 pages aux liens hreflang ;
   l'essai à blanc égal à la liste de Git depuis `048652a` ; les 65 pages, scripts et feuilles de style répondent 200
-  avec les octets du dépôt). Six fiches Word retirées du dépôt restent en ligne
-  (`assets/polycopies/chapitre-<N>-polycopie.<fr|en>.docx`) : les retirer demande `--purge`, donc l'accord de
-  l'auteur. La rubrique « Générateur de prompt » ✅ le même jour, derrière son mot de passe (5 fichiers ; 401 sans
+  avec les octets du dépôt). Les six fiches Word retirées du dépôt ✅ retirées du serveur le même jour, à la
+  demande de l'auteur (`--purge` après son essai à blanc ; 404 en ligne). La rubrique « Générateur de prompt » ✅ le
+  même jour, derrière son mot de passe (5 fichiers ; 401 sans
   identifiant). Restent : un nouvel envoi après chaque lot (essai à blanc, accord) ; la question des zones protégées
   pour le corrigé du QCM et le tableau de bord, en accès libre comme sur GitHub (la mécanique des zones est
   désormais en place).
@@ -146,6 +146,9 @@ Les lots, dans l'ordre validé :
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 23 novembre · aucun fichier Word en ligne
+> Décision de l'auteur : un `.docx` reste sur le poste, et aucune page ne le propose. Les six fiches Word de la démo
+> sont retirées du serveur ; le déployeur n'envoie plus aucun `.docx`, et la purge a son essai à blanc (`133336d`).
 > ### 🆕 23 novembre · la démo en ligne, et la rubrique du générateur de prompt
 > La démo est en ligne dans son état du jour (70 fichiers, contrôlés en ligne). La rubrique « Générateur de prompt »
 > est prête (`e4c3ee7`) : une copie publiée du générateur (`site/generateur/`), son entrée de menu et sa zone
@@ -391,9 +394,10 @@ Les lots, dans l'ordre validé :
   (fiche du chapitre 1, section 1 ; `tools/generate_polycopies.py`). Relevé le 22 novembre, non corrigé.
 - **`tools/generate_qcm_papier.py`** ne connaît que le français et l'anglais (le prompt 08 le dit) ; ses fichiers
   reprennent les tirets que la banque de la démo garde encore (lot S4).
-- **En ligne, les six DOCX des fiches de la démo** restent servis (`chapitre-1-polycopie.fr.docx` répond 200) : ils
-  ne sont plus dans le dépôt (`ab70c18`), et seule une purge, avec l'accord de l'auteur, les retirera, à la prochaine
-  mise en ligne (lot 12).
+- ✅ **Aucun fichier Word en ligne** (23 novembre, `133336d`, décision de l'auteur). Les six DOCX des fiches de la
+  démo, restés sur le serveur après `ab70c18`, en sont retirés (`--purge` après son essai à blanc, qui ne listait
+  qu'eux ; 404 en ligne). Le déployeur n'envoie plus aucun `.docx`, et `verifier_liens.py` signale un lien vers l'un
+  d'eux.
 
 **Le gabarit sans tirets** (D55, en cours) : réécrire sans tiret cadratin tout ce que l'apprenant lit. Le témoin
 (chapitre 1, `ea1cc23`) est fait et son style validé. Depuis le 22 novembre (`1df056e`), `outils/verifier_tirets.py`
@@ -601,6 +605,8 @@ L'ordre de la suite, la recette complète et la relecture de la documentation so
 - le répertoire distant de la démo, au lot 12 (l'adresse publique est décidée) ;
 - la typographie française des pages : une espace ordinaire précède souvent le deux-points, qui peut alors commencer
   une ligne à 375 px (relevé au chapitre 1) ; à proposer avant de corriger (§ 2) ;
+- les modèles de l'atelier (prompt 11) : depuis le 23 novembre, les DOCX se remettent hors du site et les XLSX
+  restent téléchargeables, la décision ne visant que les fichiers Word ; à étendre aux XLSX si l'auteur le souhaite ;
 - à faire par l'auteur : supprimer la seconde copie `C:\projets\template_cours`, qui ne garde plus que deux anciens
   fichiers ElevenLabs et un cache de polycopié.
 
