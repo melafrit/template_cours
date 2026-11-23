@@ -140,6 +140,11 @@ Les lots, dans l'ordre validé :
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 23 novembre · le code sans tirets
+> Les chaînes du code (`69f3230`), puis les commentaires et docstrings (`ed03a7e`, 269 lignes dans 65 fichiers,
+> un témoin puis quatre missions contrôlées) n'ont plus de tiret ; restent ceux que le code cherche ou traite.
+> Juste avant, trois relevés du registre : `generer_audio.py` voit les capsules de l'accueil (`7ac54ec`), le menu
+> annonce la page courante (`6301cfc`), les pluriels du glossaire ont leur info-bulle (`8808d11`).
 > ### 🆕 23 novembre · les outils à trois langues
 > La liste de lecture, la synchronisation des capsules et le générateur de pistes savent l'arabe (`7a9c964`,
 > `274e79d`) ; les liens hreflang nomment toutes les langues d'une page, posés dans 33 pages et retirés d'un cours
@@ -336,14 +341,31 @@ Les lots, dans l'ordre validé :
   capitales d'insistance (GUIDE « UNE seule question », « VÉRIFIER AU NAVIGATEUR » ; I18N « Le piège le plus
   discret. »), des mots gonflés (« Le principe fondamental », « (incontournable) », « le cœur du cours »), « C'est
   voulu » trois fois dans RECETTE, « Règle absolue » et « Règle d'or » dans les skills.
+- **Relevés du lot des commentaires** (23 novembre, par les agents, non corrigés) :
+  - des commentaires anciens écrits sans accents (`interactions.js`, `media.js`, `navigation.js`, `playlist.js`,
+    `.gitignore`, `demarrer.py`, `deployer.py`, `nouveau_cours.py`, `generer_audio.py`, `verifier_i18n.py`), fautes
+    à proposer à l'auteur puis à corriger dans un commit à part ;
+  - des passages périmés, dans `ui-labels.js` (le repli sur le français décrit pour l'anglais seul), `i18n.js`
+    (« bilingue FR/EN »), `interactions.css` (un `overflow: hidden` retiré depuis), `components.css` (« les 60
+    pastilles », pour un QCM de 9 questions) et `verifier_liens.py` (« aucun des deux autres vérificateurs ») ;
+  - des tournures, dans `main.css` (un participe sans sujet, « se résolvait contre », calque de l'anglais),
+    `polycopie/ooxml.py` (« seul moyen que », pour « pour que ») et `glossaire_emplois.py` (deux deux-points dans une
+    phrase) ;
+  - des antithèses et des phrases-chocs à relire avec l'auteur, dans `ui-labels.js`, `interactions.js`,
+    `interactions.css`, `components.css`, `.gitignore`, `nouveau_cours.py`, `deployer.py`, `generer_audio.py`,
+    `verifier_liens.py` et `verifier_contraste.py`.
+- **Le schéma 1 du chapitre 1** (`chapitre-1-schema-1-trois-decisions`, WebP français et anglais) affiche encore un
+  tiret dans son sous-titre. Sa source est corrigée (`generer_schemas_demo.py`, `69f3230`) ; l'image reste à
+  régénérer là où elle a été validée, ou à faire revalider par l'auteur.
+- **Les MP3 des podcasts publiés** gardent l'ancien titre de série dans leur tag « album » (avec un tiret) jusqu'à
+  leur prochaine génération par `generer_podcasts.py` (`69f3230`).
 - ✅ **`docs/generate_questions_oral.py`** : sa feuille « Mode d'emploi », venue d'un autre cours, est générique
   (`2370e9c`, 23 novembre) ; le commentaire en double est retiré.
-- ✅ **Les messages des outils** n'ont plus de tiret : 36, dans 19 outils (`09f459a`) ; l'état d'un générateur
-  s'écrit « …, à jour ». Restent les commentaires et docstrings des outils et de `nouveau_cours.py` (94 lignes
-  le 23 novembre).
-- **Les commentaires des scripts et des feuilles de style du site** gardent des tirets : 145 lignes (85 dans
-  `site/assets/js/`, 60 dans `site/assets/css/`, en-têtes des fichiers générés compris). Invisibles à l'affichage,
-  ils se lisent dans le source publié ; `verifier_tirets.py` ne lit pas les commentaires.
+- ✅ **Les messages des outils** n'ont plus de tiret : 36, dans 19 outils (`09f459a`), puis les chaînes qui restaient
+  dans le code (`69f3230`) ; l'état d'un générateur s'écrit « …, à jour ».
+- ✅ **Les commentaires et docstrings du code** n'ont plus de tiret (`ed03a7e`, 23 novembre) : 269 lignes dans
+  65 fichiers, site, QCM, outils, déployeur et réglages. Restent, volontairement, les tirets que le code cherche ou
+  traite (`verifier_tirets.py`, `seances.py`, le rendu du livret, le classeur).
 - **La fiche des capsules** (`docs/prompts/Capsules_du_cours_demo.md`) : les transcriptions des deux podcasts sont
   sans tiret (`f305154`, ponctuation seule) ; ses lignes 23 et 24 décrivent encore le contrôle de la v3 ; les scripts
   enregistrés gardent leurs tirets jusqu'au réenregistrement.

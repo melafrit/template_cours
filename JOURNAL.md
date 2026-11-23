@@ -9,6 +9,51 @@
 
 ---
 
+## 23 novembre 2026 · trois relevés, puis le code sans tirets (`7ac54ec` à `ed03a7e`)
+
+### Les décisions prises sous le mode « enchaîne » (options recommandées)
+
+- Après le lot des outils à trois langues, les relevés du registre qui ne demandent pas l'auteur passent d'abord :
+  les capsules de l'accueil pour le générateur, la page courante du menu, les pluriels du glossaire.
+- Les pluriels du glossaire entrent dans la liste curatée, comme le documentait déjà le moteur, plutôt que de
+  changer la recherche des info-bulles.
+- Les tirets du code : les chaînes à la main, puis les commentaires et docstrings par quatre agents, après un
+  témoin (`tools.js`), sur une consigne écrite reprise du lot des documents. Les tirets que le code cherche ou
+  traite restent.
+- Le schéma de la démo n'est pas régénéré (un schéma validé ne se rend pas de nouveau sur un autre poste) ; les MP3
+  des podcasts ne sont pas refaits.
+
+### Le travail
+
+- `generer_audio.py` (`7ac54ec`) lit les capsules que l'accueil déclare dans une liste : 18 pistes, 19 317
+  caractères, chacune avec son script.
+- `navigation.js` (`6301cfc`) pose `aria-current="page"` sur le lien de la page courante (chapitres, ressources,
+  accueil, jumelles comprises).
+- `glossaire-data.js` (`8808d11`) : quatre pluriels dans `GLOSSARY_CURATED`, l'alias qui se nommait lui-même retiré,
+  des commentaires exacts (les données, le squelette d'un cours créé, la skill, ARCHITECTURE). Rien ne change à
+  l'écran dans la démo, dont les chapitres n'emploient ces pluriels que dans un composant.
+- Les chaînes du code (`69f3230`) : messages du déployeur et des outils, en-têtes des cinq fichiers générés
+  (régénérés), titre de la série de podcasts, marque « À TRADUIRE » (reconnue par son début, l'ancienne forme
+  comprise), sous-titres du schéma, commentaire du modèle de `config.json`.
+- Les commentaires et docstrings (`ed03a7e`) : 269 lignes dans 65 fichiers ; le message du commit dit 64, en
+  oubliant le témoin.
+
+### Ce qui a été vérifié
+
+L'essai à blanc du générateur de pistes (les 18 capsules, l'accent sur les seules pistes françaises) ; le menu sur
+un chapitre, une ressource, l'accueil et les jumelles anglaise et arabe ; les info-bulles des chapitres ; les
+en-têtes régénérés, sans autre écart ; le test du déployeur ; `generer_podcasts.py --essai`, sans republication.
+Pour les commentaires, le contrôle automatique de chaque mission (une seule erreur, un faux positif de mon balayeur
+sur `qcm-core.js`, vérifié à la main), puis la compilation de tout le Python, `node --check` sur tout le
+JavaScript, tous les contrôles du § 6, et la console vide sur l'accueil, un chapitre, le QCM et les activités.
+
+### Ce qui n'est pas fait
+
+Le schéma 1 du chapitre 1 et les MP3 des podcasts gardent leur tiret ; les relevés des agents (accents manquants,
+passages périmés, tournures, antithèses) attendent l'auteur. Tout est au registre.
+
+---
+
 ## 23 novembre 2026 · les outils à trois langues (`7a9c964` à `11e4b42`)
 
 ### Les décisions prises sous le mode « enchaîne » (options recommandées)
