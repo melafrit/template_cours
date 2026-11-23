@@ -349,9 +349,9 @@ Les lots, dans l'ordre validé :
     l'anglais seul), `i18n.js` (« bilingue FR/EN », et un contrat qui montrait un dictionnaire par moteur),
     `interactions.css` (un `overflow: hidden` retiré depuis), `components.css` (« les 60 pastilles ») et
     `verifier_liens.py` (« aucun des deux autres vérificateurs ») ;
-  - des tournures, dans `main.css` (un participe sans sujet, « se résolvait contre », calque de l'anglais),
-    `polycopie/ooxml.py` (« seul moyen que », pour « pour que ») et `glossaire_emplois.py` (deux deux-points dans une
-    phrase) ;
+  - ✅ les tournures, corrigées à part le jour même : `main.css` (un participe sans sujet, « se résolvait
+    contre », calque de l'anglais), `polycopie/ooxml.py` (« pour que ») et `glossaire_emplois.py` (deux deux-points
+    dans une phrase) ;
   - des antithèses et des phrases-chocs à relire avec l'auteur, dans `ui-labels.js`, `interactions.js`,
     `interactions.css`, `components.css`, `.gitignore`, `nouveau_cours.py`, `deployer.py`, `generer_audio.py`,
     `verifier_liens.py` et `verifier_contraste.py`.

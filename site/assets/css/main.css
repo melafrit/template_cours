@@ -431,8 +431,8 @@ img { max-width: 100%; height: auto; }
 
   /* (j) Barre de navigation de chapitre · juste au-dessus du seuil de
      768 px, .chapter-nav est encore affichée et ses quatre boutons
-     (Sommaire, Précédent, Polycopié, Suivant) mesurent 500 px : ajoutés
-     au logo et aux deux boutons de l'en-tête, le total atteignait
+     (Sommaire, Précédent, Polycopié, Suivant) mesurent 500 px : avec
+     le logo et les deux boutons de l'en-tête, le total atteignait
      868 px pour un viewport de 759 px, et ♿ / 🌙 se retrouvaient hors
      de l'écran. On compacte les boutons et on autorise le titre à se
      tronquer. */
@@ -534,7 +534,7 @@ img { max-width: 100%; height: auto; }
   /* (a) Listes en display:flex : voir avant cette section, hors de toute
      requête ; le défaut vaut aussi sur grand écran. */
 
-  /* (i) Menu latéral · width: 86% se résolvait contre un bloc plus
+  /* (i) Menu latéral · width: 86% se calculait sur un bloc plus
      large que l'écran ; on borne explicitement au viewport. */
   .sidebar { width: min(86vw, 21.25rem); max-width: none; }
   .sidebar-content { overflow-x: hidden; }

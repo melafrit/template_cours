@@ -18,7 +18,7 @@ LES LANGUES : le français sur les pages françaises et les blocs data-tr="fr", 
 les blocs data-tr="en", l'arabe sur les jumelles de ar/. Les chemins partent de la racine de la langue : la page du glossaire de chaque langue y
 mène directement.
 NE COMPTENT PAS : les pages d'EXCLUES (le glossaire lui-même, les pages qui donnent des réponses), les zones
-protégées de deploiement/destination.json et les pages que le déployeur ne publie pas (sa liste « exclure ») : en
+protégées de deploiement/destination.json et les pages que le déployeur ne publie pas (sa liste « exclure »). En
 ligne, « Où en parle-t-on ? » y mènerait à une page absente. Une page qui sort de la liste revient au glossaire à
 la génération suivante. Repris, en générique, du cours d'architecture logicielle.
 """

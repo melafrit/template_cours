@@ -13,7 +13,7 @@ propriétés sont dans le désordre.
 LES LIENS. Un QR code et sa légende mènent, d'un clic dans le PDF, à l'adresse que porte le QR code, sans que rien ne
 change à l'impression : ni bleu, ni soulignement (les runs gardent leur mise en forme, jamais le style
 « Hyperlink »), aucune adresse écrite. L'image reçoit un a:hlinkClick (dans wp:docPr et pic:cNvPr), seul moyen,
-dans une zone de texte, que Word exporte son lien, et son run, comme le texte de la légende, va dans un
+dans une zone de texte, pour que Word exporte son lien, et son run, comme le texte de la légende, va dans un
 w:hyperlink (lien_xml pour du XML de runs, lier pour les runs d'un paragraphe). La relation (externe) est celle que
 rend doc.part.relate_to(url, RT.HYPERLINK, is_external=True) : une seule par adresse. Un champ (PAGEREF, XE…), une
 zone ancrée ou un signet restent hors du lien : un renvoi « (p. n) » demeure un lien interne.
