@@ -145,7 +145,7 @@ def mentions(r):
         bloc(M["fiction"])
     bloc(M["marques"], apres=16)
     # Le site du cours : son adresse (la seule imprimée du livret) et son QR code ; sur un site protégé, où trouver
-    # ses identifiants — jamais les identifiants eux-mêmes.
+    # ses identifiants, jamais les identifiants eux-mêmes.
     url = r.langue.url("")
     if r.L.get("site_protege") and M.get("acces"):
         bloc(M["acces"], apres=8)

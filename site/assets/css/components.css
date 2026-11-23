@@ -1,6 +1,6 @@
 /* =================================================================
    Composants pédagogiques
-   Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
+   Template de site de cours · Mohamed EL AFRIT (MIT / CC BY 4.0)
    ================================================================= */
 
 /* ----------------------------------------------------------------
@@ -200,7 +200,7 @@ audio.podcast-audio { width: 100%; margin-top: var(--space-2); }
 .slides-placeholder { color: var(--text-muted); text-align: center; padding: var(--space-8); }
 .slides-pdf { display: block; width: 100%; height: 100%; background: #fff; }
 
-/* Slides — clic sur le conteneur pour agrandir + popup plein écran */
+/* Slides · clic sur le conteneur pour agrandir + popup plein écran */
 .slides-viewport { position: relative; }
 .slides-click-layer { position: absolute; inset: 0; z-index: 2; padding: 0; margin: 0; border: none; background: transparent; cursor: zoom-in; }
 .slides-zoom-hint { position: absolute; top: var(--space-3); inset-inline-end: var(--space-3); z-index: 3; display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; background: rgba(15, 28, 47, 0.82); color: #fff; border-radius: var(--radius-full); font-family: var(--font-display); font-weight: 600; font-size: var(--fs-xs); pointer-events: none; box-shadow: var(--shadow-sm); }
@@ -218,7 +218,7 @@ audio.podcast-audio { width: 100%; margin-top: var(--space-2); }
 .slides-modal-close:hover { background: var(--error); border-color: var(--error); transform: rotate(90deg); }
 @media (max-width: 600px) { .slides-modal { padding: 56px var(--space-3) var(--space-3); } .slides-modal-title { font-size: var(--fs-sm); } }
 
-/* Infographie — section dédiée (media.js remplit le viewport si le PNG existe) */
+/* Infographie · section dédiée (media.js remplit le viewport si le PNG existe) */
 .infographie-section { margin: var(--space-8) 0; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
 .infographie-header { display: flex; align-items: center; justify-content: space-between; padding: var(--space-4) var(--space-5); background: var(--bg-card-alt); border-bottom: 1px solid var(--border); }
 .infographie-header-left { display: flex; align-items: center; gap: var(--space-3); }
@@ -240,7 +240,7 @@ audio.podcast-audio { width: 100%; margin-top: var(--space-2); }
 .img-modal-close { position: fixed; top: 12px; inset-inline-end: 16px; width: 42px; height: 42px; display: grid; place-items: center; border-radius: 50%; border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.12); color: #fff; font-size: var(--fs-xl); line-height: 1; cursor: pointer; z-index: 2; transition: all var(--duration-fast); }
 .img-modal-close:hover { background: var(--error); border-color: var(--error); transform: rotate(90deg); }
 
-/* Barème CBM — rappel partagé (QCM, correction, dashboard) */
+/* Barème CBM · rappel partagé (QCM, correction, dashboard) */
 .bareme-table { width: 100%; border-collapse: collapse; margin: var(--space-4) 0; font-size: var(--fs-sm); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
 .bareme-table th { background: linear-gradient(135deg, var(--primary-dark), var(--primary)); color: #fff; font-family: var(--font-display); font-weight: 600; padding: var(--space-3) var(--space-4); text-align: start; }
 .bareme-table td { padding: var(--space-3) var(--space-4); border-top: 1px solid var(--border-light); }
@@ -250,7 +250,7 @@ audio.podcast-audio { width: 100%; margin-top: var(--space-2); }
 .bareme-muted { color: var(--text-muted); font-weight: 400; font-size: var(--fs-xs); }
 .bareme-note { font-size: var(--fs-sm); color: var(--text-secondary); margin-top: var(--space-3); line-height: var(--lh-relaxed); }
 
-/* Encadré « À retenir » — synthèse de fin de chapitre */
+/* Encadré « À retenir » · synthèse de fin de chapitre */
 .takeaways { margin: var(--space-10) 0 var(--space-8); border: 1px solid var(--accent); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); }
 .takeaways-head { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4) var(--space-5); background: linear-gradient(135deg, var(--accent-glow), transparent); border-bottom: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); }
 .takeaways-head .ico { font-size: var(--fs-2xl); }
@@ -261,7 +261,7 @@ audio.podcast-audio { width: 100%; margin-top: var(--space-2); }
 .takeaways-body li::before { content: '🔑'; flex-shrink: 0; }
 .takeaways-body strong { color: var(--text-primary); }
 
-/* Glossaire interactif — termes survolables dans les chapitres */
+/* Glossaire interactif · termes survolables dans les chapitres */
 .gloss { border-bottom: 1px dashed var(--accent-dark); cursor: help; position: relative; }
 .gloss:focus { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
 /* Sur un écran à souris, glossaire-tooltip.js pose la bulle en position fixe sous
@@ -289,7 +289,7 @@ audio.podcast-audio { width: 100%; margin-top: var(--space-2); }
    referme d'elle-même quand le survol ou le focus la quittent, et Échap l'écarte. */
 .gloss-pop-close { display: none; }
 /* Une bulle restée ouverte ne s'imprime pas : elle n'a rien à faire sur le papier,
-   et un élément fixe — le bandeau comme la bulle de grand écran — s'y répète de
+   et un élément fixe (le bandeau comme la bulle de grand écran) s'y répète de
    page en page, comme l'en-tête du site. */
 @media print { .gloss-pop { display: none !important; } }
 
@@ -421,7 +421,7 @@ html.a11y-dys body { letter-spacing: 0.02em; word-spacing: 0.06em; }
 .rdc-detail .rdc-win { font-weight: 700; color: var(--primary); background: var(--accent-glow); border-radius: var(--radius-sm); padding: 0 4px; }
 .rdc-ex { font-size: var(--fs-sm); color: var(--text-muted); margin-top: var(--space-3); font-style: italic; }
 .rdc-disclaimer { font-size: var(--fs-xs); color: var(--text-muted); margin-top: var(--space-3); }
-/* Outils métier — éléments interactifs (questionnaire, options, checklist) */
+/* Outils métier · éléments interactifs (questionnaire, options, checklist) */
 .rdc-step { font-family: var(--font-display); font-size: var(--fs-sm); color: var(--text-muted); margin-bottom: var(--space-2); }
 .rdc-q { font-family: var(--font-body); font-size: var(--fs-lg); color: var(--text-primary); margin-bottom: var(--space-4); }
 .rdc-yn { display: flex; gap: var(--space-3); }
@@ -578,7 +578,7 @@ html.a11y-dys body { letter-spacing: 0.02em; word-spacing: 0.06em; }
 /* =================================================================
    Conformité mobile (composants)
    Encadré par media queries : neutre au-dessus de 768 px.
-   Variables existantes uniquement, tailles en rem — le réglage
+   Variables existantes uniquement, tailles en rem : le réglage
    --fs-scale reste donc opérant.
    ================================================================= */
 @media (max-width: 768px) {
@@ -637,14 +637,14 @@ html.a11y-dys body { letter-spacing: 0.02em; word-spacing: 0.06em; }
     width: 2.75rem; height: 2.75rem;
   }
 
-  /* (a) Champs et sélecteurs — .rdc-input hérite d'un min-width
+  /* (a) Champs et sélecteurs : .rdc-input hérite d'un min-width
      intrinsèque (taille par défaut d'un <input>) qui faisait déborder
      la ligne .rdc-ca de quelques pixels. */
   .rdc-select, .rdc-input { max-width: 100%; }
   .rdc-ca { max-width: 100%; }
   .rdc-ca .rdc-input { min-width: 0; }
 
-  /* (f) Tableaux — le défilement horizontal reste confiné au
+  /* (f) Tableaux : le défilement horizontal reste confiné au
      conteneur, jamais reporté sur la page.
      Tous les tableaux ne sont pas enveloppés dans un .table-scroll :
      .bareme-table du QCM ne l'est pas et sa largeur minimale (292 px)
@@ -728,7 +728,7 @@ html.a11y-dys body { letter-spacing: 0.02em; word-spacing: 0.06em; }
   /* (c) Bulle de glossaire : voir le bloc suivant, hors de celui-ci, parce
      qu'elle vaut aussi pour les écrans tactiles de plus de 768 px. */
 
-  /* (a) QCM — les trois boutons de degré de certitude sont posés sur
+  /* (a) QCM · les trois boutons de degré de certitude sont posés sur
      une grille repeat(3, 1fr) : chaque piste garde alors sa largeur
      min-content et « Élevée / certain » débordait de 9 px à 320 px.
      minmax(0, 1fr) autorise les pistes à se réduire, le texte passe à
@@ -748,7 +748,7 @@ html.a11y-dys body { letter-spacing: 0.02em; word-spacing: 0.06em; }
    d'architecture logicielle, jusqu'à 768 px ET sur tout écran sans survol
    (tablette, écran tactile), quelle que soit sa largeur. Posée en absolu sous
    son mot, la bulle restait prisonnière de son conteneur : dans un tableau à
-   défilement horizontal, elle était rognée — à 375 px, « width: auto »
+   défilement horizontal, elle était rognée. À 375 px, « width: auto »
    prenait pour gabarit le mot souligné lui-même, une colonne de 100 à 140 px
    de large ; à 1024 px, sur une tablette, elle était coupée au bord du tableau.
    Fixe et pleine largeur, elle échappe au conteneur, quel que soit l'endroit
@@ -795,13 +795,13 @@ html.a11y-dys body { letter-spacing: 0.02em; word-spacing: 0.06em; }
 }
 
 
-/* QCM — les 60 pastilles de navigation doivent atteindre la zone tactile de 44 px */
+/* QCM : les 60 pastilles de navigation doivent atteindre la zone tactile de 44 px */
 @media (max-width: 768px) {
   body .nav-grid { grid-template-columns: repeat(auto-fill, minmax(2.75rem, 1fr)); }
   body .nav-cell { min-height: 2.75rem; min-width: 2.75rem; }
 }
 
-/* Mobile — les boutons ◀ / ▶ du lecteur de slides doivent atteindre la zone
+/* Mobile : les boutons ◀ / ▶ du lecteur de slides doivent atteindre la zone
    tactile de 44 px (ils ne mesuraient que 38 px de large). Ils ne s'affichent
    que tant que le PDF du chapitre n'a pas été déposé. */
 @media (max-width: 768px) {
@@ -809,7 +809,7 @@ html.a11y-dys body { letter-spacing: 0.02em; word-spacing: 0.06em; }
 }
 
 /* ================================================================
-   Playlist — panneau des pistes audio, à droite
+   Playlist · panneau des pistes audio, à droite
    Symétrique du menu de gauche : fixe quand l'écran est assez large,
    tiroir à bouton en dessous. Le seuil vient d'une mesure : 320 px de
    menu plus 880 px de contenu occupent déjà 1 200 px, il ne reste rien
@@ -1064,7 +1064,7 @@ html[data-lang="en"] [data-tr="fr"] { display: none !important; }
    Les podcasts du cours (module 03) : la page des épisodes,
    la bande des diapositives, la visionneuse, les encadrés.
    podcasts.html : une section par épisode, écrite par
-   outils/generer_fragments.py d'après outils/podcasts.py — la
+   outils/generer_fragments.py d'après outils/podcasts.py ; la
    ligne d'état (durée, voix, téléchargement) ou « Épisode à
    venir », le lecteur, la bande des diapositives et le lien du
    PDF, puis ce que couvre l'épisode et ce qu'il faut en

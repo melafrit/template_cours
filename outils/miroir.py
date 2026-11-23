@@ -99,7 +99,7 @@ def garder_langue_html(t, langue):
 
 def garder_langue(t, langue):
     """La page entière dans une seule langue : scripts, styles et commentaires restent intacts. Ils sont masqués
-    sur place par un repère, puis restitués — et non découpés : un bloc data-tr peut contenir un commentaire (le
+    sur place par un repère, puis restitués, et non découpés : un bloc data-tr peut contenir un commentaire (le
     marqueur d'un fragment), et sa fermeture doit rester visible. Un repère tombé avec le bloc qui le contenait
     part avec lui."""
     gardes = []
@@ -246,7 +246,7 @@ def remonter(t, rel, langue, site):
 
 
 def charger_liste(t):
-    """(texte, trouvé) : la jumelle charge la liste des pages traduites juste après i18n.js — son menu et le lien de
+    """(texte, trouvé) : la jumelle charge la liste des pages traduites juste après i18n.js ; son menu et le lien de
     son glossaire en ont besoin dès le premier affichage."""
     if "langues-data.js" in t:
         return t, True

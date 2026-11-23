@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """Les interdits du cours : ce qui n'apparaît jamais hors de sa place (CLAUDE.md, § 2 ; prompt paramétrable, règle 8).
 
-Le sujet du TP, ses chiffres, les mots d'une épreuve confidentielle : un exemple du cours qui les reprendrait — même
-pour illustrer une méthode — soufflerait une réponse. outils/verifier_interdits.py les cherche partout où le cours
+Le sujet du TP, ses chiffres, les mots d'une épreuve confidentielle : un exemple du cours qui les reprendrait, même
+pour illustrer une méthode, soufflerait une réponse. outils/verifier_interdits.py les cherche partout où le cours
 se publie (pages et jumelles anglaises, données du site, scripts des capsules audio, contenu des polycopiés), hors
 des pages où ils sont chez eux (PERMIS). Vides dans le gabarit : chaque cours remplit les siens, dès le cadrage.
 

@@ -14,8 +14,8 @@ Une zone demandée dans un encadré s'accroche au paragraphe d'ancrage posé jus
 zone ancrée dans une cellule) ; deux zones d'un même paragraphe s'empilent ; word.py vérifie enfin, page par page,
 qu'aucune ne déborde ni n'en chevauche une autre.
 
-LES LIENS. Chaque QR code du livret et le texte qui le décrit — sous lui (la ligne du pictogramme et du libellé, la
-légende, le terme et sa définition) ou à côté de lui — mènent, d'un clic dans le PDF, à l'adresse que porte le QR code
+LES LIENS. Chaque QR code du livret et le texte qui le décrit, sous lui (la ligne du pictogramme et du libellé, la
+légende, le terme et sa définition) ou à côté de lui, mènent, d'un clic dans le PDF, à l'adresse que porte le QR code
 (qr_lie, ooxml.lier) ; l'impression ne change pas (ooxml, « LES LIENS »).
 
 LES ENCADRÉS sont des tableaux d'une cellule, distincts même en noir et blanc :
@@ -525,7 +525,7 @@ class Rendu:
     # ── le podcast (module 03) ─────────────────────────────────────────────
     def episode_podcast(self, page_rel):
         """(adresse, légende) du QR code de l'épisode qui accompagne la page (outils/podcasts.py, clé « page »), ou
-        None : la page Podcasts de la langue du livret, à l'ancre de l'épisode ; « Épisode 1 — Chapitre 1 »."""
+        None : la page Podcasts de la langue du livret, à l'ancre de l'épisode ; « Épisode 1 : Chapitre 1 »."""
         try:
             import podcasts as P
         except ImportError:                       # un cours sans série de podcasts
@@ -1035,7 +1035,7 @@ class Rendu:
         a_venir = not local or not os.path.exists(local)
         if a_venir:
             # Une capsule écrite mais pas encore enregistrée : son QR code s'imprime dès maintenant, à l'adresse où sa
-            # piste sera déposée, si c'est bien la bonne (capsule_prevue), et sans durée — celle de la page n'est
+            # piste sera déposée, si c'est bien la bonne (capsule_prevue), et sans durée ; celle de la page n'est
             # qu'estimée. L'adresse se teste après l'enregistrement : generer_polycopie.py --essai dit alors
             # « capsules à venir : 0 ». Sinon, pas de QR code vers un fichier qui n'existe pas.
             if not capsule_prevue(url, self.langue.code):
@@ -1195,7 +1195,7 @@ def signet_nom(ident):
 
 
 def capitale(legende):
-    """Une légende de QR code commence par une capitale — sauf un nom qui s'écrit en minuscule (une adresse)."""
+    """Une légende de QR code commence par une capitale, sauf un nom qui s'écrit en minuscule (une adresse)."""
     premier = legende.split(" ")[0] if legende else ""
     if not premier or "." in premier:
         return legende
@@ -1204,7 +1204,7 @@ def capitale(legende):
 
 def vedette(terme, L):
     """Un terme du glossaire tel que le livret l'imprime en vedette (glossaire, index, définition dans la marge) : une
-    capitale initiale, dans les deux langues — sauf aux noms qui s'écrivent en minuscule (« minuscules » de la fiche
+    capitale initiale, dans les deux langues, sauf aux noms qui s'écrivent en minuscule (« minuscules » de la fiche
     du livret)."""
     if not terme or not terme[:1].islower() or terme.split()[0] in L.get("minuscules", ()):
         return terme
@@ -1231,7 +1231,7 @@ def ordres_association(ident, donnees_droite, essais=200):
 
     La droite est mélangée (d'abord comme avant, graine : l'identifiant). La gauche aussi, et aucun de ses éléments
     n'est imprimé sous le numéro que porte le libellé de droite qui lui répond (« C3 · … », « Section 2 · … »,
-    « 5 · … » : rang_affiche) — imprimé « 3. » en face de « C3 », le numéro donnerait la réponse. Ce numéro n'est pas
+    « 5 · … » : rang_affiche) ; imprimé « 3. » en face de « C3 », le numéro donnerait la réponse. Ce numéro n'est pas
     le rang des données : une page peut mélanger ses paires, pour que la colonne de gauche du site, qui suit les
     données, ne souffle rien non plus. Sans libellé numéroté, aucun élément ne garde son rang des données. La clé des
     réponses ne se devine pas non plus : une réponse au plus sur la diagonale (« 1-A », « 2-B »), aucune suite

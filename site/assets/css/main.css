@@ -1,14 +1,14 @@
 /* =================================================================
-   main.css — Design System du site de cours
-   Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
-   Identité : "sobre institutionnelle" — bleu nuit / gris ardoise / doré
+   main.css · Design System du site de cours
+   Template de site de cours · Mohamed EL AFRIT (MIT / CC BY 4.0)
+   Identité : "sobre institutionnelle" (bleu nuit / gris ardoise / doré)
    ================================================================= */
 
 /* ----------------------------------------------------------------
    1. Variables (thème clair par défaut)
    ---------------------------------------------------------------- */
 :root {
-  /* — Couleurs de marque — */
+  /* --- Couleurs de marque --- */
   --primary: #1b3a5b;          /* bleu nuit institutionnel */
   --primary-light: #2d5d8a;
   --primary-dark: #0e2238;
@@ -33,7 +33,7 @@
   --legal: #6b4fa0;            /* repère "texte de loi" */
   --legal-bg: rgba(107, 79, 160, 0.08);
 
-  /* — Surfaces (clair) — */
+  /* --- Surfaces (clair) --- */
   --bg-root: #f5f7fa;
   --bg-page: #ffffff;
   --bg-sidebar: #eef2f7;
@@ -63,7 +63,7 @@
   --shadow-lg: 0 14px 44px rgba(14, 34, 56, 0.14);
   --shadow-glow: 0 0 30px rgba(27, 58, 91, 0.10);
 
-  /* — Typographie — */
+  /* --- Typographie --- */
   --font-display: 'Sora', system-ui, sans-serif;
   --font-body: 'Source Serif 4', Georgia, serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
@@ -82,25 +82,25 @@
   --lh-normal: 1.6;
   --lh-relaxed: 1.8;
 
-  /* — Espacements — */
+  /* --- Espacements --- */
   --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem;
   --space-4: 1rem;    --space-5: 1.25rem; --space-6: 1.5rem;
   --space-8: 2rem;    --space-10: 2.5rem; --space-12: 3rem;
   --space-16: 4rem;   --space-20: 5rem;
 
-  /* — Mise en page — */
+  /* --- Mise en page --- */
   --sidebar-width: 320px;
   --content-max-width: 880px;
   --header-height: 64px;
 
-  /* — Transitions — */
+  /* --- Transitions --- */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --duration-fast: 150ms;
   --duration-normal: 300ms;
   --duration-slow: 500ms;
 
-  /* — Rayons — */
+  /* --- Rayons --- */
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 16px;
@@ -429,7 +429,7 @@ img { max-width: 100%; height: auto; }
   :root { --sidebar-width: 280px; }
   .main-content { padding: var(--space-8) var(--space-5) var(--space-12); }
 
-  /* (j) Barre de navigation de chapitre — juste au-dessus du seuil de
+  /* (j) Barre de navigation de chapitre · juste au-dessus du seuil de
      768 px, .chapter-nav est encore affichée et ses quatre boutons
      (Sommaire, Précédent, Polycopié, Suivant) mesurent 500 px : ajoutés
      au logo et aux deux boutons de l'en-tête, le total atteignait
@@ -469,7 +469,7 @@ img { max-width: 100%; height: auto; }
   font-weight: 600;
 }
 
-/* Listes à puce posée (objectifs, « À retenir ») — en display:flex, chaque
+/* Listes à puce posée (objectifs, « À retenir ») : en display:flex, chaque
    fragment de texte inline devient un item de flex insécable. Sur mobile, le
    <li> ne peut plus descendre sous la largeur cumulée de ses fragments et fait
    déborder toute la page (mesuré : document à 398 px pour un viewport de
@@ -502,14 +502,14 @@ img { max-width: 100%; height: auto; }
    ---------------------------------------------------------------- */
 @media (max-width: 768px) {
 
-  /* (h) Plancher typographique — --fs-xs valait 0.75rem, soit 12 px
+  /* (h) Plancher typographique · --fs-xs valait 0.75rem, soit 12 px
      effectifs : sous le seuil de lisibilité mobile. On le remonte à
      14 px. Le site étant intégralement en rem, le réglage
      d'accessibilité --fs-scale continue de s'appliquer par-dessus. */
   :root { --fs-xs: 0.875rem; }
   .nav-toggle { font-size: var(--fs-xs); }
 
-  /* (a) (i) En-tête — le libellé du logo n'a pas de min-width : 0, il
+  /* (a) (i) En-tête · le libellé du logo n'a pas de min-width : 0, il
      refusait donc de se réduire et poussait ♿ / 🌙 hors de l'écran
      (mesuré : bord droit à 517 px pour un viewport de 320 px, boutons
      inatteignables). Le titre se tronque désormais à l'ellipse. */
@@ -532,9 +532,9 @@ img { max-width: 100%; height: auto; }
      .a11y-toggle qui y est redéclaré. */
 
   /* (a) Listes en display:flex : voir avant cette section, hors de toute
-     requête — le défaut vaut aussi sur grand écran. */
+     requête ; le défaut vaut aussi sur grand écran. */
 
-  /* (i) Menu latéral — width: 86% se résolvait contre un bloc plus
+  /* (i) Menu latéral · width: 86% se résolvait contre un bloc plus
      large que l'écran ; on borne explicitement au viewport. */
   .sidebar { width: min(86vw, 21.25rem); max-width: none; }
   .sidebar-content { overflow-x: hidden; }
@@ -560,7 +560,7 @@ img { max-width: 100%; height: auto; }
 }
 
 /* ============================================================
-   Mobile — garder le polycopié accessible.
+   Mobile · garder le polycopié accessible.
    La barre de chapitre est masquée sous 768 px (place insuffisante pour
    ses quatre boutons), mais le polycopié n'existe QUE là : on l'y laisse
    donc passer seul, réduit à son icône. Le libellé « 📄 Polycopié » reste

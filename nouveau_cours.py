@@ -10,7 +10,7 @@
     python3 nouveau_cours.py --ecraser    # accepte un dossier de sortie non vide, dont il garde
                                           # les fichiers locaux (secrets, carnets, destination)
 
-CE QUE FAIT CE SCRIPT — et ce qu'il ne fait pas.
+CE QUE FAIT CE SCRIPT, et ce qu'il ne fait pas.
 
 Il met en place la MÉCANIQUE : l'arborescence, la charte, la navigation, les
 squelettes de chapitres, les outils, la documentation. Il ne rédige AUCUN
@@ -22,7 +22,7 @@ Cette séparation est volontaire. Un script qui inventerait des chapitres
 produirait un cours générique, et un cours générique ne sert personne.
 
 LE CHAPITRE VITRINE EST CONSERVÉ, sous le nom `_modele.html`. Il n'apparaît
-pas dans la navigation — l'underscore le signale — mais il reste consultable
+pas dans la navigation, l'underscore le signale, mais il reste consultable
 et surtout copiable : c'est le seul endroit où l'on voit les sept composants
 appelés pour de vrai, avec le motif bilingue à recopier.
 """
@@ -74,8 +74,8 @@ LOCAUX = ("elevenlabs.json", "*.config.json", "config.json", "manifeste.json", "
           "Import_Livrables*", "settings.local.json")
 NE_PAS_COPIER = shutil.ignore_patterns(*(REGENERABLES + LOCAUX))
 
-# Les secrets qui servent à tous les cours de l'auteur — la clé ElevenLabs et sa
-# voix, les accès à l'hébergement — se recopient tels quels dans le nouveau
+# Les secrets qui servent à tous les cours de l'auteur (la clé ElevenLabs et sa
+# voix, les accès à l'hébergement) se recopient tels quels dans le nouveau
 # cours, en local : jamais ouverts, jamais affichés, et seulement si le
 # .gitignore du cours les exclut. La destination, elle, est propre à chaque
 # cours : deploiement/destination.json, écrit d'après le bloc « publication ».
@@ -166,7 +166,7 @@ REPERE_PODCAST = ("      <!-- Ici, l'encadré « Le podcast du chapitre », si u
                   "chapitre : prompts/modules/03-podcasts-notebooklm.md (fragment podcast-N). -->\n")
 
 
-# Contenu de DEMONSTRATION, retire de tout cours cree — sauf --avec-demo.
+# Contenu de DEMONSTRATION, retire de tout cours cree, sauf --avec-demo.
 # Le squelette de chapitre etait deja vide ; ces fichiers-la ne l'etaient pas.
 # Pages propres au TEMPLATE, retirees de tout cours cree : elles parlent du
 # template lui-meme, pas de la matiere enseignee.
@@ -1058,7 +1058,7 @@ def regenerer_sommaire(sortie, c):
 
 
 def vider_fiche_livret(sortie):
-    """outils/livret.py (bloc « livret ») : la fiche du livret de démonstration perd ce qui parlait du template — le
+    """outils/livret.py (bloc « livret ») : la fiche du livret de démonstration perd ce qui parlait du template, le
     pied de la couverture, la catégorie, la présentation de l'auteur, que l'auteur écrit et valide (module 02) ;
     l'année devient celle de la création. Vrai si la fiche a changé."""
     f = os.path.join(sortie, "outils", "livret.py")
@@ -1262,8 +1262,8 @@ def destination_json(c):
 def contrat_du_cours(c):
     """Le CLAUDE.md du nouveau cours : celui du template, sans ses passages propres au template.
 
-    Claude le lit à chaque ouverture du dossier : les exigences de l'auteur — dialogue,
-    secrets, Git, audio, quiz, publication — s'y appliquent sans qu'on ait à les rappeler.
+    Claude le lit à chaque ouverture du dossier : les exigences de l'auteur (dialogue,
+    secrets, Git, audio, quiz, publication) s'y appliquent sans qu'on ait à les rappeler.
     """
     t = io.open(os.path.join(RACINE, "CLAUDE.md"), encoding="utf-8").read()
     t = BLOC_GABARIT.sub("\n", t)
@@ -1435,7 +1435,7 @@ def valider(c):
                       "les définitions dans la marge et l'index.")
 
     # La destination de publication : facultative à la création, mais jamais une
-    # racine d'hébergement — une purge y effacerait tous les autres cours.
+    # racine d'hébergement ; une purge y effacerait tous les autres cours.
     distant = str((c.get("publication") or {}).get("repertoire_distant") or "").strip()
     if distant:
         norme = "/" + distant.strip("/")
@@ -1564,7 +1564,7 @@ PROSE = re.compile(r"<span>(?:(?!</span>).)*?</span>", re.S)
 def vider_prose(t, lg):
     """Remplace le texte des paragraphes et des listes par un repère visible.
 
-    On garde la structure — sections, listes, encadrés, appels de composants —
+    On garde la structure (sections, listes, encadrés, appels de composants)
     et on retire le contenu. Un squelette qui conserverait la prose du chapitre
     vitrine ferait courir un vrai risque : une section oubliée à la relecture
     partirait en ligne en parlant d'autre chose que du cours.
@@ -1587,7 +1587,7 @@ def vider_prose(t, lg):
     fin = t.index("<nav class=\"chapter-pagination\">")
     corps = PROSE.sub(remplacer, t[debut:fin])
 
-    # Les titres de section : un repère court et numéroté, pas le paragraphe de remplissage — ils s'affichent dans
+    # Les titres de section : un repère court et numéroté, pas le paragraphe de remplissage ; ils s'affichent dans
     # la page et dans le menu (outils/generer_nav_sections.py les y reporte).
     def titre(m):
         titre.n += 1
@@ -1600,7 +1600,7 @@ def vider_prose(t, lg):
 def textes_vides(c):
     """Le bloc TEXTES du chapitre, réduit à des repères.
 
-    On conserve les clés et le motif — c'est ce qui s'apprend — et on vide les
+    On conserve les clés et le motif (c'est ce qui s'apprend) et on vide les
     valeurs. Le chapitre vitrine reste consultable dans _modele.html pour voir
     un exemple rempli.
     """
@@ -2063,7 +2063,7 @@ def main():
     print("  %s" % ((r.stdout.strip().splitlines() or ["filieres.css : non écrit"])[-1]))
 
     # --- les médias : la liste de ceux que le cours a vraiment (ceux de la démonstration sont partis avec elle). Celle
-    #     de la démonstration ferait demander au serveur des fichiers absents — une erreur 404 par chapitre.
+    #     de la démonstration ferait demander au serveur des fichiers absents : une erreur 404 par chapitre.
     spec = importlib.util.spec_from_file_location("generer_medias", os.path.join(RACINE, "outils", "generer_medias.py"))
     gm = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(gm)
@@ -2071,7 +2071,7 @@ def main():
     print("  media-data.js régénéré : %s" % ", ".join("%s %d" % (cle, n) for cle, n in nombres.items()))
 
     # --- les fragments : le référentiel du cours part vide (celui de la démonstration portait ses durées), et les
-    #     pages reçoivent les valeurs du cours — son vrai nombre de chapitres, « … » pour une durée à renseigner.
+    #     pages reçoivent les valeurs du cours (son vrai nombre de chapitres, « … » pour une durée à renseigner).
     ecrire(os.path.join(sortie, "outils", "referentiel.py"), referentiel_vide())
     r = subprocess.run([sys.executable, os.path.join(sortie, "outils", "generer_fragments.py")],
                        capture_output=True, text=True, encoding="utf-8")

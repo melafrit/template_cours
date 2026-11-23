@@ -20,7 +20,7 @@ __pycache__/
 venv/
 
 # Médias lourds DÉPOSÉS LOCALEMENT (podcasts, slides, infographies réels)
-# — décommentez si vous ne souhaitez pas versionner vos médias volumineux :
+# Décommentez si vous ne souhaitez pas versionner vos médias volumineux :
 # site/assets/media/podcasts/*.mp3
 # site/assets/media/slides/*.pdf
 # site/assets/media/infographies/*.png
@@ -38,7 +38,7 @@ venv/
 # Sorties générées par les scripts Python (régénérables)
 tools/out/
 
-# Documents de reference — DROIT D'AUTEUR. Un referentiel, un manuel, un article
+# Documents de reference : DROIT D'AUTEUR. Un referentiel, un manuel, un article
 # ne vous appartiennent pas, et l'historique Git ne s'efface pas : ce qu'on y met
 # un jour y reste, y compris le jour ou le depot devient public.
 # Seuls le mode d'emploi et la bibliographie sont versionnes : citer une source
@@ -47,12 +47,12 @@ sources/*
 !sources/README.md
 !sources/bibliographie.md
 
-# Configuration du cours en cours de creation — elle porte votre contact et vos
+# Configuration du cours en cours de creation. Elle porte votre contact et vos
 # choix, pas des secrets, mais elle est propre a CHAQUE cours : c'est le modele
 # commente qui est versionne, pas votre copie.
 cours.json
 
-# Generation audio — CLE API ElevenLabs. Ne jamais versionner : elle engage des
+# Generation audio : CLE API ElevenLabs. Ne jamais versionner : elle engage des
 # depenses, et l'historique Git ne s'efface pas. Seul elevenlabs.exemple.json,
 # sans secret, est suivi. Le motif ** couvre une copie deposee ailleurs dans le
 # depot (un dossier de documents de reference, par exemple).
@@ -62,7 +62,7 @@ outils/*.config.json
 # ecoute, pas pour publication.
 outils/quarantaine/
 
-# Configuration de deploiement — identifiants d'hebergement, meme regle.
+# Configuration de deploiement : identifiants d'hebergement, meme regle.
 # destination.json, lui, n'a rien de secret : il est versionne avec chaque cours.
 deploiement/config.json
 deploiement/*.config.json
@@ -70,7 +70,7 @@ deploiement/manifeste.json
 # Empreinte du serveur SFTP, retenue au premier contact : propre a chaque poste.
 deploiement/known_hosts
 
-# Cahier de texte — le fichier d'acces porte les identifiants du site de cours.
+# Cahier de texte : le fichier d'acces porte les identifiants du site de cours.
 # Le document produit les porte aussi : ni l'un ni l'autre n'entre au depot.
 docs/acces.json
 docs/Cahier_de_texte*.docx

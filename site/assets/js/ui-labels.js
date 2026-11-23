@@ -1,19 +1,19 @@
 /* =================================================================
-   ui-labels.js — Tous les textes d'interface des moteurs, FR, EN et AR
-   Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
+   ui-labels.js · Tous les textes d'interface des moteurs, FR, EN et AR
+   Template de site de cours · Mohamed EL AFRIT (MIT / CC BY 4.0)
 
    POURQUOI CE FICHIER EXISTE
    Les moteurs (interactions.js, media.js, playlist.js…) fabriquent de
    l'interface en JavaScript : boutons, états, messages de progression.
    Ces textes ne peuvent pas être jumelés en data-tr comme le contenu
    rédigé, puisqu'ils n'existent pas dans le HTML. Ils vivent donc ici,
-   dans un dictionnaire unique — et non éparpillés dans huit fichiers,
+   dans un dictionnaire unique, et non éparpillés dans huit fichiers,
    où l'on en oublie toujours un en ajoutant un composant.
 
    COMMENT S'EN SERVIR DANS UN MOTEUR
        html += '<button>' + T('lecteur.lire') + '</button>';
    T() renvoie la chaîne de la langue active, et retombe sur le français
-   si la clé manque en anglais — un libellé français vaut mieux qu'un
+   si la clé manque en anglais : un libellé français vaut mieux qu'un
    bouton vide.
 
    QUAND LA LANGUE CHANGE
@@ -763,7 +763,7 @@ window.UI_LABELS = {
 };
 
 /* Accesseur global. Volontairement tolérant : une clé absente en anglais
-   retombe sur le français, une clé inconnue renvoie la clé elle-même — on
+   retombe sur le français, une clé inconnue renvoie la clé elle-même ; on
    voit alors immédiatement laquelle manque, au lieu d'un bouton vide. */
 window.T = function (cle) {
   var lang = (window.TPLI18N && window.TPLI18N.lang && window.TPLI18N.lang()) || 'fr';

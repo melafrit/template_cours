@@ -7,7 +7,7 @@
 Cherche les MOTS, les NOMBRES et les MOTIFS de outils/interdits.py dans tout ce qui se publie ou devient un média :
 les pages de site/ et leurs jumelles anglaises, les scripts et données du site (glossaire, flashcards, QCM,
 playlist, menus), les fiches des capsules audio (docs/prompts/), le contenu des polycopiés
-(tools/polycopies_content.json). Les pages et dossiers de PERMIS — le TP, sa correction protégée — en sont exclus,
+(tools/polycopies_content.json). Les pages et dossiers de PERMIS (le TP, sa correction protégée) en sont exclus,
 avec leurs jumelles sous en/. Les fichiers secrets ne sont jamais ouverts.
 
 Un mot se cherche sans tenir compte de la casse ni des accents, en mot entier ; un nombre, avec virgule ou point,

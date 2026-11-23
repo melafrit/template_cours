@@ -1,6 +1,6 @@
 /* =================================================================
-   filiere.js — La bascule de filière d'un cours commun à deux filières
-   Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
+   filiere.js · La bascule de filière d'un cours commun à deux filières
+   Template de site de cours · Mohamed EL AFRIT (MIT / CC BY 4.0)
 
    Repris du cours EADL et rendu générique (décision de l'auteur du
    21 novembre 2026) : les filières se déclarent dans course-data.js

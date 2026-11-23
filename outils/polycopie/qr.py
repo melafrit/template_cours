@@ -2,13 +2,13 @@
 """Les QR codes du livret : segno, correction d'erreur M, PNG nets pour l'impression.
 
 Un QR code porte toujours une adresse absolue (sources.SITE pour le site du cours) ; aucune adresse ne s'imprime sous
-lui. Le registre garde chaque QR code posé — son adresse, sa légende, sa place — pour le contrôle et le rapport :
+lui. Le registre garde chaque QR code posé (son adresse, sa légende, sa place) pour le contrôle et le rapport :
 chaque adresse doit répondre 200, et son ancre (#…) exister dans la page (glossaire : parmi les ancres que la page
 calcule, g-…). Sans adresse publique du cours (sources.ADRESSE vide), la vérification en ligne n'a pas lieu ; les
 ancres, elles, se vérifient toujours dans les fichiers du site.
 
 UN SITE PROTÉGÉ (fiche du livret, « site_protege ») répond 401 à qui n'a pas d'identifiants, et la chaîne ne
-s'authentifie jamais : une adresse du site se vérifie dans le dépôt — le fichier existe, part avec le site (suivi par
+s'authentifie jamais : une adresse du site se vérifie dans le dépôt ; le fichier existe, part avec le site (suivi par
 Git), n'est ni la correction ni un dossier de travail, et son ancre existe dans la page. Une page que
 destination.json tient hors ligne (« exclure ») est signalée, sans bloquer : en ligne, sa version précédente demeure.
 Une adresse hors du site doit répondre 200 en ligne ; un site qui refuse les robots (403…) est ouvert par Chrome sans

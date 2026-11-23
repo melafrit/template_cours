@@ -1,7 +1,7 @@
 /* =================================================================
-   questions.js — Banque de questions BILINGUE (FR/EN) du QCM-démo
+   questions.js · Banque de questions BILINGUE (FR/EN) du QCM-démo
    Thème : « Concevoir un cours en ligne » (3 chapitres)
-   Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
+   Template de site de cours · Mohamed EL AFRIT (MIT / CC BY 4.0)
 
    Format attendu par les pages (index / entrainement / correction / dashboard) :
      { id, chapitre, difficulte, enonce:{fr,en}, propositions:[{fr,en}×4] }
@@ -36,7 +36,7 @@ window.QCM_QUESTIONS = {
   },
   questions: [
 
-    /* ---------- Chapitre 1 — Cadrer son cours ---------- */
+    /* ---------- Chapitre 1 · Cadrer son cours ---------- */
     {
       id: 'Q01', chapitre: 1, difficulte: 'vert',
       enonce: {
@@ -77,7 +77,7 @@ window.QCM_QUESTIONS = {
       ]
     },
 
-    /* ---------- Chapitre 2 — Structurer le contenu ---------- */
+    /* ---------- Chapitre 2 · Structurer le contenu ---------- */
     {
       id: 'Q04', chapitre: 2, difficulte: 'jaune',
       enonce: {
@@ -118,7 +118,7 @@ window.QCM_QUESTIONS = {
       ]
     },
 
-    /* ---------- Chapitre 3 — Créer les ressources ---------- */
+    /* ---------- Chapitre 3 · Créer les ressources ---------- */
     {
       id: 'Q07', chapitre: 3, difficulte: 'vert',
       enonce: {

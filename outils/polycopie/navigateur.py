@@ -6,7 +6,7 @@ deviennent des PNG haute définition (--screenshot), avec un profil temporaire ;
 attendue (largeur × hauteur × échelle).
 
 LES COMPOSANTS D'UNE PAGE : les activités et les capsules du moteur (assets/js/interactions.js) reçoivent leurs
-textes au chargement — l'objet TEXTES de la page, des .map… —, qu'un lecteur du source ne verrait pas. Ouverte avec
+textes au chargement (l'objet TEXTES de la page, des .map…), qu'un lecteur du source ne verrait pas. Ouverte avec
 « ?polycopie=<langue> », la page écrit la configuration de chacun dans <script type="application/json"
 id="rdcx-donnees"> ; Chrome rend la page ainsi chargée (--dump-dom), et le livret lit exactement ce que voient les
 étudiants, dans la langue du livret.
@@ -73,7 +73,7 @@ def photographier(travaux):
 
 def titre(url, delai=120):
     """Le titre (<title>) de la page qu'ouvre Chrome sans interface à cette adresse, ou "" : pour un site qui refuse
-    les robots (403 à urllib) mais sert la page à un navigateur — la vérification se fait alors comme un étudiant
+    les robots (403 à urllib) mais sert la page à un navigateur ; la vérification se fait alors comme un étudiant
     l'ouvrirait. Un profil temporaire, rien n'est gardé."""
     with tempfile.TemporaryDirectory(prefix="polycopie-chrome-") as profil:
         try:

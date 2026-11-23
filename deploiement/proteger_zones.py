@@ -39,7 +39,7 @@ DEPOT = os.path.dirname(ICI)
 ACCES = os.path.join(DEPOT, "docs", "acces-zones.json")
 MODELE = os.path.join(DEPOT, "docs", "acces-zones.exemple.json")
 sys.path.insert(0, ICI)
-import deployer as D  # noqa: E402  — sa configuration et sa connexion, sans les recopier ici
+import deployer as D  # noqa: E402  (sa configuration et sa connexion, sans les recopier ici)
 
 # Chemin fictif du compte, pour construire et contrôler les fichiers sans connexion.
 RACINE_FICTIVE = "/chemin/absolu/du/compte"
@@ -105,7 +105,7 @@ def htaccess(nom, chemin_htpasswd):
 
 
 def fichiers(acces, racine_absolue):
-    """{chemin relatif à la racine du site : texte} — un .htaccess et un .htpasswd par zone."""
+    """{chemin relatif à la racine du site : texte} (un .htaccess et un .htpasswd par zone)."""
     out = {}
     for z in acces["zones"]:
         lignes = "".join("%s:%s\n" % (acces["comptes"][q]["identifiant"],

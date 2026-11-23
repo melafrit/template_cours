@@ -1,6 +1,6 @@
 /* =================================================================
-   accessibility.js — Confort de lecture & accessibilité
-   Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
+   accessibility.js · Confort de lecture & accessibilité
+   Template de site de cours · Mohamed EL AFRIT (MIT / CC BY 4.0)
 
    - Bouton ♿ dans l'en-tête -> petit panneau de réglages
    - Taille du texte (A- / A+) via mise à l'échelle de la racine (--fs-scale)

@@ -12,7 +12,7 @@ et --accent, et échoue si l'un d'eux passe sous le seuil.
 
 Seuils retenus (WCAG 2.1) :
   - texte normal      : 4,5:1 (niveau AA)
-  - texte large/gras  : 3,0:1 (niveau AA large — titres, badges)
+  - texte large/gras  : 3,0:1 (niveau AA large ; titres, badges)
   - éléments non textuels (bordures, pastilles) : 3,0:1
 
 Le bandeau de l'accueil a ses propres couleurs (--hero-*), les mêmes dans les

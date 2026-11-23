@@ -84,7 +84,7 @@ def publie(rel):
 
 
 def exclu(rel):
-    """L'entrée de « exclure » (destination.json) qui tient ce fichier hors de la mise en ligne, ou None — la règle
+    """L'entrée de « exclure » (destination.json) qui tient ce fichier hors de la mise en ligne, ou None ; la règle
     même du déployeur (deploiement/deployer.py, exclu) : motif fnmatch, ou dossier."""
     import fnmatch
     for m in destination().get("exclure") or []:

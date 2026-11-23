@@ -4,13 +4,13 @@
 
     python3 outils/convertir_schemas.py
 
-Les PNG restent sur votre disque — ils sont ignorés par Git, et c'est voulu :
+Les PNG restent sur votre disque ; ils sont ignorés par Git, et c'est voulu :
 un lot de six schémas pèse 7 Mo en PNG contre 0,5 Mo en WebP, et un fichier
 poussé une fois reste dans l'historique du dépôt pour toujours, même supprimé
 ensuite. Seul le WebP est versionné.
 
-Réglages identiques à ceux des chapitres déjà convertis — qualité 82,
-méthode 6 — pour que tous les schémas du cours aient le même rendu.
+Réglages identiques à ceux des chapitres déjà convertis (qualité 82,
+méthode 6) pour que tous les schémas du cours aient le même rendu.
 
 Ne retouche que ce qui en a besoin : un PNG dont le WebP existe déjà et est
 plus récent est laissé tranquille.

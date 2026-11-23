@@ -28,7 +28,7 @@ Les scripts ne sont pas écrits ici : ils viennent des fiches de production de
 page sert de clé : ce que la page réclame est ce qui est généré, et rien d'autre.
 
 CHAQUE PRISE EST CONTRÔLÉE AVANT D'ÊTRE DÉPOSÉE. Une capsule est un jour partie
-en ligne à 67 mots par minute au lieu de 145 — le même texte étiré sur le double
+en ligne à 67 mots par minute au lieu de 145 : le même texte étiré sur le double
 du temps, faute d'un réglage. Personne ne l'avait entendue. Le script mesure
 donc durée, débit et silences ; ce qui sort des clous va en quarantaine avec la
 raison, jamais dans le site.
@@ -62,18 +62,18 @@ MODELE_V4 = "eleven_v4"
 # Seuils de référence, calibrés sur la voix clonée de l'auteur (prises validées
 # des cours précédents, octobre 2026).
 #
-# DÉBIT — le plancher de 115 venait d'une voix plus rapide ; celle-ci, plus
+# DÉBIT : le plancher de 115 venait d'une voix plus rapide ; celle-ci, plus
 # posée, a donné des prises correctes à 112. Un faux positif finit par pousser à
 # désactiver le contrôle, ce qui est bien pire : plancher à 105, assez bas pour
 # cette voix, assez haut pour rattraper l'incident qui a motivé ces contrôles
 # (une prise à 67 mots par minute). En Eleven v4, la voix parle plus vite (165 à
 # 185 mots par minute mesurés) : le plafond monte alors à 190.
 #
-# SILENCE — 3,6 s. Sur une capsule de deux minutes, une respiration marquée fait
+# SILENCE : 3,6 s. Sur une capsule de deux minutes, une respiration marquée fait
 # couramment 3,1 à 3,4 s : une intention de mise en voix, pas un défaut. Au-delà,
 # l'auditeur croit que la lecture s'est arrêtée.
 #
-# DURÉE — en Eleven v4, la fenêtre de chaque piste se déduit de ses mots, entre
+# DURÉE : en Eleven v4, la fenêtre de chaque piste se déduit de ses mots, entre
 # le débit plafond et le débit plancher. Les bornes ci-dessous ne servent qu'aux
 # autres modèles, ou à une fiche qui déclare sa propre tolérance.
 #
@@ -81,7 +81,7 @@ MODELE_V4 = "eleven_v4"
 # version les avait placés dans elevenlabs.json : une configuration copiée avant
 # un recalibrage gardait les anciennes valeurs, et rejetait de bonnes prises sans
 # que personne ne comprenne pourquoi. La configuration peut toujours les
-# surcharger, mais elle doit alors le faire sciemment — le script le signale.
+# surcharger, mais elle doit alors le faire sciemment : le script le signale.
 SEUILS = {
     "mots_par_minute_min": 105,
     "mots_par_minute_max": 175,
@@ -244,7 +244,7 @@ def silences(chemin, seuil_s):
 
 
 def controler(chemin, mots, seuils):
-    """(griefs, durée, débit) — griefs vide si la prise est conforme."""
+    """(griefs, durée, débit) : griefs vide si la prise est conforme."""
     griefs = []
     d = duree_ffprobe(chemin) or duree_entete(chemin)
     if d is None:
@@ -300,7 +300,7 @@ def pages_a_scruter():
 def pistes_attendues():
     """[(chapitre, conteneur, nom_fichier, titre)] dans l'ordre des pages, sans doublon.
 
-    Le chapitre vaut 0 pour une page qui n'en est pas un — ce que --chapitre
+    Le chapitre vaut 0 pour une page qui n'en est pas un, ce que --chapitre
     exclut naturellement, et qu'etiquette() sait afficher.
     """
     out = []
@@ -321,7 +321,7 @@ def pistes_attendues():
     # les podcasts ne sont declares dans aucune page : ils viennent des fiches
     out.extend(podcasts_des_fiches())
     # Une même capsule peut figurer sur deux pages : on ne la garde qu'une fois,
-    # sinon elle serait générée — et facturée — deux fois.
+    # sinon elle serait générée, et facturée, deux fois.
     vus, uniques = set(), []
     for piste in out:
         if piste[2] not in vus:
@@ -378,7 +378,7 @@ def blocs_des_fiches():
 def podcasts_des_fiches():
     """Les podcasts, qui ne sont declares dans aucune page.
 
-    media.js les cherche par convention de nommage — il n'y a donc rien a lire
+    media.js les cherche par convention de nommage ; il n'y a donc rien a lire
     dans le HTML. La fiche de production, elle, donne l'emplacement exact : on
     part de la.
     """
@@ -394,7 +394,7 @@ def podcasts_des_fiches():
 
 
 def scripts_des_fiches():
-    """{nom_fichier: script ElevenLabs} — les fiches sont la source unique."""
+    """{nom_fichier: script ElevenLabs} : les fiches sont la source unique."""
     d = {}
     for nom, bloc in blocs_des_fiches():
         sc = re.search(r"\*\*▶️ Script ElevenLabs\*\*\s*\n+```\n(.*?)\n```", bloc, re.S)

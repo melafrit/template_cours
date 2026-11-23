@@ -8,7 +8,7 @@ Trois questions, auxquelles il vaut mieux répondre avant de dépenser des
 crédits :
 
   1. la clé fonctionne-t-elle ?
-  2. quel est l'identifiant de mon clone vocal ? — l'interface du site bouge,
+  2. quel est l'identifiant de mon clone vocal ? L'interface du site bouge,
      l'API non : elle donne la liste exacte, à copier telle quelle ;
   3. Eleven v4 est-il accessible ? C'est le modèle de toutes les pistes : il
      interprète les balises de jeu entre crochets et l'accent ajouté par
@@ -86,7 +86,7 @@ def appeler(chemin, cle):
 
 
 def besoin_du_cours():
-    """(pistes, caractères) encore à générer, accent compris — ce que coûtera la série."""
+    """(pistes, caractères) encore à générer, accent compris : ce que coûtera la série."""
     sys.path.insert(0, os.path.join(RACINE, "outils"))
     try:
         import generer_audio as G

@@ -1,7 +1,7 @@
 /* =================================================================
-   course-data.js — Données du cours (source unique de vérité)
+   course-data.js · Données du cours (source unique de vérité)
    À PERSONNALISER pour votre propre cours. Titres/libellés bilingues { fr, en }.
-   Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
+   Template de site de cours · Mohamed EL AFRIT (MIT / CC BY 4.0)
    ================================================================= */
 window.COURSE = {
   title: { fr: "Concevoir un cours en ligne", en: "Designing an online course", ar: "تصميم مقرّر إلكتروني" },

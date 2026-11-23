@@ -9,7 +9,7 @@ puisse pas diverger des pages.
 
     python3 outils/generer_playlist.py
 
-L'ordre des pistes est celui du document — podcast d'abord, puis les capsules
+L'ordre des pistes est celui du document : podcast d'abord, puis les capsules
 telles qu'elles apparaissent en descendant la page. C'est l'ordre dans lequel
 la lecture automatique enchaînera.
 

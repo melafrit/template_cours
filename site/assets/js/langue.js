@@ -1,6 +1,6 @@
 /* =================================================================
-   langue.js — Le choix de langue du site miroir, et la reprise de la position
-   Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
+   langue.js · Le choix de langue du site miroir, et la reprise de la position
+   Template de site de cours · Mohamed EL AFRIT (MIT / CC BY 4.0)
 
    Le site miroir (docs/I18N.md, partie A) : chaque page X.html de la racine,
    écrite dans la langue racine du cours, a ses jumelles <langue>/X.html (en/,

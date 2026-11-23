@@ -13,7 +13,7 @@ publié (hors de site/). Ce script en tire la version publiée, la seule téléc
 
   1. il contrôle le PDF de travail : il existe, s'ouvre sans mot de passe, porte le titre du livret et la langue de son
      catalogue (fr-FR, en-US), compte entre PAGES_MIN et PAGES_MAX pages et pèse au plus TAILLE_MAX ;
-  2. il le copie dans site/livret/ (livret.fr.pdf, livret.en.pdf) — jamais dans un dossier « polycopie/ » : Windows
+  2. il le copie dans site/livret/ (livret.fr.pdf, livret.en.pdf), jamais dans un dossier « polycopie/ » : Windows
      ne distingue pas la casse, ce serait l'espace de travail Polycopie/ ;
   3. il rend la page 1, la couverture, en vignette WebP légère : site/livret/couverture.<langue>.webp ;
   4. il écrit l'inventaire site/livret/livret.json (pages, poids, titre, dimensions de la vignette de chaque langue),

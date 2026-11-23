@@ -1,10 +1,10 @@
 /* =================================================================
-   i18n.js — Bascule de langue bilingue FR/EN (cœur du template)
-   Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
+   i18n.js · Bascule de langue bilingue FR/EN (cœur du template)
+   Template de site de cours · Mohamed EL AFRIT (MIT / CC BY 4.0)
 
    CONTRAT (à suivre par les pages et les moteurs) :
 
-   1) CONTENU rédigé (HTML) — blocs jumelés, masqués en CSS :
+   1) CONTENU rédigé (HTML) · blocs jumelés, masqués en CSS :
         <h1 data-tr="fr">Bonjour</h1><h1 data-tr="en">Hello</h1>
         <span data-tr="fr">…</span><span data-tr="en">…</span>
       (le CSS de components.css masque la langue inactive)
@@ -14,7 +14,7 @@
         <img  data-i18n-alt-fr="…" data-i18n-alt-en="…" alt="…">
       i18n.js échange l'attribut au changement de langue.
 
-   3) UI générée en JS (nav, QCM, lecteurs…) — chaque moteur définit ses
+   3) UI générée en JS (nav, QCM, lecteurs…) · chaque moteur définit ses
       libellés et écoute l'évènement de changement de langue :
         var S = { fr:{ play:'Lire' }, en:{ play:'Play' } };
         function t(k){ return (S[TPLI18N.lang()]||S.fr)[k] || S.fr[k]; }
@@ -28,7 +28,7 @@
    ================================================================= */
 (function () {
   // La racine du site, d'après l'adresse de ce script, chargé le premier sur chaque page : les moteurs y
-  // prennent leurs médias quelle que soit la profondeur de la page — une page anglaise jumelle vit un
+  // prennent leurs médias quelle que soit la profondeur de la page ; une page anglaise jumelle vit un
   // dossier plus bas, sous en/ (docs/I18N.md, partie A). Vide si l'adresse ne se lit pas : chacun garde
   // alors son ancien chemin relatif.
   var moi = (document.currentScript && document.currentScript.src) || '';

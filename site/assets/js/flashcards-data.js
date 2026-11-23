@@ -1,7 +1,7 @@
 /* =================================================================
-   flashcards-data.js — Cartes de révision BILINGUES par chapitre
+   flashcards-data.js · Cartes de révision BILINGUES par chapitre
    Structure : RDC_FLASHCARDS[chapitre] = [{ front:{fr,en}, back:{fr,en}, ref }]
-   Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
+   Template de site de cours · Mohamed EL AFRIT (MIT / CC BY 4.0)
    ================================================================= */
 window.RDC_FLASHCARDS = {
   "1": [

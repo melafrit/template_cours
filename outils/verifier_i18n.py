@@ -6,20 +6,20 @@
 
 Quatre contrôles, dans l'ordre où ils font mal quand on les oublie :
 
-1. PARITÉ DES CLÉS d'interface (ui-labels.js) — une clé présente en
+1. PARITÉ DES CLÉS d'interface (ui-labels.js) : une clé présente en
    français et absente en anglais donne un bouton en français au milieu
    d'une page anglaise. Personne ne le voit avant un étudiant.
 
-2. CLÉS APPELÉES MAIS NON DÉFINIES — un T('etapes.suivant') au lieu de
+2. CLÉS APPELÉES MAIS NON DÉFINIES : un T('etapes.suivant') au lieu de
    T('etapes.suivante') affiche littéralement « etapes.suivant » à l'écran.
 
-3. BLOCS data-tr DÉPAREILLÉS dans les pages — un titre traduit dont le
+3. BLOCS data-tr DÉPAREILLÉS dans les pages : un titre traduit dont le
    paragraphe ne l'est pas laisse un trou en anglais. Le script compte
    les blocs de chaque langue par page et signale les écarts ; il cherche
    aussi les intitulés portés par un attribut (data-step-titre,
    data-sommaire-titre) sans leur version anglaise (…-en).
 
-4. TITRES DIVERGENTS entre course-data.js et les pages — un chapitre
+4. TITRES DIVERGENTS entre course-data.js et les pages : un chapitre
    renommé dans sa page mais pas dans les données affiche deux titres
    différents. On ne regarde pas le menu en lisant un chapitre : cela
    peut tenir des mois.
@@ -68,7 +68,7 @@ def cles_appelees():
 
 
 def blocs_data_tr():
-    """{page: (nb_fr, nb_en)} — les blocs jumelés de contenu rédigé."""
+    """{page: (nb_fr, nb_en)} : les blocs jumelés de contenu rédigé."""
     out = {}
     for f in sorted(glob.glob(os.path.join(SITE, "**", "*.html"), recursive=True)):
         t = io.open(f, encoding="utf-8").read()
@@ -81,7 +81,7 @@ def blocs_data_tr():
 
 def intitules_sans_anglais():
     """[(page, attribut, valeur)] : dans une page en blocs data-tr, un intitulé porté par un attribut
-    (data-step-titre, data-sommaire-titre) sans sa version anglaise (…-en) — la vue anglaise l'afficherait en
+    (data-step-titre, data-sommaire-titre) sans sa version anglaise (…-en) ; la vue anglaise l'afficherait en
     français. Une page d'une seule langue (site miroir, cours monolingue) n'en a pas besoin."""
     out = []
     for f in sorted(glob.glob(os.path.join(SITE, "**", "*.html"), recursive=True)):
@@ -105,7 +105,7 @@ def titres_divergents():
     """[(fichier, titre des donnees, titre de la page)] pour chaque ecart.
 
     Un chapitre renomme dans sa page mais pas dans course-data.js affiche
-    deux titres differents — et cela ne se voit pas, puisqu'on ne regarde
+    deux titres differents, et cela ne se voit pas, puisqu'on ne regarde
     pas le menu en lisant un chapitre.
     """
     data_js = os.path.join(SITE, "assets", "js", "course-data.js")

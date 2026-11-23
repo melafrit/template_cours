@@ -1,5 +1,5 @@
 #!/bin/sh
-# Lanceur macOS du site du cours — double-cliquez ce fichier dans le Finder.
+# Lanceur macOS du site du cours : double-cliquez ce fichier dans le Finder.
 # Le Finder démarre le script depuis le dossier personnel : on se replace
 # d'abord dans le dépôt, sinon le serveur servirait le mauvais répertoire.
 cd "$(dirname "$0")" || exit 1

@@ -7,17 +7,17 @@ du glossaire : sous chaque terme, « Où en parle-t-on ? » mène aux sections q
     python3 outils/glossaire_emplois.py --essai   # dit s'il est à jour, sans rien écrire ; code 1 sinon
 
 LES TERMES : site/assets/js/glossaire-data.js (window.GLOSSARY). Un terme peut porter deux champs facultatifs :
-  alias  : {fr: [...], en: [...]} — d'autres formes du même terme (un sigle, un synonyme) ;
-  exclus : {fr: [...], en: [...]} — des expressions où le mot ne désigne pas la notion (« mise en service »).
-UN ENDROIT : une section d'une page, désignée par son ancre — un h2 ou un h3 qui porte un id ; le texte qui précède
+  alias  : {fr: [...], en: [...]}, d'autres formes du même terme (un sigle, un synonyme) ;
+  exclus : {fr: [...], en: [...]}, des expressions où le mot ne désigne pas la notion (« mise en service »).
+UN ENDROIT : une section d'une page, désignée par son ancre (un h2 ou un h3 qui porte un id) ; le texte qui précède
 la première ancre forme le haut de la page. Seul compte le contenu de <main>, hors code, schémas, boutons,
 navigation, éléments masqués, et hors des blocs de l'autre langue.
-UN EMPLOI : une forme du terme entre deux limites de mot — son intitulé sans parenthèse, ses alias, leurs pluriels
-(français ou anglais ; en arabe, les autres formes s'écrivent dans alias) —, hors des expressions écartées.
+UN EMPLOI : une forme du terme entre deux limites de mot, son intitulé sans parenthèse, ses alias, leurs pluriels
+(français ou anglais ; en arabe, les autres formes s'écrivent dans alias), hors des expressions écartées.
 LES LANGUES : le français sur les pages françaises et les blocs data-tr="fr", l'anglais sur les jumelles de en/ et
 les blocs data-tr="en", l'arabe sur les jumelles de ar/. Les chemins partent de la racine de la langue : la page du glossaire de chaque langue y
 mène directement.
-NE COMPTENT PAS : les pages d'EXCLUES — le glossaire lui-même, les pages qui donnent des réponses —, les zones
+NE COMPTENT PAS : les pages d'EXCLUES (le glossaire lui-même, les pages qui donnent des réponses), les zones
 protégées de deploiement/destination.json et les pages que le déployeur ne publie pas (sa liste « exclure ») : en
 ligne, « Où en parle-t-on ? » y mènerait à une page absente. Une page qui sort de la liste revient au glossaire à
 la génération suivante. Repris, en générique, du cours d'architecture logicielle.
@@ -281,7 +281,7 @@ def zones_protegees():
 
 def exclus_du_deploiement():
     """Les motifs « exclure » de deploiement/destination.json : les pages que le déployeur ne publie pas. Seul ce
-    fichier se lit — jamais config.json, qui garde les secrets."""
+    fichier se lit, jamais config.json, qui garde les secrets."""
     try:
         d = json.load(io.open(os.path.join(RACINE, "deploiement", "destination.json"), encoding="utf-8"))
     except (OSError, ValueError):

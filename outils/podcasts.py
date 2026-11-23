@@ -344,7 +344,7 @@ def langue_racine():
 
 def par_langue(rendu, langue):
     """rendu(lg) dans la langue de la page ; sur une page en blocs data-tr (« fr+en »), les deux, chacun dans son
-    bloc — une seule fois s'ils se confondent."""
+    bloc, une seule fois s'ils se confondent."""
     if langue != "fr+en":
         return rendu(langue)
     fr, en = rendu("fr"), rendu("en")
@@ -456,7 +456,7 @@ def mention(lg):
 
 def renvoi(num, lg, ctx):
     """L'encadré qui mène d'une page du cours à son épisode, sur la page Podcasts : son étiquette, le titre de
-    l'épisode, sa phrase, et le lien — « Écouter l'épisode N » s'il est publié, « Voir la page Podcasts » et la marque
+    l'épisode, sa phrase, et le lien, « Écouter l'épisode N » s'il est publié, « Voir la page Podcasts » et la marque
     « à venir » sinon. C'est un <nav> : un renvoi, que la fenêtre « Où en parle-t-on ? » du glossaire ne compte pas.
     KeyError si l'épisode n'existe pas ou n'a pas de page du cours."""
     ep = next((e for e in EPISODES if e["num"] == num), None)
@@ -520,7 +520,7 @@ def controler():
 
 def places_manquantes():
     """[message] pour chaque marqueur absent ou répété : la liste des épisodes sur la page Podcasts (fragment
-    podcasts), l'encadré de chaque épisode sur sa page du cours (fragment podcast-N) — dans chaque langue où la page
+    podcasts), l'encadré de chaque épisode sur sa page du cours (fragment podcast-N), dans chaque langue où la page
     existe, sa jumelle anglaise (en/…) comprise sur un site miroir."""
     out = []
     places = [(rel, "podcasts", "la liste des épisodes") for rel in ("podcasts.html", "en/podcasts.html")]

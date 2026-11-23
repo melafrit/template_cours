@@ -6,7 +6,7 @@
 
 Aucune connexion, aucun envoi : un faux serveur, tenu en mémoire, remplace
 l'hébergement, et des fichiers temporaires remplacent config.json et
-destination.json — les vrais ne sont jamais ouverts. Chaque cas rejoue une
+destination.json ; les vrais ne sont jamais ouverts. Chaque cas rejoue une
 situation réelle : un cours neuf, un cours déjà publié, le dossier d'un autre
 cours, un dossier publié par un ancien déployeur, un dossier logé dans un
 autre cours, une zone protégée sans sa protection.

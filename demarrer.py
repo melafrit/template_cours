@@ -129,7 +129,7 @@ def main():
 
     # ThreadingHTTPServer, et non le serveur simple : celui-ci traite UNE
     # requete a la fois, et un navigateur qui garde sa connexion ouverte
-    # (keep-alive) bloque alors tout autre client — un second onglet, un
+    # (keep-alive) bloque alors tout autre client, un second onglet, un
     # curl de verification. Le symptome est un simple gel, difficile a
     # rattacher a sa cause.
     class Serveur(socketserver.ThreadingMixIn, http.server.HTTPServer):

@@ -1,10 +1,10 @@
 /* =================================================================
-   playlist.js — panneau de lecture, à droite de la page
-   Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
+   playlist.js · panneau de lecture, à droite de la page
+   Template de site de cours · Mohamed EL AFRIT (MIT / CC BY 4.0)
 
    Rassemble les pistes audio de tous les chapitres. Celui qu'on lit est
    déplié ; les autres restent pliés, mais leurs pistes se jouent sans
-   quitter la page — un fichier audio n'a pas besoin de son chapitre.
+   quitter la page : un fichier audio n'a pas besoin de son chapitre.
 
    Lancée depuis le panneau, la lecture enchaîne toute seule sur la piste
    suivante, jusqu'au bout du chapitre. Elle s'arrête là : poursuivre dans
@@ -60,8 +60,8 @@
      --------------------------------------------------------------- */
   /* Une piste marquee d'une langue n'est montree que dans cette langue :
      afficher les six capsules a un lecteur francophone, dont trois qu'il ne
-     comprend pas, transforme la playlist en bruit. Les pistes sans marque —
-     podcasts, musiques — restent visibles dans les deux langues. */
+     comprend pas, transforme la playlist en bruit. Les pistes sans marque
+     (podcasts, musiques) restent visibles dans les deux langues. */
   function pistesVisibles(ch) {
     var l = (window.TPLI18N && TPLI18N.lang()) || 'fr';
     return (ch.pistes || []).filter(function (p) {

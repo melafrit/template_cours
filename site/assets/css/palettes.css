@@ -1,6 +1,6 @@
 /* =================================================================
-   palettes.css — La couleur d'accent d'un cours
-   Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
+   palettes.css · La couleur d'accent d'un cours
+   Template de site de cours · Mohamed EL AFRIT (MIT / CC BY 4.0)
 
    POURQUOI CE FICHIER
    La charte est commune à tous les cours : même typographie, même mise
@@ -30,7 +30,7 @@
    ================================================================= */
 
 /* ---------------------------------------------------------------
-   marine — bleu nuit institutionnel et doré. Palette par défaut.
+   marine · bleu nuit institutionnel et doré. Palette par défaut.
    Sérieux, neutre, adapté au droit, à la gestion, à la conformité.
    --------------------------------------------------------------- */
 :root,
@@ -62,7 +62,7 @@ html[data-accent="marine"][data-theme="dark"] {
 }
 
 /* ---------------------------------------------------------------
-   emeraude — vert profond et cuivre.
+   emeraude · vert profond et cuivre.
    Environnement, santé, développement durable, sciences du vivant.
    --------------------------------------------------------------- */
 html[data-accent="emeraude"] {
@@ -92,7 +92,7 @@ html[data-accent="emeraude"][data-theme="dark"] {
 }
 
 /* ---------------------------------------------------------------
-   prune — violet profond et sable rosé.
+   prune · violet profond et sable rosé.
    Sciences humaines, communication, design, culture.
    --------------------------------------------------------------- */
 html[data-accent="prune"] {
@@ -122,7 +122,7 @@ html[data-accent="prune"][data-theme="dark"] {
 }
 
 /* ---------------------------------------------------------------
-   ardoise — gris-bleu et orange brûlé.
+   ardoise · gris-bleu et orange brûlé.
    Réseaux, infrastructures, sécurité, systèmes d'information.
    --------------------------------------------------------------- */
 html[data-accent="ardoise"] {
@@ -152,7 +152,7 @@ html[data-accent="ardoise"][data-theme="dark"] {
 }
 
 /* ---------------------------------------------------------------
-   bordeaux — rouge sombre et sable.
+   bordeaux · rouge sombre et sable.
    Droit, histoire, sciences politiques, économie.
    --------------------------------------------------------------- */
 html[data-accent="bordeaux"] {

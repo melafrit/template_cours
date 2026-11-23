@@ -1,6 +1,6 @@
 /* =================================================================
-   quiz.js — Moteur de quiz de chapitre (auto-évaluation)
-   Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
+   quiz.js · Moteur de quiz de chapitre (auto-évaluation)
+   Template de site de cours · Mohamed EL AFRIT (MIT / CC BY 4.0)
    Usage :
      new QuizEngine('id-conteneur', [
        { question:'…', options:['A','B','C','D'], correct:1, explanation:'…' }, …

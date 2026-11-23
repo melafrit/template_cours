@@ -5,8 +5,8 @@
     python3 outils/generer_medias.py           # écrit le fichier s'il change
     python3 outils/generer_medias.py --essai   # n'écrit rien ; code 1 si le fichier n'est pas à jour
 
-media.js ne sait pas, à lui seul, quels médias existent : il les demandait au serveur, et chaque média absent — le
-podcast sous ses quatre noms possibles, les diapositives, l'infographie, la fiche de synthèse — laissait une erreur
+media.js ne sait pas, à lui seul, quels médias existent : il les demandait au serveur, et chaque média absent (le
+podcast sous ses quatre noms possibles, les diapositives, l'infographie, la fiche de synthèse) laissait une erreur
 404 dans la console de chaque chapitre. Avec cette liste, il ne demande que ce qui est là ; sans elle (un cours qui
 ne l'a pas encore), il sonde comme avant.
 
@@ -23,8 +23,8 @@ RACINE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Les dossiers que lisent media.js et les composants (relatifs à site/), leur clé dans TPL_MEDIAS et les extensions
 # qu'on y cherche. Les capsules (voix) et les schémas y sont depuis le 21 novembre 2026 : RDCX.voice et RDCX.hotspots
-# n'y demandent plus au serveur un fichier encore à produire. Le reste — les diapositives WebP de la page Podcasts,
-# un fichier de travail — n'a rien à faire dans la liste.
+# n'y demandent plus au serveur un fichier encore à produire. Le reste (les diapositives WebP de la page Podcasts,
+# un fichier de travail) n'a rien à faire dans la liste.
 DOSSIERS = (
     ("podcasts", "assets/media/podcasts", (".mp3", ".m4a")),
     ("slides", "assets/media/slides", (".pdf",)),

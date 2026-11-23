@@ -12,7 +12,7 @@ plusieurs pages, et plusieurs fois dans une page.
 
 La langue : celle du bloc data-tr qui entoure le marqueur (un fragment dans <span data-tr="en"> s'écrit en anglais) ;
 sinon celle de la page (data-langues, une page du site miroir ou d'un cours monolingue) ; sinon, sur une page en
-blocs data-tr, les deux, dans leurs blocs — une seule fois si elles se confondent (« 3 », « 30 min »). Les nombres
+blocs data-tr, les deux, dans leurs blocs, une seule fois si elles se confondent (« 3 », « 30 min »). Les nombres
 s'écrivent à la française (12 000 ; 99,9 %) ou à l'anglaise (12,000 ; 99.9%).
 
 Fragments connus :
@@ -335,8 +335,8 @@ def main():
         rel = os.path.relpath(chemin, SITE).replace("\\", "/")
         n += len(MARQUEUR.findall(t))
         # Les fragments s'écrivent en fins de ligne Unix ; sous Windows (core.autocrlf), la page est extraite en
-        # CRLF. Comparé tel quel, un fragment de plusieurs lignes ne semblait jamais à jour — --essai échouait sur
-        # ce poste seulement —, et l'écrire mêlait les deux fins de ligne dans la page. On compare en LF, et la page
+        # CRLF. Comparé tel quel, un fragment de plusieurs lignes ne semblait jamais à jour (--essai échouait sur
+        # ce poste seulement), et l'écrire mêlait les deux fins de ligne dans la page. On compare en LF, et la page
         # garde les siennes.
         crlf = "\r\n" in t
         if crlf:

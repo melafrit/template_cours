@@ -8,11 +8,11 @@ POURQUOI DESSINER PLUTÔT QUE GÉNÉRER
 
 Ces deux schémas sont des diagrammes **structurels** : des boîtes, des flèches,
 un ordre. Un dessin par script est net, reproductible, et suit exactement la
-palette du cours — trois choses qu'une image générée ne garantit pas. Il se
+palette du cours, trois choses qu'une image générée ne garantit pas. Il se
 corrige aussi en une ligne quand le texte du chapitre évolue.
 
-Pour un schéma d'illustration, en revanche — une scène, une métaphore, un objet
-réel — la génération d'image reste la bonne voie. Le critère : si le schéma se
+Pour un schéma d'illustration, en revanche (une scène, une métaphore, un objet
+réel), la génération d'image reste la bonne voie. Le critère : si le schéma se
 décrit par « des cases et des flèches », dessinez-le.
 
 BILINGUE
@@ -27,7 +27,7 @@ polycopiés.
 
 FORMAT
 
-1672 × 941 (16:9), WebP qualité 82 — la convention du cours dont ce template
+1672 × 941 (16:9), WebP qualité 82 : la convention du cours dont ce template
 est issu. À cette taille, un schéma reste lisible en plein écran sans peser.
 """
 

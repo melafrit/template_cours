@@ -8,7 +8,7 @@
 Pour chaque page française X.html, l'outil écrit site/en/X.html : la même page, déclarée en anglais
 (<html lang="en" data-langues="en">), ses chemins vers les fichiers partagés descendus d'un cran, ses liens vers les
 pages qui ont une jumelle gardés tels quels (les autres mènent à la page française : liens_langues.py les marque),
-la liste des pages traduites chargée après i18n.js — et, en tête de son contenu, la marque « À TRADUIRE ». Le texte,
+la liste des pages traduites chargée après i18n.js, et, en tête de son contenu, la marque « À TRADUIRE ». Le texte,
 lui, reste français : la traduction suit, bloc pour bloc, sans rien ajouter ni retirer (le bouton FR / EN retrouve
 le paragraphe lu par son rang). verifier_parite.py refuse la jumelle tant que la marque est là.
 

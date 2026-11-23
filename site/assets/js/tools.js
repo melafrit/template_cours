@@ -1,12 +1,12 @@
 /* =================================================================
-   tools.js — Patrons d'ACTIVITÉS INTERACTIVES réutilisables (bilingues)
-   Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
+   tools.js · Patrons d'ACTIVITÉS INTERACTIVES réutilisables (bilingues)
+   Template de site de cours · Mohamed EL AFRIT (MIT / CC BY 4.0)
 
    Trois patrons génériques, pilotés par configuration (data { fr, en }, et ar pour une page arabe),
    à adapter à n'importe quel sujet de cours :
-     TPLActivities.decisionWizard(id, cfg)  — assistant de décision pas-à-pas (oui/non -> résultat)
-     TPLActivities.checklist(id, cfg)       — checklist à score (N cases cochées -> verdict)
-     TPLActivities.classifier(id, cfg)      — quiz de classification (ranger des exemples + feedback)
+     TPLActivities.decisionWizard(id, cfg)  : assistant de décision pas-à-pas (oui/non -> résultat)
+     TPLActivities.checklist(id, cfg)       : checklist à score (N cases cochées -> verdict)
+     TPLActivities.classifier(id, cfg)      : quiz de classification (ranger des exemples + feedback)
    Chaque activité se ré-affiche au changement de langue (évènement tpl:langchange).
    Ses boutons et son score viennent de ui-labels.js (clés activite.*), dans chaque langue.
    Réutilise les classes CSS .rdc-* de components.css.

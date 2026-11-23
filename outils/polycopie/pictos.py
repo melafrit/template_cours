@@ -111,8 +111,8 @@ def page_pictos(noms, cellule=256, colonnes=8):
 # ── la page de garde ───────────────────────────────────────────────────────
 def composition_garde(largeur=2100, hauteur=1350, primaire="#1B3A5B", accent="#9C7A22", clair="#EAF0F6"):
     """La composition de la page de garde, sans texte (elle sert aux deux langues) : sur un fond très clair quadrillé
-    comme une page de cahier, le chemin d'un cours — l'apprenant, les chapitres en cartes reliées par un chemin doré,
-    le livret ouvert à l'arrivée — et, dans une marge à droite, les QR codes du livret, esquissés. Unités : dixièmes
+    comme une page de cahier, le chemin d'un cours (l'apprenant, les chapitres en cartes reliées par un chemin doré,
+    le livret ouvert à l'arrivée) et, dans une marge à droite, les QR codes du livret, esquissés. Unités : dixièmes
     de millimètre (2100 = 21 cm)."""
     P, O = primaire, accent
     s = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {largeur} {hauteur}" width="{largeur}" height="{hauteur}">',

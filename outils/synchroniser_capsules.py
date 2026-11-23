@@ -9,7 +9,7 @@ POURQUOI CE SCRIPT EXISTE
 
 Une capsule audio vit à deux endroits : le script, dans la fiche de production,
 et la transcription, affichée sous le lecteur. Ce sont deux versions du même
-texte — l'une balisée pour la synthèse vocale, l'autre lisible. Tenues à la
+texte : l'une balisée pour la synthèse vocale, l'autre lisible. Tenues à la
 main, elles divergent dès la première correction : on retouche le script,
 on régénère l'audio, et la transcription continue d'afficher l'ancienne
 version. Personne ne s'en aperçoit, puisqu'on ne lit pas la transcription

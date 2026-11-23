@@ -1,13 +1,13 @@
 /* =================================================================
-   podcasts.js — la page Podcasts (module 03) : la bande des diapositives
+   podcasts.js · la page Podcasts (module 03) : la bande des diapositives
    de chaque épisode, et la visionneuse qui les agrandit sur toute la page.
-   Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
+   Template de site de cours · Mohamed EL AFRIT (MIT / CC BY 4.0)
 
    outils/generer_fragments.py écrit, d'après outils/podcasts.py, sous le
    lecteur d'un épisode dont le diaporama est publié, un conteneur vide :
      <div class="pod-diapos" data-dossier="…/diaporamas/chapitre-1-podcast.fr/"
           data-nombre="14" data-grande="1600x900" data-vignette="320x180"
-          data-episode="Épisode 1 — …">
+          data-episode="Épisode 1 : …">
    Ce script y dessine la bande des vignettes (vignette-01.webp…, et
    diapo-01.webp… pour l'agrandissement : deux chiffres au moins, la règle de
    nom_image() dans outils/podcasts.py). La bande se dessine ici, et non dans

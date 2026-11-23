@@ -25,7 +25,7 @@ chapitres aussi. Le reste se décide avec l'auteur, une question à la fois (pro
   site_protege     True si tout le site demande des identifiants : les QR codes du site se vérifient alors dans le
                    dépôt (la chaîne ne s'authentifie jamais), et les mentions disent où trouver ses identifiants
   acces            où l'étudiant trouve ses identifiants (« repris dans le cahier de texte »), dans les deux
-                   langues — jamais les identifiants eux-mêmes ; à défaut, la phrase des libellés
+                   langues, jamais les identifiants eux-mêmes ; à défaut, la phrase des libellés
 
 La démonstration : la présentation de l'auteur dit ce qu'elle doit devenir ; nouveau_cours.py la vide pour un cours
 créé, que l'auteur remplit avant le premier livret.

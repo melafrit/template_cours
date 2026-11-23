@@ -5,13 +5,13 @@
     python3 outils/generer_podcasts.py           # convertit, rend les diapositives, réécrit la page et les encadrés
     python3 outils/generer_podcasts.py --essai   # ce qui serait fait, sans rien écrire (code 1 s'il reste à faire)
 
-L'auteur dépose dans Podcasts/fr/ et Podcasts/en/ — jamais versionnés (.gitignore), jamais publiés (hors de site/) —
+L'auteur dépose dans Podcasts/fr/ et Podcasts/en/, jamais versionnés (.gitignore), jamais publiés (hors de site/),
 les épisodes exportés de NotebookLM ou d'ElevenLabs, sous les noms de outils/podcasts.py et avec leur extension
 d'origine (chapitre-1-podcast.wav, chapitre-1-podcast.m4a…), et leurs diaporamas au même nom (chapitre-1-podcast.pdf).
 Pour chaque langue, le script :
 
   1. convertit chaque épisode brut en MP3 publié (site/assets/media/podcasts/<nom>.<lg>.mp3) : mono, 64 kbit/s,
-     44,1 kHz — une voix n'a pas besoin de plus —, étiquettes ID3 (titre, auteur, série) ; seulement si le MP3 manque
+     44,1 kHz (une voix n'a pas besoin de plus), étiquettes ID3 (titre, auteur, série) ; seulement si le MP3 manque
      ou si l'épisode brut est plus récent. ffmpeg écrit d'abord un fichier provisoire, que ffprobe contrôle (une durée
      d'au moins DUREE_MIN secondes) avant de le mettre en place ;
   2. copie chaque diaporama pour le téléchargement (<nom>.<lg>.pdf) et rend ses pages en WebP avec PyMuPDF et

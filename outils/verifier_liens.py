@@ -11,7 +11,7 @@ C'est le défaut le plus coûteux du template, et le seul qu'aucun des deux
 autres vérificateurs n'attrape.
 
 Le site de démonstration parle de « concevoir un cours en ligne ». Ses pages
-citent ses propres chapitres — `01-cadrage.html`, `02-structurer.html` — et
+citent ses propres chapitres (`01-cadrage.html`, `02-structurer.html`) et
 `nouveau_cours.py` les remplace par les chapitres déclarés dans `cours.json`.
 Chaque fois qu'une page échappait à ce recousage, un cours créé partait avec un
 lien vers une page inexistante. C'est arrivé quatre fois, sur quatre familles de
@@ -24,7 +24,7 @@ CE QU'IL CONTRÔLE
 
 Les `href` et les `src` qui désignent un fichier du site : pages, images,
 feuilles de style, scripts, PDF, audio. Les liens externes, les ancres seules,
-`mailto:`, `tel:`, `javascript:` et les `data:` sont ignorés — ils ne sont pas
+`mailto:`, `tel:`, `javascript:` et les `data:` sont ignorés : ils ne sont pas
 vérifiables hors ligne.
 
 Les cibles construites en JavaScript ne sont pas visibles ici : les boutons
@@ -33,7 +33,7 @@ volontaire, et c'est justement ce qui les met à l'abri.
 
 LES RENVOIS « POUR APPROFONDIR » des quiz sont écrits dans le JavaScript des
 pages, en paires ["libellé", "adresse"] : aucun href ne les porte. Ils sont
-contrôlés à part, fichier ET ancre — un renvoi vers le bon chapitre mais la
+contrôlés à part, fichier ET ancre : un renvoi vers le bon chapitre mais la
 mauvaise section ne se voit qu'en cliquant, et l'étudiant qui clique arrive en
 haut d'une page sans savoir où lire. Les adresses externes (https://) ont été
 ouvertes à leur ajout : elles sont comptées, pas revisitées.
@@ -63,7 +63,7 @@ LIEN = re.compile(r'(?:href|src)\s*=\s*(["\'])(.*?)\1', re.I | re.S)
 IGNORE = re.compile(r'^\s*(?:https?:|//|mailto:|tel:|javascript:|data:|#|\{)', re.I)
 
 # Une paire ["libellé", "adresse"] écrite en JavaScript ; seules comptent celles
-# dont l'adresse a la forme d'un renvoi — les mêmes formes que le moteur accepte
+# dont l'adresse a la forme d'un renvoi : les mêmes formes que le moteur accepte
 # (lienExplication, interactions.js). Les autres paires de chaînes (appariements,
 # libellés) ne ressemblent pas à une adresse et sont ignorées.
 PAIRE = re.compile(r'\[\s*"(?:[^"\\]|\\.)*"\s*,\s*"((?:[^"\\]|\\.)*)"\s*\]')

@@ -46,7 +46,7 @@ def _rgb(hexa):
 
 def place_libre(gris, x, y, rayon, deja=(), portee=7):
     """La place d'une pastille : au point (x, y) s'il est sur un fond uni, sinon la place unie la plus proche, à moins
-    de portee rayons, sans toucher une pastille déjà posée — le texte que la zone désigne reste lisible. Sans place
+    de portee rayons, sans toucher une pastille déjà posée ; le texte que la zone désigne reste lisible. Sans place
     unie à portée, le point lui-même. Un demi-rayon de blanc entoure la pastille : collée au texte, elle se lirait
     comme une lettre de plus."""
     import math

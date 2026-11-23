@@ -1,6 +1,6 @@
 /* =================================================================
-   flashcards.js — Cartes de révision active (mémorisation)
-   Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
+   flashcards.js · Cartes de révision active (mémorisation)
+   Template de site de cours · Mohamed EL AFRIT (MIT / CC BY 4.0)
    Usage :
      new FlashcardDeck('id-conteneur', [
        { front:{ fr:'Question / notion', en:'…' }, back:{ fr:'Définition **avec gras**', en:'…' }, ref:'art. 5' }, …

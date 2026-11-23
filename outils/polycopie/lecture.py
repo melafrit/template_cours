@@ -2,7 +2,7 @@
 """Une page du site → une suite de blocs.
 
 La page se lit dans <main class="main-content"> (lxml), dans la langue du livret (sources.Langue.html : une page en
-blocs data-tr ne garde que la sienne) ; ses composants — capsules et activités du moteur — se lisent tels que la page
+blocs data-tr ne garde que la sienne) ; ses composants (capsules et activités du moteur) se lisent tels que la page
 les monte, par Chrome sans interface (navigateur.composants) : le livret imprime exactement ce que voient les
 étudiants, sans les réponses. Ce module ne sait rien de Word : rendu.py transforme les blocs en paragraphes.
 

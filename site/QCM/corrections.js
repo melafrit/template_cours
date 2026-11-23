@@ -1,7 +1,7 @@
 /* =================================================================
-   corrections.js — Clé de correction BILINGUE (FR/EN) du QCM-démo
+   corrections.js · Clé de correction BILINGUE (FR/EN) du QCM-démo
    Thème : « Concevoir un cours en ligne » (3 chapitres)
-   Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
+   Template de site de cours · Mohamed EL AFRIT (MIT / CC BY 4.0)
 
    Format attendu par les pages (entrainement / correction / dashboard) :
      { id, chapitre, difficulte, bonne_reponse_index, explication:{fr,en} }
@@ -12,7 +12,7 @@
    L'EXPLICATION EST LA PARTIE UTILE. Une correction qui se contente de
    désigner la bonne réponse n'apprend rien : elle confirme ou elle infirme.
    Ce qu'il faut écrire, c'est pourquoi les autres propositions étaient
-   crédibles et où le raisonnement dérape — c'est là que l'étudiant se corrige.
+   crédibles et où le raisonnement dérape : c'est là que l'étudiant se corrige.
 
    Les identifiants doivent CORRESPONDRE à ceux de questions.js.
    ================================================================= */

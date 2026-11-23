@@ -53,7 +53,7 @@ def textes_docx(chemin):
 def regles(chemin, reponses=(), autorises=(), visibles="", produits=()):
     """Les écarts aux règles du livret dans le Word : liste de messages (vide si tout va bien). autorises : les
     débuts d'adresse permis (l'adresse du site, dans les mentions légales) ; visibles : le texte que les pages
-    montrent elles-mêmes (lecture.texte_visible) — une phrase du chapitre que la correction d'une activité cite n'est
+    montrent elles-mêmes (lecture.texte_visible), car une phrase du chapitre que la correction d'une activité cite n'est
     pas une réponse imprimée ; produits : les noms de produits qui ont la forme d'une adresse."""
     erreurs = []
     paragraphes = textes_docx(chemin)
@@ -100,7 +100,7 @@ def imprimes_des_activites(activites):
 
 
 def reponses_des_activites(activites):
-    """Les textes qui donnent une réponse, dans les données des composants d'une page — et la situation des étapes
+    """Les textes qui donnent une réponse, dans les données des composants d'une page, et la situation des étapes
     d'un scénario que le livret n'imprime pas (rendu.etapes_imprimees) : elle peut dire la réponse de l'étape d'avant
     (« La question, reformulée… »)."""
     from .rendu import etapes_imprimees

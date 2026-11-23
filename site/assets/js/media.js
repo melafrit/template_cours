@@ -1,6 +1,6 @@
 /* =================================================================
-   media.js — Chargement automatique des médias NotebookLM par chapitre
-   Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
+   media.js · Chargement automatique des médias NotebookLM par chapitre
+   Template de site de cours · Mohamed EL AFRIT (MIT / CC BY 4.0)
 
    Déposez vos fichiers dans assets/media/{infographies,slides,podcasts}/
    nommés  chapitre-<N>-<type>.<ext>  (ex. chapitre-3-podcast.mp3), puis
@@ -16,12 +16,12 @@
   // La racine du site vient d'i18n.js : une page anglaise jumelle (en/chapitres/) est un cran plus bas.
   var base = (window.TPL_RACINE || '../') + 'assets/media/';
   /* Les libellés viennent de ui-labels.js, dans la langue de la page (repli français sans dictionnaire). Écrits en dur,
-     ils restaient en français pour un lecteur anglophone. Ce qui ne se reconstruit pas à la bascule de langue — les
-     diapositives, l'infographie, leurs fenêtres, le lecteur persistant — repose ses libellés sur « tpl:langchange ». */
+     ils restaient en français pour un lecteur anglophone. Ce qui ne se reconstruit pas à la bascule de langue (les
+     diapositives, l'infographie, leurs fenêtres, le lecteur persistant) repose ses libellés sur « tpl:langchange ». */
   function t(cle, defaut) { return window.T ? T(cle) : defaut; }
   function duChapitre() { return ' · ' + t('media.chapitre', 'chapitre') + ' ' + N; }
   /* Les médias déposés (media-data.js, écrit par outils/generer_medias.py) : on ne demande au serveur que ce qui est
-     là. Chaque média absent — le podcast sous ses quatre noms possibles, les diapositives, l'infographie, la fiche —
+     là. Chaque média absent (le podcast sous ses quatre noms possibles, les diapositives, l'infographie, la fiche)
      laissait une erreur 404 dans la console de chaque chapitre. Sans liste (un cours qui ne l'a pas encore), dispo()
      répond « peut-être » et l'on sonde comme avant. */
   var MEDIAS = window.TPL_MEDIAS || null;
@@ -47,7 +47,7 @@
         /* On VIDE la barre du lecteur, on ne la SUPPRIME pas :
            buildPodcastPlayer y insere ses controles et ne fait rien si
            l'element a disparu. Le lecteur restait alors invisible, sans
-           erreur — l'audio etait charge, mais rien ne s'affichait. */
+           erreur : l'audio etait charge, mais rien ne s'affichait. */
         var barre = pod.querySelector('.podcast-player');
         if (barre) barre.innerHTML = '';
 
@@ -183,7 +183,7 @@
     if (!avecFiches) return;
       /* Le polycopie existe par langue : « chapitre-2-polycopie.fr.pdf ». Sans
          le suffixe, le fichier n'etait jamais trouve et le bouton n'apparaissait
-         pas — un defaut silencieux, puisqu'un bouton absent ne se remarque pas. */
+         pas : un defaut silencieux, puisqu'un bouton absent ne se remarque pas. */
       function langue() {
         return (window.TPLI18N && TPLI18N.lang && TPLI18N.lang()) || 'fr';
       }
@@ -327,7 +327,7 @@
   }
 
   /* Les libellés d'une barre de contrôle, posés après sa construction : la barre du podcast se refait à chaque
-     changement de langue, celle du lecteur persistant non — il les repose lui-même (LECTEUR). */
+     changement de langue, celle du lecteur persistant non ; il les repose lui-même (LECTEUR). */
   function libellerBarre(bar) {
     if (!bar) return;
     function poser(sel, aria, titre) {
@@ -378,7 +378,7 @@
   }
 
   /* ------------------------------------------------------------------
-     Lecteur persistant — un seul pour toute la page.
+     Lecteur persistant · un seul pour toute la page.
      Le podcast et les capsules de voix s'y branchent : dès qu'un audio
      démarre, la barre apparaît et suit la lecture pendant qu'on fait
      défiler la page. Un seul son à la fois : démarrer une capsule met le

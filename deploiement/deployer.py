@@ -22,13 +22,13 @@ l'aurait écrasé, et la première purge l'aurait vidé.
 
 LE GARDE-FOU D'IDENTITÉ. Le carnet des envois, déposé sur le serveur, porte l'identifiant du
 cours. Avant d'écrire quoi que ce soit, le script vérifie que le dossier distant est vide ou
-qu'il appartient à ce cours ; sinon il refuse. Un dossier publié par un autre outil — carnet
-sans identifiant, ou fichiers sans carnet — ne se reprend qu'avec --adopter. Un dossier situé
+qu'il appartient à ce cours ; sinon il refuse. Un dossier publié par un autre outil (carnet
+sans identifiant, ou fichiers sans carnet) ne se reprend qu'avec --adopter. Un dossier situé
 À L'INTÉRIEUR d'un cours déjà publié est toujours refusé : la purge de ce cours l'effacerait.
 
 LES PROTECTIONS DU SERVEUR. Un mot de passe (.htaccess, .htpasswd) ou un réglage d'hébergement
 (.user.ini, .ovhconfig) posés côté serveur ne sont jamais écrasés ni purgés. Les zones protégées
-déclarées dans destination.json — une correction de TP, par exemple — ne partent que si leur
+déclarées dans destination.json (une correction de TP, par exemple) ne partent que si leur
 .htaccess est déjà en ligne : deploiement/proteger_zones.py le pose.
 
 Le transfert est INCRÉMENTAL. Capsules audio, polycopiés et schémas ne changent presque jamais :
@@ -36,7 +36,7 @@ tout réenvoyer à chaque correction de texte serait du temps perdu. On compare 
 SHA-256 de chaque fichier à celle du dernier envoi réussi.
 
 La liste de ce qui part en ligne est celle de Git, limitée à site/. C'est volontaire : ce qui est
-ignoré par Git — identifiants, PNG sources, fichiers temporaires — ne peut pas partir par
+ignoré par Git (identifiants, PNG sources, fichiers temporaires) ne peut pas partir par
 accident, et les outils, les fiches de production, les sources et la documentation restent au
 dépôt par construction.
 
@@ -67,7 +67,7 @@ for flux in (sys.stdout, sys.stderr):
         pass
 
 DEPOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# Ce qui part en ligne, c'est site/ — et rien d'autre. Les outils, les fiches
+# Ce qui part en ligne, c'est site/, et rien d'autre. Les outils, les fiches
 # de production, les sources et la documentation restent au depot. Dans les
 # cours dont ce template est issu, le site etait la racine et il fallait donc
 # une longue liste d'exclusions ; ici la separation est structurelle.
@@ -300,7 +300,7 @@ def lire_carnet(ftp, dossier):
     try:
         ftp.retrbinary("RETR " + dossier.rstrip("/") + "/" + MANIFESTE_DISTANT, tampon.write)
     except ftplib.all_errors:
-        # 550 en FTP, fichier absent en SFTP — ou dossier illisible : dans les
+        # 550 en FTP, fichier absent en SFTP, ou dossier illisible : dans les
         # deux cas, aucun carnet que l'on puisse prendre en compte.
         return "absent", None
     try:
@@ -415,7 +415,7 @@ def protection_en_place(ftp, base, zone):
 
 def retenir_zones(a_envoyer, zones, ftp, base):
     """(à envoyer, retenus, zones sans protection) : un fichier d'une zone protégée ne part que si
-    chaque zone qui le contient est protégée en ligne — la protection d'abord, le contenu ensuite."""
+    chaque zone qui le contient est protégée en ligne (la protection d'abord, le contenu ensuite)."""
     concernees = sorted({z for rel, _a, _t in a_envoyer for z in zones if rel.startswith(z)})
     manquantes = [z for z in concernees if not (ftp and protection_en_place(ftp, base, z))]
     if not manquantes:
@@ -454,7 +454,7 @@ def diagnostic(e):
 
 class SFTPCommeFTP(object):
     """Le SFTP (SSH), présenté avec les quelques opérations FTP dont le script
-    se sert : le reste du déploiement — carnet, garde-fou, comparaison, purge —
+    se sert : le reste du déploiement (carnet, garde-fou, comparaison, purge)
     ne sait pas par quel canal passent les fichiers.
 
     POURQUOI LE SFTP. L'hébergement mutualisé OVH refuse le FTPS (« 500 This

@@ -1,6 +1,6 @@
 /* =================================================================
-   animations.js — Révélations au défilement, lecteur podcast, slides, encarts
-   Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
+   animations.js · Révélations au défilement, lecteur podcast, slides, encarts
+   Template de site de cours · Mohamed EL AFRIT (MIT / CC BY 4.0)
    ================================================================= */
 (function () {
   // -- Révélation au défilement --

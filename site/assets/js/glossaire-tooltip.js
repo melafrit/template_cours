@@ -1,6 +1,6 @@
 /* =================================================================
-   glossaire-tooltip.js — Info-bulles de glossaire dans les chapitres
-   Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
+   glossaire-tooltip.js · Info-bulles de glossaire dans les chapitres
+   Template de site de cours · Mohamed EL AFRIT (MIT / CC BY 4.0)
 
    Repère une liste curatée de termes-clés dans le texte des chapitres
    (1re occurrence de chaque terme, hors titres / liens / code / citations de loi)
@@ -25,7 +25,7 @@
      expressions de exclus.en (« pull request ») ne comptent pas. Une bulle par
      entrée et par page : ses formes anglaises sont plusieurs. Sur une page
      française, une bulle par forme de GLOSSARY_CURATED, hors des expressions
-     de exclus.fr — la règle de outils/glossaire_emplois.py, dans les deux langues. */
+     de exclus.fr (la règle de outils/glossaire_emplois.py, dans les deux langues). */
   var LANGUE = (window.TPLI18N && TPLI18N.lang && TPLI18N.lang()) || 'fr';
   // Le glossaire est rangé par ses formes françaises (e.fr) ; une autre langue cherche les siennes (e.en, e.ar).
   var FRANCAIS = LANGUE === 'fr';
@@ -197,11 +197,11 @@
     });
   });
 
-  /* DEUX FAÇONS D'OUVRIR LA BULLE — mécanismes repris du cours d'architecture
+  /* DEUX FAÇONS D'OUVRIR LA BULLE · mécanismes repris du cours d'architecture
      logicielle. Posée en absolu sous son mot, la bulle restait prisonnière de
      son conteneur : dans un tableau à défilement horizontal,
-     elle était rognée — réduite à la largeur du mot à 375 px, coupée au bord
-     du tableau à 1024 et 1280 px —, et près du bord droit elle faisait
+     elle était rognée (réduite à la largeur du mot à 375 px, coupée au bord
+     du tableau à 1024 et 1280 px), et près du bord droit elle faisait
      défiler toute la page de côté.
 
      EN BANDEAU, jusqu'à 768 px et sur tout écran sans survol (tablette, écran
@@ -215,7 +215,7 @@
      EN BULLE, sur un écran à souris : le survol et le focus l'ouvrent en CSS,
      comme avant, et placer() la pose en position fixe sous le mot (au-dessus
      faute de place), gardée dans la fenêtre. Échap l'écarte (classe
-     est-masque) sans que le pointeur ni le focus bougent — critère WCAG
+     est-masque) sans que le pointeur ni le focus bougent, critère WCAG
      1.4.13 ; elle revient quand le pointeur ou le focus quitte le mot puis y
      revient, ou d'un clic sur le mot.
 
@@ -301,7 +301,7 @@
     var s = pop.style, de = document.documentElement;
     /* Mesure à blanc, la bulle posée en (0, 0) : le coin relevé est celui de
        son bloc conteneur. C'est le coin de la fenêtre, sauf sous un ancêtre
-       transformé — une section le temps de sa révélation (animations.js) —,
+       transformé, une section le temps de sa révélation (animations.js),
        qui retient un élément fixe : on retranche ce décalage. */
     s.position = 'fixed'; s.left = '0px'; s.top = '0px';
     s.display = 'block'; s.visibility = 'hidden';
@@ -392,8 +392,8 @@
   }, true);
 
   /* Au clavier. Bandeau : le focus ouvre la bulle, la quitter la referme.
-     Bulle : le focus venu du dehors rouvre une bulle écartée — celui qui va
-     du mot à son lien, ou qui y revient, non — et la place. */
+     Bulle : le focus venu du dehors rouvre une bulle écartée (celui qui va
+     du mot à son lien, ou qui y revient, non) et la place. */
   document.addEventListener('focusin', function (e) {
     var g = dans(e.target, '.gloss');
     if (!g) return;
@@ -419,7 +419,7 @@
 
   /* Une rotation, un redimensionnement, une souris branchée sur une tablette font
      passer d'un mode à l'autre : l'état suit, et chaque mode efface les traces de
-     l'autre — la position calculée d'une bulle n'a rien à faire dans le bandeau.
+     l'autre ; la position calculée d'une bulle n'a rien à faire dans le bandeau.
      L'impression, non : Chrome met la page au format du papier, franchit le seuil et
      le signale ; un mot qui avait le focus sur grand écran ouvrait alors son bandeau
      le temps de l'impression. */

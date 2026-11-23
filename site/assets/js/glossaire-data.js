@@ -1,9 +1,9 @@
 /* =================================================================
-   glossaire-data.js — Données du glossaire BILINGUE (à personnaliser)
+   glossaire-data.js · Données du glossaire BILINGUE (à personnaliser)
    Structure : { fr, en, ar, def:{fr,en,ar}, ex:{fr,en,ar}, alias:{ar:[…]} }
-   — terme, définition et exemple dans chaque langue ; alias donne les
+   (terme, définition et exemple dans chaque langue) ; alias donne les
    autres formes d'un terme dans une langue (glossaire-tooltip.js).
-   Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
+   Template de site de cours · Mohamed EL AFRIT (MIT / CC BY 4.0)
    ================================================================= */
 window.GLOSSARY = [
   { fr: "objectif pédagogique", en: "learning objective", ar: "الهدف البيداغوجي",

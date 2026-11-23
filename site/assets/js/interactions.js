@@ -1,6 +1,6 @@
 /* =================================================================
-   interactions.js — Moteur d'interactions pédagogiques
-   Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
+   interactions.js · Moteur d'interactions pédagogiques
+   Template de site de cours · Mohamed EL AFRIT (MIT / CC BY 4.0)
 
    Espace de noms : window.RDCX
      RDCX.checkpoint('id', cfg)  // point de contrôle de fin de section
@@ -151,7 +151,7 @@
         cfg = { titre, questions:[ { q, options:[…], correct, explication,
                                      pourquoi:[…], approfondir:[[libellé, adresse], …] } ] }
         pourquoi et approfondir sont facultatifs (voir autresPropositions,
-        pourApprofondir) — mais attendus : prompts/15_explications_quiz.md.
+        pourApprofondir), mais attendus : prompts/15_explications_quiz.md.
      ---------------------------------------------------------------- */
   RDCX.checkpoint = function (containerId, cfg) {
     var box = byId(containerId); if (!box) return;
@@ -397,7 +397,7 @@
   };
 
   /* ----------------------------------------------------------------
-     4. Appariement (clic gauche puis clic droite — utilisable au clavier)
+     4. Appariement (clic gauche puis clic droite, utilisable au clavier)
         cfg = { consigne, colonneGauche, colonneDroite, paires:[ { g, d, ex } ] }
      ---------------------------------------------------------------- */
   RDCX.match = function (containerId, cfg) {
@@ -510,7 +510,7 @@
     function etape(auto) {
       var e = E[i] || {};
       /* « choix » est le nom documenté, mais checkpoint et reveal appellent leurs propositions « options » :
-         un scénario écrit sur leur modèle s'affichait sans un seul bouton, et sans erreur — le chapitre vitrine
+         un scénario écrit sur leur modèle s'affichait sans un seul bouton, et sans erreur ; le chapitre vitrine
          lui-même passait « options ». Les deux noms sont lus. */
       var propositions = e.choix || e.options || [];
       var choix = propositions.map(function (c, k) {
@@ -579,7 +579,7 @@
   };
 
   /* ----------------------------------------------------------------
-     6. Schéma à zones cliquables (x / y en % — positionnement responsive)
+     6. Schéma à zones cliquables (x / y en %, positionnement responsive)
         cfg = { src, alt, legende, points:[ { x, y, titre, texte } ] }
      ---------------------------------------------------------------- */
   RDCX.hotspots = function (containerId, cfg) {
@@ -828,7 +828,7 @@
 
   /* ----------------------------------------------------------------
      8. Progression du chapitre (objectifs cochables + barre + reprise)
-        cfg = { chapitre, objectifs:[…] } — un seul appel par page
+        cfg = { chapitre, objectifs:[…] }, un seul appel par page
      ---------------------------------------------------------------- */
   function chapitreCourant() {
     var f = (location.pathname.split('/').pop() || '');
@@ -946,7 +946,7 @@
     window.addEventListener('resize', planifie);
     calcule();
 
-    // « Reprendre où vous en étiez » — proposition, jamais un saut imposé
+    // « Reprendre où vous en étiez » : proposition, jamais un saut imposé
     if (vu >= 2 && vu <= total && !location.hash) {
       var cible = secs[vu - 1];
       var h2 = cible.querySelector('h2');
@@ -983,7 +983,7 @@
 
   /* ----------------------------------------------------------------
      9. Parcours par étapes (RDCX.steps)
-        cfg = { chapitre } — un seul appel par page, aucune liste à tenir :
+        cfg = { chapitre }, un seul appel par page, aucune liste à tenir :
         les étapes sont découvertes dans le DOM.
 
           <section class="content-section" data-step
@@ -1264,7 +1264,7 @@
 
     /* La barre d'etapes est fabriquee en JavaScript : elle ne peut pas etre
        jumelee en data-tr comme le contenu redige. Sans ce redessin, elle
-       resterait en francais sur une page passee en anglais — et c'est
+       resterait en francais sur une page passee en anglais, et c'est
        l'element le plus visible d'une page de chapitre. */
     document.addEventListener('tpl:langchange', rend);
 
@@ -1303,7 +1303,7 @@
     nav.querySelector('.rdcx-steps-prec').addEventListener('click', function () { va(i - 1, true); });
     nav.querySelector('.rdcx-steps-suiv').addEventListener('click', function () { va(i + 1, true); });
 
-    // Flèches gauche / droite — jamais quand le focus est dans un champ de saisie
+    // Flèches gauche / droite, jamais quand le focus est dans un champ de saisie
     document.addEventListener('keydown', function (e) {
       if (continu || e.defaultPrevented) return;
       if (e.ctrlKey || e.altKey || e.metaKey || e.shiftKey) return;
@@ -1362,7 +1362,7 @@
 
   /* ----------------------------------------------------------------
      10. Sommaire collant (RDCX.sommaire)
-        cfg = { titre } — un seul appel par page, aucune liste à tenir :
+        cfg = { titre }, un seul appel par page, aucune liste à tenir :
         les sections sont découvertes dans le DOM.
 
           <section class="content-section" data-sommaire-titre="L'énoncé">
@@ -1560,10 +1560,10 @@
 })();
 
 /* =================================================================
-   Fil des étapes — collage sous l'en-tête + barre de progression
+   Fil des étapes · collage sous l'en-tête + barre de progression
    Complément autonome : n'entre pas dans RDCX.steps, se branche
    simplement sur le fil une fois qu'il a été rendu.
-   Auteur : Mohamed EL AFRIT — MIT / CC BY 4.0
+   Auteur : Mohamed EL AFRIT · MIT / CC BY 4.0
    ================================================================= */
 (function () {
   'use strict';
@@ -1655,7 +1655,7 @@
 
 /* -----------------------------------------------------------------
    Pour le polycopié (outils/polycopie) : chaque fabrique de contenu garde
-   la configuration qu'elle a reçue, dans la langue affichée — ce que la
+   la configuration qu'elle a reçue, dans la langue affichée, ce que la
    page calcule (textes, .map…) et qu'un lecteur du source ne verrait pas.
    Ouverte avec ?polycopie (ou ?polycopie=en), la page l'écrit en JSON dans
    <script type="application/json" id="rdcx-donnees">, que Chrome sans

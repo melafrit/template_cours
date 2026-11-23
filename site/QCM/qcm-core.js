@@ -1,6 +1,6 @@
 /* =================================================================
-   qcm-core.js — Logique partagée du QCM (QCM, correction, dashboard)
-   Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
+   qcm-core.js · Logique partagée du QCM (QCM, correction, dashboard)
+   Template de site de cours · Mohamed EL AFRIT (MIT / CC BY 4.0)
 
    Barème CBM strict (Certainty-Based Marking), indépendant de la difficulté :
      Certitude Élevée  : bonne réponse +3 / mauvaise −3
@@ -197,7 +197,7 @@ window.QCMCore = (function () {
   }
   function fmt(n) { return (Math.round(n * 100) / 100).toString().replace('.', lng() === 'en' ? '.' : ','); }
 
-  /* ---------- Rappel du barème (HTML, réutilisé par les pages) — bilingue ---------- */
+  /* ---------- Rappel du barème (HTML, réutilisé par les pages) · bilingue ---------- */
   function baremeHtml() {
     if (lng() === 'en') {
       return '<table class="bareme-table"><thead><tr><th>Your certainty</th><th>✅ Correct</th><th>❌ Wrong</th></tr></thead><tbody>'

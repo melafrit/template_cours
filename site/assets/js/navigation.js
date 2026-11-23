@@ -1,6 +1,6 @@
 /* =================================================================
-   navigation.js — Arbre de navigation bilingue, thème, progression
-   Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
+   navigation.js · Arbre de navigation bilingue, thème, progression
+   Template de site de cours · Mohamed EL AFRIT (MIT / CC BY 4.0)
 
    Générique : les données du cours viennent de window.COURSE (course-data.js),
    bilingue : les titres/libellés sont des objets { fr, en } ; l'arbre se
@@ -150,7 +150,7 @@
 
   /* Les boutons « commencer le chapitre N » etaient ecrits en dur sur le
      fichier du cours de demonstration. Dans un cours cree, ils menaient a une
-     page inexistante — et un bouton d'appel a l'action qui echoue est le pire
+     page inexistante, et un bouton d'appel a l'action qui echoue est le pire
      endroit ou laisser un lien mort. Ils portent desormais data-chapitre, et
      leur href vient des donnees. */
   document.querySelectorAll('a[data-chapitre]').forEach(function (a) {
@@ -203,7 +203,7 @@
     var overlay = document.querySelector('.sidebar-overlay');
     if (!overlay) { overlay = document.createElement('div'); overlay.className = 'sidebar-overlay'; document.body.appendChild(overlay); }
     // Le bouton dit à un lecteur d'écran s'il ouvre ou ferme la colonne. Sur grand écran elle reste visible
-    // (« true ») ; sur téléphone — même seuil que main.css — elle n'est dépliée que quand elle porte .open.
+    // (« true ») ; sur téléphone (même seuil que main.css) elle n'est dépliée que quand elle porte .open.
     // aria-controls la désigne : on lui donne un id au besoin plutôt que de toucher chacune des pages.
     var mobile = window.matchMedia('(max-width: 768px)');
     // Sur l'accueil, la colonne s'ouvre par-dessus le bandeau à toutes les largeurs, comme sur téléphone.

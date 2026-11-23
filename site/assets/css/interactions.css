@@ -1,6 +1,6 @@
 /* =================================================================
-   interactions.css — Moteur d'interactions pédagogiques (window.RDCX)
-   Template de site de cours — Mohamed EL AFRIT (MIT / CC BY 4.0)
+   interactions.css · Moteur d'interactions pédagogiques (window.RDCX)
+   Template de site de cours · Mohamed EL AFRIT (MIT / CC BY 4.0)
 
    Chargée APRÈS components.css. N'utilise que les variables du site
    (thème sombre pris en charge sans règle supplémentaire) et des rem
@@ -288,7 +288,7 @@
 /* Pas d'overflow: hidden ici. Il n'y servait qu'à arrondir les angles de l'image,
    mais il rognait aussi les bulles : ancrées en absolu dans ce conteneur, les plus
    longues débordaient la hauteur du schéma et perdaient leurs dernières lignes.
-   L'arrondi est donc porté par l'image, et la bulle peut déborder sous le schéma —
+   L'arrondi est donc porté par l'image, et la bulle peut déborder sous le schéma ;
    elle est en z-index 3, avec une ombre : elle se lit comme une info-bulle. */
 .rdcx-hs-stage { position: relative; border-radius: var(--radius-md); background: var(--bg-card-alt); border: 1px solid var(--border-light); }
 .rdcx-hs-img { display: block; width: 100%; height: auto; border-radius: inherit; }
@@ -390,7 +390,7 @@
 /* ----------------------------------------------------------------
    9. Progression du chapitre (RDCX.progress)
    ---------------------------------------------------------------- */
-/* (a) Objectifs cochables — la puce ✓ décorative laisse place à la case */
+/* (a) Objectifs cochables : la puce ✓ décorative laisse place à la case */
 .chapter-objectives.rdcx-obj > li::before,
 .chapter-objectives .rdcx-obj > li::before { content: none; }
 .rdcx-obj-lbl { flex: 1; display: flex; align-items: flex-start; gap: var(--space-3); cursor: pointer; min-width: 0; }
@@ -418,7 +418,7 @@
   font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--text-muted); white-space: nowrap;
 }
 
-/* (c) Reprise de lecture — proposition discrète, jamais un saut imposé */
+/* (c) Reprise de lecture · proposition discrète, jamais un saut imposé */
 .rdcx-resume {
   display: flex; align-items: center; gap: var(--space-3);
   margin: 0 0 var(--space-8); padding: var(--space-3) var(--space-4);
@@ -442,7 +442,7 @@
 /* ----------------------------------------------------------------
    10. Parcours par étapes (RDCX.steps)
    ---------------------------------------------------------------- */
-/* (a) Étape hors parcours courant — masquée à l'écran, conservée dans le DOM.
+/* (a) Étape hors parcours courant : masquée à l'écran, conservée dans le DOM.
    Le sélecteur composé l'emporte sur .content-section sans !important. */
 .content-section[data-step].rdcx-step-off { display: none; }
 
@@ -596,7 +596,7 @@
 }
 
 /* ----------------------------------------------------------------
-   13. Impression — on garde le fond utile, on retire l'interactif
+   13. Impression · on garde le fond utile, on retire l'interactif
    ---------------------------------------------------------------- */
 @media print {
   .rdcx-progress, .rdcx-resume, .rdcx-hs-pt, .rdcx-hs-pop, .rdcx-voice-play, .rdcx-voice-bar, .rdcx-voice-toggle { display: none !important; }
@@ -608,7 +608,7 @@
 }
 
 /* ============================================================
-   Bandeau « Ressources du chapitre » — polycopié mis en avant,
+   Bandeau « Ressources du chapitre » · polycopié mis en avant,
    médias NotebookLM regroupés dans un dépliant.
    ============================================================ */
 .ch-resources{
@@ -644,7 +644,7 @@
 }
 
 /* ============================================================
-   (k) Fil des étapes COLLANT — se fige sous l'en-tête fixe du site
+   (k) Fil des étapes COLLANT · se fige sous l'en-tête fixe du site
    et se resserre pour ne prendre qu'une fine bande de l'écran.
    ============================================================ */
 .rdcx-steps {
@@ -701,12 +701,12 @@
    ============================================================ */
 @media (max-width: 768px) {
 
-  /* (c) INFO-BULLES DES SCHÉMAS — composant le plus à risque.
+  /* (c) INFO-BULLES DES SCHÉMAS · composant le plus à risque.
      Elles sont ancrées en absolu dans .rdcx-hs-stage, qui est en
      overflow: hidden et ne mesure plus que ~140 px de haut une fois
      l'image réduite à 320 px. Résultat mesuré : 17 bulles sur 17
      tronquées verticalement (jusqu'à 199 px rognés en bas, 256 px en
-     haut) — le texte devenait illisible.
+     haut) ; le texte devenait illisible.
      On les remet dans le flux, sous l'image : plus aucun rognage, plus
      aucun débordement latéral, et le conteneur grandit pour les
      accueillir. position: relative (et non static) est indispensable
@@ -727,7 +727,7 @@
   /* La croix de fermeture reste tapable. */
   .rdcx-hs-close { width: 2.75rem; height: 2.75rem; top: 0; inset-inline-end: 0; }
 
-  /* (d) Épingles du schéma — 2 rem visuellement, zone tactile 2.75 rem.
+  /* (d) Épingles du schéma · 2 rem visuellement, zone tactile 2.75 rem.
      Les agrandir visuellement masquerait le schéma, déjà réduit. */
   .rdcx-hs-pt { width: 2.25rem; height: 2.25rem; }
   .rdcx-hs-pt::after {
@@ -736,7 +736,7 @@
     width: 2.75rem; height: 2.75rem; border-radius: var(--radius-full);
   }
 
-  /* (a) EN-TÊTE DE BLOC — .rdcx-aside est en flex: 0 0 auto +
+  /* (a) EN-TÊTE DE BLOC · .rdcx-aside est en flex: 0 0 auto +
      white-space: nowrap : il ne cédait pas un pixel et écrasait le
      titre (mesuré : .rdcx-title réduit à 12 px de large pour 74 px de
      contenu, et jusqu'à 5 px sur l'appariement). Le compteur passe
@@ -764,11 +764,11 @@
   .rdcx-obj-lbl { min-height: 2.75rem; align-items: center; }
   .rdcx-resume-close { width: 2.75rem; height: 2.75rem; }
 
-  /* (g) Capsule audio — la barre de progression reste saisissable. */
+  /* (g) Capsule audio : la barre de progression reste saisissable. */
   .rdcx-voice-bar { height: 0.75rem; }
   .rdcx-voice-titre { overflow-wrap: break-word; }
 
-  /* (b) FIL DES ÉTAPES — huit pastilles de 44 px représentent 352 px :
+  /* (b) FIL DES ÉTAPES · huit pastilles de 44 px représentent 352 px :
      elles ne peuvent pas tenir sur une seule ligne de 320 px. Plutôt
      que de les faire défiler (une partie du parcours devient alors
      invisible), on les laisse passer à la ligne : tout reste visible
@@ -782,7 +782,7 @@
      agrandie ne chevauche pas ses voisines une fois la ligne pleine. */
   .rdcx-steps-dot.is-current { transform: scale(1.06); }
 
-  /* (b) État collé — on resserre pour rester très en deçà du tiers de
+  /* (b) État collé · on resserre pour rester très en deçà du tiers de
      l'écran (mesuré après correction : ~96 px, soit 12 % d'un écran de
      812 px et 15 % d'un écran de 640 px). */
   .rdcx-steps.is-stuck .rdcx-steps-dots { gap: var(--space-1); row-gap: var(--space-1); }
@@ -809,9 +809,9 @@
 /* ============================================================
    14. Sommaire collant (RDCX.sommaire)
 
-   Même mécanique de collage que le fil des étapes — sentinelle
+   Même mécanique de collage que le fil des étapes (sentinelle
    posée juste avant la barre, classe .is-stuck, resserrement une
-   fois collée — mais RIEN N'EST MASQUÉ : toutes les sections
+   fois collée), mais RIEN N'EST MASQUÉ : toutes les sections
    restent affichées, la barre ne fait que conduire au bon endroit
    et signaler où l'on se trouve.
    ============================================================ */
