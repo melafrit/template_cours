@@ -132,6 +132,17 @@ def duree(s):
     return "%d min %02d s" % (s // 60, s % 60) if s >= 60 else "%d s" % s
 
 
+def accord(n, singulier, pluriel):
+    """Le mot accordé au nombre. En français, 0 et 1 prennent le singulier : un pluriel
+    fixe faisait écrire « Supprimer ces 1 fichiers » et « 0 fichiers envoyés »."""
+    return singulier if abs(n) < 2 else pluriel
+
+
+def nombre(n, singulier, pluriel=None):
+    """« 1 fichier », « 3 fichiers » : le nombre, suivi de son nom accordé."""
+    return "%d %s" % (n, accord(n, singulier, pluriel or singulier + "s"))
+
+
 class Journal(object):
     """Sorties lisibles, et jamais un mot de passe dedans."""
 
@@ -412,7 +423,8 @@ def garde_identite(ftp, c, adopter):
     if not occupants:
         return True, "dossier distant vide : premier envoi.", None
     if adopter:
-        return True, "dossier repris (--adopter) : %d élément(s) déjà présent(s)." % len(occupants), None
+        return True, "dossier repris (--adopter) : %s déjà %s." % (
+            nombre(len(occupants), "élément"), accord(len(occupants), "présent", "présents")), None
     return (False, "le dossier distant n'est pas vide et n'a pas de carnet (%s%s) : un autre site "
                    "y vit peut-être. Si c'est bien ce cours, relancez avec --adopter."
             % (", ".join(occupants[:5]), "…" if len(occupants) > 5 else ""), None)
@@ -744,13 +756,16 @@ def main(argv=None):
     tous = fichiers_suivis()
     retenus = [f for f in tous
                if not exclu(f, c["exclure"]) and not protege(f, c["proteger"]) and not reste_local(f)]
-    jr.info("%d fichiers de site/ suivis par Git, %d retenus après exclusions"
-            % (len(tous), len(retenus)))
+    jr.info("%s de site/ %s par Git, %d %s après exclusions"
+            % (nombre(len(tous), "fichier"), accord(len(tous), "suivi", "suivis"),
+               len(retenus), accord(len(retenus), "retenu", "retenus")))
     word = [f for f in tous if reste_local(f)]
     if word:
-        jr.alerte("%d fichier(s) Word dans site/, laissé(s) sur le poste : un .docx ne se publie "
-                  "jamais. Retirez-le(s) de site/ et proposez le PDF : %s%s"
-                  % (len(word), ", ".join(word[:5]), " …" if len(word) > 5 else ""))
+        jr.alerte("%s Word dans site/, %s sur le poste : un .docx ne se publie "
+                  "jamais. %s de site/ et proposez le PDF : %s%s"
+                  % (nombre(len(word), "fichier"), accord(len(word), "laissé", "laissés"),
+                     accord(len(word), "Retirez-le", "Retirez-les"),
+                     ", ".join(word[:5]), " …" if len(word) > 5 else ""))
 
     # --- on se connecte AVANT de comparer, y compris en simulation et avec --tout :
     #     le garde-fou et le carnet de référence sont sur le serveur. Sans
@@ -794,11 +809,11 @@ def main(argv=None):
         jr.info("option --tout : le carnet est ignoré, tout sera renvoyé.")
     elif carnet is not None:
         manifeste = carnet
-        jr.info("carnet lu sur le serveur : %d fichiers déjà en ligne." % len(manifeste))
+        jr.info("carnet lu sur le serveur : %s déjà en ligne." % nombre(len(manifeste), "fichier"))
     else:
         manifeste = lire_manifeste(c["cours"]) if not ftp else {}
-        jr.info("aucun carnet sur le serveur%s (%d entrées)."
-                % (" : lecture du carnet local" if not ftp else "", len(manifeste)))
+        jr.info("aucun carnet sur le serveur%s (%s)."
+                % (" : lecture du carnet local" if not ftp else "", nombre(len(manifeste), "entrée")))
 
     jr.titre("Comparaison")
     a_envoyer, inchanges, poids = [], 0, 0
@@ -813,7 +828,8 @@ def main(argv=None):
         else:
             a_envoyer.append((rel, absolu, taille))
             poids += taille
-    jr.info("%d inchangés, %d à envoyer (%s)" % (inchanges, len(a_envoyer), humain(poids)))
+    jr.info("%d %s, %d à envoyer (%s)"
+            % (inchanges, accord(inchanges, "inchangé", "inchangés"), len(a_envoyer), humain(poids)))
 
     # --- les zones protégées ne partent jamais sans leur protection en ligne :
     #     leurs fichiers restent ici, le reste du site part. Le carnet ne les
@@ -825,9 +841,10 @@ def main(argv=None):
             courant[rel] = manifeste[rel]
     if manquantes:
         poids = sum(t for _r, _a, t in a_envoyer)
-        jr.alerte("protection absente en ligne (%s) : %d fichier(s) de zone protégée ne partent "
+        jr.alerte("protection absente en ligne (%s) : %s de zone protégée ne %s "
                   "pas. Lancez d'abord : python3 deploiement/proteger_zones.py"
-                  % (", ".join(manquantes), len(retenus_zones)))
+                  % (", ".join(manquantes), nombre(len(retenus_zones), "fichier"),
+                     accord(len(retenus_zones), "part", "partent")))
 
     if not a_envoyer and not args.purge:
         jr.info("le site en ligne est déjà à jour.")
@@ -839,7 +856,8 @@ def main(argv=None):
         for rel, _a, taille in a_envoyer[:40]:
             jr.action("%s  (%s)" % (rel, humain(taille)))
         if len(a_envoyer) > 40:
-            jr.info("… et %d autres fichiers" % (len(a_envoyer) - 40))
+            reste = len(a_envoyer) - 40
+            jr.info("… et %d %s" % (reste, accord(reste, "autre fichier", "autres fichiers")))
         if not a_envoyer:
             jr.info("rien à envoyer.")
         # --- la purge a son essai à blanc, comme l'envoi : la liste de ce qu'elle
@@ -854,7 +872,7 @@ def main(argv=None):
                     jr.info("conservé (protégé) : %s" % g)
                 for o in obsoletes:
                     jr.action("à supprimer : %s" % o)
-                jr.info("%d fichier(s) à supprimer." % len(obsoletes) if obsoletes else "aucun.")
+                jr.info("%s à supprimer." % nombre(len(obsoletes), "fichier") if obsoletes else "aucun.")
         jr.info("destination : le répertoire du cours (deploiement/destination.json), hôte masqué")
         jr.info("rien n'a été envoyé%s." % (" ni supprimé" if args.purge else ""))
         raccrocher()
@@ -907,8 +925,9 @@ def main(argv=None):
                     rep = "oui"
                     jr.info("--purge-confirme : suppression sans question.")
                 else:
-                    rep = input("\n  Supprimer ces %d fichiers en ligne ? [oui/NON] "
-                                % len(obsoletes)).strip().lower()
+                    quoi = ("ce fichier" if len(obsoletes) == 1
+                            else "ces %d fichiers" % len(obsoletes))
+                    rep = input("\n  Supprimer %s en ligne ? [oui/NON] " % quoi).strip().lower()
                 if rep == "oui":
                     for o in obsoletes:
                         try:
@@ -928,9 +947,12 @@ def main(argv=None):
         ecrire_manifeste(courant, c)
 
     jr.titre("Bilan")
-    jr.info("%d fichiers envoyés, %s en %s" % (envoyes, humain(cumul), duree(time.time() - depart)))
+    jr.info("%s %s, %s en %s" % (nombre(envoyes, "fichier"), accord(envoyes, "envoyé", "envoyés"),
+                                 humain(cumul), duree(time.time() - depart)))
     if echecs:
-        jr.alerte("%d échec(s) ; ces fichiers seront repris au prochain lancement :" % len(echecs))
+        jr.alerte("%s ; %s au prochain lancement :"
+                  % (nombre(len(echecs), "échec"),
+                     "ce fichier sera repris" if len(echecs) == 1 else "ces fichiers seront repris"))
         for rel, e in echecs[:10]:
             jr.info("%s : %s" % (rel, e))
         return ECHECS

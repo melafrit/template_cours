@@ -327,7 +327,7 @@ def cas_word():
         verifier("un .docx suivi par Git ne part jamais, casse comprise ; le PDF part, l'alerte le dit",
                  code == D.OK and "assets/polycopies/chapitre-1-polycopie.fr.pdf" in en_ligne
                  and not [f for f in en_ligne if f.lower().endswith(".docx") and f != ancien]
-                 and "fichier(s) Word" in sortie, sortie)
+                 and "2 fichiers Word dans site/, laissés sur le poste" in sortie, sortie)
 
         code, sortie = lancer(banc, s, "--purge-confirme")
         verifier("la purge retire le .docx resté en ligne et garde la protection",
@@ -341,12 +341,42 @@ def cas_word():
         banc.nettoyer()
 
 
+def cas_accords():
+    print("\nAccords des messages")
+    banc = Banc(fichiers_site={"index.html": "<h1>Accueil</h1>"})
+    questions = []
+
+    def repondre(question):
+        questions.append(question)
+        return "non"
+
+    try:
+        s = FauxServeur({CARNET: carnet("nouveau-cours"), BASE + "/vieux.html": b"obsolete"})
+        lancer(banc, s)                       # premier envoi : index.html part, vieux.html reste
+        # input() est cherché dans le module avant les fonctions natives : la question
+        # de la purge arrive ici, et la réponse « non » ne supprime rien.
+        D.input = repondre
+        try:
+            code, sortie = lancer(banc, s, "--purge")
+        finally:
+            del D.input
+        verifier("un seul fichier obsolète : « Supprimer ce fichier en ligne ? »",
+                 code == D.OK and len(questions) == 1 and "Supprimer ce fichier en ligne ?" in questions[0]
+                 and BASE + "/vieux.html" in s.fichiers, " | ".join(questions) + "\n" + sortie)
+        verifier("rien à envoyer : « 1 fichier déjà en ligne », « 1 inchangé », « 0 fichier envoyé »",
+                 "1 fichier déjà en ligne." in sortie and "1 inchangé, 0 à envoyer" in sortie
+                 and "0 fichier envoyé," in sortie, sortie)
+    finally:
+        banc.nettoyer()
+
+
 def main():
     cas_garde()
     cas_protections()
     cas_zones()
     cas_word()
     cas_destination()
+    cas_accords()
     print()
     if ECARTS:
         print("%d écart(s) : %s" % (len(ECARTS), " ; ".join(ECARTS)))
