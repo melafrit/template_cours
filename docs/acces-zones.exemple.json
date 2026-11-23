@@ -8,6 +8,6 @@
   "_zones": "Un dossier du site par zone (relatif à site/), le nom affiché par le navigateur dans sa fenêtre d'identification, et les comptes admis. « verifier » (facultatif) : l'adresse à demander sans identifiant pour constater le 401 ; par défaut, l'« url » de destination.json suivie du dossier.",
   "zones": [
     { "dossier": "correction", "nom": "Correction du TP", "comptes": ["etudiants", "formateur"] },
-    { "dossier": "correction/formateur", "nom": "Correction du TP - partie formateur", "comptes": ["formateur"] }
+    { "dossier": "correction/formateur", "nom": "Correction du TP · partie formateur", "comptes": ["formateur"] }
   ]
 }
