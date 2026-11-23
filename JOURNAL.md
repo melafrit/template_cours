@@ -9,6 +9,67 @@
 
 ---
 
+## 23 novembre 2026 · la démo en ligne, et la rubrique du générateur de prompt (`e4c3ee7`, `fead1ef`)
+
+La demande de l'auteur : « Mise en ligne et je veux ajouter une rubrique pour le générateur de prompt et l'acces doit
+etre protegé par mot de passe ».
+
+### La mise en ligne
+
+L'essai à blanc annonçait 70 fichiers (1,6 Mo), exactement les fichiers de `site/` changés selon Git depuis
+`048652a`, le commit de la première mise en ligne. L'envoi les a déposés en 2 s, sans purge ; un nouvel essai ne
+trouvait plus rien à envoyer. En ligne, les 65 pages, scripts et feuilles de style répondent 200, sans identifiant,
+avec les octets du dépôt. Six fiches Word retirées du dépôt depuis restent sur le serveur : `--purge` attend
+l'accord de l'auteur. La sortie du déployeur passe par un filtre qui masque l'hôte, l'identifiant et le répertoire
+distant.
+
+### Les décisions prises sous le mode « enchaîne » (options recommandées)
+
+- La rubrique est une entrée « 🔒 Générateur de prompt » dans les ressources du menu, sur toutes les pages et dans
+  les trois langues ; la page reste en français, et le menu des jumelles le marque « FR ».
+- Le site publie une copie du générateur, `site/generateur/`, écrite par un outil (`outils/publier_generateur.py`) ;
+  la page de travail reste `generateur/index.html`, ouverte d'un double clic, et la copie ne s'édite jamais.
+- La copie part du modèle des valeurs (`valeurs.exemple.js`, avec ses paires de filières), jamais de
+  `valeurs.local.js`, qui garde l'adresse de l'auteur et ses chemins. Ses valeurs habituelles se gardent dans le
+  navigateur.
+- Le mot de passe n'est pas choisi pour l'auteur : `docs/acces-zones.json` est créé sans secret, et l'auteur y écrit
+  l'identifiant et le mot de passe. La rubrique ne part en ligne qu'avec sa protection ; l'entrée du menu attend
+  avec elle, pour ne pas mener à une page absente.
+- La page publiée suit le thème choisi sur le site.
+
+### Le travail
+
+- `outils/publier_generateur.py` (`e4c3ee7`) : la copie, avec deux écarts posés par l'outil (`data-publiee`, le
+  modèle des valeurs à la place des valeurs locales) ; `--essai` dit si elle suit, fins de ligne mises à part, et
+  signale un fichier de trop.
+- `generateur/index.html` et `page.js` : les éléments propres à chaque version (`.mode-local`, `.mode-publiee`), le
+  lien de retour au cours, les valeurs gardées dans le navigateur, le thème du site.
+- `course-data.js` : l'entrée du menu ; `nouveau_cours.py` retire la copie et l'outil de tout cours créé, même avec
+  `--avec-demo` ; `glossaire_emplois.py` exclut la zone ; `.gitignore` ignore `valeurs.local.js` où qu'il soit.
+- La zone, en local : `generateur/` dans `zones_protegees` de `destination.json` (par script, sans l'afficher) et
+  `docs/acces-zones.json`, un compte « formateur » à remplir.
+- La documentation : le LISEZMOI du générateur, `CLAUDE.md` (dans ses passages propres au gabarit), ARCHITECTURE,
+  RECETTE (le contrôle des traces cherche aussi la rubrique), le lexique arabe (« مولّد الموجّهات », à relire).
+- Au passage (`fead1ef`) : le modèle des comptes de zones nommait une zone « Correction du TP - partie formateur » ;
+  le tiret devient un point médian.
+
+### Ce qui a été vérifié
+
+Tous les contrôles du § 6 passent, ainsi que `node generateur/essai_generateur.js` et le test du déployeur. Au
+navigateur : la page publiée en clair et en sombre (le choix du site comme celui du système), à 1280 et 375 px sans
+défilement de côté, les valeurs gardées puis retrouvées après « Recommencer », la console vide ; l'entrée du menu en
+français, en anglais et en arabe ; la page locale inchangée (ses valeurs, aucun élément de la version publiée). Un
+cours d'essai, créé dans le dossier temporaire puis supprimé, n'a ni la copie, ni l'outil, ni l'entrée du menu, ni
+la mention dans son `CLAUDE.md`. L'essai à blanc du déployeur retient les quatre fichiers de la zone, faute de
+protection en ligne.
+
+### Ce qui n'est pas fait
+
+La protection et la mise en ligne de la rubrique attendent le mot de passe de l'auteur (registre). Les six fiches
+Word restent en ligne sans purge.
+
+---
+
 ## 23 novembre 2026 · trois relevés, puis le code sans tirets (`7ac54ec` à `ed03a7e`)
 
 ### Les décisions prises sous le mode « enchaîne » (options recommandées)

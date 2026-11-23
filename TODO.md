@@ -86,8 +86,9 @@ Les lots, dans l'ordre validé :
 - [ ] **4. Démo en trois langues** : le passage au site miroir est fait (avancé au lot 1, `59474ee`), et le
   chapitre 1 est en arabe (le témoin, `d301d41`) ; la transcription arabe de sa capsule est dans la fiche des
   capsules (`274e79d`). Restent : la relecture de ce témoin par un lecteur arabophone, avec les quatre mots
-  d'interface entrés au lexique le 23 novembre (Oui, Non ; Question ; Score, Résultat ; Recommencer, `9298ec2`) ;
-  les quinze autres pages en arabe ; les fiches des capsules de section des chapitres.
+  d'interface entrés au lexique le 23 novembre (Oui, Non ; Question ; Score, Résultat ; Recommencer, `9298ec2`)
+  et le nom de la rubrique du générateur de prompt (« مولّد الموجّهات », `e4c3ee7`) ; les quinze autres pages en
+  arabe ; les fiches des capsules de section des chapitres.
 - [ ] **5. Codex** : le kit, puis les illustrations des cartes de chapitre et de l'accueil ; le schéma arabe du
   chapitre 1 (`chapitre-1-schema-1-trois-decisions.ar.webp`, la première décision à droite, comme ses points).
 - [ ] **6. Apports** : correction des QCM et garde-fous, Boîte à outils, Modèles pas à pas, bibliographie, petits
@@ -121,10 +122,14 @@ Les lots, dans l'ordre validé :
   décrivent encore la bascule 🌐 comme celle de la démo.
 - [ ] **12. Mise en ligne** de la démo : la première ✅ le 22 novembre, à la demande de l'auteur, sur
   `https://mohamedelafrit.com/teaching/cours_demo/` (120 fichiers, sans purge ; `destination.json` gardé local,
-  exclu par `.git/info/exclude` ; essai à blanc comparé à Git ; 19 adresses à 200 et console vide en ligne).
-  Restent : un nouvel envoi après chaque lot (essai à blanc, accord), dont les 33 pages aux liens hreflang
-  (`77873d8`) ; la question des
-  zones protégées, puisque le corrigé du QCM et le tableau de bord sont en accès libre, comme sur GitHub.
+  exclu par `.git/info/exclude` ; essai à blanc comparé à Git ; 19 adresses à 200 et console vide en ligne). La
+  deuxième ✅ le 23 novembre, à la demande de l'auteur (70 fichiers, 1,6 Mo, dont les 33 pages aux liens hreflang ;
+  l'essai à blanc égal à la liste de Git depuis `048652a` ; les 65 pages, scripts et feuilles de style répondent 200
+  avec les octets du dépôt). Six fiches Word retirées du dépôt restent en ligne
+  (`assets/polycopies/chapitre-<N>-polycopie.<fr|en>.docx`) : les retirer demande `--purge`, donc l'accord de
+  l'auteur. Restent : la rubrique « Générateur de prompt », dès son mot de passe posé (ci-dessous) ; un nouvel
+  envoi après chaque lot (essai à blanc, accord) ; la question des zones protégées pour le corrigé du QCM et le
+  tableau de bord, en accès libre comme sur GitHub (la mécanique des zones est désormais en place).
 
 ## 📍 Où en est le gabarit (1er novembre)
 
@@ -140,6 +145,10 @@ Les lots, dans l'ordre validé :
 
 ## 🆕 Dernières entrées
 
+> ### 🆕 23 novembre · la démo en ligne, et la rubrique du générateur de prompt
+> La démo est en ligne dans son état du jour (70 fichiers, contrôlés en ligne). La rubrique « Générateur de prompt »
+> est prête (`e4c3ee7`) : une copie publiée du générateur (`site/generateur/`), son entrée de menu et sa zone
+> protégée. Elle attend le mot de passe que l'auteur pose dans `docs/acces-zones.json`, avant sa mise en ligne.
 > ### 🆕 23 novembre · le code sans tirets
 > Les chaînes du code (`69f3230`), puis les commentaires et docstrings (`ed03a7e`, 269 lignes dans 65 fichiers,
 > un témoin puis quatre missions contrôlées) n'ont plus de tiret ; restent ceux que le code cherche ou traite.
@@ -316,6 +325,13 @@ Les lots, dans l'ordre validé :
 > § 1 à 5.
 
 ## 🛠️ Ouvert — dans le gabarit
+
+- [ ] ⏳ **Le mot de passe de la rubrique « Générateur de prompt »** (23 novembre, en attente de l'auteur). La copie
+  publiée, son entrée de menu et la zone sont prêtes (`e4c3ee7`), et `docs/acces-zones.json` est créé sans secret.
+  L'auteur y remplace les deux « a-remplir » du compte « formateur » par l'identifiant et le mot de passe de son
+  choix. Ensuite : `python3 deploiement/proteger_zones.py --hors-ligne`, puis sans option (la protection en ligne,
+  le 401 vérifié), puis la mise en ligne, essai à blanc d'abord (`course-data.js` et les quatre fichiers de la
+  zone). Jusque-là, rien de la rubrique ne part : le déployeur retient la zone, et l'entrée du menu attend avec elle.
 
 **Relevés du lot 7** (22 novembre 2026, par les agents qui ont relu les prompts, vérifiés dans le code) :
 
