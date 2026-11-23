@@ -7,12 +7,24 @@
    elles, vivent dans valeurs.local.js, que la page ne peut pas écrire : « Enregistrer » le télécharge. Les points à
    vérifier (promotion, bloc, module, Jour 1 proche, consigne glissée dans un champ court) s'affichent au-dessus du
    prompt, refaits eux aussi à chaque saisie.
+
+   La copie publiée (site/generateur/, écrite par outils/publier_generateur.py) porte data-publiee sur <html>.
+   valeurs.local.js, qui garde l'adresse de l'auteur et ses chemins, ne se publie jamais : elle part du modèle
+   (valeurs.exemple.js), et « Enregistrer » y garde les valeurs habituelles dans ce navigateur. Les éléments
+   .mode-local et .mode-publiee ne s'affichent que dans leur version de la page.
    ================================================================= */
 (function () {
   'use strict';
   var G = window.GENERATEUR;
   var CLE = 'generateur-cours:brouillon';
-  var V = G.valeurs(window.VALEURS_HABITUELLES);
+  var PUBLIEE = document.documentElement.hasAttribute('data-publiee');
+  var CLE_VALEURS = 'generateur-cours:valeurs';
+  function valeursGardees() {
+    if (!PUBLIEE) return null;
+    try { return JSON.parse(window.localStorage.getItem(CLE_VALEURS) || 'null'); } catch (e) { return null; }
+  }
+  function valeursDeDepart() { return G.valeurs(valeursGardees() || window.VALEURS_HABITUELLES); }
+  var V = valeursDeDepart();
   // Un brouillon d'une version plus ancienne de la page n'a pas tous les champs : completer() les ajoute.
   var etat = G.completer(lireBrouillon() || G.etatInitial(V, new Date()), V, new Date());
 
@@ -197,7 +209,10 @@
   }
 
   function demarrer() {
-    if (!window.VALEURS_HABITUELLES) document.getElementById('sans-valeurs').hidden = false;
+    document.querySelectorAll('.mode-local').forEach(function (el) { el.hidden = PUBLIEE; });
+    document.querySelectorAll('.mode-publiee').forEach(function (el) { el.hidden = !PUBLIEE; });
+    if (PUBLIEE) document.getElementById('valeurs-modele').hidden = !!valeursGardees();
+    else if (!window.VALEURS_HABITUELLES) document.getElementById('sans-valeurs').hidden = false;
     var sel = document.getElementById('paire');
     options().forEach(function (o) {
       var el = document.createElement('option');
@@ -217,12 +232,22 @@
       annoncer('Prompt téléchargé : ' + nom + '.');
     });
     document.getElementById('enregistrer').addEventListener('click', function () {
+      if (PUBLIEE) {
+        try {
+          window.localStorage.setItem(CLE_VALEURS, JSON.stringify(valeursAEnregistrer()));
+          document.getElementById('valeurs-modele').hidden = true;
+          annoncer('Valeurs habituelles gardées dans ce navigateur : la page en repartira, même après « Recommencer ».');
+        } catch (e) {
+          annoncer('Ce navigateur ne garde rien, en navigation privée par exemple : vos valeurs valent pour cette visite seulement.');
+        }
+        return;
+      }
       telecharger('valeurs.local.js', G.fichierValeurs(valeursAEnregistrer()), 'text/javascript');
       annoncer('valeurs.local.js téléchargé : placez-le dans le dossier generateur/, à la place de l\'ancien.');
     });
     document.getElementById('recommencer').addEventListener('click', function () {
       try { window.localStorage.removeItem(CLE); } catch (e) { /* sans stockage */ }
-      V = G.valeurs(window.VALEURS_HABITUELLES);
+      V = valeursDeDepart();
       etat = G.etatInitial(V, new Date());
       sel.value = '';
       remplir();

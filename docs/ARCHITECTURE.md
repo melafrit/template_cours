@@ -20,6 +20,7 @@ site/
 ├── polycopies.html             # Les fiches de synthèse par chapitre (tools/generate_polycopies.py)
 ├── livret/                     # Le livret publié : livret.<langue>.pdf, couverture.<langue>.webp, livret.json
 ├── about.html                  # À propos / crédits / licences
+├── generateur/                 # Copie publiée du générateur de prompt, en zone protégée (gabarit seul)
 ├── en/                         # Les jumelles anglaises, au même chemin que leur page française (site miroir)
 ├── ar/                         # Les jumelles arabes, de droite à gauche (pour l'instant, le chapitre 1)
 │

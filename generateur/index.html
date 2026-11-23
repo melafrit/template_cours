@@ -4,18 +4,27 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Générateur de prompt de cours</title>
+<script>/* Le thème choisi sur le site (navigation.js le garde sous « tpl-theme »), posé avant l'affichage : la copie
+   publiée (site/generateur/) suit ainsi le reste du site. Sans choix, la page suit le système. */
+(function () { try { var t = localStorage.getItem('tpl-theme'); if (t) document.documentElement.setAttribute('data-theme', t); } catch (e) { /* sans stockage */ } })();</script>
 <style>
   :root {
     --fond: #f6f7f9; --carte: #ffffff; --texte: #1b2430; --doux: #5a6676; --bord: #d6dbe2;
     --accent: #1b3a5b; --accent-texte: #ffffff; --alerte: #fff4d6; --alerte-bord: #d9a400;
   }
   @media (prefers-color-scheme: dark) {
-    :root {
+    :root:not([data-theme="light"]) {
       --fond: #11161d; --carte: #1a212b; --texte: #e6ebf1; --doux: #a3afbd; --bord: #2e3946;
       --accent: #8fb3d9; --accent-texte: #0d1520; --alerte: #3a2f10; --alerte-bord: #d9a400;
     }
   }
+  :root[data-theme="dark"] {
+    --fond: #11161d; --carte: #1a212b; --texte: #e6ebf1; --doux: #a3afbd; --bord: #2e3946;
+    --accent: #8fb3d9; --accent-texte: #0d1520; --alerte: #3a2f10; --alerte-bord: #d9a400;
+  }
   * { box-sizing: border-box; }
+  a { color: var(--accent); }
+  header .retour { margin: 0 0 4px; }
   body { margin: 0; background: var(--fond); color: var(--texte);
          font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
   header, main { max-width: 1280px; margin: 0 auto; padding: 16px; }
@@ -56,6 +65,7 @@
 </head>
 <body>
 <header>
+  <p class="retour mode-publiee" hidden><a href="../index.html"><span aria-hidden="true">←</span> Retour au cours</a></p>
   <h1>Générateur de prompt de cours</h1>
   <p>Remplissez ce que vous savez déjà du cours : la page fabrique le prompt de lancement à coller dans Claude Code,
      qui renvoie au tronc et aux modules du gabarit par leur chemin. Un champ laissé vide se déduira des documents ou
@@ -63,6 +73,10 @@
   <p class="alerte" id="sans-valeurs" hidden>Le fichier <code>valeurs.local.js</code> est absent : la page part de
      valeurs neutres. Copiez <code>valeurs.exemple.js</code> en <code>valeurs.local.js</code> dans ce dossier, ou
      remplissez « Vos valeurs habituelles », puis « Enregistrer mes valeurs habituelles ».</p>
+  <p class="alerte" id="valeurs-modele" hidden>Cette page publiée part des valeurs du modèle : votre fichier
+     <code>valeurs.local.js</code> reste sur votre poste et ne se publie jamais. Remplissez « Vos valeurs
+     habituelles », puis « Enregistrer mes valeurs habituelles » : elles se gardent dans ce navigateur, jamais sur le
+     serveur.</p>
 </header>
 <main>
   <form autocomplete="off" onsubmit="return false">
@@ -176,8 +190,10 @@
 
     <details>
       <summary>Vos valeurs habituelles</summary>
-      <p class="note">Gardées dans <code>valeurs.local.js</code>, ignoré par Git. Aucun secret ni mot de passe ici :
-         les accès restent dans les fichiers que les scripts lisent seuls.</p>
+      <p class="note mode-local">Gardées dans <code>valeurs.local.js</code>, ignoré par Git. Aucun secret ni mot de
+         passe ici : les accès restent dans les fichiers que les scripts lisent seuls.</p>
+      <p class="note mode-publiee" hidden>Gardées dans ce navigateur, jamais sur le serveur. Aucun secret ni mot de
+         passe ici : les accès restent dans les fichiers que les scripts lisent seuls.</p>
       <div class="deux">
         <label>Nom de l'auteur<input type="text" data-valeur="auteur"></label>
         <label>Adresse des commits<input type="text" data-valeur="email"></label>

@@ -44,6 +44,9 @@ window.COURSE = {
     { ico: '📚', href: 'glossaire.html',   label: { fr: "Glossaire bilingue", en: "Bilingual glossary", ar: "مسرد المصطلحات" } },
     { ico: '🧩', href: 'activites.html',     label: { fr: "Activités interactives", en: "Interactive activities", ar: "الأنشطة التفاعلية" } },
     { ico: '📝', href: 'QCM/index.html',     label: { fr: "QCM d'évaluation", en: "Assessment quiz", ar: "اختبار الاختيار من متعدّد" } },
-    { ico: '🧵', href: 'atelier.html',       label: { fr: "Atelier fil rouge", en: "Capstone workshop", ar: "ورشة المشروع التطبيقي" } }
+    { ico: '🧵', href: 'atelier.html',       label: { fr: "Atelier fil rouge", en: "Capstone workshop", ar: "ورشة المشروع التطبيقي" } },
+    /* Une rubrique du gabarit, pas du cours : la copie publiée du générateur de prompt, dans une zone protégée par
+       mot de passe (outils/publier_generateur.py). Un cours créé écrit sa propre liste. */
+    { ico: '🔒', href: 'generateur/index.html', label: { fr: "Générateur de prompt", en: "Prompt generator", ar: "مولّد الموجّهات" } }
   ]
 };

@@ -135,6 +135,11 @@ def bloc_actif(c, cle):
 RACINES = ("fr", "en")
 DOSSIERS_LANGUE = ("en", "ar")      # les jumelles de la démonstration : jamais recopiées dans un cours
 
+# Le gabarit seul, retiré de tout cours créé, même avec --avec-demo : la copie publiée du générateur de prompt, une
+# zone protégée du site de démonstration, et l'outil qui l'écrit, sans objet hors du gabarit (generateur/ n'est pas
+# recopié). Le menu d'un cours vient de sa propre liste (course-data.js), sans la rubrique.
+GABARIT_SEUL = ("site/generateur", "outils/publier_generateur.py")
+
 
 def racine(c):
     """La langue racine du cours : la première de « langues »."""
@@ -1929,6 +1934,12 @@ def main():
     for d in DOSSIERS_LANGUE:
         if os.path.isdir(os.path.join(site, d)):
             shutil.rmtree(os.path.join(site, d))
+    for rel in GABARIT_SEUL:
+        p = os.path.join(sortie, rel.replace("/", os.sep))
+        if os.path.isdir(p):
+            shutil.rmtree(p)
+        elif os.path.isfile(p):
+            os.remove(p)
     # La liste des pages traduites : vide, faute de jumelles (celle de la démonstration en nommait seize, et le
     # bouton des langues aurait mené à des pages absentes).
     r = subprocess.run([sys.executable, os.path.join(sortie, "outils", "generer_langues.py")],

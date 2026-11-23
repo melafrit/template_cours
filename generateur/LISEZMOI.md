@@ -8,7 +8,8 @@ l'auteur du 21 et du 22 novembre 2026 (lot 8 du grand chantier).
 ## L'ouvrir
 
 Double-cliquez sur `generateur/index.html`. La page tourne dans le navigateur, sans serveur ni réseau ; rien ne
-quitte le poste. Elle ne se publie jamais (hors de `site/`) et ne part pas dans les cours créés.
+quitte le poste. Elle ne part pas dans les cours créés. Le site de démonstration en publie une copie, derrière un mot
+de passe (voir « La page publiée »).
 
 ## Vos valeurs habituelles
 
@@ -67,6 +68,21 @@ Elle ne crée pas le cours et n'écrit pas `cours.json` : c'est Claude qui le fa
 cadrage. Elle ne remplit pas les livrables : ils se construisent au cadrage, d'après les documents ; un champ libre
 permet d'en noter ce qui est déjà connu.
 
+## La page publiée
+
+Le site de démonstration du gabarit publie une copie de la page dans sa rubrique « Générateur de prompt », derrière un
+mot de passe (décision de l'auteur du 23 novembre 2026). `outils/publier_generateur.py` l'écrit dans
+`site/generateur/` : la page, ses deux scripts et le modèle des valeurs. Ne la modifiez jamais à la main ; retouchez
+`generateur/`, puis relancez l'outil (`--essai` dit si la copie suit).
+
+- **Vos valeurs habituelles ne se publient jamais.** `valeurs.local.js` est ignoré par Git, où qu'il soit. La copie
+  part du modèle (`valeurs.exemple.js`), et « Enregistrer mes valeurs habituelles » les garde dans le navigateur,
+  jamais sur le serveur.
+- **La zone.** « generateur/ » figure dans `zones_protegees` de `deploiement/destination.json` et dans
+  `docs/acces-zones.json`, avec le compte qui y entre. `deploiement/proteger_zones.py` pose la protection avant que
+  le déployeur publie la copie (`deploiement/LISEZMOI.md`).
+- **Aucun cours créé ne la reçoit.** `nouveau_cours.py` retire `site/generateur/` et l'outil qui l'écrit.
+
 ## Les fichiers
 
 | Fichier | Rôle |
@@ -77,3 +93,4 @@ permet d'en noter ce qui est déjà connu.
 | `valeurs.exemple.js` | le modèle des valeurs habituelles, versionné, aux valeurs neutres |
 | `valeurs.local.js` | vos valeurs, locales et ignorées par Git |
 | `essai_generateur.js` | le contrôle, sans navigateur : `node generateur/essai_generateur.js`, à relancer après toute retouche |
+| `../site/generateur/` | la copie publiée, écrite par `outils/publier_generateur.py`, jamais à la main |

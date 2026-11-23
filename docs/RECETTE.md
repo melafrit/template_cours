@@ -241,9 +241,10 @@ conserve volontairement ses exemples de composants.
 
 Le contrôle en une ligne, depuis le dossier du cours créé :
 
-    grep -rilE "concevoir un cours|design a course|Ce que démontre|Concevez votre propre|format d'évaluation|cours-démo|Structurer le contenu|Cadrer son cours|Créer les ressources|hreflang=.x-default" site/ | grep -v _modele
+    grep -rilE "concevoir un cours|design a course|Ce que démontre|Concevez votre propre|format d'évaluation|cours-démo|Structurer le contenu|Cadrer son cours|Créer les ressources|générateur de prompt|hreflang=.x-default" site/ | grep -v _modele
 
-Il ne doit rien retourner. La dernière forme, `hreflang=.x-default`, attrape un bloc
+Il ne doit rien retourner. « générateur de prompt » attrape la rubrique propre au gabarit
+(`site/generateur/` et son entrée de menu). La dernière forme, `hreflang=.x-default`, attrape un bloc
 `hreflang` resté de la démonstration, qui annoncerait ses adresses.
 
 ### 3 bis. Le même cours, en anglais
@@ -255,7 +256,7 @@ la démonstration, remontées à la racine (`miroir.remonter`). Mettez
 régénérez (`--ecraser`), puis :
 
     grep -rho '<html[^>]*>' --include=*.html site | sort | uniq -c   # lang="en" et data-langues="en" partout
-    grep -rilE "Designing an online course|Scoping your course|Structuring the content|Creating the resources|What this site demonstrates|demo course|hreflang=.x-default" site/ | grep -v _modele
+    grep -rilE "Designing an online course|Scoping your course|Structuring the content|Creating the resources|What this site demonstrates|demo course|Prompt generator|générateur de prompt|hreflang=.x-default" site/ | grep -v _modele
 
 - [ ] Chaque page est en anglais et le déclare ; aucun bouton de langue. 🔴
 - [ ] Le contrôle des traces ne retourne rien. Seuls les dictionnaires des

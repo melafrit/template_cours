@@ -52,6 +52,7 @@ pages trouble l'étudiant, qui ne peut pas savoir qu'il s'agit de la même notio
 | activités interactives | الأنشطة التفاعلية |
 | glossaire | مسرد المصطلحات |
 | lecture adaptée (DYS) | القراءة الميسّرة |
+| générateur de prompt (rubrique du gabarit) | مولّد الموجّهات |
 
 ## Les notions de pédagogie
 

@@ -46,8 +46,9 @@ for flux in (sys.stdout, sys.stderr):
 # Chemins depuis la racine de la langue : une page, ou un dossier (terminé par /). « À propos » présente le template,
 # pas le cours ; la correction et le tableau de bord du QCM donnent des réponses, que la fenêtre ne doit pas souffler ;
 # la page Podcasts résume des épisodes, qui renvoient au cours sans l'expliquer ; la page Polycopié présente le livret,
-# pas les notions.
-EXCLUES = ("glossaire.html", "about.html", "QCM/correction/", "QCM/dashboard/", "podcasts.html", "polycopie.html")
+# pas les notions ; le générateur de prompt est un outil de l'auteur, dans une zone protégée.
+EXCLUES = ("glossaire.html", "about.html", "QCM/correction/", "QCM/dashboard/", "podcasts.html", "polycopie.html",
+           "generateur/")
 BALISES_SAUTEES = {"script", "style", "pre", "code", "svg", "button", "nav", "template", "noscript", "select",
                    "textarea"}
 # hors-glossaire : un homonyme balisé par la page (la « requête » HTTP d'une API n'est pas la requête de recherche du

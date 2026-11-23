@@ -85,5 +85,6 @@ docs/Import_Livrables*
 # ce template, public, jamais.
 docs/acces-zones.json
 
-# Le générateur de prompt : les valeurs habituelles de l'auteur restent sur son poste.
-generateur/valeurs.local.js
+# Le générateur de prompt : les valeurs habituelles de l'auteur restent sur son poste, jamais dans la copie publiée
+# de la page (site/generateur/), où qu'on les dépose.
+valeurs.local.js

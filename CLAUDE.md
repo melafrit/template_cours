@@ -253,7 +253,9 @@ Le plus simple est la page **`generateur/index.html`**, ouverte d'un double clic
 lancement à coller dans Claude Code, qui renvoie au tronc et aux modules par leur chemin, avec le bloc de
 paramètres rempli de vos valeurs habituelles (`generateur/valeurs.local.js`, ignoré par Git, sans aucun secret).
 Elle sait lancer un cours dans un dossier déjà préparé, documents en place. Mode d'emploi :
-`generateur/LISEZMOI.md`.
+`generateur/LISEZMOI.md`. Sa copie publiée, `site/generateur/`, sert la rubrique « Générateur de prompt » du site de
+démonstration, derrière un mot de passe : `outils/publier_generateur.py` l'écrit après toute retouche de la page, et
+elle ne se modifie jamais à la main.
 
 Le script met en place la mécanique (arborescence, charte, navigation,
 squelettes, outils, déployeur, `CLAUDE.md`, `deploiement/destination.json`) et
@@ -408,7 +410,8 @@ python3 nouveau_cours.py --essai      # dit ce qu'il ferait, n'écrit rien
 Après toute modification du moteur ou du générateur, déroulez
 `docs/RECETTE.md` en entier. Son troisième test est le seul qui dise ce que
 l'utilisateur recevra réellement. Après toute retouche du générateur de prompt :
-`node generateur/essai_generateur.js`.
+`node generateur/essai_generateur.js`, puis `python3 outils/publier_generateur.py` (sa copie publiée ; `--essai` dit
+si elle suit).
 
 <!-- gabarit:fin -->
 ---

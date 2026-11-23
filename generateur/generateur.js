@@ -1,11 +1,13 @@
 /* =================================================================
    generateur.js : le générateur du prompt de lancement d'un cours (lot 8).
 
-   Une page locale, ouverte d'un double clic (file://), jamais publiée, hors de site/ et jamais recopiée dans un
-   cours. Elle lit les valeurs habituelles de l'auteur dans valeurs.local.js (ignoré par Git, sans aucun secret) et
-   fabrique le prompt de lancement : il renvoie au tronc et aux modules du gabarit par leur chemin, pour rester à jour
-   quand ils changent, avec le bloc de paramètres du tronc rempli (décisions de l'auteur du 21 et du 22 novembre
-   2026). Un dossier de cours déjà préparé garde ses documents en place, exclus de Git et des recherches.
+   Une page locale, ouverte d'un double clic (file://), hors de site/ et jamais recopiée dans un cours ; sa copie
+   publiée (site/generateur/, outils/publier_generateur.py) vit dans une zone protégée par mot de passe du site de
+   démonstration (décision de l'auteur du 23 novembre 2026). Elle lit les valeurs habituelles de l'auteur dans
+   valeurs.local.js (ignoré par Git, sans aucun secret) et fabrique le prompt de lancement : il renvoie au tronc et
+   aux modules du gabarit par leur chemin, pour rester à jour quand ils changent, avec le bloc de paramètres du tronc
+   rempli (décisions de l'auteur du 21 et du 22 novembre 2026). Un dossier de cours déjà préparé garde ses documents
+   en place, exclus de Git et des recherches.
 
    Le premier usage réel (le cours de gestion de projet MOE, 22 novembre 2026) a fixé le reste. Les chemins Windows
    passent aux barres obliques et deviennent relatifs au dossier du cours. Les consignes de l'auteur vont en prose,
